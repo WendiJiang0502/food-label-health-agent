@@ -7,7 +7,7 @@
 - 混合 RAG（关键词 + 向量 + 重排 + 版本过滤）
 - 确定性过敏原规则引擎
 
-当前阶段完成了工程骨架、Agent 状态协议、安全路由和 MCP 能力边界。OCR、法规数据和商品检索仍是后续里程碑，不会在当前骨架中伪造实现。
+当前阶段完成了工程骨架、Agent 状态协议、安全路由、MCP 能力边界，以及可操作的图片上传与人工确认平台。平台当前使用明确标注的演示 OCR Provider；真实 OCR、法规数据和商品检索仍是后续里程碑，不会在当前界面中伪造实现。
 
 ## 设计原则
 
@@ -35,7 +35,17 @@ source .venv/bin/activate
 python3 -m pip install -e '.[dev]'
 ```
 
+启动本地平台：
+
+```bash
+food-label-platform
+```
+
+然后访问 `http://127.0.0.1:8000`。当前上传图片只在请求内读取，不默认写入磁盘。
+
 ## 文档
 
 - [中英双语产品说明书](./Food_Label_Health_Agent_Product_Spec_Bilingual.md)
 - [ADR-001：Agent 状态与安全路由](./docs/architecture/ADR-001-agent-state-and-safety-routing.md)
+- [产品上下文](./PRODUCT.md)
+- [界面设计系统](./DESIGN.md)

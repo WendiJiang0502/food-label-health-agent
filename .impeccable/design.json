@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-02T00:00:00+08:00",
+  "title": "Design System: Food Label Health Agent",
+  "extensions": {
+    "colorMeta": {
+      "proof-blue": {
+        "role": "primary",
+        "displayName": "Proof Blue",
+        "canonical": "#185ADB",
+        "tonalRamp": ["#071B42", "#0A2A68", "#0D3F99", "#185ADB", "#477DE6", "#7FA5F0", "#BDD0F8", "#EDF3FF"]
+      },
+      "inspection-orange": {
+        "role": "secondary",
+        "displayName": "Inspection Orange",
+        "canonical": "#F26B38",
+        "tonalRamp": ["#3D1708", "#6A260E", "#9C3916", "#C94F22", "#F26B38", "#F89470", "#FBC3AF", "#FFF0EA"]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Proofing Paper",
+        "canonical": "#F4F5F1",
+        "tonalRamp": ["#1A1D19", "#343A34", "#515A52", "#727C73", "#969F97", "#BCC3BC", "#DDE1DC", "#F4F5F1"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "One task thesis per viewport." },
+      "body": { "displayName": "Body", "purpose": "Consumer-first explanations." },
+      "measurement": { "displayName": "Measurement", "purpose": "Confidence, dates, units, and provenance." }
+    },
+    "shadows": [
+      { "name": "proof-lift", "value": "0 18px 48px rgba(23,32,27,.12)", "purpose": "The active label proof only." },
+      { "name": "control-lift", "value": "0 6px 18px rgba(23,32,27,.10)", "purpose": "Drag-over and floating mobile actions." }
+    ],
+    "motion": [
+      { "name": "proof-settle", "value": "420ms cubic-bezier(.16,1,.3,1)", "purpose": "Uploaded proof settles into the workbench." },
+      { "name": "state-change", "value": "180ms cubic-bezier(.2,.8,.2,1)", "purpose": "Controls and field state changes." }
+    ],
+    "breakpoints": [
+      { "name": "mobile", "value": "760px" },
+      { "name": "wide", "value": "1180px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Primary workflow action.",
+      "html": "<button class=\"ds-btn-primary\">开始识别</button>",
+      "css": ".ds-btn-primary{background:#185ADB;color:#fff;border:0;border-radius:10px;padding:13px 20px;min-height:44px;font:650 15px Avenir Next,sans-serif;transition:background 180ms,transform 180ms}.ds-btn-primary:hover{background:#0D3FA3;transform:translateY(-1px)}.ds-btn-primary:focus-visible{outline:3px solid #fff;box-shadow:0 0 0 5px #185ADB}"
+    },
+    {
+      "name": "Correction Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Editable OCR field with visible recovery state.",
+      "html": "<label class=\"ds-field\"><span>配料表 · OCR 62% · 需确认</span><textarea>小麦粉、白砂糖</textarea></label>",
+      "css": ".ds-field{display:grid;gap:7px;color:#17201B;font:600 12px SFMono-Regular,monospace}.ds-field textarea{min-height:92px;border:1px solid #CDD4CE;border-radius:10px;padding:13px 14px;color:#17201B;background:#fff;font:450 16px/1.6 Avenir Next,sans-serif}.ds-field textarea:focus{outline:3px solid #D9E5FF;border-color:#185ADB}"
+    },
+    {
+      "name": "Caution State",
+      "kind": "chip",
+      "description": "Uncertainty shown with label and symbol.",
+      "html": "<span class=\"ds-caution\">△ 需确认</span>",
+      "css": ".ds-caution{display:inline-flex;align-items:center;gap:6px;border-radius:999px;background:#FFF1E6;color:#824005;padding:7px 10px;font:700 12px Avenir Next,sans-serif}"
+    },
+    {
+      "name": "Proof Sheet",
+      "kind": "custom",
+      "description": "The one elevated working surface.",
+      "html": "<div class=\"ds-proof\"><b>标签校样</b><span>等待图片</span></div>",
+      "css": ".ds-proof{min-height:180px;border-radius:14px;background:#fff;color:#17201B;padding:24px;box-shadow:0 18px 48px rgba(23,32,27,.12);display:grid;align-content:space-between;font-family:Avenir Next,sans-serif}.ds-proof span{color:#536159}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Packaging Proofing Desk",
+    "overview": "A label is treated as a proof to inspect, annotate, confirm, and release—not as a lifestyle image to score.",
+    "keyCharacteristics": [
+      "One dominant proofing workspace rather than a dashboard of equal cards.",
+      "Field confidence and source metadata use measurement typography.",
+      "Risk states always combine icon, label, and explanatory text.",
+      "Controls are compact, tactile, and familiar enough for one-handed mobile use."
+    ],
+    "rules": [
+      { "name": "The Semantic Color Rule", "body": "Orange, amber, red, and green appear only when the interface can name the state they encode.", "section": "colors" },
+      { "name": "The Measurement Rule", "body": "Monospace communicates measurement or provenance; it never acts as a generic technical costume.", "section": "typography" },
+      { "name": "The Single Lift Rule", "body": "At most one large surface appears physically lifted in a viewport.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do show the label image beside the text the user is confirming.",
+      "Do put critical uncertainty before ingredient education or product recommendations.",
+      "Do keep source, date, confidence, and rule identity readable but visually secondary."
+    ],
+    "donts": [
+      "Don't assign an absolute health score or imply medical clearance.",
+      "Don't use green alone to mean safe.",
+      "Don't structure the application as a grid of generic metric cards."
+    ]
+  }
+}
