@@ -22,6 +22,22 @@ class OCRLineEvidence(BaseModel):
     bounding_box: BoundingBox | None = None
 
 
+class NutritionValidationIssue(BaseModel):
+    model_config = ConfigDict(frozen=True)
+
+    code: str
+    severity: str
+    message: str
+    row_index: int | None = None
+
+
+class NutritionTableData(BaseModel):
+    model_config = ConfigDict(frozen=True)
+
+    rows: list[list[str]]
+    issues: list[NutritionValidationIssue] = Field(default_factory=list)
+
+
 class OCRFieldResult(BaseModel):
     model_config = ConfigDict(frozen=True)
 
@@ -32,6 +48,7 @@ class OCRFieldResult(BaseModel):
     requires_confirmation: bool
     bounding_box: BoundingBox | None = None
     evidence_lines: list[OCRLineEvidence] = Field(default_factory=list)
+    nutrition_table: NutritionTableData | None = None
 
 
 class OCRAnalysisResponse(BaseModel):

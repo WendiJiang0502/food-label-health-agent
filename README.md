@@ -53,6 +53,9 @@ export FOOD_LABEL_OCR_VERSION=PP-OCRv6
 export FOOD_LABEL_OCR_DEVICE=cpu
 export FOOD_LABEL_OCR_CACHE_DIR=.paddlex
 export PADDLE_PDX_MODEL_SOURCE=bos  # 中国大陆部署可优先使用
+# 可选：启用营养表行列恢复；会额外加载 PP-StructureV3 模型
+# export FOOD_LABEL_OCR_TABLE_PARSER=ppstructure
+# export FOOD_LABEL_OCR_TABLE_OCR_VERSION=PP-OCRv5
 food-label-platform
 ```
 

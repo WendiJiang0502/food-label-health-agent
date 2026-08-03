@@ -20,7 +20,7 @@ OCR 在本项目中不是一个直接输出“健康结论”的 Agent，而是�
 
 - 开发机主 OCR：`PP-OCRv6_medium`，macOS CPU 推理；
 - 性能对照：`PP-OCRv6_small`；
-- 营养成分表：后续单独启用 `PP-StructureV3`；
+- 营养成分表：按需单独启用 `PP-StructureV3`，默认关闭；
 - 默认语言：保留 PP-OCRv6 的中英文统一能力，不指定仅英文模型；
 - 生产环境：Linux + NVIDIA GPU，不直接复制 macOS 的推理依赖。
 
@@ -254,17 +254,28 @@ Web API
 
 模型对象应在应用启动时创建一次并复用，不能每次 HTTP 请求都重新加载，否则会产生严重延迟和内存抖动。
 
-## 10. PP-StructureV3 何时配置
+## 10. 可选启用 PP-StructureV3
 
-不要在普通配料表 OCR 还没有验证时立即加入 PP-StructureV3。推荐顺序：
+项目已经提供延迟启用的 `PPStructureNutritionParser`，默认值为 `disabled`，不会加载表格模型。普通 PP-OCRv6 检出营养标示口径后，只有在服务器明确启用时才运行表格结构恢复：
+
+```bash
+export FOOD_LABEL_OCR_TABLE_PARSER=ppstructure
+export FOOD_LABEL_OCR_TABLE_OCR_VERSION=PP-OCRv5
+```
+
+主文字管线与表格管线的 OCR 版本必须分开配置：主管线继续使用 PP-OCRv6；当前 PP-StructureV3 接受 PP-OCRv3、PP-OCRv4 或 PP-OCRv5，项目默认使用 PP-OCRv5。
+
+推荐按以下顺序上线：
 
 1. PP-OCRv6 能稳定返回文字、坐标和置信度；
 2. 完成配料表与过敏原字段解析；
 3. 建立至少一批人工校对的营养成分表图片；
-4. 再安装 PP-StructureV3 所需依赖并评估表格结构准确率；
+4. 启用 PP-StructureV3，允许首次运行下载额外的布局与表格模型，并评估结构准确率；
 5. 把营养数字、单位、每份口径和 NRV% 分开校验。
 
 PP-StructureV3 的输出仍然只是候选事实。任何低置信度营养数字都不能由 LLM 猜测补全。
+
+当前结构化字段会保留 HTML 恢复出的行列关系，并运行确定性校验：口径缺失、营养素数值缺失、数字字形歧义、负值、单位缺失、NRV% 异常值和重复营养素行。阻断级问题会把该营养表标记为必须人工确认。表格模型的本地缓存和真实评测图片仍不得提交 GitHub。
 
 ## 11. Linux GPU 生产环境
 

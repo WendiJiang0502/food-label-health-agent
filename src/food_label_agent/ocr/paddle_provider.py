@@ -12,6 +12,7 @@ from typing import Any
 from .config import OCRConfigurationError, OCRSettings
 from .field_parser import OCRLine, parse_food_label_fields
 from .models import BoundingBox, OCRFieldResult
+from .ppstructure_provider import PPStructureNutritionParser
 from .provider import OCRInput
 
 
@@ -25,6 +26,7 @@ class PaddleOCRProvider:
         settings: OCRSettings,
         *,
         engine_factory: Callable[..., Any] | None = None,
+        structure_factory: Callable[..., Any] | None = None,
     ) -> None:
         self.settings = settings
         self.name = f"paddleocr-{settings.version.lower()}"
@@ -41,6 +43,11 @@ class PaddleOCRProvider:
             use_doc_unwarping=settings.use_unwarping,
             use_textline_orientation=settings.use_textline_orientation,
             text_rec_score_thresh=settings.general_threshold,
+        )
+        self._table_parser = (
+            PPStructureNutritionParser(settings, engine_factory=structure_factory)
+            if settings.table_parser == "ppstructure"
+            else None
         )
 
     async def analyze(self, image: OCRInput) -> list[OCRFieldResult]:
@@ -67,7 +74,12 @@ class PaddleOCRProvider:
                         requires_confirmation=True,
                     )
                 ]
-            return parse_food_label_fields(lines, self.settings)
+            fields = parse_food_label_fields(lines, self.settings)
+            if self._table_parser is not None and any(
+                field.name == "nutrition_basis" for field in fields
+            ):
+                fields.extend(self._table_parser.analyze(str(temporary_path)))
+            return fields
         finally:
             if temporary_path is not None:
                 temporary_path.unlink(missing_ok=True)

@@ -45,11 +45,18 @@ def test_default_server_configuration_uses_demo_provider() -> None:
 
     assert isinstance(provider, DemoOCRProvider)
     assert provider.synthetic is True
+    assert settings.table_parser == "disabled"
+    assert settings.table_ocr_version == "PP-OCRv5"
 
 
 def test_invalid_boolean_configuration_fails_fast() -> None:
     with pytest.raises(OCRConfigurationError, match="true 或 false"):
         OCRSettings.from_environment({"FOOD_LABEL_OCR_USE_UNWARPING": "maybe"})
+
+
+def test_invalid_table_parser_configuration_fails_fast() -> None:
+    with pytest.raises(OCRConfigurationError, match="TABLE_PARSER"):
+        OCRSettings.from_environment({"FOOD_LABEL_OCR_TABLE_PARSER": "magic"})
 
 
 def test_paddle_provider_maps_lines_and_deletes_temporary_image(

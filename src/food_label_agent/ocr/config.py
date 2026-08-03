@@ -51,6 +51,8 @@ class OCRSettings:
     use_textline_orientation: bool = True
     general_threshold: float = 0.80
     allergen_threshold: float = 0.95
+    table_parser: str = "disabled"
+    table_ocr_version: str = "PP-OCRv5"
 
     @classmethod
     def from_environment(cls, values: Mapping[str, str] | None = None) -> OCRSettings:
@@ -59,6 +61,13 @@ class OCRSettings:
         if provider not in {"demo", "paddle"}:
             raise OCRConfigurationError(
                 "FOOD_LABEL_OCR_PROVIDER 目前只支持 demo 或 paddle。"
+            )
+        table_parser = source.get(
+            "FOOD_LABEL_OCR_TABLE_PARSER", "disabled"
+        ).strip().lower()
+        if table_parser not in {"disabled", "ppstructure"}:
+            raise OCRConfigurationError(
+                "FOOD_LABEL_OCR_TABLE_PARSER 目前只支持 disabled 或 ppstructure。"
             )
         return cls(
             provider=provider,
@@ -80,4 +89,8 @@ class OCRSettings:
             allergen_threshold=_read_threshold(
                 source, "FOOD_LABEL_OCR_ALLERGEN_THRESHOLD", 0.95
             ),
+            table_parser=table_parser,
+            table_ocr_version=source.get(
+                "FOOD_LABEL_OCR_TABLE_OCR_VERSION", "PP-OCRv5"
+            ).strip(),
         )
