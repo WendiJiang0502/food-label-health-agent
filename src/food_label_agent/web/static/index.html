@@ -1,9 +1,9 @@
 <!--
-THESIS: Uploading a food label is the product; this surface removes every explanation that delays that action.
-OWN-WORLD: Cool white space, ink-black type, one optical blue field, and the uploaded label as the only visual hero.
+THESIS: A food package becomes understandable the moment its label enters the workbench.
+OWN-WORLD: Warm paper, editorial navy type, tactile package photography, and offset functional Bento cards.
 STORY: The user uploads a label, checks the extracted text, and confirms it.
-FIRST VIEWPORT: A compact promise leads directly into one large upload surface; the correction panel appears only after recognition.
-FORM: Distilled optical workspace, refined from the user-reviewed Bento direction.
+FIRST VIEWPORT: A concise promise and one primary action sit beside the live upload workbench; no internal Agent architecture is exposed.
+FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits reference without copying its assets or product metaphors.
 -->
 <!doctype html>
 <html lang="zh-CN">
@@ -13,8 +13,8 @@ FORM: Distilled optical workspace, refined from the user-reviewed Bento directio
     <meta name="description" content="上传食品标签，确认识别文字，再进行基于证据的健康信息解释。">
     <title>食鉴 · 食品标签健康解释</title>
     <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/static/styles.css">
-    <script src="/static/app.js" defer></script>
+    <link rel="stylesheet" href="/static/styles.css?v=editorial-bento-1">
+    <script src="/static/app.js?v=editorial-bento-1" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#workspace">跳到标签工作区</a>
@@ -40,15 +40,25 @@ FORM: Distilled optical workspace, refined from the user-reviewed Bento directio
     </header>
 
     <main>
-      <section class="intro" aria-labelledby="page-title">
-        <h1 id="page-title">拍下食品标签，<br><span>读懂配料与风险。</span></h1>
-        <p class="intro-copy">上传配料表、营养成分表或过敏原提示。</p>
-      </section>
+      <div class="hero-layout" id="hero-layout">
+        <section class="intro" aria-labelledby="page-title">
+          <p class="eyebrow">食品标签解释 Agent</p>
+          <h1 id="page-title">看懂标签，<br>再决定吃什么。</h1>
+          <p class="intro-copy">拍下配料表，先核对文字，再查看配料与过敏原信息。</p>
+          <button class="button button--hero" id="hero-upload-button" type="button">
+            上传食品标签
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg>
+          </button>
+          <p class="intro-note">支持配料表、营养成分表与过敏原提示</p>
+        </section>
 
-      <section class="workbench" id="workspace" aria-label="食品标签上传与校对工作区">
+        <section class="workbench" id="workspace" aria-label="食品标签上传与校对工作区">
         <div class="proof-column">
           <div class="proof-header">
-            <h2 id="proof-title">上传食品标签</h2>
+            <div>
+              <span class="section-index">01</span>
+              <h2 id="proof-title">把标签放进来</h2>
+            </div>
             <span class="proof-state" id="proof-state">等待图片</span>
           </div>
 
@@ -65,14 +75,19 @@ FORM: Distilled optical workspace, refined from the user-reviewed Bento directio
                 type="file"
                 accept="image/jpeg,image/png,image/webp,image/heic,image/heif"
               >
-              <span class="upload-symbol" aria-hidden="true">
-                <svg viewBox="0 0 32 32">
-                  <path d="M16 22V6m0 0-6 6m6-6 6 6M6 20v6h20v-6" />
-                </svg>
+              <span class="package-visual" aria-hidden="true">
+                <img src="/static/assets/label-pouch.png?v=editorial-bento-1" alt="">
               </span>
-              <strong>拍照或上传</strong>
-              <span>确保文字清晰、完整</span>
-              <span class="file-rules">JPG · PNG · WEBP · HEIC · 单张不超过 10 MB</span>
+              <span class="upload-copy">
+                <span class="upload-symbol" aria-hidden="true">
+                  <svg viewBox="0 0 32 32">
+                    <path d="M16 22V6m0 0-6 6m6-6 6 6M6 20v6h20v-6" />
+                  </svg>
+                </span>
+                <strong>拍照或上传</strong>
+                <span>让配料文字清晰入镜</span>
+                <span class="file-rules">JPG · PNG · WEBP · HEIC · 最大 10 MB</span>
+              </span>
             </label>
 
             <div class="image-stage" id="image-stage" hidden>
@@ -92,9 +107,10 @@ FORM: Distilled optical workspace, refined from the user-reviewed Bento directio
             </div>
           </div>
 
-          <p class="proof-note">
-            <strong>演示版：</strong>当前识别结果仅用于测试交互。
-          </p>
+          <div class="proof-footnotes">
+            <p class="proof-note"><strong>演示版</strong> · OCR 结果仅用于测试交互</p>
+            <p class="privacy-note">图片默认不保存</p>
+          </div>
 
           <div class="error-state" id="error-state" hidden role="alert">
             <strong>没有完成识别</strong>
@@ -130,7 +146,8 @@ FORM: Distilled optical workspace, refined from the user-reviewed Bento directio
             </div>
           </div>
         </aside>
-      </section>
+        </section>
+      </div>
     </main>
 
     <footer>

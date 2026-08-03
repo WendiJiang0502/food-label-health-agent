@@ -6,6 +6,8 @@ const elements = {
   annotationLayer: document.querySelector("#annotation-layer"),
   replaceImage: document.querySelector("#replace-image"),
   processing: document.querySelector("#processing"),
+  heroLayout: document.querySelector("#hero-layout"),
+  heroUploadButton: document.querySelector("#hero-upload-button"),
   workbench: document.querySelector("#workspace"),
   proofTitle: document.querySelector("#proof-title"),
   proofState: document.querySelector("#proof-state"),
@@ -21,6 +23,8 @@ const elements = {
   retryButton: document.querySelector("#retry-button"),
   liveRegion: document.querySelector("#live-region"),
 };
+
+elements.heroUploadButton.addEventListener("click", () => elements.fileInput.click());
 
 const state = {
   file: null,
@@ -149,6 +153,7 @@ async function analyzeFile(file) {
     renderFields(payload.fields);
     renderAnnotations(payload.fields);
     elements.workbench.classList.add("has-analysis");
+    elements.heroLayout.classList.add("has-analysis");
     elements.reviewRail.hidden = false;
     elements.form.hidden = false;
     elements.reviewCount.textContent = `${payload.fields.length} 项`;
@@ -156,6 +161,7 @@ async function analyzeFile(file) {
     announce(`识别完成，共 ${payload.fields.length} 个字段，其中低置信度字段需要确认`);
   } catch (error) {
     elements.workbench.classList.remove("has-analysis");
+    elements.heroLayout.classList.remove("has-analysis");
     elements.reviewRail.hidden = true;
     elements.reviewCount.textContent = "0 项";
     elements.proofState.textContent = "识别未完成";
@@ -236,10 +242,11 @@ function activateField(name) {
 }
 
 function resetResult() {
-  elements.resultState.hidden = true;
-  elements.form.hidden = true;
-  elements.reviewRail.hidden = true;
+  if (elements.resultState) elements.resultState.hidden = true;
+  if (elements.form) elements.form.hidden = true;
+  if (elements.reviewRail) elements.reviewRail.hidden = true;
   elements.workbench.classList.remove("has-analysis");
+  elements.heroLayout.classList.remove("has-analysis");
   elements.fieldList.replaceChildren();
   elements.reviewCount.textContent = "0 项";
 }

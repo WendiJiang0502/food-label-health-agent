@@ -19,7 +19,8 @@ def test_platform_index_and_health() -> None:
     favicon = asyncio.run(request("GET", "/static/favicon.svg"))
 
     assert page.status_code == 200
-    assert "拍下食品标签" in page.text
+    assert "看懂标签" in page.text
+    assert "上传食品标签" in page.text
     assert "SAFETY · BUILT IN" not in page.text
     assert "MILESTONE" not in page.text
     assert health.status_code == 200

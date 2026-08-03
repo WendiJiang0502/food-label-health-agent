@@ -1,133 +1,89 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-03T12:00:00+08:00",
+  "generatedAt": "2026-08-03T19:00:00+08:00",
   "title": "Design System: Food Label Health Agent",
   "extensions": {
     "colorMeta": {
-      "optical-blue": {
-        "role": "primary",
-        "displayName": "Optical Blue",
-        "canonical": "#0071E3",
-        "tonalRamp": ["#001D3A", "#003A73", "#0058B0", "#0071E3", "#4C9BF0", "#8CC0F7", "#CCE5FF", "#F2F8FF"]
-      },
-      "violet": {
-        "role": "secondary",
-        "displayName": "Optical Violet",
-        "canonical": "#6657E8",
-        "tonalRamp": ["#211B59", "#382E8B", "#5145C4", "#6657E8", "#8F84EF", "#B8B1F5", "#DDD9FB", "#F5F3FF"]
-      },
-      "optical-blue-soft": {
-        "role": "primary-container",
-        "displayName": "Optical Blue Field",
-        "canonical": "#D9ECFF",
-        "tonalRamp": ["#D9ECFF"]
-      },
-      "violet-soft": {
-        "role": "secondary-container",
-        "displayName": "Optical Violet Field",
-        "canonical": "#E8E5FF",
-        "tonalRamp": ["#E8E5FF"]
-      },
-      "optical-pink-soft": {
-        "role": "secondary-container",
-        "displayName": "Optical Pink Field",
-        "canonical": "#F5E9F3",
-        "tonalRamp": ["#F5E9F3"]
-      },
-      "optical-magenta": {
-        "role": "annotation",
-        "displayName": "Optical Annotation Magenta",
-        "canonical": "#B34EA6",
-        "tonalRamp": ["#B34EA6"]
-      },
-      "optical-navy": {
-        "role": "secondary-deep",
-        "displayName": "Optical Navy",
-        "canonical": "#18294A",
-        "tonalRamp": ["#18294A"]
-      },
-      "canvas": {
-        "role": "neutral",
-        "displayName": "Cool Canvas",
-        "canonical": "#F5F5F7",
-        "tonalRamp": ["#1D1D1F", "#3A3A3C", "#6E6E73", "#86868B", "#AEAEB2", "#D2D2D7", "#E8E8ED", "#F5F5F7"]
-      }
+      "paper-canvas": {"role": "neutral", "displayName": "Warm Paper Canvas", "canonical": "#F4F0E8", "tonalRamp": ["#172338", "#26334A", "#6E7890", "#C9C5BC", "#E8E3DA", "#F4F0E8", "#FFFDF8"]},
+      "editorial-navy": {"role": "primary", "displayName": "Editorial Navy", "canonical": "#26334A", "tonalRamp": ["#172338", "#26334A", "#59657B", "#909ABF", "#DCE4EE"]},
+      "action-teal": {"role": "action", "displayName": "Action Teal", "canonical": "#0A4650", "tonalRamp": ["#06343C", "#0A4650", "#39717A", "#9CB9BD", "#E5EFEE"]},
+      "supporting-periwinkle": {"role": "secondary", "displayName": "Supporting Periwinkle", "canonical": "#909ABF", "tonalRamp": ["#4E5878", "#707BA3", "#909ABF", "#C5CAE0", "#EEF0F7"]}
     },
     "typographyMeta": {
-      "display": { "displayName": "Consumer Thesis", "purpose": "One promise in the first viewport." },
-      "body": { "displayName": "Consumer Explanation", "purpose": "Plain-language product guidance." },
-      "measurement": { "displayName": "Evidence Metadata", "purpose": "Confidence, dates, units, and provenance only." }
+      "display": {"displayName": "Editorial Promise", "purpose": "One concise consumer promise in the first viewport."},
+      "body": {"displayName": "Operational Guidance", "purpose": "Plain-language upload and review guidance."},
+      "evidence": {"displayName": "Evidence Metadata", "purpose": "Confidence, formats, and provenance only."}
     },
     "shadows": [
-      { "name": "proof-lift", "value": "0 30px 70px rgba(43,50,74,.16)", "purpose": "The active label proof only." },
-      { "name": "control-lift", "value": "0 10px 28px rgba(29,29,31,.12)", "purpose": "Drag-over and temporary controls." }
+      {"name": "card-offset", "value": "12px 14px 0 rgba(48,62,89,.09), 0 28px 60px rgba(48,62,89,.08)", "purpose": "Tactile work surfaces only."},
+      {"name": "action-offset", "value": "7px 8px 0 rgba(10,70,80,.13)", "purpose": "Primary actions."}
     ],
     "motion": [
-      { "name": "proof-settle", "value": "520ms cubic-bezier(.16,1,.3,1)", "purpose": "Uploaded evidence settles into its optical room." },
-      { "name": "state-change", "value": "180ms cubic-bezier(.2,.8,.2,1)", "purpose": "Control and field state changes." }
+      {"name": "proof-settle", "value": "460ms cubic-bezier(.16,1,.3,1)", "purpose": "The user's evidence replaces the example package."},
+      {"name": "state-change", "value": "180ms cubic-bezier(.2,.8,.2,1)", "purpose": "Control and field state changes."}
     ],
     "breakpoints": [
-      { "name": "stack", "value": "1040px" },
-      { "name": "mobile", "value": "760px" }
+      {"name": "hero-stack", "value": "900px"},
+      {"name": "mobile", "value": "640px"}
     ]
   },
   "components": [
     {
-      "name": "Primary Button",
+      "name": "Editorial Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "Primary workflow action.",
-      "html": "<button class=\"ds-btn-primary\">确认标签并继续</button>",
-      "css": ".ds-btn-primary{background:#0071E3;color:#fff;border:0;border-radius:14px;padding:13px 20px;min-height:50px;font:700 15px -apple-system,sans-serif;transition:background 180ms,transform 180ms,box-shadow 180ms}.ds-btn-primary:hover{background:#0058B0;transform:translateY(-1px);box-shadow:0 12px 24px rgba(0,88,176,.2)}.ds-btn-primary:focus-visible{outline:3px solid #fff;box-shadow:0 0 0 6px #0071E3}"
+      "description": "Compact dark-teal primary workflow action with directional offset depth.",
+      "html": "<button class=\"ds-btn-primary\">上传食品标签</button>",
+      "css": ".ds-btn-primary{min-height:50px;border:0;border-radius:8px;background:#0A4650;color:#FFFDF8;padding:13px 20px;font:750 15px -apple-system,sans-serif;box-shadow:7px 8px 0 rgba(10,70,80,.13)}"
     },
     {
-      "name": "Correction Field",
+      "name": "Evidence Correction Field",
       "kind": "input",
       "refersTo": "input",
-      "description": "Editable OCR field with visible uncertainty.",
+      "description": "Editable OCR field with visible confidence and uncertainty.",
       "html": "<label class=\"ds-field\"><span>配料表 · OCR 62% · 需确认</span><textarea>小麦粉、白砂糖</textarea></label>",
-      "css": ".ds-field{display:grid;gap:8px;color:#1D1D1F;font:650 12px SFMono-Regular,monospace}.ds-field textarea{min-height:92px;border:1px solid rgba(29,29,31,.24);border-radius:14px;padding:13px 14px;color:#1D1D1F;background:#fff;font:450 16px/1.55 -apple-system,sans-serif}.ds-field textarea:focus{outline:4px solid rgba(0,113,227,.25);border-color:#0071E3}"
+      "css": ".ds-field{display:grid;gap:8px;color:#26334A;font:700 11px SFMono-Regular,monospace}.ds-field textarea{min-height:92px;border:1px solid rgba(38,51,74,.26);border-radius:10px;padding:13px 14px;color:#26334A;background:#FFFDF8;font:450 16px/1.55 -apple-system,sans-serif}.ds-field textarea:focus{outline:4px solid rgba(10,70,80,.22);border-color:#0A4650}"
     },
     {
-      "name": "Optical Bento Room",
+      "name": "Tactile Upload Card",
       "kind": "card",
-      "description": "A high-priority workflow room carrying a full optical field.",
-      "html": "<section class=\"ds-room\"><small>01 · LABEL INPUT</small><strong>把标签放进来</strong></section>",
-      "css": ".ds-room{min-height:220px;border-radius:32px;background:linear-gradient(145deg,#D9ECFF,#E8E5FF 54%,#F5E9F3);color:#1D1D1F;padding:36px;display:flex;flex-direction:column;justify-content:space-between;font-family:-apple-system,sans-serif}.ds-room small{font:650 11px SFMono-Regular,monospace;color:#6E6E73}.ds-room strong{font-size:38px;letter-spacing:-.03em}"
+      "description": "Functional Bento surface pairing a generic package reference with the real upload action.",
+      "html": "<section class=\"ds-upload\"><img alt=\"\"><strong>拍照或上传</strong></section>",
+      "css": ".ds-upload{min-height:480px;border:1px solid rgba(38,51,74,.08);border-radius:24px;background:#FFFDF8;color:#26334A;box-shadow:12px 14px 0 rgba(48,62,89,.09);display:grid;grid-template-columns:1.2fr .8fr;align-items:center;overflow:hidden}"
     },
     {
       "name": "State Pill",
       "kind": "chip",
-      "description": "Compact workflow state, never a risk conclusion by color alone.",
+      "description": "Compact workflow state, never a health conclusion.",
       "html": "<span class=\"ds-state\">等待图片</span>",
-      "css": ".ds-state{display:inline-flex;border-radius:999px;background:rgba(29,29,31,.07);color:#1D1D1F;padding:7px 11px;font:650 11px -apple-system,sans-serif}"
+      "css": ".ds-state{display:inline-flex;border-radius:999px;background:rgba(38,51,74,.08);color:#26334A;padding:7px 11px;font:700 11px -apple-system,sans-serif}"
     }
   ],
   "narrative": {
-    "northStar": "The Quiet Optical Bento",
-    "overview": "Food-label evidence becomes a small set of calm, touchable rooms. Spacious composition and optical fields serve an operational upload-and-confirm workflow.",
+    "northStar": "The Editorial Label Desk",
+    "overview": "A warm editorial Bento workbench where a tangible package reference yields to the user's label evidence and correction task.",
     "keyCharacteristics": [
-      "One dominant label-input room before recognition; correction appears only when it has content.",
-      "Uploaded evidence is the visual hero.",
-      "Large consumer language leads; evidence metadata stays available but quiet.",
-      "Safety states always combine symbol, label, and explanation."
+      "One concise promise and one upload task share the first viewport.",
+      "A generic unbranded package demonstrates the correct capture surface without making claims.",
+      "Uploaded evidence replaces decorative imagery and becomes the visual focus.",
+      "Agent implementation details remain outside the consumer interface."
     ],
     "rules": [
-      { "name": "The Whole-Field Rule", "body": "Blue and violet carry whole inspection regions; semantic colors only communicate named states.", "section": "colors" },
-      { "name": "The Plain-Language Rule", "body": "Consumer meaning is large and immediate; technical metadata never visually leads.", "section": "typography" },
-      { "name": "The Evidence Lift Rule", "body": "Elevation belongs to the evidence currently being inspected, not every container.", "section": "elevation" }
+      {"name": "Function Inside the Bento", "body": "Every visible card performs upload, review, status, or recovery work.", "section": "layout"},
+      {"name": "Evidence Before Interpretation", "body": "The uploaded label and confirmed text lead; decoration cannot imply a health result.", "section": "components"},
+      {"name": "Chinese Line Integrity", "body": "Chinese display copy is constrained by physical width rather than ch units.", "section": "typography"}
     ],
     "dos": [
-      "Do let one meaningful image or task dominate each viewport.",
-      "Do use unequal Bento rooms to communicate priority.",
-      "Do reveal correction controls only after recognition succeeds.",
-      "Do keep uncertainty visible before interpretation."
+      "Do hide correction controls until OCR results exist.",
+      "Do pair uncertainty with explicit text.",
+      "Do let the uploaded label replace the example visual.",
+      "Do keep one primary action per workflow state."
     ],
     "donts": [
-      "Don't copy Apple imagery or proprietary assets.",
-      "Don't turn every fact into an equal card.",
-      "Don't expose roadmap stages or Agent routing to consumers.",
-      "Don't imply medical clearance or absolute safety."
+      "Don't copy the reference brand, assets, or benefits-product metaphors.",
+      "Don't expose LangGraph, RAG, MCP, or internal routes to consumers.",
+      "Don't imply medical clearance or absolute safety.",
+      "Don't turn explanatory filler into equal cards."
     ]
   }
 }
