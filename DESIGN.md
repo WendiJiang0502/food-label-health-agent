@@ -1,56 +1,61 @@
 ---
 name: Food Label Health Agent
-description: A packaging proofing desk for evidence-led food label analysis
+description: A calm optical Bento workspace for evidence-led food label analysis
 colors:
-  proof-blue: "#185ADB"
-  proof-blue-deep: "#0D3FA3"
-  inspection-orange: "#F26B38"
-  paper: "#F4F5F1"
-  sheet: "#FFFFFF"
-  ink: "#17201B"
-  muted-ink: "#536159"
-  rule: "#CDD4CE"
-  caution: "#A85608"
+  optical-blue: "#0071E3"
+  optical-blue-deep: "#0058B0"
+  optical-blue-soft: "#D9ECFF"
+  violet: "#6657E8"
+  violet-soft: "#E8E5FF"
+  optical-pink-soft: "#F5E9F3"
+  optical-magenta: "#B34EA6"
+  optical-navy: "#18294A"
+  canvas: "#F5F5F7"
+  surface: "#FFFFFF"
+  ink: "#1D1D1F"
+  muted-ink: "#6E6E73"
+  line: "rgba(29, 29, 31, 0.12)"
+  caution: "#8A4B08"
   avoid: "#B42318"
-  compatible: "#176B45"
+  compatible: "#147A4B"
 typography:
   display:
-    fontFamily: "Avenir Next, Avenir, PingFang SC, sans-serif"
-    fontSize: "clamp(2.25rem, 5vw, 4.75rem)"
-    fontWeight: 700
+    fontFamily: "-apple-system, BlinkMacSystemFont, SF Pro Display, PingFang SC, sans-serif"
+    fontSize: "clamp(3.25rem, 7.2vw, 6rem)"
+    fontWeight: 720
     lineHeight: 0.98
-    letterSpacing: "-0.035em"
+    letterSpacing: "-0.04em"
   headline:
-    fontFamily: "Avenir Next, Avenir, PingFang SC, sans-serif"
-    fontSize: "clamp(1.5rem, 2.5vw, 2.5rem)"
-    fontWeight: 650
-    lineHeight: 1.12
-    letterSpacing: "-0.025em"
+    fontFamily: "-apple-system, BlinkMacSystemFont, SF Pro Display, PingFang SC, sans-serif"
+    fontSize: "clamp(2rem, 3vw, 3.35rem)"
+    fontWeight: 680
+    lineHeight: 1.08
+    letterSpacing: "-0.03em"
   body:
-    fontFamily: "Avenir Next, Avenir, PingFang SC, sans-serif"
+    fontFamily: "-apple-system, BlinkMacSystemFont, SF Pro Text, PingFang SC, sans-serif"
     fontSize: "1rem"
     fontWeight: 450
-    lineHeight: 1.65
-  title:
-    fontFamily: "Avenir Next, Avenir, PingFang SC, sans-serif"
-    fontSize: "1.25rem"
-    fontWeight: 650
-    lineHeight: 1.14
+    lineHeight: 1.55
   small:
-    fontFamily: "Avenir Next, Avenir, PingFang SC, sans-serif"
+    fontFamily: "-apple-system, BlinkMacSystemFont, SF Pro Text, PingFang SC, sans-serif"
     fontSize: "0.8125rem"
     fontWeight: 450
     lineHeight: 1.5
   measurement:
     fontFamily: "SFMono-Regular, Menlo, Consolas, monospace"
-    fontSize: "0.75rem"
-    fontWeight: 600
+    fontSize: "0.7rem"
+    fontWeight: 650
     lineHeight: 1.4
-    letterSpacing: "0.02em"
+    letterSpacing: "0.04em"
 rounded:
-  field: "10px"
-  surface: "14px"
-  compact: "4px"
+  small: "12px"
+  control: "14px"
+  compact-surface: "16px"
+  upload-field: "18px"
+  mobile-surface: "20px"
+  optical-control: "22px"
+  inner-surface: "24px"
+  bento: "32px"
   pill: "999px"
 spacing:
   xs: "4px"
@@ -61,19 +66,19 @@ spacing:
   section: "72px"
 components:
   button-primary:
-    backgroundColor: "{colors.proof-blue}"
-    textColor: "{colors.sheet}"
-    rounded: "{rounded.field}"
+    backgroundColor: "{colors.optical-blue}"
+    textColor: "{colors.surface}"
+    rounded: "{rounded.control}"
     padding: "13px 20px"
   button-primary-hover:
-    backgroundColor: "{colors.proof-blue-deep}"
-    textColor: "{colors.sheet}"
-    rounded: "{rounded.field}"
+    backgroundColor: "{colors.optical-blue-deep}"
+    textColor: "{colors.surface}"
+    rounded: "{rounded.control}"
     padding: "13px 20px"
   input:
-    backgroundColor: "{colors.sheet}"
+    backgroundColor: "{colors.surface}"
     textColor: "{colors.ink}"
-    rounded: "{rounded.field}"
+    rounded: "{rounded.control}"
     padding: "13px 14px"
 ---
 
@@ -81,134 +86,131 @@ components:
 
 ## Overview
 
-**Creative North Star: "The Packaging Proofing Desk"**
+**Creative North Star: "The Quiet Optical Bento"**
 
-The interface borrows from packaging prepress and quality-control work: a label is treated as a proof to inspect, annotate, confirm, and release—not as a lifestyle image to score. The visual system is operational and evidence-led, with a large working surface, registration-like markers, compact measurement text, and visible correction states.
+The interface turns food-label evidence into a small set of calm, touchable rooms. It borrows the spacious composition, oversized cropping, optical color fields, and confident system typography of premium device storytelling, while keeping the product operational rather than promotional.
 
-The product is often used under bright supermarket light or at a kitchen table, so the default is a cool light canvas with high-contrast ink. Blue owns primary actions and verified structure; orange marks active inspection; risk colors only communicate actual semantic states.
+The user often holds a package in bright supermarket or kitchen light. The surface therefore stays cool and light, with dense black type, a single optical blue action color, and soft blue-violet fields reserved for the label-inspection experience. Bento structure expresses workflow ownership: every room has one job and unequal rooms reflect unequal importance.
 
 **Key Characteristics:**
 
-- One dominant proofing workspace rather than a dashboard of equal cards.
-- Field confidence and source metadata use measurement typography.
-- Risk states always combine icon, label, and explanatory text.
-- Controls are compact, tactile, and familiar enough for one-handed mobile use.
+- One dominant label-input room, not a dashboard of equal cards.
+- Large headlines and quiet explanatory copy establish an immediate reading order.
+- Uploaded label imagery becomes the visual hero; decoration never replaces evidence.
+- Soft optical color fields carry whole regions, not scattered accents.
+- Safety meaning always combines text, symbol, and state.
 
 ## Colors
 
-The palette combines cool proofing paper, dense ink, technical blue, and sparingly used inspection orange.
+The palette combines Apple-like cool whites and ink with one clear action blue and a restrained optical violet.
 
 ### Primary
 
-- **Proof Blue** (`#185ADB`): primary actions, active workflow state, selected evidence.
-- **Deep Proof Blue** (`#0D3FA3`): hover and pressed states.
+- **Optical Blue** (`#0071E3`): primary actions, active workflow state, selected OCR evidence.
+- **Deep Optical Blue** (`#0058B0`): hover, pressed, and high-contrast link states.
 
 ### Secondary
 
-- **Inspection Orange** (`#F26B38`): crop marks, current annotation, and active review—not decoration.
+- **Optical Violet** (`#6657E8`): image-analysis fields and branded optical objects, never health-risk meaning.
 
 ### Neutral
 
-- **Proofing Paper** (`#F4F5F1`): application canvas.
-- **Clean Sheet** (`#FFFFFF`): editable fields and the label work surface.
-- **Registration Ink** (`#17201B`): headings and body text.
-- **Muted Ink** (`#536159`): secondary explanations and metadata.
-- **Rule Gray** (`#CDD4CE`): dividers and field outlines.
+- **Cool Canvas** (`#F5F5F7`): application background under bright ambient light.
+- **Pure Surface** (`#FFFFFF`): correction and editable rooms.
+- **System Ink** (`#1D1D1F`): headings, controls, and primary copy.
+- **Muted System Ink** (`#6E6E73`): explanations and secondary metadata.
+- **Hairline** (`rgba(29, 29, 31, 0.12)`): field boundaries and separators.
 
 ### Semantic
 
-- **Caution Amber** (`#A85608`): incomplete or uncertain information.
+- **Caution Brown** (`#8A4B08`): incomplete or uncertain information.
 - **Avoid Red** (`#B42318`): confirmed hard-constraint conflicts.
-- **Compatible Green** (`#176B45`): compatible under confirmed information, never an absolute safety guarantee.
+- **Compatible Green** (`#147A4B`): compatible under confirmed information, never absolute safety.
 
-**The Semantic Color Rule.** Orange, amber, red, and green appear only when the interface can name the state they encode.
+**The Whole-Field Rule.** Blue and violet may fill an entire inspection region; semantic colors appear only when the interface can name the state they encode.
 
 ## Typography
 
-**Display Font:** Avenir Next with Avenir and PingFang SC fallbacks
+**Display Font:** system SF Pro Display with PingFang SC fallback
 
-**Body Font:** Avenir Next with system Chinese sans-serif fallbacks
+**Body Font:** system SF Pro Text with PingFang SC fallback
 
-**Measurement Font:** SFMono-Regular with Menlo and Consolas fallbacks
+**Measurement Font:** SFMono-Regular with Menlo fallback
 
-**Character:** The main face is direct and highly legible in Chinese and English. Monospace is reserved for OCR confidence, identifiers, dates, units, and evidence metadata.
+**Character:** The typography is direct, large, and consumer-readable. System faces keep Chinese and English balanced and avoid an external font dependency.
 
 ### Hierarchy
 
-- **Display** (700, `clamp(2.25rem, 5vw, 4.75rem)`, 0.98): the upload task and no more than one message per viewport.
-- **Headline** (650, `clamp(1.5rem, 2.5vw, 2.5rem)`, 1.12): workbench sections and major outcomes.
-- **Body** (450, `1rem`, 1.65): explanations with a maximum measure of 70 characters.
-- **Measurement** (600, `0.75rem`, 1.4): confidence, version, field type, source, and unit data.
+- **Display** (720, `clamp(3.25rem, 7.2vw, 6rem)`, 0.98): one consumer promise in the opening viewport.
+- **Headline** (680, `clamp(2rem, 3vw, 3.35rem)`, 1.08): room purpose and major outcomes.
+- **Body** (450, `1rem`, 1.55): explanations with a maximum measure near 70 characters.
+- **Measurement** (650, `0.7rem`, 1.4): confidence, dates, units, and evidence provenance only.
 
-**The Measurement Rule.** Monospace communicates measurement or provenance; it never acts as a generic technical costume.
+**The Plain-Language Rule.** Consumer meaning is large and immediate; technical metadata is present but never visually leads.
 
 ## Layout
 
-Desktop uses a 12-column workbench: the label proof owns seven columns and the review rail owns five. The first viewport gives most space to the upload and proof, with risk summary occupying a persistent but subordinate rail. Mobile collapses to one column in task order: upload, preview, fields requiring confirmation, then analysis.
+Desktop uses a 12-column asymmetric Bento composition. The label image room owns eight columns and the correction room owns four. The workflow is a quiet full-width strip above them; safety boundaries become one large thesis room plus three supporting evidence rooms.
 
-The outer canvas uses a maximum width of 1440px and 24–40px gutters. Within the proofing surface, dense field rows use 12–16px gaps; major stages use 40–72px separation. At widths below 760px, primary actions become full-width and all touch targets remain at least 44px high.
+Rooms use 24px gaps and 32px outer radii. Below 1040px the workbench becomes one column in task order. Below 760px, horizontal workflow steps remain scrollable, all interactive targets stay at least 44px, and Bento radii reduce to 24px.
 
 ## Elevation & Depth
 
-The system is flat by default. Depth comes from tonal separation and one structural shadow under the active proof sheet. Fields use borders without simultaneous shadows.
+The system is mostly tonal. The outer Bento rooms do not float; only the active proof sheet is physically lifted over its optical field.
 
-- **Proof Lift** (`0 18px 48px rgba(23, 32, 27, 0.12)`): only the active label proof or upload sheet.
-- **Control Lift** (`0 6px 18px rgba(23, 32, 27, 0.10)`): temporary drag-over or floating mobile action state.
+- **Proof Lift** (`0 30px 70px rgba(43, 50, 74, 0.16)`): the uploaded label proof.
+- **Control Lift** (`0 10px 28px rgba(29, 29, 31, 0.12)`): drag-over and temporary control elevation.
 
-**The Single Lift Rule.** At most one large surface appears physically lifted in a viewport.
+**The Evidence Lift Rule.** Elevation belongs to the evidence currently being inspected, not every container.
 
 ## Shapes
 
-The proofing sheet uses 14px corners; editable fields and buttons use 10px; technical tags and crop markers use 4px. Pills are reserved for compact state labels. Borders are one pixel and structural, never paired with an ambient shadow on the same resting component.
+Outer Bento rooms use 32px corners, internal proof surfaces use 24px, and fields and controls use 14px. Pills are reserved for compact state labels. Circles are used for optical objects, step indexes, and concise symbols.
 
 ## Components
 
 ### Buttons
 
-- **Shape:** compact rounded rectangle (`10px`) with a minimum height of 44px.
-- **Primary:** Proof Blue on white, 13px × 20px padding.
-- **Hover / Focus:** deepens to Proof Blue Deep; focus uses a visible two-part blue-and-white outline.
-- **Secondary:** transparent Registration Ink with a Rule Gray border.
+- **Shape:** compact rounded rectangle (`14px`) with a minimum height of 44px.
+- **Primary:** Optical Blue on white with a direct action label.
+- **Hover / Focus:** blue deepens and gains offset depth; keyboard focus uses a visible white-and-blue ring.
 
 ### State Tags
 
-- Combine a short state label with an icon or symbol.
-- Use semantic color only for actual risk or workflow state.
-- Confidence is expressed as text such as `OCR 62% · 需确认`, never color alone.
+- State text sits on a low-contrast neutral pill.
+- Risk cannot rely on color alone.
+- Confidence is written as `OCR 62% · 需确认`.
 
-### Cards / Containers
+### Bento Rooms
 
-- Large equal-weight card grids are not part of the system.
-- Use one proofing sheet, flat side rails, and divided rows.
-- A contained panel must have a task role such as upload, correction, evidence, or risk review.
+- Rooms are unequal in size and each owns one workflow responsibility.
+- A room may use white, system ink, or a full optical field.
+- Generic icon-heading-text card repetition is not part of the system.
 
 ### Inputs / Fields
 
-- White background, Rule Gray stroke, 10px corners.
-- Focus changes the border to Proof Blue and adds an external focus outline.
-- Low-confidence fields show the original OCR candidate and a recovery instruction.
-- Error and disabled states retain readable labels and do not rely on reduced opacity alone.
-
-### Navigation
-
-Navigation is a quiet horizontal utility bar on desktop and a compact top bar on mobile. The product mark, workflow state, and privacy indicator remain visible; secondary navigation never competes with the upload action.
+- White background, hairline stroke, and 14px corners.
+- Focus changes the border to Optical Blue and adds an external focus field.
+- Low-confidence fields preserve OCR candidate text and show a recovery instruction.
 
 ### Label Proof
 
-The signature component shows the uploaded image, field markers, and a synchronized correction list. Selecting a field highlights both its image region and editable text. In the current milestone, synthetic OCR output is explicitly labeled as demonstration data.
+The signature room synchronizes uploaded imagery, OCR markers, and editable fields. Uploaded evidence is the visual hero. Synthetic OCR is always labeled as demonstration data.
 
 ## Do's and Don'ts
 
 ### Do:
 
-- **Do** show the label image beside the text the user is confirming.
-- **Do** put critical uncertainty before ingredient education or product recommendations.
-- **Do** keep source, date, confidence, and rule identity readable but visually secondary.
-- **Do** write recovery actions that name exactly what the user should photograph or correct.
+- **Do** let one meaningful image or task dominate each viewport.
+- **Do** use unequal Bento rooms to communicate priority.
+- **Do** show the label beside the exact text being confirmed.
+- **Do** keep uncertainty and recovery actions visible before interpretation.
+- **Do** reserve full optical color fields for input, inspection, and product identity.
 
 ### Don't:
 
+- **Don't** copy Apple product imagery, copywriting, or proprietary assets.
+- **Don't** turn every fact into an equal card.
 - **Don't** assign an absolute health score or imply medical clearance.
+- **Don't** use gradient text or decorative glass panels.
 - **Don't** use green alone to mean safe.
-- **Don't** structure the application as a grid of generic metric cards.
-- **Don't** use food illustrations as a substitute for the user's actual label evidence.

@@ -19,7 +19,7 @@ def test_platform_index_and_health() -> None:
     favicon = asyncio.run(request("GET", "/static/favicon.svg"))
 
     assert page.status_code == 200
-    assert "先把标签看清" in page.text
+    assert "看清每一行" in page.text
     assert health.status_code == 200
     assert health.json()["synthetic_ocr"] is True
     assert favicon.status_code == 200
