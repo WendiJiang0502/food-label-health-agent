@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-03T00:00:00+08:00",
+  "generatedAt": "2026-08-03T12:00:00+08:00",
   "title": "Design System: Food Label Health Agent",
   "extensions": {
     "colorMeta": {
@@ -107,7 +107,7 @@
     "northStar": "The Quiet Optical Bento",
     "overview": "Food-label evidence becomes a small set of calm, touchable rooms. Spacious composition and optical fields serve an operational upload-and-confirm workflow.",
     "keyCharacteristics": [
-      "One dominant label-input room rather than equal cards.",
+      "One dominant label-input room before recognition; correction appears only when it has content.",
       "Uploaded evidence is the visual hero.",
       "Large consumer language leads; evidence metadata stays available but quiet.",
       "Safety states always combine symbol, label, and explanation."
@@ -120,11 +120,13 @@
     "dos": [
       "Do let one meaningful image or task dominate each viewport.",
       "Do use unequal Bento rooms to communicate priority.",
+      "Do reveal correction controls only after recognition succeeds.",
       "Do keep uncertainty visible before interpretation."
     ],
     "donts": [
       "Don't copy Apple imagery or proprietary assets.",
       "Don't turn every fact into an equal card.",
+      "Don't expose roadmap stages or Agent routing to consumers.",
       "Don't imply medical clearance or absolute safety."
     ]
   }

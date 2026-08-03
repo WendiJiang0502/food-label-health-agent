@@ -6,8 +6,10 @@ const elements = {
   annotationLayer: document.querySelector("#annotation-layer"),
   replaceImage: document.querySelector("#replace-image"),
   processing: document.querySelector("#processing"),
+  workbench: document.querySelector("#workspace"),
+  proofTitle: document.querySelector("#proof-title"),
   proofState: document.querySelector("#proof-state"),
-  emptyReview: document.querySelector("#empty-review"),
+  reviewRail: document.querySelector("#review-rail"),
   form: document.querySelector("#confirmation-form"),
   fieldList: document.querySelector("#field-list"),
   reviewCount: document.querySelector("#review-count"),
@@ -84,17 +86,16 @@ elements.form.addEventListener("submit", async (event) => {
     if (!response.ok) throw new Error(payload.message || "标签确认失败。");
 
     elements.form.hidden = true;
-    elements.resultMessage.textContent = `${payload.message} 下一路由：${payload.next_route}`;
+    elements.resultMessage.textContent = "已完成确认。";
     elements.resultState.hidden = false;
     elements.resultState.focus();
     elements.proofState.textContent = "用户已确认";
-    setWorkflowStep("confirm", true);
-    announce("标签事实已确认，可以进入配料规范化");
+    announce("识别文字已确认");
   } catch (error) {
     showError(error.message);
   } finally {
     elements.confirmButton.disabled = false;
-    elements.confirmButton.firstChild.textContent = "确认标签并继续 ";
+    elements.confirmButton.firstChild.textContent = "确认识别文字 ";
   }
 });
 
@@ -117,15 +118,17 @@ function selectFile(file) {
   elements.preview.src = state.previewUrl;
   elements.dropZone.hidden = true;
   elements.imageStage.hidden = false;
+  elements.proofTitle.textContent = "标签原图";
   elements.proofState.textContent = "准备识别";
   analyzeFile(file);
 }
 
 async function analyzeFile(file) {
   state.analysis = null;
+  elements.workbench.classList.remove("has-analysis");
+  elements.reviewRail.hidden = true;
   elements.processing.hidden = false;
   elements.form.hidden = true;
-  elements.emptyReview.hidden = true;
   elements.annotationLayer.replaceChildren();
   elements.reviewCount.textContent = "处理中";
   elements.proofState.textContent = "正在识别";
@@ -145,13 +148,15 @@ async function analyzeFile(file) {
     state.analysis = payload;
     renderFields(payload.fields);
     renderAnnotations(payload.fields);
+    elements.workbench.classList.add("has-analysis");
+    elements.reviewRail.hidden = false;
     elements.form.hidden = false;
     elements.reviewCount.textContent = `${payload.fields.length} 项`;
     elements.proofState.textContent = "待人工确认";
-    setWorkflowStep("confirm");
     announce(`识别完成，共 ${payload.fields.length} 个字段，其中低置信度字段需要确认`);
   } catch (error) {
-    elements.emptyReview.hidden = false;
+    elements.workbench.classList.remove("has-analysis");
+    elements.reviewRail.hidden = true;
     elements.reviewCount.textContent = "0 项";
     elements.proofState.textContent = "识别未完成";
     showError(error.message);
@@ -194,8 +199,8 @@ function renderFields(fields) {
     help.className = "field-help";
     help.id = `${inputId}-help`;
     help.textContent = field.requires_confirmation
-      ? "置信度不足：请对照左侧原图逐字确认。"
-      : "仍请对照原图确认，系统不会把高置信度等同于绝对正确。";
+      ? "请重点对照原图确认。"
+      : "请对照原图确认。";
 
     meta.append(label, confidence);
     wrapper.append(meta, textarea, help);
@@ -230,17 +235,11 @@ function activateField(name) {
   });
 }
 
-function setWorkflowStep(step, complete = false) {
-  document.querySelectorAll(".workflow li").forEach((item) => {
-    item.classList.toggle("is-active", item.dataset.step === step && !complete);
-    if (item.dataset.step === step && complete) item.classList.add("is-complete");
-  });
-}
-
 function resetResult() {
   elements.resultState.hidden = true;
   elements.form.hidden = true;
-  elements.emptyReview.hidden = false;
+  elements.reviewRail.hidden = true;
+  elements.workbench.classList.remove("has-analysis");
   elements.fieldList.replaceChildren();
   elements.reviewCount.textContent = "0 项";
 }

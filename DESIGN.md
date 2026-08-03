@@ -55,6 +55,7 @@ rounded:
   mobile-surface: "20px"
   optical-control: "22px"
   inner-surface: "24px"
+  workspace: "28px"
   bento: "32px"
   pill: "999px"
 spacing:
@@ -94,7 +95,7 @@ The user often holds a package in bright supermarket or kitchen light. The surfa
 
 **Key Characteristics:**
 
-- One dominant label-input room, not a dashboard of equal cards.
+- One dominant label-input room before recognition; correction appears only when it has content.
 - Large headlines and quiet explanatory copy establish an immediate reading order.
 - Uploaded label imagery becomes the visual hero; decoration never replaces evidence.
 - Soft optical color fields carry whole regions, not scattered accents.
@@ -150,9 +151,9 @@ The palette combines Apple-like cool whites and ink with one clear action blue a
 
 ## Layout
 
-Desktop uses a 12-column asymmetric Bento composition. The label image room owns eight columns and the correction room owns four. The workflow is a quiet full-width strip above them; safety boundaries become one large thesis room plus three supporting evidence rooms.
+Before recognition, desktop uses one centered label-input room so the upload action has no competitor. After recognition, the workspace progressively becomes a 12-column composition: the label image owns seven columns and the correction form owns five.
 
-Rooms use 24px gaps and 32px outer radii. Below 1040px the workbench becomes one column in task order. Below 760px, horizontal workflow steps remain scrollable, all interactive targets stay at least 44px, and Bento radii reduce to 24px.
+Rooms use 24px gaps and 28px outer radii. Below 1040px the recognized workbench becomes one column in task order. Below 760px, all interactive targets stay at least 44px and surface radii reduce to 22px.
 
 ## Elevation & Depth
 
@@ -181,10 +182,10 @@ Outer Bento rooms use 32px corners, internal proof surfaces use 24px, and fields
 - Risk cannot rely on color alone.
 - Confidence is written as `OCR 62% · 需确认`.
 
-### Bento Rooms
+### Workspace Rooms
 
-- Rooms are unequal in size and each owns one workflow responsibility.
-- A room may use white, system ink, or a full optical field.
+- The input room uses one full optical field; the correction room is plain white.
+- The correction room is hidden until OCR results exist.
 - Generic icon-heading-text card repetition is not part of the system.
 
 ### Inputs / Fields
@@ -203,6 +204,7 @@ The signature room synchronizes uploaded imagery, OCR markers, and editable fiel
 
 - **Do** let one meaningful image or task dominate each viewport.
 - **Do** use unequal Bento rooms to communicate priority.
+- **Do** reveal correction controls only after recognition succeeds.
 - **Do** show the label beside the exact text being confirmed.
 - **Do** keep uncertainty and recovery actions visible before interpretation.
 - **Do** reserve full optical color fields for input, inspection, and product identity.
@@ -211,6 +213,7 @@ The signature room synchronizes uploaded imagery, OCR markers, and editable fiel
 
 - **Don't** copy Apple product imagery, copywriting, or proprietary assets.
 - **Don't** turn every fact into an equal card.
+- **Don't** expose roadmap stages, Agent routing, or implementation terminology to consumers.
 - **Don't** assign an absolute health score or imply medical clearance.
 - **Don't** use gradient text or decorative glass panels.
 - **Don't** use green alone to mean safe.

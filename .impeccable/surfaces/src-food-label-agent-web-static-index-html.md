@@ -13,7 +13,7 @@ related_targets: ["src/food_label_agent/web/static/styles.css","src/food_label_a
 - Primary action: confirm the ingredient text and continue analysis
 - Required truth: this milestone uses a demonstration OCR provider and must label synthetic output clearly
 - Critical states: empty, drag-over, uploading, OCR processing, low confidence, confirmed, invalid file, and server error
-- Direction: The Quiet Optical Bento, adapted from the user-supplied Apple Siri Bento reference without copying its assets
-- Memorable moment: the uploaded label settles as the visual hero inside a blue-violet optical room while the correction room reveals field confidence and precise recovery actions
+- Direction: Distilled optical workspace, retaining the supplied reference's spaciousness without decorative Bento repetition
+- Memorable moment: one upload room becomes a synchronized image-and-correction workspace only after OCR succeeds
 - Constraints: mobile-first capture, keyboard access, no absolute health score, no medical assurance, risk cannot rely on color alone
 - Open decisions: production OCR provider, persistent object storage, authentication, and deployment platform

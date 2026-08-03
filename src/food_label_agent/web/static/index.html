@@ -1,9 +1,9 @@
 <!--
-THESIS: Food-label evidence becomes calm and touchable; this surface refuses both clinical dashboards and decorative card collections.
-OWN-WORLD: Apple-like cool white space, ink-black type, optical blue-violet fields, oversized image crops, and a few deeply rounded Bento rooms.
-STORY: The user sees one promise, uploads one label, confirms uncertain text, and only then releases facts to the Agent.
-FIRST VIEWPORT: A generous thesis sits above an asymmetric Bento workbench; the image proof dominates left while a quiet correction room anchors right.
-FORM: Quiet optical Bento, pinned by the supplied Apple Siri reference; no concept seed was needed.
+THESIS: Uploading a food label is the product; this surface removes every explanation that delays that action.
+OWN-WORLD: Cool white space, ink-black type, one optical blue field, and the uploaded label as the only visual hero.
+STORY: The user uploads a label, checks the extracted text, and confirms it.
+FIRST VIEWPORT: A compact promise leads directly into one large upload surface; the correction panel appears only after recognition.
+FORM: Distilled optical workspace, refined from the user-reviewed Bento direction.
 -->
 <!doctype html>
 <html lang="zh-CN">
@@ -41,32 +41,14 @@ FORM: Quiet optical Bento, pinned by the supplied Apple Siri reference; no conce
 
     <main>
       <section class="intro" aria-labelledby="page-title">
-        <div class="intro-title">
-          <p class="stage-kicker">食鉴 · LABEL EVIDENCE AGENT</p>
-          <h1 id="page-title">看清每一行，<br><span>理解每一口。</span></h1>
-        </div>
-        <div class="intro-aside">
-          <span class="intro-orb" aria-hidden="true"></span>
-          <p class="intro-copy">
-            拍下配料表，逐项确认识别文字。只有标签事实得到确认后，Agent 才会进入配料解释、过敏原规则和官方标准检索。
-          </p>
-        </div>
+        <h1 id="page-title">拍下食品标签，<br><span>读懂配料与风险。</span></h1>
+        <p class="intro-copy">上传配料表、营养成分表或过敏原提示。</p>
       </section>
-
-      <ol class="workflow" aria-label="分析流程">
-        <li class="is-active" data-step="upload"><span>1</span><small>现在</small>上传与识别</li>
-        <li data-step="confirm"><span>2</span><small>随后</small>确认标签事实</li>
-        <li data-step="analyze"><span>3</span><small>下一阶段</small>风险与标准分析</li>
-        <li data-step="alternatives"><span>4</span><small>下一阶段</small>约束内替代品</li>
-      </ol>
 
       <section class="workbench" id="workspace" aria-label="食品标签上传与校对工作区">
         <div class="proof-column">
           <div class="proof-header">
-            <div>
-              <p class="measurement">01 · LABEL INPUT</p>
-              <h2>把标签放进来</h2>
-            </div>
+            <h2 id="proof-title">上传食品标签</h2>
             <span class="proof-state" id="proof-state">等待图片</span>
           </div>
 
@@ -88,8 +70,8 @@ FORM: Quiet optical Bento, pinned by the supplied Apple Siri reference; no conce
                   <path d="M16 22V6m0 0-6 6m6-6 6 6M6 20v6h20v-6" />
                 </svg>
               </span>
-              <strong>拍摄或拖入标签</strong>
-              <span>优先拍摄配料表与过敏原提示，文字尽量正对镜头</span>
+              <strong>拍照或上传</strong>
+              <span>确保文字清晰、完整</span>
               <span class="file-rules">JPG · PNG · WEBP · HEIC · 单张不超过 10 MB</span>
             </label>
 
@@ -111,89 +93,48 @@ FORM: Quiet optical Bento, pinned by the supplied Apple Siri reference; no conce
           </div>
 
           <p class="proof-note">
-            <strong>当前为交互演示。</strong> OCR 文字不会来自你上传的图片，仅用于验证上传、校对和 Agent 路由，不用于真实健康判断。
+            <strong>演示版：</strong>当前识别结果仅用于测试交互。
           </p>
+
+          <div class="error-state" id="error-state" hidden role="alert">
+            <strong>没有完成识别</strong>
+            <p id="error-message"></p>
+            <button class="text-button" id="retry-button" type="button">重新尝试</button>
+          </div>
         </div>
 
-        <aside class="review-rail" aria-labelledby="review-title">
+        <aside class="review-rail" id="review-rail" aria-labelledby="review-title" hidden>
           <div class="review-heading">
-            <div>
-              <p class="measurement">02 · HUMAN REVIEW</p>
-              <h2 id="review-title">你来做最终确认</h2>
-            </div>
+            <h2 id="review-title">确认识别文字</h2>
             <span class="review-count" id="review-count">0 项</span>
           </div>
 
-          <div class="empty-review" id="empty-review">
-            <span class="review-glyph" aria-hidden="true">Aa</span>
-            <p>识别后的文字，会在这里逐项展开。</p>
-            <small>低置信度字段必须由你确认，Agent 不会自行猜测。</small>
-          </div>
-
           <form id="confirmation-form" hidden novalidate>
-            <div class="synthetic-notice" role="note">
-              <span aria-hidden="true">△</span>
-              <div>
-                <strong>演示识别结果 · 非真实 OCR</strong>
-                <p>请把下方文字当作交互样例，不要据此判断当前食品。</p>
-              </div>
-            </div>
-
             <div class="field-list" id="field-list"></div>
 
             <div class="confirmation-actions">
               <button class="button button--primary" id="confirm-button" type="submit">
-                确认标签并继续
+                确认识别文字
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path d="m9 5 7 7-7 7" />
                 </svg>
               </button>
-              <p>确认后进入配料规范化。本阶段不会生成健康结论。</p>
             </div>
           </form>
 
           <div class="result-state" id="result-state" hidden tabindex="-1">
             <span class="result-symbol" aria-hidden="true">✓</span>
             <div>
-              <p class="measurement">LABEL FACTS · CONFIRMED</p>
-              <h3>标签事实已确认</h3>
-              <p id="result-message">可以进入下一阶段。</p>
+              <h3>识别文字已确认</h3>
+              <p id="result-message">已完成确认。</p>
             </div>
           </div>
-
-          <div class="error-state" id="error-state" hidden role="alert">
-            <strong>没有完成这一步</strong>
-            <p id="error-message"></p>
-            <button class="text-button" id="retry-button" type="button">重新尝试</button>
-          </div>
         </aside>
-      </section>
-
-      <section class="safety-boundary" aria-labelledby="boundary-title">
-        <div class="boundary-heading">
-          <p class="measurement">SAFETY · BUILT IN</p>
-          <h2 id="boundary-title">先确认事实，<br>再解释健康性。</h2>
-        </div>
-        <div class="boundary-list">
-          <article>
-            <span aria-hidden="true">×</span>
-            <div><strong>不越过证据</strong><p>不会根据演示文字判断你上传的食品是否安全。</p></div>
-          </article>
-          <article>
-            <span aria-hidden="true">✓</span>
-            <div><strong>确定性规则先行</strong><p>下一阶段规范化配料，并接入过敏原规则引擎。</p></div>
-          </article>
-          <article>
-            <span aria-hidden="true">↗</span>
-            <div><strong>官方标准可追溯</strong><p>最终按适用标准解释风险、标签声称和替代品。</p></div>
-          </article>
-        </div>
       </section>
     </main>
 
     <footer>
       <p>食鉴提供标签信息整理与解释，不构成医疗诊断或治疗建议。</p>
-      <p class="measurement">MILESTONE 02 · UPLOAD / OCR CONTRACT / CONFIRMATION</p>
     </footer>
 
     <div class="sr-only" id="live-region" aria-live="polite"></div>
