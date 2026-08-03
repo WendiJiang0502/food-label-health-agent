@@ -7,7 +7,7 @@
 - 混合 RAG（关键词 + 向量 + 重排 + 版本过滤）
 - 确定性过敏原规则引擎
 
-当前阶段完成了工程骨架、Agent 状态协议、安全路由、MCP 能力边界，以及可操作的图片上传与人工确认平台。平台当前使用明确标注的演示 OCR Provider；真实 OCR、法规数据和商品检索仍是后续里程碑，不会在当前界面中伪造实现。
+当前阶段完成了工程骨架、Agent 状态协议、安全路由、MCP 能力边界，以及可操作的图片上传与人工确认平台。平台默认使用明确标注的演示 OCR Provider；部署者可在服务器端启用 PP-OCRv6，本地模型识别结果仍必须经过人工确认。法规数据和商品检索仍是后续里程碑，不会在当前界面中伪造实现。
 
 ## 设计原则
 
@@ -41,7 +41,20 @@ python3 -m pip install -e '.[dev]'
 food-label-platform
 ```
 
-然后访问 `http://127.0.0.1:8000`。当前上传图片只在请求内读取，不默认写入磁盘。
+然后访问 `http://127.0.0.1:8000`。上传图片不会持久化；PP-OCRv6 适配器如需临时文件，会在单次识别结束后立即删除。
+
+### 服务器端启用 PP-OCRv6
+
+普通用户不需要配置 OCR。部署者安装可选 OCR 依赖与 PaddlePaddle 推理引擎后，只在服务器环境中设置：
+
+```bash
+export FOOD_LABEL_OCR_PROVIDER=paddle
+export FOOD_LABEL_OCR_VERSION=PP-OCRv6
+export FOOD_LABEL_OCR_DEVICE=cpu
+food-label-platform
+```
+
+真实 `.env`、私有标签样本、OCR 输出和模型缓存均被 Git 排除。完整安装与生产说明见下方配置教程。
 
 ## 文档
 

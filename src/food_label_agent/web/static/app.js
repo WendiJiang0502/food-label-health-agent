@@ -22,9 +22,11 @@ const elements = {
   errorMessage: document.querySelector("#error-message"),
   retryButton: document.querySelector("#retry-button"),
   liveRegion: document.querySelector("#live-region"),
+  ocrStatus: document.querySelector("#ocr-status"),
 };
 
 elements.heroUploadButton.addEventListener("click", () => elements.fileInput.click());
+loadHealthStatus();
 
 const state = {
   file: null,
@@ -267,4 +269,15 @@ function announce(message) {
   window.requestAnimationFrame(() => {
     elements.liveRegion.textContent = message;
   });
+}
+
+async function loadHealthStatus() {
+  try {
+    const response = await fetch("/api/health");
+    if (!response.ok) return;
+    const health = await response.json();
+    elements.ocrStatus.textContent = health.synthetic_ocr ? "演示 OCR" : "本地 PP-OCRv6";
+  } catch {
+    // The upload action remains available; request-level errors provide recovery.
+  }
 }

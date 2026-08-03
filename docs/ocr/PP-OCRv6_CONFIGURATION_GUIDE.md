@@ -1,6 +1,6 @@
 # PP-OCRv6 配置教程：中文食品标签优先，兼容英文版
 
-本文说明如何在当前 Food Label Health Agent 中配置本地 PP-OCRv6。第一阶段只完成环境验证和模型试运行，不会立即替换现有的 `DemoOCRProvider`；下一阶段再实现正式的 `PaddleOCRProvider` 和字段解析。
+本文说明如何在 Food Label Health Agent 的服务器端配置本地 PP-OCRv6。普通平台用户不需要配置 OCR，也不会接触模型路径、服务端环境变量或任何供应商凭证。代码已提供可切换的 `DemoOCRProvider` 与 `PaddleOCRProvider`；未配置时默认使用演示 Provider。
 
 ## 1. 这一步要建立什么
 
@@ -126,7 +126,7 @@ python -m pytest
 按 PaddlePaddle 当前官方 macOS 安装方式执行：
 
 ```bash
-python -m pip install paddlepaddle==3.3.0 \
+python -m pip install paddlepaddle==3.2.0 \
   -i https://www.paddlepaddle.org.cn/packages/stable/cpu/
 ```
 
@@ -227,7 +227,7 @@ for result in results:
 
 ```env
 FOOD_LABEL_OCR_PROVIDER=paddle
-FOOD_LABEL_OCR_MODEL=PP-OCRv6_medium
+FOOD_LABEL_OCR_VERSION=PP-OCRv6
 FOOD_LABEL_OCR_DEVICE=cpu
 FOOD_LABEL_OCR_USE_ORIENTATION=true
 FOOD_LABEL_OCR_USE_UNWARPING=true
@@ -236,7 +236,7 @@ FOOD_LABEL_OCR_ALLERGEN_THRESHOLD=0.95
 FOOD_LABEL_OCR_GENERAL_THRESHOLD=0.80
 ```
 
-这些变量是下一阶段的目标接口，目前代码尚未读取它们。提前定义它们的意义，是为了让开发机、测试环境和生产服务器共享配置合同，而不共享硬编码参数。
+这些变量由当前代码在应用启动时读取。它们只应设置在本地 shell、容器编排平台或云端配置管理中，不应保存为 GitHub 中的 `.env` 文件。仓库的 `.gitignore` 会排除 `.env`、`.env.*`、私有标签样本、OCR 输出和本地模型缓存。
 
 Provider 的目标关系为：
 
@@ -244,8 +244,8 @@ Provider 的目标关系为：
 Web API
   -> OCRService
     -> OCRProvider 协议
-      -> DemoOCRProvider（当前）
-      -> PaddleOCRProvider（下一阶段）
+      -> DemoOCRProvider（默认）
+      -> PaddleOCRProvider（设置 FOOD_LABEL_OCR_PROVIDER=paddle 后启用）
       -> CloudOCRFallbackProvider（以后可选）
 ```
 

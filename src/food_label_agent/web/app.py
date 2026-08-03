@@ -14,14 +14,15 @@ from starlette.routing import Mount, Route
 from starlette.staticfiles import StaticFiles
 
 from food_label_agent.ocr.models import ConfirmLabelRequest
-from food_label_agent.ocr.provider import DemoOCRProvider, OCRProvider
+from food_label_agent.ocr.paddle_provider import create_ocr_provider
+from food_label_agent.ocr.provider import OCRProvider
 from food_label_agent.ocr.service import InvalidImageError, OCRService
 
 STATIC_DIR = Path(__file__).with_name("static")
 
 
 def create_app(provider: OCRProvider | None = None) -> Starlette:
-    service = OCRService(provider or DemoOCRProvider())
+    service = OCRService(provider or create_ocr_provider())
 
     async def index(_: Request) -> FileResponse:
         return FileResponse(STATIC_DIR / "index.html")
