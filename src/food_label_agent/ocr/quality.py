@@ -100,7 +100,10 @@ def evaluate_quality_metrics(
     issues: list[ImageQualityIssue] = []
     short_side = min(metrics.width, metrics.height)
 
-    if short_side < 640:
+    # Resolution alone is an imperfect proxy: tightly cropped labels can remain
+    # readable at 500–600 px. Hard-block only truly tiny inputs, then let blur,
+    # contrast and text-area signals decide independently.
+    if short_side < 400:
         issues.append(
             ImageQualityIssue(
                 "IMAGE_TOO_SMALL",
@@ -108,7 +111,7 @@ def evaluate_quality_metrics(
                 "图片分辨率过低，请靠近标签重新拍摄",
             )
         )
-    elif short_side < 1000:
+    elif short_side < 800:
         issues.append(
             ImageQualityIssue(
                 "IMAGE_SIZE_CAUTION",

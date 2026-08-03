@@ -39,7 +39,7 @@ class RecordingRealProvider:
 
 def test_quality_metrics_block_blurry_small_text_image() -> None:
     metrics = ImageQualityMetrics(
-        width=500,
+        width=320,
         height=900,
         blur_score=22,
         brightness=130,
@@ -57,6 +57,23 @@ def test_quality_metrics_block_blurry_small_text_image() -> None:
         "IMAGE_BLURRY",
         "TEXT_AREA_TOO_SMALL",
     }
+
+
+def test_compact_but_sharp_crop_is_warned_not_blocked_by_size() -> None:
+    metrics = ImageQualityMetrics(
+        width=500,
+        height=900,
+        blur_score=240,
+        brightness=130,
+        contrast=42,
+        foreground_ratio=0.08,
+    )
+
+    issues = evaluate_quality_metrics(metrics)
+
+    assert [(issue.code, issue.severity) for issue in issues] == [
+        ("IMAGE_SIZE_CAUTION", QualitySeverity.WARNING)
+    ]
 
 
 def test_quality_gate_stops_provider_before_ocr() -> None:

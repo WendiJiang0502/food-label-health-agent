@@ -30,6 +30,7 @@ dev = [
 [project.scripts]
 food-label-agent = "food_label_agent.__main__:main"
 food-label-platform = "food_label_agent.web.app:run"
+food-label-ocr-eval = "food_label_agent.evaluation.ocr:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
