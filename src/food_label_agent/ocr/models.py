@@ -14,6 +14,14 @@ class BoundingBox(BaseModel):
     height: float = Field(gt=0, le=1)
 
 
+class OCRLineEvidence(BaseModel):
+    model_config = ConfigDict(frozen=True)
+
+    text: str
+    confidence: float = Field(ge=0, le=1)
+    bounding_box: BoundingBox | None = None
+
+
 class OCRFieldResult(BaseModel):
     model_config = ConfigDict(frozen=True)
 
@@ -23,6 +31,7 @@ class OCRFieldResult(BaseModel):
     confidence: float = Field(ge=0, le=1)
     requires_confirmation: bool
     bounding_box: BoundingBox | None = None
+    evidence_lines: list[OCRLineEvidence] = Field(default_factory=list)
 
 
 class OCRAnalysisResponse(BaseModel):
