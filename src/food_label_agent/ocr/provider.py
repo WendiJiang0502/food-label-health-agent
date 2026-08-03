@@ -17,6 +17,8 @@ class OCRInput:
     content: bytes
     file_name: str
     media_type: str
+    width: int | None = None
+    height: int | None = None
 
 
 class OCRProvider(Protocol):

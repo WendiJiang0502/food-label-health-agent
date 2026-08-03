@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import Any
 
 from .config import OCRConfigurationError, OCRSettings
-from .models import OCRFieldResult
+from .models import BoundingBox, OCRFieldResult
 from .provider import OCRInput
 
 _SECTION_STOP = re.compile(
@@ -29,6 +29,7 @@ _NUTRITION_BASIS = re.compile(
 class OCRLine:
     text: str
     confidence: float
+    bounding_box: BoundingBox | None = None
 
 
 class PaddleOCRProvider:
@@ -70,7 +71,9 @@ class PaddleOCRProvider:
                 temporary.write(image.content)
                 temporary_path = Path(temporary.name)
             results = self._engine.predict(str(temporary_path))
-            lines = _collect_lines(results)
+            lines = _collect_lines(
+                results, image_width=image.width, image_height=image.height
+            )
             if not lines:
                 return [
                     OCRFieldResult(
@@ -108,18 +111,30 @@ def _load_paddle_factory() -> Callable[..., Any]:
     return PaddleOCR
 
 
-def _collect_lines(results: Iterable[Any]) -> list[OCRLine]:
+def _collect_lines(
+    results: Iterable[Any], *, image_width: int | None, image_height: int | None
+) -> list[OCRLine]:
     lines: list[OCRLine] = []
     for result in results:
         payload = _result_payload(result)
         texts = list(payload.get("rec_texts", []))
         scores = list(payload.get("rec_scores", []))
+        boxes = list(payload.get("rec_boxes", []))
         for index, text in enumerate(texts):
             normalized = str(text).strip()
             if not normalized:
                 continue
             score = float(scores[index]) if index < len(scores) else 0.0
-            lines.append(OCRLine(text=normalized, confidence=max(0.0, min(score, 1.0))))
+            bounding_box = None
+            if index < len(boxes) and image_width and image_height:
+                bounding_box = _normalize_box(boxes[index], image_width, image_height)
+            lines.append(
+                OCRLine(
+                    text=normalized,
+                    confidence=max(0.0, min(score, 1.0)),
+                    bounding_box=bounding_box,
+                )
+            )
     return lines
 
 
@@ -185,7 +200,7 @@ def _ingredient_lines(lines: list[OCRLine]) -> list[OCRLine]:
         selected: list[OCRLine] = []
         inline_text = match.group(1).strip()
         if inline_text:
-            selected.append(OCRLine(inline_text, line.confidence))
+            selected.append(OCRLine(inline_text, line.confidence, line.bounding_box))
         for following in lines[index + 1 : index + 9]:
             if _SECTION_STOP.search(following.text):
                 break
@@ -213,7 +228,33 @@ def _field(
         raw_text="\n".join(line.text for line in lines),
         confidence=confidence,
         requires_confirmation=force_confirmation or confidence < threshold,
+        bounding_box=_union_box(lines),
     )
+
+
+def _normalize_box(box: Any, image_width: int, image_height: int) -> BoundingBox:
+    x_min, y_min, x_max, y_max = (float(value) for value in box[:4])
+    x = max(0.0, min(x_min / image_width, 1.0))
+    y = max(0.0, min(y_min / image_height, 1.0))
+    right = max(x, min(x_max / image_width, 1.0))
+    bottom = max(y, min(y_max / image_height, 1.0))
+    return BoundingBox(
+        x=x,
+        y=y,
+        width=max((right - x), 1 / image_width),
+        height=max((bottom - y), 1 / image_height),
+    )
+
+
+def _union_box(lines: list[OCRLine]) -> BoundingBox | None:
+    boxes = [line.bounding_box for line in lines if line.bounding_box is not None]
+    if not boxes:
+        return None
+    left = min(box.x for box in boxes)
+    top = min(box.y for box in boxes)
+    right = max(box.x + box.width for box in boxes)
+    bottom = max(box.y + box.height for box in boxes)
+    return BoundingBox(x=left, y=top, width=right - left, height=bottom - top)
 
 
 def _suffix_for(media_type: str) -> str:

@@ -28,6 +28,12 @@ class FakePaddleEngine:
                         "营养成分表 每100克",
                     ],
                     "rec_scores": [0.98, 0.96, 0.99, 0.97],
+                    "rec_boxes": [
+                        [100, 100, 900, 180],
+                        [100, 200, 800, 280],
+                        [100, 400, 1000, 480],
+                        [100, 600, 700, 680],
+                    ],
                 }
             }
         ]
@@ -67,6 +73,8 @@ def test_paddle_provider_maps_lines_and_deletes_temporary_image(
                 content=b"\x89PNG\r\n\x1a\nimage",
                 file_name="label.png",
                 media_type="image/png",
+                width=1200,
+                height=800,
             )
         )
     )
@@ -78,6 +86,11 @@ def test_paddle_provider_maps_lines_and_deletes_temporary_image(
     assert indexed["ingredients"].raw_text == "小麦粉、白砂糖\n植物油、食用盐"
     assert indexed["ingredients"].requires_confirmation is True
     assert indexed["ingredients"].confidence < 0.85
+    assert indexed["ingredients"].bounding_box is not None
+    assert indexed["ingredients"].bounding_box.x == pytest.approx(100 / 1200)
+    assert indexed["ingredients"].bounding_box.y == pytest.approx(100 / 800)
+    assert indexed["ingredients"].bounding_box.width == pytest.approx(800 / 1200)
+    assert indexed["ingredients"].bounding_box.height == pytest.approx(180 / 800)
     assert "可能含有花生" in indexed["allergen_statement"].raw_text
     assert "每100克" in indexed["nutrition_basis"].raw_text
     assert engine.received_path is not None

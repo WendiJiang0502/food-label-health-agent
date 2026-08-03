@@ -16,6 +16,7 @@ from starlette.staticfiles import StaticFiles
 from food_label_agent.ocr.models import ConfirmLabelRequest
 from food_label_agent.ocr.paddle_provider import create_ocr_provider
 from food_label_agent.ocr.provider import OCRProvider
+from food_label_agent.ocr.quality import ImageQualityError
 from food_label_agent.ocr.service import InvalidImageError, OCRService
 
 STATIC_DIR = Path(__file__).with_name("static")
@@ -51,7 +52,7 @@ def create_app(provider: OCRProvider | None = None) -> Starlette:
                 media_type=upload.content_type or "application/octet-stream",
             )
             return JSONResponse(result.model_dump(mode="json"))
-        except InvalidImageError as exc:
+        except (InvalidImageError, ImageQualityError) as exc:
             return _error(str(exc), status_code=422)
         except Exception:
             return _error("识别服务暂时不可用，请稍后重试。", status_code=500)

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import date
+from datetime import UTC, datetime
 from uuid import uuid4
 
 from food_label_agent.domain.models import LabelField
@@ -11,6 +11,7 @@ from food_label_agent.graph.state import create_initial_state
 
 from .models import ConfirmLabelRequest, ConfirmLabelResponse, OCRAnalysisResponse
 from .provider import OCRInput, OCRProvider
+from .quality import ImageQualityError, ImageQualityReport, assess_image_quality
 
 MAX_IMAGE_BYTES = 10 * 1024 * 1024
 ALLOWED_MEDIA_TYPES = {
@@ -27,8 +28,14 @@ class InvalidImageError(ValueError):
 
 
 class OCRService:
-    def __init__(self, provider: OCRProvider) -> None:
+    def __init__(
+        self,
+        provider: OCRProvider,
+        *,
+        quality_assessor=assess_image_quality,
+    ) -> None:
         self.provider = provider
+        self.quality_assessor = quality_assessor
 
     async def analyze(
         self,
@@ -38,14 +45,25 @@ class OCRService:
         media_type: str,
     ) -> OCRAnalysisResponse:
         self._validate_image(content=content, media_type=media_type)
+        quality: ImageQualityReport | None = None
+        if not self.provider.synthetic:
+            quality = self.quality_assessor(content)
+            if quality.blocking_issues:
+                raise ImageQualityError(quality)
         fields = await self.provider.analyze(
-            OCRInput(content=content, file_name=file_name, media_type=media_type)
+            OCRInput(
+                content=content,
+                file_name=file_name,
+                media_type=media_type,
+                width=quality.metrics.width if quality else None,
+                height=quality.metrics.height if quality else None,
+            )
         )
         request_id = str(uuid4())
         state = create_initial_state(
             request_id=request_id,
             jurisdiction="CN",
-            applicable_date=date.today().isoformat(),
+            applicable_date=datetime.now(UTC).date().isoformat(),
         )
         state["label_fields"] = {
             field.name: LabelField(
@@ -59,6 +77,8 @@ class OCRService:
         warnings = []
         if self.provider.synthetic:
             warnings.append("演示识别结果，不代表图片的真实 OCR 内容。")
+        if quality:
+            warnings.extend(quality.warnings)
         return OCRAnalysisResponse(
             request_id=request_id,
             provider=self.provider.name,
