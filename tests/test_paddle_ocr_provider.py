@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import os
 from pathlib import Path
 
 import pytest
@@ -45,15 +46,20 @@ def test_invalid_boolean_configuration_fails_fast() -> None:
         OCRSettings.from_environment({"FOOD_LABEL_OCR_USE_UNWARPING": "maybe"})
 
 
-def test_paddle_provider_maps_lines_and_deletes_temporary_image() -> None:
+def test_paddle_provider_maps_lines_and_deletes_temporary_image(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     engine = FakePaddleEngine()
     captured_options = {}
+    monkeypatch.delenv("PADDLE_PDX_CACHE_HOME", raising=False)
 
     def factory(**options):
         captured_options.update(options)
         return engine
 
-    settings = OCRSettings(provider="paddle", use_unwarping=False)
+    settings = OCRSettings(
+        provider="paddle", use_unwarping=False, cache_dir=str(tmp_path / "models")
+    )
     provider = PaddleOCRProvider(settings, engine_factory=factory)
     fields = asyncio.run(
         provider.analyze(
@@ -68,6 +74,7 @@ def test_paddle_provider_maps_lines_and_deletes_temporary_image() -> None:
     indexed = {field.name: field for field in fields}
     assert captured_options["ocr_version"] == "PP-OCRv6"
     assert captured_options["use_doc_unwarping"] is False
+    assert Path(os.environ["PADDLE_PDX_CACHE_HOME"]) == tmp_path / "models"
     assert indexed["ingredients"].raw_text == "小麦粉、白砂糖\n植物油、食用盐"
     assert indexed["ingredients"].requires_confirmation is True
     assert indexed["ingredients"].confidence < 0.85

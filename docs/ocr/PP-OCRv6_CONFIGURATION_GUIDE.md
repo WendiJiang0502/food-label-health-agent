@@ -229,12 +229,15 @@ for result in results:
 FOOD_LABEL_OCR_PROVIDER=paddle
 FOOD_LABEL_OCR_VERSION=PP-OCRv6
 FOOD_LABEL_OCR_DEVICE=cpu
+FOOD_LABEL_OCR_CACHE_DIR=.paddlex
 FOOD_LABEL_OCR_USE_ORIENTATION=true
 FOOD_LABEL_OCR_USE_UNWARPING=true
 FOOD_LABEL_OCR_USE_TEXTLINE_ORIENTATION=true
 FOOD_LABEL_OCR_ALLERGEN_THRESHOLD=0.95
 FOOD_LABEL_OCR_GENERAL_THRESHOLD=0.80
 ```
+
+中国大陆的服务器可另外设置 `PADDLE_PDX_MODEL_SOURCE=bos`，让首次模型下载优先使用 Paddle 官方 BOS。该变量只影响部署时的模型来源，不会发送用户图片到云端；完成下载后，识别仍在本地运行。
 
 这些变量由当前代码在应用启动时读取。它们只应设置在本地 shell、容器编排平台或云端配置管理中，不应保存为 GitHub 中的 `.env` 文件。仓库的 `.gitignore` 会排除 `.env`、`.env.*`、私有标签样本、OCR 输出和本地模型缓存。
 

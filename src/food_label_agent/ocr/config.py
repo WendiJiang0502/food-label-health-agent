@@ -45,6 +45,7 @@ class OCRSettings:
     provider: str = "demo"
     version: str = "PP-OCRv6"
     device: str = "cpu"
+    cache_dir: str | None = None
     use_orientation: bool = True
     use_unwarping: bool = True
     use_textline_orientation: bool = True
@@ -63,6 +64,7 @@ class OCRSettings:
             provider=provider,
             version=source.get("FOOD_LABEL_OCR_VERSION", "PP-OCRv6").strip(),
             device=source.get("FOOD_LABEL_OCR_DEVICE", "cpu").strip(),
+            cache_dir=source.get("FOOD_LABEL_OCR_CACHE_DIR") or None,
             use_orientation=_read_bool(
                 source, "FOOD_LABEL_OCR_USE_ORIENTATION", True
             ),

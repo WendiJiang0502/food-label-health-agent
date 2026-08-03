@@ -51,6 +51,8 @@ food-label-platform
 export FOOD_LABEL_OCR_PROVIDER=paddle
 export FOOD_LABEL_OCR_VERSION=PP-OCRv6
 export FOOD_LABEL_OCR_DEVICE=cpu
+export FOOD_LABEL_OCR_CACHE_DIR=.paddlex
+export PADDLE_PDX_MODEL_SOURCE=bos  # 中国大陆部署可优先使用
 food-label-platform
 ```
 

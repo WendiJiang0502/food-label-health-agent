@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import os
 import re
 import tempfile
 from collections.abc import Callable, Iterable, Mapping
@@ -43,6 +44,11 @@ class PaddleOCRProvider:
     ) -> None:
         self.settings = settings
         self.name = f"paddleocr-{settings.version.lower()}"
+        if settings.cache_dir:
+            os.environ.setdefault(
+                "PADDLE_PDX_CACHE_HOME",
+                str(Path(settings.cache_dir).expanduser().resolve()),
+            )
         factory = engine_factory or _load_paddle_factory()
         self._engine = factory(
             ocr_version=settings.version,
