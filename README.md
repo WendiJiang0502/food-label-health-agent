@@ -47,5 +47,6 @@ food-label-platform
 
 - [中英双语产品说明书](./Food_Label_Health_Agent_Product_Spec_Bilingual.md)
 - [ADR-001：Agent 状态与安全路由](./docs/architecture/ADR-001-agent-state-and-safety-routing.md)
+- [PP-OCRv6 配置教程](./docs/ocr/PP-OCRv6_CONFIGURATION_GUIDE.md)
 - [产品上下文](./PRODUCT.md)
 - [界面设计系统](./DESIGN.md)
