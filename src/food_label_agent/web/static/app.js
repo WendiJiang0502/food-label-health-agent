@@ -59,6 +59,15 @@ elements.dropZone.addEventListener("drop", (event) => {
 });
 
 elements.replaceImage.addEventListener("click", () => elements.fileInput.click());
+elements.preview.addEventListener("load", () => {
+  if (state.analysis) renderAnnotations(state.analysis.fields);
+});
+
+const annotationResizeObserver = new ResizeObserver(() => {
+  if (state.analysis) renderAnnotations(state.analysis.fields);
+});
+annotationResizeObserver.observe(elements.imageStage);
+
 elements.retryButton.addEventListener("click", () => {
   hideError();
   if (state.file) analyzeFile(state.file);
@@ -222,6 +231,9 @@ function renderFields(fields) {
 
 function renderAnnotations(fields) {
   elements.annotationLayer.replaceChildren();
+  const imageRect = containedImageRect();
+  if (!imageRect) return;
+
   fields.forEach((field) => {
     if (!field.bounding_box) return;
     const marker = document.createElement("button");
@@ -229,16 +241,34 @@ function renderAnnotations(fields) {
     marker.className = "annotation";
     marker.dataset.fieldName = field.name;
     marker.setAttribute("aria-label", `查看${field.label}识别字段`);
-    marker.style.left = `${field.bounding_box.x * 100}%`;
-    marker.style.top = `${field.bounding_box.y * 100}%`;
-    marker.style.width = `${field.bounding_box.width * 100}%`;
-    marker.style.height = `${field.bounding_box.height * 100}%`;
+    marker.style.left = `${imageRect.offsetX + field.bounding_box.x * imageRect.width}px`;
+    marker.style.top = `${imageRect.offsetY + field.bounding_box.y * imageRect.height}px`;
+    marker.style.width = `${field.bounding_box.width * imageRect.width}px`;
+    marker.style.height = `${field.bounding_box.height * imageRect.height}px`;
     marker.addEventListener("click", () => {
       activateField(field.name);
       document.querySelector(`#field-${field.name}`)?.focus();
     });
     elements.annotationLayer.append(marker);
   });
+}
+
+function containedImageRect() {
+  const naturalWidth = elements.preview.naturalWidth;
+  const naturalHeight = elements.preview.naturalHeight;
+  const stageWidth = elements.imageStage.clientWidth;
+  const stageHeight = elements.imageStage.clientHeight;
+  if (!naturalWidth || !naturalHeight || !stageWidth || !stageHeight) return null;
+
+  const scale = Math.min(stageWidth / naturalWidth, stageHeight / naturalHeight);
+  const width = naturalWidth * scale;
+  const height = naturalHeight * scale;
+  return {
+    width,
+    height,
+    offsetX: (stageWidth - width) / 2,
+    offsetY: (stageHeight - height) / 2,
+  };
 }
 
 function activateField(name) {
