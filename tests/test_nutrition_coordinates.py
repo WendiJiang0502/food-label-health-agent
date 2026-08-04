@@ -3,6 +3,7 @@ from food_label_agent.ocr.models import BoundingBox, OCRFieldResult
 from food_label_agent.ocr.nutrition_coordinates import (
     choose_best_nutrition_table,
     extract_coordinate_nutrition_table,
+    has_complete_core_nutrition_table,
 )
 
 
@@ -38,6 +39,7 @@ def test_coordinate_rows_recover_nutrient_value_relationships() -> None:
         ["蛋白质", "3.2克"],
         ["钠", "55毫克"],
     ]
+    assert has_complete_core_nutrition_table(field) is False
 
 
 def test_vertical_or_distant_values_are_not_joined_into_rows() -> None:
@@ -76,3 +78,18 @@ def test_best_table_prefers_more_complete_nutrient_coverage() -> None:
     assert selected.name == "nutrition_table"
     assert selected.raw_text == complete.raw_text
     assert selected.requires_confirmation is True
+
+
+def test_complete_core_table_can_skip_heavy_structure_pipeline() -> None:
+    complete = OCRFieldResult(
+        name="nutrition_table",
+        label="营养成分表",
+        raw_text=(
+            "每100克 能量271千焦 蛋白质3.2克 脂肪3.6克 "
+            "碳水化合物4.9克 钠55毫克"
+        ),
+        confidence=0.84,
+        requires_confirmation=True,
+    )
+
+    assert has_complete_core_nutrition_table(complete) is True

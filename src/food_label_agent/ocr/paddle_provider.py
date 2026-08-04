@@ -15,6 +15,7 @@ from .models import BoundingBox, OCRFieldResult
 from .nutrition_coordinates import (
     choose_best_nutrition_table,
     extract_coordinate_nutrition_table,
+    has_complete_core_nutrition_table,
 )
 from .ppstructure_provider import PPStructureNutritionParser
 from .provider import OCRInput
@@ -87,8 +88,10 @@ class PaddleOCRProvider:
             coordinate_table = extract_coordinate_nutrition_table(lines)
             if coordinate_table is not None:
                 table_candidates.append(coordinate_table)
-            if self._table_parser is not None and any(
-                field.name == "nutrition_basis" for field in fields
+            if (
+                self._table_parser is not None
+                and not has_complete_core_nutrition_table(coordinate_table)
+                and any(field.name == "nutrition_basis" for field in fields)
             ):
                 table_candidates.extend(self._table_parser.analyze(str(temporary_path)))
             best_table = choose_best_nutrition_table(table_candidates)

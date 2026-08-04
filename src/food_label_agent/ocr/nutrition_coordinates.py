@@ -10,6 +10,7 @@ from .models import BoundingBox, OCRFieldResult, OCRLineEvidence
 from .nutrition import validate_nutrition_table
 
 _NUTRIENTS = ("能量", "蛋白质", "脂肪", "碳水化合物", "钠", "钙")
+_CORE_NUTRIENTS = ("能量", "蛋白质", "脂肪", "碳水化合物", "钠")
 _VALUE = re.compile(r"^\s*(-?\d+(?:\.\d+)?)\s*(千焦|kJ|克|g|毫克|mg)\s*$", re.IGNORECASE)
 _BASIS = re.compile(r"每\s*100\s*(?:克|g|毫升|ml)|每\s*份", re.IGNORECASE)
 
@@ -100,6 +101,15 @@ def choose_best_nutrition_table(
     )
 
 
+def has_complete_core_nutrition_table(field: OCRFieldResult | None) -> bool:
+    if field is None:
+        return False
+    text = _normalize(field.raw_text)
+    return bool(_BASIS.search(text)) and all(
+        nutrient in text for nutrient in _CORE_NUTRIENTS
+    )
+
+
 def _pair(label: OCRLine, value: OCRLine) -> _Pair | None:
     assert label.bounding_box is not None
     assert value.bounding_box is not None
@@ -138,4 +148,3 @@ def _union_box(lines: list[OCRLine]) -> BoundingBox | None:
 
 def _normalize(value: str) -> str:
     return re.sub(r"\s+", "", value)
-
