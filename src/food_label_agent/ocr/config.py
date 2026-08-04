@@ -56,18 +56,21 @@ class OCRSettings:
     allergen_threshold: float = 0.95
     table_parser: str = "disabled"
     table_ocr_version: str = "PP-OCRv5"
+    tencent_region: str = "ap-guangzhou"
+    tencent_table_enabled: bool = True
+    tencent_table_new_model: bool = False
 
     @classmethod
     def from_environment(cls, values: Mapping[str, str] | None = None) -> OCRSettings:
         source = environ if values is None else values
         provider = source.get("FOOD_LABEL_OCR_PROVIDER", "demo").strip().lower()
-        if provider not in {"demo", "paddle"}:
+        if provider not in {"demo", "paddle", "tencent"}:
             raise OCRConfigurationError(
-                "FOOD_LABEL_OCR_PROVIDER 目前只支持 demo 或 paddle。"
+                "FOOD_LABEL_OCR_PROVIDER 目前只支持 demo、paddle 或 tencent。"
             )
-        table_parser = source.get(
-            "FOOD_LABEL_OCR_TABLE_PARSER", "disabled"
-        ).strip().lower()
+        table_parser = (
+            source.get("FOOD_LABEL_OCR_TABLE_PARSER", "disabled").strip().lower()
+        )
         if table_parser not in {"disabled", "ppstructure"}:
             raise OCRConfigurationError(
                 "FOOD_LABEL_OCR_TABLE_PARSER 目前只支持 disabled 或 ppstructure。"
@@ -77,18 +80,12 @@ class OCRSettings:
             version=source.get("FOOD_LABEL_OCR_VERSION", "PP-OCRv6").strip(),
             device=source.get("FOOD_LABEL_OCR_DEVICE", "cpu").strip(),
             cache_dir=source.get("FOOD_LABEL_OCR_CACHE_DIR") or None,
-            use_orientation=_read_bool(
-                source, "FOOD_LABEL_OCR_USE_ORIENTATION", False
-            ),
-            use_unwarping=_read_bool(
-                source, "FOOD_LABEL_OCR_USE_UNWARPING", False
-            ),
+            use_orientation=_read_bool(source, "FOOD_LABEL_OCR_USE_ORIENTATION", False),
+            use_unwarping=_read_bool(source, "FOOD_LABEL_OCR_USE_UNWARPING", False),
             use_textline_orientation=_read_bool(
                 source, "FOOD_LABEL_OCR_USE_TEXTLINE_ORIENTATION", True
             ),
-            fast_path_enabled=_read_bool(
-                source, "FOOD_LABEL_OCR_FAST_PATH", True
-            ),
+            fast_path_enabled=_read_bool(source, "FOOD_LABEL_OCR_FAST_PATH", True),
             fast_detection_model=source.get(
                 "FOOD_LABEL_OCR_FAST_DETECTION_MODEL", "PP-OCRv6_medium_det"
             ).strip(),
@@ -105,4 +102,13 @@ class OCRSettings:
             table_ocr_version=source.get(
                 "FOOD_LABEL_OCR_TABLE_OCR_VERSION", "PP-OCRv5"
             ).strip(),
+            tencent_region=source.get(
+                "FOOD_LABEL_TENCENT_REGION", "ap-guangzhou"
+            ).strip(),
+            tencent_table_enabled=_read_bool(
+                source, "FOOD_LABEL_TENCENT_TABLE_ENABLED", True
+            ),
+            tencent_table_new_model=_read_bool(
+                source, "FOOD_LABEL_TENCENT_TABLE_NEW_MODEL", False
+            ),
         )

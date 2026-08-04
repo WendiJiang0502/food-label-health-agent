@@ -25,6 +25,7 @@ class PaddleOCRProvider:
     """Local PP-OCR provider loaded once for the lifetime of the server process."""
 
     synthetic = False
+    remote_processing = False
 
     def __init__(
         self,
@@ -63,9 +64,7 @@ class PaddleOCRProvider:
             with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as temporary:
                 temporary.write(image.content)
                 temporary_path = Path(temporary.name)
-            use_fast_path = (
-                self.settings.fast_path_enabled and image.fast_path_allowed
-            )
+            use_fast_path = self.settings.fast_path_enabled and image.fast_path_allowed
             primary_engine = (
                 self._engine if use_fast_path else self._get_fallback_engine()
             )
@@ -82,9 +81,7 @@ class PaddleOCRProvider:
                 ]
             fields = parse_food_label_fields(lines, self.settings)
             coordinate_table = extract_coordinate_nutrition_table(lines)
-            if use_fast_path and not _fast_path_complete(
-                fields, coordinate_table
-            ):
+            if use_fast_path and not _fast_path_complete(fields, coordinate_table):
                 lines = self._predict_lines(
                     self._get_fallback_engine(), temporary_path, image
                 )
@@ -168,6 +165,10 @@ def create_ocr_provider(settings: OCRSettings | None = None):
         from .provider import DemoOCRProvider
 
         return DemoOCRProvider()
+    if resolved.provider == "tencent":
+        from .tencent_provider import TencentCloudOCRProvider
+
+        return TencentCloudOCRProvider(resolved)
     return PaddleOCRProvider(resolved)
 
 
@@ -247,9 +248,7 @@ def _suffix_for(media_type: str) -> str:
 def _fast_path_complete(
     fields: list[OCRFieldResult], nutrition_table: OCRFieldResult | None
 ) -> bool:
-    ingredients = next(
-        (field for field in fields if field.name == "ingredients"), None
-    )
+    ingredients = next((field for field in fields if field.name == "ingredients"), None)
     return bool(
         ingredients
         and ingredients.raw_text.strip()

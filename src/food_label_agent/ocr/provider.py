@@ -34,6 +34,7 @@ class DemoOCRProvider:
 
     name = "demo-ocr-provider"
     synthetic = True
+    remote_processing = False
 
     async def analyze(self, image: OCRInput) -> list[OCRFieldResult]:
         del image
