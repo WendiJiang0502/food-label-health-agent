@@ -12,6 +12,15 @@ from typing import Protocol
 from .models import BoundingBox, OCRFieldResult
 
 
+class OCRProviderError(RuntimeError):
+    """Safe, provider-neutral error that may be shown to operators or users."""
+
+    def __init__(self, code: str, message: str, *, retryable: bool = False) -> None:
+        super().__init__(message)
+        self.code = code
+        self.retryable = retryable
+
+
 @dataclass(frozen=True, slots=True)
 class OCRInput:
     content: bytes

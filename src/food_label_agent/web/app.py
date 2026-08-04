@@ -15,7 +15,7 @@ from starlette.staticfiles import StaticFiles
 
 from food_label_agent.ocr.models import ConfirmLabelRequest
 from food_label_agent.ocr.paddle_provider import create_ocr_provider
-from food_label_agent.ocr.provider import OCRProvider
+from food_label_agent.ocr.provider import OCRProvider, OCRProviderError
 from food_label_agent.ocr.quality import ImageQualityError
 from food_label_agent.ocr.service import InvalidImageError, OCRService
 
@@ -57,6 +57,8 @@ def create_app(provider: OCRProvider | None = None) -> Starlette:
             return JSONResponse(result.model_dump(mode="json"))
         except (InvalidImageError, ImageQualityError) as exc:
             return _error(str(exc), status_code=422)
+        except OCRProviderError as exc:
+            return _error(str(exc), status_code=503, code=exc.code)
         except Exception:
             return _error("识别服务暂时不可用，请稍后重试。", status_code=500)
 
@@ -84,9 +86,9 @@ def create_app(provider: OCRProvider | None = None) -> Starlette:
     return Starlette(debug=False, routes=routes)
 
 
-def _error(message: str, *, status_code: int) -> JSONResponse:
+def _error(message: str, *, status_code: int, code: str | None = None) -> JSONResponse:
     return JSONResponse(
-        {"status": "error", "message": message},
+        {"status": "error", "message": message, **({"code": code} if code else {})},
         status_code=status_code,
     )
 

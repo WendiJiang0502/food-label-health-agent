@@ -6,7 +6,7 @@ from types import SimpleNamespace
 import pytest
 
 from food_label_agent.ocr.config import OCRSettings
-from food_label_agent.ocr.provider import OCRInput
+from food_label_agent.ocr.provider import OCRInput, OCRProviderError
 from food_label_agent.ocr.tencent_provider import TencentCloudOCRProvider
 
 
@@ -188,3 +188,31 @@ def test_tencent_environment_settings_are_server_only() -> None:
     assert settings.tencent_region == "ap-shanghai"
     assert settings.tencent_table_enabled is False
     assert settings.tencent_table_new_model is True
+
+
+def test_tencent_unopened_service_is_translated_to_safe_operator_error() -> None:
+    class TencentLikeError(Exception):
+        def get_code(self):
+            return "FailedOperation.UnOpenError"
+
+    client = FakeClient()
+    client.GeneralAccurateOCR = lambda request: (_ for _ in ()).throw(
+        TencentLikeError("raw provider message")
+    )
+
+    with pytest.raises(OCRProviderError) as captured:
+        asyncio.run(
+            provider(client).analyze(
+                OCRInput(
+                    content=b"image-bytes",
+                    file_name="label.jpg",
+                    media_type="image/jpeg",
+                    width=1000,
+                    height=800,
+                )
+            )
+        )
+
+    assert captured.value.code == "FailedOperation.UnOpenError"
+    assert captured.value.retryable is False
+    assert "服务尚未开通" in str(captured.value)

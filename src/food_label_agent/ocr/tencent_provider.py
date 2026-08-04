@@ -17,7 +17,7 @@ from .config import OCRConfigurationError, OCRSettings
 from .field_parser import OCRLine, parse_food_label_fields
 from .models import BoundingBox, OCRFieldResult, OCRLineEvidence
 from .nutrition import validate_nutrition_table
-from .provider import OCRInput
+from .provider import OCRInput, OCRProviderError
 
 _NUTRITION_CUES = ("营养成分", "能量", "蛋白质", "脂肪", "碳水化合物", "钠")
 
@@ -54,6 +54,15 @@ class TencentCloudOCRProvider:
             return await asyncio.to_thread(self._analyze_sync, image)
 
     def _analyze_sync(self, image: OCRInput) -> list[OCRFieldResult]:
+        try:
+            return self._call_ocr(image)
+        except Exception as exc:
+            translated = _translate_tencent_error(exc)
+            if translated is not None:
+                raise translated from exc
+            raise
+
+    def _call_ocr(self, image: OCRInput) -> list[OCRFieldResult]:
         encoded = b64encode(image.content).decode("ascii")
         request = self._general_request_factory()
         request.ImageBase64 = encoded
@@ -78,6 +87,39 @@ class TencentCloudOCRProvider:
             if table_field is not None:
                 fields.append(table_field)
         return fields
+
+
+def _translate_tencent_error(exc: Exception) -> OCRProviderError | None:
+    get_code = getattr(exc, "get_code", None)
+    if not callable(get_code):
+        return None
+    code = str(get_code() or "TencentCloud.Unknown")
+    if code == "FailedOperation.UnOpenError":
+        return OCRProviderError(
+            code,
+            "腾讯云 OCR 服务尚未开通，请在文字识别控制台同意服务条款并点击立即开通。",
+        )
+    if code.startswith("AuthFailure"):
+        return OCRProviderError(
+            code,
+            "腾讯云 OCR 凭证验证失败，请检查服务端 SecretId、SecretKey 和系统时间。",
+        )
+    if code in {"UnauthorizedOperation", "AuthFailure.UnauthorizedOperation"}:
+        return OCRProviderError(
+            code,
+            "腾讯云 OCR 子账号权限不足，请检查 CAM 最小权限策略。",
+        )
+    if code == "ResourceUnavailable.ResourcePackageRunOut":
+        return OCRProviderError(
+            code,
+            "腾讯云 OCR 资源包已用尽，请检查用量或计费设置。",
+        )
+    retryable = code.startswith(("RequestLimitExceeded", "InternalError"))
+    return OCRProviderError(
+        code,
+        "腾讯云 OCR 暂时无法完成识别，请稍后重试。",
+        retryable=retryable,
+    )
 
 
 def _load_sdk(

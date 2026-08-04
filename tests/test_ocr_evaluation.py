@@ -1,3 +1,9 @@
+import asyncio
+from pathlib import Path
+from types import SimpleNamespace
+
+import pytest
+
 from food_label_agent.evaluation.ocr import (
     character_error_rate,
     compare_fields,
@@ -6,6 +12,7 @@ from food_label_agent.evaluation.ocr import (
     nutrient_value_alignment_accuracy,
     token_recall,
 )
+from food_label_agent.ocr.provider import OCRProviderError
 
 
 def test_image_type_comes_from_file_signature_not_filename() -> None:
@@ -54,3 +61,34 @@ def test_compare_fields_reports_field_allergen_and_number_metrics() -> None:
     assert metrics["numeric_token_recall"] == 1
     assert metrics["numeric_token_f1"] == 1
     assert metrics["nutrient_value_alignment_accuracy"] is None
+
+
+def test_directory_evaluation_stops_after_non_retryable_provider_error(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from food_label_agent.evaluation import ocr as evaluation
+
+    for index in range(3):
+        (tmp_path / f"{index}.jpg").write_bytes(b"\xff\xd8\xffimage")
+
+    class FailingService:
+        calls = 0
+
+        def __init__(self, provider):
+            del provider
+
+        async def analyze(self, **kwargs):
+            del kwargs
+            type(self).calls += 1
+            raise OCRProviderError("FailedOperation.UnOpenError", "not open")
+
+    monkeypatch.setattr(
+        evaluation, "create_ocr_provider", lambda: SimpleNamespace(name="failing")
+    )
+    monkeypatch.setattr(evaluation, "OCRService", FailingService)
+
+    report = asyncio.run(evaluation.evaluate_directory(tmp_path))
+
+    assert FailingService.calls == 1
+    assert report["provider_error_count"] == 1
+    assert report["recognized_count"] == 0

@@ -14,6 +14,7 @@ from typing import Any
 
 from food_label_agent.ocr.normalization import normalize_nutrition_text
 from food_label_agent.ocr.paddle_provider import create_ocr_provider
+from food_label_agent.ocr.provider import OCRProviderError
 from food_label_agent.ocr.quality import ImageQualityError
 from food_label_agent.ocr.service import OCRService
 
@@ -55,11 +56,7 @@ def numeric_token_metrics(
     matched = sum((expected & actual).values())
     recall = matched / sum(expected.values())
     precision = matched / sum(actual.values()) if actual else 0.0
-    f1 = (
-        2 * precision * recall / (precision + recall)
-        if precision + recall
-        else 0.0
-    )
+    f1 = 2 * precision * recall / (precision + recall) if precision + recall else 0.0
     return {"precision": precision, "recall": recall, "f1": f1}
 
 
@@ -112,6 +109,19 @@ async def evaluate_directory(images_dir: Path) -> dict[str, Any]:
                 {"sample_id": sample_id, "status": "blocked", "issues": codes}
             )
             continue
+        except OCRProviderError as exc:
+            issue_counts.update([exc.code])
+            samples.append(
+                {
+                    "sample_id": sample_id,
+                    "status": "provider_error",
+                    "issues": [exc.code],
+                    "retryable": exc.retryable,
+                }
+            )
+            if not exc.retryable:
+                break
+            continue
 
         fields = {field.name: field.raw_text for field in response.fields}
         sample: dict[str, Any] = {
@@ -136,12 +146,16 @@ async def evaluate_directory(images_dir: Path) -> dict[str, Any]:
         samples.append(sample)
 
     recognized = sum(sample["status"] == "recognized" for sample in samples)
+    blocked = sum(sample["status"] == "blocked" for sample in samples)
     return {
         "schema_version": "1.0",
         "provider": provider.name,
         "sample_count": len(samples),
         "recognized_count": recognized,
-        "blocked_count": len(samples) - recognized,
+        "blocked_count": blocked,
+        "provider_error_count": sum(
+            sample["status"] == "provider_error" for sample in samples
+        ),
         "blocking_issue_counts": dict(sorted(issue_counts.items())),
         "samples": samples,
     }
@@ -172,9 +186,7 @@ def compare_fields(
         if name in {"nutrition_basis", "nutrition_table"}:
             expected_text = normalize_nutrition_text(expected_text)
             actual_text = normalize_nutrition_text(actual_text)
-        field_cer[name] = round(
-            character_error_rate(expected_text, actual_text), 4
-        )
+        field_cer[name] = round(character_error_rate(expected_text, actual_text), 4)
     combined = "\n".join(actual_fields.values())
     expected_combined = " ".join(str(value) for value in expected_fields.values())
     numeric = numeric_token_metrics(expected_combined, combined)

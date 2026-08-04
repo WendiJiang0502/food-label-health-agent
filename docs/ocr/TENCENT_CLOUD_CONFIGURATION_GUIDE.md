@@ -44,6 +44,8 @@ SDK 会优先读取 `TENCENTCLOUD_SECRET_ID` 和 `TENCENTCLOUD_SECRET_KEY` 环�
 
 ## 3. 安装与启动
 
+购买资源包后，还必须进入[腾讯云文字识别控制台](https://console.cloud.tencent.com/ocr)，阅读并同意服务条款，然后点击“立即开通”。资源包只负责抵扣调用量，不会代替服务开通。若 API 返回 `FailedOperation.UnOpenError`，说明请求已经到达腾讯云，但 OCR 服务仍未开通；该错误不计费。
+
 ```bash
 python3 -m pip install -e '.[cloud-ocr,dev]'
 export FOOD_LABEL_OCR_PROVIDER=tencent
@@ -94,3 +96,15 @@ food-label-platform
 - [ ] 低置信度或字段不完整时进入人工确认；
 - [ ] 私有样本、响应原文和密钥没有进入 Git；
 - [ ] 使用量、延迟、错误码和降级策略纳入生产监控。
+
+## 7. 常见错误
+
+| 错误码 | 系统处理 | 操作建议 |
+|---|---|---|
+| `FailedOperation.UnOpenError` | 立即停止整批评测 | 在 OCR 控制台同意条款并开通服务 |
+| `AuthFailure.*` | 立即停止 | 检查服务端凭证和系统时间，不要输出密钥 |
+| `UnauthorizedOperation` | 立即停止 | 检查 CAM 子账号最小权限策略 |
+| `ResourceUnavailable.ResourcePackageRunOut` | 立即停止 | 检查资源包用量或计费设置 |
+| `RequestLimitExceeded.*` | 可重试 | 使用指数退避并降低并发 |
+
+参考：[一分钟接入服务端 API](https://cloud.tencent.com/document/product/866/34681)、[OCR 错误码计费说明](https://cloud.tencent.com/document/product/866/45470)。
