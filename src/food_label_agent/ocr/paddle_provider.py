@@ -30,6 +30,8 @@ class PaddleOCRProvider:
     ) -> None:
         self.settings = settings
         self.name = f"paddleocr-{settings.version.lower()}"
+        if settings.table_parser == "ppstructure":
+            self.name += f"+ppstructurev3-{settings.table_ocr_version.lower()}"
         if settings.cache_dir:
             os.environ.setdefault(
                 "PADDLE_PDX_CACHE_HOME",

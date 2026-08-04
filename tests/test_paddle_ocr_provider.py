@@ -59,6 +59,16 @@ def test_invalid_table_parser_configuration_fails_fast() -> None:
         OCRSettings.from_environment({"FOOD_LABEL_OCR_TABLE_PARSER": "magic"})
 
 
+def test_provider_name_discloses_structured_table_pipeline() -> None:
+    provider = PaddleOCRProvider(
+        OCRSettings(provider="paddle", table_parser="ppstructure"),
+        engine_factory=lambda **_: FakePaddleEngine(),
+        structure_factory=lambda **_: object(),
+    )
+
+    assert provider.name == "paddleocr-pp-ocrv6+ppstructurev3-pp-ocrv5"
+
+
 def test_paddle_provider_maps_lines_and_deletes_temporary_image(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:

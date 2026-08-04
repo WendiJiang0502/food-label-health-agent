@@ -139,7 +139,7 @@ python -c "import paddle; paddle.utils.run_check(); print(paddle.__version__)"
 成功后安装基础 OCR 包：
 
 ```bash
-python -m pip install paddleocr
+python -m pip install paddleocr==3.7.0
 ```
 
 第一阶段不使用：
@@ -262,6 +262,14 @@ Web API
 export FOOD_LABEL_OCR_TABLE_PARSER=ppstructure
 export FOOD_LABEL_OCR_TABLE_OCR_VERSION=PP-OCRv5
 ```
+
+PP-StructureV3 还需要 PaddleX 的 OCR extra。当前已验证的配套版本为：
+
+```bash
+python -m pip install "paddlex[ocr]==3.7.2"
+```
+
+它会增加表格、布局解析相关依赖，并在首次运行时下载额外模型。当前 macOS CPU 开发环境的完整 `.paddlex` 模型缓存约 1.1 GB；该缓存必须保持在 Git 之外。
 
 主文字管线与表格管线的 OCR 版本必须分开配置：主管线继续使用 PP-OCRv6；当前 PP-StructureV3 接受 PP-OCRv3、PP-OCRv4 或 PP-OCRv5，项目默认使用 PP-OCRv5。
 
