@@ -19,6 +19,10 @@ from food_label_agent.ocr.service import OCRService
 
 _SPACE = re.compile(r"\s+")
 _NUMBER = re.compile(r"\d+(?:\.\d+)?")
+_NUTRIENT_VALUE = re.compile(
+    r"(反式脂肪酸|碳水化合物|蛋白质|能量|脂肪|钠)"
+    r"[^\d-]*(-?\d+(?:\.\d+)?)(kj|mg|ml|g)"
+)
 
 
 def normalize_text(value: str) -> str:
@@ -41,13 +45,41 @@ def token_recall(expected: Sequence[str], actual_text: str) -> float | None:
     return sum(token in haystack for token in normalized) / len(normalized)
 
 
-def numeric_token_accuracy(expected_text: str, actual_text: str) -> float | None:
+def numeric_token_metrics(
+    expected_text: str, actual_text: str
+) -> dict[str, float | None]:
     expected = Counter(_NUMBER.findall(normalize_text(expected_text)))
     if not expected:
-        return None
+        return {"precision": None, "recall": None, "f1": None}
     actual = Counter(_NUMBER.findall(normalize_text(actual_text)))
     matched = sum((expected & actual).values())
-    return matched / sum(expected.values())
+    recall = matched / sum(expected.values())
+    precision = matched / sum(actual.values()) if actual else 0.0
+    f1 = (
+        2 * precision * recall / (precision + recall)
+        if precision + recall
+        else 0.0
+    )
+    return {"precision": precision, "recall": recall, "f1": f1}
+
+
+def nutrient_value_alignment_accuracy(
+    expected_text: str, actual_text: str
+) -> float | None:
+    expected = extract_nutrition_facts(expected_text)
+    if not expected:
+        return None
+    actual = extract_nutrition_facts(actual_text)
+    matched = sum(actual.get(name) == value for name, value in expected.items())
+    return matched / len(expected)
+
+
+def extract_nutrition_facts(value: str) -> dict[str, tuple[float, str]]:
+    normalized = normalize_nutrition_text(value)
+    return {
+        nutrient: (float(amount), unit)
+        for nutrient, amount, unit in _NUTRIENT_VALUE.findall(normalized)
+    }
 
 
 async def evaluate_directory(images_dir: Path) -> dict[str, Any]:
@@ -138,14 +170,20 @@ def compare_fields(
             character_error_rate(expected_text, actual_text), 4
         )
     combined = "\n".join(actual_fields.values())
+    expected_combined = " ".join(str(value) for value in expected_fields.values())
+    numeric = numeric_token_metrics(expected_combined, combined)
     return {
         "field_cer": field_cer,
         "allergen_recall": _round_optional(
             token_recall(annotation.get("allergens", []), combined)
         ),
-        "numeric_token_accuracy": _round_optional(
-            numeric_token_accuracy(
-                " ".join(str(value) for value in expected_fields.values()), combined
+        "numeric_token_precision": _round_optional(numeric["precision"]),
+        "numeric_token_recall": _round_optional(numeric["recall"]),
+        "numeric_token_f1": _round_optional(numeric["f1"]),
+        "nutrient_value_alignment_accuracy": _round_optional(
+            nutrient_value_alignment_accuracy(
+                str(expected_fields.get("nutrition_table", "")),
+                actual_fields.get("nutrition_table", ""),
             )
         ),
     }

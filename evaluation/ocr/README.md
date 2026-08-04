@@ -25,7 +25,7 @@ private-labels/
 }
 ```
 
-`fields` 用于逐字段字符错误率（CER），`allergens` 用于过敏原词项召回率；标注字段中的数字还会用于数字 token 准确率。没有 sidecar 时，仍会统计图片阻断率、字段发现率和人工确认率。
+`fields` 用于逐字段字符错误率（CER），`allergens` 用于过敏原词项召回率。标注字段中的数字用于计算数字 token 精确率、召回率和 F1；`nutrition_table` 还会计算营养素—数值—单位的对应准确率。没有 sidecar 时，仍会统计图片阻断率、字段发现率和人工确认率。
 
 ## 运行
 
@@ -36,4 +36,3 @@ food-label-ocr-eval /path/to/private-labels --output /tmp/ocr-report.json
 ```
 
 输出只含图片内容哈希的前 12 位，不含原文件名和 OCR 全文。报告也应保存在仓库外。
-
