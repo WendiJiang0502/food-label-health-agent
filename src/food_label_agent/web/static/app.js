@@ -23,6 +23,8 @@ const elements = {
   retryButton: document.querySelector("#retry-button"),
   liveRegion: document.querySelector("#live-region"),
   ocrStatus: document.querySelector("#ocr-status"),
+  ocrProofNote: document.querySelector("#ocr-proof-note"),
+  privacyStatuses: document.querySelectorAll("[data-privacy-status]"),
 };
 
 elements.heroUploadButton.addEventListener("click", () => elements.fileInput.click());
@@ -310,8 +312,26 @@ async function loadHealthStatus() {
     const response = await fetch("/api/health");
     if (!response.ok) return;
     const health = await response.json();
-    elements.ocrStatus.textContent = health.synthetic_ocr ? "演示 OCR" : "本地 PP-OCRv6";
+    if (health.synthetic_ocr) {
+      elements.ocrStatus.textContent = "演示 OCR";
+      elements.ocrProofNote.innerHTML = "<strong>演示版</strong> · OCR 结果仅用于测试交互";
+      setPrivacyStatus("图片默认不保存");
+    } else if (health.remote_processing) {
+      elements.ocrStatus.textContent = "腾讯云 OCR";
+      elements.ocrProofNote.innerHTML = "<strong>云端识别</strong> · 结果仍需人工核对";
+      setPrivacyStatus("图片发送至腾讯云处理，本平台不保存原图");
+    } else {
+      elements.ocrStatus.textContent = "本地 PP-OCRv6";
+      elements.ocrProofNote.innerHTML = "<strong>本地识别</strong> · 结果仍需人工核对";
+      setPrivacyStatus("图片在本机处理，默认不保存");
+    }
   } catch {
     // The upload action remains available; request-level errors provide recovery.
   }
+}
+
+function setPrivacyStatus(message) {
+  elements.privacyStatuses.forEach((element) => {
+    element.lastChild.textContent = message;
+  });
 }

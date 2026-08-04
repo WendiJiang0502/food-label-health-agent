@@ -36,6 +36,9 @@ def create_app(provider: OCRProvider | None = None) -> Starlette:
                 "version": "0.2.0",
                 "ocr_provider": service.provider.name,
                 "synthetic_ocr": service.provider.synthetic,
+                "remote_processing": getattr(
+                    service.provider, "remote_processing", False
+                ),
             }
         )
 

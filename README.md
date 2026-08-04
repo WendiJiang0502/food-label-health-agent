@@ -7,7 +7,7 @@
 - 混合 RAG（关键词 + 向量 + 重排 + 版本过滤）
 - 确定性过敏原规则引擎
 
-当前阶段完成了工程骨架、Agent 状态协议、安全路由、MCP 能力边界，以及可操作的图片上传与人工确认平台。平台默认使用明确标注的演示 OCR Provider；部署者可在服务器端启用 PP-OCRv6，本地模型识别结果仍必须经过人工确认。法规数据和商品检索仍是后续里程碑，不会在当前界面中伪造实现。
+当前阶段完成了工程骨架、Agent 状态协议、安全路由、MCP 能力边界，以及可操作的图片上传与人工确认平台。平台默认使用明确标注的演示 OCR Provider；部署者可在服务器端选择腾讯云高精度 OCR 或本地 PP-OCRv6，任何模型识别结果仍必须经过证据检查和必要的人工确认。法规数据和商品检索仍是后续里程碑，不会在当前界面中伪造实现。
 
 ## 设计原则
 
@@ -64,10 +64,25 @@ food-label-platform
 
 真实 `.env`、私有标签样本、OCR 输出和模型缓存均被 Git 排除。完整安装与生产说明见下方配置教程。
 
+### 服务器端启用腾讯云 OCR
+
+普通用户不需要配置云端密钥。部署者为服务账号配置腾讯云官方凭证链后执行：
+
+```bash
+python3 -m pip install -e '.[cloud-ocr,dev]'
+export FOOD_LABEL_OCR_PROVIDER=tencent
+export FOOD_LABEL_TENCENT_REGION=ap-guangzhou
+export FOOD_LABEL_TENCENT_TABLE_ENABLED=true
+food-label-platform
+```
+
+主管线使用 `GeneralAccurateOCR` 返回文字、置信度与原图坐标。检测到营养内容后才调用 `RecognizeTableAccurateOCR` 恢复表格单元格，从而控制延迟和调用次数。图片会发送至腾讯云完成识别；当前应用不持久化原图，界面会明确披露处理方式。配置和安全细节见腾讯云 OCR 教程。
+
 ## 文档
 
 - [中英双语产品说明书](./Food_Label_Health_Agent_Product_Spec_Bilingual.md)
 - [ADR-001：Agent 状态与安全路由](./docs/architecture/ADR-001-agent-state-and-safety-routing.md)
 - [PP-OCRv6 配置教程](./docs/ocr/PP-OCRv6_CONFIGURATION_GUIDE.md)
+- [腾讯云 OCR 配置教程](./docs/ocr/TENCENT_CLOUD_CONFIGURATION_GUIDE.md)
 - [产品上下文](./PRODUCT.md)
 - [界面设计系统](./DESIGN.md)

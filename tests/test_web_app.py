@@ -25,6 +25,7 @@ def test_platform_index_and_health() -> None:
     assert "MILESTONE" not in page.text
     assert health.status_code == 200
     assert health.json()["synthetic_ocr"] is True
+    assert health.json()["remote_processing"] is False
     assert favicon.status_code == 200
 
 
