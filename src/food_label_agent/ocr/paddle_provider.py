@@ -51,9 +51,11 @@ class PaddleOCRProvider:
             if settings.table_parser == "ppstructure"
             else None
         )
+        self._inference_lock = asyncio.Lock()
 
     async def analyze(self, image: OCRInput) -> list[OCRFieldResult]:
-        return await asyncio.to_thread(self._analyze_sync, image)
+        async with self._inference_lock:
+            return await asyncio.to_thread(self._analyze_sync, image)
 
     def _analyze_sync(self, image: OCRInput) -> list[OCRFieldResult]:
         suffix = Path(image.file_name).suffix.lower() or _suffix_for(image.media_type)

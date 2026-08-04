@@ -47,6 +47,8 @@ def test_default_server_configuration_uses_demo_provider() -> None:
     assert provider.synthetic is True
     assert settings.table_parser == "disabled"
     assert settings.table_ocr_version == "PP-OCRv5"
+    assert settings.use_orientation is False
+    assert settings.use_unwarping is False
 
 
 def test_invalid_boolean_configuration_fails_fast() -> None:

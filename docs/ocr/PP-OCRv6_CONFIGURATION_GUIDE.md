@@ -230,12 +230,14 @@ FOOD_LABEL_OCR_PROVIDER=paddle
 FOOD_LABEL_OCR_VERSION=PP-OCRv6
 FOOD_LABEL_OCR_DEVICE=cpu
 FOOD_LABEL_OCR_CACHE_DIR=.paddlex
-FOOD_LABEL_OCR_USE_ORIENTATION=true
-FOOD_LABEL_OCR_USE_UNWARPING=true
+FOOD_LABEL_OCR_USE_ORIENTATION=false
+FOOD_LABEL_OCR_USE_UNWARPING=false
 FOOD_LABEL_OCR_USE_TEXTLINE_ORIENTATION=true
 FOOD_LABEL_OCR_ALLERGEN_THRESHOLD=0.95
 FOOD_LABEL_OCR_GENERAL_THRESHOLD=0.80
 ```
+
+食品包装通常同时存在横排配料、竖排喷码、条形码和重复标签，整页方向分类可能把图片错误旋转 90°，使坐标和营养表结构失真。因此项目默认关闭整页方向分类与文档展开，只保留逐文字行方向识别。若部署场景是单张平整文档扫描件，再通过服务端配置单独开启。
 
 中国大陆的服务器可另外设置 `PADDLE_PDX_MODEL_SOURCE=bos`，让首次模型下载优先使用 Paddle 官方 BOS。该变量只影响部署时的模型来源，不会发送用户图片到云端；完成下载后，识别仍在本地运行。
 

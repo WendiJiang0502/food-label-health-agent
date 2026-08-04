@@ -77,3 +77,33 @@ def test_allergen_wording_without_heading_is_detected() -> None:
     assert indexed["ingredients"].raw_text == "燕麦片、可可粉"
     assert indexed["allergen_statement"].requires_confirmation is True
     assert indexed["allergen_statement"].evidence_lines[0].confidence == 0.92
+
+
+def test_repeated_package_headings_do_not_enter_ingredient_content() -> None:
+    fields = parse_food_label_fields(
+        [
+            line("配料：生牛乳", y=0.2),
+            line("配料", y=0.8),
+            line("营养成分表", y=0.9),
+        ],
+        OCRSettings(provider="paddle"),
+    )
+
+    ingredients = {field.name: field for field in fields}["ingredients"]
+    assert ingredients.raw_text == "生牛乳"
+
+
+def test_nutrition_basis_excludes_heading_and_deduplicates_packages() -> None:
+    fields = parse_food_label_fields(
+        [
+            line("营养成分表", y=0.1),
+            line("每100克", confidence=0.97, y=0.2),
+            line("营养成分表", y=0.6),
+            line("每100克", confidence=0.99, y=0.7),
+        ],
+        OCRSettings(provider="paddle"),
+    )
+
+    indexed = {field.name: field for field in fields}
+    assert indexed["nutrition_basis"].raw_text == "每100克"
+    assert indexed["nutrition_basis"].confidence == 0.99

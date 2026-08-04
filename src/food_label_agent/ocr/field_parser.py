@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+from collections.abc import Iterable
 from dataclasses import dataclass
 
 from .config import OCRSettings
@@ -16,7 +17,7 @@ _ALLERGEN_CUE = re.compile(
     r"过敏原|致敏|可能含有|本品含有|本产品含有|含有(?:麸质|乳|蛋|花生|大豆|坚果|鱼|虾|蟹)"
 )
 _NUTRITION_BASIS = re.compile(
-    r"每\s*100\s*(?:克|g|毫升|ml)|每\s*份|营养成分表|营养标示",
+    r"每\s*100\s*(?:克|g|毫升|ml)|每\s*份",
     re.IGNORECASE,
 )
 _CLAIM_CUE = re.compile(
@@ -38,7 +39,9 @@ def parse_food_label_fields(
     ingredient_lines = _ingredient_lines(lines)
     ingredient_section_found = bool(ingredient_lines)
     allergen_lines = [line for line in lines if _ALLERGEN_CUE.search(line.text)]
-    nutrition_lines = [line for line in lines if _NUTRITION_BASIS.search(line.text)]
+    nutrition_lines = _unique_lines(
+        line for line in lines if _NUTRITION_BASIS.search(line.text)
+    )
     claim_lines = [line for line in lines if _CLAIM_CUE.search(line.text)]
 
     fields = [
@@ -99,13 +102,25 @@ def _ingredient_lines(lines: list[OCRLine]) -> list[OCRLine]:
         if inline_text:
             selected.append(OCRLine(inline_text, line.confidence, line.bounding_box))
         for following in lines[index + 1 : index + 9]:
-            if _SECTION_STOP.search(following.text) or _ALLERGEN_CUE.search(
-                following.text
+            if (
+                _INGREDIENT_HEADING.search(following.text)
+                or _SECTION_STOP.search(following.text)
+                or _ALLERGEN_CUE.search(following.text)
             ):
                 break
             selected.append(following)
         return selected
     return []
+
+
+def _unique_lines(lines: Iterable[OCRLine]) -> list[OCRLine]:
+    selected: dict[str, OCRLine] = {}
+    for line in lines:
+        key = re.sub(r"\s+", "", line.text).lower()
+        current = selected.get(key)
+        if current is None or line.confidence > current.confidence:
+            selected[key] = line
+    return list(selected.values())
 
 
 def _field(

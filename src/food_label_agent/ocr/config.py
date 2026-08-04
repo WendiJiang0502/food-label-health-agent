@@ -46,8 +46,8 @@ class OCRSettings:
     version: str = "PP-OCRv6"
     device: str = "cpu"
     cache_dir: str | None = None
-    use_orientation: bool = True
-    use_unwarping: bool = True
+    use_orientation: bool = False
+    use_unwarping: bool = False
     use_textline_orientation: bool = True
     general_threshold: float = 0.80
     allergen_threshold: float = 0.95
@@ -75,10 +75,10 @@ class OCRSettings:
             device=source.get("FOOD_LABEL_OCR_DEVICE", "cpu").strip(),
             cache_dir=source.get("FOOD_LABEL_OCR_CACHE_DIR") or None,
             use_orientation=_read_bool(
-                source, "FOOD_LABEL_OCR_USE_ORIENTATION", True
+                source, "FOOD_LABEL_OCR_USE_ORIENTATION", False
             ),
             use_unwarping=_read_bool(
-                source, "FOOD_LABEL_OCR_USE_UNWARPING", True
+                source, "FOOD_LABEL_OCR_USE_UNWARPING", False
             ),
             use_textline_orientation=_read_bool(
                 source, "FOOD_LABEL_OCR_USE_TEXTLINE_ORIENTATION", True
