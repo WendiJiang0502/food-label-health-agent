@@ -38,6 +38,22 @@ class NutritionTableData(BaseModel):
     issues: list[NutritionValidationIssue] = Field(default_factory=list)
 
 
+class OCREvidenceIssue(BaseModel):
+    model_config = ConfigDict(frozen=True)
+
+    code: str
+    severity: str
+    message: str
+    field_name: str | None = None
+
+
+class OCREvidenceReport(BaseModel):
+    model_config = ConfigDict(frozen=True)
+
+    status: str
+    issues: list[OCREvidenceIssue] = Field(default_factory=list)
+
+
 class OCRFieldResult(BaseModel):
     model_config = ConfigDict(frozen=True)
 
@@ -59,6 +75,7 @@ class OCRAnalysisResponse(BaseModel):
     synthetic: bool
     file_name: str
     fields: list[OCRFieldResult]
+    evidence_quality: OCREvidenceReport
     warnings: list[str] = Field(default_factory=list)
     next_route: str
 

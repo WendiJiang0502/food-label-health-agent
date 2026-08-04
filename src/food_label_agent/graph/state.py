@@ -27,6 +27,7 @@ class AgentState(TypedDict):
     stage: WorkflowStage
     images: list[ImageInput]
     label_fields: dict[str, LabelField]
+    ocr_evidence: dict[str, Any]
     normalized_label: dict[str, Any]
     user_constraints: list[UserConstraint]
     risk_findings: list[RiskFinding]
@@ -57,6 +58,7 @@ def create_initial_state(
         stage=WorkflowStage.INPUT_VALIDATION,
         images=list(images or []),
         label_fields={},
+        ocr_evidence={"status": "not_assessed", "issues": []},
         normalized_label={},
         user_constraints=list(user_constraints or []),
         risk_findings=[],

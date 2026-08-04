@@ -9,6 +9,7 @@ from food_label_agent.domain.models import LabelField
 from food_label_agent.graph.routing import route_after_ocr
 from food_label_agent.graph.state import create_initial_state
 
+from .evidence_quality import assess_ocr_evidence
 from .models import ConfirmLabelRequest, ConfirmLabelResponse, OCRAnalysisResponse
 from .provider import OCRInput, OCRProvider
 from .quality import ImageQualityError, ImageQualityReport, assess_image_quality
@@ -59,6 +60,7 @@ class OCRService:
                 height=quality.metrics.height if quality else None,
             )
         )
+        evidence_quality = assess_ocr_evidence(fields)
         request_id = str(uuid4())
         state = create_initial_state(
             request_id=request_id,
@@ -74,17 +76,24 @@ class OCRService:
             )
             for field in fields
         }
+        state["ocr_evidence"] = evidence_quality.model_dump(mode="json")
         warnings = []
         if self.provider.synthetic:
             warnings.append("演示识别结果，不代表图片的真实 OCR 内容。")
         if quality:
             warnings.extend(quality.warnings)
+        warnings.extend(
+            issue.message
+            for issue in evidence_quality.issues
+            if issue.severity == "warning"
+        )
         return OCRAnalysisResponse(
             request_id=request_id,
             provider=self.provider.name,
             synthetic=self.provider.synthetic,
             file_name=file_name,
             fields=fields,
+            evidence_quality=evidence_quality,
             warnings=warnings,
             next_route=route_after_ocr(state),
         )

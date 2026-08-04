@@ -44,6 +44,8 @@ def critical_fields_needing_confirmation(
 def route_after_ocr(state: AgentState) -> str:
     """Select the only safe next step after OCR extraction."""
 
+    if state["ocr_evidence"].get("status") == "needs_confirmation":
+        return "confirm_label"
     if critical_fields_needing_confirmation(state):
         return "confirm_label"
     return "normalize_label"
