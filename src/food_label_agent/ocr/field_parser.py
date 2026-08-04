@@ -12,12 +12,14 @@ from .models import BoundingBox, OCRFieldResult, OCRLineEvidence
 _SECTION_STOP = re.compile(
     r"过敏原|致敏|可能含有|本品含有|本产品含有|营养成分|贮存|储存|保质期|生产日期|生产商|制造商|执行标准|产品标准"
 )
-_INGREDIENT_HEADING = re.compile(r"(?:配料(?:表)?|原料)\s*[:：]?\s*(.*)")
+_INGREDIENT_HEADING = re.compile(
+    r"^[\s·•:：,，;；]*(?:配料(?:表)?|原材料(?:名)?|原料)\s*[:：]?\s*(.*)"
+)
 _ALLERGEN_CUE = re.compile(
     r"过敏原|致敏|可能含有|本品含有|本产品含有|含有(?:麸质|乳|蛋|花生|大豆|坚果|鱼|虾|蟹)"
 )
 _NUTRITION_BASIS = re.compile(
-    r"每\s*100\s*(?:克|g|毫升|ml)|每\s*份",
+    r"每\s*(?:100\s*(?:克|g|毫升|ml)|份(?:\s*\d+(?:\.\d+)?\s*(?:克|g|毫升|ml))?)",
     re.IGNORECASE,
 )
 _CLAIM_CUE = re.compile(
@@ -40,7 +42,9 @@ def parse_food_label_fields(
     ingredient_section_found = bool(ingredient_lines)
     allergen_lines = [line for line in lines if _ALLERGEN_CUE.search(line.text)]
     nutrition_lines = _unique_lines(
-        line for line in lines if _NUTRITION_BASIS.search(line.text)
+        extracted
+        for line in lines
+        for extracted in _nutrition_basis_lines(line)
     )
     claim_lines = [line for line in lines if _CLAIM_CUE.search(line.text)]
 
@@ -121,6 +125,17 @@ def _ingredient_lines(lines: list[OCRLine]) -> list[OCRLine]:
 
 def _clean_ingredient_text(value: str) -> str:
     return re.sub(r"^[\s·•:：,，;；]+", "", value).strip()
+
+
+def _nutrition_basis_lines(line: OCRLine) -> list[OCRLine]:
+    return [
+        OCRLine(
+            text=re.sub(r"\s+", "", match.group(0)),
+            confidence=line.confidence,
+            bounding_box=line.bounding_box,
+        )
+        for match in _NUTRITION_BASIS.finditer(line.text)
+    ]
 
 
 def _is_spatial_continuation(previous: OCRLine, current: OCRLine) -> bool:

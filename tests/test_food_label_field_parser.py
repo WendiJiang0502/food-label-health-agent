@@ -45,7 +45,7 @@ def test_parser_keeps_field_level_and_line_level_evidence() -> None:
     assert ingredients.bounding_box.y == pytest.approx(0.1)
     assert ingredients.bounding_box.height == pytest.approx(0.14)
     assert indexed["allergen_statement"].raw_text.endswith("可能含有花生")
-    assert indexed["nutrition_basis"].raw_text == "营养成分表 每100克"
+    assert indexed["nutrition_basis"].raw_text == "每100克"
     assert indexed["label_claims"].raw_text == "0糖 不添加蔗糖"
     assert indexed["label_claims"].requires_confirmation is True
 
@@ -62,6 +62,20 @@ def test_missing_ingredient_heading_is_unclassified_not_ingredients() -> None:
     assert fields[0].raw_text == "小麦粉、白砂糖、食用盐"
     assert fields[0].confidence == 0.50
     assert fields[0].requires_confirmation is True
+
+
+def test_ingredient_word_inside_foreign_sentence_is_not_a_heading() -> None:
+    fields = parse_food_label_fields(
+        [
+            line("校原料吸はそれに準するものを表示しております"),
+            line("产品类型：果汁型可吸果冻", y=0.2),
+        ],
+        OCRSettings(provider="paddle"),
+    )
+
+    assert len(fields) == 1
+    assert fields[0].name == "unclassified_text"
+    assert fields[0].label == "未定位到配料表"
 
 
 def test_allergen_wording_without_heading_is_detected() -> None:
@@ -116,6 +130,19 @@ def test_nutrition_basis_excludes_heading_and_deduplicates_packages() -> None:
     indexed = {field.name: field for field in fields}
     assert indexed["nutrition_basis"].raw_text == "每100克"
     assert indexed["nutrition_basis"].confidence == 0.99
+
+
+def test_nutrition_basis_extracts_serving_size_without_nrv_headers() -> None:
+    fields = parse_food_label_fields(
+        [
+            line("配料：果汁、果胶", y=0.1),
+            line("每份20克(g) NRV% 每份20克(p) NRV", y=0.4),
+        ],
+        OCRSettings(provider="paddle"),
+    )
+
+    indexed = {field.name: field for field in fields}
+    assert indexed["nutrition_basis"].raw_text == "每份20克"
 
 
 def test_distant_product_name_is_not_appended_to_inline_ingredients() -> None:
