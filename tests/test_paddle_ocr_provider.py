@@ -49,6 +49,9 @@ def test_default_server_configuration_uses_demo_provider() -> None:
     assert settings.table_ocr_version == "PP-OCRv5"
     assert settings.use_orientation is False
     assert settings.use_unwarping is False
+    assert settings.fast_path_enabled is True
+    assert settings.fast_detection_model == "PP-OCRv6_medium_det"
+    assert settings.fast_recognition_model == "PP-OCRv6_small_rec"
 
 
 def test_invalid_boolean_configuration_fails_fast() -> None:
@@ -68,7 +71,97 @@ def test_provider_name_discloses_structured_table_pipeline() -> None:
         structure_factory=lambda **_: object(),
     )
 
-    assert provider.name == "paddleocr-pp-ocrv6+ppstructurev3-pp-ocrv5"
+    assert provider.name == "paddleocr-pp-ocrv6-cascade+ppstructurev3-pp-ocrv5"
+
+
+def test_fast_path_uses_small_recognizer_then_medium_fallback() -> None:
+    calls = []
+
+    def factory(**options):
+        calls.append(options)
+        return FakePaddleEngine()
+
+    provider = PaddleOCRProvider(
+        OCRSettings(provider="paddle"), engine_factory=factory
+    )
+    asyncio.run(
+        provider.analyze(
+            OCRInput(
+                content=b"\x89PNG\r\n\x1a\nimage",
+                file_name="label.png",
+                media_type="image/png",
+                width=1200,
+                height=800,
+            )
+        )
+    )
+
+    assert len(calls) == 2
+    assert calls[0]["text_detection_model_name"] == "PP-OCRv6_medium_det"
+    assert calls[0]["text_recognition_model_name"] == "PP-OCRv6_small_rec"
+    assert calls[0]["use_textline_orientation"] is False
+    assert calls[1]["ocr_version"] == "PP-OCRv6"
+
+
+def test_complete_fast_path_skips_medium_engine() -> None:
+    class CompleteFastEngine:
+        def predict(self, path: str):
+            del path
+            texts = [
+                "配料：生牛乳",
+                "每100克",
+                "能量",
+                "271千焦",
+                "蛋白质",
+                "3.2克",
+                "脂肪",
+                "3.6克",
+                "碳水化合物",
+                "4.9克",
+                "钠",
+                "55毫克",
+            ]
+            boxes = [[100, 100, 300, 130], [500, 180, 620, 210]]
+            for index in range(5):
+                y = 240 + index * 50
+                boxes.extend([[150, y, 300, y + 30], [500, y, 650, y + 30]])
+            return [
+                {
+                    "res": {
+                        "rec_texts": texts,
+                        "rec_scores": [0.99] * len(texts),
+                        "rec_boxes": boxes,
+                    }
+                }
+            ]
+
+    calls = []
+
+    def factory(**options):
+        calls.append(options)
+        return CompleteFastEngine()
+
+    provider = PaddleOCRProvider(
+        OCRSettings(provider="paddle"), engine_factory=factory
+    )
+    fields = asyncio.run(
+        provider.analyze(
+            OCRInput(
+                content=b"\x89PNG\r\n\x1a\nimage",
+                file_name="label.png",
+                media_type="image/png",
+                width=1000,
+                height=1000,
+            )
+        )
+    )
+
+    assert len(calls) == 1
+    assert {field.name for field in fields} >= {
+        "ingredients",
+        "nutrition_basis",
+        "nutrition_table",
+    }
 
 
 def test_paddle_provider_maps_lines_and_deletes_temporary_image(

@@ -68,6 +68,15 @@ class ImageQualityData(BaseModel):
     local_sharpness_ratio: float
 
 
+class OCRProcessingData(BaseModel):
+    model_config = ConfigDict(frozen=True)
+
+    total_ms: float = Field(ge=0)
+    quality_ms: float = Field(ge=0)
+    ocr_ms: float = Field(ge=0)
+    cache_hit: bool = False
+
+
 class OCRFieldResult(BaseModel):
     model_config = ConfigDict(frozen=True)
 
@@ -90,6 +99,7 @@ class OCRAnalysisResponse(BaseModel):
     file_name: str
     fields: list[OCRFieldResult]
     image_quality: ImageQualityData | None = None
+    processing: OCRProcessingData
     evidence_quality: OCREvidenceReport
     warnings: list[str] = Field(default_factory=list)
     next_route: str

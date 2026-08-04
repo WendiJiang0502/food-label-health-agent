@@ -27,6 +27,35 @@ def test_demo_ocr_is_explicitly_synthetic_and_requires_confirmation() -> None:
     assert result.fields[0].name == "ingredients"
     assert result.fields[0].requires_confirmation is True
     assert "演示识别结果" in result.warnings[0]
+    assert result.processing.cache_hit is False
+    assert result.processing.total_ms >= 0
+
+
+def test_repeated_image_uses_hash_cache_with_a_new_request_id() -> None:
+    class CountingDemoProvider(DemoOCRProvider):
+        def __init__(self) -> None:
+            self.calls = 0
+
+        async def analyze(self, image):
+            self.calls += 1
+            return await super().analyze(image)
+
+    provider = CountingDemoProvider()
+    service = OCRService(provider)
+    request = {
+        "content": b"\xff\xd8\xffsame-jpeg",
+        "file_name": "label.jpg",
+        "media_type": "image/jpeg",
+    }
+
+    first = asyncio.run(service.analyze(**request))
+    second = asyncio.run(service.analyze(**request))
+
+    assert provider.calls == 1
+    assert first.processing.cache_hit is False
+    assert second.processing.cache_hit is True
+    assert second.processing.ocr_ms == 0
+    assert second.request_id != first.request_id
 
 
 def test_ocr_rejects_unsupported_media_type() -> None:

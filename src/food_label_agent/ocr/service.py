@@ -2,7 +2,11 @@
 
 from __future__ import annotations
 
+from collections import OrderedDict
+from dataclasses import dataclass
 from datetime import UTC, datetime
+from hashlib import sha256
+from time import monotonic, perf_counter
 from uuid import uuid4
 
 from food_label_agent.domain.models import LabelField
@@ -15,6 +19,8 @@ from .models import (
     ConfirmLabelResponse,
     ImageQualityData,
     OCRAnalysisResponse,
+    OCRFieldResult,
+    OCRProcessingData,
 )
 from .provider import OCRInput, OCRProvider
 from .quality import ImageQualityError, ImageQualityReport, assess_image_quality
@@ -33,15 +39,27 @@ class InvalidImageError(ValueError):
     pass
 
 
+@dataclass(frozen=True, slots=True)
+class _CachedOCR:
+    stored_at: float
+    fields: list[OCRFieldResult]
+    quality: ImageQualityReport | None
+
+
 class OCRService:
     def __init__(
         self,
         provider: OCRProvider,
         *,
         quality_assessor=assess_image_quality,
+        cache_size: int = 64,
+        cache_ttl_seconds: float = 900,
     ) -> None:
         self.provider = provider
         self.quality_assessor = quality_assessor
+        self.cache_size = max(cache_size, 0)
+        self.cache_ttl_seconds = max(cache_ttl_seconds, 0)
+        self._cache: OrderedDict[str, _CachedOCR] = OrderedDict()
 
     async def analyze(
         self,
@@ -50,21 +68,36 @@ class OCRService:
         file_name: str,
         media_type: str,
     ) -> OCRAnalysisResponse:
+        started_at = perf_counter()
         self._validate_image(content=content, media_type=media_type)
-        quality: ImageQualityReport | None = None
-        if not self.provider.synthetic:
-            quality = self.quality_assessor(content)
-            if quality.blocking_issues:
-                raise ImageQualityError(quality)
-        fields = await self.provider.analyze(
-            OCRInput(
-                content=content,
-                file_name=file_name,
-                media_type=media_type,
-                width=quality.metrics.width if quality else None,
-                height=quality.metrics.height if quality else None,
+        cache_key = sha256(content).hexdigest()
+        cached = self._cache_get(cache_key)
+        cache_hit = cached is not None
+        quality_ms = 0.0
+        ocr_ms = 0.0
+        if cached is not None:
+            quality = cached.quality
+            fields = cached.fields
+        else:
+            quality: ImageQualityReport | None = None
+            quality_started = perf_counter()
+            if not self.provider.synthetic:
+                quality = self.quality_assessor(content)
+                if quality.blocking_issues:
+                    raise ImageQualityError(quality)
+            quality_ms = _elapsed_ms(quality_started)
+            ocr_started = perf_counter()
+            fields = await self.provider.analyze(
+                OCRInput(
+                    content=content,
+                    file_name=file_name,
+                    media_type=media_type,
+                    width=quality.metrics.width if quality else None,
+                    height=quality.metrics.height if quality else None,
+                )
             )
-        )
+            ocr_ms = _elapsed_ms(ocr_started)
+            self._cache_put(cache_key, fields=fields, quality=quality)
         evidence_quality = assess_ocr_evidence(fields)
         request_id = str(uuid4())
         state = create_initial_state(
@@ -113,10 +146,42 @@ class OCRService:
                 if quality
                 else None
             ),
+            processing=OCRProcessingData(
+                total_ms=_elapsed_ms(started_at),
+                quality_ms=quality_ms,
+                ocr_ms=ocr_ms,
+                cache_hit=cache_hit,
+            ),
             evidence_quality=evidence_quality,
             warnings=warnings,
             next_route=route_after_ocr(state),
         )
+
+    def _cache_get(self, key: str) -> _CachedOCR | None:
+        entry = self._cache.get(key)
+        if entry is None:
+            return None
+        if monotonic() - entry.stored_at > self.cache_ttl_seconds:
+            del self._cache[key]
+            return None
+        self._cache.move_to_end(key)
+        return entry
+
+    def _cache_put(
+        self,
+        key: str,
+        *,
+        fields: list[OCRFieldResult],
+        quality: ImageQualityReport | None,
+    ) -> None:
+        if self.cache_size == 0:
+            return
+        self._cache[key] = _CachedOCR(
+            stored_at=monotonic(), fields=fields, quality=quality
+        )
+        self._cache.move_to_end(key)
+        while len(self._cache) > self.cache_size:
+            self._cache.popitem(last=False)
 
     def confirm(self, request: ConfirmLabelRequest) -> ConfirmLabelResponse:
         state = create_initial_state(
@@ -164,3 +229,7 @@ def _matches_image_signature(*, content: bytes, media_type: str) -> bool:
     if media_type in {"image/heic", "image/heif"}:
         return len(content) >= 12 and content[4:8] == b"ftyp"
     return False
+
+
+def _elapsed_ms(started_at: float) -> float:
+    return round((perf_counter() - started_at) * 1000, 3)

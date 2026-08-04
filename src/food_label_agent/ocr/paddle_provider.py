@@ -35,6 +35,8 @@ class PaddleOCRProvider:
     ) -> None:
         self.settings = settings
         self.name = f"paddleocr-{settings.version.lower()}"
+        if settings.fast_path_enabled:
+            self.name += "-cascade"
         if settings.table_parser == "ppstructure":
             self.name += f"+ppstructurev3-{settings.table_ocr_version.lower()}"
         if settings.cache_dir:
@@ -43,19 +45,11 @@ class PaddleOCRProvider:
                 str(Path(settings.cache_dir).expanduser().resolve()),
             )
         factory = engine_factory or _load_paddle_factory()
-        self._engine = factory(
-            ocr_version=settings.version,
-            device=settings.device,
-            use_doc_orientation_classify=settings.use_orientation,
-            use_doc_unwarping=settings.use_unwarping,
-            use_textline_orientation=settings.use_textline_orientation,
-            text_rec_score_thresh=settings.general_threshold,
-        )
-        self._table_parser = (
-            PPStructureNutritionParser(settings, engine_factory=structure_factory)
-            if settings.table_parser == "ppstructure"
-            else None
-        )
+        self._engine_factory = factory
+        self._engine = factory(**self._primary_engine_options())
+        self._fallback_engine: Any | None = None
+        self._structure_factory = structure_factory
+        self._table_parser: PPStructureNutritionParser | None = None
         self._inference_lock = asyncio.Lock()
 
     async def analyze(self, image: OCRInput) -> list[OCRFieldResult]:
@@ -69,10 +63,7 @@ class PaddleOCRProvider:
             with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as temporary:
                 temporary.write(image.content)
                 temporary_path = Path(temporary.name)
-            results = self._engine.predict(str(temporary_path))
-            lines = _collect_lines(
-                results, image_width=image.width, image_height=image.height
-            )
+            lines = self._predict_lines(self._engine, temporary_path, image)
             if not lines:
                 return [
                     OCRFieldResult(
@@ -84,16 +75,27 @@ class PaddleOCRProvider:
                     )
                 ]
             fields = parse_food_label_fields(lines, self.settings)
-            table_candidates = []
             coordinate_table = extract_coordinate_nutrition_table(lines)
+            if self.settings.fast_path_enabled and not _fast_path_complete(
+                fields, coordinate_table
+            ):
+                lines = self._predict_lines(
+                    self._get_fallback_engine(), temporary_path, image
+                )
+                fields = parse_food_label_fields(lines, self.settings)
+                coordinate_table = extract_coordinate_nutrition_table(lines)
+
+            table_candidates = []
             if coordinate_table is not None:
                 table_candidates.append(coordinate_table)
             if (
-                self._table_parser is not None
+                self.settings.table_parser == "ppstructure"
                 and not has_complete_core_nutrition_table(coordinate_table)
                 and any(field.name == "nutrition_basis" for field in fields)
             ):
-                table_candidates.extend(self._table_parser.analyze(str(temporary_path)))
+                table_candidates.extend(
+                    self._get_table_parser().analyze(str(temporary_path))
+                )
             best_table = choose_best_nutrition_table(table_candidates)
             if best_table is not None:
                 fields.append(best_table)
@@ -101,6 +103,55 @@ class PaddleOCRProvider:
         finally:
             if temporary_path is not None:
                 temporary_path.unlink(missing_ok=True)
+
+    def _primary_engine_options(self) -> dict[str, Any]:
+        common = {
+            "device": self.settings.device,
+            "use_doc_orientation_classify": self.settings.use_orientation,
+            "use_doc_unwarping": self.settings.use_unwarping,
+            "text_rec_score_thresh": self.settings.general_threshold,
+        }
+        if self.settings.fast_path_enabled:
+            return {
+                **common,
+                "text_detection_model_name": self.settings.fast_detection_model,
+                "text_recognition_model_name": self.settings.fast_recognition_model,
+                "use_textline_orientation": False,
+            }
+        return {
+            **common,
+            "ocr_version": self.settings.version,
+            "use_textline_orientation": self.settings.use_textline_orientation,
+        }
+
+    def _get_fallback_engine(self) -> Any:
+        if self._fallback_engine is None:
+            self._fallback_engine = self._engine_factory(
+                ocr_version=self.settings.version,
+                device=self.settings.device,
+                use_doc_orientation_classify=self.settings.use_orientation,
+                use_doc_unwarping=self.settings.use_unwarping,
+                use_textline_orientation=self.settings.use_textline_orientation,
+                text_rec_score_thresh=self.settings.general_threshold,
+            )
+        return self._fallback_engine
+
+    def _get_table_parser(self) -> PPStructureNutritionParser:
+        if self._table_parser is None:
+            self._table_parser = PPStructureNutritionParser(
+                self.settings, engine_factory=self._structure_factory
+            )
+        return self._table_parser
+
+    @staticmethod
+    def _predict_lines(
+        engine: Any, temporary_path: Path, image: OCRInput
+    ) -> list[OCRLine]:
+        return _collect_lines(
+            engine.predict(str(temporary_path)),
+            image_width=image.width,
+            image_height=image.height,
+        )
 
 
 def create_ocr_provider(settings: OCRSettings | None = None):
@@ -185,3 +236,16 @@ def _suffix_for(media_type: str) -> str:
         "image/heic": ".heic",
         "image/heif": ".heif",
     }.get(media_type, ".img")
+
+
+def _fast_path_complete(
+    fields: list[OCRFieldResult], nutrition_table: OCRFieldResult | None
+) -> bool:
+    ingredients = next(
+        (field for field in fields if field.name == "ingredients"), None
+    )
+    return bool(
+        ingredients
+        and ingredients.raw_text.strip()
+        and has_complete_core_nutrition_table(nutrition_table)
+    )

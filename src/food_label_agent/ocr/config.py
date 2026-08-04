@@ -49,6 +49,9 @@ class OCRSettings:
     use_orientation: bool = False
     use_unwarping: bool = False
     use_textline_orientation: bool = True
+    fast_path_enabled: bool = True
+    fast_detection_model: str = "PP-OCRv6_medium_det"
+    fast_recognition_model: str = "PP-OCRv6_small_rec"
     general_threshold: float = 0.80
     allergen_threshold: float = 0.95
     table_parser: str = "disabled"
@@ -83,6 +86,15 @@ class OCRSettings:
             use_textline_orientation=_read_bool(
                 source, "FOOD_LABEL_OCR_USE_TEXTLINE_ORIENTATION", True
             ),
+            fast_path_enabled=_read_bool(
+                source, "FOOD_LABEL_OCR_FAST_PATH", True
+            ),
+            fast_detection_model=source.get(
+                "FOOD_LABEL_OCR_FAST_DETECTION_MODEL", "PP-OCRv6_medium_det"
+            ).strip(),
+            fast_recognition_model=source.get(
+                "FOOD_LABEL_OCR_FAST_RECOGNITION_MODEL", "PP-OCRv6_small_rec"
+            ).strip(),
             general_threshold=_read_threshold(
                 source, "FOOD_LABEL_OCR_GENERAL_THRESHOLD", 0.80
             ),

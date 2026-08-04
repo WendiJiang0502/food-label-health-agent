@@ -98,7 +98,7 @@ def _ingredient_lines(lines: list[OCRLine]) -> list[OCRLine]:
         if not match:
             continue
         selected: list[OCRLine] = []
-        inline_text = match.group(1).strip()
+        inline_text = _clean_ingredient_text(match.group(1))
         if inline_text:
             selected.append(OCRLine(inline_text, line.confidence, line.bounding_box))
         for following in lines[index + 1 : index + 9]:
@@ -110,9 +110,17 @@ def _ingredient_lines(lines: list[OCRLine]) -> list[OCRLine]:
                 break
             if selected and not _is_spatial_continuation(selected[-1], following):
                 break
-            selected.append(following)
+            cleaned = _clean_ingredient_text(following.text)
+            if cleaned:
+                selected.append(
+                    OCRLine(cleaned, following.confidence, following.bounding_box)
+                )
         return selected
     return []
+
+
+def _clean_ingredient_text(value: str) -> str:
+    return re.sub(r"^[\s·•:：,，;；]+", "", value).strip()
 
 
 def _is_spatial_continuation(previous: OCRLine, current: OCRLine) -> bool:

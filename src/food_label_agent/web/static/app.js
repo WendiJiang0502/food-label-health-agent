@@ -159,8 +159,12 @@ async function analyzeFile(file) {
     elements.reviewRail.hidden = false;
     elements.form.hidden = false;
     elements.reviewCount.textContent = `${payload.fields.length} 项`;
-    elements.proofState.textContent = "待人工确认";
-    announce(`识别完成，共 ${payload.fields.length} 个字段，其中低置信度字段需要确认`);
+    const processing = payload.processing || {};
+    const speedNote = processing.cache_hit
+      ? "已读取缓存"
+      : `${((processing.total_ms || 0) / 1000).toFixed(1)} 秒`;
+    elements.proofState.textContent = `待人工确认 · ${speedNote}`;
+    announce(`识别完成，用时${speedNote}，共 ${payload.fields.length} 个字段，其中低置信度字段需要确认`);
   } catch (error) {
     elements.workbench.classList.remove("has-analysis");
     elements.heroLayout.classList.remove("has-analysis");

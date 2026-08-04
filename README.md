@@ -52,12 +52,15 @@ export FOOD_LABEL_OCR_PROVIDER=paddle
 export FOOD_LABEL_OCR_VERSION=PP-OCRv6
 export FOOD_LABEL_OCR_DEVICE=cpu
 export FOOD_LABEL_OCR_CACHE_DIR=.paddlex
+export FOOD_LABEL_OCR_FAST_PATH=true
 export PADDLE_PDX_MODEL_SOURCE=bos  # 中国大陆部署可优先使用
 # 可选：启用营养表行列恢复；会额外加载 PP-StructureV3 模型
 # export FOOD_LABEL_OCR_TABLE_PARSER=ppstructure
 # export FOOD_LABEL_OCR_TABLE_OCR_VERSION=PP-OCRv5
 food-label-platform
 ```
+
+快速路径默认使用 PP-OCRv6 medium 检测器与 small 识别器，并关闭首轮文字行方向判断。只有配料、营养口径以及带正确单位的核心营养素同时完整时才接受结果；否则自动回退到完整 medium 管线，再按需调用 PP-StructureV3。相同图片在同一服务进程内会命中短期哈希缓存。
 
 真实 `.env`、私有标签样本、OCR 输出和模型缓存均被 Git 排除。完整安装与生产说明见下方配置教程。
 

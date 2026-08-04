@@ -93,6 +93,15 @@ def test_repeated_package_headings_do_not_enter_ingredient_content() -> None:
     assert ingredients.raw_text == "生牛乳"
 
 
+def test_ingredient_value_strips_ocr_bullet_noise() -> None:
+    fields = parse_food_label_fields(
+        [line("配料：·生牛乳", y=0.2)], OCRSettings(provider="paddle")
+    )
+
+    ingredients = {field.name: field for field in fields}["ingredients"]
+    assert ingredients.raw_text == "生牛乳"
+
+
 def test_nutrition_basis_excludes_heading_and_deduplicates_packages() -> None:
     fields = parse_food_label_fields(
         [

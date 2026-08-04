@@ -208,7 +208,7 @@ for result in results:
     result.save_to_img("output/ocr")
 ```
 
-默认配置当前使用 PP-OCRv6 medium。食品包装容易出现旋转、弯曲和倾斜，因此教程先打开三个预处理模块；后续会通过真实数据评估它们的精度收益和耗时，而不是永久写死。
+默认配置采用安全级联：首轮使用 PP-OCRv6 medium 检测器与 small 识别器并关闭文字行方向判断；只有配料、营养口径和单位类型正确的核心营养素全部完整时才接受快速结果。否则自动回退到 PP-OCRv6 medium 完整管线，并在仍缺少结构时按需调用 PP-StructureV3。
 
 ## 8. 如何确认运行的是本地模型
 
@@ -233,6 +233,9 @@ FOOD_LABEL_OCR_CACHE_DIR=.paddlex
 FOOD_LABEL_OCR_USE_ORIENTATION=false
 FOOD_LABEL_OCR_USE_UNWARPING=false
 FOOD_LABEL_OCR_USE_TEXTLINE_ORIENTATION=true
+FOOD_LABEL_OCR_FAST_PATH=true
+FOOD_LABEL_OCR_FAST_DETECTION_MODEL=PP-OCRv6_medium_det
+FOOD_LABEL_OCR_FAST_RECOGNITION_MODEL=PP-OCRv6_small_rec
 FOOD_LABEL_OCR_ALLERGEN_THRESHOLD=0.95
 FOOD_LABEL_OCR_GENERAL_THRESHOLD=0.80
 ```
@@ -255,6 +258,8 @@ Web API
 ```
 
 模型对象应在应用启动时创建一次并复用，不能每次 HTTP 请求都重新加载，否则会产生严重延迟和内存抖动。
+
+快速管线在应用启动时加载；高精度 medium 回退和 PP-StructureV3 均延迟到首次需要时加载。API 的 `processing` 字段会返回 `total_ms`、`quality_ms`、`ocr_ms` 与 `cache_hit`，用于区分图像检查、模型推理和缓存命中。服务进程默认保存最近 64 张图片的 OCR 结果 15 分钟，键为图片内容哈希；它不保存原图、不跨进程共享，也不会进入 Git。
 
 ## 10. 可选启用 PP-StructureV3
 
@@ -343,7 +348,7 @@ OCR 的平均置信度不能代表高风险词一定正确。`花生`、`乳`、
 
 ### 英文版是否需要重新换 OCR
 
-不需要。PP-OCRv6 medium 本身支持中文、英文和数字。英文版主要替换法规知识库、术语规范化、过敏原规则和产品检索数据，OCR Provider 合同保持不变。
+不需要。当前 PP-OCRv6 级联本身支持中文、英文和数字。英文版主要替换法规知识库、术语规范化、过敏原规则和产品检索数据，OCR Provider 合同保持不变。
 
 ## 14. 下一阶段
 
