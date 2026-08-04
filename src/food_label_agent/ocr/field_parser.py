@@ -41,18 +41,15 @@ def parse_food_label_fields(
     nutrition_lines = [line for line in lines if _NUTRITION_BASIS.search(line.text)]
     claim_lines = [line for line in lines if _CLAIM_CUE.search(line.text)]
 
-    if not ingredient_lines:
-        ingredient_lines = lines
-
     fields = [
         _field(
-            name="ingredients",
+            name="ingredients" if ingredient_section_found else "unclassified_text",
             label=(
                 "配料表（请核对范围）"
                 if ingredient_section_found
-                else "OCR 全文（请定位配料表）"
+                else "未定位到配料表"
             ),
-            lines=ingredient_lines,
+            lines=ingredient_lines if ingredient_section_found else lines,
             threshold=settings.general_threshold,
             force_confirmation=True,
             confidence_ceiling=0.84 if ingredient_section_found else 0.50,

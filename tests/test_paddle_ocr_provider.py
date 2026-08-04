@@ -123,6 +123,6 @@ def test_paddle_provider_falls_back_to_full_text_for_manual_review() -> None:
     )
 
     assert len(fields) == 1
-    assert fields[0].name == "ingredients"
+    assert fields[0].name == "unclassified_text"
     assert fields[0].raw_text == "小麦粉、糖、盐"
     assert fields[0].requires_confirmation is True

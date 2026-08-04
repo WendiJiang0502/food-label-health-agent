@@ -50,14 +50,16 @@ def test_parser_keeps_field_level_and_line_level_evidence() -> None:
     assert indexed["label_claims"].requires_confirmation is True
 
 
-def test_missing_ingredient_heading_falls_back_with_lower_semantic_confidence() -> None:
+def test_missing_ingredient_heading_is_unclassified_not_ingredients() -> None:
     fields = parse_food_label_fields(
         [line("小麦粉、白砂糖、食用盐", confidence=0.99)],
         OCRSettings(provider="paddle"),
     )
 
     assert len(fields) == 1
-    assert fields[0].label == "OCR 全文（请定位配料表）"
+    assert fields[0].name == "unclassified_text"
+    assert fields[0].label == "未定位到配料表"
+    assert fields[0].raw_text == "小麦粉、白砂糖、食用盐"
     assert fields[0].confidence == 0.50
     assert fields[0].requires_confirmation is True
 
