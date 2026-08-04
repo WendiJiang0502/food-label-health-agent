@@ -28,7 +28,7 @@ def assess_ocr_evidence(fields: list[OCRFieldResult]) -> OCREvidenceReport:
         )
     else:
         text = ingredients.raw_text.strip()
-        if len(text) < 8:
+        if len(text) < 2:
             issues.append(
                 _issue(
                     "INGREDIENT_SECTION_TOO_SHORT",
@@ -64,6 +64,16 @@ def assess_ocr_evidence(fields: list[OCRFieldResult]) -> OCREvidenceReport:
                     "ingredients",
                 )
             )
+
+    if "nutrition_basis" in indexed and "nutrition_table" not in indexed:
+        issues.append(
+            _issue(
+                "NUTRITION_TABLE_NOT_STRUCTURED",
+                "warning",
+                "检测到营养标示口径，但未可靠恢复营养素与数值对应关系",
+                "nutrition_table",
+            )
+        )
 
     status = "passed"
     if any(issue.severity == "blocking" for issue in issues):

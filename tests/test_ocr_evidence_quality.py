@@ -21,6 +21,22 @@ def test_unclassified_text_never_satisfies_ingredient_evidence() -> None:
     ]
 
 
+def test_single_ingredient_food_is_not_rejected_for_being_short() -> None:
+    report = assess_ocr_evidence(
+        [
+            OCRFieldResult(
+                name="ingredients",
+                label="配料表",
+                raw_text="生牛乳",
+                confidence=0.99,
+                requires_confirmation=True,
+            )
+        ]
+    )
+
+    assert report.status == "passed"
+
+
 def test_contaminated_or_unbalanced_ingredients_are_blocking() -> None:
     report = assess_ocr_evidence(
         [
@@ -72,3 +88,27 @@ def test_large_gap_between_ingredient_lines_requests_review() -> None:
 
     assert report.status == "review_recommended"
     assert report.issues[0].code == "INGREDIENT_LINES_FRAGMENTED"
+
+
+def test_detected_basis_without_structured_table_is_explicit() -> None:
+    report = assess_ocr_evidence(
+        [
+            OCRFieldResult(
+                name="ingredients",
+                label="配料表",
+                raw_text="生牛乳、白砂糖、乳酸菌",
+                confidence=0.90,
+                requires_confirmation=True,
+            ),
+            OCRFieldResult(
+                name="nutrition_basis",
+                label="营养标示口径",
+                raw_text="每100克",
+                confidence=0.99,
+                requires_confirmation=False,
+            ),
+        ]
+    )
+
+    assert report.status == "review_recommended"
+    assert report.issues[0].code == "NUTRITION_TABLE_NOT_STRUCTURED"

@@ -108,9 +108,28 @@ def _ingredient_lines(lines: list[OCRLine]) -> list[OCRLine]:
                 or _ALLERGEN_CUE.search(following.text)
             ):
                 break
+            if selected and not _is_spatial_continuation(selected[-1], following):
+                break
             selected.append(following)
         return selected
     return []
+
+
+def _is_spatial_continuation(previous: OCRLine, current: OCRLine) -> bool:
+    if previous.bounding_box is None or current.bounding_box is None:
+        return True
+    previous_box = previous.bounding_box
+    current_box = current.bounding_box
+    vertical_gap = current_box.y - (previous_box.y + previous_box.height)
+    max_gap = max(previous_box.height, current_box.height) * 2
+    horizontal_overlap = max(
+        0.0,
+        min(previous_box.x + previous_box.width, current_box.x + current_box.width)
+        - max(previous_box.x, current_box.x),
+    )
+    overlap_ratio = horizontal_overlap / min(previous_box.width, current_box.width)
+    same_column = overlap_ratio >= 0.2 or abs(previous_box.x - current_box.x) <= 0.15
+    return -0.02 <= vertical_gap <= max_gap and same_column
 
 
 def _unique_lines(lines: Iterable[OCRLine]) -> list[OCRLine]:

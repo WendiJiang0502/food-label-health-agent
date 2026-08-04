@@ -12,6 +12,10 @@ from typing import Any
 from .config import OCRConfigurationError, OCRSettings
 from .field_parser import OCRLine, parse_food_label_fields
 from .models import BoundingBox, OCRFieldResult
+from .nutrition_coordinates import (
+    choose_best_nutrition_table,
+    extract_coordinate_nutrition_table,
+)
 from .ppstructure_provider import PPStructureNutritionParser
 from .provider import OCRInput
 
@@ -79,10 +83,17 @@ class PaddleOCRProvider:
                     )
                 ]
             fields = parse_food_label_fields(lines, self.settings)
+            table_candidates = []
+            coordinate_table = extract_coordinate_nutrition_table(lines)
+            if coordinate_table is not None:
+                table_candidates.append(coordinate_table)
             if self._table_parser is not None and any(
                 field.name == "nutrition_basis" for field in fields
             ):
-                fields.extend(self._table_parser.analyze(str(temporary_path)))
+                table_candidates.extend(self._table_parser.analyze(str(temporary_path)))
+            best_table = choose_best_nutrition_table(table_candidates)
+            if best_table is not None:
+                fields.append(best_table)
             return fields
         finally:
             if temporary_path is not None:

@@ -107,3 +107,17 @@ def test_nutrition_basis_excludes_heading_and_deduplicates_packages() -> None:
     indexed = {field.name: field for field in fields}
     assert indexed["nutrition_basis"].raw_text == "每100克"
     assert indexed["nutrition_basis"].confidence == 0.99
+
+
+def test_distant_product_name_is_not_appended_to_inline_ingredients() -> None:
+    fields = parse_food_label_fields(
+        [
+            line("配料：生牛乳", y=0.20),
+            line("纯牛奶", y=0.55),
+            line("每100克", y=0.70),
+        ],
+        OCRSettings(provider="paddle"),
+    )
+
+    ingredients = {field.name: field for field in fields}["ingredients"]
+    assert ingredients.raw_text == "生牛乳"
