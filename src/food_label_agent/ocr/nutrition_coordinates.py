@@ -99,10 +99,16 @@ def choose_best_nutrition_table(
     if not candidates:
         return None
     selected = max(candidates, key=_table_rank)
+    complete = has_complete_core_nutrition_table(selected)
     return selected.model_copy(
         update={
             "name": "nutrition_table",
-            "label": "营养成分表（请逐项核对）",
+            "label": (
+                "营养成分表（请逐项核对）"
+                if complete
+                else "营养成分候选（识别不完整，请手动核对）"
+            ),
+            "confidence": selected.confidence if complete else min(selected.confidence, 0.5),
             "requires_confirmation": True,
         }
     )

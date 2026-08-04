@@ -29,7 +29,16 @@ def assess_ocr_evidence(fields: list[OCRFieldResult]) -> OCREvidenceReport:
         )
     else:
         text = ingredients.raw_text.strip()
-        if len(text) < 2:
+        if not text:
+            issues.append(
+                _issue(
+                    "INGREDIENT_TEXT_MISSING",
+                    "blocking",
+                    "未可靠识别配料表内容，请重新拍摄或手动补充",
+                    "ingredients",
+                )
+            )
+        elif len(text) < 2:
             issues.append(
                 _issue(
                     "INGREDIENT_SECTION_TOO_SHORT",
@@ -38,7 +47,7 @@ def assess_ocr_evidence(fields: list[OCRFieldResult]) -> OCREvidenceReport:
                     "ingredients",
                 )
             )
-        if _NON_INGREDIENT_SECTION.search(text):
+        if text and _NON_INGREDIENT_SECTION.search(text):
             issues.append(
                 _issue(
                     "INGREDIENT_BOUNDARY_CONTAMINATED",
@@ -47,7 +56,7 @@ def assess_ocr_evidence(fields: list[OCRFieldResult]) -> OCREvidenceReport:
                     "ingredients",
                 )
             )
-        if _has_unbalanced_brackets(text):
+        if text and _has_unbalanced_brackets(text):
             issues.append(
                 _issue(
                     "INGREDIENT_BRACKET_MISMATCH",

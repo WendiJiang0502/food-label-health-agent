@@ -49,17 +49,17 @@ def parse_food_label_fields(
     claim_lines = [line for line in lines if _CLAIM_CUE.search(line.text)]
 
     fields = [
-        _field(
-            name="ingredients" if ingredient_section_found else "unclassified_text",
-            label=(
-                "配料表（请核对范围）"
-                if ingredient_section_found
-                else "未定位到配料表"
-            ),
-            lines=ingredient_lines if ingredient_section_found else lines,
-            threshold=settings.general_threshold,
-            force_confirmation=True,
-            confidence_ceiling=0.84 if ingredient_section_found else 0.50,
+        (
+            _field(
+                name="ingredients",
+                label="配料表（请核对范围）",
+                lines=ingredient_lines,
+                threshold=settings.general_threshold,
+                force_confirmation=True,
+                confidence_ceiling=0.84,
+            )
+            if ingredient_section_found
+            else _missing_ingredients_field()
         )
     ]
     if allergen_lines:
@@ -125,6 +125,16 @@ def _ingredient_lines(lines: list[OCRLine]) -> list[OCRLine]:
 
 def _clean_ingredient_text(value: str) -> str:
     return re.sub(r"^[\s·•:：,，;；]+", "", value).strip()
+
+
+def _missing_ingredients_field() -> OCRFieldResult:
+    return OCRFieldResult(
+        name="ingredients",
+        label="配料表（未识别，请手动补充）",
+        raw_text="",
+        confidence=0.0,
+        requires_confirmation=True,
+    )
 
 
 def _nutrition_basis_lines(line: OCRLine) -> list[OCRLine]:

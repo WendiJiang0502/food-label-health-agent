@@ -57,10 +57,10 @@ def test_missing_ingredient_heading_is_unclassified_not_ingredients() -> None:
     )
 
     assert len(fields) == 1
-    assert fields[0].name == "unclassified_text"
-    assert fields[0].label == "未定位到配料表"
-    assert fields[0].raw_text == "小麦粉、白砂糖、食用盐"
-    assert fields[0].confidence == 0.50
+    assert fields[0].name == "ingredients"
+    assert fields[0].label == "配料表（未识别，请手动补充）"
+    assert fields[0].raw_text == ""
+    assert fields[0].confidence == 0.0
     assert fields[0].requires_confirmation is True
 
 
@@ -74,8 +74,9 @@ def test_ingredient_word_inside_foreign_sentence_is_not_a_heading() -> None:
     )
 
     assert len(fields) == 1
-    assert fields[0].name == "unclassified_text"
-    assert fields[0].label == "未定位到配料表"
+    assert fields[0].name == "ingredients"
+    assert fields[0].label == "配料表（未识别，请手动补充）"
+    assert fields[0].raw_text == ""
 
 
 def test_allergen_wording_without_heading_is_detected() -> None:

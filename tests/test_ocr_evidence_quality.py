@@ -42,6 +42,23 @@ def test_single_ingredient_food_is_not_rejected_for_being_short() -> None:
     assert report.status == "passed"
 
 
+def test_empty_manual_ingredient_field_is_blocking() -> None:
+    report = assess_ocr_evidence(
+        [
+            OCRFieldResult(
+                name="ingredients",
+                label="配料表（未识别，请手动补充）",
+                raw_text="",
+                confidence=0.0,
+                requires_confirmation=True,
+            )
+        ]
+    )
+
+    assert report.status == "needs_confirmation"
+    assert report.issues[0].code == "INGREDIENT_TEXT_MISSING"
+
+
 def test_contaminated_or_unbalanced_ingredients_are_blocking() -> None:
     report = assess_ocr_evidence(
         [

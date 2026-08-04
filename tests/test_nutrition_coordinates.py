@@ -67,7 +67,10 @@ def test_best_table_prefers_more_complete_nutrient_coverage() -> None:
     complete = OCRFieldResult(
         name="nutrition_table_ocr",
         label="坐标表格",
-        raw_text="每100克 能量271千焦 蛋白质3.2克 脂肪3.6克 钠55毫克 钙100毫克",
+        raw_text=(
+            "每100克 能量271千焦 蛋白质3.2克 脂肪3.6克 "
+            "碳水化合物4.9克 钠55毫克 钙100毫克"
+        ),
         confidence=0.84,
         requires_confirmation=True,
     )
@@ -77,6 +80,23 @@ def test_best_table_prefers_more_complete_nutrient_coverage() -> None:
     assert selected is not None
     assert selected.name == "nutrition_table"
     assert selected.raw_text == complete.raw_text
+    assert selected.requires_confirmation is True
+
+
+def test_incomplete_table_is_visibly_downgraded() -> None:
+    partial = OCRFieldResult(
+        name="nutrition_table_1",
+        label="结构化表格",
+        raw_text="每100克 能量271千焦 蛋白质3.2克",
+        confidence=0.97,
+        requires_confirmation=False,
+    )
+
+    selected = choose_best_nutrition_table([partial])
+
+    assert selected is not None
+    assert selected.confidence == 0.5
+    assert "识别不完整" in selected.label
     assert selected.requires_confirmation is True
 
 
