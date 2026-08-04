@@ -28,6 +28,9 @@ class ImageQualityMetrics:
     brightness: float
     contrast: float
     foreground_ratio: float
+    text_skew_degrees: float = 0.0
+    text_angle_spread: float = 0.0
+    local_sharpness_ratio: float = 1.0
 
 
 @dataclass(frozen=True, slots=True)
@@ -82,6 +85,8 @@ def assess_image_quality(content: bytes) -> ImageQualityReport:
         gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU
     )
     foreground_ratio = float((foreground > 0).mean())
+    text_skew_degrees, text_angle_spread = _text_geometry(gray, cv2, np)
+    local_sharpness_ratio = _local_sharpness_ratio(gray, cv2, np)
 
     metrics = ImageQualityMetrics(
         width=width,
@@ -90,6 +95,9 @@ def assess_image_quality(content: bytes) -> ImageQualityReport:
         brightness=brightness,
         contrast=contrast,
         foreground_ratio=foreground_ratio,
+        text_skew_degrees=text_skew_degrees,
+        text_angle_spread=text_angle_spread,
+        local_sharpness_ratio=local_sharpness_ratio,
     )
     return ImageQualityReport(metrics=metrics, issues=evaluate_quality_metrics(metrics))
 
@@ -196,4 +204,79 @@ def evaluate_quality_metrics(
             )
         )
 
+    if metrics.text_skew_degrees > 12:
+        issues.append(
+            ImageQualityIssue(
+                "IMAGE_PERSPECTIVE_CAUTION",
+                QualitySeverity.WARNING,
+                "标签文字整体倾斜，请尽量正对包装拍摄",
+            )
+        )
+
+    if metrics.text_angle_spread > 14:
+        issues.append(
+            ImageQualityIssue(
+                "IMAGE_LOCAL_WARP_CAUTION",
+                QualitySeverity.WARNING,
+                "标签不同区域文字角度差异较大，可能存在褶皱或局部形变",
+            )
+        )
+
+    if metrics.local_sharpness_ratio > 18:
+        issues.append(
+            ImageQualityIssue(
+                "IMAGE_LOCAL_FOCUS_CAUTION",
+                QualitySeverity.WARNING,
+                "图片不同区域清晰度差异较大，请核对褶皱或失焦区域",
+            )
+        )
+
     return tuple(issues)
+
+
+def _text_geometry(gray, cv2, np) -> tuple[float, float]:
+    edges = cv2.Canny(gray, 60, 180)
+    height, width = gray.shape
+    lines = cv2.HoughLinesP(
+        edges,
+        1,
+        np.pi / 180,
+        threshold=max(20, min(width, height) // 18),
+        minLineLength=max(24, min(width, height) // 12),
+        maxLineGap=max(6, min(width, height) // 80),
+    )
+    if lines is None:
+        return 0.0, 0.0
+    angles = []
+    for x1, y1, x2, y2 in lines[:, 0]:
+        angle = float(np.degrees(np.arctan2(y2 - y1, x2 - x1)))
+        while angle > 90:
+            angle -= 180
+        while angle < -90:
+            angle += 180
+        if abs(angle) <= 35:
+            angles.append(angle)
+    if len(angles) < 4:
+        return 0.0, 0.0
+    values = np.asarray(angles, dtype=float)
+    skew = float(abs(np.median(values)))
+    spread = float(np.percentile(values, 90) - np.percentile(values, 10))
+    return skew, spread
+
+
+def _local_sharpness_ratio(gray, cv2, np) -> float:
+    height, width = gray.shape
+    scores = []
+    for row in range(3):
+        for column in range(3):
+            tile = gray[
+                row * height // 3 : (row + 1) * height // 3,
+                column * width // 3 : (column + 1) * width // 3,
+            ]
+            if tile.size and float(tile.std()) >= 10:
+                scores.append(float(cv2.Laplacian(tile, cv2.CV_64F).var()))
+    if len(scores) < 3:
+        return 1.0
+    lower = float(np.percentile(scores, 20))
+    upper = float(np.percentile(scores, 80))
+    return upper / max(lower, 1.0)

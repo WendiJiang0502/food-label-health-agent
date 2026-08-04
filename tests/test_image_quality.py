@@ -76,6 +76,29 @@ def test_compact_but_sharp_crop_is_warned_not_blocked_by_size() -> None:
     ]
 
 
+def test_geometry_and_local_focus_signals_are_review_warnings() -> None:
+    metrics = ImageQualityMetrics(
+        width=1200,
+        height=1600,
+        blur_score=240,
+        brightness=130,
+        contrast=42,
+        foreground_ratio=0.08,
+        text_skew_degrees=14,
+        text_angle_spread=18,
+        local_sharpness_ratio=22,
+    )
+
+    issues = evaluate_quality_metrics(metrics)
+
+    assert {issue.code for issue in issues} == {
+        "IMAGE_PERSPECTIVE_CAUTION",
+        "IMAGE_LOCAL_WARP_CAUTION",
+        "IMAGE_LOCAL_FOCUS_CAUTION",
+    }
+    assert all(issue.severity is QualitySeverity.WARNING for issue in issues)
+
+
 def test_quality_gate_stops_provider_before_ocr() -> None:
     provider = RecordingRealProvider()
     report = ImageQualityReport(
@@ -126,3 +149,5 @@ def test_quality_warning_reaches_response_and_dimensions_reach_provider() -> Non
     assert provider.received.width == 1200
     assert provider.received.height == 1600
     assert result.warnings == ["图片清晰度一般，请核对低置信度文字"]
+    assert result.image_quality is not None
+    assert result.image_quality.blur_score == 88

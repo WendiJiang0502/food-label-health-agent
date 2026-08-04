@@ -10,7 +10,12 @@ from food_label_agent.graph.routing import route_after_ocr
 from food_label_agent.graph.state import create_initial_state
 
 from .evidence_quality import assess_ocr_evidence
-from .models import ConfirmLabelRequest, ConfirmLabelResponse, OCRAnalysisResponse
+from .models import (
+    ConfirmLabelRequest,
+    ConfirmLabelResponse,
+    ImageQualityData,
+    OCRAnalysisResponse,
+)
 from .provider import OCRInput, OCRProvider
 from .quality import ImageQualityError, ImageQualityReport, assess_image_quality
 
@@ -93,6 +98,21 @@ class OCRService:
             synthetic=self.provider.synthetic,
             file_name=file_name,
             fields=fields,
+            image_quality=(
+                ImageQualityData(
+                    width=quality.metrics.width,
+                    height=quality.metrics.height,
+                    blur_score=quality.metrics.blur_score,
+                    brightness=quality.metrics.brightness,
+                    contrast=quality.metrics.contrast,
+                    foreground_ratio=quality.metrics.foreground_ratio,
+                    text_skew_degrees=quality.metrics.text_skew_degrees,
+                    text_angle_spread=quality.metrics.text_angle_spread,
+                    local_sharpness_ratio=quality.metrics.local_sharpness_ratio,
+                )
+                if quality
+                else None
+            ),
             evidence_quality=evidence_quality,
             warnings=warnings,
             next_route=route_after_ocr(state),

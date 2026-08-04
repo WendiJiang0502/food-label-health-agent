@@ -54,6 +54,20 @@ class OCREvidenceReport(BaseModel):
     issues: list[OCREvidenceIssue] = Field(default_factory=list)
 
 
+class ImageQualityData(BaseModel):
+    model_config = ConfigDict(frozen=True)
+
+    width: int
+    height: int
+    blur_score: float
+    brightness: float
+    contrast: float
+    foreground_ratio: float
+    text_skew_degrees: float
+    text_angle_spread: float
+    local_sharpness_ratio: float
+
+
 class OCRFieldResult(BaseModel):
     model_config = ConfigDict(frozen=True)
 
@@ -75,6 +89,7 @@ class OCRAnalysisResponse(BaseModel):
     synthetic: bool
     file_name: str
     fields: list[OCRFieldResult]
+    image_quality: ImageQualityData | None = None
     evidence_quality: OCREvidenceReport
     warnings: list[str] = Field(default_factory=list)
     next_route: str

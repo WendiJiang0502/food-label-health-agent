@@ -121,6 +121,11 @@ async def evaluate_directory(images_dir: Path) -> dict[str, Any]:
             "confirmation_required": sorted(
                 field.name for field in response.fields if field.requires_confirmation
             ),
+            "image_quality": (
+                response.image_quality.model_dump(mode="json")
+                if response.image_quality
+                else None
+            ),
             "evidence_quality": response.evidence_quality.model_dump(mode="json"),
             "warnings": response.warnings,
         }
