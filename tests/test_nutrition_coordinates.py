@@ -93,3 +93,18 @@ def test_complete_core_table_can_skip_heavy_structure_pipeline() -> None:
     )
 
     assert has_complete_core_nutrition_table(complete) is True
+
+
+def test_complete_names_with_wrong_nutrient_unit_cannot_skip_fallback() -> None:
+    mismatched = OCRFieldResult(
+        name="nutrition_table",
+        label="营养成分表",
+        raw_text=(
+            "每100克 能量3.2克 蛋白质3.2克 脂肪3.6克 "
+            "碳水化合物4.9克 钠55毫克"
+        ),
+        confidence=0.84,
+        requires_confirmation=True,
+    )
+
+    assert has_complete_core_nutrition_table(mismatched) is False
