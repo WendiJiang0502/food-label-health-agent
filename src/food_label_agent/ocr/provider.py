@@ -19,6 +19,7 @@ class OCRInput:
     media_type: str
     width: int | None = None
     height: int | None = None
+    fast_path_allowed: bool = True
 
 
 class OCRProvider(Protocol):

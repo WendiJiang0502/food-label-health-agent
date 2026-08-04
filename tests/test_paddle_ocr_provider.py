@@ -164,6 +164,34 @@ def test_complete_fast_path_skips_medium_engine() -> None:
     }
 
 
+def test_complex_image_skips_fast_inference_and_uses_medium_directly() -> None:
+    calls = []
+
+    def factory(**options):
+        calls.append(options)
+        return FakePaddleEngine()
+
+    provider = PaddleOCRProvider(
+        OCRSettings(provider="paddle"), engine_factory=factory
+    )
+    asyncio.run(
+        provider.analyze(
+            OCRInput(
+                content=b"\x89PNG\r\n\x1a\nimage",
+                file_name="label.png",
+                media_type="image/png",
+                width=1200,
+                height=800,
+                fast_path_allowed=False,
+            )
+        )
+    )
+
+    assert len(calls) == 2
+    assert calls[0]["text_recognition_model_name"] == "PP-OCRv6_small_rec"
+    assert calls[1]["ocr_version"] == "PP-OCRv6"
+
+
 def test_paddle_provider_maps_lines_and_deletes_temporary_image(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:

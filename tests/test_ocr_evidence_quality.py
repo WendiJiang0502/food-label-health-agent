@@ -1,5 +1,10 @@
 from food_label_agent.ocr.evidence_quality import assess_ocr_evidence
-from food_label_agent.ocr.models import BoundingBox, OCRFieldResult, OCRLineEvidence
+from food_label_agent.ocr.models import (
+    BoundingBox,
+    NutritionTableData,
+    OCRFieldResult,
+    OCRLineEvidence,
+)
 
 
 def test_unclassified_text_never_satisfies_ingredient_evidence() -> None:
@@ -112,3 +117,37 @@ def test_detected_basis_without_structured_table_is_explicit() -> None:
 
     assert report.status == "review_recommended"
     assert report.issues[0].code == "NUTRITION_TABLE_NOT_STRUCTURED"
+
+
+def test_partial_nutrition_table_never_passes_evidence_gate() -> None:
+    report = assess_ocr_evidence(
+        [
+            OCRFieldResult(
+                name="ingredients",
+                label="配料表",
+                raw_text="牛肉、水、食用盐",
+                confidence=0.84,
+                requires_confirmation=True,
+            ),
+            OCRFieldResult(
+                name="nutrition_basis",
+                label="营养标示口径",
+                raw_text="每100克",
+                confidence=0.99,
+                requires_confirmation=False,
+            ),
+            OCRFieldResult(
+                name="nutrition_table",
+                label="营养成分表",
+                raw_text="每100克 能量691千焦 蛋白质11.8克",
+                confidence=0.84,
+                requires_confirmation=True,
+                nutrition_table=NutritionTableData(
+                    rows=[["能量", "691千焦"], ["蛋白质", "11.8克"]]
+                ),
+            ),
+        ]
+    )
+
+    assert report.status == "review_recommended"
+    assert report.issues[0].code == "NUTRITION_CORE_FIELDS_INCOMPLETE"

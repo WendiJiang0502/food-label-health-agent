@@ -6,6 +6,7 @@ import re
 from itertools import pairwise
 
 from .models import OCREvidenceIssue, OCREvidenceReport, OCRFieldResult
+from .nutrition_coordinates import has_complete_core_nutrition_table
 
 _NON_INGREDIENT_SECTION = re.compile(
     r"生产日期|保质期|贮存条件|储存条件|产品标准|执行标准|生产商|制造商|厂址|净含量"
@@ -71,6 +72,17 @@ def assess_ocr_evidence(fields: list[OCRFieldResult]) -> OCREvidenceReport:
                 "NUTRITION_TABLE_NOT_STRUCTURED",
                 "warning",
                 "检测到营养标示口径，但未可靠恢复营养素与数值对应关系",
+                "nutrition_table",
+            )
+        )
+    elif "nutrition_basis" in indexed and not has_complete_core_nutrition_table(
+        indexed.get("nutrition_table")
+    ):
+        issues.append(
+            _issue(
+                "NUTRITION_CORE_FIELDS_INCOMPLETE",
+                "warning",
+                "营养成分表未完整恢复能量、蛋白质、脂肪、碳水化合物和钠的数值与单位",
                 "nutrition_table",
             )
         )

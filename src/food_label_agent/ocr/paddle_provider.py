@@ -63,7 +63,13 @@ class PaddleOCRProvider:
             with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as temporary:
                 temporary.write(image.content)
                 temporary_path = Path(temporary.name)
-            lines = self._predict_lines(self._engine, temporary_path, image)
+            use_fast_path = (
+                self.settings.fast_path_enabled and image.fast_path_allowed
+            )
+            primary_engine = (
+                self._engine if use_fast_path else self._get_fallback_engine()
+            )
+            lines = self._predict_lines(primary_engine, temporary_path, image)
             if not lines:
                 return [
                     OCRFieldResult(
@@ -76,7 +82,7 @@ class PaddleOCRProvider:
                 ]
             fields = parse_food_label_fields(lines, self.settings)
             coordinate_table = extract_coordinate_nutrition_table(lines)
-            if self.settings.fast_path_enabled and not _fast_path_complete(
+            if use_fast_path and not _fast_path_complete(
                 fields, coordinate_table
             ):
                 lines = self._predict_lines(

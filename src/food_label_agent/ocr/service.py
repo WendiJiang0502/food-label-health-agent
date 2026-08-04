@@ -94,6 +94,7 @@ class OCRService:
                     media_type=media_type,
                     width=quality.metrics.width if quality else None,
                     height=quality.metrics.height if quality else None,
+                    fast_path_allowed=_fast_path_allowed(quality),
                 )
             )
             ocr_ms = _elapsed_ms(ocr_started)
@@ -233,3 +234,14 @@ def _matches_image_signature(*, content: bytes, media_type: str) -> bool:
 
 def _elapsed_ms(started_at: float) -> float:
     return round((perf_counter() - started_at) * 1000, 3)
+
+
+def _fast_path_allowed(quality: ImageQualityReport | None) -> bool:
+    if quality is None:
+        return True
+    high_complexity_codes = {
+        "IMAGE_PERSPECTIVE_CAUTION",
+        "IMAGE_LOCAL_WARP_CAUTION",
+        "IMAGE_LOCAL_FOCUS_CAUTION",
+    }
+    return not any(issue.code in high_complexity_codes for issue in quality.issues)
