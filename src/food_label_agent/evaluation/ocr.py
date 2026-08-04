@@ -12,6 +12,7 @@ from collections.abc import Mapping, Sequence
 from pathlib import Path
 from typing import Any
 
+from food_label_agent.ocr.normalization import normalize_nutrition_text
 from food_label_agent.ocr.paddle_provider import create_ocr_provider
 from food_label_agent.ocr.quality import ImageQualityError
 from food_label_agent.ocr.service import OCRService
@@ -126,10 +127,16 @@ def compare_fields(
     annotation: Mapping[str, Any], actual_fields: Mapping[str, str]
 ) -> dict[str, Any]:
     expected_fields = annotation.get("fields", {})
-    field_cer = {
-        name: round(character_error_rate(str(expected), actual_fields.get(name, "")), 4)
-        for name, expected in expected_fields.items()
-    }
+    field_cer = {}
+    for name, expected in expected_fields.items():
+        expected_text = str(expected)
+        actual_text = actual_fields.get(name, "")
+        if name in {"nutrition_basis", "nutrition_table"}:
+            expected_text = normalize_nutrition_text(expected_text)
+            actual_text = normalize_nutrition_text(actual_text)
+        field_cer[name] = round(
+            character_error_rate(expected_text, actual_text), 4
+        )
     combined = "\n".join(actual_fields.values())
     return {
         "field_cer": field_cer,
