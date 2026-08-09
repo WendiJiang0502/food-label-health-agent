@@ -18,7 +18,7 @@ from food_label_agent.ingredients.api_models import (
 
 from .nodes import _additive_ingredients, final_safety_gate_node
 from .react import react_orchestrator
-from .state import create_initial_state
+from .state import AgentState, create_initial_state
 
 
 def attach_regulatory_interpretation(
@@ -26,6 +26,16 @@ def attach_regulatory_interpretation(
     evaluation: SafetyEvaluationResponse,
 ) -> dict:
     """Continue a completed rule evaluation through evidence and the final gate."""
+
+    evidence, _ = run_regulatory_workflow(request, evaluation)
+    return evidence
+
+
+def run_regulatory_workflow(
+    request: SafetyEvaluationRequest,
+    evaluation: SafetyEvaluationResponse,
+) -> tuple[dict, AgentState]:
+    """Run the evidence workflow and expose final state for durable checkpoints."""
 
     state = create_initial_state(
         request_id=request.request_id,
@@ -101,7 +111,7 @@ def attach_regulatory_interpretation(
     else:
         evidence_status = "grounded"
 
-    return {
+    evidence = {
         "status": evidence_status,
         "jurisdiction": request.jurisdiction,
         "applicable_date": request.applicable_date,
@@ -117,3 +127,4 @@ def attach_regulatory_interpretation(
         "agent_trace": [asdict(item) for item in state["tool_trace"]],
         "react_budget": state["react_budget"],
     }
+    return evidence, state

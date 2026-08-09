@@ -57,8 +57,12 @@ def test_production_nodes_normalize_then_evaluate_confirmed_label(
     assert state["risk_findings"][0].risk_level is RiskLevel.AVOID
     assert state["risk_findings"][0].evidence_ids == ("label.ingredients.item.1.3",)
     assert calls == ["normalize_food_label", "evaluate_user_constraints"]
-    assert state["audit_events"][-2].actor == "mcp:normalize_food_label"
-    assert state["audit_events"][-1].actor == "mcp:evaluate_user_constraints"
+    assert [event.actor for event in state["audit_events"][-4:]] == [
+        "context_builder:normalize_label",
+        "mcp:normalize_food_label",
+        "context_builder:evaluate_safety",
+        "mcp:evaluate_user_constraints",
+    ]
 
     state.update(retrieve_regulations(state))
     assert state["stage"] is WorkflowStage.REGULATORY_RETRIEVAL

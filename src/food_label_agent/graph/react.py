@@ -10,6 +10,7 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 from typing import Any
 
+from food_label_agent.context.builder import build_node_context
 from food_label_agent.domain.models import AuditEvent, ToolTraceEvent
 from food_label_agent.domain.types import AnalysisStatus, RiskLevel, WorkflowStage
 from food_label_agent.mcp.business_tools import MCPToolCallError, invoke_mcp_tool
@@ -52,6 +53,23 @@ def react_orchestrator(
     """Run a bounded tool loop and return a LangGraph-compatible state update."""
 
     working = _copy_state(state)
+    context = build_node_context(working, "react_orchestrator")
+    working["audit_events"].append(
+        AuditEvent(
+            event_type="node_context_built",
+            actor="context_builder:react_orchestrator",
+            detail={
+                "node_name": "react_orchestrator",
+                "included_fields": list(context.included_fields),
+                "excluded_fields": list(context.excluded_fields),
+                "estimated_tokens": context.estimated_tokens,
+                "token_budget": context.token_budget,
+                "truncated": context.truncated,
+                "budget_exceeded": context.budget_exceeded,
+                "context_digest": context.digest,
+            },
+        )
+    )
     configured = state.get("react_budget", {})
     step_limit = max_steps if max_steps is not None else configured.get("max_steps", 16)
     tool_limit = (

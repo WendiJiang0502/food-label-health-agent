@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import asdict
 
+from food_label_agent.context.builder import build_node_context
 from food_label_agent.domain.models import AuditEvent, Evidence, RiskFinding
 from food_label_agent.domain.types import AnalysisStatus, RiskLevel, WorkflowStage
 from food_label_agent.mcp.business_tools import MCPToolCallError, invoke_mcp_tool
@@ -70,6 +71,7 @@ def normalize_label(state: AgentState) -> dict:
         ),
         "audit_events": [
             *state["audit_events"],
+            _context_event(state, "normalize_label"),
             AuditEvent(
                 event_type="label_normalized",
                 actor="mcp:normalize_food_label",
@@ -129,6 +131,7 @@ def evaluate_safety(state: AgentState) -> dict:
         "risk_findings": findings,
         "audit_events": [
             *state["audit_events"],
+            _context_event(state, "evaluate_safety"),
             AuditEvent(
                 event_type="safety_evaluated",
                 actor="mcp:evaluate_user_constraints",
@@ -249,6 +252,24 @@ def retrieve_regulations(state: AgentState) -> dict:
             ),
         ],
     }
+
+
+def _context_event(state: AgentState, node_name: str) -> AuditEvent:
+    context = build_node_context(state, node_name)
+    return AuditEvent(
+        event_type="node_context_built",
+        actor=f"context_builder:{node_name}",
+        detail={
+            "node_name": node_name,
+            "included_fields": list(context.included_fields),
+            "excluded_fields": list(context.excluded_fields),
+            "estimated_tokens": context.estimated_tokens,
+            "token_budget": context.token_budget,
+            "truncated": context.truncated,
+            "budget_exceeded": context.budget_exceeded,
+            "context_digest": context.digest,
+        },
+    )
 
 
 def interpret_label(state: AgentState) -> dict:
@@ -466,6 +487,7 @@ def final_safety_gate_node(state: AgentState) -> dict:
         "errors": list(dict.fromkeys([*state["errors"], *violation_errors])),
         "audit_events": [
             *state["audit_events"],
+            _context_event(state, "final_safety_gate"),
             AuditEvent(
                 event_type="final_safety_gate_evaluated",
                 actor="orchestrator:final_safety_gate",

@@ -37,6 +37,7 @@ class SafetyEvaluationRequest(BaseModel):
     confirmed_fields: dict[str, str]
     nutrition_rows: list[list[str]] | None = None
     constraints: list[ConstraintInput] = Field(min_length=1, max_length=16)
+    resume_token: str | None = Field(default=None, min_length=32, max_length=256)
 
     @field_validator("confirmed_fields")
     @classmethod

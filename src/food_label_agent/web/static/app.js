@@ -29,6 +29,11 @@ const elements = {
   nutritionThreshold: document.querySelector("#nutrition-threshold"),
   nutritionUnit: document.querySelector("#nutrition-unit"),
   nutritionBasisNote: document.querySelector("#nutrition-basis-note"),
+  rememberConstraints: document.querySelector("#remember-constraints"),
+  memorySaved: document.querySelector("#memory-saved"),
+  memoryList: document.querySelector("#memory-list"),
+  memoryStatus: document.querySelector("#memory-status"),
+  revokeMemory: document.querySelector("#revoke-memory"),
   evaluateButton: document.querySelector("#evaluate-button"),
   safetyResult: document.querySelector("#safety-result"),
   riskSymbol: document.querySelector("#risk-symbol"),
@@ -60,6 +65,8 @@ const elements = {
   privacyStatuses: document.querySelectorAll("[data-privacy-status]"),
 };
 
+const MEMORY_CREDENTIALS_KEY = "food-label-agent.memory-credentials.v1";
+
 elements.heroUploadButton.addEventListener("click", () => elements.fileInput.click());
 loadHealthStatus();
 
@@ -69,7 +76,12 @@ const state = {
   analysis: null,
   confirmedFields: null,
   normalizedLabel: null,
+  checkpointToken: null,
+  memoryCredentials: readMemoryCredentials(),
+  rememberedItems: [],
 };
+
+loadRememberedConstraints();
 
 const constraintLabels = {
   milk: "乳过敏",
@@ -185,6 +197,7 @@ elements.form.addEventListener("submit", async (event) => {
     elements.reviewTitle.textContent = "设置个人约束";
     elements.reviewCount.textContent = "个人约束";
     elements.proofState.textContent = "标签已确认";
+    applyRememberedConstraints();
     elements.constraintStep.querySelector("input")?.focus();
     announce("识别文字已确认，请选择需要回避的过敏原");
   } catch (error) {
@@ -229,6 +242,9 @@ elements.constraintForm.addEventListener("submit", async (event) => {
         jurisdiction: "CN",
         applicable_date: new Date().toISOString().slice(0, 10),
         confirmed_fields: state.confirmedFields,
+        nutrition_rows: state.analysis.fields.find((field) => field.name === "nutrition_table")
+          ?.nutrition_table?.rows || null,
+        resume_token: state.checkpointToken,
         constraints: [
           ...selected.map((canonicalValue) => ({
           kind: "allergy",
@@ -248,7 +264,13 @@ elements.constraintForm.addEventListener("submit", async (event) => {
     });
     const payload = await response.json();
     if (!response.ok) throw new Error(payload.message || "过敏原检查失败。");
+    if (payload.checkpoint?.resume_token) {
+      state.checkpointToken = payload.checkpoint.resume_token;
+    }
     renderSafetyResult(payload);
+    if (elements.rememberConstraints.checked) {
+      await syncRememberedConstraints();
+    }
   } catch (error) {
     showRailError(error.message);
   } finally {
@@ -262,6 +284,8 @@ elements.constraintForm.addEventListener("change", () => {
   elements.constraintError.hidden = true;
   hideRailError();
 });
+
+elements.revokeMemory.addEventListener("click", revokeRememberedConstraints);
 
 function setupNutritionLimit(nutrition) {
   elements.nutritionKey.replaceChildren(new Option("不设置", ""));
@@ -480,10 +504,211 @@ function resetResult() {
   elements.reviewTitle.textContent = "确认识别文字";
   state.confirmedFields = null;
   state.normalizedLabel = null;
+  state.checkpointToken = null;
   elements.workbench.classList.remove("has-analysis");
   elements.heroLayout.classList.remove("has-analysis");
   elements.fieldList.replaceChildren();
   elements.reviewCount.textContent = "0 项";
+}
+
+function readMemoryCredentials() {
+  try {
+    const value = JSON.parse(localStorage.getItem(MEMORY_CREDENTIALS_KEY) || "null");
+    if (value?.profileId && value?.accessToken) return value;
+  } catch {
+    localStorage.removeItem(MEMORY_CREDENTIALS_KEY);
+  }
+  return null;
+}
+
+function memoryRequestOptions(method = "GET", body = null) {
+  const headers = { Authorization: `Bearer ${state.memoryCredentials.accessToken}` };
+  if (body) headers["Content-Type"] = "application/json";
+  return { method, headers, ...(body ? { body: JSON.stringify(body) } : {}) };
+}
+
+async function ensureMemoryConsent() {
+  if (state.memoryCredentials) return;
+  const profileId = `profile-${crypto.randomUUID()}`;
+  const response = await fetch("/api/v1/memory/consents", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      profile_id: profileId,
+      purpose: "跨会话保存用户明确选择的食品约束",
+      explicit_consent: true,
+    }),
+  });
+  const payload = await response.json();
+  if (!response.ok) throw new Error(payload.message || "无法开启约束记忆。");
+  state.memoryCredentials = { profileId, accessToken: payload.access_token };
+  localStorage.setItem(MEMORY_CREDENTIALS_KEY, JSON.stringify(state.memoryCredentials));
+}
+
+async function loadRememberedConstraints() {
+  if (!state.memoryCredentials) return;
+  elements.rememberConstraints.checked = true;
+  elements.memoryStatus.textContent = "正在读取已保存约束…";
+  try {
+    const { profileId } = state.memoryCredentials;
+    const response = await fetch(
+      `/api/v1/memory/items?profile_id=${encodeURIComponent(profileId)}`,
+      memoryRequestOptions(),
+    );
+    const payload = await response.json();
+    if (!response.ok) {
+      if (response.status === 403) clearMemoryCredentials();
+      throw new Error(payload.message || "无法读取已保存约束。");
+    }
+    state.rememberedItems = payload.items.filter((item) => item.kind === "constraint");
+    renderRememberedConstraints();
+    applyRememberedConstraints();
+    elements.memoryStatus.textContent = state.rememberedItems.length
+      ? "已从此设备保存的约束预选，请在评估前核对。"
+      : "已授权记忆，尚未保存约束。";
+  } catch (error) {
+    elements.memoryStatus.textContent = error.message;
+  }
+}
+
+function currentConstraintValues() {
+  const allergyValues = [...elements.constraintForm.querySelectorAll('input[name="constraint"]:checked')]
+    .map((input) => ({
+      kind: "allergy",
+      canonical_value: input.value,
+      severity: "severe",
+    }));
+  if (!elements.nutritionKey.value) return allergyValues;
+  const option = elements.nutritionKey.selectedOptions[0];
+  return [...allergyValues, {
+    kind: "nutrition_limit",
+    canonical_value: elements.nutritionKey.value,
+    operator: "max",
+    threshold: elements.nutritionThreshold.valueAsNumber,
+    unit: option.dataset.unit,
+    basis: option.dataset.basis,
+  }];
+}
+
+async function syncRememberedConstraints() {
+  elements.memoryStatus.textContent = "正在保存你明确选择的约束…";
+  try {
+    await ensureMemoryConsent();
+    const { profileId } = state.memoryCredentials;
+    for (const item of state.rememberedItems) {
+      const response = await fetch(
+        `/api/v1/memory/items/${item.memory_id}?profile_id=${encodeURIComponent(profileId)}`,
+        memoryRequestOptions("DELETE"),
+      );
+      if (!response.ok) throw new Error("无法更新已保存约束。");
+    }
+    const saved = [];
+    for (const value of currentConstraintValues()) {
+      const response = await fetch(
+        `/api/v1/memory/items?profile_id=${encodeURIComponent(profileId)}`,
+        memoryRequestOptions("POST", { kind: "constraint", value }),
+      );
+      const payload = await response.json();
+      if (!response.ok) throw new Error(payload.message || "无法保存约束。");
+      saved.push(payload.item);
+    }
+    state.rememberedItems = saved;
+    renderRememberedConstraints();
+    elements.memoryStatus.textContent = `已保存 ${saved.length} 项；可随时单独删除或撤销授权。`;
+  } catch (error) {
+    elements.memoryStatus.textContent = `本次结果有效，但约束没有保存：${error.message}`;
+  }
+}
+
+function applyRememberedConstraints() {
+  elements.rememberConstraints.checked = Boolean(state.memoryCredentials);
+  if (elements.constraintStep.hidden || !state.rememberedItems.length) return;
+  state.rememberedItems.forEach((item) => {
+    const value = item.value || {};
+    if (value.kind === "allergy") {
+      const input = [...elements.constraintForm.querySelectorAll('input[name="constraint"]')]
+        .find((candidate) => candidate.value === value.canonical_value);
+      if (input) input.checked = true;
+    } else if (value.kind === "nutrition_limit") {
+      const option = [...elements.nutritionKey.options]
+        .find((candidate) => candidate.value === value.canonical_value);
+      if (option) {
+        elements.nutritionKey.value = value.canonical_value;
+        elements.nutritionThreshold.value = value.threshold;
+        updateNutritionLimitControl();
+      }
+    }
+  });
+}
+
+function renderRememberedConstraints() {
+  elements.memoryList.replaceChildren();
+  elements.memorySaved.hidden = !state.memoryCredentials;
+  state.rememberedItems.forEach((item) => {
+    const row = document.createElement("li");
+    const name = document.createElement("span");
+    name.textContent = describeConstraint(item.value);
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.className = "memory-delete";
+    remove.textContent = "删除";
+    remove.setAttribute("aria-label", `删除已保存约束：${name.textContent}`);
+    remove.addEventListener("click", () => deleteRememberedConstraint(item));
+    row.append(name, remove);
+    elements.memoryList.append(row);
+  });
+}
+
+function describeConstraint(value) {
+  if (value.kind === "nutrition_limit") {
+    return `${constraintLabels[value.canonical_value] || value.canonical_value} · ${value.threshold}${value.unit}`;
+  }
+  return constraintLabels[value.canonical_value] || value.canonical_value;
+}
+
+async function deleteRememberedConstraint(item) {
+  try {
+    const { profileId } = state.memoryCredentials;
+    const response = await fetch(
+      `/api/v1/memory/items/${item.memory_id}?profile_id=${encodeURIComponent(profileId)}`,
+      memoryRequestOptions("DELETE"),
+    );
+    if (!response.ok) throw new Error("删除失败，请重试。");
+    state.rememberedItems = state.rememberedItems.filter(
+      (candidate) => candidate.memory_id !== item.memory_id,
+    );
+    renderRememberedConstraints();
+    elements.memoryStatus.textContent = "已删除这项保存的约束。";
+  } catch (error) {
+    elements.memoryStatus.textContent = error.message;
+  }
+}
+
+async function revokeRememberedConstraints() {
+  if (!state.memoryCredentials) return;
+  elements.revokeMemory.disabled = true;
+  try {
+    const { profileId } = state.memoryCredentials;
+    const response = await fetch(
+      `/api/v1/memory/consents/current?profile_id=${encodeURIComponent(profileId)}`,
+      memoryRequestOptions("DELETE"),
+    );
+    if (!response.ok) throw new Error("撤销授权失败，请重试。");
+    clearMemoryCredentials();
+    elements.memoryStatus.textContent = "已清除全部保存内容并撤销授权。";
+  } catch (error) {
+    elements.memoryStatus.textContent = error.message;
+  } finally {
+    elements.revokeMemory.disabled = false;
+  }
+}
+
+function clearMemoryCredentials() {
+  state.memoryCredentials = null;
+  state.rememberedItems = [];
+  localStorage.removeItem(MEMORY_CREDENTIALS_KEY);
+  elements.rememberConstraints.checked = false;
+  renderRememberedConstraints();
 }
 
 function renderSafetyResult(payload) {

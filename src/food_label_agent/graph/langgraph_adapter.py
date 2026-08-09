@@ -16,7 +16,9 @@ from .topology import validate_topology
 NodeFunction = Callable[[AgentState], Mapping[str, Any]]
 
 
-def build_graph(nodes: Mapping[str, NodeFunction]) -> Any:
+def build_graph(
+    nodes: Mapping[str, NodeFunction], *, checkpointer: Any | None = None
+) -> Any:
     """Compile the required workflow using caller-provided production node functions."""
 
     try:
@@ -70,4 +72,4 @@ def build_graph(nodes: Mapping[str, NodeFunction]) -> Any:
     graph.add_edge("evaluate_safety", "react_orchestrator")
     graph.add_edge("react_orchestrator", "final_safety_gate")
     graph.add_edge("final_safety_gate", END)
-    return graph.compile()
+    return graph.compile(checkpointer=checkpointer)

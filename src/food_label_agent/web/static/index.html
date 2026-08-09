@@ -13,8 +13,8 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
     <meta name="description" content="上传食品标签，确认识别文字，再进行基于证据的健康信息解释。">
     <title>食鉴 · 食品标签健康解释</title>
     <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/static/styles.css?v=label-claims-1">
-    <script src="/static/app.js?v=label-claims-1" defer></script>
+    <link rel="stylesheet" href="/static/styles.css?v=milestone-memory-1">
+    <script src="/static/app.js?v=milestone-memory-1" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#workspace">跳到标签工作区</a>
@@ -202,6 +202,23 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
                 </div>
                 <p id="nutrition-basis-note">按已确认包装口径比较，不自动换算。</p>
               </fieldset>
+              <section class="memory-control" aria-labelledby="memory-title">
+                <label class="memory-opt-in" for="remember-constraints">
+                  <input id="remember-constraints" type="checkbox">
+                  <span>
+                    <strong id="memory-title">在此设备记住这些约束</strong>
+                    <small>仅保存你明确选择的项目，不保存图片、对话或系统推断。</small>
+                  </span>
+                </label>
+                <div class="memory-saved" id="memory-saved" hidden>
+                  <div class="memory-saved-heading">
+                    <strong>已保存的约束</strong>
+                    <button class="text-button" id="revoke-memory" type="button">清除全部并撤销授权</button>
+                  </div>
+                  <ul id="memory-list"></ul>
+                </div>
+                <p class="memory-status" id="memory-status" role="status"></p>
+              </section>
               <p class="constraint-error" id="constraint-error" hidden>请至少选择一项。</p>
               <button class="button button--primary" id="evaluate-button" type="submit">
                 检查并查看依据

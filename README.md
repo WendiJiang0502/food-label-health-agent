@@ -11,6 +11,8 @@
 
 当前主流程还加入了受约束 ReAct 编排节点：它只能在四个已批准 MCP 工具中动态选择法规检索、配料解释、声称解释和一致性验证，并受步骤数与工具调用数双重预算约束。标签确认、规范化、确定性约束评估和最终安全门仍是不可跳过的固定节点。API 返回只包含工具名、决策原因码和压缩后的工具观察，不记录或暴露模型思维链。商品替代品检索仍是后续里程碑，不会在当前界面中伪造实现。
 
+Milestone 4 已加入按节点裁剪的四层上下文构建器、Token 预算，以及 SQLite 短期工作流检查点。检查点采用随机能力令牌保护并强制移除原始图片。长期记忆只在用户明确勾选授权后保存其主动选择的约束；用户可查看、单项删除，或清除全部内容并撤销授权。浏览器只保留该本地资料的访问令牌，不保存食品图片、完整对话、模型内部推理或未经确认的健康推断。
+
 ## 设计原则
 
 - 标签事实、规则判断和模型解释分层；
@@ -44,6 +46,8 @@ food-label-platform
 ```
 
 然后访问 `http://127.0.0.1:8000`。项目 CLI 默认使用腾讯云 OCR；这个默认值只包含 Provider 选择，不包含任何密钥。凭证继续由腾讯云 SDK 的环境变量或 `~/.tencentcloud/credentials` 提供。上传图片会发送到腾云 OCR，本平台不持久化原图。如需本地识别，可显式设置 `FOOD_LABEL_OCR_PROVIDER=paddle`。
+
+工作流检查点和经授权的长期记忆默认保存在 `~/.local/share/food-label-health-agent/agent-data.sqlite3`，文件权限设为仅当前用户可读写。可用 `FOOD_LABEL_DATA_DIR` 指定其他数据目录。当前能力令牌方案用于本地单用户原型；多用户部署仍需在 API 前增加账户认证、加密密钥管理和数据隔离。
 
 ### 服务器端启用 PP-OCRv6
 
@@ -99,6 +103,7 @@ food-label-platform
 - [ADR-001：Agent 状态与安全路由](./docs/architecture/ADR-001-agent-state-and-safety-routing.md)
 - [ADR-002：受约束 ReAct 与工具轨迹](./docs/architecture/ADR-002-constrained-react-tool-loop.md)
 - [ADR-003：版本化法规混合检索](./docs/architecture/ADR-003-versioned-hybrid-regulation-retrieval.md)
+- [ADR-004：节点上下文、检查点与授权记忆](./docs/architecture/ADR-004-context-checkpoints-and-consented-memory.md)
 - [PP-OCRv6 配置教程](./docs/ocr/PP-OCRv6_CONFIGURATION_GUIDE.md)
 - [腾讯云 OCR 配置教程](./docs/ocr/TENCENT_CLOUD_CONFIGURATION_GUIDE.md)
 - [腾讯云 OCR 匿名评测记录](./docs/ocr/TENCENT_OCR_EVALUATION_2026-08-05.md)
