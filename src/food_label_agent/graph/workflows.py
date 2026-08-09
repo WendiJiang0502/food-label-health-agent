@@ -157,6 +157,9 @@ def run_alternative_workflow(
         "enabled": True,
         "category": request.category,
         "region": request.region,
+        "exclude_product_ids": (
+            [request.current_product_id] if request.current_product_id else []
+        ),
         "limit": 5,
     }
     state["status"] = AnalysisStatus.IN_PROGRESS
@@ -178,6 +181,8 @@ def run_alternative_workflow(
         ),
         "category": request.category,
         "catalog_scope": state["alternative_request"].get("catalog_scope"),
+        "catalog_status": state["alternative_request"].get("catalog_status"),
+        "catalog_warnings": state["alternative_request"].get("catalog_warnings", []),
         "selection_basis": state["alternative_request"].get("selection_basis"),
         "eligible": eligible,
         "excluded": excluded,

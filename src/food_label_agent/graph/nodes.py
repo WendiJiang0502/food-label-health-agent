@@ -506,6 +506,8 @@ def search_alternatives(state: AgentState) -> dict:
             "search_status": result["status"],
             "search_rejected": result["rejected"],
             "catalog_scope": result["catalog_scope"],
+            "catalog_status": result.get("catalog_status", "ok"),
+            "catalog_warnings": result.get("catalog_warnings", []),
             "selection_basis": result["selection_basis"],
         },
         "alternatives": candidates,

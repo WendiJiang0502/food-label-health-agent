@@ -287,7 +287,7 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
                 </div>
                 <span id="alternative-count">尚未查找</span>
               </div>
-              <p class="alternative-intro">候选来自项目内置的人工核验标签目录，不是联网商品搜索。系统先按你选择的商品类别与中国地区筛选，再剔除标签证据不完整、过期或校验失败的记录，最后逐项重跑本次约束。目录仅用于功能验收，不代表商品在售或库存。</p>
+              <p class="alternative-intro">系统先按你确认的商品类别与中国地区查找候选，再剔除标签证据不完整、过期或校验失败的记录，最后逐项重跑本次全部约束。结果不代表商品在售或库存。</p>
               <div class="alternative-controls">
                 <label for="alternative-category">
                   <span>商品类别</span>
@@ -300,6 +300,7 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
                 </label>
                 <button class="button button--secondary" id="find-alternatives" type="button">查找并逐项复核</button>
               </div>
+              <p class="alternative-source" id="alternative-source">数据来源将在查找后显示。</p>
               <p class="alternative-status" id="alternative-status" role="status"></p>
               <div id="alternative-results" hidden>
                 <div class="alternative-list" id="alternative-list"></div>

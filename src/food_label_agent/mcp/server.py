@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import os
+
 from .business_tools import (
     compare_food_products,
     evaluate_user_constraints,
@@ -62,4 +64,5 @@ def create_server():
 def run() -> None:
     """Run the modular MCP server over the standard stdio transport."""
 
+    os.environ.setdefault("FOOD_LABEL_PRODUCT_CATALOG", "hybrid")
     create_server().run(transport="stdio")

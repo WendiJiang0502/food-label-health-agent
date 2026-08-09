@@ -19,12 +19,21 @@ class ProductLabelEvidence(BaseModel):
     nutrition_table_text: str | None = Field(default=None, max_length=10_000)
     nutrition_basis_text: str | None = Field(default=None, max_length=200)
     nutrition_rows: list[list[str]] | None = None
-    confirmed_by: Literal["human_review", "manufacturer_label"]
+    confirmed_by: Literal[
+        "human_review", "manufacturer_label", "external_community_review"
+    ]
     confirmed_at: date
     valid_through: date | None = None
     source_url: str = Field(min_length=8, max_length=1_000)
     content_hash: str = Field(pattern=r"^sha256:[0-9a-f]{64}$")
     evidence_quality: Literal["complete", "partial"] = "complete"
+    source_provider: str = Field(default="internal", min_length=2, max_length=80)
+    source_record_version: str | None = Field(default=None, max_length=100)
+    ingredients_image_url: str | None = Field(default=None, max_length=1_000)
+    nutrition_image_url: str | None = Field(default=None, max_length=1_000)
+    source_authority: Literal["manufacturer", "internal_review", "community"] = (
+        "internal_review"
+    )
 
 
 class ProductRecord(BaseModel):
@@ -36,7 +45,7 @@ class ProductRecord(BaseModel):
     category: str = Field(min_length=2, max_length=80)
     region: str = Field(default="CN", min_length=2, max_length=12)
     use_case: str = Field(min_length=2, max_length=160)
-    catalog_scope: Literal["curated_verification_catalog"]
+    catalog_scope: Literal["curated_verification_catalog", "live_open_food_facts"]
     label: ProductLabelEvidence
 
 
@@ -95,5 +104,6 @@ class AlternativeWorkflowRequest(BaseModel):
     category: str = Field(min_length=2, max_length=80)
     jurisdiction: str = Field(default="CN", min_length=2, max_length=12)
     region: str = Field(default="CN", min_length=2, max_length=12)
+    current_product_id: str | None = Field(default=None, min_length=3, max_length=128)
     nutrition_rows: list[list[str]] | None = None
     resume_token: str = Field(min_length=32, max_length=256)

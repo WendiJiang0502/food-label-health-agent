@@ -52,6 +52,22 @@ def test_search_rejects_incomplete_label_before_recommendation() -> None:
     ]
 
 
+def test_search_excludes_current_product_before_revalidation() -> None:
+    result = find_alternative_products(
+        AlternativeSearchRequest(
+            category="biscuit",
+            applicable_date="2026-08-09",
+            constraints=[_allergy("milk")],
+            exclude_product_ids=["fixture-biscuit-oat-plain"],
+        )
+    )
+
+    assert all(
+        item["product_id"] != "fixture-biscuit-oat-plain"
+        for item in result["candidates"]
+    )
+
+
 def test_every_candidate_is_revalidated_and_milk_match_is_never_eligible() -> None:
     search = find_alternative_products(
         AlternativeSearchRequest(
@@ -78,6 +94,8 @@ def test_every_candidate_is_revalidated_and_milk_match_is_never_eligible() -> No
     assert excluded[0]["findings"][0]["matched_text"] == "全脂乳粉"
     assert all(item["revalidated"] is True for item in result["results"])
     assert all(item["evidence_ids"] for item in result["results"])
+    assert eligible[0]["rank"] == 1
+    assert eligible[0]["ranking_reasons"]
 
 
 def test_nutrition_hard_limit_filters_high_sodium_candidate() -> None:
@@ -191,3 +209,36 @@ def test_final_gate_blocks_forged_eligible_alternative() -> None:
     assert "eligible_alternative_not_revalidated:0" in result.violations
     assert "eligible_alternative_has_constraint_risk:0" in result.violations
     assert "eligible_alternative_missing_label_evidence:0" in result.violations
+
+
+def test_final_gate_requires_image_evidence_for_live_alternative() -> None:
+    state = create_initial_state(
+        request_id="live-alternative-gate-test",
+        jurisdiction="CN",
+        applicable_date="2026-08-09",
+    )
+    state["label_fields"] = {
+        "ingredients": LabelField(
+            name="ingredients",
+            raw_text="白砂糖",
+            confidence=1.0,
+            confirmed_by_user=True,
+        )
+    }
+    state["alternatives"] = [
+        {
+            "product_id": "off:123",
+            "catalog_scope": "live_open_food_facts",
+            "disposition": "eligible",
+            "risk_level": "compatible",
+            "revalidated": True,
+            "evidence_ids": ["off.product.123.label"],
+            "label_source_url": "https://world.openfoodfacts.org/product/123",
+            "ingredients_image_url": None,
+        }
+    ]
+
+    result = final_safety_gate(state)
+
+    assert result.can_complete is False
+    assert "eligible_live_alternative_missing_label_image:0" in result.violations

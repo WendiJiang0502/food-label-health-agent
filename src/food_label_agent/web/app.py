@@ -13,6 +13,7 @@ from starlette.responses import FileResponse, JSONResponse
 from starlette.routing import Mount, Route
 from starlette.staticfiles import StaticFiles
 
+from food_label_agent.alternatives.category import suggest_product_category
 from food_label_agent.alternatives.models import AlternativeWorkflowRequest
 from food_label_agent.graph.workflows import (
     run_alternative_workflow,
@@ -62,6 +63,7 @@ def create_app(
                 "remote_processing": getattr(
                     service.provider, "remote_processing", False
                 ),
+                "product_catalog": os.getenv("FOOD_LABEL_PRODUCT_CATALOG", "curated"),
             }
         )
 
@@ -107,6 +109,9 @@ def create_app(
             parsed = SafetyEvaluationRequest.model_validate(payload)
             response = evaluate_user_constraints_result(parsed)
             result = response.model_dump(mode="json")
+            result["alternative_category_suggestion"] = suggest_product_category(
+                parsed.confirmed_fields
+            )
             evidence, final_state = run_regulatory_workflow(parsed, response)
             result["evidence"] = evidence
             if evidence["final_status"] in {
@@ -316,6 +321,7 @@ def run() -> None:
     # The project CLI intentionally defaults to the configured Tencent provider.
     # Credentials remain in the SDK credential chain and are never stored here.
     os.environ.setdefault("FOOD_LABEL_OCR_PROVIDER", "tencent")
+    os.environ.setdefault("FOOD_LABEL_PRODUCT_CATALOG", "hybrid")
     database_path = default_database_path()
     uvicorn.run(
         create_app(

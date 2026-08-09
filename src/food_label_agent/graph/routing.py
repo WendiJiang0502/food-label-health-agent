@@ -162,6 +162,10 @@ def _grounding_violations(state: AgentState) -> tuple[str, ...]:
             "label_source_url"
         ):
             violations.append(f"eligible_alternative_missing_label_evidence:{index}")
+        if alternative.get(
+            "catalog_scope"
+        ) == "live_open_food_facts" and not alternative.get("ingredients_image_url"):
+            violations.append(f"eligible_live_alternative_missing_label_image:{index}")
     evidence_by_id = {
         evidence.source_id: evidence for evidence in state["regulatory_evidence"]
     }

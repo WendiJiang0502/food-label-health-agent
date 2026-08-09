@@ -59,6 +59,7 @@ const elements = {
   alternativeCategory: document.querySelector("#alternative-category"),
   findAlternatives: document.querySelector("#find-alternatives"),
   alternativeCount: document.querySelector("#alternative-count"),
+  alternativeSource: document.querySelector("#alternative-source"),
   alternativeStatus: document.querySelector("#alternative-status"),
   alternativeResults: document.querySelector("#alternative-results"),
   alternativeList: document.querySelector("#alternative-list"),
@@ -741,6 +742,12 @@ function renderSafetyResult(payload) {
   elements.reviewCount.textContent = payload.overall_risk_level === "avoid" ? "明确命中" : "评估完成";
   elements.proofState.textContent = "安全规则已评估";
   resetAlternativeResults();
+  const suggestion = payload.alternative_category_suggestion;
+  if (suggestion?.status === "suggested" && suggestion.category) {
+    elements.alternativeCategory.value = suggestion.category;
+    const name = elements.alternativeCategory.selectedOptions[0]?.textContent || suggestion.category;
+    elements.alternativeStatus.textContent = `根据已确认标签建议“${name}”，请核对后再查找。`;
+  }
   elements.alternativeDiscovery.hidden = false;
 
   const secondary = payload.findings.filter((finding) => finding !== primary);
@@ -786,7 +793,7 @@ async function findAndRevalidateAlternatives() {
   elements.findAlternatives.textContent = "正在逐一复核…";
   elements.alternativeStatus.textContent = "正在检查候选标签完整度，并重新运行全部个人约束。";
   elements.alternativeResults.hidden = true;
-  announce("正在从内置验证目录查找并逐项复核同类候选");
+  announce("正在查找并逐项复核同类候选");
   try {
     const response = await fetch("/api/v1/alternatives/search", {
       method: "POST",
@@ -820,6 +827,7 @@ async function findAndRevalidateAlternatives() {
 function resetAlternativeResults() {
   elements.alternativeCount.textContent = "尚未查找";
   elements.alternativeStatus.textContent = "";
+  elements.alternativeSource.textContent = "数据来源将在查找后显示。";
   elements.alternativeResults.hidden = true;
   elements.alternativeList.replaceChildren();
   elements.alternativeComparisonList.replaceChildren();
@@ -834,10 +842,14 @@ function renderAlternativeResults(payload) {
   elements.alternativeExclusionList.replaceChildren();
   elements.alternativeResults.hidden = false;
   elements.alternativeCount.textContent = `${payload.eligible.length} 项通过复核`;
+  elements.alternativeSource.textContent = alternativeSourceCopy(
+    payload.catalog_scope,
+    payload.catalog_status,
+  );
   if (!payload.eligible.length) {
     const catalogMatches = payload.candidate_count + payload.evidence_rejected.length;
     elements.alternativeStatus.textContent =
-      `内置验证目录找到 ${catalogMatches} 条同类记录；${payload.revalidated_count} 条进入约束复核，当前没有候选通过全部约束。`;
+      `目录找到 ${catalogMatches} 条同类记录；${payload.revalidated_count} 条进入约束复核，当前没有候选通过全部约束。`;
   } else {
     elements.alternativeStatus.textContent =
       `已逐一复核 ${payload.revalidated_count}/${payload.candidate_count} 项候选；仅展示通过硬约束的结果。`;
@@ -847,7 +859,7 @@ function renderAlternativeResults(payload) {
     article.className = "alternative-item";
     const header = document.createElement("header");
     const title = document.createElement("h4");
-    title.textContent = item.display_name;
+    title.textContent = `${item.rank ? `${item.rank}. ` : ""}${item.display_name}`;
     const status = document.createElement("span");
     status.textContent = "约束复核通过";
     header.append(title, status);
@@ -857,8 +869,26 @@ function renderAlternativeResults(payload) {
     explanation.textContent = item.explanation;
     const evidence = document.createElement("p");
     evidence.className = "alternative-evidence";
-    evidence.textContent = `标签记录 ${item.label_confirmed_at} · ${item.evidence_ids.join("、")}`;
+    evidence.textContent = `标签记录 ${item.label_confirmed_at} · ${sourceAuthorityLabel(item.label_source_authority)} · ${item.evidence_ids.join("、")}`;
     article.append(header, useCase, explanation, evidence);
+    if (item.ingredients_image_url?.startsWith("https://")) {
+      const source = document.createElement("a");
+      source.className = "alternative-source-link";
+      source.href = item.ingredients_image_url;
+      source.target = "_blank";
+      source.rel = "noopener noreferrer";
+      source.textContent = "查看配料标签图片证据";
+      article.append(source);
+    }
+    if (item.label_source_url?.startsWith("https://")) {
+      const record = document.createElement("a");
+      record.className = "alternative-source-link";
+      record.href = item.label_source_url;
+      record.target = "_blank";
+      record.rel = "noopener noreferrer";
+      record.textContent = "查看商品源记录";
+      article.append(record);
+    }
     elements.alternativeList.append(article);
   });
 
@@ -898,12 +928,32 @@ function renderAlternativeResults(payload) {
 
 function alternativeRejectionLabel(reasonCode) {
   return {
+    LIVE_LABEL_EVIDENCE_INCOMPLETE: "实时商品缺少完整配料文字、标签图片或版本信息",
+    DUPLICATE_PRODUCT_RECORD: "重复商品记录，已合并",
     LABEL_EVIDENCE_INCOMPLETE: "标签证据不完整，未进入安全复核",
     LABEL_EVIDENCE_EXPIRED: "标签记录已过期，未进入安全复核",
     LABEL_EVIDENCE_STALE: "标签记录过旧，需要重新核对",
     LABEL_EVIDENCE_FROM_FUTURE: "标签日期与当前评估日期不一致",
     LABEL_EVIDENCE_HASH_MISMATCH: "标签证据校验失败，未进入安全复核",
   }[reasonCode] || "证据不足，未进入安全复核";
+}
+
+function alternativeSourceCopy(scope, status) {
+  if (scope === "open_food_facts") {
+    return "本次来自 Open Food Facts 开放商品数据库（ODbL）。这是社区维护数据，页面仅展示具有配料文字、图片和版本记录的候选，仍应与实物包装核对。";
+  }
+  if (scope === "open_food_facts_with_curated_fallback" || status === "degraded") {
+    return "实时商品目录本次未返回可复核证据，已明确降级为项目内置验收目录；其中商品是测试记录，不代表在售。";
+  }
+  return "本次使用项目内置的人工核验验收目录；其中商品是测试记录，不代表在售。";
+}
+
+function sourceAuthorityLabel(authority) {
+  return {
+    manufacturer: "厂商来源",
+    internal_review: "内部人工核验",
+    community: "社区数据",
+  }[authority] || "来源待核对";
 }
 
 function renderAdditiveResults(evidence) {

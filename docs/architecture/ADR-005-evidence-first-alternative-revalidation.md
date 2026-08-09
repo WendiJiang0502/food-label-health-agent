@@ -9,7 +9,7 @@
 
 ## 决策
 
-Milestone 4 使用可替换的 `ProductCatalog` 边界。首个适配器是随包发布的人工审查验收目录，用于离线、确定性地验证完整安全链；目录明确标记为 `curated_verification_catalog`，不表达商品在售、库存或商业推荐。后续商城、厂商或用户上传目录必须实现相同证据合同。
+Milestone 4 使用可替换的 `ProductCatalog` 边界。随包的人工审查验收目录用于离线、确定性验收，明确标记为 `curated_verification_catalog`。正式 CLI 的默认 `HybridProductCatalog` 优先查询 Open Food Facts 中国商品，且只接受同时具有配料文字、配料图片、社区完成状态和版本时间的记录。实时源不可用或无可用证据时，明确降级到验收目录，并在 API 与页面中返回来源状态和警告。两种目录都不表达商品在售、库存或商业背书。
 
 每条候选记录必须包含：
 
@@ -17,6 +17,7 @@ Milestone 4 使用可替换的 `ProductCatalog` 边界。首个适配器是随�
 - 已确认配料、过敏原声明与可选营养数据；
 - 标签确认日期、有效期和确认方式；
 - 标签证据 ID、逻辑来源地址和 SHA-256 内容哈希；
+- 外部数据提供方、源记录版本、证据权威类型和配料标签图片；
 - 标签证据完整度。
 
 工作流固定为：
@@ -29,6 +30,8 @@ find_alternative_products
 ```
 
 `find_alternative_products` 先按品类和地区查询，并排除不完整、过期、未来日期、过旧或哈希不匹配的标签。`revalidate_alternatives` 对剩余每个候选独立调用原有确定性约束服务。只有整体风险为 `compatible` 的候选才能标记 `eligible`；`avoid`、`caution` 和 `unknown` 都不得进入推荐。`compare_food_products` 仅比较单位和包装口径完全一致的营养数据。
+
+重复条码在证据门前去重；当前商品 ID 可由请求显式排除。通过硬约束的候选才会按证据权威等级和标签新鲜度进行确定性排序；软排序不能将被硬过滤的商品恢复为候选。
 
 ## LangGraph 与状态
 

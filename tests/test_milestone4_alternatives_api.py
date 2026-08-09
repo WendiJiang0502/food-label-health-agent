@@ -34,6 +34,13 @@ async def _alternative_api_lifecycle(tmp_path: Path) -> None:
     async with httpx.AsyncClient(transport=transport, base_url="http://test") as client:
         evaluated = await client.post("/api/v1/labels/evaluate", json=evaluation)
         assert evaluated.status_code == 200
+        assert evaluated.json()["alternative_category_suggestion"]["category"] == (
+            "biscuit"
+        )
+        assert (
+            evaluated.json()["alternative_category_suggestion"]["requires_confirmation"]
+            is True
+        )
         token = evaluated.json()["checkpoint"]["resume_token"]
 
         response = await client.post(

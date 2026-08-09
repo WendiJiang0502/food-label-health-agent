@@ -199,7 +199,7 @@ def find_alternative_products(
     exclude_product_ids: Annotated[list[str] | None, Field(max_length=50)] = None,
     limit: Annotated[int, Field(ge=1, le=20)] = 5,
 ) -> dict:
-    """Find products only from current, human-reviewed label evidence."""
+    """Find products only from current, complete, source-traceable label evidence."""
 
     request = AlternativeSearchRequest(
         category=category,

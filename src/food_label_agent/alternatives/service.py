@@ -4,14 +4,14 @@ from __future__ import annotations
 
 import json
 from collections.abc import Iterable
-from datetime import timedelta
+from datetime import date, timedelta
 from hashlib import sha256
 from typing import Any
 
 from food_label_agent.ingredients.api_models import SafetyEvaluationRequest
 from food_label_agent.ingredients.service import evaluate_user_constraints_result
 
-from .catalog import JsonProductCatalog, ProductCatalog
+from .catalog import ProductCatalog, configured_catalog
 from .models import (
     AlternativeRevalidationRequest,
     AlternativeSearchRequest,
@@ -29,11 +29,24 @@ def find_alternative_products(
 ) -> dict[str, Any]:
     """Find same-category candidates and reject incomplete or stale evidence."""
 
-    store = catalog or JsonProductCatalog()
+    store = catalog or configured_catalog()
+    catalog_result = store.search(category=request.category, region=request.region)
     excluded_ids = set(request.exclude_product_ids)
     candidates: list[dict[str, Any]] = []
-    rejected: list[dict[str, Any]] = []
-    for product in store.search(category=request.category, region=request.region):
+    rejected: list[dict[str, Any]] = list(catalog_result.rejected)
+    seen_ids: set[str] = set()
+    for product in catalog_result.records:
+        if product.product_id in seen_ids:
+            rejected.append(
+                {
+                    "product_id": product.product_id,
+                    "display_name": product.display_name,
+                    "reason_code": "DUPLICATE_PRODUCT_RECORD",
+                    "evidence_ids": [product.label.evidence_id],
+                }
+            )
+            continue
+        seen_ids.add(product.product_id)
         if product.product_id in excluded_ids:
             continue
         rejection = _evidence_rejection(product, request.applicable_date)
@@ -57,9 +70,11 @@ def find_alternative_products(
         "candidates": candidates,
         "rejected": rejected,
         "unknowns": [] if candidates else ["no_current_complete_candidate_labels"],
-        "catalog_scope": "curated_verification_catalog",
+        "catalog_scope": catalog_result.provider,
+        "catalog_status": catalog_result.status,
+        "catalog_warnings": list(catalog_result.warnings),
         "selection_basis": {
-            "source": "curated_verification_catalog",
+            "source": catalog_result.provider,
             "category_match": "exact",
             "region_match": "exact",
             "evidence_requirements": [
@@ -119,12 +134,39 @@ def revalidate_alternatives(request: AlternativeRevalidationRequest) -> dict[str
                 "revalidated": True,
                 "label_confirmed_at": label.confirmed_at.isoformat(),
                 "label_source_url": label.source_url,
+                "label_source_provider": label.source_provider,
+                "label_source_authority": label.source_authority,
+                "label_source_record_version": label.source_record_version,
+                "ingredients_image_url": label.ingredients_image_url,
+                "nutrition_image_url": label.nutrition_image_url,
                 "evidence_ids": [label.evidence_id],
                 "normalized_label": evaluation.normalized_label,
                 "findings": evaluation.findings,
             }
         )
     eligible_results = [item for item in results if item["disposition"] == "eligible"]
+    ranked = sorted(
+        eligible_results,
+        key=lambda item: (
+            -_authority_score(item["label_source_authority"]),
+            -date.fromisoformat(item["label_confirmed_at"]).toordinal(),
+            item["product_id"],
+        ),
+    )
+    for rank, item in enumerate(ranked, start=1):
+        item["rank"] = rank
+        item["ranking_reasons"] = [
+            f"evidence_authority:{item['label_source_authority']}",
+            f"label_confirmed_at:{item['label_confirmed_at']}",
+        ]
+    eligible_ids = {item["product_id"]: index for index, item in enumerate(ranked)}
+    results.sort(
+        key=lambda item: (
+            0 if item["disposition"] == "eligible" else 1,
+            eligible_ids.get(item["product_id"], 0),
+            item["product_id"],
+        )
+    )
     return {
         "status": "eligible_candidates" if eligible_results else "unknown",
         "results": results,
@@ -201,6 +243,10 @@ def _label_content_hash(product: ProductRecord) -> str:
         payload, ensure_ascii=False, sort_keys=True, separators=(",", ":")
     ).encode()
     return f"sha256:{sha256(encoded).hexdigest()}"
+
+
+def _authority_score(authority: str) -> int:
+    return {"manufacturer": 3, "internal_review": 2, "community": 1}.get(authority, 0)
 
 
 def _nutrient_values(
