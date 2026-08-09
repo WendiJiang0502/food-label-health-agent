@@ -31,6 +31,17 @@ def test_search_rejects_incomplete_label_before_recommendation() -> None:
 
     assert result["status"] == "candidates_found"
     assert len(result["candidates"]) == 2
+    assert result["selection_basis"] == {
+        "source": "curated_verification_catalog",
+        "category_match": "exact",
+        "region_match": "exact",
+        "evidence_requirements": [
+            "complete",
+            "current_for_applicable_date",
+            "content_hash_verified",
+        ],
+        "constraint_evaluation": "independent_revalidation_required",
+    }
     assert result["rejected"] == [
         {
             "product_id": "fixture-biscuit-partial-label",

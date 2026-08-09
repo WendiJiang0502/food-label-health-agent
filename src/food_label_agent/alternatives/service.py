@@ -58,6 +58,17 @@ def find_alternative_products(
         "rejected": rejected,
         "unknowns": [] if candidates else ["no_current_complete_candidate_labels"],
         "catalog_scope": "curated_verification_catalog",
+        "selection_basis": {
+            "source": "curated_verification_catalog",
+            "category_match": "exact",
+            "region_match": "exact",
+            "evidence_requirements": [
+                "complete",
+                "current_for_applicable_date",
+                "content_hash_verified",
+            ],
+            "constraint_evaluation": "independent_revalidation_required",
+        },
     }
 
 

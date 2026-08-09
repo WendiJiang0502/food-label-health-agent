@@ -49,6 +49,11 @@ async def _alternative_api_lifecycle(tmp_path: Path) -> None:
         assert response.status_code == 200
         payload = response.json()
         assert payload["status"] == "completed"
+        assert payload["catalog_scope"] == "curated_verification_catalog"
+        assert payload["selection_basis"]["category_match"] == "exact"
+        assert payload["selection_basis"]["constraint_evaluation"] == (
+            "independent_revalidation_required"
+        )
         assert payload["candidate_count"] == payload["revalidated_count"] == 2
         assert payload["revalidation_rate"] == 1.0
         assert [item["product_id"] for item in payload["eligible"]] == [

@@ -281,6 +281,8 @@ def _split_top_level(
             else:
                 stack.pop()
         elif char in _SEPARATORS and not stack:
+            if char == "\n" and _is_known_line_wrap(text, index):
+                continue
             _append_part(parts, text, part_start, index, absolute_start, issues)
             part_start = index + 1
     _append_part(parts, text, part_start, len(text), absolute_start, issues)
@@ -295,6 +297,23 @@ def _split_top_level(
             )
         )
     return parts
+
+
+def _is_known_line_wrap(text: str, newline_index: int) -> bool:
+    """Keep an OCR line break inside a known ingredient or additive name."""
+
+    boundaries = _SEPARATORS | set(_OPEN_TO_CLOSE) | set(_CLOSE_TO_OPEN)
+    left = newline_index - 1
+    while left >= 0 and text[left] not in boundaries:
+        left -= 1
+    right = newline_index + 1
+    while right < len(text) and text[right] not in boundaries:
+        right += 1
+    left_fragment = text[left + 1 : newline_index].strip()
+    right_fragment = text[newline_index + 1 : right].strip()
+    if not left_fragment or not right_fragment:
+        return False
+    return _clean_lookup_name(left_fragment + right_fragment) in _TERMS
 
 
 def _append_part(
@@ -402,8 +421,12 @@ def _make_node(
     known = _TERMS.get(lookup_name)
     if known:
         canonical, category, allergen_keys, relation = known
-        method = "dictionary_exact"
-        confidence = 1.0
+        repaired_line_wrap = "\n" in raw_name
+        method = (
+            "dictionary_line_wrap_repair" if repaired_line_wrap else "dictionary_exact"
+        )
+        confidence = 0.98 if repaired_line_wrap else 1.0
+        normalized_raw_name = re.sub(r"\s+", "", raw_name)
     else:
         canonical, category, allergen_keys, relation = (
             raw_name,
@@ -413,12 +436,13 @@ def _make_node(
         )
         method = "unresolved"
         confidence = 0.0
+        normalized_raw_name = raw_name
     if children and category == "未分类":
         category = "复合配料"
         relation = "compound"
     evidence_id = "label.ingredients.item." + ".".join(map(str, path))
     return IngredientNode(
-        raw_name=raw_name,
+        raw_name=normalized_raw_name,
         canonical_name=canonical,
         category=category,
         source_span=source_span or raw_name,

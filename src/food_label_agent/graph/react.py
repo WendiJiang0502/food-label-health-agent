@@ -71,11 +71,11 @@ def react_orchestrator(
         )
     )
     configured = state.get("react_budget", {})
-    step_limit = max_steps if max_steps is not None else configured.get("max_steps", 16)
+    step_limit = max_steps if max_steps is not None else configured.get("max_steps", 32)
     tool_limit = (
         max_tool_calls
         if max_tool_calls is not None
-        else configured.get("max_tool_calls", 16)
+        else configured.get("max_tool_calls", 32)
     )
     if step_limit < 1 or tool_limit < 1:
         raise ValueError("ReAct budgets must be positive")

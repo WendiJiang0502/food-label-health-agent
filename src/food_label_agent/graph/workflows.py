@@ -178,6 +178,7 @@ def run_alternative_workflow(
         ),
         "category": request.category,
         "catalog_scope": state["alternative_request"].get("catalog_scope"),
+        "selection_basis": state["alternative_request"].get("selection_basis"),
         "eligible": eligible,
         "excluded": excluded,
         "evidence_rejected": state["alternative_request"].get("search_rejected", []),

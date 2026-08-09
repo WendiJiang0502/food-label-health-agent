@@ -13,8 +13,8 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
     <meta name="description" content="上传食品标签，确认识别文字，再进行基于证据的健康信息解释。">
     <title>食鉴 · 食品标签健康解释</title>
     <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/static/styles.css?v=alternatives-1">
-    <script src="/static/app.js?v=alternatives-1" defer></script>
+    <link rel="stylesheet" href="/static/styles.css?v=evidence-fix-1">
+    <script src="/static/app.js?v=evidence-fix-1" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#workspace">跳到标签工作区</a>
@@ -287,7 +287,7 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
                 </div>
                 <span id="alternative-count">尚未查找</span>
               </div>
-              <p class="alternative-intro">候选必须有完整、当前的标签证据，并重新运行刚才的全部约束。当前目录用于功能验收，不代表商品在售或库存。</p>
+              <p class="alternative-intro">候选来自项目内置的人工核验标签目录，不是联网商品搜索。系统先按你选择的商品类别与中国地区筛选，再剔除标签证据不完整、过期或校验失败的记录，最后逐项重跑本次约束。目录仅用于功能验收，不代表商品在售或库存。</p>
               <div class="alternative-controls">
                 <label for="alternative-category">
                   <span>商品类别</span>
@@ -298,7 +298,7 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
                     <option value="processed_meat">即食肉制品</option>
                   </select>
                 </label>
-                <button class="button button--secondary" id="find-alternatives" type="button">查找并重新复核</button>
+                <button class="button button--secondary" id="find-alternatives" type="button">查找并逐项复核</button>
               </div>
               <p class="alternative-status" id="alternative-status" role="status"></p>
               <div id="alternative-results" hidden>
@@ -308,7 +308,7 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
                   <div id="alternative-comparison-list"></div>
                 </div>
                 <details class="alternative-exclusions" id="alternative-exclusions" hidden>
-                  <summary>查看未进入推荐的候选</summary>
+                  <summary>查看被约束或证据规则排除的候选</summary>
                   <ul id="alternative-exclusion-list"></ul>
                 </details>
               </div>

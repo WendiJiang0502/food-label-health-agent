@@ -25,7 +25,8 @@ def test_platform_index_and_health() -> None:
     assert "在此设备记住这些约束" in page.text
     assert "清除全部并撤销授权" in page.text
     assert "查找同类选择" in page.text
-    assert "候选必须有完整、当前的标签证据" in page.text
+    assert "候选来自项目内置的人工核验标签目录" in page.text
+    assert "不是联网商品搜索" in page.text
     assert "SAFETY · BUILT IN" not in page.text
     assert "MILESTONE" not in page.text
     assert health.status_code == 200

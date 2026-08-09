@@ -45,7 +45,7 @@ def test_additive_explanation_separates_function_from_compliance() -> None:
     assert response.status == "explained"
     assert response.explanation_type == "additive"
     assert response.risk_level == "not_applicable"
-    assert response.knowledge_evidence_ids == ["knowledge.additives.cn.v1.亚硝酸钠"]
+    assert response.knowledge_evidence_ids == ["knowledge.additives.cn.v2.亚硝酸钠"]
     assert response.regulatory_evidence_ids == ["reg.cn.gb2760-2024.announcement"]
     assert "仅凭配料表无法判断实际用量" in response.explanation
     assert "安全" not in response.explanation
@@ -65,7 +65,9 @@ def test_unknown_name_inside_additive_group_stays_unknown_without_guessing() -> 
     explanation = evidence["interpretations"][0]
     assert explanation["status"] == "unknown"
     assert explanation["explanation_type"] == "additive"
-    assert explanation["unknowns"] == ["additive_name_not_in_curated_dictionary"]
+    assert explanation["unknowns"] == ["declared_additive_not_in_function_dictionary"]
+    assert "标签将“神秘粉”列在食品添加剂分组中" in explanation["explanation"]
+    assert "词典尚未收录" in explanation["explanation"]
     assert evidence["final_status"] == "completed"
 
 
@@ -91,6 +93,63 @@ def test_workflow_retrieves_current_additive_standard_and_explains_known_name() 
     }
     assert evidence["final_status"] == "completed"
     assert evidence["status"] == "grounded"
+
+
+def test_common_declared_additives_have_officially_identified_dictionary_entries() -> (
+    None
+):
+    request = SafetyEvaluationRequest(
+        request_id="additive-expanded-dictionary",
+        applicable_date="2026-08-09",
+        confirmed_fields={
+            "ingredients": (
+                "食品添加剂（磷酸酯双淀粉、酸处理淀粉、羟丙基二淀粉磷酸酯、"
+                "单硬脂酸甘油酯、碳酸钙、特丁基对苯二酚、二氧化硅、"
+                "5'-呈味核苷酸二钠、焦糖色、柠檬黄、辣椒红）"
+            )
+        },
+        constraints=[{"kind": "allergy", "canonical_value": "milk"}],
+    )
+    evaluation = evaluate_user_constraints_result(request)
+    evidence = attach_regulatory_interpretation(request, evaluation)
+
+    assert len(evidence["interpretations"]) == 11
+    assert {item["status"] for item in evidence["interpretations"]} == {"explained"}
+    assert all(item["knowledge_evidence_ids"] for item in evidence["interpretations"])
+
+
+def test_large_additive_group_and_allergen_are_all_explained_within_budget() -> None:
+    request = SafetyEvaluationRequest(
+        request_id="additive-large-group-with-allergen",
+        applicable_date="2026-08-09",
+        confirmed_fields={
+            "ingredients": (
+                "食品添加剂（磷酸酯双淀粉、酸处理淀粉、羟丙基二淀粉磷酸酯、"
+                "单硬脂酸甘油酯、碳酸钙、柠檬酸、D-异抗坏血酸钠、"
+                "特丁基对苯二酚）、烧烤味调味料（味精、二氧化硅、"
+                "5'-呈味核苷酸二钠、辣椒红、焦糖色、柠檬黄）"
+            ),
+            "allergen_statement": "本产品含有小麦",
+        },
+        constraints=[{"kind": "allergy", "canonical_value": "gluten"}],
+    )
+    evaluation = evaluate_user_constraints_result(request)
+    evidence = attach_regulatory_interpretation(request, evaluation)
+
+    additives = [
+        item
+        for item in evidence["interpretations"]
+        if item["explanation_type"] == "additive"
+    ]
+    allergens = [
+        item
+        for item in evidence["interpretations"]
+        if item["explanation_type"] == "allergen"
+    ]
+    assert len(additives) == 14
+    assert len(allergens) == 1
+    assert evidence["final_status"] == "completed"
+    assert evidence["react_budget"]["tool_calls_used"] < 32
 
 
 def test_allergen_and_additive_retrieval_keep_both_evidence_tracks() -> None:

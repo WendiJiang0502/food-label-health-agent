@@ -147,20 +147,32 @@ def _explain_additive(
     regulatory_ids = [item["source_id"] for item in applicable]
     unknowns: list[str] = []
     if knowledge is None:
-        unknowns.append("additive_name_not_in_curated_dictionary")
+        unknowns.append(
+            "declared_additive_not_in_function_dictionary"
+            if ingredient.get("relation") == "additive_declared"
+            else "additive_name_not_in_curated_dictionary"
+        )
     if not applicable:
         unknowns.append("additive_standard_evidence_missing")
     if knowledge is None:
+        declared = ingredient.get("relation") == "additive_declared"
+        explanation = (
+            f"标签将“{raw_name}”列在食品添加剂分组中；当前解释词典尚未收录它的功能信息。"
+            if declared
+            else f"已从标签识别“{raw_name}”，但当前解释词典尚未建立可靠的添加剂名称映射。"
+        )
         return IngredientExplanationResponse(
             status="unknown",
             ingredient=_ingredient_identity(ingredient),
             risk_level="not_applicable",
-            explanation=None,
+            explanation=explanation,
             label_evidence_ids=label_ids,
             regulatory_evidence_ids=regulatory_ids,
             citations=citations,
             unknowns=unknowns,
-            limitations=["名称无法确认时，不猜测其功能、用量、合规性或健康影响。"],
+            limitations=[
+                "词典未收录不等于该名称无效；在补齐可靠来源前，不推测其功能、用量、合规性或健康影响。"
+            ],
             explanation_type="additive",
         )
     explanation = (

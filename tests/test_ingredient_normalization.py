@@ -47,6 +47,18 @@ def test_unclosed_bracket_requires_human_confirmation() -> None:
     assert result.issues[0].code == "UNCLOSED_BRACKET"
 
 
+def test_known_additive_name_split_across_ocr_lines_is_rejoined() -> None:
+    result = normalize_ingredients("食品添加剂（柠檬\n酸、碳\n酸钙）")
+
+    children = result.ingredients[0].children
+    assert [item.canonical_name for item in children] == ["柠檬酸", "碳酸钙"]
+    assert [item.raw_name for item in children] == ["柠檬酸", "碳酸钙"]
+    assert {item.normalization_method for item in children} == {
+        "dictionary_line_wrap_repair"
+    }
+    assert result.unknown_terms == ()
+
+
 def test_original_and_confirmed_text_create_correction_record() -> None:
     result = normalize_ingredients("小麦粉、白砂糖", original_text="小麦粉、白砂糖")
     assert result.corrections == ()

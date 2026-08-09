@@ -90,5 +90,5 @@ def create_initial_state(
             )
         ],
         tool_trace=[],
-        react_budget={"max_steps": 16, "max_tool_calls": 16, "tool_calls_used": 0},
+        react_budget={"max_steps": 32, "max_tool_calls": 32, "tool_calls_used": 0},
     )

@@ -786,7 +786,7 @@ async function findAndRevalidateAlternatives() {
   elements.findAlternatives.textContent = "正在逐一复核…";
   elements.alternativeStatus.textContent = "正在检查候选标签完整度，并重新运行全部个人约束。";
   elements.alternativeResults.hidden = true;
-  announce("正在查找并重新复核同类候选");
+  announce("正在从内置验证目录查找并逐项复核同类候选");
   try {
     const response = await fetch("/api/v1/alternatives/search", {
       method: "POST",
@@ -813,7 +813,7 @@ async function findAndRevalidateAlternatives() {
     announce(error.message);
   } finally {
     elements.findAlternatives.disabled = false;
-    elements.findAlternatives.textContent = "查找并重新复核";
+    elements.findAlternatives.textContent = "查找并逐项复核";
   }
 }
 
@@ -835,7 +835,9 @@ function renderAlternativeResults(payload) {
   elements.alternativeResults.hidden = false;
   elements.alternativeCount.textContent = `${payload.eligible.length} 项通过复核`;
   if (!payload.eligible.length) {
-    elements.alternativeStatus.textContent = "当前目录没有通过全部约束且标签证据完整的候选。";
+    const catalogMatches = payload.candidate_count + payload.evidence_rejected.length;
+    elements.alternativeStatus.textContent =
+      `内置验证目录找到 ${catalogMatches} 条同类记录；${payload.revalidated_count} 条进入约束复核，当前没有候选通过全部约束。`;
   } else {
     elements.alternativeStatus.textContent =
       `已逐一复核 ${payload.revalidated_count}/${payload.candidate_count} 项候选；仅展示通过硬约束的结果。`;
@@ -918,10 +920,12 @@ function renderAdditiveResults(evidence) {
     const name = document.createElement("strong");
     name.textContent = item.ingredient?.canonical_name || item.ingredient?.raw_name || "名称待确认";
     const category = document.createElement("span");
-    category.textContent = (item.ingredient?.category || "功能待确认").replace("食品添加剂·", "");
+    category.textContent = item.unknowns?.includes("declared_additive_not_in_function_dictionary")
+      ? "功能待收录"
+      : (item.ingredient?.category || "功能待确认").replace("食品添加剂·", "");
     header.append(name, category);
     const explanation = document.createElement("p");
-    explanation.textContent = item.explanation || "当前词典无法确认这个名称，不猜测其功能或影响。";
+    explanation.textContent = item.explanation || "已识别标签文字，但当前解释词典尚未建立可靠映射。";
     if (item.status === "unknown") explanation.className = "additive-unknown";
     const boundary = document.createElement("p");
     boundary.className = "additive-boundary";
