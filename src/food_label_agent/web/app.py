@@ -90,7 +90,15 @@ def create_app(provider: OCRProvider | None = None) -> Starlette:
             parsed = SafetyEvaluationRequest.model_validate(payload)
             response = evaluate_user_constraints_result(parsed)
             result = response.model_dump(mode="json")
-            result["evidence"] = attach_regulatory_interpretation(parsed, response)
+            evidence = attach_regulatory_interpretation(parsed, response)
+            result["evidence"] = evidence
+            if evidence["final_status"] in {
+                "completed",
+                "blocked",
+                "needs_confirmation",
+            }:
+                result["status"] = evidence["final_status"]
+                result["next_route"] = evidence["final_status"]
             return JSONResponse(result)
         except (ValidationError, ValueError) as exc:
             message = "请选择至少一项个人约束。"

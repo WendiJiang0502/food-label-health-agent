@@ -41,7 +41,12 @@ class RegulationClause:
         return start <= applicable_date and (end is None or applicable_date <= end)
 
     def to_search_result(
-        self, *, applicable_date: date, retrieval_score: float
+        self,
+        *,
+        applicable_date: date,
+        retrieval_score: float,
+        retrieval_method: str,
+        retrieval_signals: dict[str, float | int | bool],
     ) -> dict:
         result = asdict(self)
         result.update(
@@ -50,7 +55,8 @@ class RegulationClause:
                 "applicable_date": applicable_date.isoformat(),
                 "applicability_status": "applicable",
                 "retrieval_score": retrieval_score,
-                "retrieval_method": "bm25_v1",
+                "retrieval_method": retrieval_method,
+                "retrieval_signals": retrieval_signals,
             }
         )
         return result

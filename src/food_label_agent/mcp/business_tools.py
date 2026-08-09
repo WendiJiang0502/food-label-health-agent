@@ -107,7 +107,7 @@ def search_food_regulations(
     topics: Annotated[list[str] | None, Field(max_length=12)] = None,
     limit: Annotated[int, Field(ge=1, le=20)] = 5,
 ) -> dict:
-    """Retrieve applicable clause-level evidence from official Chinese sources."""
+    """Hybrid-retrieve applicable clause evidence from official Chinese sources."""
 
     request = RegulationSearchRequest(
         query=query,

@@ -1,8 +1,7 @@
 """Small, auditable seed corpus sourced from official Chinese authorities.
 
-This is intentionally clause-sized and narrow.  It establishes version and
-date correctness before a larger ingestion and hybrid-retrieval pipeline is
-introduced.
+This is intentionally clause-sized and narrow. It supplements the packaged
+official indexes used by the versioned hybrid-retrieval pipeline.
 """
 
 from __future__ import annotations

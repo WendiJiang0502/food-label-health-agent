@@ -71,7 +71,7 @@ def test_wrong_jurisdiction_does_not_leak_chinese_evidence() -> None:
     assert response.results == []
 
 
-def test_bm25_retrieves_nutrition_standard_from_packaged_index() -> None:
+def test_hybrid_retrieval_finds_nutrition_standard_from_packaged_index() -> None:
     response = search_regulations(
         RegulationSearchRequest(
             query="GB 28050-2011 营养成分表 能量 核心营养素",
@@ -83,8 +83,11 @@ def test_bm25_retrieves_nutrition_standard_from_packaged_index() -> None:
     )
 
     assert response.status == "found"
-    assert response.retrieval_method == "bm25_v1"
+    assert response.retrieval_method == "hybrid_bm25_tfidf_rerank_v1"
     assert response.results[0]["standard_number"] == "GB 28050-2011"
+    assert response.results[0]["retrieval_signals"]["bm25_score"] > 0
+    assert response.results[0]["retrieval_signals"]["vector_score"] > 0
+    assert response.results[0]["retrieval_signals"]["rerank_score"] > 0
     assert response.results[0]["page_start"] is not None
     assert response.results[0]["document_hash"]
 

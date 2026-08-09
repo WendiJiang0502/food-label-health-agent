@@ -109,6 +109,8 @@ def test_safety_api_returns_traceable_avoid_result() -> None:
 
     payload = response.json()
     assert response.status_code == 200
+    assert payload["status"] == "completed"
+    assert payload["next_route"] == "completed"
     assert payload["overall_risk_level"] == "avoid"
     assert payload["rule_set"]["id"] == "cn_prepackaged_allergens_v1"
     assert payload["findings"][0]["matched_text"] == "乳清蛋白"

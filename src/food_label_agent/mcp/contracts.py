@@ -35,7 +35,7 @@ MCP_TOOLS: tuple[ToolContract, ...] = (
     ),
     ToolContract(
         "search_food_regulations",
-        "Retrieve versioned and applicable official clauses",
+        "Hybrid-retrieve and rerank versioned, applicable official clauses",
         safety_critical=True,
         implemented=True,
     ),

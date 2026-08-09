@@ -14,6 +14,7 @@ from food_label_agent.regulations.serialization import (
     save_ingestion_result,
 )
 from food_label_agent.regulations.service import DATA_DIR
+from food_label_agent.regulations.vector import TfidfVectorIndex
 
 
 def test_registry_has_contiguous_version_windows_and_official_sources() -> None:
@@ -99,6 +100,21 @@ def test_bm25_ranks_exact_regulatory_terms() -> None:
 
     assert hits
     assert hits[0].index == 0
+
+
+def test_vector_retrieval_connects_reviewed_domain_paraphrases() -> None:
+    index = TfidfVectorIndex(
+        (
+            "生产加工过程可能带入致敏物质时宜标示提示信息",
+            "营养成分表应标示能量和核心营养素",
+        )
+    )
+
+    hits = index.search("交叉污染风险如何提示")
+
+    assert hits
+    assert hits[0].index == 0
+    assert hits[0].score > 0
 
 
 def test_packaged_official_indexes_are_structured_and_hashed() -> None:

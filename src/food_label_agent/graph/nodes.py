@@ -222,6 +222,9 @@ def retrieve_regulations(state: AgentState) -> dict:
     retrieval_unknowns = [
         unknown for result in results for unknown in result.get("unknowns", [])
     ]
+    retrieval_methods = sorted(
+        {result.get("retrieval_method", "unknown") for result in results}
+    )
     return {
         "status": AnalysisStatus.IN_PROGRESS,
         "stage": WorkflowStage.REGULATORY_RETRIEVAL,
@@ -236,7 +239,11 @@ def retrieve_regulations(state: AgentState) -> dict:
                     "tool_name": "search_food_regulations",
                     "applicable_date": state["applicable_date"],
                     "evidence_count": len(evidence),
-                    "retrieval_method": "bm25_v1",
+                    "retrieval_method": (
+                        retrieval_methods[0]
+                        if len(retrieval_methods) == 1
+                        else retrieval_methods
+                    ),
                     "search_count": len(searches),
                 },
             ),
