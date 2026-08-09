@@ -21,9 +21,7 @@ def test_unclassified_text_never_satisfies_ingredient_evidence() -> None:
     )
 
     assert report.status == "needs_confirmation"
-    assert [issue.code for issue in report.issues] == [
-        "INGREDIENT_HEADING_NOT_FOUND"
-    ]
+    assert [issue.code for issue in report.issues] == ["INGREDIENT_HEADING_NOT_FOUND"]
 
 
 def test_single_ingredient_food_is_not_rejected_for_being_short() -> None:
@@ -92,16 +90,12 @@ def test_large_gap_between_ingredient_lines_requests_review() -> None:
                     OCRLineEvidence(
                         text="小麦粉、白砂糖",
                         confidence=0.95,
-                        bounding_box=BoundingBox(
-                            x=0.1, y=0.1, width=0.8, height=0.04
-                        ),
+                        bounding_box=BoundingBox(x=0.1, y=0.1, width=0.8, height=0.04),
                     ),
                     OCRLineEvidence(
                         text="植物油、食盐",
                         confidence=0.90,
-                        bounding_box=BoundingBox(
-                            x=0.1, y=0.30, width=0.8, height=0.04
-                        ),
+                        bounding_box=BoundingBox(x=0.1, y=0.30, width=0.8, height=0.04),
                     ),
                 ],
             )
@@ -132,7 +126,7 @@ def test_detected_basis_without_structured_table_is_explicit() -> None:
         ]
     )
 
-    assert report.status == "review_recommended"
+    assert report.status == "needs_confirmation"
     assert report.issues[0].code == "NUTRITION_TABLE_NOT_STRUCTURED"
 
 
@@ -166,5 +160,49 @@ def test_partial_nutrition_table_never_passes_evidence_gate() -> None:
         ]
     )
 
-    assert report.status == "review_recommended"
+    assert report.status == "needs_confirmation"
     assert report.issues[0].code == "NUTRITION_CORE_FIELDS_INCOMPLETE"
+
+
+def test_partial_table_without_separate_basis_never_passes_evidence_gate() -> None:
+    report = assess_ocr_evidence(
+        [
+            OCRFieldResult(
+                name="ingredients",
+                label="配料表",
+                raw_text="小麦粉、食用盐",
+                confidence=0.84,
+                requires_confirmation=True,
+            ),
+            OCRFieldResult(
+                name="nutrition_table",
+                label="营养成分表",
+                raw_text="项目 口径待确认 能量271千焦 钠55毫克",
+                confidence=0.50,
+                requires_confirmation=True,
+            ),
+        ]
+    )
+
+    assert report.status == "needs_confirmation"
+    assert report.issues[0].code == "NUTRITION_CORE_FIELDS_INCOMPLETE"
+
+
+def test_trailing_delimiter_or_single_character_fragment_is_blocking() -> None:
+    for ingredients in ("大米、黄豆、食用盐，", "水、黑豆、小麦、食"):
+        report = assess_ocr_evidence(
+            [
+                OCRFieldResult(
+                    name="ingredients",
+                    label="配料表",
+                    raw_text=ingredients,
+                    confidence=0.84,
+                    requires_confirmation=True,
+                )
+            ]
+        )
+
+        assert report.status == "needs_confirmation"
+        assert "INGREDIENT_TEXT_SUSPECTED_TRUNCATION" in {
+            issue.code for issue in report.issues
+        }

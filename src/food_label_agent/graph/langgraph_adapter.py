@@ -9,7 +9,7 @@ from __future__ import annotations
 from collections.abc import Callable, Mapping
 from typing import Any
 
-from .routing import route_after_ocr
+from .routing import route_after_normalization, route_after_ocr
 from .state import AgentState
 from .topology import validate_topology
 
@@ -35,6 +35,8 @@ def build_graph(nodes: Mapping[str, NodeFunction]) -> Any:
         "evaluate_safety",
         "retrieve_regulations",
         "interpret_label",
+        "interpret_claims",
+        "verify_consistency",
         "final_safety_gate",
     }
     missing = required - set(nodes)
@@ -56,9 +58,18 @@ def build_graph(nodes: Mapping[str, NodeFunction]) -> Any:
         },
     )
     graph.add_edge("confirm_label", "normalize_label")
-    graph.add_edge("normalize_label", "evaluate_safety")
+    graph.add_conditional_edges(
+        "normalize_label",
+        route_after_normalization,
+        {
+            "confirm_label": "confirm_label",
+            "evaluate_safety": "evaluate_safety",
+        },
+    )
     graph.add_edge("evaluate_safety", "retrieve_regulations")
     graph.add_edge("retrieve_regulations", "interpret_label")
-    graph.add_edge("interpret_label", "final_safety_gate")
+    graph.add_edge("interpret_label", "interpret_claims")
+    graph.add_edge("interpret_claims", "verify_consistency")
+    graph.add_edge("verify_consistency", "final_safety_gate")
     graph.add_edge("final_safety_gate", END)
     return graph.compile()

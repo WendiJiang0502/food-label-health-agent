@@ -33,6 +33,8 @@ class AgentState(TypedDict):
     risk_findings: list[RiskFinding]
     regulatory_evidence: list[Evidence]
     ingredient_explanations: list[dict[str, Any]]
+    claim_interpretations: list[dict[str, Any]]
+    consistency_findings: list[dict[str, Any]]
     alternatives: list[dict[str, Any]]
     warnings: list[str]
     unknowns: list[str]
@@ -64,6 +66,8 @@ def create_initial_state(
         risk_findings=[],
         regulatory_evidence=[],
         ingredient_explanations=[],
+        claim_interpretations=[],
+        consistency_findings=[],
         alternatives=[],
         warnings=[],
         unknowns=[],
@@ -72,7 +76,10 @@ def create_initial_state(
             AuditEvent(
                 event_type="state_created",
                 actor="orchestrator",
-                detail={"jurisdiction": jurisdiction, "applicable_date": applicable_date},
+                detail={
+                    "jurisdiction": jurisdiction,
+                    "applicable_date": applicable_date,
+                },
             )
         ],
     )

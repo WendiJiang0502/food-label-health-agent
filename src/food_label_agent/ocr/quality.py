@@ -81,9 +81,7 @@ def assess_image_quality(content: bytes) -> ImageQualityReport:
     blur_score = float(cv2.Laplacian(gray, cv2.CV_64F).var())
     brightness = float(gray.mean())
     contrast = float(gray.std())
-    _, foreground = cv2.threshold(
-        gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU
-    )
+    _, foreground = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
     foreground_ratio = float((foreground > 0).mean())
     text_skew_degrees, text_angle_spread = _text_geometry(gray, cv2, np)
     local_sharpness_ratio = _local_sharpness_ratio(gray, cv2, np)

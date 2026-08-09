@@ -12,6 +12,8 @@ license = { text = "Proprietary" }
 dependencies = [
   "langgraph>=1.2,<2",
   "mcp>=1.27,<2",
+  "pdfplumber>=0.11,<1",
+  "pypdf>=6,<7",
   "pydantic>=2.13,<3",
   "python-multipart>=0.0.20,<1",
   "starlette>=1.3,<2",
@@ -33,11 +35,16 @@ dev = [
 
 [project.scripts]
 food-label-agent = "food_label_agent.__main__:main"
+food-label-mcp = "food_label_agent.mcp.server:run"
 food-label-platform = "food_label_agent.web.app:run"
 food-label-ocr-eval = "food_label_agent.evaluation.ocr:main"
+food-label-regulations-ingest = "food_label_agent.regulations.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+food_label_agent = ["regulations/data/*.json"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]

@@ -19,6 +19,8 @@ class WorkflowStage(StrEnum):
     SAFETY_EVALUATION = "safety_evaluation"
     REGULATORY_RETRIEVAL = "regulatory_retrieval"
     INTERPRETATION = "interpretation"
+    CLAIM_INTERPRETATION = "claim_interpretation"
+    CONSISTENCY_VERIFICATION = "consistency_verification"
     ALTERNATIVE_SEARCH = "alternative_search"
     FINAL_SAFETY_GATE = "final_safety_gate"
     COMPLETED = "completed"

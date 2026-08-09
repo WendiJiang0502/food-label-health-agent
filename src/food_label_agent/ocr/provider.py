@@ -72,4 +72,12 @@ class DemoOCRProvider:
                 requires_confirmation=False,
                 bounding_box=BoundingBox(x=0.08, y=0.70, width=0.32, height=0.09),
             ),
+            OCRFieldResult(
+                name="label_claims",
+                label="包装声称",
+                raw_text="0蔗糖",
+                confidence=0.72,
+                requires_confirmation=True,
+                bounding_box=BoundingBox(x=0.55, y=0.70, width=0.25, height=0.09),
+            ),
         ]

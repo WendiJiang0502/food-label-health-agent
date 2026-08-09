@@ -216,3 +216,67 @@ def test_tencent_unopened_service_is_translated_to_safe_operator_error() -> None
     assert captured.value.code == "FailedOperation.UnOpenError"
     assert captured.value.retryable is False
     assert "服务尚未开通" in str(captured.value)
+
+
+def test_complete_coordinate_table_skips_paid_table_api() -> None:
+    client = FakeClient()
+    texts = [
+        ("配料：生牛乳", (100, 100, 500, 135)),
+        ("每100克", (500, 200, 650, 235)),
+        ("能量", (100, 260, 240, 295)),
+        ("271千焦", (500, 260, 650, 295)),
+        ("蛋白质", (100, 310, 240, 345)),
+        ("3.2克", (500, 310, 650, 345)),
+        ("脂肪", (100, 360, 240, 395)),
+        ("3.6克", (500, 360, 650, 395)),
+        ("碳水化合物", (100, 410, 240, 445)),
+        ("4.9克", (500, 410, 650, 445)),
+        ("钠", (100, 460, 240, 495)),
+        ("55毫克", (500, 460, 650, 495)),
+    ]
+    client.GeneralAccurateOCR = lambda request: SimpleNamespace(
+        TextDetections=[detection(text, 99, box) for text, box in texts]
+    )
+
+    fields = asyncio.run(
+        provider(client).analyze(
+            OCRInput(
+                content=b"image-bytes",
+                file_name="label.jpg",
+                media_type="image/jpeg",
+                width=1000,
+                height=800,
+            )
+        )
+    )
+
+    indexed = {field.name: field for field in fields}
+    assert client.table_request is None
+    assert "钠\t55毫克" in indexed["nutrition_table"].raw_text
+
+
+def test_unavailable_table_api_degrades_to_partial_coordinate_evidence() -> None:
+    class PackageRunOutError(Exception):
+        def get_code(self):
+            return "ResourceUnavailable.ResourcePackageRunOut"
+
+    client = FakeClient()
+    client.RecognizeTableAccurateOCR = lambda request: (_ for _ in ()).throw(
+        PackageRunOutError("table package unavailable")
+    )
+
+    provider_instance = provider(client)
+    fields = asyncio.run(
+        provider_instance.analyze(
+            OCRInput(
+                content=b"image-bytes",
+                file_name="label.jpg",
+                media_type="image/jpeg",
+                width=1000,
+                height=800,
+            )
+        )
+    )
+
+    assert "nutrition_basis" in {field.name for field in fields}
+    assert provider_instance.name == "tencentcloud-general-accurate+coordinate-table"

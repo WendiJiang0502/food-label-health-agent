@@ -10,6 +10,7 @@ colors:
   action-teal-hover: "#06343C"
   supporting-periwinkle: "#909ABF"
   muted-ink: "#6E7890"
+  muted-small: "#566177"
   caution: "#8A4B08"
   avoid: "#A9362B"
   compatible: "#14714B"
@@ -80,6 +81,7 @@ The first viewport contains exactly one promise and one task. The generated unbr
 - `#26334A` and `#172338` carry editorial headings and high-contrast copy.
 - `#0A4650` is reserved for primary actions, focus, and active evidence.
 - `#909ABF` supports the introductory promise without becoming a status color.
+- `#566177` is the accessible small-copy tone on paper surfaces.
 - Semantic caution, conflict, and compatibility colors appear only beside explicit state text.
 
 ### Typography

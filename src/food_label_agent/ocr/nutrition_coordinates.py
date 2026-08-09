@@ -17,8 +17,18 @@ _EXPECTED_UNITS = {
     "脂肪": ("克", "g"),
     "碳水化合物": ("克", "g"),
     "钠": ("毫克", "mg"),
+    "钙": ("毫克", "mg"),
 }
-_VALUE = re.compile(r"^\s*(-?\d+(?:\.\d+)?)\s*(千焦|kJ|克|g|毫克|mg)\s*$", re.IGNORECASE)
+_VALUE = re.compile(
+    r"^\s*(-?\d+(?:\.\d+)?)\s*(千焦|kJ|克|g|毫克|mg)\s*$", re.IGNORECASE
+)
+_NUMBER_ONLY = re.compile(r"^\s*(-?\d+(?:\.\d+)?)\s*$")
+_UNIT_ONLY = re.compile(r"^\s*(千焦|kJ|克|g|毫克|mg)\s*$", re.IGNORECASE)
+_INLINE_ROW = re.compile(
+    r"(能量|蛋白质|脂肪|碳水化合物|钠|钙).*?"
+    r"(-?\d+(?:\.\d+)?)\s*(千焦|kJ|克|g|毫克|mg)",
+    re.IGNORECASE,
+)
 _BASIS = re.compile(r"每\s*100\s*(?:克|g|毫升|ml)|每\s*份", re.IGNORECASE)
 
 
@@ -37,22 +47,42 @@ def extract_coordinate_nutrition_table(
         for line in lines
         if _normalize(line.text) in _NUTRIENTS and line.bounding_box is not None
     ]
-    values = [
-        line
-        for line in lines
-        if _VALUE.fullmatch(line.text) and line.bounding_box is not None
-    ]
-    pairs: dict[str, _Pair] = {}
+    values = _expanded_values(lines)
+    inline_pairs = _inline_pairs(lines)
+    label_ranks = _rank_by_family(labels)
+    value_ranks = _rank_by_family(values)
+    values = [line for line in values if line.bounding_box is not None]
+    candidates: list[tuple[float, float, str, int, _Pair]] = []
     for label in labels:
         nutrient = _normalize(label.text)
-        candidates = [_pair(label, value) for value in values]
-        valid = [candidate for candidate in candidates if candidate is not None]
-        if not valid:
+        for value_index, value in enumerate(values):
+            if not _has_expected_unit(nutrient, value.text):
+                continue
+            pair = _pair(label, value)
+            if pair is not None:
+                order_penalty = abs(
+                    label_ranks[(nutrient, id(label))]
+                    - value_ranks[(_unit_family(value.text), id(value))]
+                )
+                candidates.append(
+                    (
+                        pair.score + order_penalty * 1.5,
+                        -_pair_confidence(pair),
+                        nutrient,
+                        value_index,
+                        pair,
+                    )
+                )
+
+    pairs: dict[str, _Pair] = dict(inline_pairs)
+    used_values: set[int] = set()
+    for _, _, nutrient, value_index, pair in sorted(
+        candidates, key=lambda candidate: (candidate[0], candidate[1])
+    ):
+        if nutrient in pairs or value_index in used_values:
             continue
-        best = min(valid, key=lambda candidate: candidate.score)
-        current = pairs.get(nutrient)
-        if current is None or _pair_confidence(best) > _pair_confidence(current):
-            pairs[nutrient] = best
+        pairs[nutrient] = pair
+        used_values.add(value_index)
 
     if len(pairs) < 2:
         return None
@@ -93,6 +123,110 @@ def extract_coordinate_nutrition_table(
     )
 
 
+def _expanded_values(lines: list[OCRLine]) -> list[OCRLine]:
+    values = [
+        line
+        for line in lines
+        if _VALUE.fullmatch(line.text) and line.bounding_box is not None
+    ]
+    unit_lines = [
+        line
+        for line in lines
+        if _UNIT_ONLY.fullmatch(line.text) and line.bounding_box is not None
+    ]
+    for number in lines:
+        if not _NUMBER_ONLY.fullmatch(number.text) or number.bounding_box is None:
+            continue
+        best_unit = min(
+            (
+                unit
+                for unit in unit_lines
+                if _same_row(number, unit)
+                and unit.bounding_box is not None
+                and 0 <= unit.bounding_box.x - number.bounding_box.x <= 0.18
+            ),
+            key=lambda unit: unit.bounding_box.x,  # type: ignore[union-attr]
+            default=None,
+        )
+        if best_unit is None:
+            continue
+        values.append(
+            OCRLine(
+                text=f"{number.text.strip()}{best_unit.text.strip()}",
+                confidence=min(number.confidence, best_unit.confidence),
+                bounding_box=_union_box([number, best_unit]),
+            )
+        )
+    return values
+
+
+def _inline_pairs(lines: list[OCRLine]) -> dict[str, _Pair]:
+    pairs: dict[str, _Pair] = {}
+    for line in lines:
+        if line.bounding_box is None:
+            continue
+        match = _INLINE_ROW.search(_normalize(line.text))
+        if not match:
+            continue
+        nutrient = match.group(1)
+        value = OCRLine(
+            text=f"{match.group(2)}{match.group(3)}",
+            confidence=line.confidence,
+            bounding_box=line.bounding_box,
+        )
+        if _has_expected_unit(nutrient, value.text):
+            pairs[nutrient] = _Pair(label=line, value=value, score=-1.0)
+    return pairs
+
+
+def _rank_by_family(lines: list[OCRLine]) -> dict[tuple[str, int], int]:
+    grouped: dict[str, list[OCRLine]] = {}
+    for line in lines:
+        family = (
+            _unit_family(line.text)
+            if _VALUE.fullmatch(line.text)
+            else _nutrient_family(_normalize(line.text))
+        )
+        grouped.setdefault(family, []).append(line)
+    ranks: dict[tuple[str, int], int] = {}
+    for family, members in grouped.items():
+        members.sort(key=_vertical_center)
+        for rank, member in enumerate(members):
+            key = _normalize(member.text) if member in lines else family
+            ranks[(key if key in _NUTRIENTS else family, id(member))] = rank
+    return ranks
+
+
+def _nutrient_family(nutrient: str) -> str:
+    if nutrient == "能量":
+        return "energy"
+    if nutrient in {"钠", "钙"}:
+        return "mass_mg"
+    return "mass_g"
+
+
+def _unit_family(value: str) -> str:
+    normalized = _normalize(value).lower()
+    if "千焦" in normalized or "kj" in normalized:
+        return "energy"
+    if "毫克" in normalized or "mg" in normalized:
+        return "mass_mg"
+    return "mass_g"
+
+
+def _same_row(left: OCRLine, right: OCRLine) -> bool:
+    assert left.bounding_box is not None and right.bounding_box is not None
+    tolerance = max(
+        0.01, min(left.bounding_box.height, right.bounding_box.height) * 0.5
+    )
+    return abs(_vertical_center(left) - _vertical_center(right)) <= tolerance
+
+
+def _vertical_center(line: OCRLine) -> float:
+    assert line.bounding_box is not None
+    return line.bounding_box.y + line.bounding_box.height / 2
+
+
 def choose_best_nutrition_table(
     candidates: list[OCRFieldResult],
 ) -> OCRFieldResult | None:
@@ -108,7 +242,9 @@ def choose_best_nutrition_table(
                 if complete
                 else "营养成分候选（识别不完整，请手动核对）"
             ),
-            "confidence": selected.confidence if complete else min(selected.confidence, 0.5),
+            "confidence": selected.confidence
+            if complete
+            else min(selected.confidence, 0.5),
             "requires_confirmation": True,
         }
     )
@@ -150,6 +286,14 @@ def _pair(label: OCRLine, value: OCRLine) -> _Pair | None:
 
 def _pair_confidence(pair: _Pair) -> float:
     return (pair.label.confidence + pair.value.confidence) / 2
+
+
+def _has_expected_unit(nutrient: str, value: str) -> bool:
+    match = _VALUE.fullmatch(value)
+    if not match:
+        return False
+    unit = match.group(2).lower()
+    return unit in _EXPECTED_UNITS[nutrient]
 
 
 def _table_rank(field: OCRFieldResult) -> tuple[int, int, float]:

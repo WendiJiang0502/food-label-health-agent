@@ -1,0 +1,195 @@
+"""Transport-neutral implementations of registered MCP business tools.
+
+FastMCP registers these exact callables for external clients.  The in-process
+LangGraph uses :func:`invoke_mcp_tool` so nodes depend on the same named JSON
+boundary without creating a stdio subprocess for every graph transition.
+"""
+
+from __future__ import annotations
+
+from collections.abc import Callable, Mapping
+from typing import Annotated, Any
+
+from pydantic import Field
+
+from food_label_agent.claims.models import (
+    ClaimConsistencyRequest,
+    ClaimInterpretationRequest,
+)
+from food_label_agent.claims.service import interpret_claim, verify_claim_consistency
+from food_label_agent.ingredients.api_models import (
+    ConstraintInput,
+    SafetyEvaluationRequest,
+)
+from food_label_agent.ingredients.explanations import (
+    IngredientExplanationRequest,
+    explain_ingredient_with_evidence,
+)
+from food_label_agent.ingredients.service import (
+    evaluate_user_constraints_result,
+    normalize_food_label_result,
+)
+from food_label_agent.regulations.models import RegulationSearchRequest
+from food_label_agent.regulations.service import search_regulations
+
+from .contracts import get_tool_contract
+
+
+class MCPToolCallError(RuntimeError):
+    """A named MCP business tool could not complete its invocation."""
+
+    def __init__(self, tool_name: str, cause: Exception) -> None:
+        super().__init__(f"MCP tool {tool_name!r} failed: {cause}")
+        self.tool_name = tool_name
+        self.cause = cause
+
+
+def normalize_food_label(
+    ingredients_text: Annotated[
+        str,
+        Field(
+            min_length=1,
+            max_length=20_000,
+            description="User-confirmed ingredient-list text.",
+        ),
+    ],
+    original_ingredients_text: str | None = None,
+    source_bounding_box: tuple[int, int, int, int] | None = None,
+) -> dict:
+    """Normalize confirmed ingredients while preserving source evidence.
+
+    Unbalanced brackets and unresolved names are returned explicitly and are
+    never repaired or guessed by a language model.
+    """
+
+    return normalize_food_label_result(
+        ingredients_text,
+        original_ingredients_text=original_ingredients_text,
+        source_bounding_box=source_bounding_box,
+    )
+
+
+def evaluate_user_constraints(
+    request_id: Annotated[str, Field(min_length=1, max_length=128)],
+    applicable_date: str,
+    confirmed_fields: dict[str, str],
+    constraints: Annotated[list[ConstraintInput], Field(min_length=1, max_length=8)],
+    jurisdiction: str = "CN",
+) -> dict:
+    """Evaluate confirmed label facts against deterministic allergen rules.
+
+    Returns avoid, caution, compatible, or unknown with matched text and
+    evidence locations. Compatible never means absolute safety.
+    """
+
+    request = SafetyEvaluationRequest(
+        request_id=request_id,
+        jurisdiction=jurisdiction,
+        applicable_date=applicable_date,
+        confirmed_fields=confirmed_fields,
+        constraints=constraints,
+    )
+    return evaluate_user_constraints_result(request).model_dump(mode="json")
+
+
+def search_food_regulations(
+    query: Annotated[str, Field(min_length=1, max_length=2_000)],
+    applicable_date: str,
+    jurisdiction: str = "CN",
+    topics: Annotated[list[str] | None, Field(max_length=12)] = None,
+    limit: Annotated[int, Field(ge=1, le=20)] = 5,
+) -> dict:
+    """Retrieve applicable clause-level evidence from official Chinese sources."""
+
+    request = RegulationSearchRequest(
+        query=query,
+        jurisdiction=jurisdiction,
+        applicable_date=applicable_date,
+        topics=topics or [],
+        limit=limit,
+    )
+    return search_regulations(request).model_dump(mode="json")
+
+
+def explain_ingredient(
+    ingredient: dict,
+    risk_finding: dict,
+    regulatory_evidence: Annotated[list[dict], Field(max_length=20)],
+    applicable_date: str,
+    jurisdiction: str = "CN",
+) -> dict:
+    """Explain one normalized ingredient using applicable evidence only."""
+
+    request = IngredientExplanationRequest(
+        ingredient=ingredient,
+        risk_finding=risk_finding,
+        regulatory_evidence=regulatory_evidence,
+        jurisdiction=jurisdiction,
+        applicable_date=applicable_date,
+    )
+    return explain_ingredient_with_evidence(request).model_dump(mode="json")
+
+
+def interpret_label_claim(
+    claim_text: Annotated[str, Field(min_length=1, max_length=2_000)],
+    regulatory_evidence: Annotated[list[dict], Field(max_length=20)],
+    applicable_date: str,
+    jurisdiction: str = "CN",
+) -> dict:
+    """Interpret Chinese packaging claims without conflating their meanings."""
+
+    request = ClaimInterpretationRequest(
+        claim_text=claim_text,
+        regulatory_evidence=regulatory_evidence,
+        jurisdiction=jurisdiction,
+        applicable_date=applicable_date,
+    )
+    return interpret_claim(request).model_dump(mode="json")
+
+
+def verify_label_consistency(
+    claims: Annotated[list[dict], Field(min_length=1, max_length=30)],
+    applicable_date: str,
+    ingredients_text: str | None = None,
+    nutrition_values: dict | None = None,
+    regulatory_evidence: Annotated[list[dict] | None, Field(max_length=20)] = None,
+    jurisdiction: str = "CN",
+) -> dict:
+    """Cross-check claims against confirmed ingredient and nutrition facts."""
+
+    request = ClaimConsistencyRequest(
+        claims=claims,
+        ingredients_text=ingredients_text,
+        nutrition_values=nutrition_values or {},
+        regulatory_evidence=regulatory_evidence or [],
+        jurisdiction=jurisdiction,
+        applicable_date=applicable_date,
+    )
+    return verify_claim_consistency(request).model_dump(mode="json")
+
+
+BusinessTool = Callable[..., dict[str, Any]]
+
+BUSINESS_TOOLS: Mapping[str, BusinessTool] = {
+    "normalize_food_label": normalize_food_label,
+    "evaluate_user_constraints": evaluate_user_constraints,
+    "search_food_regulations": search_food_regulations,
+    "explain_ingredient": explain_ingredient,
+    "interpret_label_claim": interpret_label_claim,
+    "verify_label_consistency": verify_label_consistency,
+}
+
+
+def invoke_mcp_tool(tool_name: str, arguments: Mapping[str, Any]) -> dict[str, Any]:
+    """Invoke an implemented tool through the same boundary exposed by MCP."""
+
+    contract = get_tool_contract(tool_name)
+    if not contract.implemented:
+        raise MCPToolCallError(tool_name, RuntimeError("tool is not implemented"))
+    try:
+        handler = BUSINESS_TOOLS[tool_name]
+        return handler(**dict(arguments))
+    except MCPToolCallError:
+        raise
+    except (KeyError, TypeError, ValueError) as exc:
+        raise MCPToolCallError(tool_name, exc) from exc

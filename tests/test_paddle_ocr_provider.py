@@ -81,9 +81,7 @@ def test_fast_path_uses_small_recognizer_then_medium_fallback() -> None:
         calls.append(options)
         return FakePaddleEngine()
 
-    provider = PaddleOCRProvider(
-        OCRSettings(provider="paddle"), engine_factory=factory
-    )
+    provider = PaddleOCRProvider(OCRSettings(provider="paddle"), engine_factory=factory)
     asyncio.run(
         provider.analyze(
             OCRInput(
@@ -141,9 +139,7 @@ def test_complete_fast_path_skips_medium_engine() -> None:
         calls.append(options)
         return CompleteFastEngine()
 
-    provider = PaddleOCRProvider(
-        OCRSettings(provider="paddle"), engine_factory=factory
-    )
+    provider = PaddleOCRProvider(OCRSettings(provider="paddle"), engine_factory=factory)
     fields = asyncio.run(
         provider.analyze(
             OCRInput(
@@ -171,9 +167,7 @@ def test_complex_image_skips_fast_inference_and_uses_medium_directly() -> None:
         calls.append(options)
         return FakePaddleEngine()
 
-    provider = PaddleOCRProvider(
-        OCRSettings(provider="paddle"), engine_factory=factory
-    )
+    provider = PaddleOCRProvider(OCRSettings(provider="paddle"), engine_factory=factory)
     asyncio.run(
         provider.analyze(
             OCRInput(

@@ -43,4 +43,3 @@ def normalize_nutrition_text(value: str) -> str:
     for source in ("毫克", "毫升", "千焦", "克"):
         normalized = normalized.replace(source, _UNIT_ALIASES[source])
     return re.sub(r"\s+", "", normalized)
-

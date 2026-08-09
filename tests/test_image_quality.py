@@ -104,9 +104,7 @@ def test_quality_gate_stops_provider_before_ocr() -> None:
     report = ImageQualityReport(
         metrics=ImageQualityMetrics(500, 900, 22, 130, 42, 0.001),
         issues=(
-            ImageQualityIssue(
-                "IMAGE_BLURRY", QualitySeverity.BLOCKING, "图片明显模糊"
-            ),
+            ImageQualityIssue("IMAGE_BLURRY", QualitySeverity.BLOCKING, "图片明显模糊"),
         ),
     )
     service = OCRService(provider, quality_assessor=lambda _: report)

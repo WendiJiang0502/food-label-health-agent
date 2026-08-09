@@ -46,6 +46,15 @@ class Evidence:
     effective_from: str | None = None
     effective_to: str | None = None
     authority_level: str = "A"
+    standard_number: str | None = None
+    evidence_text: str | None = None
+    content_hash: str | None = None
+    retrieval_score: float | None = None
+    retrieval_method: str | None = None
+    source_type: str | None = None
+    document_hash: str | None = None
+    page_start: int | None = None
+    page_end: int | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -63,4 +72,6 @@ class AuditEvent:
     event_type: str
     actor: str
     detail: dict[str, Any] = field(default_factory=dict)
-    created_at: str = field(default_factory=lambda: datetime.now().astimezone().isoformat())
+    created_at: str = field(
+        default_factory=lambda: datetime.now().astimezone().isoformat()
+    )

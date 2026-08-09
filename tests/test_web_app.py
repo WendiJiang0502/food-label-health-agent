@@ -21,6 +21,7 @@ def test_platform_index_and_health() -> None:
     assert page.status_code == 200
     assert "看懂标签" in page.text
     assert "上传食品标签" in page.text
+    assert "包装声称核对" in page.text
     assert "SAFETY · BUILT IN" not in page.text
     assert "MILESTONE" not in page.text
     assert health.status_code == 200
@@ -46,6 +47,7 @@ def test_upload_returns_structured_demo_ocr() -> None:
         "ingredients",
         "allergen_statement",
         "nutrition_basis",
+        "label_claims",
     }
 
 
@@ -78,3 +80,100 @@ def test_confirmation_api_enters_normalization_route() -> None:
 
     assert response.status_code == 200
     assert response.json()["next_route"] == "normalize_label"
+    assert response.json()["normalized_label"]["ingredients"][0]["raw_name"] == "小麦粉"
+
+
+def test_safety_api_returns_traceable_avoid_result() -> None:
+    response = asyncio.run(
+        request(
+            "POST",
+            "/api/v1/labels/evaluate",
+            json={
+                "request_id": "request-2",
+                "jurisdiction": "CN",
+                "applicable_date": "2026-08-08",
+                "confirmed_fields": {
+                    "ingredients": "小麦粉、复合调味料（白砂糖、食用盐、乳清蛋白）"
+                },
+                "constraints": [
+                    {
+                        "kind": "allergy",
+                        "canonical_value": "milk",
+                        "severity": "severe",
+                    }
+                ],
+            },
+        )
+    )
+
+    payload = response.json()
+    assert response.status_code == 200
+    assert payload["overall_risk_level"] == "avoid"
+    assert payload["rule_set"]["id"] == "cn_prepackaged_allergens_v1"
+    assert payload["findings"][0]["matched_text"] == "乳清蛋白"
+    assert payload["findings"][0]["matched_location"] == "复合配料第 3 项（路径 2 → 3）"
+    assert payload["findings"][0]["evidence_ids"] == ["label.ingredients.item.2.3"]
+    assert payload["evidence"]["status"] == "grounded"
+    assert payload["evidence"]["final_status"] == "completed"
+    interpretation = payload["evidence"]["interpretations"][0]
+    assert interpretation["risk_level"] == "avoid"
+    assert interpretation["citations"]
+    assert {
+        citation["standard_number"] for citation in interpretation["citations"]
+    } == {"GB 7718-2011"}
+    assert any(citation["page_start"] == 7 for citation in interpretation["citations"])
+
+
+def test_compatible_result_does_not_claim_regulatory_safety_proof() -> None:
+    response = asyncio.run(
+        request(
+            "POST",
+            "/api/v1/labels/evaluate",
+            json={
+                "request_id": "request-compatible",
+                "jurisdiction": "CN",
+                "applicable_date": "2026-08-08",
+                "confirmed_fields": {"ingredients": "白砂糖、食用盐"},
+                "constraints": [
+                    {
+                        "kind": "allergy",
+                        "canonical_value": "milk",
+                        "severity": "severe",
+                    }
+                ],
+            },
+        )
+    )
+
+    payload = response.json()
+    assert response.status_code == 200
+    assert payload["overall_risk_level"] == "compatible"
+    assert payload["evidence"]["status"] == "not_required"
+    assert payload["evidence"]["interpretations"] == []
+
+
+def test_safety_api_includes_claim_interpretation_and_consistency_result() -> None:
+    response = asyncio.run(
+        request(
+            "POST",
+            "/api/v1/labels/evaluate",
+            json={
+                "request_id": "request-claim",
+                "jurisdiction": "CN",
+                "applicable_date": "2026-08-09",
+                "confirmed_fields": {
+                    "ingredients": "水、果葡糖浆",
+                    "label_claims": "0蔗糖",
+                },
+                "constraints": [{"kind": "allergy", "canonical_value": "milk"}],
+            },
+        )
+    )
+
+    payload = response.json()
+    assert response.status_code == 200
+    claim = payload["evidence"]["claim_interpretations"][0]
+    finding = payload["evidence"]["consistency_findings"][0]
+    assert claim["canonical_type"] == "no_sucrose"
+    assert finding["status"] == "not_contradicted"
+    assert "不能据此理解为无糖" in finding["explanation"]

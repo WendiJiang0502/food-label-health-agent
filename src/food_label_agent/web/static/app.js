@@ -12,12 +12,37 @@ const elements = {
   proofTitle: document.querySelector("#proof-title"),
   proofState: document.querySelector("#proof-state"),
   reviewRail: document.querySelector("#review-rail"),
+  reviewTitle: document.querySelector("#review-title"),
   form: document.querySelector("#confirmation-form"),
   fieldList: document.querySelector("#field-list"),
   reviewCount: document.querySelector("#review-count"),
   confirmButton: document.querySelector("#confirm-button"),
   resultState: document.querySelector("#result-state"),
   resultMessage: document.querySelector("#result-message"),
+  railError: document.querySelector("#rail-error"),
+  railErrorMessage: document.querySelector("#rail-error-message"),
+  constraintStep: document.querySelector("#constraint-step"),
+  constraintForm: document.querySelector("#constraint-form"),
+  constraintError: document.querySelector("#constraint-error"),
+  evaluateButton: document.querySelector("#evaluate-button"),
+  safetyResult: document.querySelector("#safety-result"),
+  riskSymbol: document.querySelector("#risk-symbol"),
+  riskKicker: document.querySelector("#risk-kicker"),
+  safetyTitle: document.querySelector("#safety-title"),
+  riskSummary: document.querySelector("#risk-summary"),
+  matchedText: document.querySelector("#matched-text"),
+  matchedConstraint: document.querySelector("#matched-constraint"),
+  matchedLocation: document.querySelector("#matched-location"),
+  additionalFindings: document.querySelector("#additional-findings"),
+  claimResults: document.querySelector("#claim-results"),
+  claimResultsCount: document.querySelector("#claim-results-count"),
+  claimResultList: document.querySelector("#claim-result-list"),
+  evidenceDetails: document.querySelector("#evidence-details"),
+  evidenceStatus: document.querySelector("#evidence-status"),
+  evidenceIntro: document.querySelector("#evidence-intro"),
+  citationList: document.querySelector("#citation-list"),
+  evidenceEmpty: document.querySelector("#evidence-empty"),
+  changeConstraints: document.querySelector("#change-constraints"),
   errorState: document.querySelector("#error-state"),
   errorMessage: document.querySelector("#error-message"),
   retryButton: document.querySelector("#retry-button"),
@@ -34,6 +59,17 @@ const state = {
   file: null,
   previewUrl: null,
   analysis: null,
+  confirmedFields: null,
+  normalizedLabel: null,
+};
+
+const constraintLabels = {
+  milk: "乳过敏",
+  egg: "蛋过敏",
+  peanut: "花生过敏",
+  soy: "大豆过敏",
+  gluten: "麸质相关过敏",
+  tree_nut: "坚果过敏",
 };
 
 elements.fileInput.addEventListener("change", (event) => {
@@ -85,6 +121,7 @@ elements.form.addEventListener("submit", async (event) => {
   });
 
   elements.confirmButton.disabled = true;
+  hideRailError();
   elements.confirmButton.firstChild.textContent = "正在确认… ";
   announce("正在确认标签文字");
 
@@ -97,23 +134,94 @@ elements.form.addEventListener("submit", async (event) => {
         jurisdiction: "CN",
         applicable_date: new Date().toISOString().slice(0, 10),
         fields,
+        original_fields: Object.fromEntries(
+          state.analysis.fields.map((field) => [field.name, field.raw_text]),
+        ),
       }),
     });
     const payload = await response.json();
     if (!response.ok) throw new Error(payload.message || "标签确认失败。");
 
+    if (payload.normalization_issues?.length) {
+      const issue = payload.normalization_issues[0];
+      throw new Error(`配料结构还需确认：${issue.message}`);
+    }
+
+    state.confirmedFields = fields;
+    state.normalizedLabel = payload.normalized_label;
     elements.form.hidden = true;
-    elements.resultMessage.textContent = "已完成确认。";
-    elements.resultState.hidden = false;
-    elements.resultState.focus();
-    elements.proofState.textContent = "用户已确认";
-    announce("识别文字已确认");
+    elements.resultState.hidden = true;
+    elements.constraintStep.hidden = false;
+    elements.safetyResult.hidden = true;
+    elements.reviewTitle.textContent = "设置个人约束";
+    elements.reviewCount.textContent = "个人约束";
+    elements.proofState.textContent = "标签已确认";
+    elements.constraintStep.querySelector("input")?.focus();
+    announce("识别文字已确认，请选择需要回避的过敏原");
   } catch (error) {
-    showError(error.message);
+    showRailError(error.message);
   } finally {
     elements.confirmButton.disabled = false;
     elements.confirmButton.firstChild.textContent = "确认识别文字 ";
   }
+});
+
+elements.constraintForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const selected = [...elements.constraintForm.querySelectorAll('input[name="constraint"]:checked')]
+    .map((input) => input.value);
+  if (!selected.length) {
+    elements.constraintError.hidden = false;
+    elements.constraintForm.querySelector("input")?.focus();
+    announce("请至少选择一项需要回避的过敏原");
+    return;
+  }
+  elements.constraintError.hidden = true;
+  hideRailError();
+  elements.evaluateButton.disabled = true;
+  elements.evaluateButton.firstChild.textContent = "正在核对… ";
+  announce("正在检查过敏原并核对官方依据");
+
+  try {
+    const response = await fetch("/api/v1/labels/evaluate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        request_id: state.analysis.request_id,
+        jurisdiction: "CN",
+        applicable_date: new Date().toISOString().slice(0, 10),
+        confirmed_fields: state.confirmedFields,
+        constraints: selected.map((canonicalValue) => ({
+          kind: "allergy",
+          canonical_value: canonicalValue,
+          severity: "severe",
+        })),
+      }),
+    });
+    const payload = await response.json();
+    if (!response.ok) throw new Error(payload.message || "过敏原检查失败。");
+    renderSafetyResult(payload);
+  } catch (error) {
+    showRailError(error.message);
+  } finally {
+    elements.evaluateButton.disabled = false;
+    elements.evaluateButton.firstChild.textContent = "检查并查看依据 ";
+  }
+});
+
+elements.constraintForm.addEventListener("change", () => {
+  elements.constraintError.hidden = true;
+  hideRailError();
+});
+
+elements.changeConstraints.addEventListener("click", () => {
+  elements.safetyResult.hidden = true;
+  elements.claimResults.hidden = true;
+  elements.claimResultList.replaceChildren();
+  elements.constraintStep.hidden = false;
+  elements.reviewTitle.textContent = "设置个人约束";
+  elements.reviewCount.textContent = "个人约束";
+  elements.constraintStep.querySelector("input")?.focus();
 });
 
 function selectFile(file) {
@@ -145,6 +253,8 @@ async function analyzeFile(file) {
   elements.workbench.classList.remove("has-analysis");
   elements.reviewRail.hidden = true;
   elements.processing.hidden = false;
+  hideRailError();
+  elements.reviewTitle.textContent = "确认识别文字";
   elements.form.hidden = true;
   elements.annotationLayer.replaceChildren();
   elements.reviewCount.textContent = "处理中";
@@ -283,10 +393,246 @@ function resetResult() {
   if (elements.resultState) elements.resultState.hidden = true;
   if (elements.form) elements.form.hidden = true;
   if (elements.reviewRail) elements.reviewRail.hidden = true;
+  elements.constraintStep.hidden = true;
+  elements.safetyResult.hidden = true;
+  elements.constraintForm.reset();
+  hideRailError();
+  elements.reviewTitle.textContent = "确认识别文字";
+  state.confirmedFields = null;
+  state.normalizedLabel = null;
   elements.workbench.classList.remove("has-analysis");
   elements.heroLayout.classList.remove("has-analysis");
   elements.fieldList.replaceChildren();
   elements.reviewCount.textContent = "0 项";
+}
+
+function renderSafetyResult(payload) {
+  const riskOrder = { avoid: 3, caution: 2, unknown: 1, compatible: 0 };
+  const primary = [...payload.findings].sort(
+    (left, right) => riskOrder[right.risk_level] - riskOrder[left.risk_level],
+  )[0];
+  const titles = {
+    avoid: "不建议食用",
+    caution: "需要谨慎确认",
+    unknown: "当前信息不足",
+    compatible: "未发现相关成分",
+  };
+  const symbols = { avoid: "!", caution: "?", unknown: "…", compatible: "✓" };
+
+  elements.constraintStep.hidden = true;
+  elements.safetyResult.hidden = false;
+  hideRailError();
+  elements.reviewTitle.textContent = "过敏原检查结果";
+  elements.safetyResult.dataset.risk = payload.overall_risk_level;
+  elements.riskSymbol.textContent = symbols[payload.overall_risk_level];
+  elements.riskKicker.textContent = `规则评估 · ${payload.findings.length} 项约束`;
+  elements.safetyTitle.textContent = titles[payload.overall_risk_level];
+  elements.riskSummary.textContent = primary.explanation;
+  elements.matchedText.textContent = primary.matched_text;
+  elements.matchedConstraint.textContent = constraintLabels[primary.constraint] || primary.constraint;
+  elements.matchedLocation.textContent = primary.matched_location;
+  elements.reviewCount.textContent = payload.overall_risk_level === "avoid" ? "明确命中" : "评估完成";
+  elements.proofState.textContent = "安全规则已评估";
+
+  const secondary = payload.findings.filter((finding) => finding !== primary);
+  elements.additionalFindings.replaceChildren();
+  elements.additionalFindings.hidden = secondary.length === 0;
+  secondary.forEach((finding) => {
+    const row = document.createElement("div");
+    row.className = "finding-detail";
+    const heading = document.createElement("p");
+    const label = document.createElement("strong");
+    label.textContent = constraintLabels[finding.constraint] || finding.constraint;
+    const status = document.createElement("span");
+    status.textContent = titles[finding.risk_level];
+    heading.append(label, status);
+    const evidence = document.createElement("p");
+    evidence.className = "finding-evidence";
+    evidence.textContent = `${finding.matched_text} · ${finding.matched_location}`;
+    const reason = document.createElement("p");
+    reason.className = "finding-reason";
+    reason.textContent = finding.explanation;
+    row.append(heading, evidence, reason);
+    elements.additionalFindings.append(row);
+  });
+  renderClaimResults(payload.evidence);
+  renderRegulatoryEvidence(payload.evidence, primary);
+  elements.safetyResult.focus();
+  announce(`${titles[payload.overall_risk_level]}，命中成分${primary.matched_text}`);
+}
+
+function renderClaimResults(evidence) {
+  const claims = evidence?.claim_interpretations || [];
+  const findings = evidence?.consistency_findings || [];
+  elements.claimResultList.replaceChildren();
+  elements.claimResults.hidden = claims.length === 0;
+  elements.claimResultsCount.textContent = `${claims.length} 项`;
+  if (!claims.length) return;
+
+  const statusLabels = {
+    consistent: "数值符合",
+    inconsistent: "与标签冲突",
+    not_contradicted: "未发现直接冲突",
+    unknown: "信息不足",
+  };
+  claims.forEach((claim, index) => {
+    const claimIds = new Set(claim.label_evidence_ids || []);
+    const finding =
+      findings.find((item) =>
+        (item.label_evidence_ids || []).some((id) => claimIds.has(id)),
+      ) || findings[index];
+    const status = finding?.status || "unknown";
+
+    const article = document.createElement("article");
+    article.className = "claim-result";
+    article.dataset.status = status;
+
+    const heading = document.createElement("div");
+    heading.className = "claim-result-heading";
+    const names = document.createElement("div");
+    const raw = document.createElement("strong");
+    raw.textContent = claim.raw_text || "未识别声称";
+    const canonical = document.createElement("span");
+    canonical.textContent = claim.canonical_name
+      ? `按“${claim.canonical_name}”理解`
+      : "规范含义待确认";
+    names.append(raw, canonical);
+    const badge = document.createElement("span");
+    badge.className = "claim-status";
+    badge.textContent = statusLabels[status] || "信息不足";
+    heading.append(names, badge);
+
+    const meaning = document.createElement("p");
+    meaning.className = "claim-meaning";
+    meaning.textContent = claim.meaning || "当前证据不足，不能确定这项声称的规范含义。";
+    const check = document.createElement("p");
+    check.className = "claim-check";
+    check.textContent = finding?.explanation || "当前没有足够的已确认标签信息完成一致性检查。";
+
+    article.append(heading, meaning, check);
+    if (finding?.matched_text) {
+      const matched = document.createElement("p");
+      matched.className = "claim-match";
+      matched.textContent = `冲突成分：${finding.matched_text}`;
+      article.append(matched);
+    }
+    const limitation = claim.limitations?.[0];
+    if (limitation) {
+      const boundary = document.createElement("p");
+      boundary.className = "claim-boundary";
+      boundary.textContent = limitation;
+      article.append(boundary);
+    }
+    elements.claimResultList.append(article);
+  });
+}
+
+function renderRegulatoryEvidence(evidence, primaryFinding) {
+  elements.evidenceDetails.open = false;
+  elements.citationList.replaceChildren();
+  elements.evidenceEmpty.hidden = true;
+  elements.evidenceEmpty.textContent = "";
+  elements.evidenceIntro.textContent = "";
+
+  if (!evidence || evidence.status === "blocked") {
+    elements.evidenceStatus.textContent = "依据暂不可用";
+    elements.evidenceEmpty.textContent =
+      "过敏原风险仍由已确认标签和确定性规则得出；官方条款暂时无法核对，请稍后重试。";
+    elements.evidenceEmpty.hidden = false;
+    return;
+  }
+
+  const claimInterpretations = evidence.claim_interpretations || [];
+  if (evidence.status === "not_required" && !claimInterpretations.length) {
+    elements.evidenceStatus.textContent = "未发现冲突";
+    elements.evidenceIntro.textContent =
+      "当前已确认标签中未发现所选过敏原，但这不是对配方、交叉接触或绝对安全的证明。";
+    return;
+  }
+
+  const primaryEvidenceIds = new Set(primaryFinding.evidence_ids || []);
+  const interpretation = (evidence.interpretations || []).find((item) =>
+    (item.label_evidence_ids || []).some((id) => primaryEvidenceIds.has(id)),
+  );
+  const claimCitations = claimInterpretations.flatMap((item) => item.citations || []);
+  const citations = uniqueCitations([...(interpretation?.citations || []), ...claimCitations]);
+  const introParts = [
+    interpretation?.status === "explained" ? interpretation.explanation : null,
+    ...claimInterpretations
+      .filter((item) => item.status === "interpreted" && item.meaning)
+      .map((item) => `“${item.raw_text}”：${item.meaning}`),
+  ].filter(Boolean);
+  if (!citations.length) {
+    elements.evidenceStatus.textContent = claimInterpretations.length ? "声称已核对" : "证据不足";
+    elements.evidenceEmpty.textContent =
+      claimInterpretations.length
+        ? "已检查包装声称与确认标签是否存在直接冲突；当前没有足以支持法规合规结论的适用官方条款。"
+        : "当前没有找到足以支持进一步解释的适用官方条款，因此不补充肯定的法规结论。";
+    elements.evidenceEmpty.hidden = false;
+    return;
+  }
+
+  elements.evidenceStatus.textContent = `${citations.length} 条官方依据`;
+  elements.evidenceIntro.textContent = introParts.join(" ");
+  citations.forEach((citation) => {
+    const item = document.createElement("li");
+    item.className = "citation-item";
+
+    const heading = document.createElement("p");
+    heading.className = "citation-heading";
+    const standard = document.createElement("strong");
+    standard.textContent = citation.standard_number;
+    const location = document.createElement("span");
+    const sectionLabel = compactSectionLabel(citation.section);
+    location.textContent = citation.page_start
+      ? `${sectionLabel} · 第 ${citation.page_start} 页`
+      : sectionLabel;
+    heading.append(standard, location);
+
+    const excerpt = document.createElement("p");
+    excerpt.className = "citation-excerpt";
+    excerpt.textContent = citation.evidence_excerpt;
+
+    const source = document.createElement("a");
+    source.className = "citation-source";
+    source.href = citation.source_url;
+    source.target = "_blank";
+    source.rel = "noopener noreferrer";
+    source.textContent = "打开国家卫健委官方来源 ↗";
+
+    item.append(heading, excerpt, source);
+    elements.citationList.append(item);
+  });
+}
+
+function uniqueCitations(citations) {
+  const seen = new Set();
+  return citations.filter((citation) => {
+    const key = citation.evidence_id || `${citation.standard_number}:${citation.section}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function compactSectionLabel(section) {
+  const normalized = String(section || "条款未标明").trim();
+  const match = normalized.match(/^(\d+(?:\.\d+){1,4})(?:\s+(.+))?$/);
+  if (!match) return normalized.length > 36 ? `${normalized.slice(0, 36)}…` : normalized;
+  const [, clauseNumber, title = ""] = match;
+  return title && title.length <= 16 ? `${clauseNumber} ${title}` : clauseNumber;
+}
+
+function showRailError(message) {
+  elements.railErrorMessage.textContent = message;
+  elements.railError.hidden = false;
+  elements.railError.focus();
+  announce(message);
+}
+
+function hideRailError() {
+  elements.railError.hidden = true;
+  elements.railErrorMessage.textContent = "";
 }
 
 function showError(message) {

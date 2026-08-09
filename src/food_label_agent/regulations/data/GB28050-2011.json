@@ -1,0 +1,2076 @@
+{
+  "schema_version": "regulation_chunks_v1",
+  "document_id": "GB28050-2011",
+  "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+  "page_count": 14,
+  "warnings": [],
+  "clauses": [
+    {
+      "evidence_id": "reg.cn.gb28050-2011.76d1908e84e98c41",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "1 范围",
+      "evidence_text": "1 范围\n本标准适用于预包装食品营养标签上营养信息的描述和说明。\n本标准不适用于保健食品及预包装特殊膳食用食品的营养标签标示。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 2,
+      "page_end": 2
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.7f70aa61482be7de",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "2 术语和定义",
+      "evidence_text": "2 术语和定义",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 2,
+      "page_end": 2
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.71a235b535ea1a2f",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "2.1 营养标签",
+      "evidence_text": "2.1 营养标签\n预包装食品标签上向消费者提供食品营养信息和特性的说明，包括营养成分表、营养声称和营养\n成分功能声称。营养标签是预包装食品标签的一部分。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "营养成分表",
+        "营养声称"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 2,
+      "page_end": 2
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.de34ea53ddc3e095",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "2.2 营养素",
+      "evidence_text": "2.2 营养素\n食物中具有特定生理作用，能维持机体生长、发育、活动、繁殖以及正常代谢所需的物质，包括\n蛋白质、脂肪、碳水化合物、矿物质及维生素等。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "蛋白质",
+        "脂肪",
+        "碳水化合物"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 2,
+      "page_end": 2
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.4c8c5ec2971d1532",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "2.3 营养成分",
+      "evidence_text": "2.3 营养成分\n食品中的营养素和除营养素以外的具有营养和（或）生理功能的其他食物成分。各营养成分的定\n义可参照 GB/Z21922《食品营养成分基本术语》。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 2,
+      "page_end": 2
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.53d55dd4433e1bb7",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "2.4 核心营养素",
+      "evidence_text": "2.4 核心营养素\n营养标签中的核心营养素包括蛋白质、脂肪、碳水化合物和钠。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "蛋白质",
+        "脂肪",
+        "碳水化合物",
+        "钠"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 2,
+      "page_end": 2
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.a0a38748ce6961d9",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "2.5 营养成分表",
+      "evidence_text": "2.5 营养成分表\n标有食品营养成分名称、含量和占营养素参考值（NRV）百分比的规范性表格。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "营养成分表",
+        "NRV"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 2,
+      "page_end": 2
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.39e0165bf49e6bad",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "2.6 营养素参考值（NRV）",
+      "evidence_text": "2.6 营养素参考值（NRV）\n专用于食品营养标签，用于比较食品营养成分含量的参考值。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "NRV"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 2,
+      "page_end": 2
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.67691c04bb6489b2",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "2.7 营养声称",
+      "evidence_text": "2.7 营养声称\n对食品营养特性的描述和声明，如能量水平、蛋白质含量水平。营养声称包括含量声称和比较声\n称。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "营养声称",
+        "能量",
+        "蛋白质"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 2,
+      "page_end": 2
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.961c995d63ef79de",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "2.7.1 含量声称",
+      "evidence_text": "2.7.1 含量声称\n描述食品中能量或营养成分含量水平的声称。声称用语包括“含有”、“高”、“低”或“无”等。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "能量"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 2,
+      "page_end": 2
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.52b94d99edbf3a75",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "2.7.2 比较声称",
+      "evidence_text": "2.7.2 比较声称\n与消费者熟知的同类食品的营养成分含量或能量值进行比较以后的声称。声称用语包括“增加”\n或“减少”等。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "能量"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 2,
+      "page_end": 2
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.c867c5385daad73a",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "2.8 营养成分功能声称",
+      "evidence_text": "2.8 营养成分功能声称\n某营养成分可以维持人体正常生长、发育和正常生理功能等作用的声称。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 2,
+      "page_end": 2
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.e17fb1345d7d25d4",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "2.9 修约间隔",
+      "evidence_text": "2.9 修约间隔\n修约值的最小数值单位。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 2,
+      "page_end": 2
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.c76fd8581cb25d20",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "2.10 可食部",
+      "evidence_text": "2.10 可食部\n预包装食品净含量去除其中不可食用的部分后的剩余部分。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 2,
+      "page_end": 2
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.64a993195af8ceb9",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "3 基本要求",
+      "evidence_text": "3 基本要求",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 2,
+      "page_end": 2
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.b63b909f96f3fdb2",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "3.1 预包装食品营养标签标示的任何营养信息，应真实、客观，不得标示虚假信息，不得夸大产品的",
+      "evidence_text": "3.1 预包装食品营养标签标示的任何营养信息，应真实、客观，不得标示虚假信息，不得夸大产品的\n营养作用或其他作用。\n1\nGB 28050—2011",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 2,
+      "page_end": 3
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.f2dd82c06dbcd164",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "3.2 预包装食品营养标签应使用中文。如同时使用外文标示的，其内容应当与中文相对应，外文字号",
+      "evidence_text": "3.2 预包装食品营养标签应使用中文。如同时使用外文标示的，其内容应当与中文相对应，外文字号\n不得大于中文字号。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 3,
+      "page_end": 3
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.366f67c8027b763b",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "3.3 营养成分表应以一个“方框表”的形式表示（特殊情况除外），方框可为任意尺寸，并与包装的基",
+      "evidence_text": "3.3 营养成分表应以一个“方框表”的形式表示（特殊情况除外），方框可为任意尺寸，并与包装的基\n线垂直，表题为“营养成分表”。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "营养成分表"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 3,
+      "page_end": 3
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.5d61c3437cbdc06d",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "3.4 食品营养成分含量应以具体数值标示，数值可通过原料计算或产品检测获得。各营养成分的营养",
+      "evidence_text": "3.4 食品营养成分含量应以具体数值标示，数值可通过原料计算或产品检测获得。各营养成分的营养\n素参考值（NRV）见附录 A。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "NRV"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 3,
+      "page_end": 3
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.566563ae4c3070c0",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "3.5 营养标签的格式见附录 B，食品企业可根据食品的营养特性、包装面积的大小和形状等因素选择",
+      "evidence_text": "3.5 营养标签的格式见附录 B，食品企业可根据食品的营养特性、包装面积的大小和形状等因素选择\n使用其中的一种格式。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 3,
+      "page_end": 3
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.5c2228c79741eaa9",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "3.6 营养标签应标在向消费者提供的最小销售单元的包装上。",
+      "evidence_text": "3.6 营养标签应标在向消费者提供的最小销售单元的包装上。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 3,
+      "page_end": 3
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.91ee5d81fa6ad79c",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "4 强制标示内容",
+      "evidence_text": "4 强制标示内容",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 3,
+      "page_end": 3
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.1990b91d1c7cf88d",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "4.1 所有预包装食品营养标签强制标示的内容包括能量、核心营养素的含量值及其占营养素参考值",
+      "evidence_text": "4.1 所有预包装食品营养标签强制标示的内容包括能量、核心营养素的含量值及其占营养素参考值\n（NRV）的百分比。当标示其他成分时，应采取适当形式使能量和核心营养素的标示更加醒目。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "能量",
+        "NRV"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 3,
+      "page_end": 3
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.df3bede9b213eda2",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "4.2 对除能量和核心营养素外的其他营养成分进行营养声称或营养成分功能声称时，在营养成分表中",
+      "evidence_text": "4.2 对除能量和核心营养素外的其他营养成分进行营养声称或营养成分功能声称时，在营养成分表中\n还应标示出该营养成分的含量及其占营养素参考值（NRV）的百分比。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "营养成分表",
+        "营养声称",
+        "能量",
+        "NRV"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 3,
+      "page_end": 3
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.e640ee86cf12a39e",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "4.3 使用了营养强化剂的预包装食品，除 4.1 的要求外，在营养成分表中还应标示强化后食品中该营",
+      "evidence_text": "4.3 使用了营养强化剂的预包装食品，除 4.1 的要求外，在营养成分表中还应标示强化后食品中该营\n养成分的含量值及其占营养素参考值（NRV）的百分比。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "营养成分表",
+        "NRV"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 3,
+      "page_end": 3
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.3537a71363f863fd",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "4.4 食品配料含有或生产过程中使用了氢化和（或）部分氢化油脂时，在营养成分表中还应标示出反",
+      "evidence_text": "4.4 食品配料含有或生产过程中使用了氢化和（或）部分氢化油脂时，在营养成分表中还应标示出反\n式脂肪（酸）的含量。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "营养成分表",
+        "脂肪"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 3,
+      "page_end": 3
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.044d27f8278a967f",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "4.5 上述未规定营养素参考值（NRV）的营养成分仅需标示含量。",
+      "evidence_text": "4.5 上述未规定营养素参考值（NRV）的营养成分仅需标示含量。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "NRV"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 3,
+      "page_end": 3
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.02b89441ce5d9592",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "5 可选择标示内容",
+      "evidence_text": "5 可选择标示内容",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 3,
+      "page_end": 3
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.f0f6d5e6485a811d",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "5.1 除上述强制标示内容外，营养成分表中还可选择标示表 1 中的其他成分。",
+      "evidence_text": "5.1 除上述强制标示内容外，营养成分表中还可选择标示表 1 中的其他成分。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "营养成分表"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 3,
+      "page_end": 3
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.2f82329727015278",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "5.2 当某营养成分含量标示值符合表 C.1 的含量要求和限制性条件时，可对该成分进行含量声称，声",
+      "evidence_text": "5.2 当某营养成分含量标示值符合表 C.1 的含量要求和限制性条件时，可对该成分进行含量声称，声\n称方式见表 C.1。当某营养成分含量满足表 C.3 的要求和条件时，可对该成分进行比较声称，声称方\n式见表 C.3。当某营养成分同时符合含量声称和比较声称的要求时，可以同时使用两种声称方式，或\n仅使用含量声称。含量声称和比较声称的同义语见表 C.2 和表 C.4。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 3,
+      "page_end": 3
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.437b2999b30d1f12",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "5.3 当某营养成分的含量标示值符合含量声称或比较声称的要求和条件时，可使用附录 D 中相应的一",
+      "evidence_text": "5.3 当某营养成分的含量标示值符合含量声称或比较声称的要求和条件时，可使用附录 D 中相应的一\n条或多条营养成分功能声称标准用语。不应对功能声称用语进行任何形式的删改、添加和合并。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 3,
+      "page_end": 3
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.d45d214abda3171d",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "6 营养成分的表达方式",
+      "evidence_text": "6 营养成分的表达方式",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 3,
+      "page_end": 3
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.827f4160cc4e34fc",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "6.1 预包装食品中能量和营养成分的含量应以每 100 克（g）和（或）每 100 毫升（mL）和（或）每",
+      "evidence_text": "6.1 预包装食品中能量和营养成分的含量应以每 100 克（g）和（或）每 100 毫升（mL）和（或）每\n份食品可食部中的具体数值来标示。当用份标示时，应标明每份食品的量。份的大小可根据食品的特\n点或推荐量规定。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "能量"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 3,
+      "page_end": 3
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.8130614ff1745f4c",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "6.2 营养成分表中强制标示和可选择性标示的营养成分的名称和顺序、标示单位、修约间隔、“0”界",
+      "evidence_text": "6.2 营养成分表中强制标示和可选择性标示的营养成分的名称和顺序、标示单位、修约间隔、“0”界\n限值应符合表 1 的规定。当不标示某一营养成分时，依序上移。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "营养成分表"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 3,
+      "page_end": 3
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.4e560a7be8ccad44",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "6.3 当标示 GB14880 和卫生部公告中允许强化的除表 1 外的其他营养成分时，其排列顺序应位于表 1",
+      "evidence_text": "6.3 当标示 GB14880 和卫生部公告中允许强化的除表 1 外的其他营养成分时，其排列顺序应位于表 1\n所列营养素之后。\n2\nGB 28050—2011\n表 1 能量和营养成分名称、顺序、表达单位、修约间隔和“0”界限值\n能量和营养成分的名称和顺序 表达单位 a 修约间隔 “0”界限值（每100 g或100 mL）b\n能量 千焦（kJ） 1 ≤17 kJ\n蛋白质 克（g） 0.1 ≤ 0.5 g\n脂肪 克（g） 0.1 ≤ 0.5 g\n饱和脂肪（酸） 克（g） 0.1 ≤ 0.1 g\n反式脂肪（酸） 克（g） 0.1 ≤ 0.3 g\n单不饱和脂肪（酸） 克（g） 0.1 ≤ 0.1 g\n多不饱和脂肪（酸） 克（g） 0.1 ≤ 0.1 g\n胆固醇 毫克（mg） 1 ≤ 5 mg\n碳水化合物 克（g） 0.1 ≤ 0.5 g\n糖（乳糖 c） 克（g） 0.1 ≤ 0.5 g\n膳食纤维（或单体成分，或可溶性、\n克（g） 0.1 ≤ 0.5 g\n不可溶性膳食纤维）\n钠 毫克（mg） 1 ≤ 5 mg\n维生素 A 微克视黄醇当量（g RE） 1 ≤ 8 g RE\n维生素 D 微克（g） 0.1 ≤ 0.1 g\n维生素 E 毫克 -生育酚当量（mg -TE） 0.01 ≤ 0.28 mg -TE\n维生素 K 微克（g） 0.1 ≤ 1.6 g\n维生素 B （硫胺素） 毫克（mg） 0.01 ≤ 0.03 mg\n1\n维生素 B （核黄素） 毫克（mg） 0.01 ≤ 0.03 mg\n2\n维生素 B 毫克（mg） 0.01 ≤ 0.03 mg\n6\n维生素 B 微克（g） 0.01 ≤ 0.05 g\n12\n维生素 C（抗坏血酸） 毫克（mg） 0.1 ≤ 2.0 mg\n烟酸（烟酰胺） 毫克（mg） 0.01 ≤ 0.28 mg\n叶酸 微克（g）或微克叶酸当量（g DFE） 1 ≤ 8 g\n泛酸 毫克（mg） 0.01 ≤ 0.10 mg\n生物素 微克（g） 0.1 ≤ 0.6 g\n胆碱 毫克（mg） 0.1 ≤ 9.0 mg\n磷 毫克（mg） 1 ≤ 14 mg\n钾 毫克（mg） 1 ≤ 20 mg\n镁 毫克（mg） 1 ≤ 6 mg\n钙 毫克（mg） 1 ≤ 8 mg\n铁 毫克（mg） 0.1 ≤ 0.3 mg\n锌 毫克（mg） 0.01 ≤ 0.30 mg\n碘 微克（g） 0.1 ≤ 3.0 g\n硒 微克（g） 0.1 ≤ 1.0 g\n铜 毫克（mg） 0.01 ≤ 0.03 mg\n氟 毫克（mg） 0.01 ≤ 0.02 mg\n锰 毫克（mg） 0.01 ≤ 0.06 mg\na 营养成分的表达单位可选择表格中的中文或英文，也可以两者都使用。\nb 当某营养成分含量数值≤“0”界限值时，其含量应标示为“0”；使用“份”的计量单位时，也要同时符合每 100 g 或\n100 mL 的“0”界限值的规定。\nc 在乳及乳制品的营养标签中可直接标示乳糖。\n3\nGB 28050—2011",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "能量",
+        "蛋白质",
+        "脂肪",
+        "碳水化合物",
+        "糖",
+        "钠"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 3,
+      "page_end": 5
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.cc13a55916668344",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "6.4 在产品保质期内，能量和营养成分含量的允许误差范围应符合表 2 的规定。",
+      "evidence_text": "6.4 在产品保质期内，能量和营养成分含量的允许误差范围应符合表 2 的规定。\n表 2 能量和营养成分含量的允许误差范围\n能量和营养成分 允许误差范围\n食品的蛋白质，多不饱和及单不饱和脂肪（酸），碳水化合物、糖（仅限乳糖）， ≥ 80 %标示值\n总的、可溶性或不溶性膳食纤维及其单体，维生素（不包括维生素 D、维生素 A），\n矿物质（不包括钠），强化的其他营养成分\n食品中的能量以及脂肪、饱和脂肪（酸）、反式脂肪（酸），胆固醇，钠，糖（除 ≤ 120 %标示值\n外乳糖）\n食品中的维生素 A 和维生素 D 80 % ~ 180 %标示值",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "能量",
+        "蛋白质",
+        "脂肪",
+        "碳水化合物",
+        "糖",
+        "钠"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 5,
+      "page_end": 5
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.68a385ee418cdc28",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "7 豁免强制标示营养标签的预包装食品",
+      "evidence_text": "7 豁免强制标示营养标签的预包装食品\n下列预包装食品豁免强制标示营养标签：\n——生鲜食品，如包装的生肉、生鱼、生蔬菜和水果、禽蛋等；\n——乙醇含量≥0.5%的饮料酒类；\n——包装总表面积≤100cm2或最大表面面积≤20cm2的食品；\n——现制现售的食品；\n——包装的饮用水；\n——每日食用量≤10 g 或 10 mL 的预包装食品；\n——其他法律法规标准规定可以不标示营养标签的预包装食品。\n豁免强制标示营养标签的预包装食品，如果在其包装上出现任何营养信息时，应按照本标准执行。\n4\nGB 28050—2011",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 5,
+      "page_end": 6
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.e36520db263c02c2",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "附录 A",
+      "evidence_text": "附录 A\n食品标签营养素参考值（NRV）及其使用方法",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "NRV"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 6,
+      "page_end": 6
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.a6c30c1a3dcd255a",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "A.1 食品标签营养素参考值（NRV）",
+      "evidence_text": "A.1 食品标签营养素参考值（NRV）\n规定的能量和 32 种营养成分参考数值如表 A .1 所示。\n表 A.1 营养素参考值 （NRV）\n营养成分 NRV 营养成分 NRV\n能量 a 8400 kJ 叶酸 400 g DFE\n蛋白质 60 g 泛酸 5 mg\n脂肪 ≤60 g 生物素 30 g\n饱和脂肪酸 ≤20 g 胆碱 450 mg\n胆固醇 ≤300 mg 钙 800 mg\n碳水化合物 300 g 磷 700 mg\n膳食纤维 25 g 钾 2000 mg\n维生素 A 800 g RE 钠 2000 mg\n维生素 D 5 g 镁 300 mg\n维生素 E 14 mg -TE 铁 15 mg\n维生素 K 80 g 锌 15 mg\n维生素 B 1.4 mg 碘 150 g\n1\n维生素 B 1.4 mg 硒 50 g\n2\n维生素 B 1.4 mg 铜 1.5 mg\n6\n维生素 B 2.4 g 氟 1 mg\n12\n维生素 C 100 mg 锰 3 mg\n烟酸 14 mg\na 能量相当于 2000kcal; 蛋白质、脂肪、碳水化合物供能分别占总能量的 13 %、27 %与 60 %。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "能量",
+        "蛋白质",
+        "脂肪",
+        "碳水化合物",
+        "钠",
+        "NRV"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 6,
+      "page_end": 6
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.56fcf878ac0578a7",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "A.2 使用目的和方式",
+      "evidence_text": "A.2 使用目的和方式\n用于比较和描述能量或营养成分含量的多少，使用营养声称和零数值的标示时，用作标准参考值。\n使用方式为营养成分含量占营养素参考值（NRV）的百分数；指定 NRV%的修约间隔为 1，如 1%、\n5%、16%等。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "营养声称",
+        "能量",
+        "NRV"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 6,
+      "page_end": 6
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.8f9570516b8225b0",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "A.3 计算",
+      "evidence_text": "A.3 计算\n营养成分含量占营养素参考值（NRV）的百分数计算公式见式（A.1）：\nNRV % = „„„„„„„„„„„„„„„„„（A.1）\n式中：\nX——食品中某营养素的含量；\nNRV——该营养素的营养素参考值。\n5\nGB 28050—2011",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "NRV"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 6,
+      "page_end": 7
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.0893d20ed7a6a755",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "附录 B",
+      "evidence_text": "附录 B\n营养标签格式",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 7,
+      "page_end": 7
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.a885e75834d35538",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "B.1 本附录规定了预包装食品营养标签的格式。",
+      "evidence_text": "B.1 本附录规定了预包装食品营养标签的格式。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 7,
+      "page_end": 7
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.c7d60eacc3742fab",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "B.2 应选择以下 6 种格式中的一种进行营养标签的标示。",
+      "evidence_text": "B.2 应选择以下 6 种格式中的一种进行营养标签的标示。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 7,
+      "page_end": 7
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.e7ff30ec18146d4a",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "B.2.1 仅标示能量和核心营养素的格式",
+      "evidence_text": "B.2.1 仅标示能量和核心营养素的格式\n仅标示能量和核心营养素的营养标签见示例 1。\n示例 1：\n营养成分表\n项目 每 100 克（g）或 100 毫升（mL）或每份 营养素参考值% 或 NRV %\n能量 千焦（kJ） %\n蛋白质 克（g） %\n脂肪 克（g） %\n碳水化合物 克（g） %\n钠 毫克（mg） %",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "营养成分表",
+        "能量",
+        "蛋白质",
+        "脂肪",
+        "碳水化合物",
+        "钠",
+        "NRV"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 7,
+      "page_end": 7
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.b20f463ec90faa1f",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "B.2.2 标注更多营养成分",
+      "evidence_text": "B.2.2 标注更多营养成分\n标注更多营养成分的营养标签见示例 2。\n示例 2：\n营养成分表\n项目 每 100 克（g）或 100 毫升（mL）或每份 营养素参考值% 或 NRV %\n能量 千焦（kJ） %\n蛋白质 克（g） %\n脂肪 克（g） %\n——饱和脂肪 克（g） %\n胆固醇 毫克（mg） %\n碳水化合物 克（g） %\n——糖 克（g）\n膳食纤维 克 (g) %\n钠 毫克（mg） %\n维生素 A 微克视黄醇当量(g RE) %\n钙 毫克（mg） %\n注：核心营养素应采取适当形式使其醒目。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "营养成分表",
+        "能量",
+        "蛋白质",
+        "脂肪",
+        "碳水化合物",
+        "糖",
+        "钠",
+        "NRV"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 7,
+      "page_end": 7
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.f837290e8d54a4eb",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "B.2.3 附有外文的格式",
+      "evidence_text": "B.2.3 附有外文的格式\n附有外文的营养标签见示例 3。\n示例 3：\n营养成分表 nutrition information\n项目/Items 每 100 克（g）或 100 毫升（mL）或每份 per 100 营养素参考值 %/ NRV %\ng/100 mL or per serving\n能量/energy 千焦（kJ） %\n蛋白质/protein 克（g） %\n脂肪/ fat 克（g） %\n碳水化合物/carbohydrate 克（g） %\n钠/ sodium 毫克（mg） %\n6\nGB 28050—2011",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "营养成分表",
+        "能量",
+        "蛋白质",
+        "脂肪",
+        "碳水化合物",
+        "钠",
+        "NRV"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 7,
+      "page_end": 8
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.3b182270b21b2433",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "B.2.4 横排格式",
+      "evidence_text": "B.2.4 横排格式\n横排格式的营养标签见示例 4。\n示例 4：\n营养成分表\n项目 每 100 克（g） 营养素参考值 % 或 项目 每 100 克（g） 营养素参考值 %或\n/毫升（mL）或 NRV % /毫升（mL）或 NRV %\n每份 每份\n能量 千焦（kJ） % 碳水化合物 克（g） %\n蛋白质 克（g） % 钠 毫克（g） %\n脂 肪 克（g） % — — %\n注：根据包装特点，可将营养成分从左到右横向排开，分为两列或两列以上进行标示。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "营养成分表",
+        "能量",
+        "蛋白质",
+        "碳水化合物",
+        "钠",
+        "NRV"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 8,
+      "page_end": 8
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.6df1d8f819b7786b",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "B.2.5 文字格式",
+      "evidence_text": "B.2.5 文字格式\n包装的总面积小于 100 cm2的食品，如进行营养成分标示，允许用非表格的形式，并可省略营养\n素参考值（NRV）的标示。根据包装特点，营养成分从左到右横向排开，或者自上而下排开，如示例\n5。\n示例 5：\n营养成分/100g：能量××kJ，蛋白质××g，脂肪××g，碳水化合物××g，钠××mg。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "能量",
+        "蛋白质",
+        "脂肪",
+        "碳水化合物",
+        "钠",
+        "NRV"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 8,
+      "page_end": 8
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.981991ea2b8c2edd",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "B.2.6 附有营养声称和（或）营养成分功能声称的格式",
+      "evidence_text": "B.2.6 附有营养声称和（或）营养成分功能声称的格式\n附有营养声称和（或）营养成分功能声称的营养标签见示例 6。\n示例 6：\n营养成分表\n项目 每 100 克（g）或 100 毫升（mL）或每份 营养素参考值 %或 NRV %\n能量 千焦（kJ） %\n蛋白质 克（g） %\n脂肪 克（g） %\n碳水化合物 克（g） %\n钠 毫克（mg） %\n营养声称如：低脂肪××。\n营养成分功能声称如：每日膳食中脂肪提供的能量比例不宜超过总能量的 30%。\n营养声称、营养成分功能声称可以在标签的任意位置。但其字号不得大于食品名称和商标。\n7\nGB 28050—2011",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "营养成分表",
+        "营养声称",
+        "能量",
+        "蛋白质",
+        "脂肪",
+        "碳水化合物",
+        "钠",
+        "NRV"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 8,
+      "page_end": 9
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.2b9fb3a975273d82",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "附录 C",
+      "evidence_text": "附录 C\n能量和营养成分含量声称和比较声称的要求、条件和同义语",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "能量"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 9,
+      "page_end": 9
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.696fa7a08258871a",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "C.1 表 C.1 规定了预包装食品能量和营养成分含量声称的要求和条件。",
+      "evidence_text": "C.1 表 C.1 规定了预包装食品能量和营养成分含量声称的要求和条件。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "能量"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 9,
+      "page_end": 9
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.c40a6be463f1472f",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "C.2 表 C.2 规定了预包装食品能量和营养成分含量声称的同义语。",
+      "evidence_text": "C.2 表 C.2 规定了预包装食品能量和营养成分含量声称的同义语。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "能量"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 9,
+      "page_end": 9
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.c840a09a2a107913",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "C.3 表 C.3 规定了预包装食品能量和营养成分比较声称的要求和条件。",
+      "evidence_text": "C.3 表 C.3 规定了预包装食品能量和营养成分比较声称的要求和条件。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "能量"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 9,
+      "page_end": 9
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.4eb4d1b095e31d9d",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "C.4 表 C.4 规定了预包装食品能量和营养成分比较声称的同义语。",
+      "evidence_text": "C.4 表 C.4 规定了预包装食品能量和营养成分比较声称的同义语。\n表 C.1 能量和营养成分含量声称的要求和条件\n项目 含量声称方式 含量要求 a 限制性条件\n能量 无能量 ≤17 kJ/100 g（固体）或 100 mL（液体）\n其中脂肪提供的能量≤总能量\n低能量 ≤170 kJ/100 g 固体\n的 50%。\n≤80 kJ/100 mL 液体\n蛋白质 低蛋白质 来自蛋白质的能量 ≤总能量的 5 % 总能量指每 100 g/mL 或每份\n蛋白质来源，或含有蛋 每 100 g 的含量≥10 % NRV\n白质 每 100 mL 的含量 ≥5 % NRV 或者\n每 420 kJ 的含量 ≥5 % NRV\n高，或富含蛋白质 每 100 g 的含量≥20 % NRV\n每 100 mL 的含量 ≥10 % NRV 或者\n每 420 kJ 的含量 ≥10 % NRV\n脂肪 无或不含脂肪 ≤0.5 g/100 g（固体）或 100 mL（液体）\n低脂肪 ≤3 g/100 g 固体；≤1.5 g/100 mL 液体\n瘦 脂肪含量 ≤10 % 仅指畜肉类和禽肉类\n脱脂 液态奶和酸奶：脂肪含量≤0.5 %； 仅指乳品类\n乳 粉：脂肪含量≤1.5 %。\n无或不含饱和脂肪 ≤0.1 g/ 100 g（固体）或 100 mL（液体） 指饱和脂肪及反式脂肪的总和\n≤1.5 g/100 g 固体 1．指饱和脂肪及反式脂肪的总\n≤0.75 g /100 mL 液体 和\n低饱和脂肪\n2．其提供的能量占食品总能量\n的 10%以下\n无或不含反式脂肪酸 ≤0.3 g/100 g（固体）或 100 mL（液体）\n胆固醇 无或不含胆固醇 ≤5 mg/100 g（固体）或 100 mL（液体） 应同时符合低饱和脂肪的声称\n≤20m g /100 g 固体 含量要求和限制性条件\n低胆固醇\n≤10m g /100 mL 液体\n碳水化合物 无或不含糖 ≤ 0.5 g /100 g（固体）或 100 mL（液体）\n（糖） 低糖 ≤ 5 g /100 g（固体）或 100 mL（液体）\n低乳糖 乳糖含量 ≤ 2 g/100 g (mL)\n仅指乳品类\n无乳糖 乳糖含量 ≤ 0.5 g/100 g (mL)\n8\nGB 28050—2011\n表 C.1（续）\n项目 含量声称方式 含量要求 a 限制性条件\n膳食纤维 膳食纤维来源或含有 ≥3 g/ 100 g（固体） 膳食纤维总量符合其含量要\n膳食纤维 ≥1.5 g/ 100 mL（液体）或 求；或者可溶性膳食纤维、不\n≥1.5 g/ 420 kJ 溶性膳食纤维或单体成分任一\n高或富含膳食纤维或 ≥6 g/ 100 g（固体） 项符合含量要求\n良好来源 ≥3 g/ 100 mL（液体）或\n≥3 g/ 420 kJ\n钠 无或不含钠 ≤5 mg /100 g 或 100 mL 符合“钠”声称的声称时，也可\n极低钠 ≤40 mg /100 g 或 100 mL 用“盐”字代替“钠”字，如\n低钠 ≤120 mg /100 g 或 100 mL “低盐”、“减少盐”等`\n维生素 维生素×来源 每 100 g 中 ≥15 % NRV 含有“多种维生素”指 3 种和\n或 含有维生素× 每 100 mL 中 ≥7.5 % NRV 或 （或）3 种以上维生素含量符\n每 420 kJ 中 ≥5 % NRV 合“含有”的声称要求\n高或富含维生素× 每 100 g 中 ≥30 % NRV 富含“多种维生素”指 3 种和\n每 100 mL 中 ≥15 % NRV 或 （或）3 种以上维生素含量符\n每 420 kJ 中 ≥10 % NRV 合“富含”的声称要求\n矿物质（不 ×来源，或含有× 每 100 g 中 ≥15 % NRV 含有“多种矿物质”指 3 种和\n包括钠） 每 100 mL 中 ≥7.5 % NRV 或 （或）3 种以上矿物质含量符\n每 420 kJ 中 ≥5 % NRV 合“含有”的声称要求\n高，或富含× 每 100 g 中 ≥30 % NRV 富含“多种矿物质”指 3 种和\n每 100 mL 中 ≥15 % NRV 或 （或）3 种以上矿物质含量符\n每 420 kJ 中 ≥10 % NRV 合“富含”的声称要求\na 用“份”作为食品计量单位时，也应符合 100 g（mL）的含量要求才可以进行声称。\n表 C.2 含量声称的同义语\n标准语 同义语 标准语 同义语\n不含，无 零（0），没有，100 %不含，无， 0 % 含有，来源 提供，含，有\n极低 极少 富含，高 良好来源，含丰富××、丰富（的）×\n×，提供高（含量）××\n低 少、少油 a\na“少油”仅用于低脂肪的声称。\n表 C.3 能量和营养成分比较声称的要求和条件\n比较声称方式 要求 条件\n减少能量 与参考食品比较，能量值减少 25%以上 参考食品（基准食品）\n增加或减少蛋白质 与参考食品比较，蛋白质含量增加或减少 25%以上 应为消费者熟知、容\n减少脂肪 与参考食品比较，脂肪含量减少 25%以上 易理解的同类或同一\n减少胆固醇 与参考食品比较，胆固醇含量减少 25%以上 属类食品\n增加或减少碳水化合物 与参考食品比较，碳水化合物含量增加或减少 25%以上\n减少糖 与参考食品比较，糖含量减少 25%以上\n增加或减少膳食纤维 与参考食品比较，膳食纤维含量增加或减少 25%以上\n减少钠 与参考食品比较，钠含量减少 25%以上\n9\nGB 28050—2011\n表 C.3（续）\n增加或减少矿物质（不包括钠） 与参考食品比较，矿物质含量增加或减少 25%以上\n增加或减少维生素 与参考食品比较，维生素含量增加或减少 25%以上\n表 C.4 比较声称的同义语\n标准语 同义语 标准语 同义语\n增加× %（×倍） 减少× %（×倍）\n增、增× %（×倍） 减、减×%（×倍）\n加、加× %（×倍） 少、少× %（×倍）\n增加 减少\n增高、增高（了）× %（×倍） 减低、减低× %（×倍）\n添加（了）× %（×倍） 降× %（×倍）\n多× %，提高×倍等 降低× %（×倍）等\n10\nGB 28050—2011",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "能量",
+        "蛋白质",
+        "脂肪",
+        "碳水化合物",
+        "糖",
+        "钠",
+        "NRV"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 9,
+      "page_end": 12
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.ffd0e6d307ba9259",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "附录 D",
+      "evidence_text": "附录 D\n能量和营养成分功能声称标准用语",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "能量"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 12,
+      "page_end": 12
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.3c041f59450c3b06",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "D.1 本附录规定了能量和营养成分功能声称标准用语。",
+      "evidence_text": "D.1 本附录规定了能量和营养成分功能声称标准用语。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "能量"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 12,
+      "page_end": 12
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.83c7050cd574abb9",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "D.2 能量",
+      "evidence_text": "D.2 能量\n人体需要能量来维持生命活动。\n机体的生长发育和一切活动都需要能量。\n适当的能量可以保持良好的健康状况。\n能量摄入过高、缺少运动与超重和肥胖有关。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "能量"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 12,
+      "page_end": 12
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.78536181fcb81155",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "D.3 蛋白质",
+      "evidence_text": "D.3 蛋白质\n蛋白质是人体的主要构成物质并提供多种氨基酸。\n蛋白质是人体生命活动中必需的重要物质，有助于组织的形成和生长。\n蛋白质有助于构成或修复人体组织。\n蛋白质有助于组织的形成和生长。\n蛋白质是组织形成和生长的主要营养素。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "蛋白质"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 12,
+      "page_end": 12
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.2daeea9de57f7d9e",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "D.4 脂肪",
+      "evidence_text": "D.4 脂肪\n脂肪提供高能量。\n每日膳食中脂肪提供的能量比例不宜超过总能量的 30 %。\n脂肪是人体的重要组成成分。\n脂肪可辅助脂溶性维生素的吸收。\n脂肪提供人体必需脂肪酸。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "能量",
+        "脂肪"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 12,
+      "page_end": 12
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.8c8ebe5331123c6e",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "D.4.1 饱和脂肪",
+      "evidence_text": "D.4.1 饱和脂肪\n饱和脂肪可促进食品中胆固醇的吸收。\n饱和脂肪摄入过多有害健康。\n过多摄入饱和脂肪可使胆固醇增高，摄入量应少于每日总能量的 10 %。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "能量",
+        "脂肪"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 12,
+      "page_end": 12
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.d7d2f22fbe202187",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "D.4.2 反式脂肪酸",
+      "evidence_text": "D.4.2 反式脂肪酸\n每天摄入反式脂肪酸不应超过 2.2g，过多摄入有害健康。\n反式脂肪酸摄入量应少于每日总能量的 1 %，过多摄入有害健康。\n过多摄入反式脂肪酸可使血液胆固醇增高，从而增加心血管疾病发生的风险。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "能量",
+        "脂肪"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 12,
+      "page_end": 12
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.376a66f60bd38f69",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "D.5 胆固醇",
+      "evidence_text": "D.5 胆固醇\n成人一日膳食中胆固醇摄入总量不宜超过 300 mg。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 12,
+      "page_end": 12
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.c531d8f00ddb97ed",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "D.6 碳水化合物",
+      "evidence_text": "D.6 碳水化合物\n碳水化合物是人类生存的基本物质和能量主要来源。\n碳水化合物是人类能量的主要来源。\n碳水化合物是血糖生成的主要来源。\n膳食中碳水化合物应占能量的 60 %左右。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "能量",
+        "碳水化合物",
+        "糖"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 12,
+      "page_end": 12
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.a567696e5075754c",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "D.7 膳食纤维",
+      "evidence_text": "D.7 膳食纤维\n膳食纤维有助于维持正常的肠道功能。\n膳食纤维是低能量物质。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "能量"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 12,
+      "page_end": 12
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.069efc427477db68",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "D.8 钠",
+      "evidence_text": "D.8 钠\n钠能调节机体水分，维持酸碱平衡。\n成人每日食盐的摄入量不超过 6g。\n钠摄入过高有害健康。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "钠"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 12,
+      "page_end": 12
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.c7a8125aa5fd09d3",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "D.9 维生素 A",
+      "evidence_text": "D.9 维生素 A\n11\nGB 28050—2011\n维生素 A 有助于维持暗视力。\n维生素 A 有助于维持皮肤和黏膜健康。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 12,
+      "page_end": 13
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.d2bf8d1b28fdf68d",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "D.10 维生素 D",
+      "evidence_text": "D.10 维生素 D\n维生素 D 可促进钙的吸收。\n维生素 D 有助于骨骼和牙齿的健康。\n维生素 D 有助于骨骼形成。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 13,
+      "page_end": 13
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.f0f797eb2423b4d8",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "D.11 维生素 E",
+      "evidence_text": "D.11 维生素 E\n维生素 E 有抗氧化作用。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 13,
+      "page_end": 13
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.cc626c320903b2b5",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "D.12 维生素 B",
+      "evidence_text": "D.12 维生素 B\n1\n维生素 B 是能量代谢中不可缺少的成分。\n1\n维生素 B 有助于维持神经系统的正常生理功能。\n1",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "能量"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 13,
+      "page_end": 13
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.a1374c4a798c5229",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "D.13 维生素 B",
+      "evidence_text": "D.13 维生素 B\n2\n维生素 B 有助于维持皮肤和黏膜健康。\n2\n维生素 B 是能量代谢中不可缺少的成分。\n2",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "能量"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 13,
+      "page_end": 13
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.d265b5bdef7f8a76",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "D.14 维生素 B",
+      "evidence_text": "D.14 维生素 B\n6\n维生素 B 有助于蛋白质的代谢和利用。\n6",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "蛋白质"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 13,
+      "page_end": 13
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.64a3dd4a01504328",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "D.15 维生素 B",
+      "evidence_text": "D.15 维生素 B\n12\n维生素 B 有助于红细胞形成。\n12",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 13,
+      "page_end": 13
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.08821f791720f42b",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "D.16 维生素 C",
+      "evidence_text": "D.16 维生素 C\n维生素 C 有助于维持皮肤和黏膜健康。\n维生素 C 有助于维持骨骼、牙龈的健康。\n维生素 C 可以促进铁的吸收。\n维生素 C 有抗氧化作用。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 13,
+      "page_end": 13
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.47d764681183529f",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "D.17 烟酸",
+      "evidence_text": "D.17 烟酸\n烟酸有助于维持皮肤和黏膜健康。\n烟酸是能量代谢中不可缺少的成分。\n烟酸有助于维持神经系统的健康。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "能量"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 13,
+      "page_end": 13
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.b666cfc42b39a889",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "D.18 叶酸",
+      "evidence_text": "D.18 叶酸\n叶酸有助于胎儿大脑和神经系统的正常发育。\n叶酸有助于红细胞形成。\n叶酸有助于胎儿正常发育。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 13,
+      "page_end": 13
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.199bb530719f4dd2",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "D.19 泛酸",
+      "evidence_text": "D.19 泛酸\n泛酸是能量代谢和组织形成的重要成分。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "能量"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 13,
+      "page_end": 13
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.59eb26da06e25685",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "D.20 钙",
+      "evidence_text": "D.20 钙\n钙是人体骨骼和牙齿的主要组成成分，许多生理功能也需要钙的参与。\n钙是骨骼和牙齿的主要成分，并维持骨密度。\n钙有助于骨骼和牙齿的发育。\n钙有助于骨骼和牙齿更坚固。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 13,
+      "page_end": 13
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.58275c5efea995b8",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "D.21 镁",
+      "evidence_text": "D.21 镁\n镁是能量代谢、组织形成和骨骼发育的重要成分。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [
+        "能量"
+      ],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 13,
+      "page_end": 13
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.aa867b4e9f1d3798",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "D.22 铁",
+      "evidence_text": "D.22 铁\n铁是血红细胞形成的重要成分。\n铁是血红细胞形成的必需元素。\n铁对血红蛋白的产生是必需的。\n12\nGB 28050—2011",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 13,
+      "page_end": 14
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.f2491dcd325fb79b",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "D.23 锌",
+      "evidence_text": "D.23 锌\n锌是儿童生长发育的必需元素。\n锌有助于改善食欲。\n锌有助于皮肤健康。",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 14,
+      "page_end": 14
+    },
+    {
+      "evidence_id": "reg.cn.gb28050-2011.7e0792bd8c81f40f",
+      "source_id": "GB28050-2011",
+      "standard_number": "GB 28050-2011",
+      "title": "食品安全国家标准 预包装食品营养标签通则",
+      "section": "D.24 碘",
+      "evidence_text": "D.24 碘\n碘是甲状腺发挥正常功能的元素。\n13",
+      "jurisdiction": "CN",
+      "published_on": "2011-10-12",
+      "effective_from": "2013-01-01",
+      "effective_to": "2027-03-15",
+      "source_url": "https://www.nhc.gov.cn/ewebeditor/uploadfile/2013/06/20130605104041625.pdf",
+      "authority_level": "A",
+      "source_type": "official_standard",
+      "topics": [
+        "nutrition_labeling",
+        "nutrition_claim"
+      ],
+      "keywords": [],
+      "document_hash": "2a0ee4774b472045b5f25e77479b549790babaa6a5f092020060a40edf2d03d5",
+      "page_start": 14,
+      "page_end": 14
+    }
+  ]
+}

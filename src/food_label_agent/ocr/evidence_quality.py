@@ -9,8 +9,11 @@ from .models import OCREvidenceIssue, OCREvidenceReport, OCRFieldResult
 from .nutrition_coordinates import has_complete_core_nutrition_table
 
 _NON_INGREDIENT_SECTION = re.compile(
-    r"生产日期|保质期|贮存条件|储存条件|产品标准|执行标准|生产商|制造商|厂址|净含量"
+    r"生产日期|保质期|贮存条件|储存条件|产品标准|执行标准|生产商|制造商|经销商|"
+    r"厂址|地址|净含量|主料含量|产品类型|质量等级|质量指标|食用方法|适宜人群|"
+    r"生产许可证|营养成分|温馨提示"
 )
+_INGREDIENT_DELIMITER = re.compile(r"[、,，;；]")
 
 
 def assess_ocr_evidence(fields: list[OCRFieldResult]) -> OCREvidenceReport:
@@ -65,6 +68,15 @@ def assess_ocr_evidence(fields: list[OCRFieldResult]) -> OCREvidenceReport:
                     "ingredients",
                 )
             )
+        if text and _looks_truncated(text):
+            issues.append(
+                _issue(
+                    "INGREDIENT_TEXT_SUSPECTED_TRUNCATION",
+                    "blocking",
+                    "配料文字疑似在分隔符或残缺词处中断，必须对照原图补全",
+                    "ingredients",
+                )
+            )
         if _has_fragmented_geometry(ingredients):
             issues.append(
                 _issue(
@@ -79,18 +91,18 @@ def assess_ocr_evidence(fields: list[OCRFieldResult]) -> OCREvidenceReport:
         issues.append(
             _issue(
                 "NUTRITION_TABLE_NOT_STRUCTURED",
-                "warning",
+                "blocking",
                 "检测到营养标示口径，但未可靠恢复营养素与数值对应关系",
                 "nutrition_table",
             )
         )
-    elif "nutrition_basis" in indexed and not has_complete_core_nutrition_table(
-        indexed.get("nutrition_table")
-    ):
+    elif (
+        "nutrition_basis" in indexed or "nutrition_table" in indexed
+    ) and not has_complete_core_nutrition_table(indexed.get("nutrition_table")):
         issues.append(
             _issue(
                 "NUTRITION_CORE_FIELDS_INCOMPLETE",
-                "warning",
+                "blocking",
                 "营养成分表未完整恢复能量、蛋白质、脂肪、碳水化合物和钠的数值与单位",
                 "nutrition_table",
             )
@@ -108,6 +120,14 @@ def _has_unbalanced_brackets(value: str) -> bool:
     return value.count("（") + value.count("(") != value.count("）") + value.count(")")
 
 
+def _looks_truncated(value: str) -> bool:
+    normalized = value.rstrip()
+    if normalized.endswith(("、", ",", "，", ";", "；")):
+        return True
+    segments = [segment.strip() for segment in _INGREDIENT_DELIMITER.split(normalized)]
+    return len(segments) > 1 and len(segments[-1]) == 1
+
+
 def _has_fragmented_geometry(field: OCRFieldResult) -> bool:
     lines = [line for line in field.evidence_lines if line.bounding_box is not None]
     for previous, current in pairwise(lines):
@@ -121,9 +141,7 @@ def _has_fragmented_geometry(field: OCRFieldResult) -> bool:
     return False
 
 
-def _issue(
-    code: str, severity: str, message: str, field_name: str
-) -> OCREvidenceIssue:
+def _issue(code: str, severity: str, message: str, field_name: str) -> OCREvidenceIssue:
     return OCREvidenceIssue(
         code=code,
         severity=severity,

@@ -22,3 +22,11 @@ def test_missing_basis_value_and_ambiguous_digit_require_review() -> None:
 
     assert "NUTRITION_BASIS_MISSING" in codes
     assert blocking == {"NUTRIENT_VALUE_MISSING", "AMBIGUOUS_NUMERIC_GLYPH"}
+
+
+def test_wrong_nutrient_unit_is_blocking() -> None:
+    table = validate_nutrition_table([["营养成分表", "每100克"], ["蛋白质", "31千焦"]])
+
+    assert {issue.code for issue in table.issues if issue.severity == "blocking"} == {
+        "NUTRIENT_UNIT_MISSING"
+    }

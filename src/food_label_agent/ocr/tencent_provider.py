@@ -17,6 +17,11 @@ from .config import OCRConfigurationError, OCRSettings
 from .field_parser import OCRLine, parse_food_label_fields
 from .models import BoundingBox, OCRFieldResult, OCRLineEvidence
 from .nutrition import validate_nutrition_table
+from .nutrition_coordinates import (
+    choose_best_nutrition_table,
+    extract_coordinate_nutrition_table,
+    has_complete_core_nutrition_table,
+)
 from .provider import OCRInput, OCRProviderError
 
 _NUTRITION_CUES = ("营养成分", "能量", "蛋白质", "脂肪", "碳水化合物", "钠")
@@ -47,6 +52,7 @@ class TencentCloudOCRProvider:
         self._client = client
         self._general_request_factory = general_request_factory
         self._table_request_factory = table_request_factory
+        self._table_api_available = settings.tencent_table_enabled
         self._inference_lock = asyncio.Lock()
 
     async def analyze(self, image: OCRInput) -> list[OCRFieldResult]:
@@ -74,19 +80,48 @@ class TencentCloudOCRProvider:
         )
         fields = parse_food_label_fields(lines, self.settings)
 
-        if self.settings.tencent_table_enabled and _has_nutrition_content(lines):
-            table_request = self._table_request_factory()
-            table_request.ImageBase64 = encoded
-            table_request.UseNewModel = self.settings.tencent_table_new_model
-            table_response = self._client.RecognizeTableAccurateOCR(table_request)
-            table_field = _best_nutrition_table(
-                getattr(table_response, "TableDetections", None) or [],
+        table_candidates = []
+        coordinate_table = extract_coordinate_nutrition_table(lines)
+        if coordinate_table is not None:
+            table_candidates.append(coordinate_table)
+        if (
+            self._table_api_available
+            and _has_nutrition_content(lines)
+            and not has_complete_core_nutrition_table(coordinate_table)
+        ):
+            cloud_table = self._try_table_api(
+                encoded,
                 image_width=image.width,
                 image_height=image.height,
             )
-            if table_field is not None:
-                fields.append(table_field)
+            if cloud_table is not None:
+                table_candidates.append(cloud_table)
+        best_table = choose_best_nutrition_table(table_candidates)
+        if best_table is not None:
+            fields.append(best_table)
         return fields
+
+    def _try_table_api(
+        self, encoded: str, *, image_width: int | None, image_height: int | None
+    ) -> OCRFieldResult | None:
+        table_request = self._table_request_factory()
+        table_request.ImageBase64 = encoded
+        table_request.UseNewModel = self.settings.tencent_table_new_model
+        try:
+            table_response = self._client.RecognizeTableAccurateOCR(table_request)
+        except Exception as exc:
+            translated = _translate_tencent_error(exc)
+            if translated is None:
+                raise
+            if not translated.retryable:
+                self._table_api_available = False
+                self.name = "tencentcloud-general-accurate+coordinate-table"
+            return None
+        return _best_nutrition_table(
+            getattr(table_response, "TableDetections", None) or [],
+            image_width=image_width,
+            image_height=image_height,
+        )
 
 
 def _translate_tencent_error(exc: Exception) -> OCRProviderError | None:

@@ -1,0 +1,30 @@
+"""Jurisdiction- and date-filtered regulation retrieval service."""
+
+from __future__ import annotations
+
+from functools import lru_cache
+from pathlib import Path
+
+from .corpus import OFFICIAL_CLAUSES
+from .models import RegulationSearchRequest, RegulationSearchResponse
+from .serialization import load_clause_index
+from .store import RegulationStore
+
+DATA_DIR = Path(__file__).with_name("data")
+
+
+@lru_cache(maxsize=1)
+def get_default_regulation_store() -> RegulationStore:
+    clauses = list(OFFICIAL_CLAUSES)
+    if DATA_DIR.exists():
+        for index_path in sorted(DATA_DIR.glob("*.json")):
+            clauses.extend(load_clause_index(index_path))
+    return RegulationStore(tuple(clauses))
+
+
+def search_regulations(
+    request: RegulationSearchRequest,
+) -> RegulationSearchResponse:
+    """Search the official store without mixing inapplicable versions."""
+
+    return get_default_regulation_store().search(request)

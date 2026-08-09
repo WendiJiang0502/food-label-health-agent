@@ -1,7 +1,7 @@
 <!--
 THESIS: A food package becomes understandable the moment its label enters the workbench.
 OWN-WORLD: Warm paper, editorial navy type, tactile package photography, and offset functional Bento cards.
-STORY: The user uploads a label, checks the extracted text, and confirms it.
+STORY: The user uploads a label, confirms its facts, selects personal constraints, and sees the first deterministic safety result.
 FIRST VIEWPORT: A concise promise and one primary action sit beside the live upload workbench; no internal Agent architecture is exposed.
 FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits reference without copying its assets or product metaphors.
 -->
@@ -13,8 +13,8 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
     <meta name="description" content="上传食品标签，确认识别文字，再进行基于证据的健康信息解释。">
     <title>食鉴 · 食品标签健康解释</title>
     <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/static/styles.css?v=editorial-bento-1">
-    <script src="/static/app.js?v=editorial-bento-2" defer></script>
+    <link rel="stylesheet" href="/static/styles.css?v=label-claims-1">
+    <script src="/static/app.js?v=label-claims-1" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#workspace">跳到标签工作区</a>
@@ -145,6 +145,99 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
               <p id="result-message">已完成确认。</p>
             </div>
           </div>
+
+          <div class="rail-error" id="rail-error" hidden role="alert" tabindex="-1">
+            <strong>这一步没有完成</strong>
+            <p id="rail-error-message"></p>
+          </div>
+
+          <section class="constraint-step" id="constraint-step" hidden aria-labelledby="constraint-title">
+            <p class="step-context">标签文字已确认 · 下一步</p>
+            <h2 id="constraint-title">你需要避开什么？</h2>
+            <p class="constraint-intro">选择你的硬性过敏约束。评估只使用刚才确认的标签事实。</p>
+            <form id="constraint-form">
+              <fieldset class="constraint-options">
+                <legend class="sr-only">选择需要避开的过敏原</legend>
+                <label class="constraint-option">
+                  <input type="checkbox" name="constraint" value="milk">
+                  <span>乳</span>
+                </label>
+                <label class="constraint-option">
+                  <input type="checkbox" name="constraint" value="egg">
+                  <span>蛋</span>
+                </label>
+                <label class="constraint-option">
+                  <input type="checkbox" name="constraint" value="peanut">
+                  <span>花生</span>
+                </label>
+                <label class="constraint-option">
+                  <input type="checkbox" name="constraint" value="soy">
+                  <span>大豆</span>
+                </label>
+                <label class="constraint-option">
+                  <input type="checkbox" name="constraint" value="gluten">
+                  <span>麸质</span>
+                </label>
+                <label class="constraint-option">
+                  <input type="checkbox" name="constraint" value="tree_nut">
+                  <span>坚果</span>
+                </label>
+              </fieldset>
+              <p class="constraint-error" id="constraint-error" hidden>请至少选择一项。</p>
+              <button class="button button--primary" id="evaluate-button" type="submit">
+                检查并查看依据
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg>
+              </button>
+            </form>
+          </section>
+
+          <section class="safety-result" id="safety-result" hidden tabindex="-1" aria-labelledby="safety-title">
+            <div class="risk-heading">
+              <span class="risk-symbol" id="risk-symbol" aria-hidden="true">!</span>
+              <div>
+                <p class="risk-kicker" id="risk-kicker">规则评估结果</p>
+                <h2 id="safety-title">当前信息不足</h2>
+              </div>
+            </div>
+            <p class="risk-summary" id="risk-summary"></p>
+            <dl class="risk-facts">
+              <div>
+                <dt>命中成分</dt>
+                <dd id="matched-text">—</dd>
+              </div>
+              <div>
+                <dt>对应约束</dt>
+                <dd id="matched-constraint">—</dd>
+              </div>
+              <div>
+                <dt>出现位置</dt>
+                <dd id="matched-location">—</dd>
+              </div>
+            </dl>
+            <div class="additional-findings" id="additional-findings" hidden></div>
+            <section class="claim-results" id="claim-results" aria-labelledby="claim-results-title" hidden>
+              <div class="claim-results-heading">
+                <h3 id="claim-results-title">包装声称核对</h3>
+                <span id="claim-results-count">0 项</span>
+              </div>
+              <div class="claim-result-list" id="claim-result-list"></div>
+            </section>
+            <div class="evidence-panel" id="evidence-panel">
+              <details id="evidence-details">
+                <summary>
+                  <span>查看判断依据</span>
+                  <span class="evidence-status" id="evidence-status">正在核对</span>
+                </summary>
+                <div class="evidence-body">
+                  <p class="evidence-intro" id="evidence-intro"></p>
+                  <ol class="citation-list" id="citation-list"></ol>
+                  <p class="evidence-empty" id="evidence-empty" role="status" hidden></p>
+                </div>
+              </details>
+            </div>
+            <p class="scope-note" id="scope-note">结果仅基于当前已确认标签，不等于医疗建议或绝对安全保证。</p>
+            <button class="text-button" id="change-constraints" type="button">修改回避项</button>
+          </section>
         </aside>
         </section>
       </div>

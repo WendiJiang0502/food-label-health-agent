@@ -1,7 +1,15 @@
-"""MCP server factory with explicit placeholder capabilities."""
+"""Modular MCP server for deterministic food-label capabilities."""
 
 from __future__ import annotations
 
+from .business_tools import (
+    evaluate_user_constraints,
+    explain_ingredient,
+    interpret_label_claim,
+    normalize_food_label,
+    search_food_regulations,
+    verify_label_consistency,
+)
 from .contracts import MCP_TOOLS
 
 
@@ -11,9 +19,18 @@ def create_server():
     try:
         from mcp.server.fastmcp import FastMCP
     except ImportError as exc:
-        raise RuntimeError("MCP SDK is not installed. Install project dependencies first.") from exc
+        raise RuntimeError(
+            "MCP SDK is not installed. Install project dependencies first."
+        ) from exc
 
     server = FastMCP("Food Label Health Agent")
+
+    server.tool()(normalize_food_label)
+    server.tool()(evaluate_user_constraints)
+    server.tool()(search_food_regulations)
+    server.tool()(explain_ingredient)
+    server.tool()(interpret_label_claim)
+    server.tool()(verify_label_consistency)
 
     @server.tool()
     def health() -> dict[str, object]:
@@ -34,3 +51,9 @@ def create_server():
         }
 
     return server
+
+
+def run() -> None:
+    """Run the modular MCP server over the standard stdio transport."""
+
+    create_server().run(transport="stdio")

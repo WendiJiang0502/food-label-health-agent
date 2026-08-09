@@ -24,7 +24,11 @@ def validate_nutrition_table(rows: list[list[str]]) -> NutritionTableData:
     joined = " ".join(cell for row in rows for cell in row)
     if not _BASIS.search(joined):
         issues.append(
-            _issue("NUTRITION_BASIS_MISSING", "warning", "未可靠识别每100克、每100毫升或每份口径")
+            _issue(
+                "NUTRITION_BASIS_MISSING",
+                "warning",
+                "未可靠识别每100克、每100毫升或每份口径",
+            )
         )
 
     seen: Counter[str] = Counter()
@@ -55,7 +59,12 @@ def validate_nutrition_table(rows: list[list[str]]) -> NutritionTableData:
             )
         if values and float(values[0]) < 0:
             issues.append(
-                _issue("NEGATIVE_NUTRIENT_VALUE", "blocking", f"{nutrient} 数值不能为负数", index)
+                _issue(
+                    "NEGATIVE_NUTRIENT_VALUE",
+                    "blocking",
+                    f"{nutrient} 数值不能为负数",
+                    index,
+                )
             )
         expected_units = _NUTRIENTS[nutrient]
         normalized = row_text.lower()
@@ -63,21 +72,32 @@ def validate_nutrition_table(rows: list[list[str]]) -> NutritionTableData:
             issues.append(
                 _issue(
                     "NUTRIENT_UNIT_MISSING",
-                    "warning",
-                    f"{nutrient} 行未识别到预期单位",
+                    "blocking",
+                    f"{nutrient} 行未识别到匹配的单位",
                     index,
                 )
             )
-        percentages = [float(value) for value in re.findall(r"(\d+(?:\.\d+)?)\s*%", row_text)]
+        percentages = [
+            float(value) for value in re.findall(r"(\d+(?:\.\d+)?)\s*%", row_text)
+        ]
         if any(value > 500 for value in percentages):
             issues.append(
-                _issue("NRV_PERCENT_OUTLIER", "warning", f"{nutrient} 的 NRV% 异常偏高，请核对", index)
+                _issue(
+                    "NRV_PERCENT_OUTLIER",
+                    "warning",
+                    f"{nutrient} 的 NRV% 异常偏高，请核对",
+                    index,
+                )
             )
 
     for nutrient, count in seen.items():
         if count > 1:
             issues.append(
-                _issue("DUPLICATE_NUTRIENT_ROW", "warning", f"{nutrient} 出现多行，请确认表格边界")
+                _issue(
+                    "DUPLICATE_NUTRIENT_ROW",
+                    "warning",
+                    f"{nutrient} 出现多行，请确认表格边界",
+                )
             )
     return NutritionTableData(rows=rows, issues=issues)
 
@@ -88,4 +108,3 @@ def _issue(
     return NutritionValidationIssue(
         code=code, severity=severity, message=message, row_index=row_index
     )
-

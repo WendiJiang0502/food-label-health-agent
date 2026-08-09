@@ -110,6 +110,7 @@ class ConfirmLabelRequest(BaseModel):
     jurisdiction: str = Field(default="CN", min_length=2, max_length=12)
     applicable_date: str
     fields: dict[str, str]
+    original_fields: dict[str, str] = Field(default_factory=dict)
 
     @field_validator("fields")
     @classmethod
@@ -128,3 +129,5 @@ class ConfirmLabelResponse(BaseModel):
     next_route: str
     confirmed_fields: list[str]
     message: str
+    normalized_label: dict = Field(default_factory=dict)
+    normalization_issues: list[dict] = Field(default_factory=list)

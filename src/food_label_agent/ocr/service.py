@@ -12,6 +12,7 @@ from uuid import uuid4
 from food_label_agent.domain.models import LabelField
 from food_label_agent.graph.routing import route_after_ocr
 from food_label_agent.graph.state import create_initial_state
+from food_label_agent.ingredients.normalization import normalize_ingredients
 
 from .evidence_quality import assess_ocr_evidence
 from .models import (
@@ -200,18 +201,33 @@ class OCRService:
             for name, value in request.fields.items()
         }
         next_route = route_after_ocr(state)
+        normalized = normalize_ingredients(
+            request.fields["ingredients"],
+            original_text=request.original_fields.get("ingredients"),
+        )
         return ConfirmLabelResponse(
             request_id=request.request_id,
             status="confirmed",
             next_route=next_route,
             confirmed_fields=sorted(request.fields),
             message="标签事实已由用户确认，可以进入配料规范化。",
+            normalized_label=normalized.to_dict(),
+            normalization_issues=[
+                {
+                    "code": issue.code,
+                    "message": issue.message,
+                    "source_span": issue.source_span,
+                }
+                for issue in normalized.issues
+            ],
         )
 
     @staticmethod
     def _validate_image(*, content: bytes, media_type: str) -> None:
         if media_type not in ALLOWED_MEDIA_TYPES:
-            raise InvalidImageError("暂不支持该文件类型，请上传 JPG、PNG、WebP 或 HEIC 图片。")
+            raise InvalidImageError(
+                "暂不支持该文件类型，请上传 JPG、PNG、WebP 或 HEIC 图片。"
+            )
         if not content:
             raise InvalidImageError("图片内容为空，请重新选择文件。")
         if len(content) > MAX_IMAGE_BYTES:
@@ -226,7 +242,11 @@ def _matches_image_signature(*, content: bytes, media_type: str) -> bool:
     if media_type == "image/png":
         return content.startswith(b"\x89PNG\r\n\x1a\n")
     if media_type == "image/webp":
-        return len(content) >= 12 and content.startswith(b"RIFF") and content[8:12] == b"WEBP"
+        return (
+            len(content) >= 12
+            and content.startswith(b"RIFF")
+            and content[8:12] == b"WEBP"
+        )
     if media_type in {"image/heic", "image/heif"}:
         return len(content) >= 12 and content[4:8] == b"ftyp"
     return False

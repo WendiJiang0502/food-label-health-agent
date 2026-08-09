@@ -36,6 +36,8 @@ def test_real_langgraph_compiles_and_runs_required_path() -> None:
         "evaluate_safety": _node(stage=WorkflowStage.SAFETY_EVALUATION),
         "retrieve_regulations": _node(stage=WorkflowStage.REGULATORY_RETRIEVAL),
         "interpret_label": _node(stage=WorkflowStage.INTERPRETATION),
+        "interpret_claims": _node(stage=WorkflowStage.CLAIM_INTERPRETATION),
+        "verify_consistency": _node(stage=WorkflowStage.CONSISTENCY_VERIFICATION),
         "final_safety_gate": _node(
             status=AnalysisStatus.COMPLETED,
             stage=WorkflowStage.COMPLETED,

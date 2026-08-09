@@ -13,6 +13,12 @@ from starlette.responses import FileResponse, JSONResponse
 from starlette.routing import Mount, Route
 from starlette.staticfiles import StaticFiles
 
+from food_label_agent.graph.workflows import attach_regulatory_interpretation
+from food_label_agent.ingredients.api_models import (
+    SafetyEvaluationRequest,
+)
+from food_label_agent.ingredients.service import evaluate_user_constraints_result
+from food_label_agent.ocr.config import OCRConfigurationError
 from food_label_agent.ocr.models import ConfirmLabelRequest
 from food_label_agent.ocr.paddle_provider import create_ocr_provider
 from food_label_agent.ocr.provider import OCRProvider, OCRProviderError
@@ -59,7 +65,9 @@ def create_app(provider: OCRProvider | None = None) -> Starlette:
             return _error(str(exc), status_code=422)
         except OCRProviderError as exc:
             return _error(str(exc), status_code=503, code=exc.code)
-        except Exception:
+        except OCRConfigurationError as exc:
+            return _error(str(exc), status_code=503, code="OCR_CONFIGURATION_ERROR")
+        except Exception:  # noqa: BLE001 - sanitize unexpected provider failures
             return _error("识别服务暂时不可用，请稍后重试。", status_code=500)
 
     async def confirm_label(request: Request) -> JSONResponse:
@@ -73,14 +81,31 @@ def create_app(provider: OCRProvider | None = None) -> Starlette:
             if exc.errors():
                 message = str(exc.errors()[0].get("ctx", {}).get("error", message))
             return _error(message, status_code=422)
-        except Exception:
+        except Exception:  # noqa: BLE001 - sanitize unexpected confirmation failures
             return _error("确认标签时发生错误，请重试。", status_code=500)
+
+    async def evaluate_label(request: Request) -> JSONResponse:
+        try:
+            payload = await request.json()
+            parsed = SafetyEvaluationRequest.model_validate(payload)
+            response = evaluate_user_constraints_result(parsed)
+            result = response.model_dump(mode="json")
+            result["evidence"] = attach_regulatory_interpretation(parsed, response)
+            return JSONResponse(result)
+        except (ValidationError, ValueError) as exc:
+            message = "请选择至少一项需要回避的过敏原。"
+            if isinstance(exc, ValidationError) and exc.errors():
+                message = str(exc.errors()[0].get("ctx", {}).get("error", message))
+            return _error(message, status_code=422)
+        except Exception:  # noqa: BLE001 - sanitize unexpected evaluation failures
+            return _error("过敏原规则评估暂时无法完成，请重试。", status_code=500)
 
     routes = [
         Route("/", endpoint=index),
         Route("/api/health", endpoint=health),
         Route("/api/v1/ocr/analyze", endpoint=analyze_label, methods=["POST"]),
         Route("/api/v1/labels/confirm", endpoint=confirm_label, methods=["POST"]),
+        Route("/api/v1/labels/evaluate", endpoint=evaluate_label, methods=["POST"]),
         Mount("/static", app=StaticFiles(directory=STATIC_DIR), name="static"),
     ]
     return Starlette(debug=False, routes=routes)
@@ -99,8 +124,11 @@ app = create_app()
 def run() -> None:
     import uvicorn
 
+    # The project CLI intentionally defaults to the configured Tencent provider.
+    # Credentials remain in the SDK credential chain and are never stored here.
+    os.environ.setdefault("FOOD_LABEL_OCR_PROVIDER", "tencent")
     uvicorn.run(
-        "food_label_agent.web.app:app",
+        create_app(),
         host=os.getenv("FOOD_LABEL_HOST", "127.0.0.1"),
         port=int(os.getenv("FOOD_LABEL_PORT", "8000")),
         reload=False,

@@ -14,24 +14,41 @@ class ToolContract:
 
 
 MCP_TOOLS: tuple[ToolContract, ...] = (
-    ToolContract("analyze_label_image", "Extract label fields with field-level confidence"),
-    ToolContract("normalize_food_label", "Normalize ingredients, nutrition, and claims"),
-    ToolContract("explain_ingredient", "Explain an ingredient with applicable evidence"),
+    ToolContract(
+        "analyze_label_image", "Extract label fields with field-level confidence"
+    ),
+    ToolContract(
+        "normalize_food_label",
+        "Normalize confirmed ingredients into a traceable structure",
+        implemented=True,
+    ),
+    ToolContract(
+        "explain_ingredient",
+        "Explain a normalized ingredient without changing safety findings",
+        implemented=True,
+    ),
     ToolContract(
         "evaluate_user_constraints",
-        "Evaluate allergen and dietary hard constraints",
+        "Evaluate supported allergen constraints and preserve unknowns",
         safety_critical=True,
+        implemented=True,
     ),
     ToolContract(
         "search_food_regulations",
         "Retrieve versioned and applicable official clauses",
         safety_critical=True,
+        implemented=True,
     ),
-    ToolContract("interpret_label_claim", "Interpret a claim under applicable rules"),
+    ToolContract(
+        "interpret_label_claim",
+        "Interpret a claim under applicable rules",
+        implemented=True,
+    ),
     ToolContract(
         "verify_label_consistency",
         "Cross-check claims, ingredients, and nutrition facts",
         safety_critical=True,
+        implemented=True,
     ),
     ToolContract("find_alternative_products", "Find candidates after hard filtering"),
     ToolContract(
