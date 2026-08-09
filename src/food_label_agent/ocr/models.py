@@ -112,6 +112,7 @@ class ConfirmLabelRequest(BaseModel):
     fields: dict[str, str]
     original_fields: dict[str, str] = Field(default_factory=dict)
     nutrition_rows: list[list[str]] | None = None
+    resume_token: str | None = Field(default=None, min_length=32, max_length=256)
 
     @field_validator("fields")
     @classmethod

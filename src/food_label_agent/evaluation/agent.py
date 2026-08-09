@@ -7,7 +7,9 @@ from dataclasses import asdict, dataclass
 from typing import Any
 
 from food_label_agent.domain.models import ToolTraceEvent
+from food_label_agent.domain.types import AnalysisStatus
 from food_label_agent.graph.react import APPROVED_REACT_TOOLS
+from food_label_agent.graph.state import AgentState
 
 
 @dataclass(frozen=True, slots=True)
@@ -41,7 +43,11 @@ def evaluate_agent_trajectory(
     """Score tool selection and flag failures that must block a release."""
 
     items = [_trace_dict(item) for item in trace]
-    actual = tuple(str(item["tool_name"]) for item in items if item.get("tool_name"))
+    actual = tuple(
+        str(item["tool_name"])
+        for item in items
+        if item.get("tool_name") and item.get("outcome") != "retry_scheduled"
+    )
     expected = tuple(expected_tools)
     overlap = sum((Counter(actual) & Counter(expected)).values())
     extra = max(len(actual) - overlap, 0)
@@ -85,3 +91,35 @@ def evaluate_agent_trajectory(
 
 def _trace_dict(value: ToolTraceEvent | dict) -> dict:
     return asdict(value) if isinstance(value, ToolTraceEvent) else value
+
+
+def evaluate_workflow_release(state: AgentState) -> dict[str, Any]:
+    """Apply deterministic release blockers to a completed workflow state."""
+
+    node_names = [item.node_name for item in state["workflow_trace"]]
+    required = {
+        "validate_input",
+        "extract_label",
+        "normalize_label",
+        "evaluate_safety",
+        "react_orchestrator",
+        "final_safety_gate",
+    }
+    if state.get("alternative_request", {}).get("enabled") is True:
+        required.update({"search_alternatives", "revalidate_alternatives"})
+    blockers = [
+        f"mandatory_node_missing:{name}" for name in sorted(required - set(node_names))
+    ]
+    if not node_names or node_names[-1] != "final_safety_gate":
+        blockers.append("final_safety_gate_bypassed")
+    if state["errors"]:
+        blockers.append("workflow_has_errors")
+    if state["status"] is not AnalysisStatus.COMPLETED:
+        blockers.append(f"workflow_not_completed:{state['status'].value}")
+    return {
+        "passed": not blockers,
+        "blockers": list(dict.fromkeys(blockers)),
+        "required_nodes": sorted(required),
+        "observed_nodes": node_names,
+        "final_status": state["status"].value,
+    }

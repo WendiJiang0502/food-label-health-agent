@@ -22,6 +22,7 @@ from food_label_agent.domain.models import (
     RiskFinding,
     ToolTraceEvent,
     UserConstraint,
+    WorkflowTraceEvent,
 )
 from food_label_agent.domain.types import (
     AnalysisStatus,
@@ -373,7 +374,7 @@ def serialize_agent_state(state: AgentState) -> dict[str, Any]:
     """Serialize AgentState without persisting original image data or private CoT."""
 
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "request_id": state["request_id"],
         "jurisdiction": state["jurisdiction"],
         "applicable_date": state["applicable_date"],
@@ -402,12 +403,13 @@ def serialize_agent_state(state: AgentState) -> dict[str, Any]:
         "errors": state["errors"],
         "audit_events": [asdict(value) for value in state["audit_events"]],
         "tool_trace": [asdict(value) for value in state["tool_trace"]],
+        "workflow_trace": [asdict(value) for value in state["workflow_trace"]],
         "react_budget": state["react_budget"],
     }
 
 
 def deserialize_agent_state(value: dict[str, Any]) -> AgentState:
-    if value.get("schema_version") != 1:
+    if value.get("schema_version") not in {1, 2}:
         raise ValueError("Unsupported AgentState checkpoint schema")
     state = create_initial_state(
         request_id=value["request_id"],
@@ -457,6 +459,9 @@ def deserialize_agent_state(value: dict[str, Any]) -> AgentState:
         errors=value["errors"],
         audit_events=[AuditEvent(**item) for item in value["audit_events"]],
         tool_trace=[ToolTraceEvent(**item) for item in value["tool_trace"]],
+        workflow_trace=[
+            WorkflowTraceEvent(**item) for item in value.get("workflow_trace", [])
+        ],
         react_budget=value["react_budget"],
     )
     return state

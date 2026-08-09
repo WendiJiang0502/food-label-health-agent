@@ -96,3 +96,20 @@ class ToolTraceEvent:
     created_at: str = field(
         default_factory=lambda: datetime.now().astimezone().isoformat()
     )
+
+
+@dataclass(frozen=True, slots=True)
+class WorkflowTraceEvent:
+    """One observable LangGraph node transition, without private reasoning."""
+
+    sequence: int
+    node_name: str
+    outcome: str
+    status_before: str
+    status_after: str
+    stage_before: str
+    stage_after: str
+    detail: dict[str, Any] = field(default_factory=dict)
+    created_at: str = field(
+        default_factory=lambda: datetime.now().astimezone().isoformat()
+    )

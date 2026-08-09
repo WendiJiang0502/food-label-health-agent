@@ -14,6 +14,84 @@ from .routing import final_safety_gate as evaluate_final_safety_gate
 from .state import AgentState
 
 
+def validate_input(state: AgentState) -> dict:
+    """Validate the durable request envelope before any label processing."""
+
+    if not state.get("request_id") or not state.get("jurisdiction"):
+        return {
+            "status": AnalysisStatus.BLOCKED,
+            "errors": [*state["errors"], "invalid_request_envelope"],
+        }
+    return {
+        "status": AnalysisStatus.IN_PROGRESS,
+        "stage": WorkflowStage.INPUT_VALIDATION,
+        "audit_events": [
+            *state["audit_events"],
+            AuditEvent("input_validated", "orchestrator", {}),
+        ],
+    }
+
+
+def extract_label(state: AgentState) -> dict:
+    """Expose OCR output already supplied by the provider adapter to the graph."""
+
+    if not state["label_fields"]:
+        return {
+            "status": AnalysisStatus.NEEDS_CONFIRMATION,
+            "stage": WorkflowStage.OCR_EXTRACTION,
+            "unknowns": list(
+                dict.fromkeys([*state["unknowns"], "label_fields_missing"])
+            ),
+        }
+    return {
+        "stage": WorkflowStage.OCR_EXTRACTION,
+        "audit_events": [
+            *state["audit_events"],
+            AuditEvent(
+                "label_extracted",
+                "ocr_adapter",
+                {"field_count": len(state["label_fields"])},
+            ),
+        ],
+    }
+
+
+def confirm_label(state: AgentState) -> dict:
+    """Represent the human-in-the-loop boundary as a resumable graph node."""
+
+    ingredients = state["label_fields"].get("ingredients")
+    confirmed = bool(
+        ingredients and ingredients.raw_text.strip() and ingredients.confirmed_by_user
+    )
+    if not confirmed:
+        return {
+            "status": AnalysisStatus.NEEDS_CONFIRMATION,
+            "stage": WorkflowStage.HUMAN_CONFIRMATION,
+            "unknowns": list(
+                dict.fromkeys([*state["unknowns"], "ingredients_not_confirmed"])
+            ),
+            "audit_events": [
+                *state["audit_events"],
+                AuditEvent("human_confirmation_requested", "orchestrator", {}),
+            ],
+        }
+    return {
+        "status": AnalysisStatus.IN_PROGRESS,
+        "stage": WorkflowStage.HUMAN_CONFIRMATION,
+        "unknowns": [
+            item for item in state["unknowns"] if item != "ingredients_not_confirmed"
+        ],
+        "audit_events": [
+            *state["audit_events"],
+            AuditEvent(
+                "label_confirmed",
+                "user",
+                {"confirmed_fields": sorted(state["label_fields"])},
+            ),
+        ],
+    }
+
+
 def normalize_label(state: AgentState) -> dict:
     """Normalize only confirmed critical label facts."""
 
@@ -95,6 +173,19 @@ def evaluate_safety(state: AgentState) -> dict:
             "stage": WorkflowStage.HUMAN_CONFIRMATION,
             "risk_findings": [],
         }
+    if not state["user_constraints"]:
+        return {
+            "status": AnalysisStatus.NEEDS_CONFIRMATION,
+            "stage": WorkflowStage.SAFETY_EVALUATION,
+            "risk_findings": [],
+            "unknowns": list(
+                dict.fromkeys([*state["unknowns"], "user_constraints_required"])
+            ),
+            "audit_events": [
+                *state["audit_events"],
+                AuditEvent("user_constraints_requested", "orchestrator", {}),
+            ],
+        }
     confirmed_fields = {
         name: label_field.raw_text
         for name, label_field in state["label_fields"].items()
@@ -129,6 +220,9 @@ def evaluate_safety(state: AgentState) -> dict:
         "status": AnalysisStatus.IN_PROGRESS,
         "stage": WorkflowStage.SAFETY_EVALUATION,
         "risk_findings": findings,
+        "unknowns": [
+            item for item in state["unknowns"] if item != "user_constraints_required"
+        ],
         "audit_events": [
             *state["audit_events"],
             _context_event(state, "evaluate_safety"),

@@ -9,7 +9,13 @@ from __future__ import annotations
 from collections.abc import Callable, Mapping
 from typing import Any
 
-from .routing import route_after_normalization, route_after_ocr, route_after_react
+from .routing import (
+    route_after_confirmation,
+    route_after_normalization,
+    route_after_ocr,
+    route_after_react,
+    route_after_safety,
+)
 from .state import AgentState
 from .topology import validate_topology
 
@@ -67,16 +73,24 @@ def build_graph(
             "normalize_label": "normalize_label",
         },
     )
-    graph.add_edge("confirm_label", "normalize_label")
+    graph.add_conditional_edges(
+        "confirm_label",
+        route_after_confirmation,
+        {"pause": END, "normalize_label": "normalize_label"},
+    )
     graph.add_conditional_edges(
         "normalize_label",
         route_after_normalization,
         {
-            "confirm_label": "confirm_label",
+            "confirm_label": END,
             "evaluate_safety": "evaluate_safety",
         },
     )
-    graph.add_edge("evaluate_safety", "react_orchestrator")
+    graph.add_conditional_edges(
+        "evaluate_safety",
+        route_after_safety,
+        {"pause": END, "react_orchestrator": "react_orchestrator"},
+    )
     if has_alternatives:
         graph.add_conditional_edges(
             "react_orchestrator",

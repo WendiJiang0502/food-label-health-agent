@@ -56,7 +56,7 @@ def critical_fields_needing_confirmation(
 def route_after_ocr(state: AgentState) -> str:
     """Select the only safe next step after OCR extraction."""
 
-    if state["ocr_evidence"].get("status") == "needs_confirmation":
+    if state["ocr_evidence"].get("status") in {"needs_confirmation", "confirmed"}:
         return "confirm_label"
     if critical_fields_needing_confirmation(state):
         return "confirm_label"
@@ -69,6 +69,22 @@ def route_after_normalization(state: AgentState) -> str:
     if state["normalized_label"].get("requires_confirmation"):
         return "confirm_label"
     return "evaluate_safety"
+
+
+def route_after_confirmation(state: AgentState) -> str:
+    """Pause the graph until critical facts have actually been confirmed."""
+
+    if state["status"] is AnalysisStatus.NEEDS_CONFIRMATION:
+        return "pause"
+    return "normalize_label"
+
+
+def route_after_safety(state: AgentState) -> str:
+    """Do not enter the evidence loop without declared user constraints."""
+
+    if state["status"] in {AnalysisStatus.NEEDS_CONFIRMATION, AnalysisStatus.BLOCKED}:
+        return "pause"
+    return "react_orchestrator"
 
 
 def route_after_react(state: AgentState) -> str:

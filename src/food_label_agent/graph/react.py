@@ -123,30 +123,72 @@ def react_orchestrator(
             break
         validate_react_decision(decision)
         status_before = working["status"].value
-        try:
-            result = invoke_mcp_tool(decision.tool_name or "", decision.arguments or {})
-        except MCPToolCallError:
-            working["status"] = AnalysisStatus.BLOCKED
-            working["errors"].append(f"mcp_tool_failed:{decision.tool_name}")
-            working["unknowns"] = list(
-                dict.fromkeys(
-                    [*working["unknowns"], f"{decision.tool_name}_unavailable"]
+        result = None
+        recovered = False
+        for attempt in (1, 2):
+            if calls_used >= tool_limit:
+                break
+            calls_used += 1
+            try:
+                result = invoke_mcp_tool(
+                    decision.tool_name or "", decision.arguments or {}
                 )
-            )
-            working["tool_trace"].append(
-                ToolTraceEvent(
-                    step=step,
-                    action=decision.action,
-                    reason_code=decision.reason_code,
-                    tool_name=decision.tool_name,
-                    outcome="failed",
-                    status_before=status_before,
-                    status_after=working["status"].value,
-                    observation=decision.trace_context or {},
+                recovered = attempt == 2
+                break
+            except MCPToolCallError:
+                if attempt == 1 and calls_used < tool_limit:
+                    working["tool_trace"].append(
+                        ToolTraceEvent(
+                            step=step,
+                            action=decision.action,
+                            reason_code=decision.reason_code,
+                            tool_name=decision.tool_name,
+                            outcome="retry_scheduled",
+                            status_before=status_before,
+                            status_after=working["status"].value,
+                            observation={
+                                **(decision.trace_context or {}),
+                                "attempt": attempt,
+                            },
+                        )
+                    )
+                    working["audit_events"].append(
+                        AuditEvent(
+                            event_type="react_tool_retry_scheduled",
+                            actor=f"react:mcp:{decision.tool_name}",
+                            detail={"step": step, "attempt": attempt},
+                        )
+                    )
+                    continue
+                working["status"] = AnalysisStatus.BLOCKED
+                working["errors"].append(f"mcp_tool_failed:{decision.tool_name}")
+                working["unknowns"] = list(
+                    dict.fromkeys(
+                        [*working["unknowns"], f"{decision.tool_name}_unavailable"]
+                    )
                 )
-            )
+                working["tool_trace"].append(
+                    ToolTraceEvent(
+                        step=step,
+                        action=decision.action,
+                        reason_code=decision.reason_code,
+                        tool_name=decision.tool_name,
+                        outcome="failed",
+                        status_before=status_before,
+                        status_after=working["status"].value,
+                        observation={
+                            **(decision.trace_context or {}),
+                            "attempt": attempt,
+                        },
+                    )
+                )
+                break
+        if result is None:
+            if working["status"] is not AnalysisStatus.BLOCKED:
+                _block_for_budget(
+                    working, step, calls_used, "react_tool_budget_exhausted"
+                )
             break
-        calls_used += 1
         _apply_tool_result(working, decision, result)
         working["tool_trace"].append(
             ToolTraceEvent(
@@ -154,12 +196,13 @@ def react_orchestrator(
                 action=decision.action,
                 reason_code=decision.reason_code,
                 tool_name=decision.tool_name,
-                outcome="succeeded",
+                outcome="recovered" if recovered else "succeeded",
                 status_before=status_before,
                 status_after=working["status"].value,
                 observation={
                     **(decision.trace_context or {}),
                     **_result_observation(decision, result),
+                    "attempt": 2 if recovered else 1,
                 },
             )
         )
@@ -170,7 +213,7 @@ def react_orchestrator(
                 detail={
                     "step": step,
                     "reason_code": decision.reason_code,
-                    "outcome": "succeeded",
+                    "outcome": "recovered" if recovered else "succeeded",
                 },
             )
         )

@@ -11,6 +11,8 @@
 
 当前主流程还加入了受约束 ReAct 编排节点：它只能在四个已批准 MCP 工具中动态选择法规检索、配料解释、声称解释和一致性验证，并受步骤数与工具调用数双重预算约束。标签确认、规范化、确定性约束评估和最终安全门仍是不可跳过的固定节点。API 返回只包含工具名、决策原因码和压缩后的工具观察，不记录或暴露模型思维链。
 
+OCR、人工确认、约束评估、法规解释和替代品复核现在共用一份可恢复的 `AgentState`。每次安全停点都会追加 SQLite 检查点；`workflow_trace` 记录 LangGraph 节点转换，`agent_trace` 记录 MCP 工具选择。可重试工具失败最多自动重试一次，仍失败则输出 `unknown` 并阻断肯定结论。每个完成结果还包含 `release_gate`，用于确认必经节点和 `final_safety_gate` 未被绕过。
+
 替代品层已经实现 `find_alternative_products`、`compare_food_products` 和 `revalidate_alternatives` 三个真实 MCP 工具，以及 `search_alternatives → revalidate_alternatives → final_safety_gate` 安全路径。正式 CLI 默认通过 `ProductCatalog` 从 Open Food Facts 查找中国商品，仅接受具有配料文字、配料图片、社区完成状态和数据版本的记录；实时源失败或无可用证据时，显式降级到随包的人工审查验收目录。所有候选仍先检查完整度、日期和内容哈希，再逐一重跑相同的过敏原与营养约束；只有 `compatible` 候选能够展示。这不表示商品在售、有库存或绝对安全。
 
 Milestone 4 已加入按节点裁剪的四层上下文构建器、Token 预算，以及 SQLite 短期工作流检查点。检查点采用随机能力令牌保护并强制移除原始图片。长期记忆只在用户明确勾选授权后保存其主动选择的约束；用户可查看、单项删除，或清除全部内容并撤销授权。浏览器只保留该本地资料的访问令牌，不保存食品图片、完整对话、模型内部推理或未经确认的健康推断。

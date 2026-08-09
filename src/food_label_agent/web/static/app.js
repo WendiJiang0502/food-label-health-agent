@@ -193,6 +193,7 @@ elements.form.addEventListener("submit", async (event) => {
         ),
         nutrition_rows: state.analysis.fields.find((field) => field.name === "nutrition_table")
           ?.nutrition_table?.rows || null,
+        resume_token: state.checkpointToken,
       }),
     });
     const payload = await response.json();
@@ -383,6 +384,9 @@ async function analyzeFile(file) {
     if (!response.ok) throw new Error(payload.message || "图片识别失败。");
 
     state.analysis = payload;
+    if (payload.checkpoint?.resume_token) {
+      state.checkpointToken = payload.checkpoint.resume_token;
+    }
     renderFields(payload.fields);
     renderAnnotations(payload.fields);
     elements.workbench.classList.add("has-analysis");

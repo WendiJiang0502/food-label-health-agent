@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import os
+from dataclasses import asdict
+from datetime import UTC, datetime
 from pathlib import Path
 
 from pydantic import ValidationError
@@ -15,6 +17,9 @@ from starlette.staticfiles import StaticFiles
 
 from food_label_agent.alternatives.category import suggest_product_category
 from food_label_agent.alternatives.models import AlternativeWorkflowRequest
+from food_label_agent.domain.models import LabelField
+from food_label_agent.graph.runtime import run_agent_graph
+from food_label_agent.graph.state import create_initial_state
 from food_label_agent.graph.workflows import (
     run_alternative_workflow,
     run_regulatory_workflow,
@@ -81,7 +86,35 @@ def create_app(
                 file_name=upload.filename or "label-image",
                 media_type=upload.content_type or "application/octet-stream",
             )
-            return JSONResponse(result.model_dump(mode="json"))
+            state = create_initial_state(
+                request_id=result.request_id,
+                jurisdiction="CN",
+                applicable_date=datetime.now(UTC).date().isoformat(),
+            )
+            state["label_fields"] = {
+                field.name: LabelField(
+                    name=field.name,
+                    raw_text=field.raw_text,
+                    confidence=field.confidence,
+                    confirmed_by_user=False,
+                )
+                for field in result.fields
+            }
+            state["ocr_evidence"] = {
+                **result.evidence_quality.model_dump(mode="json"),
+                "status": "needs_confirmation",
+                "provider": result.provider,
+                "synthetic": result.synthetic,
+            }
+            state["warnings"] = list(result.warnings)
+            state = run_agent_graph(state)
+            checkpoint = checkpoints.save(state)
+            payload = result.model_dump(mode="json")
+            payload["checkpoint"] = checkpoint.to_dict()
+            payload["workflow_trace"] = [
+                asdict(item) for item in state["workflow_trace"]
+            ]
+            return JSONResponse(payload)
         except (InvalidImageError, ImageQualityError) as exc:
             return _error(str(exc), status_code=422)
         except OCRProviderError as exc:
@@ -96,7 +129,60 @@ def create_app(
             payload = await request.json()
             parsed = ConfirmLabelRequest.model_validate(payload)
             result = service.confirm(parsed)
-            return JSONResponse(result.model_dump(mode="json"))
+            response = result.model_dump(mode="json")
+            if parsed.resume_token:
+                state = checkpoints.load_latest(parsed.request_id, parsed.resume_token)
+                state["jurisdiction"] = parsed.jurisdiction
+                state["applicable_date"] = parsed.applicable_date
+                state["label_fields"] = {
+                    name: LabelField(
+                        name=name,
+                        raw_text=value,
+                        confidence=1.0,
+                        confirmed_by_user=True,
+                        bounding_box=(
+                            state["label_fields"][name].bounding_box
+                            if name in state["label_fields"]
+                            else None
+                        ),
+                    )
+                    for name, value in parsed.fields.items()
+                }
+                state["ocr_evidence"] = {**state["ocr_evidence"], "status": "confirmed"}
+                state = run_agent_graph(state)
+                response["normalized_label"] = state["normalized_label"]
+                response["normalization_issues"] = [
+                    {
+                        "code": issue.get("code"),
+                        "message": issue.get("message"),
+                        "source_span": issue.get("source_span"),
+                    }
+                    for issue in [
+                        *state["normalized_label"].get("issues", []),
+                        *(
+                            (state["normalized_label"].get("nutrition") or {}).get(
+                                "issues", []
+                            )
+                        ),
+                    ]
+                ]
+                response["status"] = state["status"].value
+                response["next_route"] = (
+                    "evaluate_safety"
+                    if "user_constraints_required" in state["unknowns"]
+                    else state["stage"].value
+                )
+                response["workflow_trace"] = [
+                    asdict(item) for item in state["workflow_trace"]
+                ]
+                response["checkpoint"] = checkpoints.save(
+                    state, resume_token=parsed.resume_token
+                ).to_dict()
+            return JSONResponse(response)
+        except PermissionError:
+            return _error("该分析会话需要有效的恢复令牌。", status_code=403)
+        except KeyError:
+            return _error("没有找到这个分析会话。", status_code=404)
         except ValidationError as exc:
             message = "标签字段不完整，请确认配料表后重试。"
             if exc.errors():
@@ -114,7 +200,14 @@ def create_app(
             result["alternative_category_suggestion"] = suggest_product_category(
                 parsed.confirmed_fields
             )
-            evidence, final_state = run_regulatory_workflow(parsed, response)
+            resumed_state = (
+                checkpoints.load_latest(parsed.request_id, parsed.resume_token)
+                if parsed.resume_token
+                else None
+            )
+            evidence, final_state = run_regulatory_workflow(
+                parsed, response, state=resumed_state
+            )
             result["evidence"] = evidence
             if evidence["final_status"] in {
                 "completed",
@@ -128,6 +221,8 @@ def create_app(
             return JSONResponse(result)
         except PermissionError:
             return _error("该分析会话需要有效的恢复令牌。", status_code=403)
+        except KeyError:
+            return _error("没有找到这个分析会话。", status_code=404)
         except (ValidationError, ValueError) as exc:
             message = "请选择至少一项个人约束。"
             if isinstance(exc, ValidationError) and exc.errors():
@@ -157,12 +252,17 @@ def create_app(
         try:
             payload = await request.json()
             parsed = AlternativeWorkflowRequest.model_validate(payload)
-            result, final_state = run_alternative_workflow(parsed)
+            resumed_state = checkpoints.load_latest(
+                parsed.request_id, parsed.resume_token
+            )
+            result, final_state = run_alternative_workflow(parsed, state=resumed_state)
             checkpoint = checkpoints.save(final_state, resume_token=parsed.resume_token)
             result["checkpoint"] = checkpoint.to_dict()
             return JSONResponse(result)
         except PermissionError:
             return _error("该分析会话需要有效的恢复令牌。", status_code=403)
+        except KeyError:
+            return _error("没有找到这个分析会话。", status_code=404)
         except (ValidationError, ValueError) as exc:
             message = "请选择要查找的同类商品类别。"
             if isinstance(exc, ValidationError) and exc.errors():
