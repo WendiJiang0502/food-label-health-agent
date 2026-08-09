@@ -103,7 +103,9 @@ def final_safety_gate(state: AgentState) -> SafetyGateResult:
     for finding in state["risk_findings"]:
         if finding.risk_level is RiskLevel.COMPATIBLE:
             continue
-        if finding.reason_code.startswith(("USER_NUTRITION_", "NUTRITION_", "NUTRIENT_")):
+        if finding.reason_code.startswith(
+            ("USER_NUTRITION_", "NUTRITION_", "NUTRIENT_")
+        ):
             continue
         if not set(finding.evidence_ids).intersection(explained_label_ids):
             unknowns.append(f"grounded_interpretation_missing:{finding.constraint}")

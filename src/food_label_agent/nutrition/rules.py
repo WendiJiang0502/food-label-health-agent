@@ -7,7 +7,6 @@ from food_label_agent.domain.types import ConstraintKind, RiskLevel
 
 from .normalization import NormalizedNutrition
 
-
 SUPPORTED_UNITS = {
     "energy": "kJ",
     "protein": "g",
@@ -39,21 +38,48 @@ def _evaluate_one(
     nutrition: NormalizedNutrition | None, constraint: UserConstraint
 ) -> RiskFinding:
     key = constraint.canonical_value
-    if constraint.kind is not ConstraintKind.NUTRITION_LIMIT or key not in SUPPORTED_UNITS:
-        return _unknown(constraint, "UNSUPPORTED_NUTRITION_CONSTRAINT", "当前规则不支持这项营养约束。")
+    if (
+        constraint.kind is not ConstraintKind.NUTRITION_LIMIT
+        or key not in SUPPORTED_UNITS
+    ):
+        return _unknown(
+            constraint,
+            "UNSUPPORTED_NUTRITION_CONSTRAINT",
+            "当前规则不支持这项营养约束。",
+        )
     if constraint.operator != "max" or constraint.threshold is None:
-        return _unknown(constraint, "INVALID_NUTRITION_LIMIT", "营养约束必须提供用户设置的数值上限。")
+        return _unknown(
+            constraint,
+            "INVALID_NUTRITION_LIMIT",
+            "营养约束必须提供用户设置的数值上限。",
+        )
     if constraint.unit != SUPPORTED_UNITS[key]:
-        return _unknown(constraint, "NUTRITION_UNIT_MISMATCH", "约束单位与该营养成分不一致，不能自动换算。")
+        return _unknown(
+            constraint,
+            "NUTRITION_UNIT_MISMATCH",
+            "约束单位与该营养成分不一致，不能自动换算。",
+        )
     if nutrition is None:
-        return _unknown(constraint, "NUTRITION_LABEL_MISSING", "标签中没有已确认的营养成分事实。")
+        return _unknown(
+            constraint, "NUTRITION_LABEL_MISSING", "标签中没有已确认的营养成分事实。"
+        )
     if nutrition.requires_confirmation:
-        return _unknown(constraint, "NUTRITION_FACTS_UNCERTAIN", "营养表口径或数值仍需人工确认。")
-    fact = next((item for item in nutrition.nutrients if item.canonical_name == key), None)
+        return _unknown(
+            constraint, "NUTRITION_FACTS_UNCERTAIN", "营养表口径或数值仍需人工确认。"
+        )
+    fact = next(
+        (item for item in nutrition.nutrients if item.canonical_name == key), None
+    )
     if fact is None:
-        return _unknown(constraint, "NUTRIENT_NOT_DECLARED", "已确认营养表中未找到这项营养成分。")
+        return _unknown(
+            constraint, "NUTRIENT_NOT_DECLARED", "已确认营养表中未找到这项营养成分。"
+        )
     if not constraint.basis or fact.basis != constraint.basis:
-        return _unknown(constraint, "NUTRITION_BASIS_MISMATCH", "标签口径与用户上限口径不同，不能直接比较。")
+        return _unknown(
+            constraint,
+            "NUTRITION_BASIS_MISMATCH",
+            "标签口径与用户上限口径不同，不能直接比较。",
+        )
     if fact.value > constraint.threshold:
         return RiskFinding(
             risk_level=RiskLevel.AVOID,

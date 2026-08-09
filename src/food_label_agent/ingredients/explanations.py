@@ -8,8 +8,8 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from food_label_agent.domain.types import RiskLevel
 
-from .allergens import ALLERGEN_CATEGORIES
 from .additives import additive_knowledge
+from .allergens import ALLERGEN_CATEGORIES
 
 
 class IngredientExplanationRequest(BaseModel):
@@ -128,7 +128,9 @@ def _explain_additive(
     ingredient = request.ingredient
     raw_name = str(ingredient.get("raw_name") or ingredient.get("canonical_name") or "")
     knowledge = additive_knowledge(str(ingredient.get("canonical_name") or raw_name))
-    label_ids = [str(ingredient.get("evidence_id"))] if ingredient.get("evidence_id") else []
+    label_ids = (
+        [str(ingredient.get("evidence_id"))] if ingredient.get("evidence_id") else []
+    )
     applicable = [
         item
         for item in request.regulatory_evidence
@@ -137,7 +139,8 @@ def _explain_additive(
             jurisdiction=request.jurisdiction,
             applicable_date=request.applicable_date,
         )
-        and "GB 2760" in f"{item.get('standard_number', '')} {item.get('evidence_text', '')}"
+        and "GB 2760"
+        in f"{item.get('standard_number', '')} {item.get('evidence_text', '')}"
         and _evidence_is_citable(item)
     ][:3]
     citations = [_citation(item) for item in applicable]

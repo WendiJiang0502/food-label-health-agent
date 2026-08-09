@@ -9,7 +9,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Protocol
 
-from .models import BoundingBox, OCRFieldResult, NutritionTableData
+from .models import BoundingBox, NutritionTableData, OCRFieldResult
 
 
 class OCRProviderError(RuntimeError):

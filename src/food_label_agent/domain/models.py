@@ -79,3 +79,20 @@ class AuditEvent:
     created_at: str = field(
         default_factory=lambda: datetime.now().astimezone().isoformat()
     )
+
+
+@dataclass(frozen=True, slots=True)
+class ToolTraceEvent:
+    """Auditable ReAct decision without storing private chain-of-thought."""
+
+    step: int
+    action: str
+    reason_code: str
+    tool_name: str | None
+    outcome: str
+    status_before: str
+    status_after: str
+    observation: dict[str, Any] = field(default_factory=dict)
+    created_at: str = field(
+        default_factory=lambda: datetime.now().astimezone().isoformat()
+    )

@@ -34,6 +34,7 @@ def test_real_langgraph_compiles_and_runs_required_path() -> None:
         "confirm_label": _node(stage=WorkflowStage.HUMAN_CONFIRMATION),
         "normalize_label": _node(stage=WorkflowStage.LABEL_NORMALIZATION),
         "evaluate_safety": _node(stage=WorkflowStage.SAFETY_EVALUATION),
+        "react_orchestrator": _node(stage=WorkflowStage.REACT_ORCHESTRATION),
         "retrieve_regulations": _node(stage=WorkflowStage.REGULATORY_RETRIEVAL),
         "interpret_label": _node(stage=WorkflowStage.INTERPRETATION),
         "interpret_claims": _node(stage=WorkflowStage.CLAIM_INTERPRETATION),

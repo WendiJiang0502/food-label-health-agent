@@ -28,6 +28,8 @@ class InitialStateTests(unittest.TestCase):
         self.assertEqual(len(state["images"]), 1)
         self.assertEqual(len(state["user_constraints"]), 1)
         self.assertEqual(state["risk_findings"], [])
+        self.assertEqual(state["tool_trace"], [])
+        self.assertEqual(state["react_budget"]["tool_calls_used"], 0)
         self.assertEqual(state["audit_events"][0].event_type, "state_created")
 
 

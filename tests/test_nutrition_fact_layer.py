@@ -2,12 +2,15 @@ from __future__ import annotations
 
 from food_label_agent.domain.models import LabelField, UserConstraint
 from food_label_agent.domain.types import ConstraintKind, RiskLevel
-from food_label_agent.graph.nodes import evaluate_safety, normalize_label, verify_consistency
+from food_label_agent.graph.nodes import (
+    evaluate_safety,
+    normalize_label,
+    verify_consistency,
+)
 from food_label_agent.graph.state import create_initial_state
 from food_label_agent.ingredients.api_models import SafetyEvaluationRequest
 from food_label_agent.ingredients.service import evaluate_user_constraints_result
 from food_label_agent.nutrition.normalization import normalize_nutrition_facts
-
 
 TABLE = """项目\t每100克\tNRV%
 能量\t890千焦\t11%
@@ -25,8 +28,12 @@ def test_confirmed_nutrition_table_becomes_traceable_fact_layer() -> None:
     assert nutrition.requires_confirmation is False
     assert nutrition.basis is not None
     assert nutrition.basis.type == "per_100g"
-    sugar = next(item for item in nutrition.nutrients if item.canonical_name == "sugars")
-    carbs = next(item for item in nutrition.nutrients if item.canonical_name == "carbohydrate")
+    sugar = next(
+        item for item in nutrition.nutrients if item.canonical_name == "sugars"
+    )
+    carbs = next(
+        item for item in nutrition.nutrients if item.canonical_name == "carbohydrate"
+    )
     assert sugar.value == 3.5
     assert carbs.value == 31.0
     assert sugar.evidence_id == "label.nutrition.row.6"
@@ -136,10 +143,13 @@ def test_langgraph_nodes_use_normalized_sugar_fact_for_claim_check() -> None:
     state.update(normalize_label(state))
     state.update(evaluate_safety(state))
     state["claim_interpretations"] = [
-        {"canonical_type": "low_sugar", "raw_text": "低糖", "label_evidence_ids": ["label.claims.item.1"]}
+        {
+            "canonical_type": "low_sugar",
+            "raw_text": "低糖",
+            "label_evidence_ids": ["label.claims.item.1"],
+        }
     ]
     state.update(verify_consistency(state))
 
     assert state["risk_findings"][0].risk_level is RiskLevel.COMPATIBLE
     assert state["consistency_findings"][0]["status"] == "consistent"
-

@@ -115,6 +115,11 @@ def test_safety_api_returns_traceable_avoid_result() -> None:
     assert payload["findings"][0]["matched_location"] == "复合配料第 3 项（路径 2 → 3）"
     assert payload["findings"][0]["evidence_ids"] == ["label.ingredients.item.2.3"]
     assert payload["evidence"]["status"] == "grounded"
+    assert (
+        payload["evidence"]["agent_trace"][-1]["reason_code"]
+        == "NO_REQUIRED_TOOL_REMAINS"
+    )
+    assert payload["evidence"]["react_budget"]["tool_calls_used"] >= 2
     assert payload["evidence"]["final_status"] == "completed"
     interpretation = payload["evidence"]["interpretations"][0]
     assert interpretation["risk_level"] == "avoid"
@@ -188,7 +193,9 @@ def test_nutrition_limit_api_uses_confirmed_row_evidence() -> None:
     assert payload["evidence"]["status"] == "not_required"
 
 
-def test_additive_explanations_are_returned_without_safety_or_compliance_claim() -> None:
+def test_additive_explanations_are_returned_without_safety_or_compliance_claim() -> (
+    None
+):
     response = asyncio.run(
         request(
             "POST",

@@ -193,7 +193,11 @@ def _parse_basis(value: str) -> NutritionBasis | None:
     if match:
         unit = "g" if match.group(1).lower() in {"克", "g"} else "ml"
         return NutritionBasis(f"per_100{unit}", 100, unit, match.group(0))
-    match = re.search(r"每\s*份(?:\s*\(?\s*(\d+(?:\.\d+)?)\s*(克|g|毫升|ml)\s*\)?)?", value, re.IGNORECASE)
+    match = re.search(
+        r"每\s*份(?:\s*\(?\s*(\d+(?:\.\d+)?)\s*(克|g|毫升|ml)\s*\)?)?",
+        value,
+        re.IGNORECASE,
+    )
     if match:
         amount = float(match.group(1)) if match.group(1) else 1
         unit = _canonical_unit(match.group(2)) if match.group(2) else "serving"
@@ -211,4 +215,13 @@ def _nutrient(value: str) -> tuple[str, str, str] | None:
 
 def _canonical_unit(value: str) -> str:
     compact = value.lower()
-    return {"千焦": "kJ", "kj": "kJ", "毫克": "mg", "mg": "mg", "克": "g", "g": "g", "毫升": "ml", "ml": "ml"}.get(compact, compact)
+    return {
+        "千焦": "kJ",
+        "kj": "kJ",
+        "毫克": "mg",
+        "mg": "mg",
+        "克": "g",
+        "g": "g",
+        "毫升": "ml",
+        "ml": "ml",
+    }.get(compact, compact)

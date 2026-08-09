@@ -126,4 +126,7 @@ def test_confirmation_preserves_structured_nutrition_rows() -> None:
     result = service.confirm(request)
 
     assert result.normalized_label["nutrition"]["basis"]["type"] == "per_100g"
-    assert result.normalized_label["nutrition"]["nutrients"][0]["evidence_id"] == "label.nutrition.row.2"
+    assert (
+        result.normalized_label["nutrition"]["nutrients"][0]["evidence_id"]
+        == "label.nutrition.row.2"
+    )

@@ -33,6 +33,7 @@ def build_graph(nodes: Mapping[str, NodeFunction]) -> Any:
         "confirm_label",
         "normalize_label",
         "evaluate_safety",
+        "react_orchestrator",
         "retrieve_regulations",
         "interpret_label",
         "interpret_claims",
@@ -66,10 +67,7 @@ def build_graph(nodes: Mapping[str, NodeFunction]) -> Any:
             "evaluate_safety": "evaluate_safety",
         },
     )
-    graph.add_edge("evaluate_safety", "retrieve_regulations")
-    graph.add_edge("retrieve_regulations", "interpret_label")
-    graph.add_edge("interpret_label", "interpret_claims")
-    graph.add_edge("interpret_claims", "verify_consistency")
-    graph.add_edge("verify_consistency", "final_safety_gate")
+    graph.add_edge("evaluate_safety", "react_orchestrator")
+    graph.add_edge("react_orchestrator", "final_safety_gate")
     graph.add_edge("final_safety_gate", END)
     return graph.compile()

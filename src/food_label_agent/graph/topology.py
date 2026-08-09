@@ -8,6 +8,7 @@ MANDATORY_NODES: tuple[str, ...] = (
     "confirm_label",
     "normalize_label",
     "evaluate_safety",
+    "react_orchestrator",
     "retrieve_regulations",
     "interpret_label",
     "interpret_claims",
@@ -24,25 +25,28 @@ EDGES: tuple[tuple[str, str], ...] = (
     ("validate_input", "extract_label"),
     ("confirm_label", "normalize_label"),
     ("normalize_label", "evaluate_safety"),
-    ("evaluate_safety", "retrieve_regulations"),
-    ("retrieve_regulations", "interpret_label"),
-    ("interpret_label", "interpret_claims"),
-    ("interpret_claims", "verify_consistency"),
-    ("verify_consistency", "final_safety_gate"),
+    ("evaluate_safety", "react_orchestrator"),
+    ("react_orchestrator", "final_safety_gate"),
     ("search_alternatives", "revalidate_alternatives"),
     ("revalidate_alternatives", "final_safety_gate"),
 )
 
+REACT_ACTION_NODES: tuple[str, ...] = (
+    "retrieve_regulations",
+    "interpret_label",
+    "interpret_claims",
+    "verify_consistency",
+)
+
 CONDITIONAL_EDGES: dict[str, tuple[str, ...]] = {
     "extract_label": ("confirm_label", "normalize_label"),
-    "verify_consistency": ("search_alternatives", "final_safety_gate"),
 }
 
 
 def validate_topology() -> None:
     """Fail fast when a mandatory safety node becomes disconnected."""
 
-    known_nodes = set(MANDATORY_NODES) | set(OPTIONAL_NODES)
+    known_nodes = set(MANDATORY_NODES) | set(OPTIONAL_NODES) | set(REACT_ACTION_NODES)
     referenced_nodes = {node for edge in EDGES for node in edge}
     referenced_nodes.update(CONDITIONAL_EDGES)
     referenced_nodes.update(

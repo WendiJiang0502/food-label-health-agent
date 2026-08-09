@@ -33,8 +33,12 @@ def normalize_label(state: AgentState) -> dict:
             {
                 "ingredients_text": field.raw_text,
                 "source_bounding_box": field.bounding_box,
-                "nutrition_table_text": nutrition_table.raw_text if nutrition_table else None,
-                "nutrition_basis_text": nutrition_basis.raw_text if nutrition_basis else None,
+                "nutrition_table_text": nutrition_table.raw_text
+                if nutrition_table
+                else None,
+                "nutrition_basis_text": nutrition_basis.raw_text
+                if nutrition_basis
+                else None,
             },
         )
     except MCPToolCallError as exc:
@@ -152,32 +156,47 @@ def retrieve_regulations(state: AgentState) -> dict:
         item.get("canonical_name") or item.get("raw_name")
         for item in _additive_ingredients(state.get("normalized_label", {}))
     ]
-    nutrition_only = bool(state["risk_findings"]) and not additive_terms and all(
-        finding.reason_code.startswith(("USER_NUTRITION_", "NUTRITION_", "NUTRIENT_"))
-        for finding in state["risk_findings"]
+    nutrition_only = (
+        bool(state["risk_findings"])
+        and not additive_terms
+        and all(
+            finding.reason_code.startswith(
+                ("USER_NUTRITION_", "NUTRITION_", "NUTRIENT_")
+            )
+            for finding in state["risk_findings"]
+        )
     )
     needs_allergen_evidence = any(
         finding.risk_level is not RiskLevel.COMPATIBLE
-        and not finding.reason_code.startswith(("USER_NUTRITION_", "NUTRITION_", "NUTRIENT_"))
+        and not finding.reason_code.startswith(
+            ("USER_NUTRITION_", "NUTRITION_", "NUTRIENT_")
+        )
         for finding in state["risk_findings"]
     )
     searches: list[dict] = []
     if nutrition_only:
         searches.append(
-            {"query": " ".join([*query_terms, "营养成分表 标示值 计量单位"]), "topics": ["nutrition_labeling"]}
+            {
+                "query": " ".join([*query_terms, "营养成分表 标示值 计量单位"]),
+                "topics": ["nutrition_labeling"],
+            }
         )
     if needs_allergen_evidence:
         searches.append(
-            {"query": " ".join([*query_terms, "食品标签 配料表 过敏原 致敏物质"]), "topics": ["allergen", "ingredient_labeling"]}
+            {
+                "query": " ".join([*query_terms, "食品标签 配料表 过敏原 致敏物质"]),
+                "topics": ["allergen", "ingredient_labeling"],
+            }
         )
     if additive_terms:
         searches.append(
-            {"query": " ".join([*additive_terms, "GB 2760-2024 食品添加剂使用标准"]), "topics": ["food_additive"]}
+            {
+                "query": " ".join([*additive_terms, "GB 2760-2024 食品添加剂使用标准"]),
+                "topics": ["food_additive"],
+            }
         )
     if not searches:
-        searches.append(
-            {"query": "食品标签 配料表", "topics": ["ingredient_labeling"]}
-        )
+        searches.append({"query": "食品标签 配料表", "topics": ["ingredient_labeling"]})
     try:
         results = [
             invoke_mcp_tool(
@@ -207,9 +226,7 @@ def retrieve_regulations(state: AgentState) -> dict:
         "status": AnalysisStatus.IN_PROGRESS,
         "stage": WorkflowStage.REGULATORY_RETRIEVAL,
         "regulatory_evidence": evidence,
-        "unknowns": list(
-            dict.fromkeys([*state["unknowns"], *retrieval_unknowns])
-        ),
+        "unknowns": list(dict.fromkeys([*state["unknowns"], *retrieval_unknowns])),
         "audit_events": [
             *state["audit_events"],
             AuditEvent(
@@ -236,7 +253,9 @@ def interpret_label(state: AgentState) -> dict:
     for finding in state["risk_findings"]:
         if finding.risk_level is RiskLevel.COMPATIBLE:
             continue
-        if finding.reason_code.startswith(("USER_NUTRITION_", "NUTRITION_", "NUTRIENT_")):
+        if finding.reason_code.startswith(
+            ("USER_NUTRITION_", "NUTRITION_", "NUTRIENT_")
+        ):
             continue
         ingredient = _ingredient_for_finding(state["normalized_label"], finding)
         if ingredient is None:
@@ -544,7 +563,11 @@ def _additive_ingredients(normalized_label: dict) -> list[dict]:
 def _nutrition_values(state: AgentState) -> dict:
     nutrition = state.get("normalized_label", {}).get("nutrition") or {}
     sugar = next(
-        (item for item in nutrition.get("nutrients", []) if item.get("canonical_name") == "sugars"),
+        (
+            item
+            for item in nutrition.get("nutrients", [])
+            if item.get("canonical_name") == "sugars"
+        ),
         None,
     )
     if sugar and sugar.get("basis") in {"per_100g", "per_100ml"}:

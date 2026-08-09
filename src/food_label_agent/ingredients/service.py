@@ -14,6 +14,8 @@ from food_label_agent.domain.types import ConstraintKind, RiskLevel
 from food_label_agent.nutrition.normalization import normalize_nutrition_facts
 from food_label_agent.nutrition.rules import (
     RULESET_METADATA as NUTRITION_RULESET_METADATA,
+)
+from food_label_agent.nutrition.rules import (
     evaluate_nutrition_constraints,
 )
 
@@ -74,8 +76,12 @@ def evaluate_user_constraints_result(
         )
         for item in request.constraints
     ]
-    allergy_constraints = [item for item in constraints if item.kind is not ConstraintKind.NUTRITION_LIMIT]
-    nutrition_constraints = [item for item in constraints if item.kind is ConstraintKind.NUTRITION_LIMIT]
+    allergy_constraints = [
+        item for item in constraints if item.kind is not ConstraintKind.NUTRITION_LIMIT
+    ]
+    nutrition_constraints = [
+        item for item in constraints if item.kind is ConstraintKind.NUTRITION_LIMIT
+    ]
     findings = evaluate_constraints(
         normalized,
         allergy_constraints,

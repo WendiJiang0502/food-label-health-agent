@@ -14,6 +14,7 @@ from food_label_agent.domain.models import (
     ImageInput,
     LabelField,
     RiskFinding,
+    ToolTraceEvent,
     UserConstraint,
 )
 from food_label_agent.domain.types import AnalysisStatus, WorkflowStage
@@ -40,6 +41,8 @@ class AgentState(TypedDict):
     unknowns: list[str]
     errors: list[str]
     audit_events: list[AuditEvent]
+    tool_trace: list[ToolTraceEvent]
+    react_budget: dict[str, int]
 
 
 def create_initial_state(
@@ -82,4 +85,6 @@ def create_initial_state(
                 },
             )
         ],
+        tool_trace=[],
+        react_budget={"max_steps": 16, "max_tool_calls": 16, "tool_calls_used": 0},
     )

@@ -1,13 +1,13 @@
 from __future__ import annotations
 
+from food_label_agent.graph.workflows import attach_regulatory_interpretation
+from food_label_agent.ingredients.api_models import SafetyEvaluationRequest
 from food_label_agent.ingredients.explanations import (
     IngredientExplanationRequest,
     explain_ingredient_with_evidence,
 )
 from food_label_agent.ingredients.normalization import normalize_ingredients
-from food_label_agent.ingredients.api_models import SafetyEvaluationRequest
 from food_label_agent.ingredients.service import evaluate_user_constraints_result
-from food_label_agent.graph.workflows import attach_regulatory_interpretation
 
 
 def test_additives_inside_declared_group_are_normalized_and_traceable() -> None:
@@ -17,7 +17,11 @@ def test_additives_inside_declared_group_are_normalized_and_traceable() -> None:
 
     group = label.ingredients[1]
     assert group.relation == "group"
-    assert [item.relation for item in group.children] == ["additive", "additive", "additive"]
+    assert [item.relation for item in group.children] == [
+        "additive",
+        "additive",
+        "additive",
+    ]
     assert group.children[2].category == "食品添加剂·护色剂、防腐剂"
     assert group.children[2].evidence_id == "label.ingredients.item.2.3"
 
@@ -76,7 +80,9 @@ def test_workflow_retrieves_current_additive_standard_and_explains_known_name() 
     evidence = attach_regulatory_interpretation(request, evaluation)
 
     assert evaluation.overall_risk_level == "compatible"
-    assert {item["ingredient"]["canonical_name"] for item in evidence["interpretations"]} == {
+    assert {
+        item["ingredient"]["canonical_name"] for item in evidence["interpretations"]
+    } == {
         "亚硝酸钠",
         "卡拉胶",
     }
@@ -102,7 +108,10 @@ def test_allergen_and_additive_retrieval_keep_both_evidence_tracks() -> None:
         "GB 7718-2011",
         "GB 2760-2024",
     }
-    assert {(item["explanation_type"], item["status"]) for item in evidence["interpretations"]} == {
+    assert {
+        (item["explanation_type"], item["status"])
+        for item in evidence["interpretations"]
+    } == {
         ("allergen", "explained"),
         ("additive", "explained"),
     }

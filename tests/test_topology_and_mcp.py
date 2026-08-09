@@ -2,7 +2,11 @@ from __future__ import annotations
 
 import unittest
 
-from food_label_agent.graph.topology import MANDATORY_NODES, validate_topology
+from food_label_agent.graph.topology import (
+    MANDATORY_NODES,
+    REACT_ACTION_NODES,
+    validate_topology,
+)
 from food_label_agent.mcp.contracts import MCP_TOOLS, get_tool_contract
 
 
@@ -13,6 +17,8 @@ class TopologyTests(unittest.TestCase):
         self.assertIn("confirm_label", MANDATORY_NODES)
         self.assertIn("interpret_claims", MANDATORY_NODES)
         self.assertIn("verify_consistency", MANDATORY_NODES)
+        self.assertIn("react_orchestrator", MANDATORY_NODES)
+        self.assertIn("retrieve_regulations", REACT_ACTION_NODES)
 
 
 class MCPContractTests(unittest.TestCase):

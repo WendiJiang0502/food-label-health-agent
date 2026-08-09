@@ -21,6 +21,7 @@ class WorkflowStage(StrEnum):
     INTERPRETATION = "interpretation"
     CLAIM_INTERPRETATION = "claim_interpretation"
     CONSISTENCY_VERIFICATION = "consistency_verification"
+    REACT_ORCHESTRATION = "react_orchestration"
     ALTERNATIVE_SEARCH = "alternative_search"
     FINAL_SAFETY_GATE = "final_safety_gate"
     COMPLETED = "completed"

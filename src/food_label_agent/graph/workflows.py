@@ -16,14 +16,8 @@ from food_label_agent.ingredients.api_models import (
     SafetyEvaluationResponse,
 )
 
-from .nodes import (
-    final_safety_gate_node,
-    interpret_claims,
-    interpret_label,
-    retrieve_regulations,
-    verify_consistency,
-)
-from .nodes import _additive_ingredients
+from .nodes import _additive_ingredients, final_safety_gate_node
+from .react import react_orchestrator
 from .state import create_initial_state
 
 
@@ -82,14 +76,7 @@ def attach_regulatory_interpretation(
         )
         for finding in state["risk_findings"]
     )
-    if needs_regulatory_explanation:
-        state.update(retrieve_regulations(state))
-        if state["status"] is not AnalysisStatus.BLOCKED:
-            state.update(interpret_label(state))
-    if state["status"] is not AnalysisStatus.BLOCKED:
-        state.update(interpret_claims(state))
-    if state["status"] is not AnalysisStatus.BLOCKED:
-        state.update(verify_consistency(state))
+    state.update(react_orchestrator(state))
     state.update(final_safety_gate_node(state))
 
     has_claims = bool(state["claim_interpretations"])
@@ -127,4 +114,6 @@ def attach_regulatory_interpretation(
         ],
         "unknowns": state["unknowns"],
         "errors": state["errors"],
+        "agent_trace": [asdict(item) for item in state["tool_trace"]],
+        "react_budget": state["react_budget"],
     }

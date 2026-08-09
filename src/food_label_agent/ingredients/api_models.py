@@ -21,7 +21,11 @@ class ConstraintInput(BaseModel):
         if self.kind == "nutrition_limit":
             if self.operator != "max" or self.threshold is None:
                 raise ValueError("营养约束必须提供 max 和非负数值上限。")
-            if not self.unit or self.basis not in {"per_100g", "per_100ml", "per_serving"}:
+            if not self.unit or self.basis not in {
+                "per_100g",
+                "per_100ml",
+                "per_serving",
+            }:
                 raise ValueError("营养约束必须提供单位和有效比较口径。")
         return self
 
