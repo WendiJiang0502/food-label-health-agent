@@ -144,48 +144,71 @@ def retrieve_regulations(state: AgentState) -> dict:
     query_terms = [
         value
         for finding in state["risk_findings"]
+        if finding.risk_level is not RiskLevel.COMPATIBLE
         for value in (finding.matched_text, finding.constraint)
         if value
     ]
-    nutrition_only = bool(state["risk_findings"]) and all(
+    additive_terms = [
+        item.get("canonical_name") or item.get("raw_name")
+        for item in _additive_ingredients(state.get("normalized_label", {}))
+    ]
+    nutrition_only = bool(state["risk_findings"]) and not additive_terms and all(
         finding.reason_code.startswith(("USER_NUTRITION_", "NUTRITION_", "NUTRIENT_"))
         for finding in state["risk_findings"]
     )
-    query = " ".join(
-        [
-            *query_terms,
-            (
-                "营养成分表 标示值 计量单位"
-                if nutrition_only
-                else "食品标签 配料表 过敏原 致敏物质"
-            ),
-        ]
+    needs_allergen_evidence = any(
+        finding.risk_level is not RiskLevel.COMPATIBLE
+        and not finding.reason_code.startswith(("USER_NUTRITION_", "NUTRITION_", "NUTRIENT_"))
+        for finding in state["risk_findings"]
     )
-    try:
-        result = invoke_mcp_tool(
-            "search_food_regulations",
-            {
-                "query": query,
-                "jurisdiction": state["jurisdiction"],
-                "applicable_date": state["applicable_date"],
-                "topics": (
-                    ["nutrition_labeling"]
-                    if nutrition_only
-                    else ["allergen", "ingredient_labeling"]
-                ),
-                "limit": 5,
-            },
+    searches: list[dict] = []
+    if nutrition_only:
+        searches.append(
+            {"query": " ".join([*query_terms, "营养成分表 标示值 计量单位"]), "topics": ["nutrition_labeling"]}
         )
+    if needs_allergen_evidence:
+        searches.append(
+            {"query": " ".join([*query_terms, "食品标签 配料表 过敏原 致敏物质"]), "topics": ["allergen", "ingredient_labeling"]}
+        )
+    if additive_terms:
+        searches.append(
+            {"query": " ".join([*additive_terms, "GB 2760-2024 食品添加剂使用标准"]), "topics": ["food_additive"]}
+        )
+    if not searches:
+        searches.append(
+            {"query": "食品标签 配料表", "topics": ["ingredient_labeling"]}
+        )
+    try:
+        results = [
+            invoke_mcp_tool(
+                "search_food_regulations",
+                {
+                    **search,
+                    "jurisdiction": state["jurisdiction"],
+                    "applicable_date": state["applicable_date"],
+                    "limit": 5,
+                },
+            )
+            for search in searches
+        ]
     except MCPToolCallError as exc:
         return _tool_failure(state, exc)
 
-    evidence = [_regulatory_evidence(item) for item in result["results"]]
+    evidence_by_id = {
+        item["evidence_id"]: _regulatory_evidence(item)
+        for result in results
+        for item in result["results"]
+    }
+    evidence = list(evidence_by_id.values())
+    retrieval_unknowns = [
+        unknown for result in results for unknown in result.get("unknowns", [])
+    ]
     return {
         "status": AnalysisStatus.IN_PROGRESS,
         "stage": WorkflowStage.REGULATORY_RETRIEVAL,
         "regulatory_evidence": evidence,
         "unknowns": list(
-            dict.fromkeys([*state["unknowns"], *result.get("unknowns", [])])
+            dict.fromkeys([*state["unknowns"], *retrieval_unknowns])
         ),
         "audit_events": [
             *state["audit_events"],
@@ -196,7 +219,8 @@ def retrieve_regulations(state: AgentState) -> dict:
                     "tool_name": "search_food_regulations",
                     "applicable_date": state["applicable_date"],
                     "evidence_count": len(evidence),
-                    "retrieval_method": result["retrieval_method"],
+                    "retrieval_method": "bm25_v1",
+                    "search_count": len(searches),
                 },
             ),
         ],
@@ -224,6 +248,23 @@ def interpret_label(state: AgentState) -> dict:
                 {
                     "ingredient": ingredient,
                     "risk_finding": _risk_finding_payload(finding),
+                    "regulatory_evidence": regulation_payload,
+                    "jurisdiction": state["jurisdiction"],
+                    "applicable_date": state["applicable_date"],
+                },
+            )
+        except MCPToolCallError as exc:
+            return _tool_failure(state, exc)
+        explanations.append(explanation)
+        unknowns.extend(explanation.get("unknowns", []))
+
+    for ingredient in _additive_ingredients(state.get("normalized_label", {})):
+        try:
+            explanation = invoke_mcp_tool(
+                "explain_ingredient",
+                {
+                    "ingredient": ingredient,
+                    "risk_finding": None,
                     "regulatory_evidence": regulation_payload,
                     "jurisdiction": state["jurisdiction"],
                     "applicable_date": state["applicable_date"],
@@ -481,6 +522,23 @@ def _ingredient_for_finding(
 
 def _ingredient_count(items: list[dict]) -> int:
     return sum(1 + _ingredient_count(item.get("children", [])) for item in items)
+
+
+def _additive_ingredients(normalized_label: dict) -> list[dict]:
+    result: list[dict] = []
+
+    def walk(items: list[dict], *, inside_group: bool = False) -> None:
+        for item in items:
+            relation = item.get("relation")
+            is_group = relation == "group" or item.get("canonical_name") == "食品添加剂"
+            if relation == "additive":
+                result.append(item)
+            elif inside_group and relation != "group":
+                result.append({**item, "relation": "additive_declared"})
+            walk(item.get("children", []), inside_group=inside_group or is_group)
+
+    walk(normalized_label.get("ingredients", []))
+    return result
 
 
 def _nutrition_values(state: AgentState) -> dict:

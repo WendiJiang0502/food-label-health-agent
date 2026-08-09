@@ -9,13 +9,14 @@ from pydantic import BaseModel, ConfigDict, Field
 from food_label_agent.domain.types import RiskLevel
 
 from .allergens import ALLERGEN_CATEGORIES
+from .additives import additive_knowledge
 
 
 class IngredientExplanationRequest(BaseModel):
     model_config = ConfigDict(frozen=True)
 
     ingredient: dict
-    risk_finding: dict
+    risk_finding: dict | None = None
     regulatory_evidence: list[dict] = Field(default_factory=list, max_length=20)
     jurisdiction: str = Field(default="CN", min_length=2, max_length=12)
     applicable_date: date
@@ -33,6 +34,8 @@ class IngredientExplanationResponse(BaseModel):
     citations: list[dict]
     unknowns: list[str]
     limitations: list[str]
+    explanation_type: str = "allergen"
+    knowledge_evidence_ids: list[str] = Field(default_factory=list)
 
 
 def explain_ingredient_with_evidence(
@@ -41,7 +44,9 @@ def explain_ingredient_with_evidence(
     """Explain normalized facts without changing the deterministic risk result."""
 
     ingredient = request.ingredient
-    finding = request.risk_finding
+    if ingredient.get("relation") in {"additive", "additive_declared"}:
+        return _explain_additive(request)
+    finding = request.risk_finding or {}
     risk_level = RiskLevel(finding["risk_level"])
     label_evidence_ids = list(finding.get("evidence_ids", []))
     applicable_evidence = [
@@ -114,6 +119,67 @@ def explain_ingredient_with_evidence(
             "本解释仅基于已确认标签、当前过敏原词典和指定日期适用的官方证据。",
             "不构成医疗诊断或治疗建议。",
         ],
+    )
+
+
+def _explain_additive(
+    request: IngredientExplanationRequest,
+) -> IngredientExplanationResponse:
+    ingredient = request.ingredient
+    raw_name = str(ingredient.get("raw_name") or ingredient.get("canonical_name") or "")
+    knowledge = additive_knowledge(str(ingredient.get("canonical_name") or raw_name))
+    label_ids = [str(ingredient.get("evidence_id"))] if ingredient.get("evidence_id") else []
+    applicable = [
+        item
+        for item in request.regulatory_evidence
+        if _evidence_is_applicable(
+            item,
+            jurisdiction=request.jurisdiction,
+            applicable_date=request.applicable_date,
+        )
+        and "GB 2760" in f"{item.get('standard_number', '')} {item.get('evidence_text', '')}"
+        and _evidence_is_citable(item)
+    ][:3]
+    citations = [_citation(item) for item in applicable]
+    regulatory_ids = [item["source_id"] for item in applicable]
+    unknowns: list[str] = []
+    if knowledge is None:
+        unknowns.append("additive_name_not_in_curated_dictionary")
+    if not applicable:
+        unknowns.append("additive_standard_evidence_missing")
+    if knowledge is None:
+        return IngredientExplanationResponse(
+            status="unknown",
+            ingredient=_ingredient_identity(ingredient),
+            risk_level="not_applicable",
+            explanation=None,
+            label_evidence_ids=label_ids,
+            regulatory_evidence_ids=regulatory_ids,
+            citations=citations,
+            unknowns=unknowns,
+            limitations=["名称无法确认时，不猜测其功能、用量、合规性或健康影响。"],
+            explanation_type="additive",
+        )
+    explanation = (
+        f"“{raw_name}”被识别为食品添加剂，常见功能类别为{knowledge.function_category}。"
+        f"{knowledge.plain_language_function}"
+        "仅凭配料表无法判断实际用量、适用食品类别或是否符合使用标准。"
+    )
+    return IngredientExplanationResponse(
+        status="explained",
+        ingredient=_ingredient_identity(ingredient),
+        risk_level="not_applicable",
+        explanation=explanation,
+        label_evidence_ids=label_ids,
+        regulatory_evidence_ids=regulatory_ids,
+        citations=citations,
+        unknowns=unknowns,
+        limitations=[
+            "功能说明来自可追溯的确定性词典，不代表该添加剂在所有食品中都允许使用。",
+            "未核对食品类别、实际用量和 GB 2760 明细表前，不作合规或健康安全结论。",
+        ],
+        explanation_type="additive",
+        knowledge_evidence_ids=[knowledge.evidence_id],
     )
 
 

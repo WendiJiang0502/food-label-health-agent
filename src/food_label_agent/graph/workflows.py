@@ -23,6 +23,7 @@ from .nodes import (
     retrieve_regulations,
     verify_consistency,
 )
+from .nodes import _additive_ingredients
 from .state import create_initial_state
 
 
@@ -73,7 +74,8 @@ def attach_regulatory_interpretation(
     state["status"] = AnalysisStatus.IN_PROGRESS
     state["stage"] = WorkflowStage.SAFETY_EVALUATION
 
-    needs_regulatory_explanation = any(
+    has_additives = bool(_additive_ingredients(evaluation.normalized_label))
+    needs_regulatory_explanation = has_additives or any(
         finding.risk_level is not RiskLevel.COMPATIBLE
         and not finding.reason_code.startswith(
             ("USER_NUTRITION_", "NUTRITION_", "NUTRIENT_")

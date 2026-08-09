@@ -223,3 +223,30 @@ async def _test_claim_tools_are_registered_on_real_mcp_server() -> None:
 
     assert "interpret_label_claim" in tools
     assert "verify_label_consistency" in tools
+
+
+def test_explain_ingredient_handles_additive_without_fake_risk() -> None:
+    result = _json_result(
+        asyncio.run(
+            create_server().call_tool(
+                "explain_ingredient",
+                {
+                    "ingredient": {
+                        "raw_name": "卡拉胶",
+                        "canonical_name": "卡拉胶",
+                        "category": "食品添加剂·增稠剂、稳定剂",
+                        "relation": "additive",
+                        "evidence_id": "label.ingredients.item.2",
+                    },
+                    "risk_finding": None,
+                    "regulatory_evidence": [],
+                    "jurisdiction": "CN",
+                    "applicable_date": "2026-08-09",
+                },
+            )
+        )
+    )
+
+    assert result["explanation_type"] == "additive"
+    assert result["risk_level"] == "not_applicable"
+    assert "合规或健康安全结论" in result["limitations"][1]

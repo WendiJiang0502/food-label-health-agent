@@ -167,15 +167,16 @@ def _grounding_violations(state: AgentState) -> tuple[str, ...]:
     for index, explanation in enumerate(state["ingredient_explanations"]):
         if explanation.get("status") != "explained":
             continue
+        is_additive = explanation.get("explanation_type") == "additive"
         label_ids = set(explanation.get("label_evidence_ids", []))
         matching_findings = {
             findings_by_label_id[evidence_id]
             for evidence_id in label_ids
             if evidence_id in findings_by_label_id
         }
-        if not label_ids or not matching_findings:
+        if not label_ids or (not matching_findings and not is_additive):
             violations.append(f"interpretation_unbound_label_evidence:{index}")
-        else:
+        elif not is_additive:
             explanation_risk = explanation.get("risk_level")
             if any(
                 explanation_risk != finding.risk_level.value

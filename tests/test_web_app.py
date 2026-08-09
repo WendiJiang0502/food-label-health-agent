@@ -188,6 +188,33 @@ def test_nutrition_limit_api_uses_confirmed_row_evidence() -> None:
     assert payload["evidence"]["status"] == "not_required"
 
 
+def test_additive_explanations_are_returned_without_safety_or_compliance_claim() -> None:
+    response = asyncio.run(
+        request(
+            "POST",
+            "/api/v1/labels/evaluate",
+            json={
+                "request_id": "request-additives",
+                "jurisdiction": "CN",
+                "applicable_date": "2026-08-09",
+                "confirmed_fields": {
+                    "ingredients": "猪肉、食品添加剂（亚硝酸钠、卡拉胶）",
+                },
+                "constraints": [{"kind": "allergy", "canonical_value": "milk"}],
+            },
+        )
+    )
+
+    payload = response.json()
+    assert response.status_code == 200
+    assert payload["overall_risk_level"] == "compatible"
+    additive = payload["evidence"]["interpretations"][0]
+    assert additive["explanation_type"] == "additive"
+    assert additive["risk_level"] == "not_applicable"
+    assert "仅凭配料表无法判断实际用量" in additive["explanation"]
+    assert payload["evidence"]["status"] == "grounded"
+
+
 def test_safety_api_includes_claim_interpretation_and_consistency_result() -> None:
     response = asyncio.run(
         request(

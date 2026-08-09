@@ -10,6 +10,8 @@ import re
 from dataclasses import asdict, dataclass
 from typing import Any
 
+from .additives import ADDITIVES
+
 _PREFIX = re.compile(r"^\s*配料(?:表)?\s*[:：]\s*")
 _SEPARATORS = {"、", ",", "，", ";", "；", "\n"}
 _OPEN_TO_CLOSE = {"(": ")", "（": "）", "[": "]", "【": "】"}
@@ -172,6 +174,18 @@ _TERMS: dict[str, tuple[str, str, tuple[str, ...], str]] = {
     "食品添加剂": ("食品添加剂", "食品添加剂分组", (), "group"),
     "复合调味料": ("复合调味料", "复合配料", (), "compound"),
 }
+
+_TERMS.update(
+    {
+        alias: (
+            entry.canonical_name,
+            f"食品添加剂·{entry.function_category}",
+            (),
+            "additive",
+        )
+        for alias, entry in ADDITIVES.items()
+    }
+)
 
 
 def normalize_ingredients(

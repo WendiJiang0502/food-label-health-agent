@@ -121,7 +121,7 @@ def search_food_regulations(
 
 def explain_ingredient(
     ingredient: dict,
-    risk_finding: dict,
+    risk_finding: dict | None,
     regulatory_evidence: Annotated[list[dict], Field(max_length=20)],
     applicable_date: str,
     jurisdiction: str = "CN",

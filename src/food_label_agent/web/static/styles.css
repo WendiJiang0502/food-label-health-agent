@@ -490,6 +490,17 @@ h3 { font-size: 1.2rem; }
 .finding-detail .finding-evidence { margin-top: 6px; color: var(--ink); font-weight: 720; }
 .finding-detail .finding-reason { margin-top: 5px; line-height: 1.55; }
 .additional-findings strong { color: var(--ink); }
+.additive-results { margin-top: 26px; border-top: 1px solid var(--line-strong); padding-top: 22px; }
+.additive-results-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.additive-results-heading h3 { color: var(--ink-deep); font-family: var(--font-display); }
+.additive-results-heading span { color: var(--muted-small); font-family: var(--font-data); font-size: 0.68rem; font-weight: 700; }
+.additive-result { border-bottom: 1px solid var(--line); padding: 17px 0 18px; }
+.additive-result header { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; }
+.additive-result strong { color: var(--ink-deep); }
+.additive-result header span { color: var(--teal); font-size: 0.72rem; font-weight: 740; text-align: right; }
+.additive-result p { margin: 9px 0 0; line-height: 1.6; }
+.additive-result .additive-unknown { color: var(--caution); }
+.additive-result .additive-boundary { color: var(--muted-small); font-size: 0.76rem; }
 .claim-results {
   margin-top: 26px;
   border-top: 1px solid var(--line-strong);

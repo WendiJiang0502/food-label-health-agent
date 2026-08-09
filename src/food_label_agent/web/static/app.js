@@ -39,6 +39,9 @@ const elements = {
   matchedConstraint: document.querySelector("#matched-constraint"),
   matchedLocation: document.querySelector("#matched-location"),
   additionalFindings: document.querySelector("#additional-findings"),
+  additiveResults: document.querySelector("#additive-results"),
+  additiveResultsCount: document.querySelector("#additive-results-count"),
+  additiveResultList: document.querySelector("#additive-result-list"),
   claimResults: document.querySelector("#claim-results"),
   claimResultsCount: document.querySelector("#claim-results-count"),
   claimResultList: document.querySelector("#claim-result-list"),
@@ -293,6 +296,8 @@ elements.changeConstraints.addEventListener("click", () => {
   elements.safetyResult.hidden = true;
   elements.claimResults.hidden = true;
   elements.claimResultList.replaceChildren();
+  elements.additiveResults.hidden = true;
+  elements.additiveResultList.replaceChildren();
   elements.constraintStep.hidden = false;
   elements.reviewTitle.textContent = "设置个人约束";
   elements.reviewCount.textContent = "个人约束";
@@ -531,9 +536,37 @@ function renderSafetyResult(payload) {
     elements.additionalFindings.append(row);
   });
   renderClaimResults(payload.evidence);
+  renderAdditiveResults(payload.evidence);
   renderRegulatoryEvidence(payload.evidence, primary);
   elements.safetyResult.focus();
   announce(`${titles[payload.overall_risk_level]}，${primary.matched_text || primary.explanation}`);
+}
+
+function renderAdditiveResults(evidence) {
+  const explanations = (evidence?.interpretations || []).filter(
+    (item) => item.explanation_type === "additive",
+  );
+  elements.additiveResultList.replaceChildren();
+  elements.additiveResults.hidden = explanations.length === 0;
+  elements.additiveResultsCount.textContent = `${explanations.length} 项`;
+  explanations.forEach((item) => {
+    const article = document.createElement("article");
+    article.className = "additive-result";
+    const header = document.createElement("header");
+    const name = document.createElement("strong");
+    name.textContent = item.ingredient?.canonical_name || item.ingredient?.raw_name || "名称待确认";
+    const category = document.createElement("span");
+    category.textContent = (item.ingredient?.category || "功能待确认").replace("食品添加剂·", "");
+    header.append(name, category);
+    const explanation = document.createElement("p");
+    explanation.textContent = item.explanation || "当前词典无法确认这个名称，不猜测其功能或影响。";
+    if (item.status === "unknown") explanation.className = "additive-unknown";
+    const boundary = document.createElement("p");
+    boundary.className = "additive-boundary";
+    boundary.textContent = item.limitations?.[1] || item.limitations?.[0] || "不能仅凭名称判断实际用量或合规性。";
+    article.append(header, explanation, boundary);
+    elements.additiveResultList.append(article);
+  });
 }
 
 function renderClaimResults(evidence) {
@@ -618,6 +651,9 @@ function renderRegulatoryEvidence(evidence, primaryFinding) {
   }
 
   const claimInterpretations = evidence.claim_interpretations || [];
+  const additiveInterpretations = (evidence.interpretations || []).filter(
+    (item) => item.explanation_type === "additive",
+  );
   if (evidence.status === "not_required" && !claimInterpretations.length) {
     elements.evidenceStatus.textContent = "未发现冲突";
     elements.evidenceIntro.textContent =
@@ -630,9 +666,17 @@ function renderRegulatoryEvidence(evidence, primaryFinding) {
     (item.label_evidence_ids || []).some((id) => primaryEvidenceIds.has(id)),
   );
   const claimCitations = claimInterpretations.flatMap((item) => item.citations || []);
-  const citations = uniqueCitations([...(interpretation?.citations || []), ...claimCitations]);
+  const additiveCitations = additiveInterpretations.flatMap((item) => item.citations || []);
+  const citations = uniqueCitations([
+    ...(interpretation?.citations || []),
+    ...additiveCitations,
+    ...claimCitations,
+  ]);
   const introParts = [
     interpretation?.status === "explained" ? interpretation.explanation : null,
+    additiveInterpretations.length
+      ? `已识别并解释 ${additiveInterpretations.length} 项添加剂；是否符合使用标准仍需食品类别和用量证据。`
+      : null,
     ...claimInterpretations
       .filter((item) => item.status === "interpreted" && item.meaning)
       .map((item) => `“${item.raw_text}”：${item.meaning}`),
