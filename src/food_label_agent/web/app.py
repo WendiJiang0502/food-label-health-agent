@@ -50,7 +50,9 @@ def create_app(
     memories = memory_store or SQLiteMemoryStore()
 
     async def index(_: Request) -> FileResponse:
-        return FileResponse(STATIC_DIR / "index.html")
+        return FileResponse(
+            STATIC_DIR / "index.html", headers={"Cache-Control": "no-cache"}
+        )
 
     async def health(_: Request) -> JSONResponse:
         return JSONResponse(

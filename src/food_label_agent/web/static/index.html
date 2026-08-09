@@ -13,8 +13,8 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
     <meta name="description" content="上传食品标签，确认识别文字，再进行基于证据的健康信息解释。">
     <title>食鉴 · 食品标签健康解释</title>
     <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/static/styles.css?v=evidence-fix-1">
-    <script src="/static/app.js?v=evidence-fix-1" defer></script>
+    <link rel="stylesheet" href="/static/styles.css?v=preview-category-fix-1">
+    <script src="/static/app.js?v=preview-category-fix-1" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#workspace">跳到标签工作区</a>
@@ -97,6 +97,13 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
                 alt="待识别的食品标签预览"
               >
               <div class="annotation-layer" id="annotation-layer" aria-label="OCR 字段位置"></div>
+              <a
+                class="view-full-image"
+                id="view-full-image"
+                href="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
+                target="_blank"
+                rel="noopener noreferrer"
+              >查看完整原图</a>
               <button class="replace-image" id="replace-image" type="button">更换图片</button>
             </div>
 
@@ -293,9 +300,30 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
                   <span>商品类别</span>
                   <select id="alternative-category">
                     <option value="">请选择</option>
-                    <option value="biscuit">饼干与谷物零食</option>
-                    <option value="drink">饮品</option>
-                    <option value="processed_meat">即食肉制品</option>
+                    <optgroup label="主食与烘焙">
+                      <option value="biscuit">饼干与曲奇</option>
+                      <option value="bread">面包与烘焙食品</option>
+                      <option value="breakfast_cereal">早餐谷物与麦片</option>
+                      <option value="instant_noodles">方便面与即食面</option>
+                    </optgroup>
+                    <optgroup label="饮品与乳制品">
+                      <option value="drink">饮品</option>
+                      <option value="dairy">乳制品</option>
+                    </optgroup>
+                    <optgroup label="零食与甜食">
+                      <option value="snack">膨化零食与脆片</option>
+                      <option value="confectionery">糖果与巧克力</option>
+                    </optgroup>
+                    <optgroup label="即食与冷藏冷冻">
+                      <option value="prepared_meal">方便食品与预制菜</option>
+                      <option value="frozen_food">速冻食品</option>
+                      <option value="processed_meat">肉制品</option>
+                      <option value="seafood">水产制品</option>
+                    </optgroup>
+                    <optgroup label="调味与长保质期">
+                      <option value="sauce_condiment">酱料与调味品</option>
+                      <option value="canned_food">罐头食品</option>
+                    </optgroup>
                   </select>
                 </label>
                 <button class="button button--secondary" id="find-alternatives" type="button">查找并逐项复核</button>

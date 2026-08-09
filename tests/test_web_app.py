@@ -19,6 +19,7 @@ def test_platform_index_and_health() -> None:
     favicon = asyncio.run(request("GET", "/static/favicon.svg"))
 
     assert page.status_code == 200
+    assert page.headers["cache-control"] == "no-cache"
     assert "看懂标签" in page.text
     assert "上传食品标签" in page.text
     assert "包装声称核对" in page.text

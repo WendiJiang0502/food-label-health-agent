@@ -25,16 +25,29 @@ OFF_FIELDS = (
     "allergens,traces,nutriments,nutrition_data_per,serving_size,selected_images,"
     "last_modified_t,states_tags,completeness,checked"
 )
-CATEGORY_TAGS = {
-    "biscuit": "biscuits",
-    "drink": "beverages",
-    "processed_meat": "processed-meat",
+PRODUCT_CATEGORIES = {
+    "biscuit": ("biscuits", "饼干与曲奇", "饼干与便携谷物零食"),
+    "bread": ("breads", "面包与烘焙食品", "面包与烘焙主食"),
+    "breakfast_cereal": (
+        "breakfast-cereals",
+        "早餐谷物与麦片",
+        "冲调或直接食用的早餐谷物",
+    ),
+    "instant_noodles": ("instant-noodles", "方便面与即食面", "快速烹调的面制主食"),
+    "drink": ("beverages", "饮品", "直接饮用的常温或冷藏饮品"),
+    "dairy": ("dairy-products", "乳制品", "牛奶、酸奶与其他乳制品"),
+    "snack": ("snacks", "膨化零食与脆片", "膨化或油炸的便携零食"),
+    "confectionery": ("confectioneries", "糖果与巧克力", "糖果、巧克力与甜食"),
+    "prepared_meal": ("meals", "方便食品与预制菜", "加热或简单处理后食用的成品餐食"),
+    "frozen_food": ("frozen-foods", "速冻食品", "需冷冻保存的预包装食品"),
+    "processed_meat": ("processed-meat", "肉制品", "香肠、火腿与其他肉制品"),
+    "seafood": ("seafood", "水产制品", "鱼类、甲壳类与其他水产制品"),
+    "sauce_condiment": ("condiments", "酱料与调味品", "烹调或佐餐用酱料与调味品"),
+    "canned_food": ("canned-foods", "罐头食品", "密封容器中保存的常温食品"),
 }
-USE_CASES = {
-    "biscuit": "饼干与便携谷物零食",
-    "drink": "直接饮用的常温饮品",
-    "processed_meat": "即食肉制品",
-}
+CATEGORY_TAGS = {key: value[0] for key, value in PRODUCT_CATEGORIES.items()}
+CATEGORY_LABELS = {key: value[1] for key, value in PRODUCT_CATEGORIES.items()}
+USE_CASES = {key: value[2] for key, value in PRODUCT_CATEGORIES.items()}
 ALLERGEN_LABELS = {
     "milk": "乳",
     "gluten": "含麸质谷物",

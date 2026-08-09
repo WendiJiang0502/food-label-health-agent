@@ -2,9 +2,11 @@ const elements = {
   fileInput: document.querySelector("#label-image"),
   dropZone: document.querySelector("#drop-zone"),
   imageStage: document.querySelector("#image-stage"),
+  proofSheet: document.querySelector("#proof-sheet"),
   preview: document.querySelector("#label-preview"),
   annotationLayer: document.querySelector("#annotation-layer"),
   replaceImage: document.querySelector("#replace-image"),
+  viewFullImage: document.querySelector("#view-full-image"),
   processing: document.querySelector("#processing"),
   heroLayout: document.querySelector("#hero-layout"),
   heroUploadButton: document.querySelector("#hero-upload-button"),
@@ -149,6 +151,7 @@ elements.dropZone.addEventListener("drop", (event) => {
 
 elements.replaceImage.addEventListener("click", () => elements.fileInput.click());
 elements.preview.addEventListener("load", () => {
+  syncPreviewAspectRatio();
   if (state.analysis) renderAnnotations(state.analysis.fields);
 });
 
@@ -347,6 +350,7 @@ function selectFile(file) {
   if (state.previewUrl) URL.revokeObjectURL(state.previewUrl);
   state.previewUrl = URL.createObjectURL(file);
   elements.preview.src = state.previewUrl;
+  elements.viewFullImage.href = state.previewUrl;
   elements.dropZone.hidden = true;
   elements.imageStage.hidden = false;
   elements.proofTitle.textContent = "标签原图";
@@ -487,6 +491,13 @@ function containedImageRect() {
     offsetX: (stageWidth - width) / 2,
     offsetY: (stageHeight - height) / 2,
   };
+}
+
+function syncPreviewAspectRatio() {
+  const width = elements.preview.naturalWidth;
+  const height = elements.preview.naturalHeight;
+  if (!width || !height) return;
+  elements.proofSheet.style.setProperty("--preview-aspect", `${width} / ${height}`);
 }
 
 function activateField(name) {
