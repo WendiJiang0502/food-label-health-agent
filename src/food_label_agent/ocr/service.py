@@ -12,7 +12,7 @@ from uuid import uuid4
 from food_label_agent.domain.models import LabelField
 from food_label_agent.graph.routing import route_after_ocr
 from food_label_agent.graph.state import create_initial_state
-from food_label_agent.ingredients.normalization import normalize_ingredients
+from food_label_agent.ingredients.service import normalize_food_label_result
 
 from .evidence_quality import assess_ocr_evidence
 from .models import (
@@ -201,9 +201,12 @@ class OCRService:
             for name, value in request.fields.items()
         }
         next_route = route_after_ocr(state)
-        normalized = normalize_ingredients(
+        normalized = normalize_food_label_result(
             request.fields["ingredients"],
-            original_text=request.original_fields.get("ingredients"),
+            original_ingredients_text=request.original_fields.get("ingredients"),
+            nutrition_table_text=request.fields.get("nutrition_table"),
+            nutrition_basis_text=request.fields.get("nutrition_basis"),
+            nutrition_rows=request.nutrition_rows,
         )
         return ConfirmLabelResponse(
             request_id=request.request_id,
@@ -211,14 +214,17 @@ class OCRService:
             next_route=next_route,
             confirmed_fields=sorted(request.fields),
             message="标签事实已由用户确认，可以进入配料规范化。",
-            normalized_label=normalized.to_dict(),
+            normalized_label=normalized,
             normalization_issues=[
                 {
-                    "code": issue.code,
-                    "message": issue.message,
-                    "source_span": issue.source_span,
+                    "code": issue["code"],
+                    "message": issue["message"],
+                    "source_span": issue["source_span"],
                 }
-                for issue in normalized.issues
+                for issue in [
+                    *normalized["issues"],
+                    *((normalized.get("nutrition") or {}).get("issues", [])),
+                ]
             ],
         )
 

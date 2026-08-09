@@ -19,7 +19,7 @@ MCP_TOOLS: tuple[ToolContract, ...] = (
     ),
     ToolContract(
         "normalize_food_label",
-        "Normalize confirmed ingredients into a traceable structure",
+        "Normalize confirmed ingredients and nutrition facts into traceable structures",
         implemented=True,
     ),
     ToolContract(
@@ -29,7 +29,7 @@ MCP_TOOLS: tuple[ToolContract, ...] = (
     ),
     ToolContract(
         "evaluate_user_constraints",
-        "Evaluate supported allergen constraints and preserve unknowns",
+        "Evaluate supported allergen and user-defined nutrition constraints",
         safety_critical=True,
         implemented=True,
     ),

@@ -55,8 +55,11 @@ def normalize_food_label(
     ],
     original_ingredients_text: str | None = None,
     source_bounding_box: tuple[int, int, int, int] | None = None,
+    nutrition_table_text: str | None = None,
+    nutrition_basis_text: str | None = None,
+    nutrition_rows: list[list[str]] | None = None,
 ) -> dict:
-    """Normalize confirmed ingredients while preserving source evidence.
+    """Normalize confirmed ingredients and nutrition facts with source evidence.
 
     Unbalanced brackets and unresolved names are returned explicitly and are
     never repaired or guessed by a language model.
@@ -66,6 +69,9 @@ def normalize_food_label(
         ingredients_text,
         original_ingredients_text=original_ingredients_text,
         source_bounding_box=source_bounding_box,
+        nutrition_table_text=nutrition_table_text,
+        nutrition_basis_text=nutrition_basis_text,
+        nutrition_rows=nutrition_rows,
     )
 
 
@@ -73,10 +79,11 @@ def evaluate_user_constraints(
     request_id: Annotated[str, Field(min_length=1, max_length=128)],
     applicable_date: str,
     confirmed_fields: dict[str, str],
-    constraints: Annotated[list[ConstraintInput], Field(min_length=1, max_length=8)],
+    constraints: Annotated[list[ConstraintInput], Field(min_length=1, max_length=16)],
     jurisdiction: str = "CN",
+    nutrition_rows: list[list[str]] | None = None,
 ) -> dict:
-    """Evaluate confirmed label facts against deterministic allergen rules.
+    """Evaluate confirmed facts against deterministic allergen and nutrition rules.
 
     Returns avoid, caution, compatible, or unknown with matched text and
     evidence locations. Compatible never means absolute safety.
@@ -87,6 +94,7 @@ def evaluate_user_constraints(
         jurisdiction=jurisdiction,
         applicable_date=applicable_date,
         confirmed_fields=confirmed_fields,
+        nutrition_rows=nutrition_rows,
         constraints=constraints,
     )
     return evaluate_user_constraints_result(request).model_dump(mode="json")

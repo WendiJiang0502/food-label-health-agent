@@ -109,3 +109,21 @@ def test_confirmed_fields_route_to_normalization() -> None:
     assert result.status == "confirmed"
     assert result.next_route == "normalize_label"
     assert result.confirmed_fields == ["allergen_statement", "ingredients"]
+
+
+def test_confirmation_preserves_structured_nutrition_rows() -> None:
+    service = OCRService(DemoOCRProvider())
+    request = ConfirmLabelRequest(
+        request_id="nutrition-confirm",
+        applicable_date="2026-08-09",
+        fields={
+            "ingredients": "燕麦",
+            "nutrition_table": "项目\t每100克\n糖\t3.5克",
+        },
+        nutrition_rows=[["项目", "每100克"], ["糖", "3.5克"]],
+    )
+
+    result = service.confirm(request)
+
+    assert result.normalized_label["nutrition"]["basis"]["type"] == "per_100g"
+    assert result.normalized_label["nutrition"]["nutrients"][0]["evidence_id"] == "label.nutrition.row.2"

@@ -93,6 +93,37 @@ async def _test_evaluate_user_constraints_preserves_unknown() -> None:
     assert result["findings"][0]["reason_code"] == "AMBIGUOUS_INGREDIENT_NAME"
 
 
+def test_mcp_evaluates_user_defined_nutrition_limit() -> None:
+    result = _json_result(
+        asyncio.run(
+            create_server().call_tool(
+                "evaluate_user_constraints",
+                {
+                    "request_id": "mcp-nutrition",
+                    "applicable_date": "2026-08-09",
+                    "confirmed_fields": {
+                        "ingredients": "燕麦",
+                        "nutrition_table": "项目\t每100克\n钠\t380毫克",
+                    },
+                    "constraints": [
+                        {
+                            "kind": "nutrition_limit",
+                            "canonical_value": "sodium",
+                            "operator": "max",
+                            "threshold": 300,
+                            "unit": "mg",
+                            "basis": "per_100g",
+                        }
+                    ],
+                },
+            )
+        )
+    )
+
+    assert result["overall_risk_level"] == "avoid"
+    assert result["findings"][0]["evidence_ids"] == ["label.nutrition.row.2"]
+
+
 def test_search_food_regulations_filters_versions_by_applicable_date() -> None:
     asyncio.run(_test_search_food_regulations_filters_versions_by_applicable_date())
 

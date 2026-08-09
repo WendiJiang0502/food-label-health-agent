@@ -9,7 +9,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Protocol
 
-from .models import BoundingBox, OCRFieldResult
+from .models import BoundingBox, OCRFieldResult, NutritionTableData
 
 
 class OCRProviderError(RuntimeError):
@@ -71,6 +71,33 @@ class DemoOCRProvider:
                 confidence=0.96,
                 requires_confirmation=False,
                 bounding_box=BoundingBox(x=0.08, y=0.70, width=0.32, height=0.09),
+            ),
+            OCRFieldResult(
+                name="nutrition_table",
+                label="营养成分表（演示数据，请逐项核对）",
+                raw_text=(
+                    "项目\t每100克\tNRV%\n"
+                    "能量\t890千焦\t11%\n"
+                    "蛋白质\t5.2克\t9%\n"
+                    "脂肪\t8.0克\t13%\n"
+                    "碳水化合物\t31.0克\t10%\n"
+                    "糖\t3.5克\n"
+                    "钠\t380毫克\t19%"
+                ),
+                confidence=0.70,
+                requires_confirmation=True,
+                bounding_box=BoundingBox(x=0.08, y=0.68, width=0.84, height=0.22),
+                nutrition_table=NutritionTableData(
+                    rows=[
+                        ["项目", "每100克", "NRV%"],
+                        ["能量", "890千焦", "11%"],
+                        ["蛋白质", "5.2克", "9%"],
+                        ["脂肪", "8.0克", "13%"],
+                        ["碳水化合物", "31.0克", "10%"],
+                        ["糖", "3.5克"],
+                        ["钠", "380毫克", "19%"],
+                    ]
+                ),
             ),
             OCRFieldResult(
                 name="label_claims",

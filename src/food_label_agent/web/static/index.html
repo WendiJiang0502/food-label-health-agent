@@ -154,7 +154,7 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
           <section class="constraint-step" id="constraint-step" hidden aria-labelledby="constraint-title">
             <p class="step-context">标签文字已确认 · 下一步</p>
             <h2 id="constraint-title">你需要避开什么？</h2>
-            <p class="constraint-intro">选择你的硬性过敏约束。评估只使用刚才确认的标签事实。</p>
+            <p class="constraint-intro">选择过敏约束，也可以按包装口径设置营养成分上限。评估只使用刚才确认的标签事实。</p>
             <form id="constraint-form">
               <fieldset class="constraint-options">
                 <legend class="sr-only">选择需要避开的过敏原</legend>
@@ -182,6 +182,25 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
                   <input type="checkbox" name="constraint" value="tree_nut">
                   <span>坚果</span>
                 </label>
+              </fieldset>
+              <fieldset class="nutrition-limit" id="nutrition-limit" hidden>
+                <legend>营养上限 <span>可选</span></legend>
+                <div class="nutrition-limit-grid">
+                  <label>
+                    <span>营养成分</span>
+                    <select id="nutrition-key" name="nutrition-key">
+                      <option value="">不设置</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>不超过</span>
+                    <span class="measurement-input">
+                      <input id="nutrition-threshold" name="nutrition-threshold" type="number" min="0" step="any" inputmode="decimal" disabled>
+                      <output id="nutrition-unit">—</output>
+                    </span>
+                  </label>
+                </div>
+                <p id="nutrition-basis-note">按已确认包装口径比较，不自动换算。</p>
               </fieldset>
               <p class="constraint-error" id="constraint-error" hidden>请至少选择一项。</p>
               <button class="button button--primary" id="evaluate-button" type="submit">

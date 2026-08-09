@@ -34,6 +34,10 @@ class UserConstraint:
     canonical_value: str
     severity: str = "unspecified"
     source: str = "user_declared"
+    operator: str | None = None
+    threshold: float | None = None
+    unit: str | None = None
+    basis: str | None = None
 
 
 @dataclass(frozen=True, slots=True)

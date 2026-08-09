@@ -24,6 +24,11 @@ const elements = {
   constraintStep: document.querySelector("#constraint-step"),
   constraintForm: document.querySelector("#constraint-form"),
   constraintError: document.querySelector("#constraint-error"),
+  nutritionLimit: document.querySelector("#nutrition-limit"),
+  nutritionKey: document.querySelector("#nutrition-key"),
+  nutritionThreshold: document.querySelector("#nutrition-threshold"),
+  nutritionUnit: document.querySelector("#nutrition-unit"),
+  nutritionBasisNote: document.querySelector("#nutrition-basis-note"),
   evaluateButton: document.querySelector("#evaluate-button"),
   safetyResult: document.querySelector("#safety-result"),
   riskSymbol: document.querySelector("#risk-symbol"),
@@ -70,7 +75,25 @@ const constraintLabels = {
   soy: "大豆过敏",
   gluten: "麸质相关过敏",
   tree_nut: "坚果过敏",
+  energy: "能量上限",
+  protein: "蛋白质上限",
+  fat: "脂肪上限",
+  saturated_fat: "饱和脂肪酸上限",
+  trans_fat: "反式脂肪酸上限",
+  carbohydrate: "碳水化合物上限",
+  sugars: "糖上限",
+  dietary_fiber: "膳食纤维上限",
+  sodium: "钠上限",
+  calcium: "钙上限",
 };
+
+const nutrientNames = {
+  energy: "能量", protein: "蛋白质", fat: "脂肪", saturated_fat: "饱和脂肪酸",
+  trans_fat: "反式脂肪酸", carbohydrate: "碳水化合物", sugars: "糖",
+  dietary_fiber: "膳食纤维", sodium: "钠", calcium: "钙",
+};
+
+elements.nutritionKey.addEventListener("change", updateNutritionLimitControl);
 
 elements.fileInput.addEventListener("change", (event) => {
   const [file] = event.target.files;
@@ -137,6 +160,8 @@ elements.form.addEventListener("submit", async (event) => {
         original_fields: Object.fromEntries(
           state.analysis.fields.map((field) => [field.name, field.raw_text]),
         ),
+        nutrition_rows: state.analysis.fields.find((field) => field.name === "nutrition_table")
+          ?.nutrition_table?.rows || null,
       }),
     });
     const payload = await response.json();
@@ -149,6 +174,7 @@ elements.form.addEventListener("submit", async (event) => {
 
     state.confirmedFields = fields;
     state.normalizedLabel = payload.normalized_label;
+    setupNutritionLimit(payload.normalized_label?.nutrition);
     elements.form.hidden = true;
     elements.resultState.hidden = true;
     elements.constraintStep.hidden = false;
@@ -170,10 +196,19 @@ elements.constraintForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const selected = [...elements.constraintForm.querySelectorAll('input[name="constraint"]:checked')]
     .map((input) => input.value);
-  if (!selected.length) {
+  const nutritionOption = elements.nutritionKey.selectedOptions[0];
+  const nutritionSelected = Boolean(elements.nutritionKey.value);
+  const nutritionThreshold = elements.nutritionThreshold.valueAsNumber;
+  if (!selected.length && !nutritionSelected) {
     elements.constraintError.hidden = false;
     elements.constraintForm.querySelector("input")?.focus();
     announce("请至少选择一项需要回避的过敏原");
+    return;
+  }
+  if (nutritionSelected && (!Number.isFinite(nutritionThreshold) || nutritionThreshold < 0)) {
+    elements.constraintError.textContent = "请填写有效的非负营养上限。";
+    elements.constraintError.hidden = false;
+    elements.nutritionThreshold.focus();
     return;
   }
   elements.constraintError.hidden = true;
@@ -191,11 +226,21 @@ elements.constraintForm.addEventListener("submit", async (event) => {
         jurisdiction: "CN",
         applicable_date: new Date().toISOString().slice(0, 10),
         confirmed_fields: state.confirmedFields,
-        constraints: selected.map((canonicalValue) => ({
+        constraints: [
+          ...selected.map((canonicalValue) => ({
           kind: "allergy",
           canonical_value: canonicalValue,
           severity: "severe",
-        })),
+          })),
+          ...(nutritionSelected ? [{
+            kind: "nutrition_limit",
+            canonical_value: elements.nutritionKey.value,
+            operator: "max",
+            threshold: nutritionThreshold,
+            unit: nutritionOption.dataset.unit,
+            basis: nutritionOption.dataset.basis,
+          }] : []),
+        ],
       }),
     });
     const payload = await response.json();
@@ -210,9 +255,39 @@ elements.constraintForm.addEventListener("submit", async (event) => {
 });
 
 elements.constraintForm.addEventListener("change", () => {
+  elements.constraintError.textContent = "请至少选择一项。";
   elements.constraintError.hidden = true;
   hideRailError();
 });
+
+function setupNutritionLimit(nutrition) {
+  elements.nutritionKey.replaceChildren(new Option("不设置", ""));
+  const facts = nutrition?.nutrients || [];
+  const comparable = facts.filter((fact) => fact.basis !== "unknown");
+  elements.nutritionLimit.hidden = comparable.length === 0;
+  comparable.forEach((fact) => {
+    const option = new Option(
+      `${nutrientNames[fact.canonical_name] || fact.raw_name} · 标签 ${fact.value}${fact.unit}`,
+      fact.canonical_name,
+    );
+    option.dataset.unit = fact.unit;
+    option.dataset.basis = fact.basis;
+    elements.nutritionKey.add(option);
+  });
+  updateNutritionLimitControl();
+}
+
+function updateNutritionLimitControl() {
+  const option = elements.nutritionKey.selectedOptions[0];
+  const enabled = Boolean(elements.nutritionKey.value);
+  elements.nutritionThreshold.disabled = !enabled;
+  elements.nutritionThreshold.required = enabled;
+  elements.nutritionUnit.textContent = enabled ? option.dataset.unit : "—";
+  const basisLabels = { per_100g: "每 100 克", per_100ml: "每 100 毫升", per_serving: "每份" };
+  elements.nutritionBasisNote.textContent = enabled
+    ? `将按标签的${basisLabels[option.dataset.basis] || "已确认"}口径比较，不自动换算。`
+    : "按已确认包装口径比较，不自动换算。";
+}
 
 elements.changeConstraints.addEventListener("click", () => {
   elements.safetyResult.hidden = true;
@@ -415,20 +490,20 @@ function renderSafetyResult(payload) {
     avoid: "不建议食用",
     caution: "需要谨慎确认",
     unknown: "当前信息不足",
-    compatible: "未发现相关成分",
+    compatible: "未发现约束冲突",
   };
   const symbols = { avoid: "!", caution: "?", unknown: "…", compatible: "✓" };
 
   elements.constraintStep.hidden = true;
   elements.safetyResult.hidden = false;
   hideRailError();
-  elements.reviewTitle.textContent = "过敏原检查结果";
+  elements.reviewTitle.textContent = "个人约束检查结果";
   elements.safetyResult.dataset.risk = payload.overall_risk_level;
   elements.riskSymbol.textContent = symbols[payload.overall_risk_level];
   elements.riskKicker.textContent = `规则评估 · ${payload.findings.length} 项约束`;
   elements.safetyTitle.textContent = titles[payload.overall_risk_level];
   elements.riskSummary.textContent = primary.explanation;
-  elements.matchedText.textContent = primary.matched_text;
+  elements.matchedText.textContent = primary.matched_text || "—";
   elements.matchedConstraint.textContent = constraintLabels[primary.constraint] || primary.constraint;
   elements.matchedLocation.textContent = primary.matched_location;
   elements.reviewCount.textContent = payload.overall_risk_level === "avoid" ? "明确命中" : "评估完成";
@@ -448,7 +523,7 @@ function renderSafetyResult(payload) {
     heading.append(label, status);
     const evidence = document.createElement("p");
     evidence.className = "finding-evidence";
-    evidence.textContent = `${finding.matched_text} · ${finding.matched_location}`;
+    evidence.textContent = `${finding.matched_text || "未确认"} · ${finding.matched_location}`;
     const reason = document.createElement("p");
     reason.className = "finding-reason";
     reason.textContent = finding.explanation;
@@ -458,7 +533,7 @@ function renderSafetyResult(payload) {
   renderClaimResults(payload.evidence);
   renderRegulatoryEvidence(payload.evidence, primary);
   elements.safetyResult.focus();
-  announce(`${titles[payload.overall_risk_level]}，命中成分${primary.matched_text}`);
+  announce(`${titles[payload.overall_risk_level]}，${primary.matched_text || primary.explanation}`);
 }
 
 function renderClaimResults(evidence) {

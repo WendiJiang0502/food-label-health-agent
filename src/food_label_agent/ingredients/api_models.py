@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 
 class ConstraintInput(BaseModel):
@@ -11,6 +11,19 @@ class ConstraintInput(BaseModel):
     kind: str = "allergy"
     canonical_value: str = Field(min_length=1, max_length=64)
     severity: str = Field(default="unspecified", max_length=32)
+    operator: str | None = Field(default=None, max_length=16)
+    threshold: float | None = Field(default=None, ge=0)
+    unit: str | None = Field(default=None, max_length=16)
+    basis: str | None = Field(default=None, max_length=24)
+
+    @model_validator(mode="after")
+    def validate_nutrition_limit(self):
+        if self.kind == "nutrition_limit":
+            if self.operator != "max" or self.threshold is None:
+                raise ValueError("营养约束必须提供 max 和非负数值上限。")
+            if not self.unit or self.basis not in {"per_100g", "per_100ml", "per_serving"}:
+                raise ValueError("营养约束必须提供单位和有效比较口径。")
+        return self
 
 
 class SafetyEvaluationRequest(BaseModel):
@@ -18,7 +31,8 @@ class SafetyEvaluationRequest(BaseModel):
     jurisdiction: str = Field(default="CN", min_length=2, max_length=12)
     applicable_date: str
     confirmed_fields: dict[str, str]
-    constraints: list[ConstraintInput] = Field(min_length=1, max_length=8)
+    nutrition_rows: list[list[str]] | None = None
+    constraints: list[ConstraintInput] = Field(min_length=1, max_length=16)
 
     @field_validator("confirmed_fields")
     @classmethod

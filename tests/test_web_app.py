@@ -47,6 +47,7 @@ def test_upload_returns_structured_demo_ocr() -> None:
         "ingredients",
         "allergen_statement",
         "nutrition_basis",
+        "nutrition_table",
         "label_claims",
     }
 
@@ -150,6 +151,41 @@ def test_compatible_result_does_not_claim_regulatory_safety_proof() -> None:
     assert payload["overall_risk_level"] == "compatible"
     assert payload["evidence"]["status"] == "not_required"
     assert payload["evidence"]["interpretations"] == []
+
+
+def test_nutrition_limit_api_uses_confirmed_row_evidence() -> None:
+    response = asyncio.run(
+        request(
+            "POST",
+            "/api/v1/labels/evaluate",
+            json={
+                "request_id": "request-nutrition",
+                "jurisdiction": "CN",
+                "applicable_date": "2026-08-09",
+                "confirmed_fields": {
+                    "ingredients": "燕麦",
+                    "nutrition_table": "项目\t每100克\n糖\t3.5克\n钠\t380毫克",
+                },
+                "constraints": [
+                    {
+                        "kind": "nutrition_limit",
+                        "canonical_value": "sodium",
+                        "operator": "max",
+                        "threshold": 300,
+                        "unit": "mg",
+                        "basis": "per_100g",
+                    }
+                ],
+            },
+        )
+    )
+
+    payload = response.json()
+    assert response.status_code == 200
+    assert payload["overall_risk_level"] == "avoid"
+    assert payload["findings"][0]["matched_location"] == "营养成分表第 3 行"
+    assert payload["evidence"]["final_status"] == "completed"
+    assert payload["evidence"]["status"] == "not_required"
 
 
 def test_safety_api_includes_claim_interpretation_and_consistency_result() -> None:

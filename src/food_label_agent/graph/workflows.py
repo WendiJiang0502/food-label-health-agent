@@ -41,6 +41,10 @@ def attach_regulatory_interpretation(
                 kind=ConstraintKind(item.kind),
                 canonical_value=item.canonical_value,
                 severity=item.severity,
+                operator=item.operator,
+                threshold=item.threshold,
+                unit=item.unit,
+                basis=item.basis,
             )
             for item in request.constraints
         ],
@@ -71,6 +75,9 @@ def attach_regulatory_interpretation(
 
     needs_regulatory_explanation = any(
         finding.risk_level is not RiskLevel.COMPATIBLE
+        and not finding.reason_code.startswith(
+            ("USER_NUTRITION_", "NUTRITION_", "NUTRIENT_")
+        )
         for finding in state["risk_findings"]
     )
     if needs_regulatory_explanation:

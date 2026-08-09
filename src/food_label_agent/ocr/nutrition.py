@@ -14,6 +14,7 @@ _NUTRIENTS = {
     "脂肪": ("g", "克"),
     "碳水化合物": ("g", "克"),
     "钠": ("mg", "毫克"),
+    "糖": ("g", "克"),
 }
 _NUMBER = re.compile(r"-?\d+(?:\.\d+)?")
 _AMBIGUOUS_DIGIT = re.compile(r"(?<![A-Za-z])[oOilI](?=\d)|(?<=\d)[oOilI]")

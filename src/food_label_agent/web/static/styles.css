@@ -454,6 +454,19 @@ h3 { font-size: 1.2rem; }
 .constraint-option input:checked + span { border-color: var(--teal); background: var(--teal); color: white; }
 .constraint-option input:focus-visible + span { outline: 3px solid var(--paper); box-shadow: 0 0 0 6px var(--teal); }
 .constraint-error { margin: -12px 0 18px; color: var(--avoid); font-size: 0.78rem; font-weight: 700; }
+.nutrition-limit { margin: -6px 0 24px; border: 0; border-top: 1px solid var(--line); padding: 22px 0 0; }
+.nutrition-limit legend { color: var(--ink-deep); font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; }
+.nutrition-limit legend span { margin-left: 6px; color: var(--muted-small); font-family: var(--font-body); font-size: 0.7rem; font-weight: 600; }
+.nutrition-limit-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; margin-top: 15px; }
+.nutrition-limit-grid label { display: grid; gap: 7px; color: var(--muted-small); font-size: 0.72rem; font-weight: 700; }
+.nutrition-limit select,
+.nutrition-limit input { width: 100%; min-height: 46px; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--paper); color: var(--ink); padding: 10px 12px; font: inherit; }
+.nutrition-limit select:focus-visible,
+.nutrition-limit input:focus-visible { outline: 3px solid var(--paper); box-shadow: 0 0 0 6px var(--teal); }
+.measurement-input { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
+.measurement-input input { border-radius: 10px 0 0 10px; }
+.measurement-input output { display: grid; min-width: 48px; min-height: 46px; place-items: center; border: 1px solid var(--line-strong); border-left: 0; border-radius: 0 10px 10px 0; background: rgba(144, 154, 191, 0.1); color: var(--ink); font-family: var(--font-data); }
+.nutrition-limit > p { margin: 9px 0 0; color: var(--muted-small); font-size: 0.7rem; }
 .rail-error { margin: 0 0 24px; border-radius: 10px; background: rgba(169, 54, 43, 0.08); padding: 16px; }
 .rail-error strong { color: var(--avoid); }
 .rail-error p { margin: 5px 0 0; color: var(--muted-small); font-size: 0.78rem; }
@@ -657,6 +670,7 @@ footer p { margin: 0; }
   .safety-result { min-height: 440px; }
   .constraint-option { flex: 1 0 calc(33.333% - 10px); }
   .constraint-option span { min-width: 0; padding-inline: 12px; }
+  .nutrition-limit-grid { grid-template-columns: 1fr; }
   .claim-result-heading { align-items: flex-start; }
   .proof-footnotes { align-items: flex-start; flex-direction: column; gap: 5px; }
   .image-stage { inset: 10px; }

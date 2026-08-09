@@ -93,12 +93,12 @@ def create_app(provider: OCRProvider | None = None) -> Starlette:
             result["evidence"] = attach_regulatory_interpretation(parsed, response)
             return JSONResponse(result)
         except (ValidationError, ValueError) as exc:
-            message = "请选择至少一项需要回避的过敏原。"
+            message = "请选择至少一项个人约束。"
             if isinstance(exc, ValidationError) and exc.errors():
                 message = str(exc.errors()[0].get("ctx", {}).get("error", message))
             return _error(message, status_code=422)
         except Exception:  # noqa: BLE001 - sanitize unexpected evaluation failures
-            return _error("过敏原规则评估暂时无法完成，请重试。", status_code=500)
+            return _error("个人约束规则评估暂时无法完成，请重试。", status_code=500)
 
     routes = [
         Route("/", endpoint=index),

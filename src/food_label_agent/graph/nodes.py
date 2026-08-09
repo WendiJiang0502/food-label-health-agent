@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import re
 from dataclasses import asdict
 
 from food_label_agent.domain.models import AuditEvent, Evidence, RiskFinding
@@ -26,12 +25,16 @@ def normalize_label(state: AgentState) -> dict:
             ),
         }
     field = state["label_fields"]["ingredients"]
+    nutrition_table = state["label_fields"].get("nutrition_table")
+    nutrition_basis = state["label_fields"].get("nutrition_basis")
     try:
         normalized = invoke_mcp_tool(
             "normalize_food_label",
             {
                 "ingredients_text": field.raw_text,
                 "source_bounding_box": field.bounding_box,
+                "nutrition_table_text": nutrition_table.raw_text if nutrition_table else None,
+                "nutrition_basis_text": nutrition_basis.raw_text if nutrition_basis else None,
             },
         )
     except MCPToolCallError as exc:
@@ -104,6 +107,10 @@ def evaluate_safety(state: AgentState) -> dict:
                         "kind": constraint.kind.value,
                         "canonical_value": constraint.canonical_value,
                         "severity": constraint.severity,
+                        "operator": constraint.operator,
+                        "threshold": constraint.threshold,
+                        "unit": constraint.unit,
+                        "basis": constraint.basis,
                     }
                     for constraint in state["user_constraints"]
                 ],
@@ -140,7 +147,20 @@ def retrieve_regulations(state: AgentState) -> dict:
         for value in (finding.matched_text, finding.constraint)
         if value
     ]
-    query = " ".join([*query_terms, "食品标签 配料表 过敏原 致敏物质"])
+    nutrition_only = bool(state["risk_findings"]) and all(
+        finding.reason_code.startswith(("USER_NUTRITION_", "NUTRITION_", "NUTRIENT_"))
+        for finding in state["risk_findings"]
+    )
+    query = " ".join(
+        [
+            *query_terms,
+            (
+                "营养成分表 标示值 计量单位"
+                if nutrition_only
+                else "食品标签 配料表 过敏原 致敏物质"
+            ),
+        ]
+    )
     try:
         result = invoke_mcp_tool(
             "search_food_regulations",
@@ -148,7 +168,11 @@ def retrieve_regulations(state: AgentState) -> dict:
                 "query": query,
                 "jurisdiction": state["jurisdiction"],
                 "applicable_date": state["applicable_date"],
-                "topics": ["allergen", "ingredient_labeling"],
+                "topics": (
+                    ["nutrition_labeling"]
+                    if nutrition_only
+                    else ["allergen", "ingredient_labeling"]
+                ),
                 "limit": 5,
             },
         )
@@ -187,6 +211,8 @@ def interpret_label(state: AgentState) -> dict:
     regulation_payload = [asdict(item) for item in state["regulatory_evidence"]]
     for finding in state["risk_findings"]:
         if finding.risk_level is RiskLevel.COMPATIBLE:
+            continue
+        if finding.reason_code.startswith(("USER_NUTRITION_", "NUTRITION_", "NUTRIENT_")):
             continue
         ingredient = _ingredient_for_finding(state["normalized_label"], finding)
         if ingredient is None:
@@ -458,35 +484,14 @@ def _ingredient_count(items: list[dict]) -> int:
 
 
 def _nutrition_values(state: AgentState) -> dict:
-    fields = state["label_fields"]
-    for name, basis in (
-        ("sugars_g_per_100g", "per_100g"),
-        ("sugars_g_per_100ml", "per_100ml"),
-    ):
-        field = fields.get(name)
-        if field and field.confirmed_by_user:
-            match = re.search(r"\d+(?:\.\d+)?", field.raw_text)
-            if match:
-                return {"sugars_g": float(match.group()), "basis": basis}
-    table = fields.get("nutrition_table")
-    basis_field = fields.get("nutrition_basis")
-    if not table or not table.confirmed_by_user:
-        return {}
-    match = re.search(
-        r"(?:^|[\s,，;；])糖\s*[:：]?\s*(\d+(?:\.\d+)?)\s*(?:g|克)",
-        table.raw_text,
-        re.IGNORECASE,
+    nutrition = state.get("normalized_label", {}).get("nutrition") or {}
+    sugar = next(
+        (item for item in nutrition.get("nutrients", []) if item.get("canonical_name") == "sugars"),
+        None,
     )
-    if not match:
-        return {}
-    basis_text = basis_field.raw_text if basis_field else table.raw_text
-    if re.search(r"100\s*(?:m[lL]|毫升)", basis_text):
-        basis = "per_100ml"
-    elif re.search(r"100\s*(?:g|克)", basis_text, re.IGNORECASE):
-        basis = "per_100g"
-    else:
-        return {}
-    return {"sugars_g": float(match.group(1)), "basis": basis}
+    if sugar and sugar.get("basis") in {"per_100g", "per_100ml"}:
+        return {"sugars_g": sugar["value"], "basis": sugar["basis"]}
+    return {}
 
 
 def _tool_failure(state: AgentState, error: MCPToolCallError) -> dict:

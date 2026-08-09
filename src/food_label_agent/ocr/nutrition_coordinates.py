@@ -9,13 +9,14 @@ from .field_parser import OCRLine
 from .models import BoundingBox, OCRFieldResult, OCRLineEvidence
 from .nutrition import validate_nutrition_table
 
-_NUTRIENTS = ("能量", "蛋白质", "脂肪", "碳水化合物", "钠", "钙")
+_NUTRIENTS = ("能量", "蛋白质", "脂肪", "碳水化合物", "糖", "钠", "钙")
 _CORE_NUTRIENTS = ("能量", "蛋白质", "脂肪", "碳水化合物", "钠")
 _EXPECTED_UNITS = {
     "能量": ("千焦", "kj"),
     "蛋白质": ("克", "g"),
     "脂肪": ("克", "g"),
     "碳水化合物": ("克", "g"),
+    "糖": ("克", "g"),
     "钠": ("毫克", "mg"),
     "钙": ("毫克", "mg"),
 }
@@ -25,7 +26,7 @@ _VALUE = re.compile(
 _NUMBER_ONLY = re.compile(r"^\s*(-?\d+(?:\.\d+)?)\s*$")
 _UNIT_ONLY = re.compile(r"^\s*(千焦|kJ|克|g|毫克|mg)\s*$", re.IGNORECASE)
 _INLINE_ROW = re.compile(
-    r"(能量|蛋白质|脂肪|碳水化合物|钠|钙).*?"
+    r"(能量|蛋白质|脂肪|碳水化合物|糖|钠|钙).*?"
     r"(-?\d+(?:\.\d+)?)\s*(千焦|kJ|克|g|毫克|mg)",
     re.IGNORECASE,
 )

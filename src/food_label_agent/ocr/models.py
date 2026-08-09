@@ -111,6 +111,7 @@ class ConfirmLabelRequest(BaseModel):
     applicable_date: str
     fields: dict[str, str]
     original_fields: dict[str, str] = Field(default_factory=dict)
+    nutrition_rows: list[list[str]] | None = None
 
     @field_validator("fields")
     @classmethod
