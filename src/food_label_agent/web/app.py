@@ -13,7 +13,11 @@ from starlette.responses import FileResponse, JSONResponse
 from starlette.routing import Mount, Route
 from starlette.staticfiles import StaticFiles
 
-from food_label_agent.graph.workflows import run_regulatory_workflow
+from food_label_agent.alternatives.models import AlternativeWorkflowRequest
+from food_label_agent.graph.workflows import (
+    run_alternative_workflow,
+    run_regulatory_workflow,
+)
 from food_label_agent.ingredients.api_models import (
     SafetyEvaluationRequest,
 )
@@ -142,6 +146,24 @@ def create_app(
         except PermissionError:
             return _error("恢复令牌无效。", status_code=403)
 
+    async def find_alternatives(request: Request) -> JSONResponse:
+        try:
+            payload = await request.json()
+            parsed = AlternativeWorkflowRequest.model_validate(payload)
+            result, final_state = run_alternative_workflow(parsed)
+            checkpoint = checkpoints.save(final_state, resume_token=parsed.resume_token)
+            result["checkpoint"] = checkpoint.to_dict()
+            return JSONResponse(result)
+        except PermissionError:
+            return _error("该分析会话需要有效的恢复令牌。", status_code=403)
+        except (ValidationError, ValueError) as exc:
+            message = "请选择要查找的同类商品类别。"
+            if isinstance(exc, ValidationError) and exc.errors():
+                message = str(exc.errors()[0].get("ctx", {}).get("error", message))
+            return _error(message, status_code=422)
+        except Exception:  # noqa: BLE001 - sanitize catalog/tool failures
+            return _error("替代品复核暂时无法完成，请稍后重试。", status_code=500)
+
     async def delete_workflow_checkpoint(request: Request) -> JSONResponse:
         try:
             request_id = request.path_params["request_id"]
@@ -242,6 +264,11 @@ def create_app(
         Route("/api/v1/ocr/analyze", endpoint=analyze_label, methods=["POST"]),
         Route("/api/v1/labels/confirm", endpoint=confirm_label, methods=["POST"]),
         Route("/api/v1/labels/evaluate", endpoint=evaluate_label, methods=["POST"]),
+        Route(
+            "/api/v1/alternatives/search",
+            endpoint=find_alternatives,
+            methods=["POST"],
+        ),
         Route(
             "/api/v1/workflows/{request_id}",
             endpoint=get_workflow_checkpoint,

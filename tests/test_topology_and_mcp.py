@@ -50,6 +50,16 @@ class MCPContractTests(unittest.TestCase):
         self.assertTrue(consistency.implemented)
         self.assertTrue(consistency.safety_critical)
 
+    def test_alternative_tools_are_implemented_and_safety_critical(self) -> None:
+        for name in (
+            "find_alternative_products",
+            "compare_food_products",
+            "revalidate_alternatives",
+        ):
+            contract = get_tool_contract(name)
+            self.assertTrue(contract.implemented)
+            self.assertTrue(contract.safety_critical)
+
     def test_unknown_tool_is_rejected(self) -> None:
         with self.assertRaises(KeyError):
             get_tool_contract("invented_tool")

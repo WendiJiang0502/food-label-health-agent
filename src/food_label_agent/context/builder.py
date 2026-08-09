@@ -41,6 +41,14 @@ _ALLOWED_LAYERS: dict[str, tuple[str, ...]] = {
         "user_constraints",
         "risk_findings",
         "retrieval_evidence",
+        "alternatives",
+    ),
+    "search_alternatives": ("task", "user_constraints", "alternative_request"),
+    "revalidate_alternatives": (
+        "task",
+        "user_constraints",
+        "alternative_request",
+        "alternatives",
     ),
 }
 
@@ -51,6 +59,8 @@ _ALL_LAYERS = frozenset(
         "user_constraints",
         "risk_findings",
         "retrieval_evidence",
+        "alternative_request",
+        "alternatives",
     }
 )
 
@@ -129,6 +139,8 @@ def _layers(state: AgentState) -> dict[str, Any]:
         "user_constraints": [asdict(item) for item in state["user_constraints"]],
         "risk_findings": [asdict(item) for item in state["risk_findings"]],
         "retrieval_evidence": evidence,
+        "alternative_request": state["alternative_request"],
+        "alternatives": state["alternatives"],
     }
 
 

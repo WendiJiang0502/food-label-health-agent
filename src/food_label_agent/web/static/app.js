@@ -55,6 +55,17 @@ const elements = {
   evidenceIntro: document.querySelector("#evidence-intro"),
   citationList: document.querySelector("#citation-list"),
   evidenceEmpty: document.querySelector("#evidence-empty"),
+  alternativeDiscovery: document.querySelector("#alternative-discovery"),
+  alternativeCategory: document.querySelector("#alternative-category"),
+  findAlternatives: document.querySelector("#find-alternatives"),
+  alternativeCount: document.querySelector("#alternative-count"),
+  alternativeStatus: document.querySelector("#alternative-status"),
+  alternativeResults: document.querySelector("#alternative-results"),
+  alternativeList: document.querySelector("#alternative-list"),
+  alternativeComparison: document.querySelector("#alternative-comparison"),
+  alternativeComparisonList: document.querySelector("#alternative-comparison-list"),
+  alternativeExclusions: document.querySelector("#alternative-exclusions"),
+  alternativeExclusionList: document.querySelector("#alternative-exclusion-list"),
   changeConstraints: document.querySelector("#change-constraints"),
   errorState: document.querySelector("#error-state"),
   errorMessage: document.querySelector("#error-message"),
@@ -79,6 +90,7 @@ const state = {
   checkpointToken: null,
   memoryCredentials: readMemoryCredentials(),
   rememberedItems: [],
+  currentConstraints: [],
 };
 
 loadRememberedConstraints();
@@ -212,7 +224,6 @@ elements.constraintForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const selected = [...elements.constraintForm.querySelectorAll('input[name="constraint"]:checked')]
     .map((input) => input.value);
-  const nutritionOption = elements.nutritionKey.selectedOptions[0];
   const nutritionSelected = Boolean(elements.nutritionKey.value);
   const nutritionThreshold = elements.nutritionThreshold.valueAsNumber;
   if (!selected.length && !nutritionSelected) {
@@ -232,6 +243,8 @@ elements.constraintForm.addEventListener("submit", async (event) => {
   elements.evaluateButton.disabled = true;
   elements.evaluateButton.firstChild.textContent = "正在核对… ";
   announce("正在检查过敏原并核对官方依据");
+  const constraints = currentConstraintValues();
+  state.currentConstraints = constraints;
 
   try {
     const response = await fetch("/api/v1/labels/evaluate", {
@@ -245,21 +258,7 @@ elements.constraintForm.addEventListener("submit", async (event) => {
         nutrition_rows: state.analysis.fields.find((field) => field.name === "nutrition_table")
           ?.nutrition_table?.rows || null,
         resume_token: state.checkpointToken,
-        constraints: [
-          ...selected.map((canonicalValue) => ({
-          kind: "allergy",
-          canonical_value: canonicalValue,
-          severity: "severe",
-          })),
-          ...(nutritionSelected ? [{
-            kind: "nutrition_limit",
-            canonical_value: elements.nutritionKey.value,
-            operator: "max",
-            threshold: nutritionThreshold,
-            unit: nutritionOption.dataset.unit,
-            basis: nutritionOption.dataset.basis,
-          }] : []),
-        ],
+        constraints,
       }),
     });
     const payload = await response.json();
@@ -286,6 +285,7 @@ elements.constraintForm.addEventListener("change", () => {
 });
 
 elements.revokeMemory.addEventListener("click", revokeRememberedConstraints);
+elements.findAlternatives.addEventListener("click", findAndRevalidateAlternatives);
 
 function setupNutritionLimit(nutrition) {
   elements.nutritionKey.replaceChildren(new Option("不设置", ""));
@@ -323,6 +323,7 @@ elements.changeConstraints.addEventListener("click", () => {
   elements.additiveResults.hidden = true;
   elements.additiveResultList.replaceChildren();
   elements.constraintStep.hidden = false;
+  elements.alternativeDiscovery.hidden = true;
   elements.reviewTitle.textContent = "设置个人约束";
   elements.reviewCount.textContent = "个人约束";
   elements.constraintStep.querySelector("input")?.focus();
@@ -505,6 +506,7 @@ function resetResult() {
   state.confirmedFields = null;
   state.normalizedLabel = null;
   state.checkpointToken = null;
+  state.currentConstraints = [];
   elements.workbench.classList.remove("has-analysis");
   elements.heroLayout.classList.remove("has-analysis");
   elements.fieldList.replaceChildren();
@@ -738,6 +740,8 @@ function renderSafetyResult(payload) {
   elements.matchedLocation.textContent = primary.matched_location;
   elements.reviewCount.textContent = payload.overall_risk_level === "avoid" ? "明确命中" : "评估完成";
   elements.proofState.textContent = "安全规则已评估";
+  resetAlternativeResults();
+  elements.alternativeDiscovery.hidden = false;
 
   const secondary = payload.findings.filter((finding) => finding !== primary);
   elements.additionalFindings.replaceChildren();
@@ -765,6 +769,139 @@ function renderSafetyResult(payload) {
   renderRegulatoryEvidence(payload.evidence, primary);
   elements.safetyResult.focus();
   announce(`${titles[payload.overall_risk_level]}，${primary.matched_text || primary.explanation}`);
+}
+
+async function findAndRevalidateAlternatives() {
+  const category = elements.alternativeCategory.value;
+  if (!category) {
+    elements.alternativeStatus.textContent = "请先选择与当前商品相同的类别。";
+    elements.alternativeCategory.focus();
+    return;
+  }
+  if (!state.checkpointToken || !state.currentConstraints.length) {
+    elements.alternativeStatus.textContent = "当前分析会话无法恢复，请重新检查个人约束。";
+    return;
+  }
+  elements.findAlternatives.disabled = true;
+  elements.findAlternatives.textContent = "正在逐一复核…";
+  elements.alternativeStatus.textContent = "正在检查候选标签完整度，并重新运行全部个人约束。";
+  elements.alternativeResults.hidden = true;
+  announce("正在查找并重新复核同类候选");
+  try {
+    const response = await fetch("/api/v1/alternatives/search", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        request_id: state.analysis.request_id,
+        jurisdiction: "CN",
+        region: "CN",
+        applicable_date: new Date().toISOString().slice(0, 10),
+        confirmed_fields: state.confirmedFields,
+        nutrition_rows: state.analysis.fields.find((field) => field.name === "nutrition_table")
+          ?.nutrition_table?.rows || null,
+        constraints: state.currentConstraints,
+        category,
+        resume_token: state.checkpointToken,
+      }),
+    });
+    const payload = await response.json();
+    if (!response.ok) throw new Error(payload.message || "替代品复核失败。");
+    if (payload.checkpoint?.resume_token) state.checkpointToken = payload.checkpoint.resume_token;
+    renderAlternativeResults(payload);
+  } catch (error) {
+    elements.alternativeStatus.textContent = error.message;
+    announce(error.message);
+  } finally {
+    elements.findAlternatives.disabled = false;
+    elements.findAlternatives.textContent = "查找并重新复核";
+  }
+}
+
+function resetAlternativeResults() {
+  elements.alternativeCount.textContent = "尚未查找";
+  elements.alternativeStatus.textContent = "";
+  elements.alternativeResults.hidden = true;
+  elements.alternativeList.replaceChildren();
+  elements.alternativeComparisonList.replaceChildren();
+  elements.alternativeComparison.hidden = true;
+  elements.alternativeExclusionList.replaceChildren();
+  elements.alternativeExclusions.hidden = true;
+}
+
+function renderAlternativeResults(payload) {
+  elements.alternativeList.replaceChildren();
+  elements.alternativeComparisonList.replaceChildren();
+  elements.alternativeExclusionList.replaceChildren();
+  elements.alternativeResults.hidden = false;
+  elements.alternativeCount.textContent = `${payload.eligible.length} 项通过复核`;
+  if (!payload.eligible.length) {
+    elements.alternativeStatus.textContent = "当前目录没有通过全部约束且标签证据完整的候选。";
+  } else {
+    elements.alternativeStatus.textContent =
+      `已逐一复核 ${payload.revalidated_count}/${payload.candidate_count} 项候选；仅展示通过硬约束的结果。`;
+  }
+  payload.eligible.forEach((item) => {
+    const article = document.createElement("article");
+    article.className = "alternative-item";
+    const header = document.createElement("header");
+    const title = document.createElement("h4");
+    title.textContent = item.display_name;
+    const status = document.createElement("span");
+    status.textContent = "约束复核通过";
+    header.append(title, status);
+    const useCase = document.createElement("p");
+    useCase.textContent = item.use_case;
+    const explanation = document.createElement("p");
+    explanation.textContent = item.explanation;
+    const evidence = document.createElement("p");
+    evidence.className = "alternative-evidence";
+    evidence.textContent = `标签记录 ${item.label_confirmed_at} · ${item.evidence_ids.join("、")}`;
+    article.append(header, useCase, explanation, evidence);
+    elements.alternativeList.append(article);
+  });
+
+  const comparisons = payload.comparison?.comparisons || [];
+  elements.alternativeComparison.hidden = comparisons.length === 0;
+  comparisons.forEach((comparison) => {
+    const row = document.createElement("dl");
+    row.className = "alternative-comparison-row";
+    const term = document.createElement("dt");
+    term.textContent = nutrientNames[comparison.nutrient] || comparison.nutrient;
+    const description = document.createElement("dd");
+    description.textContent = comparison.values
+      .map((item) => `${item.display_name} ${item.value}${comparison.unit}`)
+      .join("；");
+    row.append(term, description);
+    elements.alternativeComparisonList.append(row);
+  });
+
+  const excluded = [
+    ...payload.excluded.map((item) => ({
+      name: item.display_name,
+      reason: `${item.risk_level} · ${item.findings[0]?.matched_text || "未通过个人约束"}`,
+    })),
+    ...payload.evidence_rejected.map((item) => ({
+      name: item.display_name,
+      reason: alternativeRejectionLabel(item.reason_code),
+    })),
+  ];
+  elements.alternativeExclusions.hidden = excluded.length === 0;
+  excluded.forEach((item) => {
+    const row = document.createElement("li");
+    row.textContent = `${item.name}：${item.reason}`;
+    elements.alternativeExclusionList.append(row);
+  });
+  announce(elements.alternativeStatus.textContent);
+}
+
+function alternativeRejectionLabel(reasonCode) {
+  return {
+    LABEL_EVIDENCE_INCOMPLETE: "标签证据不完整，未进入安全复核",
+    LABEL_EVIDENCE_EXPIRED: "标签记录已过期，未进入安全复核",
+    LABEL_EVIDENCE_STALE: "标签记录过旧，需要重新核对",
+    LABEL_EVIDENCE_FROM_FUTURE: "标签日期与当前评估日期不一致",
+    LABEL_EVIDENCE_HASH_MISMATCH: "标签证据校验失败，未进入安全复核",
+  }[reasonCode] || "证据不足，未进入安全复核";
 }
 
 function renderAdditiveResults(evidence) {

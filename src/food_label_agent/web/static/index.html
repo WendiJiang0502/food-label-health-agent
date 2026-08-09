@@ -13,8 +13,8 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
     <meta name="description" content="上传食品标签，确认识别文字，再进行基于证据的健康信息解释。">
     <title>食鉴 · 食品标签健康解释</title>
     <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/static/styles.css?v=milestone-memory-1">
-    <script src="/static/app.js?v=milestone-memory-1" defer></script>
+    <link rel="stylesheet" href="/static/styles.css?v=alternatives-1">
+    <script src="/static/app.js?v=alternatives-1" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#workspace">跳到标签工作区</a>
@@ -279,6 +279,40 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
               </details>
             </div>
             <p class="scope-note" id="scope-note">结果仅基于当前已确认标签，不等于医疗建议或绝对安全保证。</p>
+            <section class="alternative-discovery" id="alternative-discovery" hidden aria-labelledby="alternative-title">
+              <div class="alternative-heading">
+                <div>
+                  <p>同一套约束 · 独立复核</p>
+                  <h3 id="alternative-title">查找同类选择</h3>
+                </div>
+                <span id="alternative-count">尚未查找</span>
+              </div>
+              <p class="alternative-intro">候选必须有完整、当前的标签证据，并重新运行刚才的全部约束。当前目录用于功能验收，不代表商品在售或库存。</p>
+              <div class="alternative-controls">
+                <label for="alternative-category">
+                  <span>商品类别</span>
+                  <select id="alternative-category">
+                    <option value="">请选择</option>
+                    <option value="biscuit">饼干与谷物零食</option>
+                    <option value="drink">饮品</option>
+                    <option value="processed_meat">即食肉制品</option>
+                  </select>
+                </label>
+                <button class="button button--secondary" id="find-alternatives" type="button">查找并重新复核</button>
+              </div>
+              <p class="alternative-status" id="alternative-status" role="status"></p>
+              <div id="alternative-results" hidden>
+                <div class="alternative-list" id="alternative-list"></div>
+                <div class="alternative-comparison" id="alternative-comparison" hidden>
+                  <strong>同口径营养比较</strong>
+                  <div id="alternative-comparison-list"></div>
+                </div>
+                <details class="alternative-exclusions" id="alternative-exclusions" hidden>
+                  <summary>查看未进入推荐的候选</summary>
+                  <ul id="alternative-exclusion-list"></ul>
+                </details>
+              </div>
+            </section>
             <button class="text-button" id="change-constraints" type="button">修改个人约束</button>
           </section>
         </aside>

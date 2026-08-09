@@ -9,7 +9,7 @@ from __future__ import annotations
 from collections.abc import Callable, Mapping
 from typing import Any
 
-from .routing import route_after_normalization, route_after_ocr
+from .routing import route_after_normalization, route_after_ocr, route_after_react
 from .state import AgentState
 from .topology import validate_topology
 
@@ -45,6 +45,13 @@ def build_graph(
     missing = required - set(nodes)
     if missing:
         raise ValueError(f"Missing required node implementations: {sorted(missing)}")
+    supplied_alternative_nodes = {
+        "search_alternatives",
+        "revalidate_alternatives",
+    }.intersection(nodes)
+    if supplied_alternative_nodes and len(supplied_alternative_nodes) != 2:
+        raise ValueError("Alternative discovery requires both graph nodes")
+    has_alternatives = len(supplied_alternative_nodes) == 2
 
     graph = StateGraph(AgentState)
     for name, function in nodes.items():
@@ -70,6 +77,18 @@ def build_graph(
         },
     )
     graph.add_edge("evaluate_safety", "react_orchestrator")
-    graph.add_edge("react_orchestrator", "final_safety_gate")
+    if has_alternatives:
+        graph.add_conditional_edges(
+            "react_orchestrator",
+            route_after_react,
+            {
+                "search_alternatives": "search_alternatives",
+                "final_safety_gate": "final_safety_gate",
+            },
+        )
+        graph.add_edge("search_alternatives", "revalidate_alternatives")
+        graph.add_edge("revalidate_alternatives", "final_safety_gate")
+    else:
+        graph.add_edge("react_orchestrator", "final_safety_gate")
     graph.add_edge("final_safety_gate", END)
     return graph.compile(checkpointer=checkpointer)

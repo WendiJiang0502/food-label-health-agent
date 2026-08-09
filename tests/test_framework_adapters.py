@@ -102,6 +102,62 @@ def test_langgraph_accepts_checkpointer_and_persists_thread_state() -> None:
     assert snapshot.values["stage"] is WorkflowStage.COMPLETED
 
 
+def test_langgraph_routes_explicit_alternative_request_through_revalidation() -> None:
+    nodes = {
+        "validate_input": _node(status=AnalysisStatus.IN_PROGRESS),
+        "extract_label": _node(
+            label_fields={
+                "ingredients": LabelField(
+                    name="ingredients",
+                    raw_text="乳清蛋白",
+                    confidence=1.0,
+                    confirmed_by_user=True,
+                )
+            }
+        ),
+        "confirm_label": _node(stage=WorkflowStage.HUMAN_CONFIRMATION),
+        "normalize_label": _node(stage=WorkflowStage.LABEL_NORMALIZATION),
+        "evaluate_safety": _node(stage=WorkflowStage.SAFETY_EVALUATION),
+        "react_orchestrator": _node(stage=WorkflowStage.REACT_ORCHESTRATION),
+        "retrieve_regulations": _node(stage=WorkflowStage.REGULATORY_RETRIEVAL),
+        "interpret_label": _node(stage=WorkflowStage.INTERPRETATION),
+        "interpret_claims": _node(stage=WorkflowStage.CLAIM_INTERPRETATION),
+        "verify_consistency": _node(stage=WorkflowStage.CONSISTENCY_VERIFICATION),
+        "search_alternatives": _node(
+            alternatives=[{"product_id": "candidate", "disposition": "candidate"}]
+        ),
+        "revalidate_alternatives": _node(
+            alternatives=[
+                {
+                    "product_id": "candidate",
+                    "disposition": "eligible",
+                    "revalidated": True,
+                    "risk_level": "compatible",
+                }
+            ]
+        ),
+        "final_safety_gate": _node(
+            status=AnalysisStatus.COMPLETED,
+            stage=WorkflowStage.COMPLETED,
+        ),
+    }
+    graph = build_graph(nodes)
+    state = create_initial_state(
+        request_id="alternative-graph",
+        jurisdiction="CN",
+        applicable_date="2026-08-09",
+    )
+    state["alternative_request"] = {
+        "enabled": True,
+        "category": "biscuit",
+    }
+
+    result = graph.invoke(state)
+
+    assert result["alternatives"][0]["disposition"] == "eligible"
+    assert result["alternatives"][0]["revalidated"] is True
+
+
 def test_real_mcp_server_factory_exposes_named_server() -> None:
     server = create_server()
 

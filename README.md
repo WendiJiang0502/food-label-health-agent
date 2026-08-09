@@ -9,7 +9,9 @@
 
 当前阶段已完成工程骨架、Agent 状态协议、安全路由、配料树状规范化、中国八类常见致敏物质的确定性规则，以及从图片上传、人工确认到个人约束评估的网页闭环。平台默认使用腾讯云高精度 OCR，也可由部署者切换到本地 PP-OCRv6；任何模型识别结果仍必须经过证据检查和必要的人工确认。法规层已经具备官方标准注册、结构化 PDF 分片、版本/适用日期过滤，以及 BM25 与领域 TF-IDF 向量召回的混合检索；融合重排同时记录关键词、向量、主题、标准号和权威等级信号。配料解释会绑定具体官方条款，并由最终安全门阻断失效引用和风险降级。营养事实层会规范化营养素、数值、单位、计量口径和原始行证据，并以确定性规则比较用户自行设置的营养上限；不同口径不自动换算。包装声称层已支持“无糖、低糖、无蔗糖、不添加糖、不添加蔗糖”的非等价解释，并交叉核对已确认的配料与糖含量。添加剂解释层已覆盖常见名称、别名和功能类别，并将词典事实与 GB 2760 法规来源分开呈现；没有食品类别、实际用量和标准明细表证据时，不生成合规或健康安全结论。
 
-当前主流程还加入了受约束 ReAct 编排节点：它只能在四个已批准 MCP 工具中动态选择法规检索、配料解释、声称解释和一致性验证，并受步骤数与工具调用数双重预算约束。标签确认、规范化、确定性约束评估和最终安全门仍是不可跳过的固定节点。API 返回只包含工具名、决策原因码和压缩后的工具观察，不记录或暴露模型思维链。商品替代品检索仍是后续里程碑，不会在当前界面中伪造实现。
+当前主流程还加入了受约束 ReAct 编排节点：它只能在四个已批准 MCP 工具中动态选择法规检索、配料解释、声称解释和一致性验证，并受步骤数与工具调用数双重预算约束。标签确认、规范化、确定性约束评估和最终安全门仍是不可跳过的固定节点。API 返回只包含工具名、决策原因码和压缩后的工具观察，不记录或暴露模型思维链。
+
+替代品层已经实现 `find_alternative_products`、`compare_food_products` 和 `revalidate_alternatives` 三个真实 MCP 工具，以及 `search_alternatives → revalidate_alternatives → final_safety_gate` 安全路径。候选标签先经过完整度、日期和内容哈希检查，再逐一重跑相同的过敏原与营养约束；只有 `compatible` 候选能够展示。当前随包目录是明确标识的人工审查验收数据，不代表真实商品在售或库存，生产商品源将通过相同的 `ProductCatalog` 接口接入。
 
 Milestone 4 已加入按节点裁剪的四层上下文构建器、Token 预算，以及 SQLite 短期工作流检查点。检查点采用随机能力令牌保护并强制移除原始图片。长期记忆只在用户明确勾选授权后保存其主动选择的约束；用户可查看、单项删除，或清除全部内容并撤销授权。浏览器只保留该本地资料的访问令牌，不保存食品图片、完整对话、模型内部推理或未经确认的健康推断。
 
@@ -104,6 +106,7 @@ food-label-platform
 - [ADR-002：受约束 ReAct 与工具轨迹](./docs/architecture/ADR-002-constrained-react-tool-loop.md)
 - [ADR-003：版本化法规混合检索](./docs/architecture/ADR-003-versioned-hybrid-regulation-retrieval.md)
 - [ADR-004：节点上下文、检查点与授权记忆](./docs/architecture/ADR-004-context-checkpoints-and-consented-memory.md)
+- [ADR-005：证据优先的替代品检索与二次验证](./docs/architecture/ADR-005-evidence-first-alternative-revalidation.md)
 - [PP-OCRv6 配置教程](./docs/ocr/PP-OCRv6_CONFIGURATION_GUIDE.md)
 - [腾讯云 OCR 配置教程](./docs/ocr/TENCENT_CLOUD_CONFIGURATION_GUIDE.md)
 - [腾讯云 OCR 匿名评测记录](./docs/ocr/TENCENT_OCR_EVALUATION_2026-08-05.md)

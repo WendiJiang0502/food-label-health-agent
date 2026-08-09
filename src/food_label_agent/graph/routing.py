@@ -71,6 +71,15 @@ def route_after_normalization(state: AgentState) -> str:
     return "evaluate_safety"
 
 
+def route_after_react(state: AgentState) -> str:
+    """Enter alternative discovery only after an explicit, scoped request."""
+
+    request = state.get("alternative_request", {})
+    if request.get("enabled") is True and request.get("category"):
+        return "search_alternatives"
+    return "final_safety_gate"
+
+
 def final_safety_gate(state: AgentState) -> SafetyGateResult:
     """Derive a final status without allowing later prose generation to weaken risk."""
 
@@ -139,6 +148,20 @@ def final_safety_gate(state: AgentState) -> SafetyGateResult:
 
 def _grounding_violations(state: AgentState) -> tuple[str, ...]:
     violations: list[str] = []
+    for index, alternative in enumerate(state.get("alternatives", [])):
+        if alternative.get("disposition") == "candidate":
+            violations.append(f"alternative_not_revalidated:{index}")
+            continue
+        if alternative.get("disposition") != "eligible":
+            continue
+        if alternative.get("revalidated") is not True:
+            violations.append(f"eligible_alternative_not_revalidated:{index}")
+        if alternative.get("risk_level") != RiskLevel.COMPATIBLE.value:
+            violations.append(f"eligible_alternative_has_constraint_risk:{index}")
+        if not alternative.get("evidence_ids") or not alternative.get(
+            "label_source_url"
+        ):
+            violations.append(f"eligible_alternative_missing_label_evidence:{index}")
     evidence_by_id = {
         evidence.source_id: evidence for evidence in state["regulatory_evidence"]
     }

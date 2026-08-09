@@ -12,6 +12,20 @@ from typing import Annotated, Any
 
 from pydantic import Field
 
+from food_label_agent.alternatives.models import (
+    AlternativeRevalidationRequest,
+    AlternativeSearchRequest,
+    ProductComparisonRequest,
+)
+from food_label_agent.alternatives.service import (
+    compare_food_products as compare_products_service,
+)
+from food_label_agent.alternatives.service import (
+    find_alternative_products as find_alternatives_service,
+)
+from food_label_agent.alternatives.service import (
+    revalidate_alternatives as revalidate_alternatives_service,
+)
 from food_label_agent.claims.models import (
     ClaimConsistencyRequest,
     ClaimInterpretationRequest,
@@ -176,6 +190,60 @@ def verify_label_consistency(
     return verify_claim_consistency(request).model_dump(mode="json")
 
 
+def find_alternative_products(
+    category: Annotated[str, Field(min_length=2, max_length=80)],
+    applicable_date: str,
+    constraints: Annotated[list[ConstraintInput], Field(min_length=1, max_length=16)],
+    jurisdiction: str = "CN",
+    region: str = "CN",
+    exclude_product_ids: Annotated[list[str] | None, Field(max_length=50)] = None,
+    limit: Annotated[int, Field(ge=1, le=20)] = 5,
+) -> dict:
+    """Find products only from current, human-reviewed label evidence."""
+
+    request = AlternativeSearchRequest(
+        category=category,
+        applicable_date=applicable_date,
+        constraints=constraints,
+        jurisdiction=jurisdiction,
+        region=region,
+        exclude_product_ids=exclude_product_ids or [],
+        limit=limit,
+    )
+    return find_alternatives_service(request)
+
+
+def revalidate_alternatives(
+    request_id: Annotated[str, Field(min_length=1, max_length=128)],
+    applicable_date: str,
+    constraints: Annotated[list[ConstraintInput], Field(min_length=1, max_length=16)],
+    candidates: Annotated[list[dict], Field(max_length=20)],
+    jurisdiction: str = "CN",
+) -> dict:
+    """Re-run the complete deterministic rule engine for every candidate label."""
+
+    request = AlternativeRevalidationRequest(
+        request_id=request_id,
+        applicable_date=applicable_date,
+        constraints=constraints,
+        candidates=candidates,
+        jurisdiction=jurisdiction,
+    )
+    return revalidate_alternatives_service(request)
+
+
+def compare_food_products(
+    products: Annotated[list[dict], Field(min_length=1, max_length=20)],
+    nutrient_keys: Annotated[list[str] | None, Field(max_length=20)] = None,
+) -> dict:
+    """Compare revalidated products only on identical nutrition bases and units."""
+
+    arguments = {"products": products}
+    if nutrient_keys is not None:
+        arguments["nutrient_keys"] = nutrient_keys
+    return compare_products_service(ProductComparisonRequest(**arguments))
+
+
 BusinessTool = Callable[..., dict[str, Any]]
 
 BUSINESS_TOOLS: Mapping[str, BusinessTool] = {
@@ -185,6 +253,9 @@ BUSINESS_TOOLS: Mapping[str, BusinessTool] = {
     "explain_ingredient": explain_ingredient,
     "interpret_label_claim": interpret_label_claim,
     "verify_label_consistency": verify_label_consistency,
+    "find_alternative_products": find_alternative_products,
+    "compare_food_products": compare_food_products,
+    "revalidate_alternatives": revalidate_alternatives,
 }
 
 

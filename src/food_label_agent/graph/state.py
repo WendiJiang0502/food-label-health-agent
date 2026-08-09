@@ -36,7 +36,9 @@ class AgentState(TypedDict):
     ingredient_explanations: list[dict[str, Any]]
     claim_interpretations: list[dict[str, Any]]
     consistency_findings: list[dict[str, Any]]
+    alternative_request: dict[str, Any]
     alternatives: list[dict[str, Any]]
+    alternative_comparison: dict[str, Any]
     warnings: list[str]
     unknowns: list[str]
     errors: list[str]
@@ -71,7 +73,9 @@ def create_initial_state(
         ingredient_explanations=[],
         claim_interpretations=[],
         consistency_findings=[],
+        alternative_request={},
         alternatives=[],
+        alternative_comparison={},
         warnings=[],
         unknowns=[],
         errors=[],

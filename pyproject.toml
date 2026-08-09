@@ -46,7 +46,7 @@ food-label-regulations-ingest = "food_label_agent.regulations.cli:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-food_label_agent = ["regulations/data/*.json"]
+food_label_agent = ["regulations/data/*.json", "alternatives/data/*.json"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]

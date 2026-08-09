@@ -466,6 +466,142 @@ def verify_consistency(state: AgentState) -> dict:
     }
 
 
+def search_alternatives(state: AgentState) -> dict:
+    """Find same-category products only from current, complete label evidence."""
+
+    request = state.get("alternative_request", {})
+    category = str(request.get("category", "")).strip()
+    if request.get("enabled") is not True or not category:
+        return {
+            "status": AnalysisStatus.NEEDS_CONFIRMATION,
+            "stage": WorkflowStage.ALTERNATIVE_SEARCH,
+            "unknowns": list(
+                dict.fromkeys([*state["unknowns"], "alternative_category_required"])
+            ),
+        }
+    try:
+        result = invoke_mcp_tool(
+            "find_alternative_products",
+            {
+                "category": category,
+                "applicable_date": state["applicable_date"],
+                "constraints": [asdict(item) for item in state["user_constraints"]],
+                "jurisdiction": state["jurisdiction"],
+                "region": request.get("region", "CN"),
+                "exclude_product_ids": request.get("exclude_product_ids", []),
+                "limit": request.get("limit", 5),
+            },
+        )
+    except MCPToolCallError as exc:
+        return _tool_failure(state, exc)
+    candidates = [
+        {**item, "disposition": "candidate", "revalidated": False}
+        for item in result["candidates"]
+    ]
+    return {
+        "status": AnalysisStatus.IN_PROGRESS,
+        "stage": WorkflowStage.ALTERNATIVE_SEARCH,
+        "alternative_request": {
+            **request,
+            "search_status": result["status"],
+            "search_rejected": result["rejected"],
+            "catalog_scope": result["catalog_scope"],
+        },
+        "alternatives": candidates,
+        "unknowns": list(
+            dict.fromkeys([*state["unknowns"], *result.get("unknowns", [])])
+        ),
+        "audit_events": [
+            *state["audit_events"],
+            _context_event(state, "search_alternatives"),
+            AuditEvent(
+                event_type="alternative_candidates_searched",
+                actor="mcp:find_alternative_products",
+                detail={
+                    "tool_name": "find_alternative_products",
+                    "category": category,
+                    "candidate_count": len(candidates),
+                    "evidence_rejected_count": len(result["rejected"]),
+                },
+            ),
+        ],
+    }
+
+
+def revalidate_alternatives(state: AgentState) -> dict:
+    """Independently rerun all user constraints and compare eligible products."""
+
+    candidates = [
+        {
+            key: value
+            for key, value in item.items()
+            if key not in {"disposition", "revalidated"}
+        }
+        for item in state["alternatives"]
+        if item.get("disposition") == "candidate"
+    ]
+    try:
+        result = invoke_mcp_tool(
+            "revalidate_alternatives",
+            {
+                "request_id": state["request_id"],
+                "applicable_date": state["applicable_date"],
+                "constraints": [asdict(item) for item in state["user_constraints"]],
+                "candidates": candidates,
+                "jurisdiction": state["jurisdiction"],
+            },
+        )
+    except MCPToolCallError as exc:
+        return _tool_failure(state, exc)
+
+    eligible = [item for item in result["results"] if item["disposition"] == "eligible"]
+    comparison: dict = {"status": "not_available", "comparisons": [], "unknowns": []}
+    if eligible:
+        try:
+            comparison = invoke_mcp_tool(
+                "compare_food_products",
+                {"products": eligible},
+            )
+        except MCPToolCallError as exc:
+            return _tool_failure(state, exc)
+    return {
+        "status": AnalysisStatus.IN_PROGRESS,
+        "stage": WorkflowStage.ALTERNATIVE_SEARCH,
+        "alternatives": result["results"],
+        "alternative_comparison": comparison,
+        "alternative_request": {
+            **state["alternative_request"],
+            "revalidation_status": result["status"],
+            "candidate_count": result["candidate_count"],
+            "revalidated_count": result["revalidated_count"],
+            "revalidation_rate": result["revalidation_rate"],
+        },
+        "unknowns": list(
+            dict.fromkeys(
+                [
+                    *state["unknowns"],
+                    *result.get("unknowns", []),
+                    *comparison.get("unknowns", []),
+                ]
+            )
+        ),
+        "audit_events": [
+            *state["audit_events"],
+            _context_event(state, "revalidate_alternatives"),
+            AuditEvent(
+                event_type="alternative_candidates_revalidated",
+                actor="mcp:revalidate_alternatives",
+                detail={
+                    "tool_name": "revalidate_alternatives",
+                    "candidate_count": result["candidate_count"],
+                    "eligible_count": result["eligible_count"],
+                    "revalidation_rate": result["revalidation_rate"],
+                },
+            ),
+        ],
+    }
+
+
 def final_safety_gate_node(state: AgentState) -> dict:
     """Apply the mandatory evidence and risk-preservation gate."""
 

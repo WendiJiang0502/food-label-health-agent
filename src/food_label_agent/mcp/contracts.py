@@ -50,10 +50,23 @@ MCP_TOOLS: tuple[ToolContract, ...] = (
         safety_critical=True,
         implemented=True,
     ),
-    ToolContract("find_alternative_products", "Find candidates after hard filtering"),
+    ToolContract(
+        "find_alternative_products",
+        "Find same-category candidates with current, complete label evidence",
+        safety_critical=True,
+        implemented=True,
+    ),
     ToolContract(
         "compare_food_products",
         "Compare products on normalized and compatible measurement bases",
+        safety_critical=True,
+        implemented=True,
+    ),
+    ToolContract(
+        "revalidate_alternatives",
+        "Independently rerun deterministic constraints for every candidate",
+        safety_critical=True,
+        implemented=True,
     ),
 )
 

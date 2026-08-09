@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import asdict
 
+from food_label_agent.alternatives.models import AlternativeWorkflowRequest
 from food_label_agent.domain.models import LabelField, RiskFinding, UserConstraint
 from food_label_agent.domain.types import (
     AnalysisStatus,
@@ -15,8 +16,14 @@ from food_label_agent.ingredients.api_models import (
     SafetyEvaluationRequest,
     SafetyEvaluationResponse,
 )
+from food_label_agent.ingredients.service import evaluate_user_constraints_result
 
-from .nodes import _additive_ingredients, final_safety_gate_node
+from .nodes import (
+    _additive_ingredients,
+    final_safety_gate_node,
+    revalidate_alternatives,
+    search_alternatives,
+)
 from .react import react_orchestrator
 from .state import AgentState, create_initial_state
 
@@ -128,3 +135,56 @@ def run_regulatory_workflow(
         "react_budget": state["react_budget"],
     }
     return evidence, state
+
+
+def run_alternative_workflow(
+    request: AlternativeWorkflowRequest,
+) -> tuple[dict, AgentState]:
+    """Re-evaluate the current label, then discover and revalidate alternatives."""
+
+    safety_request = SafetyEvaluationRequest(
+        request_id=request.request_id,
+        jurisdiction=request.jurisdiction,
+        applicable_date=request.applicable_date.isoformat(),
+        confirmed_fields=request.confirmed_fields,
+        nutrition_rows=request.nutrition_rows,
+        constraints=request.constraints,
+        resume_token=request.resume_token,
+    )
+    evaluation = evaluate_user_constraints_result(safety_request)
+    _, state = run_regulatory_workflow(safety_request, evaluation)
+    state["alternative_request"] = {
+        "enabled": True,
+        "category": request.category,
+        "region": request.region,
+        "limit": 5,
+    }
+    state["status"] = AnalysisStatus.IN_PROGRESS
+    state.update(search_alternatives(state))
+    if state["status"] is not AnalysisStatus.BLOCKED:
+        state.update(revalidate_alternatives(state))
+    state.update(final_safety_gate_node(state))
+    eligible = [
+        item for item in state["alternatives"] if item.get("disposition") == "eligible"
+    ]
+    excluded = [
+        item for item in state["alternatives"] if item.get("disposition") == "excluded"
+    ]
+    return {
+        "status": (
+            "completed"
+            if state["status"] is AnalysisStatus.COMPLETED
+            else state["status"].value
+        ),
+        "category": request.category,
+        "catalog_scope": state["alternative_request"].get("catalog_scope"),
+        "eligible": eligible,
+        "excluded": excluded,
+        "evidence_rejected": state["alternative_request"].get("search_rejected", []),
+        "comparison": state["alternative_comparison"],
+        "candidate_count": state["alternative_request"].get("candidate_count", 0),
+        "revalidated_count": state["alternative_request"].get("revalidated_count", 0),
+        "revalidation_rate": state["alternative_request"].get("revalidation_rate", 0.0),
+        "unknowns": state["unknowns"],
+        "errors": state["errors"],
+    }, state

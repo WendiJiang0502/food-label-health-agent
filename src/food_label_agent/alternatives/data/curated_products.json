@@ -1,0 +1,180 @@
+[
+  {
+    "product_id": "fixture-biscuit-oat-plain",
+    "display_name": "示例·原味燕麦薄饼",
+    "brand": "验收目录",
+    "category": "biscuit",
+    "region": "CN",
+    "use_case": "饼干与便携谷物零食",
+    "catalog_scope": "curated_verification_catalog",
+    "label": {
+      "evidence_id": "product.fixture-biscuit-oat-plain.label.2026-08",
+      "ingredients_text": "燕麦粉、植物油、白砂糖、食用盐",
+      "allergen_statement": "含麸质谷物及其制品",
+      "nutrition_table_text": "项目 每100克 能量 1680千焦 蛋白质 8.0克 脂肪 12.0克 糖 6.0克 钠 180毫克",
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [["项目", "每100克"], ["能量", "1680千焦"], ["蛋白质", "8.0克"], ["脂肪", "12.0克"], ["糖", "6.0克"], ["钠", "180毫克"]],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-01",
+      "valid_through": "2027-08-01",
+      "source_url": "catalog://curated_verification_catalog/fixture-biscuit-oat-plain",
+      "content_hash": "sha256:76d9708e48fffc2fcabb8e9be1039f5e7dfe7fc0aae9ce899242a8821bf2fe5f",
+      "evidence_quality": "complete"
+    }
+  },
+  {
+    "product_id": "fixture-biscuit-milk-cracker",
+    "display_name": "示例·乳香苏打饼干",
+    "brand": "验收目录",
+    "category": "biscuit",
+    "region": "CN",
+    "use_case": "饼干与便携谷物零食",
+    "catalog_scope": "curated_verification_catalog",
+    "label": {
+      "evidence_id": "product.fixture-biscuit-milk-cracker.label.2026-08",
+      "ingredients_text": "小麦粉、植物油、全脂乳粉、食用盐",
+      "allergen_statement": "含小麦和乳制品",
+      "nutrition_table_text": "项目 每100克 能量 1820千焦 蛋白质 7.0克 脂肪 15.0克 糖 5.0克 钠 420毫克",
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [["项目", "每100克"], ["能量", "1820千焦"], ["蛋白质", "7.0克"], ["脂肪", "15.0克"], ["糖", "5.0克"], ["钠", "420毫克"]],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-01",
+      "valid_through": "2027-08-01",
+      "source_url": "catalog://curated_verification_catalog/fixture-biscuit-milk-cracker",
+      "content_hash": "sha256:5dcf29fda5574f013fdd24651ec9ad1b6479b434ed9fbae90b73588dbc3a54ec",
+      "evidence_quality": "complete"
+    }
+  },
+  {
+    "product_id": "fixture-biscuit-partial-label",
+    "display_name": "示例·配方待核对薄脆",
+    "brand": "验收目录",
+    "category": "biscuit",
+    "region": "CN",
+    "use_case": "饼干与便携谷物零食",
+    "catalog_scope": "curated_verification_catalog",
+    "label": {
+      "evidence_id": "product.fixture-biscuit-partial-label.label.2026-08",
+      "ingredients_text": "谷物粉、植物油、调味料",
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-01",
+      "source_url": "catalog://curated_verification_catalog/fixture-biscuit-partial-label",
+      "content_hash": "sha256:68044d16936ce0f6b488028e25e0ad43511e97acd5829f6bcf022c3883330582",
+      "evidence_quality": "partial"
+    }
+  },
+  {
+    "product_id": "fixture-drink-oat",
+    "display_name": "示例·原味燕麦饮",
+    "brand": "验收目录",
+    "category": "drink",
+    "region": "CN",
+    "use_case": "直接饮用的常温饮品",
+    "catalog_scope": "curated_verification_catalog",
+    "label": {
+      "evidence_id": "product.fixture-drink-oat.label.2026-08",
+      "ingredients_text": "水、燕麦、植物油、食用盐",
+      "allergen_statement": "含麸质谷物及其制品",
+      "nutrition_table_text": "项目 每100毫升 能量 210千焦 蛋白质 1.2克 脂肪 1.5克 糖 3.0克 钠 45毫克",
+      "nutrition_basis_text": "每100毫升",
+      "nutrition_rows": [["项目", "每100毫升"], ["能量", "210千焦"], ["蛋白质", "1.2克"], ["脂肪", "1.5克"], ["糖", "3.0克"], ["钠", "45毫克"]],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-01",
+      "valid_through": "2027-08-01",
+      "source_url": "catalog://curated_verification_catalog/fixture-drink-oat",
+      "content_hash": "sha256:489dd166dcad9519eaed08facfda0533702838418605ad987dd6f66a9c4f0a79",
+      "evidence_quality": "complete"
+    }
+  },
+  {
+    "product_id": "fixture-drink-soy",
+    "display_name": "示例·无糖豆乳",
+    "brand": "验收目录",
+    "category": "drink",
+    "region": "CN",
+    "use_case": "直接饮用的常温饮品",
+    "catalog_scope": "curated_verification_catalog",
+    "label": {
+      "evidence_id": "product.fixture-drink-soy.label.2026-08",
+      "ingredients_text": "水、大豆",
+      "allergen_statement": "含大豆及其制品",
+      "nutrition_table_text": "项目 每100毫升 能量 150千焦 蛋白质 3.0克 脂肪 1.8克 糖 0克 钠 35毫克",
+      "nutrition_basis_text": "每100毫升",
+      "nutrition_rows": [["项目", "每100毫升"], ["能量", "150千焦"], ["蛋白质", "3.0克"], ["脂肪", "1.8克"], ["糖", "0克"], ["钠", "35毫克"]],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-01",
+      "valid_through": "2027-08-01",
+      "source_url": "catalog://curated_verification_catalog/fixture-drink-soy",
+      "content_hash": "sha256:8fb2d68c2e695e40ea1e077d76f46f4820ef984cb44bcdb68916021de188863d",
+      "evidence_quality": "complete"
+    }
+  },
+  {
+    "product_id": "fixture-drink-milk",
+    "display_name": "示例·全脂纯牛奶",
+    "brand": "验收目录",
+    "category": "drink",
+    "region": "CN",
+      "use_case": "直接饮用的常温饮品",
+    "catalog_scope": "curated_verification_catalog",
+    "label": {
+      "evidence_id": "product.fixture-drink-milk.label.2026-08",
+      "ingredients_text": "生牛乳",
+      "allergen_statement": "含乳及乳制品",
+      "nutrition_table_text": "项目 每100毫升 能量 280千焦 蛋白质 3.2克 脂肪 3.8克 糖 5.0克 钠 60毫克",
+      "nutrition_basis_text": "每100毫升",
+      "nutrition_rows": [["项目", "每100毫升"], ["能量", "280千焦"], ["蛋白质", "3.2克"], ["脂肪", "3.8克"], ["糖", "5.0克"], ["钠", "60毫克"]],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-01",
+      "valid_through": "2027-08-01",
+      "source_url": "catalog://curated_verification_catalog/fixture-drink-milk",
+      "content_hash": "sha256:8f408875905f784a97297b777080848c0ce4754b82ccf382966c53016a2417ad",
+      "evidence_quality": "complete"
+    }
+  },
+  {
+    "product_id": "fixture-meat-chicken-low-sodium",
+    "display_name": "示例·简配鸡胸肉",
+    "brand": "验收目录",
+    "category": "processed_meat",
+    "region": "CN",
+    "use_case": "即食肉制品",
+    "catalog_scope": "curated_verification_catalog",
+    "label": {
+      "evidence_id": "product.fixture-meat-chicken-low-sodium.label.2026-08",
+      "ingredients_text": "鸡胸肉、水、食用盐、白砂糖",
+      "nutrition_table_text": "项目 每100克 能量 520千焦 蛋白质 22克 脂肪 2.5克 糖 1.0克 钠 260毫克",
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [["项目", "每100克"], ["能量", "520千焦"], ["蛋白质", "22克"], ["脂肪", "2.5克"], ["糖", "1.0克"], ["钠", "260毫克"]],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-01",
+      "valid_through": "2027-08-01",
+      "source_url": "catalog://curated_verification_catalog/fixture-meat-chicken-low-sodium",
+      "content_hash": "sha256:db81c1c0e85e7044d33c0eebc4ae7ba7337d14ba2e35ce8eb1a61de326be759c",
+      "evidence_quality": "complete"
+    }
+  },
+  {
+    "product_id": "fixture-meat-chicken-high-sodium",
+    "display_name": "示例·浓味鸡胸肉",
+    "brand": "验收目录",
+    "category": "processed_meat",
+    "region": "CN",
+    "use_case": "即食肉制品",
+    "catalog_scope": "curated_verification_catalog",
+    "label": {
+      "evidence_id": "product.fixture-meat-chicken-high-sodium.label.2026-08",
+      "ingredients_text": "鸡胸肉、水、食用盐、酱油（含大豆、小麦）",
+      "allergen_statement": "含大豆和含麸质谷物",
+      "nutrition_table_text": "项目 每100克 能量 560千焦 蛋白质 21克 脂肪 3.0克 糖 1.5克 钠 680毫克",
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [["项目", "每100克"], ["能量", "560千焦"], ["蛋白质", "21克"], ["脂肪", "3.0克"], ["糖", "1.5克"], ["钠", "680毫克"]],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-01",
+      "valid_through": "2027-08-01",
+      "source_url": "catalog://curated_verification_catalog/fixture-meat-chicken-high-sodium",
+      "content_hash": "sha256:dd0c6fdbd8468c0fbc579ec104aadeeee298d846cdc9f95142eda814be525c3b",
+      "evidence_quality": "complete"
+    }
+  }
+]

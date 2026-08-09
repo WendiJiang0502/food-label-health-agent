@@ -225,6 +225,46 @@ async def _test_claim_tools_are_registered_on_real_mcp_server() -> None:
     assert "verify_label_consistency" in tools
 
 
+def test_alternative_tools_are_registered_and_enforce_revalidation() -> None:
+    asyncio.run(_test_alternative_tools_are_registered_and_enforce_revalidation())
+
+
+async def _test_alternative_tools_are_registered_and_enforce_revalidation() -> None:
+    server = create_server()
+    tools = {tool.name: tool for tool in await server.list_tools()}
+    assert {
+        "find_alternative_products",
+        "compare_food_products",
+        "revalidate_alternatives",
+    }.issubset(tools)
+    constraints = [{"kind": "allergy", "canonical_value": "milk", "severity": "severe"}]
+    found = _json_result(
+        await server.call_tool(
+            "find_alternative_products",
+            {
+                "category": "biscuit",
+                "applicable_date": "2026-08-09",
+                "constraints": constraints,
+            },
+        )
+    )
+    revalidated = _json_result(
+        await server.call_tool(
+            "revalidate_alternatives",
+            {
+                "request_id": "mcp-alternatives",
+                "applicable_date": "2026-08-09",
+                "constraints": constraints,
+                "candidates": found["candidates"],
+            },
+        )
+    )
+
+    assert revalidated["revalidation_rate"] == 1
+    assert revalidated["eligible_count"] == 1
+    assert all(item["revalidated"] is True for item in revalidated["results"])
+
+
 def test_explain_ingredient_handles_additive_without_fake_risk() -> None:
     result = _json_result(
         asyncio.run(

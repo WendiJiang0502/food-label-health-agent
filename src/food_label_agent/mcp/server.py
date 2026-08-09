@@ -3,10 +3,13 @@
 from __future__ import annotations
 
 from .business_tools import (
+    compare_food_products,
     evaluate_user_constraints,
     explain_ingredient,
+    find_alternative_products,
     interpret_label_claim,
     normalize_food_label,
+    revalidate_alternatives,
     search_food_regulations,
     verify_label_consistency,
 )
@@ -31,6 +34,9 @@ def create_server():
     server.tool()(explain_ingredient)
     server.tool()(interpret_label_claim)
     server.tool()(verify_label_consistency)
+    server.tool()(find_alternative_products)
+    server.tool()(compare_food_products)
+    server.tool()(revalidate_alternatives)
 
     @server.tool()
     def health() -> dict[str, object]:
