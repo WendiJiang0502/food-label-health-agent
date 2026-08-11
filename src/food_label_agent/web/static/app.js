@@ -24,6 +24,7 @@ const elements = {
   railError: document.querySelector("#rail-error"),
   railErrorMessage: document.querySelector("#rail-error-message"),
   constraintStep: document.querySelector("#constraint-step"),
+  editLabel: document.querySelector("#edit-label"),
   constraintForm: document.querySelector("#constraint-form"),
   constraintError: document.querySelector("#constraint-error"),
   nutritionLimit: document.querySelector("#nutrition-limit"),
@@ -124,6 +125,7 @@ const nutrientNames = {
 };
 
 elements.nutritionKey.addEventListener("change", updateNutritionLimitControl);
+elements.editLabel.addEventListener("click", returnToLabelEditing);
 
 elements.fileInput.addEventListener("change", (event) => {
   const [file] = event.target.files;
@@ -333,6 +335,22 @@ elements.changeConstraints.addEventListener("click", () => {
   elements.reviewCount.textContent = "个人约束";
   elements.constraintStep.querySelector("input")?.focus();
 });
+
+function returnToLabelEditing() {
+  elements.constraintStep.hidden = true;
+  elements.safetyResult.hidden = true;
+  elements.form.hidden = false;
+  elements.resultState.hidden = true;
+  hideRailError();
+  state.confirmedFields = null;
+  state.normalizedLabel = null;
+  state.currentConstraints = [];
+  elements.reviewTitle.textContent = "确认识别文字";
+  elements.reviewCount.textContent = `${state.analysis?.fields.length || 0} 项`;
+  elements.proofState.textContent = "待重新确认";
+  elements.fieldList.querySelector("textarea")?.focus();
+  announce("已返回标签文字编辑，请修改后重新确认");
+}
 
 function selectFile(file) {
   const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/heic", "image/heif"];

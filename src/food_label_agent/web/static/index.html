@@ -159,7 +159,13 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
           </div>
 
           <section class="constraint-step" id="constraint-step" hidden aria-labelledby="constraint-title">
-            <p class="step-context">标签文字已确认 · 下一步</p>
+            <div class="step-context-row">
+              <p class="step-context">标签文字已确认 · 下一步</p>
+              <button class="step-back" id="edit-label" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7" /></svg>
+                返回编辑标签
+              </button>
+            </div>
             <h2 id="constraint-title">你需要避开什么？</h2>
             <p class="constraint-intro">选择过敏约束，也可以按包装口径设置营养成分上限。评估只使用刚才确认的标签事实。</p>
             <form id="constraint-form">

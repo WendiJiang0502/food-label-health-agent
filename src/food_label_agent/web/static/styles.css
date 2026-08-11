@@ -471,8 +471,14 @@ h3 { font-size: 1.2rem; }
 .safety-result { min-height: 510px; }
 
 .constraint-step { display: flex; flex-direction: column; justify-content: center; }
+.step-context-row { display: flex; min-width: 0; align-items: center; justify-content: space-between; gap: 16px; margin: 0 0 12px; }
 .step-context,
 .risk-kicker { margin: 0 0 12px; color: var(--teal); font-family: var(--font-data); font-size: 0.68rem; font-weight: 800; letter-spacing: 0.08em; }
+.step-context-row .step-context { min-width: 0; margin: 0; }
+.step-back { display: inline-flex; min-height: 44px; flex: 0 0 auto; align-items: center; gap: 5px; border: 0; background: transparent; color: var(--teal); cursor: pointer; padding: 6px 0; font: inherit; font-size: 1rem; font-weight: 750; }
+.step-back svg { width: 16px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2; }
+.step-back:hover { text-decoration: underline; text-underline-offset: 4px; }
+.step-back:focus-visible { border-radius: 8px; outline: 3px solid var(--paper); box-shadow: 0 0 0 6px var(--teal); }
 .constraint-intro { margin: 16px 0 28px; color: var(--muted); }
 .constraint-options { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 28px; border: 0; padding: 0; }
 .constraint-option { position: relative; cursor: pointer; }
@@ -754,6 +760,7 @@ footer p { margin: 0; }
   .review-rail { border-radius: 18px; padding: 22px; }
   .constraint-step,
   .safety-result { min-height: 440px; }
+  .step-context-row { align-items: flex-start; flex-direction: column; gap: 2px; }
   .constraint-option { flex: 1 0 calc(33.333% - 10px); }
   .constraint-option span { min-width: 0; padding-inline: 12px; }
   .nutrition-limit-grid { grid-template-columns: 1fr; }
