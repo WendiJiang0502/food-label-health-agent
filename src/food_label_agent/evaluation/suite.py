@@ -72,7 +72,7 @@ def run_evaluation(
         components["ocr"] = {
             "status": "not_run",
             "reason": "private_ocr_dataset_not_provided",
-            "evaluation_passed": profile == "development",
+            "evaluation_passed": None if profile == "development" else False,
             "release_blockers": (
                 []
                 if profile == "development"
