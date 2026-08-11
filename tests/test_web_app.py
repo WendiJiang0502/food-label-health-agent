@@ -32,6 +32,12 @@ def test_platform_index_and_health() -> None:
     assert health.status_code == 200
     assert health.json()["synthetic_ocr"] is True
     assert health.json()["remote_processing"] is False
+    assert health.json()["planner"] == {
+        "provider": "deterministic",
+        "model": None,
+        "configured": True,
+        "remote_processing": False,
+    }
     assert health.json()["product_catalog"] == "curated"
     assert favicon.status_code == 200
 

@@ -17,6 +17,7 @@ from .alternatives import evaluate_alternative_benchmark
 from .benchmarks import ALTERNATIVE_BENCHMARK, RAG_BENCHMARK
 from .failures import evaluate_failure_corpus
 from .ocr import evaluate_directory
+from .planner import evaluate_planner_ablation
 from .rag import evaluate_rag_benchmark
 from .rules import evaluate_allergen_rules
 from .safety import evaluate_final_safety_gate
@@ -60,6 +61,7 @@ def run_evaluation(
             get_default_regulation_store(), RAG_BENCHMARK, k=5
         ).to_dict(),
         "agent": evaluate_agent_benchmark().to_dict(),
+        "planner_ablation": evaluate_planner_ablation().to_dict(),
         "alternatives": evaluate_alternative_benchmark(
             ALTERNATIVE_BENCHMARK,
             catalog=JsonProductCatalog(),

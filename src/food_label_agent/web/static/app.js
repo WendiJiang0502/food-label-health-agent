@@ -1229,19 +1229,26 @@ async function loadHealthStatus() {
     if (health.synthetic_ocr) {
       elements.ocrStatus.textContent = "演示 OCR";
       elements.ocrProofNote.innerHTML = "<strong>演示版</strong> · OCR 结果仅用于测试交互";
-      setPrivacyStatus("图片默认不保存");
+      setPrivacyStatus(plannerPrivacyCopy(health, "图片默认不保存"));
     } else if (health.remote_processing) {
       elements.ocrStatus.textContent = "腾讯云 OCR";
       elements.ocrProofNote.innerHTML = "<strong>云端识别</strong> · 结果仍需人工核对";
-      setPrivacyStatus("图片发送至腾讯云处理，本平台不保存原图");
+      setPrivacyStatus(
+        plannerPrivacyCopy(health, "图片发送至腾讯云处理，本平台不保存原图"),
+      );
     } else {
       elements.ocrStatus.textContent = "本地 PP-OCRv6";
       elements.ocrProofNote.innerHTML = "<strong>本地识别</strong> · 结果仍需人工核对";
-      setPrivacyStatus("图片在本机处理，默认不保存");
+      setPrivacyStatus(plannerPrivacyCopy(health, "图片在本机处理，默认不保存"));
     }
   } catch {
     // The upload action remains available; request-level errors provide recovery.
   }
+}
+
+function plannerPrivacyCopy(health, imageCopy) {
+  if (!health.planner?.remote_processing) return imageCopy;
+  return `${imageCopy}；确认后的标签事实会发送至 OpenAI，用于选择下一项证据工具`;
 }
 
 function setPrivacyStatus(message) {

@@ -9,7 +9,7 @@
 
 当前阶段已完成工程骨架、Agent 状态协议、安全路由、配料树状规范化、中国八类常见致敏物质的确定性规则，以及从图片上传、人工确认到个人约束评估的网页闭环。平台默认使用腾讯云高精度 OCR，也可由部署者切换到本地 PP-OCRv6；任何模型识别结果仍必须经过证据检查和必要的人工确认。法规层已经具备官方标准注册、结构化 PDF 分片、版本/适用日期过滤，以及 BM25 与领域 TF-IDF 向量召回的混合检索；融合重排同时记录关键词、向量、主题、标准号和权威等级信号。配料解释会绑定具体官方条款，并由最终安全门阻断失效引用和风险降级。营养事实层会规范化营养素、数值、单位、计量口径和原始行证据，并以确定性规则比较用户自行设置的营养上限；不同口径不自动换算。包装声称层已支持“无糖、低糖、无蔗糖、不添加糖、不添加蔗糖”的非等价解释，并交叉核对已确认的配料与糖含量。添加剂解释词典 `cn.v2` 已覆盖常见改性淀粉、乳化剂、抗氧化剂、抗结剂、增味剂和着色剂，并将身份词典事实与 GB 2760 法规来源分开呈现；OCR 行内断开的已知名称会在保留原始证据位置的同时完成规范化。没有食品类别、实际用量和标准明细表证据时，不生成合规或健康安全结论。
 
-当前主流程还加入了受约束 ReAct 编排节点：它只能在四个已批准 MCP 工具中动态选择法规检索、配料解释、声称解释和一致性验证，并受步骤数与工具调用数双重预算约束。标签确认、规范化、确定性约束评估和最终安全门仍是不可跳过的固定节点。API 返回只包含工具名、决策原因码和压缩后的工具观察，不记录或暴露模型思维链。
+当前主流程还加入了受约束 ReAct 编排节点：它只能在四个已批准 MCP 工具中动态选择法规检索、配料解释、声称解释和一致性验证，并受步骤数与工具调用数双重预算约束。默认策略保持完全确定性；部署者也可启用模型辅助 Planner，让模型仅从策略生成的合法动作 ID 中提出下一步，再由系统校验并生成不可篡改的工具参数。标签确认、规范化、确定性约束评估和最终安全门仍是不可跳过的固定节点。API 返回只包含工具名、决策原因码、模型调用元数据和压缩后的工具观察，不记录或暴露模型思维链。
 
 OCR、人工确认、约束评估、法规解释和替代品复核现在共用一份可恢复的 `AgentState`。每次安全停点都会追加 SQLite 检查点；`workflow_trace` 记录 LangGraph 节点转换，`agent_trace` 记录 MCP 工具选择。可重试工具失败最多自动重试一次，仍失败则输出 `unknown` 并阻断肯定结论。每个完成结果还包含 `release_gate`，用于确认必经节点和 `final_safety_gate` 未被绕过。
 
@@ -62,6 +62,25 @@ food-label-platform
 可显式改为 `openfoodfacts` 禁用回退，或改为 `curated` 仅运行离线验收目录。Open Food Facts 是社区维护的开放数据，应核对实物标签并遵守其 ODbL 数据库许可要求。
 
 工作流检查点和经授权的长期记忆默认保存在 `~/.local/share/food-label-health-agent/agent-data.sqlite3`，文件权限设为仅当前用户可读写。可用 `FOOD_LABEL_DATA_DIR` 指定其他数据目录。当前能力令牌方案用于本地单用户原型；多用户部署仍需在 API 前增加账户认证、加密密钥管理和数据隔离。
+
+### 可选的模型辅助 Planner
+
+默认的 `deterministic` 模式不调用远程模型。启用 OpenAI Planner 时，确认后的标签事实、用户约束和候选动作摘要会发送给 OpenAI；原始图片不会发送给 Planner，请求设置 `store: false`。模型不能创建工具参数、修改过敏原结果或跳过最终安全门；无凭证、超时、拒答、非法动作或无效结构都会自动回退到确定性策略。
+
+```bash
+export FOOD_LABEL_PLANNER_PROVIDER=openai
+export FOOD_LABEL_PLANNER_MODEL=gpt-5.6-terra
+export FOOD_LABEL_PLANNER_REASONING_EFFORT=low
+export OPENAI_API_KEY='由部署环境注入，不要写入仓库'
+food-label-platform
+```
+
+三种 Planner 消融评测分别记录确定性基线、原始模型提议和策略保护后的模型提议。离线模式不会调用远程服务；正式模型评测必须显式启用：
+
+```bash
+food-label-planner-eval
+FOOD_LABEL_PLANNER_PROVIDER=openai food-label-planner-eval --live
+```
 
 ### Milestone 6 统一评测与发布门禁
 
@@ -144,6 +163,7 @@ food-label-platform
 - [ADR-003：版本化法规混合检索](./docs/architecture/ADR-003-versioned-hybrid-regulation-retrieval.md)
 - [ADR-004：节点上下文、检查点与授权记忆](./docs/architecture/ADR-004-context-checkpoints-and-consented-memory.md)
 - [ADR-005：证据优先的替代品检索与二次验证](./docs/architecture/ADR-005-evidence-first-alternative-revalidation.md)
+- [ADR-006：策略保护的模型辅助 Planner](./docs/architecture/ADR-006-policy-guarded-model-planner.md)
 - [PP-OCRv6 配置教程](./docs/ocr/PP-OCRv6_CONFIGURATION_GUIDE.md)
 - [腾讯云 OCR 配置教程](./docs/ocr/TENCENT_CLOUD_CONFIGURATION_GUIDE.md)
 - [腾讯云 OCR 匿名评测记录](./docs/ocr/TENCENT_OCR_EVALUATION_2026-08-05.md)

@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Any
 
 from food_label_agent import __version__
+from food_label_agent.graph.planner import PlannerSettings
 from food_label_agent.ingredients.additives import ADDITIVE_DICTIONARY_VERSION
 from food_label_agent.ingredients.allergens import RULESET_METADATA
 from food_label_agent.ingredients.normalization import INGREDIENT_NORMALIZATION_VERSION
@@ -43,6 +44,8 @@ class VersionSnapshot:
     ocr_provider: str
     ocr_model: str
     ocr_sdk_version: str | None
+    planner_provider: str
+    planner_model: str | None
     product_catalog: str
     mcp_tools: tuple[str, ...]
 
@@ -54,6 +57,7 @@ class VersionSnapshot:
 
 def build_version_snapshot() -> VersionSnapshot:
     settings = OCRSettings.from_environment()
+    planner = PlannerSettings.from_environment()
     return VersionSnapshot(
         generated_at=datetime.now(UTC).isoformat(),
         git_commit=_git("rev-parse", "HEAD") or "unknown",
@@ -71,6 +75,8 @@ def build_version_snapshot() -> VersionSnapshot:
         ocr_provider=settings.provider,
         ocr_model=_ocr_model(settings),
         ocr_sdk_version=_ocr_sdk_version(settings.provider),
+        planner_provider=planner.provider,
+        planner_model=planner.model if planner.provider != "deterministic" else None,
         product_catalog=os.getenv("FOOD_LABEL_PRODUCT_CATALOG", "curated"),
         mcp_tools=tuple(sorted(item.name for item in MCP_TOOLS if item.implemented)),
     )

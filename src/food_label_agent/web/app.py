@@ -18,6 +18,7 @@ from starlette.staticfiles import StaticFiles
 from food_label_agent.alternatives.category import suggest_product_category
 from food_label_agent.alternatives.models import AlternativeWorkflowRequest
 from food_label_agent.domain.models import LabelField
+from food_label_agent.graph.planner import planner_public_status
 from food_label_agent.graph.runtime import run_agent_graph
 from food_label_agent.graph.state import create_initial_state
 from food_label_agent.graph.workflows import (
@@ -70,6 +71,7 @@ def create_app(
                 "remote_processing": getattr(
                     service.provider, "remote_processing", False
                 ),
+                "planner": planner_public_status(),
                 "product_catalog": os.getenv("FOOD_LABEL_PRODUCT_CATALOG", "curated"),
             }
         )

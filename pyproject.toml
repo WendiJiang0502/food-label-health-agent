@@ -42,6 +42,7 @@ food-label-mcp = "food_label_agent.mcp.server:run"
 food-label-platform = "food_label_agent.web.app:run"
 food-label-ocr-eval = "food_label_agent.evaluation.ocr:main"
 food-label-eval = "food_label_agent.evaluation.suite:main"
+food-label-planner-eval = "food_label_agent.evaluation.planner:main"
 food-label-regulations-ingest = "food_label_agent.regulations.cli:main"
 
 [tool.setuptools.packages.find]

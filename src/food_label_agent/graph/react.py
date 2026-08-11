@@ -22,6 +22,12 @@ from .nodes import (
     _regulatory_evidence,
     _risk_finding_payload,
 )
+from .planner import (
+    ActionProposer,
+    ModelPlannerError,
+    PlannerProposal,
+    create_action_proposer,
+)
 from .routing import critical_fields_needing_confirmation
 from .state import AgentState
 
@@ -44,11 +50,50 @@ class ReactDecision:
     trace_context: dict[str, Any] | None = None
 
 
+@dataclass(frozen=True, slots=True)
+class PlannerSelection:
+    decision: ReactDecision
+    mode: str
+    outcome: str
+    candidate_count: int
+    provider: str | None = None
+    model: str | None = None
+    response_id: str | None = None
+    input_tokens: int | None = None
+    output_tokens: int | None = None
+    error_code: str | None = None
+
+    def observation(self) -> dict[str, Any]:
+        return {
+            "planner_mode": self.mode,
+            "planner_outcome": self.outcome,
+            "planner_candidate_count": self.candidate_count,
+            **({"planner_provider": self.provider} if self.provider else {}),
+            **({"planner_model": self.model} if self.model else {}),
+            **({"planner_response_id": self.response_id} if self.response_id else {}),
+            **(
+                {"planner_input_tokens": self.input_tokens}
+                if self.input_tokens is not None
+                else {}
+            ),
+            **(
+                {"planner_output_tokens": self.output_tokens}
+                if self.output_tokens is not None
+                else {}
+            ),
+            **({"planner_error_code": self.error_code} if self.error_code else {}),
+        }
+
+
+_PLANNER_FROM_ENVIRONMENT = object()
+
+
 def react_orchestrator(
     state: AgentState,
     *,
     max_steps: int | None = None,
     max_tool_calls: int | None = None,
+    action_proposer: ActionProposer | None | object = _PLANNER_FROM_ENVIRONMENT,
 ) -> dict:
     """Run a bounded tool loop and return a LangGraph-compatible state update."""
 
@@ -79,6 +124,11 @@ def react_orchestrator(
     )
     if step_limit < 1 or tool_limit < 1:
         raise ValueError("ReAct budgets must be positive")
+    proposer = (
+        create_action_proposer()
+        if action_proposer is _PLANNER_FROM_ENVIRONMENT
+        else action_proposer
+    )
 
     prerequisite = _prerequisite_failure(working)
     if prerequisite:
@@ -102,7 +152,9 @@ def react_orchestrator(
 
     calls_used = 0
     for step in range(1, step_limit + 1):
-        decision = select_next_action(working)
+        selection = choose_next_action(working, action_proposer=proposer)
+        decision = selection.decision
+        _record_planner_selection(working, step, selection)
         if decision.action == "stop":
             working["stage"] = WorkflowStage.REACT_ORCHESTRATION
             working["tool_trace"].append(
@@ -114,7 +166,10 @@ def react_orchestrator(
                     outcome="completed",
                     status_before=working["status"].value,
                     status_after=working["status"].value,
-                    observation=_observation(working),
+                    observation={
+                        **selection.observation(),
+                        **_observation(working),
+                    },
                 )
             )
             break
@@ -147,6 +202,7 @@ def react_orchestrator(
                             status_before=status_before,
                             status_after=working["status"].value,
                             observation={
+                                **selection.observation(),
                                 **(decision.trace_context or {}),
                                 "attempt": attempt,
                             },
@@ -177,6 +233,7 @@ def react_orchestrator(
                         status_before=status_before,
                         status_after=working["status"].value,
                         observation={
+                            **selection.observation(),
                             **(decision.trace_context or {}),
                             "attempt": attempt,
                         },
@@ -200,6 +257,7 @@ def react_orchestrator(
                 status_before=status_before,
                 status_after=working["status"].value,
                 observation={
+                    **selection.observation(),
                     **(decision.trace_context or {}),
                     **_result_observation(decision, result),
                     "attempt": 2 if recovered else 1,
@@ -239,9 +297,10 @@ def react_orchestrator(
     return _react_update(working, step_limit, tool_limit, calls_used)
 
 
-def select_next_action(state: AgentState) -> ReactDecision:
-    """Choose one approved tool from explicit missing-evidence conditions."""
+def candidate_actions(state: AgentState) -> tuple[ReactDecision, ...]:
+    """Build the complete legal action set for the current evidence phase."""
 
+    retrievals: list[ReactDecision] = []
     attempted = {item.reason_code for item in state["tool_trace"]}
     allergen_findings = [
         item
@@ -265,11 +324,13 @@ def select_next_action(state: AgentState) -> ReactDecision:
             for value in (item.matched_text, item.constraint)
             if value
         ]
-        return _search_decision(
-            state,
-            "RETRIEVE_ALLERGEN_RULES",
-            " ".join([*terms, "食品标签 配料表 过敏原 致敏物质"]),
-            ["allergen", "ingredient_labeling"],
+        retrievals.append(
+            _search_decision(
+                state,
+                "RETRIEVE_ALLERGEN_RULES",
+                " ".join([*terms, "食品标签 配料表 过敏原 致敏物质"]),
+                ["allergen", "ingredient_labeling"],
+            )
         )
     if (
         additives
@@ -279,11 +340,13 @@ def select_next_action(state: AgentState) -> ReactDecision:
         terms = [
             item.get("canonical_name") or item.get("raw_name") for item in additives
         ]
-        return _search_decision(
-            state,
-            "RETRIEVE_ADDITIVE_RULES",
-            " ".join([*terms, "GB 2760-2024 食品添加剂使用标准"]),
-            ["food_additive"],
+        retrievals.append(
+            _search_decision(
+                state,
+                "RETRIEVE_ADDITIVE_RULES",
+                " ".join([*terms, "GB 2760-2024 食品添加剂使用标准"]),
+                ["food_additive"],
+            )
         )
     if (
         claim
@@ -291,13 +354,18 @@ def select_next_action(state: AgentState) -> ReactDecision:
         and not _has_standard(state, "GB 28050")
         and "RETRIEVE_CLAIM_RULES" not in attempted
     ):
-        return _search_decision(
-            state,
-            "RETRIEVE_CLAIM_RULES",
-            f"{claim.raw_text} 无糖 低糖 糖含量 营养声称 表C.1",
-            ["nutrition_claim"],
+        retrievals.append(
+            _search_decision(
+                state,
+                "RETRIEVE_CLAIM_RULES",
+                f"{claim.raw_text} 无糖 低糖 糖含量 营养声称 表C.1",
+                ["nutrition_claim"],
+            )
         )
+    if retrievals:
+        return tuple(retrievals)
 
+    explanations: list[ReactDecision] = []
     explained_ids = {
         evidence_id
         for item in state["ingredient_explanations"]
@@ -308,74 +376,154 @@ def select_next_action(state: AgentState) -> ReactDecision:
             continue
         ingredient = _ingredient_for_finding(state["normalized_label"], finding)
         if ingredient is not None:
-            return ReactDecision(
+            explanations.append(
+                ReactDecision(
+                    action="explain_ingredient",
+                    reason_code=f"EXPLAIN_RISK:{ingredient['evidence_id']}",
+                    tool_name="explain_ingredient",
+                    arguments={
+                        "ingredient": ingredient,
+                        "risk_finding": _risk_finding_payload(finding),
+                        "regulatory_evidence": [
+                            asdict(item) for item in state["regulatory_evidence"]
+                        ],
+                        "jurisdiction": state["jurisdiction"],
+                        "applicable_date": state["applicable_date"],
+                    },
+                    trace_context={"target_evidence_id": ingredient["evidence_id"]},
+                )
+            )
+    for ingredient in additives:
+        if ingredient.get("evidence_id") in explained_ids:
+            continue
+        explanations.append(
+            ReactDecision(
                 action="explain_ingredient",
-                reason_code=f"EXPLAIN_RISK:{ingredient['evidence_id']}",
+                reason_code=f"EXPLAIN_ADDITIVE:{ingredient.get('evidence_id')}",
                 tool_name="explain_ingredient",
                 arguments={
                     "ingredient": ingredient,
-                    "risk_finding": _risk_finding_payload(finding),
+                    "risk_finding": None,
                     "regulatory_evidence": [
                         asdict(item) for item in state["regulatory_evidence"]
                     ],
                     "jurisdiction": state["jurisdiction"],
                     "applicable_date": state["applicable_date"],
                 },
-                trace_context={"target_evidence_id": ingredient["evidence_id"]},
+                trace_context={"target_evidence_id": ingredient.get("evidence_id")},
             )
-    for ingredient in additives:
-        if ingredient.get("evidence_id") in explained_ids:
-            continue
-        return ReactDecision(
-            action="explain_ingredient",
-            reason_code=f"EXPLAIN_ADDITIVE:{ingredient.get('evidence_id')}",
-            tool_name="explain_ingredient",
-            arguments={
-                "ingredient": ingredient,
-                "risk_finding": None,
-                "regulatory_evidence": [
-                    asdict(item) for item in state["regulatory_evidence"]
-                ],
-                "jurisdiction": state["jurisdiction"],
-                "applicable_date": state["applicable_date"],
-            },
-            trace_context={"target_evidence_id": ingredient.get("evidence_id")},
         )
+    if explanations:
+        return tuple(explanations)
 
     if claim and claim.raw_text.strip() and not state["claim_interpretations"]:
-        return ReactDecision(
-            action="interpret_label_claim",
-            reason_code="INTERPRET_CONFIRMED_CLAIMS",
-            tool_name="interpret_label_claim",
-            arguments={
-                "claim_text": claim.raw_text,
-                "regulatory_evidence": [
-                    asdict(item) for item in state["regulatory_evidence"]
-                ],
-                "jurisdiction": state["jurisdiction"],
-                "applicable_date": state["applicable_date"],
-            },
-            trace_context={"source_field": "label_claims"},
+        return (
+            ReactDecision(
+                action="interpret_label_claim",
+                reason_code="INTERPRET_CONFIRMED_CLAIMS",
+                tool_name="interpret_label_claim",
+                arguments={
+                    "claim_text": claim.raw_text,
+                    "regulatory_evidence": [
+                        asdict(item) for item in state["regulatory_evidence"]
+                    ],
+                    "jurisdiction": state["jurisdiction"],
+                    "applicable_date": state["applicable_date"],
+                },
+                trace_context={"source_field": "label_claims"},
+            ),
         )
     if state["claim_interpretations"] and not state["consistency_findings"]:
         ingredients = state["label_fields"].get("ingredients")
-        return ReactDecision(
-            action="verify_label_consistency",
-            reason_code="VERIFY_CLAIM_AGAINST_FACTS",
-            tool_name="verify_label_consistency",
-            arguments={
-                "claims": state["claim_interpretations"],
-                "ingredients_text": ingredients.raw_text if ingredients else None,
-                "nutrition_values": _nutrition_values(state),
-                "regulatory_evidence": [
-                    asdict(item) for item in state["regulatory_evidence"]
-                ],
-                "jurisdiction": state["jurisdiction"],
-                "applicable_date": state["applicable_date"],
-            },
-            trace_context={"claim_count": len(state["claim_interpretations"])},
+        return (
+            ReactDecision(
+                action="verify_label_consistency",
+                reason_code="VERIFY_CLAIM_AGAINST_FACTS",
+                tool_name="verify_label_consistency",
+                arguments={
+                    "claims": state["claim_interpretations"],
+                    "ingredients_text": ingredients.raw_text if ingredients else None,
+                    "nutrition_values": _nutrition_values(state),
+                    "regulatory_evidence": [
+                        asdict(item) for item in state["regulatory_evidence"]
+                    ],
+                    "jurisdiction": state["jurisdiction"],
+                    "applicable_date": state["applicable_date"],
+                },
+                trace_context={"claim_count": len(state["claim_interpretations"])},
+            ),
         )
-    return ReactDecision(action="stop", reason_code="NO_REQUIRED_TOOL_REMAINS")
+    return ()
+
+
+def select_next_action(state: AgentState) -> ReactDecision:
+    """Deterministic baseline: select the first policy-generated candidate."""
+
+    candidates = candidate_actions(state)
+    return candidates[0] if candidates else _stop_decision()
+
+
+def choose_next_action(
+    state: AgentState,
+    *,
+    action_proposer: ActionProposer | None,
+) -> PlannerSelection:
+    """Resolve a model proposal to a legal system-owned action or safe fallback."""
+
+    candidates = candidate_actions(state)
+    if not candidates:
+        return PlannerSelection(
+            decision=_stop_decision(),
+            mode="policy",
+            outcome="no_legal_action_remains",
+            candidate_count=0,
+        )
+    if action_proposer is None:
+        return PlannerSelection(
+            decision=candidates[0],
+            mode="deterministic",
+            outcome="selected",
+            candidate_count=len(candidates),
+        )
+    summaries = [_candidate_summary(item) for item in candidates]
+    try:
+        proposal = action_proposer.propose(
+            context=build_node_context(state, "react_orchestrator").payload,
+            candidates=summaries,
+        )
+        decision = next(
+            (item for item in candidates if item.reason_code == proposal.action_id),
+            None,
+        )
+        if decision is None:
+            return _fallback_selection(
+                candidates,
+                action_proposer,
+                error_code="planner_proposed_non_candidate_action",
+                proposal=proposal,
+            )
+        validate_react_decision(decision)
+        return PlannerSelection(
+            decision=decision,
+            mode="model_guarded",
+            outcome="accepted",
+            candidate_count=len(candidates),
+            provider=proposal.provider,
+            model=proposal.model,
+            response_id=proposal.response_id,
+            input_tokens=proposal.input_tokens,
+            output_tokens=proposal.output_tokens,
+        )
+    except (ModelPlannerError, ValueError) as exc:
+        return _fallback_selection(
+            candidates,
+            action_proposer,
+            error_code=(
+                exc.code
+                if isinstance(exc, ModelPlannerError)
+                else "planner_policy_rejected"
+            ),
+        )
 
 
 def validate_react_decision(decision: ReactDecision) -> None:
@@ -383,6 +531,94 @@ def validate_react_decision(decision: ReactDecision) -> None:
         raise ValueError(f"Tool is not approved for ReAct: {decision.tool_name}")
     if decision.action != decision.tool_name:
         raise ValueError("ReAct action must match its MCP tool name")
+
+
+def _candidate_summary(decision: ReactDecision) -> dict[str, str]:
+    return {
+        "action_id": decision.reason_code,
+        "tool_name": decision.tool_name or "stop",
+        "purpose": _action_purpose(decision.reason_code),
+    }
+
+
+def _action_purpose(reason_code: str) -> str:
+    if reason_code.startswith("RETRIEVE_"):
+        return "retrieve currently applicable official evidence"
+    if reason_code.startswith("EXPLAIN_RISK:"):
+        return "explain a confirmed hard-constraint risk using label and regulation evidence"
+    if reason_code.startswith("EXPLAIN_ADDITIVE:"):
+        return (
+            "explain a confirmed additive without inferring compliance or health impact"
+        )
+    if reason_code == "INTERPRET_CONFIRMED_CLAIMS":
+        return "interpret a confirmed package claim against applicable evidence"
+    return "verify consistency between confirmed label facts and interpreted claims"
+
+
+def _fallback_selection(
+    candidates: tuple[ReactDecision, ...],
+    proposer: ActionProposer,
+    *,
+    error_code: str,
+    proposal: PlannerProposal | None = None,
+) -> PlannerSelection:
+    return PlannerSelection(
+        decision=candidates[0],
+        mode="model_guarded",
+        outcome="deterministic_fallback",
+        candidate_count=len(candidates),
+        provider=getattr(proposer, "provider", "unknown"),
+        model=getattr(proposer, "model", "unknown"),
+        response_id=proposal.response_id if proposal else None,
+        input_tokens=proposal.input_tokens if proposal else None,
+        output_tokens=proposal.output_tokens if proposal else None,
+        error_code=error_code,
+    )
+
+
+def _record_planner_selection(
+    state: AgentState, step: int, selection: PlannerSelection
+) -> None:
+    state["audit_events"].append(
+        AuditEvent(
+            event_type=(
+                "planner_proposal_fallback"
+                if selection.outcome == "deterministic_fallback"
+                else "planner_action_selected"
+            ),
+            actor=f"planner:{selection.provider or selection.mode}",
+            detail={
+                "step": step,
+                "mode": selection.mode,
+                "outcome": selection.outcome,
+                "candidate_count": selection.candidate_count,
+                "selected_action_id": selection.decision.reason_code,
+                **({"model": selection.model} if selection.model else {}),
+                **(
+                    {"error_code": selection.error_code} if selection.error_code else {}
+                ),
+                **(
+                    {"planner_response_id": selection.response_id}
+                    if selection.response_id
+                    else {}
+                ),
+                **(
+                    {"input_tokens": selection.input_tokens}
+                    if selection.input_tokens is not None
+                    else {}
+                ),
+                **(
+                    {"output_tokens": selection.output_tokens}
+                    if selection.output_tokens is not None
+                    else {}
+                ),
+            },
+        )
+    )
+
+
+def _stop_decision() -> ReactDecision:
+    return ReactDecision(action="stop", reason_code="NO_REQUIRED_TOOL_REMAINS")
 
 
 def _search_decision(

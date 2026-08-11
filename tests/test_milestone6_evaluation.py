@@ -67,6 +67,7 @@ def test_development_report_is_green_but_never_claims_ocr_release_readiness(
         "rules",
         "rag",
         "agent",
+        "planner_ablation",
         "alternatives",
         "safety_gate",
         "failure_corpus",
