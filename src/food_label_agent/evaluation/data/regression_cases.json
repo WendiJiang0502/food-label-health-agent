@@ -1,0 +1,59 @@
+{
+  "schema_version": "failure_corpus_v1",
+  "cases": [
+    {
+      "id": "allergen.milk.derivative.direct",
+      "origin": "acceptance-regression",
+      "ingredients": "白砂糖、乳清蛋白",
+      "allergen_statement": "",
+      "constraint": "milk",
+      "expected_risk": "avoid",
+      "expected_reason": "DIRECT_ALLERGEN_DERIVATIVE"
+    },
+    {
+      "id": "allergen.soy.compound",
+      "origin": "acceptance-regression",
+      "ingredients": "复合调味料（食用盐、大豆分离蛋白）",
+      "allergen_statement": "",
+      "constraint": "soy",
+      "expected_risk": "avoid",
+      "expected_reason": "DIRECT_ALLERGEN_DERIVATIVE"
+    },
+    {
+      "id": "allergen.milk.ambiguous-flavour",
+      "origin": "production-like-failure",
+      "ingredients": "白砂糖、奶味香精",
+      "allergen_statement": "",
+      "constraint": "milk",
+      "expected_risk": "unknown",
+      "expected_reason": "AMBIGUOUS_INGREDIENT_NAME"
+    },
+    {
+      "id": "label.unbalanced-bracket",
+      "origin": "production-like-failure",
+      "ingredients": "复合调味料（白砂糖、乳清蛋白",
+      "allergen_statement": "",
+      "constraint": "milk",
+      "expected_risk": "unknown",
+      "expected_reason": "INGREDIENT_PARSE_UNCERTAIN"
+    },
+    {
+      "id": "allergen.peanut.precautionary",
+      "origin": "acceptance-regression",
+      "ingredients": "白砂糖、食用盐",
+      "allergen_statement": "本产品可能含有花生",
+      "constraint": "peanut",
+      "expected_risk": "caution",
+      "expected_reason": "PRECAUTIONARY_ALLERGEN_STATEMENT"
+    },
+    {
+      "id": "allergen.gluten.declared",
+      "origin": "acceptance-regression",
+      "ingredients": "白砂糖、食用盐",
+      "allergen_statement": "本产品含有小麦",
+      "constraint": "gluten",
+      "expected_risk": "avoid",
+      "expected_reason": "DECLARED_ALLERGEN_STATEMENT"
+    }
+  ]
+}

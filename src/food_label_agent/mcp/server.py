@@ -47,7 +47,7 @@ def create_server():
         return {
             "status": "ok",
             "service": "food-label-health-agent",
-            "version": "0.1.0",
+            "version": "0.2.0",
             "tools": [
                 {
                     "name": contract.name,

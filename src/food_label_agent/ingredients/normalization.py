@@ -12,6 +12,8 @@ from typing import Any
 
 from .additives import ADDITIVES
 
+INGREDIENT_NORMALIZATION_VERSION = "cn.v2"
+
 _PREFIX = re.compile(r"^\s*配料(?:表)?\s*[:：]\s*")
 _SEPARATORS = {"、", ",", "，", ";", "；", "\n"}
 _OPEN_TO_CLOSE = {"(": ")", "（": "）", "[": "]", "【": "】"}

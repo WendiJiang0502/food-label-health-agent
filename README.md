@@ -63,6 +63,31 @@ food-label-platform
 
 工作流检查点和经授权的长期记忆默认保存在 `~/.local/share/food-label-health-agent/agent-data.sqlite3`，文件权限设为仅当前用户可读写。可用 `FOOD_LABEL_DATA_DIR` 指定其他数据目录。当前能力令牌方案用于本地单用户原型；多用户部署仍需在 API 前增加账户认证、加密密钥管理和数据隔离。
 
+### Milestone 6 统一评测与发布门禁
+
+开发过程中运行统一离线评测：
+
+```bash
+food-label-eval \
+  --profile development \
+  --json artifacts/evaluation.json \
+  --markdown artifacts/evaluation.md
+```
+
+该命令一次检查过敏原规则、法规混合检索、Agent 工具轨迹、替代品独立复核、最终安全门和已知失败案例，并在报告中固定 Git、规则、词典、法规索引、OCR 与 MCP 工具版本。开发模式可以不运行私有 OCR 数据，但会明确标记为警告，不能据此宣称 OCR 已达到发布质量。
+
+正式发布必须提供仓库外的匿名标注实物标签目录：
+
+```bash
+food-label-eval \
+  --profile release \
+  --ocr-images /secure/private-label-benchmark \
+  --json artifacts/release-evaluation.json \
+  --markdown artifacts/release-evaluation.md
+```
+
+发布模式会在工作区未提交、OCR 样本不足、明确过敏原召回低于 100%、数字召回低于 100%、营养素数值错位、低质量图片漏阻断，或任一规则/RAG/Agent/替代品/安全门回归时返回非零退出码。OCR 标注文件与图片同名并追加 `.json`，可用 `expect_blocked: true` 标记应被质量门拦截的图片。已修复的线上或验收失败必须加入 `src/food_label_agent/evaluation/data/regression_cases.json`，之后自动成为永久阻断回归。
+
 ### 服务器端启用 PP-OCRv6
 
 普通用户不需要配置 OCR。部署者安装可选 OCR 依赖与 PaddlePaddle 推理引擎后，只在服务器环境中设置：

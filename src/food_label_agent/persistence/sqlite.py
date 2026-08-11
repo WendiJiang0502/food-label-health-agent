@@ -32,6 +32,8 @@ from food_label_agent.domain.types import (
 )
 from food_label_agent.graph.state import AgentState, create_initial_state
 
+AGENT_STATE_SCHEMA_VERSION = 2
+
 
 def default_database_path() -> Path:
     configured = os.getenv("FOOD_LABEL_DATA_DIR")
@@ -374,7 +376,7 @@ def serialize_agent_state(state: AgentState) -> dict[str, Any]:
     """Serialize AgentState without persisting original image data or private CoT."""
 
     return {
-        "schema_version": 2,
+        "schema_version": AGENT_STATE_SCHEMA_VERSION,
         "request_id": state["request_id"],
         "jurisdiction": state["jurisdiction"],
         "applicable_date": state["applicable_date"],
@@ -409,7 +411,7 @@ def serialize_agent_state(state: AgentState) -> dict[str, Any]:
 
 
 def deserialize_agent_state(value: dict[str, Any]) -> AgentState:
-    if value.get("schema_version") not in {1, 2}:
+    if value.get("schema_version") not in {1, AGENT_STATE_SCHEMA_VERSION}:
         raise ValueError("Unsupported AgentState checkpoint schema")
     state = create_initial_state(
         request_id=value["request_id"],

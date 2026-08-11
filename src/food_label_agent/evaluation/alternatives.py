@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 from typing import Any
 
+from food_label_agent.alternatives.catalog import ProductCatalog
 from food_label_agent.alternatives.models import (
     AlternativeRevalidationRequest,
     AlternativeSearchRequest,
@@ -47,6 +48,8 @@ class AlternativeEvaluation:
 
 def evaluate_alternative_benchmark(
     cases: tuple[AlternativeBenchmarkCase, ...],
+    *,
+    catalog: ProductCatalog | None = None,
 ) -> AlternativeEvaluation:
     """Measure whether recommendations preserve constraints and evidence."""
 
@@ -70,7 +73,8 @@ def evaluate_alternative_benchmark(
                 category=case.category,
                 applicable_date=case.applicable_date,
                 constraints=constraints,
-            )
+            ),
+            catalog=catalog,
         )
         result = revalidate_alternatives(
             AlternativeRevalidationRequest(

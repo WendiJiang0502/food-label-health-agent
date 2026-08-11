@@ -96,6 +96,12 @@ async def evaluate_directory(images_dir: Path) -> dict[str, Any]:
             continue
         suffix, media_type = detected
         sample_id = hashlib.sha256(content).hexdigest()[:12]
+        annotation_path = path.with_suffix(path.suffix + ".json")
+        annotation = (
+            json.loads(annotation_path.read_text(encoding="utf-8"))
+            if annotation_path.exists()
+            else None
+        )
         try:
             response = await service.analyze(
                 content=content,
@@ -106,7 +112,14 @@ async def evaluate_directory(images_dir: Path) -> dict[str, Any]:
             codes = [issue.code for issue in exc.report.blocking_issues]
             issue_counts.update(codes)
             samples.append(
-                {"sample_id": sample_id, "status": "blocked", "issues": codes}
+                {
+                    "sample_id": sample_id,
+                    "status": "blocked",
+                    "issues": codes,
+                    "expected_blocked": (
+                        bool(annotation.get("expect_blocked")) if annotation else None
+                    ),
+                }
             )
             continue
         except OCRProviderError as exc:
@@ -138,15 +151,23 @@ async def evaluate_directory(images_dir: Path) -> dict[str, Any]:
             ),
             "evidence_quality": response.evidence_quality.model_dump(mode="json"),
             "warnings": response.warnings,
+            "expected_blocked": (
+                bool(annotation.get("expect_blocked")) if annotation else None
+            ),
         }
-        annotation_path = path.with_suffix(path.suffix + ".json")
-        if annotation_path.exists():
-            annotation = json.loads(annotation_path.read_text(encoding="utf-8"))
+        if annotation is not None:
             sample["metrics"] = compare_fields(annotation, fields)
         samples.append(sample)
 
     recognized = sum(sample["status"] == "recognized" for sample in samples)
     blocked = sum(sample["status"] == "blocked" for sample in samples)
+    supervised = [sample for sample in samples if "metrics" in sample]
+    expected_low_quality = [
+        sample for sample in samples if sample.get("expected_blocked") is True
+    ]
+    correctly_blocked = sum(
+        sample["status"] == "blocked" for sample in expected_low_quality
+    )
     return {
         "schema_version": "1.0",
         "provider": provider.name,
@@ -156,8 +177,43 @@ async def evaluate_directory(images_dir: Path) -> dict[str, Any]:
         "provider_error_count": sum(
             sample["status"] == "provider_error" for sample in samples
         ),
+        "supervised_count": len(supervised),
+        "aggregate_metrics": _aggregate_sample_metrics(supervised),
+        "expected_low_quality_count": len(expected_low_quality),
+        "low_quality_block_recall": (
+            correctly_blocked / len(expected_low_quality)
+            if expected_low_quality
+            else None
+        ),
         "blocking_issue_counts": dict(sorted(issue_counts.items())),
         "samples": samples,
+    }
+
+
+def _aggregate_sample_metrics(samples: list[dict[str, Any]]) -> dict[str, float | None]:
+    def mean(values: list[float | None]) -> float | None:
+        present = [value for value in values if value is not None]
+        return round(sum(present) / len(present), 4) if present else None
+
+    return {
+        "ingredients_cer": mean(
+            [
+                sample["metrics"].get("field_cer", {}).get("ingredients")
+                for sample in samples
+            ]
+        ),
+        "allergen_recall": mean(
+            [sample["metrics"].get("allergen_recall") for sample in samples]
+        ),
+        "numeric_token_recall": mean(
+            [sample["metrics"].get("numeric_token_recall") for sample in samples]
+        ),
+        "nutrient_value_alignment_accuracy": mean(
+            [
+                sample["metrics"].get("nutrient_value_alignment_accuracy")
+                for sample in samples
+            ]
+        ),
     }
 
 

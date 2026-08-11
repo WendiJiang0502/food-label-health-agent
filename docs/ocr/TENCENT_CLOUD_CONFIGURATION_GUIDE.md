@@ -102,6 +102,8 @@ food-label-platform
 | 错误码 | 系统处理 | 操作建议 |
 |---|---|---|
 | `FailedOperation.UnOpenError` | 立即停止整批评测 | 在 OCR 控制台同意条款并开通服务 |
+
+正式发布评测可在标注 JSON 顶层加入 `"expect_blocked": true`，表示对应图片应被图像质量门阻断。统一发布命令会计算这类样本的阻断召回率；没有达到 100% 时禁止发布。
 | `AuthFailure.*` | 立即停止 | 检查服务端凭证和系统时间，不要输出密钥 |
 | `UnauthorizedOperation` | 立即停止 | 检查 CAM 子账号最小权限策略 |
 | `ResourceUnavailable.ResourcePackageRunOut` | 立即停止 | 检查资源包用量或计费设置 |

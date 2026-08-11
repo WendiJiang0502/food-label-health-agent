@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "food-label-health-agent"
-version = "0.1.0"
+version = "0.2.0"
 description = "Evidence-grounded food label health interpretation agent"
 readme = "README.md"
 requires-python = ">=3.11,<3.15"
@@ -33,6 +33,7 @@ cloud-ocr = [
 dev = [
   "httpx>=0.28,<1",
   "pytest>=8,<10",
+  "ruff>=0.12,<1",
 ]
 
 [project.scripts]
@@ -40,13 +41,18 @@ food-label-agent = "food_label_agent.__main__:main"
 food-label-mcp = "food_label_agent.mcp.server:run"
 food-label-platform = "food_label_agent.web.app:run"
 food-label-ocr-eval = "food_label_agent.evaluation.ocr:main"
+food-label-eval = "food_label_agent.evaluation.suite:main"
 food-label-regulations-ingest = "food_label_agent.regulations.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.setuptools.package-data]
-food_label_agent = ["regulations/data/*.json", "alternatives/data/*.json"]
+food_label_agent = [
+  "alternatives/data/*.json",
+  "evaluation/data/*.json",
+  "regulations/data/*.json",
+]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
