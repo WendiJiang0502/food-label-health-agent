@@ -21,9 +21,9 @@ from food_label_agent.mcp.contracts import MCP_TOOLS
 from food_label_agent.nutrition.rules import RULESET_METADATA as NUTRITION_RULESET
 from food_label_agent.ocr.config import OCRSettings
 from food_label_agent.persistence.sqlite import AGENT_STATE_SCHEMA_VERSION
+from food_label_agent.regulations.semantic import RAG2Settings
 from food_label_agent.regulations.serialization import SCHEMA_VERSION
 from food_label_agent.regulations.service import DATA_DIR, get_default_regulation_store
-from food_label_agent.regulations.store import HYBRID_RETRIEVAL_METHOD
 
 
 @dataclass(frozen=True, slots=True)
@@ -69,7 +69,7 @@ def build_version_snapshot() -> VersionSnapshot:
         ingredient_normalization=INGREDIENT_NORMALIZATION_VERSION,
         additive_dictionary=ADDITIVE_DICTIONARY_VERSION,
         regulation_schema=SCHEMA_VERSION,
-        regulation_retrieval=HYBRID_RETRIEVAL_METHOD,
+        regulation_retrieval=RAG2Settings.from_environment().profile,
         regulation_clause_count=len(get_default_regulation_store().clauses),
         regulation_content_hash=_directory_hash(DATA_DIR),
         ocr_provider=settings.provider,

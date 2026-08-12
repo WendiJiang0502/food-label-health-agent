@@ -11,6 +11,8 @@
 
 当前主流程还加入了受约束 ReAct 编排节点：它只能在四个已批准 MCP 工具中动态选择法规检索、配料解释、声称解释和一致性验证，并受步骤数与工具调用数双重预算约束。默认策略保持完全确定性；部署者也可启用模型辅助 Planner，让模型仅从策略生成的合法动作 ID 中提出下一步，再由系统校验并生成不可篡改的工具参数。标签确认、规范化、确定性约束评估和最终安全门仍是不可跳过的固定节点。API 返回只包含工具名、决策原因码、模型调用元数据和压缩后的工具观察，不记录或暴露模型思维链。
 
+法规检索现已具备 RAG 2.0 可选链路：中文 Dense Embedding 与 BM25 通过 RRF 融合，再由独立模型只对已通过法域、日期和版本过滤的 evidence ID 进行重排。默认仍为经过验证的 `hybrid_tfidf`；只有四组条款级消融证明 Dense/Reranker 产生质量提升后才应切换生产默认。
+
 OCR、人工确认、约束评估、法规解释和替代品复核现在共用一份可恢复的 `AgentState`。每次安全停点都会追加 SQLite 检查点；`workflow_trace` 记录 LangGraph 节点转换，`agent_trace` 记录 MCP 工具选择。可重试工具失败最多自动重试一次，仍失败则输出 `unknown` 并阻断肯定结论。每个完成结果还包含 `release_gate`，用于确认必经节点和 `final_safety_gate` 未被绕过。
 
 替代品层已经实现 `find_alternative_products`、`compare_food_products` 和 `revalidate_alternatives` 三个真实 MCP 工具，以及 `search_alternatives → revalidate_alternatives → final_safety_gate` 安全路径。正式 CLI 默认通过 `ProductCatalog` 从 Open Food Facts 查找中国商品，仅接受具有配料文字、配料图片、社区完成状态和数据版本的记录；实时源失败或无可用证据时，显式降级到随包的人工审查验收目录。所有候选仍先检查完整度、日期和内容哈希，再逐一重跑相同的过敏原与营养约束；只有 `compatible` 候选能够展示。这不表示商品在售、有库存或绝对安全。
@@ -81,6 +83,26 @@ food-label-platform
 food-label-planner-eval
 FOOD_LABEL_PLANNER_PROVIDER=openai food-label-planner-eval --live
 ```
+
+### 可选的 RAG 2.0
+
+RAG 2.0 使用同一个服务端 `OPENAI_API_KEY`，但拥有独立配置。启用后，法规查询和已通过本地版本过滤的候选官方条款会发送至 OpenAI；食品原图不会发送给 RAG Provider。
+
+```bash
+export FOOD_LABEL_RAG_PROFILE=hybrid_dense_rerank
+export FOOD_LABEL_RAG_EMBEDDING_MODEL=text-embedding-3-large
+export FOOD_LABEL_RAG_EMBEDDING_DIMENSIONS=1024
+export FOOD_LABEL_RAG_RERANKER_MODEL=gpt-5.6-terra
+```
+
+先运行四组真实消融，确认质量提升和安全指标不回归：
+
+```bash
+PYTHONPATH=src .venv/bin/python \
+  -m food_label_agent.evaluation.rag_ablation --live
+```
+
+不带 `--live` 时只运行 BM25 与 RAG 1.0 基线，不调用远程模型。RAG 2.0 Provider 失败不会生成无依据结论；可显式设置 `FOOD_LABEL_RAG_PROFILE=hybrid_tfidf` 回退。
 
 ### Milestone 6 统一评测与发布门禁
 
@@ -164,6 +186,7 @@ food-label-platform
 - [ADR-004：节点上下文、检查点与授权记忆](./docs/architecture/ADR-004-context-checkpoints-and-consented-memory.md)
 - [ADR-005：证据优先的替代品检索与二次验证](./docs/architecture/ADR-005-evidence-first-alternative-revalidation.md)
 - [ADR-006：策略保护的模型辅助 Planner](./docs/architecture/ADR-006-policy-guarded-model-planner.md)
+- [ADR-007：中文 Dense Retrieval 与独立 Reranker](./docs/architecture/ADR-007-rag2-dense-independent-reranker.md)
 - [PP-OCRv6 配置教程](./docs/ocr/PP-OCRv6_CONFIGURATION_GUIDE.md)
 - [腾讯云 OCR 配置教程](./docs/ocr/TENCENT_CLOUD_CONFIGURATION_GUIDE.md)
 - [腾讯云 OCR 匿名评测记录](./docs/ocr/TENCENT_OCR_EVALUATION_2026-08-05.md)

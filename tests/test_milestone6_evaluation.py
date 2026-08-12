@@ -66,6 +66,7 @@ def test_development_report_is_green_but_never_claims_ocr_release_readiness(
     assert set(report.components) == {
         "rules",
         "rag",
+        "rag2_ablation",
         "agent",
         "planner_ablation",
         "alternatives",

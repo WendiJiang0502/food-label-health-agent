@@ -41,6 +41,7 @@ from food_label_agent.persistence.sqlite import (
     default_database_path,
     serialize_agent_state,
 )
+from food_label_agent.regulations.semantic import rag2_public_status
 
 STATIC_DIR = Path(__file__).with_name("static")
 
@@ -72,6 +73,7 @@ def create_app(
                     service.provider, "remote_processing", False
                 ),
                 "planner": planner_public_status(),
+                "rag": rag2_public_status(),
                 "product_catalog": os.getenv("FOOD_LABEL_PRODUCT_CATALOG", "curated"),
             }
         )

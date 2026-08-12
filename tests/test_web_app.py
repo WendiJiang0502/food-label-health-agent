@@ -38,6 +38,13 @@ def test_platform_index_and_health() -> None:
         "configured": True,
         "remote_processing": False,
     }
+    assert health.json()["rag"] == {
+        "profile": "hybrid_tfidf",
+        "embedding_model": None,
+        "reranker_model": None,
+        "configured": True,
+        "remote_processing": False,
+    }
     assert health.json()["product_catalog"] == "curated"
     assert favicon.status_code == 200
 

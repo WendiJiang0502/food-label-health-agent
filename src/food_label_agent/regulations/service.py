@@ -7,6 +7,7 @@ from pathlib import Path
 
 from .corpus import OFFICIAL_CLAUSES
 from .models import RegulationSearchRequest, RegulationSearchResponse
+from .semantic import RAG2Settings, create_semantic_providers
 from .serialization import load_clause_index
 from .store import RegulationStore
 
@@ -15,11 +16,18 @@ DATA_DIR = Path(__file__).with_name("data")
 
 @lru_cache(maxsize=1)
 def get_default_regulation_store() -> RegulationStore:
+    settings = RAG2Settings.from_environment()
     clauses = list(OFFICIAL_CLAUSES)
     if DATA_DIR.exists():
         for index_path in sorted(DATA_DIR.glob("*.json")):
             clauses.extend(load_clause_index(index_path))
-    return RegulationStore(tuple(clauses))
+    dense_provider, reranker = create_semantic_providers(settings)
+    return RegulationStore(
+        tuple(clauses),
+        dense_provider=dense_provider,
+        reranker=reranker,
+        default_profile=settings.profile,
+    )
 
 
 def search_regulations(

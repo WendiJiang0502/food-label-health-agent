@@ -19,6 +19,7 @@ from .failures import evaluate_failure_corpus
 from .ocr import evaluate_directory
 from .planner import evaluate_planner_ablation
 from .rag import evaluate_rag_benchmark
+from .rag_ablation import evaluate_rag2_ablation
 from .rules import evaluate_allergen_rules
 from .safety import evaluate_final_safety_gate
 from .versions import VersionSnapshot, build_version_snapshot
@@ -59,6 +60,9 @@ def run_evaluation(
         "rules": evaluate_allergen_rules().to_dict(),
         "rag": evaluate_rag_benchmark(
             get_default_regulation_store(), RAG_BENCHMARK, k=5
+        ).to_dict(),
+        "rag2_ablation": evaluate_rag2_ablation(
+            get_default_regulation_store()
         ).to_dict(),
         "agent": evaluate_agent_benchmark().to_dict(),
         "planner_ablation": evaluate_planner_ablation().to_dict(),

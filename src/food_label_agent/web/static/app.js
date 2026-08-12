@@ -1247,8 +1247,14 @@ async function loadHealthStatus() {
 }
 
 function plannerPrivacyCopy(health, imageCopy) {
-  if (!health.planner?.remote_processing) return imageCopy;
-  return `${imageCopy}；确认后的标签事实会发送至 OpenAI，用于选择下一项证据工具`;
+  const notices = [imageCopy];
+  if (health.planner?.remote_processing) {
+    notices.push("确认后的标签事实会发送至 OpenAI，用于选择下一项证据工具");
+  }
+  if (health.rag?.remote_processing) {
+    notices.push("法规查询和候选条款会发送至 OpenAI，用于语义检索与重排");
+  }
+  return notices.join("；");
 }
 
 function setPrivacyStatus(message) {
