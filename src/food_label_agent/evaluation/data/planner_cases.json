@@ -1,0 +1,268 @@
+{
+  "schema_version": "planner_benchmark_v2",
+  "cases": [
+    {
+      "name": "direct-milk-risk-before-other-evidence",
+      "category": "safety_priority",
+      "difficulty": "complex",
+      "context": {
+        "confirmed_facts": {"ingredients": ["乳清蛋白", "亚硝酸钠"], "claim": "低糖"},
+        "user_constraints": ["severe milk allergy"],
+        "risk_findings": [{"risk_level": "avoid", "matched_text": "乳清蛋白"}],
+        "task": {"unknowns": ["allergen regulation", "additive regulation", "claim regulation"]}
+      },
+      "candidates": [
+        {"action_id": "RETRIEVE_ALLERGEN_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve official allergen evidence for a confirmed hard risk"},
+        {"action_id": "RETRIEVE_ADDITIVE_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve official additive evidence"},
+        {"action_id": "RETRIEVE_CLAIM_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve official nutrition claim evidence"}
+      ],
+      "expected_action_id": "RETRIEVE_ALLERGEN_RULES"
+    },
+    {
+      "name": "peanut-cross-contact-before-claim",
+      "category": "safety_priority",
+      "difficulty": "complex",
+      "context": {
+        "confirmed_facts": {"ingredients": ["燕麦", "白砂糖"], "allergen_statement": "可能含有花生", "claim": "高纤维"},
+        "user_constraints": ["severe peanut allergy"],
+        "risk_findings": [{"risk_level": "caution", "matched_text": "可能含有花生"}],
+        "task": {"unknowns": ["cross-contact regulation", "claim regulation"]}
+      },
+      "candidates": [
+        {"action_id": "RETRIEVE_ALLERGEN_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve official allergen evidence for cross-contact wording"},
+        {"action_id": "RETRIEVE_CLAIM_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve official nutrition claim evidence"}
+      ],
+      "expected_action_id": "RETRIEVE_ALLERGEN_RULES"
+    },
+    {
+      "name": "two-hard-allergens-before-additive",
+      "category": "safety_priority",
+      "difficulty": "adversarial",
+      "context": {
+        "confirmed_facts": {"ingredients": ["酪蛋白酸钠", "蛋黄粉", "柠檬酸"]},
+        "user_constraints": ["severe milk allergy", "severe egg allergy"],
+        "risk_findings": [
+          {"risk_level": "avoid", "matched_text": "酪蛋白酸钠"},
+          {"risk_level": "avoid", "matched_text": "蛋黄粉"}
+        ],
+        "task": {"unknowns": ["allergen regulation", "additive regulation"]}
+      },
+      "candidates": [
+        {"action_id": "RETRIEVE_ALLERGEN_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve evidence for multiple confirmed allergen derivatives"},
+        {"action_id": "RETRIEVE_ADDITIVE_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve official additive evidence"}
+      ],
+      "expected_action_id": "RETRIEVE_ALLERGEN_RULES"
+    },
+    {
+      "name": "hard-risk-explanation-before-additive-explanation",
+      "category": "safety_priority",
+      "difficulty": "complex",
+      "context": {
+        "confirmed_facts": {"ingredients": ["乳粉", "焦糖色"]},
+        "user_constraints": ["milk allergy"],
+        "risk_findings": [{"risk_level": "avoid", "matched_text": "乳粉"}],
+        "retrieval_evidence": ["applicable allergen clause", "applicable additive clause"]
+      },
+      "candidates": [
+        {"action_id": "EXPLAIN_RISK:label.ingredients.item.1", "tool_name": "explain_ingredient", "purpose": "explain the confirmed milk risk"},
+        {"action_id": "EXPLAIN_ADDITIVE:label.ingredients.item.2", "tool_name": "explain_ingredient", "purpose": "explain the additive identity"}
+      ],
+      "expected_action_id": "EXPLAIN_RISK:label.ingredients.item.1"
+    },
+    {
+      "name": "sugar-free-conflict-before-additive-evidence",
+      "category": "conflict_resolution",
+      "difficulty": "complex",
+      "context": {
+        "confirmed_facts": {"ingredients": ["白砂糖", "柠檬酸"], "claim": "无糖", "nutrition": {"sugar_g_per_100g": 8.2}},
+        "risk_findings": [],
+        "task": {"unknowns": ["additive regulation", "claim regulation"], "known_conflict": "sugar-free claim conflicts with confirmed sugar facts"}
+      },
+      "candidates": [
+        {"action_id": "RETRIEVE_ADDITIVE_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve official additive evidence"},
+        {"action_id": "RETRIEVE_CLAIM_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve evidence needed to resolve a confirmed claim conflict"}
+      ],
+      "expected_action_id": "RETRIEVE_CLAIM_RULES"
+    },
+    {
+      "name": "milk-free-conflict-keeps-allergen-priority",
+      "category": "conflict_resolution",
+      "difficulty": "adversarial",
+      "context": {
+        "confirmed_facts": {"ingredients": ["乳清蛋白"], "claim": "不含乳"},
+        "user_constraints": ["severe milk allergy"],
+        "risk_findings": [{"risk_level": "avoid", "matched_text": "乳清蛋白"}],
+        "task": {"known_conflict": "milk-free claim conflicts with direct milk derivative"}
+      },
+      "candidates": [
+        {"action_id": "RETRIEVE_ALLERGEN_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve official evidence for the confirmed hard allergen conflict"},
+        {"action_id": "RETRIEVE_CLAIM_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve official claim evidence"}
+      ],
+      "expected_action_id": "RETRIEVE_ALLERGEN_RULES"
+    },
+    {
+      "name": "no-added-sucrose-conflict-before-additive",
+      "category": "conflict_resolution",
+      "difficulty": "complex",
+      "context": {
+        "confirmed_facts": {"ingredients": ["蔗糖", "山梨酸钾"], "claim": "不添加蔗糖"},
+        "risk_findings": [],
+        "task": {"unknowns": ["additive regulation", "claim regulation"], "known_conflict": "confirmed sucrose appears in ingredients"}
+      },
+      "candidates": [
+        {"action_id": "RETRIEVE_ADDITIVE_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve official additive evidence"},
+        {"action_id": "RETRIEVE_CLAIM_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve evidence needed to resolve the sucrose claim conflict"}
+      ],
+      "expected_action_id": "RETRIEVE_CLAIM_RULES"
+    },
+    {
+      "name": "low-sodium-conflict-before-additive",
+      "category": "conflict_resolution",
+      "difficulty": "complex",
+      "context": {
+        "confirmed_facts": {"ingredients": ["谷氨酸钠"], "claim": "低钠", "nutrition": {"sodium_mg_per_100g": 920}},
+        "risk_findings": [{"risk_level": "avoid", "constraint": "sodium limit"}],
+        "task": {"known_conflict": "low-sodium claim conflicts with confirmed nutrition value"}
+      },
+      "candidates": [
+        {"action_id": "RETRIEVE_ADDITIVE_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve official additive evidence"},
+        {"action_id": "RETRIEVE_CLAIM_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve evidence needed to evaluate the sodium claim"}
+      ],
+      "expected_action_id": "RETRIEVE_CLAIM_RULES"
+    },
+    {
+      "name": "unknown-additive-needs-identity-evidence",
+      "category": "evidence_gap",
+      "difficulty": "standard",
+      "context": {
+        "confirmed_facts": {"ingredients": ["磷酸酯双淀粉"], "claim": null},
+        "risk_findings": [],
+        "task": {"unknowns": ["additive identity and applicable regulation"]}
+      },
+      "candidates": [
+        {"action_id": "RETRIEVE_ADDITIVE_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve official evidence for an unresolved additive identity"}
+      ],
+      "expected_action_id": "RETRIEVE_ADDITIVE_RULES"
+    },
+    {
+      "name": "claim-without-applicable-standard",
+      "category": "evidence_gap",
+      "difficulty": "standard",
+      "context": {
+        "confirmed_facts": {"claim": "高蛋白"},
+        "risk_findings": [],
+        "retrieval_evidence": [],
+        "task": {"unknowns": ["applicable nutrition claim standard"]}
+      },
+      "candidates": [
+        {"action_id": "RETRIEVE_CLAIM_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve currently applicable official claim evidence"}
+      ],
+      "expected_action_id": "RETRIEVE_CLAIM_RULES"
+    },
+    {
+      "name": "ambiguous-allergen-derivative-before-additive",
+      "category": "evidence_gap",
+      "difficulty": "complex",
+      "context": {
+        "confirmed_facts": {"ingredients": ["乳化物", "焦磷酸钠"]},
+        "user_constraints": ["severe milk allergy"],
+        "risk_findings": [{"risk_level": "unknown", "matched_text": "乳化物"}],
+        "task": {"unknowns": ["ambiguous allergen term", "additive regulation"]}
+      },
+      "candidates": [
+        {"action_id": "RETRIEVE_ALLERGEN_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve evidence for an unresolved allergen-related term"},
+        {"action_id": "RETRIEVE_ADDITIVE_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve official additive evidence"}
+      ],
+      "expected_action_id": "RETRIEVE_ALLERGEN_RULES"
+    },
+    {
+      "name": "missing-claim-evidence-before-known-additive",
+      "category": "evidence_gap",
+      "difficulty": "complex",
+      "context": {
+        "confirmed_facts": {"ingredients": ["柠檬酸"], "claim": "零脂肪", "nutrition": {"fat_g_per_100ml": 0}},
+        "risk_findings": [],
+        "retrieval_evidence": ["additive identity already grounded"],
+        "task": {"unknowns": ["claim threshold and measurement basis"]}
+      },
+      "candidates": [
+        {"action_id": "RETRIEVE_ADDITIVE_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve additional additive evidence"},
+        {"action_id": "RETRIEVE_CLAIM_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve missing claim threshold and basis evidence"}
+      ],
+      "expected_action_id": "RETRIEVE_CLAIM_RULES"
+    },
+    {
+      "name": "milk-allergy-and-sodium-limit",
+      "category": "multi_constraint",
+      "difficulty": "complex",
+      "context": {
+        "confirmed_facts": {"ingredients": ["酪蛋白酸钠"], "nutrition": {"sodium_mg_per_100g": 760}, "claim": "低钠"},
+        "user_constraints": ["severe milk allergy", "sodium <= 500 mg per 100 g"],
+        "risk_findings": [
+          {"risk_level": "avoid", "constraint": "milk", "matched_text": "酪蛋白酸钠"},
+          {"risk_level": "avoid", "constraint": "sodium limit", "matched_text": "760 mg"}
+        ]
+      },
+      "candidates": [
+        {"action_id": "RETRIEVE_ALLERGEN_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve evidence for the direct allergen risk"},
+        {"action_id": "RETRIEVE_CLAIM_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve evidence for the sodium claim conflict"}
+      ],
+      "expected_action_id": "RETRIEVE_ALLERGEN_RULES"
+    },
+    {
+      "name": "compatible-allergy-but-sugar-claim-conflict",
+      "category": "multi_constraint",
+      "difficulty": "complex",
+      "context": {
+        "confirmed_facts": {"ingredients": ["白砂糖", "柠檬酸"], "claim": "低糖", "nutrition": {"sugar_g_per_100g": 12}},
+        "user_constraints": ["milk allergy", "sugar <= 5 g per 100 g"],
+        "risk_findings": [
+          {"risk_level": "compatible", "constraint": "milk"},
+          {"risk_level": "avoid", "constraint": "sugar limit", "matched_text": "12 g"}
+        ]
+      },
+      "candidates": [
+        {"action_id": "RETRIEVE_ADDITIVE_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve official additive evidence"},
+        {"action_id": "RETRIEVE_CLAIM_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve evidence for the violated sugar constraint and claim"}
+      ],
+      "expected_action_id": "RETRIEVE_CLAIM_RULES"
+    },
+    {
+      "name": "egg-caution-and-nutrition-constraint",
+      "category": "multi_constraint",
+      "difficulty": "complex",
+      "context": {
+        "confirmed_facts": {"ingredients": ["可能含有蛋类", "山梨酸钾"], "nutrition": {"sugar_g_per_100g": 7}},
+        "user_constraints": ["severe egg allergy", "sugar <= 5 g per 100 g"],
+        "risk_findings": [
+          {"risk_level": "caution", "constraint": "egg", "matched_text": "可能含有蛋类"},
+          {"risk_level": "avoid", "constraint": "sugar limit", "matched_text": "7 g"}
+        ]
+      },
+      "candidates": [
+        {"action_id": "RETRIEVE_ALLERGEN_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve official cross-contact allergen evidence"},
+        {"action_id": "RETRIEVE_ADDITIVE_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve official additive evidence"}
+      ],
+      "expected_action_id": "RETRIEVE_ALLERGEN_RULES"
+    },
+    {
+      "name": "multiple-compatible-allergies-and-claim",
+      "category": "multi_constraint",
+      "difficulty": "standard",
+      "context": {
+        "confirmed_facts": {"ingredients": ["燕麦", "柠檬酸"], "claim": "高纤维"},
+        "user_constraints": ["milk allergy", "peanut allergy"],
+        "risk_findings": [
+          {"risk_level": "compatible", "constraint": "milk"},
+          {"risk_level": "compatible", "constraint": "peanut"}
+        ],
+        "task": {"unknowns": ["additive regulation", "claim regulation"]}
+      },
+      "candidates": [
+        {"action_id": "RETRIEVE_ADDITIVE_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve official additive evidence"},
+        {"action_id": "RETRIEVE_CLAIM_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve official claim evidence"}
+      ],
+      "expected_action_id": "RETRIEVE_ADDITIVE_RULES"
+    }
+  ]
+}

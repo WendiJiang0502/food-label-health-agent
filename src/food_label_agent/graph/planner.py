@@ -114,8 +114,11 @@ class OpenAIActionProposer:
             "model": self.settings.model,
             "instructions": (
                 "Select exactly one next evidence-gathering action from the supplied "
-                "candidate action IDs. Do not diagnose, change risk levels, invent an "
-                "action, or generate tool arguments. Return only the required JSON."
+                "candidate action IDs. Prioritize a confirmed avoid or caution allergen "
+                "risk, then an explicit conflict between confirmed label facts, then the "
+                "most material unresolved evidence gap. Do not diagnose, change risk "
+                "levels, invent an action, or generate tool arguments. Return only the "
+                "required JSON."
             ),
             "input": json.dumps(
                 {"context": context, "candidate_actions": list(candidates)},
