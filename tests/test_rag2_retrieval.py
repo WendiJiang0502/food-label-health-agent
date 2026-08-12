@@ -7,6 +7,7 @@ from food_label_agent.regulations.semantic import (
     OpenAIDenseEmbeddingProvider,
     OpenAIIndependentReranker,
     RAG2Settings,
+    RAGProviderError,
 )
 from food_label_agent.regulations.service import get_default_regulation_store
 from food_label_agent.regulations.store import (
@@ -126,7 +127,7 @@ def test_openai_reranker_can_only_return_supplied_evidence_ids() -> None:
                         {
                             "type": "output_text",
                             "text": json.dumps(
-                                {"ranked_evidence_ids": ["evidence-b", "evidence-a"]}
+                                {"scores": {"evidence-a": 20, "evidence-b": 95}}
                             ),
                         }
                     ],
@@ -146,8 +147,42 @@ def test_openai_reranker_can_only_return_supplied_evidence_ids() -> None:
     )
 
     assert result == ("evidence-b", "evidence-a")
-    enum = captured["text"]["format"]["schema"]["properties"]["ranked_evidence_ids"][
-        "items"
-    ]["enum"]
-    assert enum == ["evidence-a", "evidence-b"]
+    score_schema = captured["text"]["format"]["schema"]["properties"]["scores"]
+    assert set(score_schema["properties"]) == {"evidence-a", "evidence-b"}
+    assert score_schema["required"] == ["evidence-a", "evidence-b"]
+    assert score_schema["additionalProperties"] is False
     assert captured["store"] is False
+
+
+def test_reranker_rejects_a_response_missing_any_candidate_score() -> None:
+    def transport(url, headers, payload, timeout):
+        return {
+            "status": "completed",
+            "output": [
+                {
+                    "type": "message",
+                    "content": [
+                        {
+                            "type": "output_text",
+                            "text": json.dumps({"scores": {"evidence-a": 90}}),
+                        }
+                    ],
+                }
+            ],
+        }
+
+    reranker = OpenAIIndependentReranker(
+        RAG2Settings(api_key="test"), transport=transport
+    )
+    try:
+        reranker.rank(
+            "测试",
+            (
+                {"evidence_id": "evidence-a", "section": "A", "text": "甲"},
+                {"evidence_id": "evidence-b", "section": "B", "text": "乙"},
+            ),
+        )
+    except RAGProviderError as exc:
+        assert str(exc) == "rag_reranker_response_invalid"
+    else:
+        raise AssertionError("Incomplete reranker scores were accepted")

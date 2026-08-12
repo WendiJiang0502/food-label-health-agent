@@ -150,9 +150,9 @@ class OpenAIIndependentReranker:
             {
                 "model": self.model,
                 "instructions": (
-                    "Rank every supplied official regulation clause by how directly it "
-                    "answers the Chinese food-label query. Return each supplied evidence "
-                    "ID exactly once. Do not answer the query or invent an ID."
+                    "Score every supplied official regulation clause from 0 to 100 for "
+                    "how directly it answers the Chinese food-label query. Provide one "
+                    "score for every supplied evidence ID. Do not answer the query."
                 ),
                 "input": json.dumps(
                     {"query": query, "candidates": list(candidates)},
@@ -167,14 +167,21 @@ class OpenAIIndependentReranker:
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "ranked_evidence_ids": {
-                                    "type": "array",
-                                    "items": {"type": "string", "enum": ids},
-                                    "minItems": len(ids),
-                                    "maxItems": len(ids),
+                                "scores": {
+                                    "type": "object",
+                                    "properties": {
+                                        evidence_id: {
+                                            "type": "integer",
+                                            "minimum": 0,
+                                            "maximum": 100,
+                                        }
+                                        for evidence_id in ids
+                                    },
+                                    "required": ids,
+                                    "additionalProperties": False,
                                 }
                             },
-                            "required": ["ranked_evidence_ids"],
+                            "required": ["scores"],
                             "additionalProperties": False,
                         },
                     }
@@ -185,11 +192,25 @@ class OpenAIIndependentReranker:
             },
             self.timeout,
         )
-        parsed = json.loads(_response_output_text(response))
-        ranked = tuple(str(value) for value in parsed["ranked_evidence_ids"])
-        if len(ranked) != len(ids) or set(ranked) != set(ids):
+        try:
+            parsed = json.loads(_response_output_text(response))
+            scores = parsed["scores"]
+        except (json.JSONDecodeError, KeyError, TypeError) as exc:
+            raise RAGProviderError("rag_reranker_response_invalid") from exc
+        if not isinstance(scores, dict) or set(scores) != set(ids):
             raise RAGProviderError("rag_reranker_response_invalid")
-        return ranked
+        original_position = {
+            evidence_id: index for index, evidence_id in enumerate(ids)
+        }
+        return tuple(
+            sorted(
+                ids,
+                key=lambda evidence_id: (
+                    -int(scores[evidence_id]),
+                    original_position[evidence_id],
+                ),
+            )
+        )
 
 
 def create_semantic_providers(
