@@ -167,6 +167,7 @@ food-label-platform
 - [PP-OCRv6 配置教程](./docs/ocr/PP-OCRv6_CONFIGURATION_GUIDE.md)
 - [腾讯云 OCR 配置教程](./docs/ocr/TENCENT_CLOUD_CONFIGURATION_GUIDE.md)
 - [腾讯云 OCR 匿名评测记录](./docs/ocr/TENCENT_OCR_EVALUATION_2026-08-05.md)
+- [模型辅助 Planner 真实消融验收记录](./docs/evaluation/PLANNER_EVALUATION_2026-08-12.md)
 - [法规官方来源与索引清单](./docs/regulations/OFFICIAL_SOURCE_MANIFEST.md)
 - [产品上下文](./PRODUCT.md)
 - [界面设计系统](./DESIGN.md)
