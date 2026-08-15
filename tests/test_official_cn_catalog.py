@@ -310,4 +310,20 @@ def test_official_candidate_is_independently_revalidated() -> None:
         ],
         "evidence_quality": "complete",
         "evidence_id": "official.yili.pure-milk.label.2026-08-15",
+        "record_version": "manual-review-2026-08-15",
+        "confirmed_at": "2026-08-15",
+        "source_verified_at": "2026-08-15",
+        "valid_through": "2027-08-15",
+    }
+    assert eligible["evidence_status"] == {
+        "status": "partially_verified",
+        "label": "部分证据，本次所需字段已核对",
+        "confirmed_at": "2026-08-15",
+        "source_verified_at": "2026-08-15",
+        "valid_through": "2027-08-15",
+        "record_version": "manual-review-2026-08-15",
+        "source_type": "official_product_page",
+        "source_authority": "manufacturer",
+        "source_language": "zh-CN",
+        "source_access_region": "CN",
     }

@@ -123,6 +123,7 @@ def audit_product_label(product: ProductRecord) -> dict[str, Any]:
         missing_fields.append(f"营养项目：{'、'.join(missing_core)}")
 
     full_label_ready = ingredients_ready and allergen_ready and not missing_core
+    base_evidence_status = "complete" if full_label_ready else "review_required"
     return {
         "status": "fully_verified" if full_label_ready else "needs_review",
         "full_label_ready": full_label_ready,
@@ -132,6 +133,24 @@ def audit_product_label(product: ProductRecord) -> dict[str, Any]:
         "source_url": label.source_url,
         "official_store_url": label.official_store_url,
         "official_store_name": label.official_store_name,
+        "evidence_status": {
+            "status": base_evidence_status,
+            "label": (
+                "证据完整" if base_evidence_status == "complete" else "需要补齐或复核"
+            ),
+            "confirmed_at": label.confirmed_at.isoformat(),
+            "source_verified_at": (
+                label.source_verified_at or label.confirmed_at
+            ).isoformat(),
+            "valid_through": (
+                label.valid_through.isoformat() if label.valid_through else None
+            ),
+            "record_version": label.source_record_version,
+            "source_type": label.source_type,
+            "source_authority": label.source_authority,
+            "source_language": label.source_language,
+            "source_access_region": label.source_access_region,
+        },
         "review_priority": _review_priority(
             ingredients_ready, allergen_ready, missing_core
         ),

@@ -81,6 +81,11 @@ def find_alternative_products(
             constraints=request.constraints,
             health_concerns=request.health_concerns,
         )
+        evidence_status = _evidence_status(
+            product,
+            request.applicable_date,
+            eligibility=eligibility,
+        )
         rejection = _evidence_rejection(
             product,
             request.applicable_date,
@@ -96,6 +101,7 @@ def find_alternative_products(
                     "label_coverage": {
                         **audit_product_label(product),
                         "context_eligibility": eligibility,
+                        "evidence_status": evidence_status,
                     },
                 }
             )
@@ -104,6 +110,7 @@ def find_alternative_products(
             {
                 **product.model_dump(mode="json"),
                 "catalog_eligibility": eligibility,
+                "evidence_status": evidence_status,
             }
         )
         if len(candidates) >= request.limit:
@@ -160,6 +167,11 @@ def revalidate_alternatives(request: AlternativeRevalidationRequest) -> dict[str
             constraints=request.constraints,
             health_concerns=request.health_concerns,
         )
+        evidence_status = _evidence_status(
+            product,
+            request.applicable_date,
+            eligibility=eligibility,
+        )
         confirmed_fields = {"ingredients": label.ingredients_text}
         if label.allergen_statement:
             confirmed_fields["allergen_statement"] = label.allergen_statement
@@ -191,6 +203,7 @@ def revalidate_alternatives(request: AlternativeRevalidationRequest) -> dict[str
                 "catalog_scope": product.catalog_scope,
                 "catalog_tier": eligibility["status"],
                 "catalog_eligibility": eligibility,
+                "evidence_status": evidence_status,
                 "disposition": "eligible" if eligible else "excluded",
                 "risk_level": evaluation.overall_risk_level,
                 "reason_code": (
@@ -239,6 +252,18 @@ def revalidate_alternatives(request: AlternativeRevalidationRequest) -> dict[str
                     "nutrition_rows": label.nutrition_rows or [],
                     "evidence_quality": label.evidence_quality,
                     "evidence_id": label.evidence_id,
+                    "record_version": label.source_record_version,
+                    "confirmed_at": label.confirmed_at.isoformat(),
+                    "source_verified_at": (
+                        label.source_verified_at.isoformat()
+                        if label.source_verified_at
+                        else None
+                    ),
+                    "valid_through": (
+                        label.valid_through.isoformat()
+                        if label.valid_through
+                        else None
+                    ),
                 },
                 "evidence_ids": [label.evidence_id],
                 "normalized_label": evaluation.normalized_label,
@@ -318,6 +343,7 @@ def _rank_eligible_results(
         product_id = item["product_id"]
         values = product_values[product_id]
         health_reasons: list[str] = []
+        health_comparisons: list[dict[str, Any]] = []
         for nutrient, direction in focuses:
             candidate = values.get(nutrient)
             if not candidate:
@@ -327,13 +353,33 @@ def _rank_eligible_results(
             if current and candidate[1:] == current[1:]:
                 difference = candidate[0] - current[0]
                 improved = difference < 0 if direction == "lower" else difference > 0
+                outcome = "improved" if improved else (
+                    "same" if difference == 0 else "not_improved"
+                )
+                health_comparisons.append(
+                    {
+                        "nutrient": nutrient,
+                        "label": label,
+                        "candidate_value": candidate[0],
+                        "current_value": current[0],
+                        "unit": candidate[1],
+                        "basis": candidate[2],
+                        "direction": direction,
+                        "outcome": outcome,
+                    }
+                )
                 if improved:
                     verb = "更低" if direction == "lower" else "更高"
                     health_reasons.append(
-                        f"与当前商品同口径比较，{label}{verb}"
+                        "与当前商品同口径比较，"
+                        f"{label}{_format_measure(candidate[0], candidate[1])}，"
+                        f"{verb}于当前的{_format_measure(current[0], current[1])}"
                     )
                 elif difference == 0:
-                    health_reasons.append(f"{label}与当前商品同口径相当")
+                    health_reasons.append(
+                        f"{label}{_format_measure(candidate[0], candidate[1])}，"
+                        "与当前商品同口径相当"
+                    )
             elif len(products) > 1:
                 preference = "越低越优先" if direction == "lower" else "越高越优先"
                 health_reasons.append(f"按{label}{preference}排序")
@@ -353,6 +399,7 @@ def _rank_eligible_results(
         if store_ready:
             ranking_reasons.append("可前往中国大陆官方旗舰店核对")
         item["ranking_reasons"] = ranking_reasons
+        item["health_comparisons"] = health_comparisons
         item["ranking_summary"] = (
             "；".join(ranking_reasons[2:4])
             if len(ranking_reasons) > 2
@@ -427,6 +474,10 @@ def _normalized_nutrient_values(
     }
 
 
+def _format_measure(value: float, unit: str) -> str:
+    return f"{value:g}{unit}"
+
+
 def compare_food_products(request: ProductComparisonRequest) -> dict[str, Any]:
     """Compare only nutrients sharing identical units and label bases."""
 
@@ -484,6 +535,51 @@ def _evidence_rejection(
     return None
 
 
+def _evidence_status(
+    product: ProductRecord,
+    applicable_date: date,
+    *,
+    eligibility: dict[str, Any],
+) -> dict[str, Any]:
+    """Expose one consumer-readable evidence state without weakening release gates."""
+
+    label = product.label
+    source_date = label.source_verified_at or label.confirmed_at
+    if label.valid_through and applicable_date > label.valid_through:
+        status = "expired"
+    elif applicable_date < label.confirmed_at:
+        status = "review_required"
+    elif applicable_date - source_date > MAX_LABEL_AGE:
+        status = "stale"
+    elif (
+        label.content_hash != label_content_hash(product)
+        or not eligibility["eligible_for_current_context"]
+    ):
+        status = "review_required"
+    elif eligibility["status"] == "fully_verified":
+        status = "complete"
+    else:
+        status = "partially_verified"
+    return {
+        "status": status,
+        "label": {
+            "complete": "证据完整",
+            "partially_verified": "部分证据，本次所需字段已核对",
+            "review_required": "需要补齐或复核",
+            "stale": "可能已过期，需要复核",
+            "expired": "已过有效期",
+        }[status],
+        "confirmed_at": label.confirmed_at.isoformat(),
+        "source_verified_at": source_date.isoformat(),
+        "valid_through": label.valid_through.isoformat() if label.valid_through else None,
+        "record_version": label.source_record_version,
+        "source_type": label.source_type,
+        "source_authority": label.source_authority,
+        "source_language": label.source_language,
+        "source_access_region": label.source_access_region,
+    }
+
+
 def _authority_score(authority: str) -> int:
     return {"manufacturer": 3, "internal_review": 2, "community": 1}.get(authority, 0)
 
@@ -497,25 +593,39 @@ def _nutrient_values(
 ) -> list[dict[str, Any]]:
     values: list[dict[str, Any]] = []
     for product in products:
-        nutrients = (
-            product.get("normalized_label", {})
-            .get("nutrition", {})
-            .get("nutrients", [])
-        )
+        nutrition = product.get("normalized_label", {}).get("nutrition", {})
+        nutrients = nutrition.get("nutrients", [])
         nutrient = next(
             (item for item in nutrients if item.get("canonical_name") == nutrient_key),
             None,
         )
         if not nutrient:
             continue
+        basis = nutrition.get("basis") or {}
+        basis_type = basis.get("type") or nutrient.get("basis")
+        basis_amount = float(basis.get("amount") or 0)
+        basis_unit = str(basis.get("unit") or "")
+        if basis_type in {"per_100g", "per_100ml"}:
+            factor = 1.0
+            comparison_basis = basis_type
+        elif (
+            basis_type == "per_serving"
+            and basis_amount > 0
+            and basis_unit in {"g", "ml"}
+        ):
+            factor = 100.0 / basis_amount
+            comparison_basis = f"per_100{basis_unit}"
+        else:
+            continue
         values.append(
             {
                 "product_id": product["product_id"],
                 "display_name": product["display_name"],
-                "value": nutrient["value"],
+                "value": float(nutrient["value"]) * factor,
                 "unit": nutrient["unit"],
-                "basis": nutrient["basis"],
+                "basis": comparison_basis,
                 "evidence_id": nutrient["evidence_id"],
+                "source_basis": basis_type,
             }
         )
     return values

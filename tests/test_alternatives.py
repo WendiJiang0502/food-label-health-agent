@@ -73,6 +73,26 @@ def test_search_excludes_current_product_before_revalidation() -> None:
     )
 
 
+def test_expired_label_is_excluded_and_exposes_evidence_state() -> None:
+    result = find_alternative_products(
+        AlternativeSearchRequest(
+            category="biscuit",
+            applicable_date="2028-08-09",
+            constraints=[_allergy("fish")],
+        ),
+        catalog=JsonProductCatalog(),
+    )
+
+    assert result["status"] == "unknown"
+    expired = next(
+        item
+        for item in result["rejected"]
+        if item["reason_code"] == "LABEL_EVIDENCE_EXPIRED"
+    )
+    assert expired["label_coverage"]["evidence_status"]["status"] == "expired"
+    assert expired["label_coverage"]["evidence_status"]["label"] == "已过有效期"
+
+
 def test_every_candidate_is_revalidated_and_milk_match_is_never_eligible() -> None:
     search = find_alternative_products(
         AlternativeSearchRequest(
@@ -146,7 +166,20 @@ def test_health_concern_ranking_runs_after_safety_and_explains_improvement() -> 
         "official_store_available": False,
         "portion_basis_available": False,
     }
-    assert "与当前商品同口径比较，糖更低" in eligible[0]["ranking_reasons"]
+    assert (
+        "与当前商品同口径比较，糖5g，更低于当前的10g"
+        in eligible[0]["ranking_reasons"]
+    )
+    assert eligible[0]["health_comparisons"][0] == {
+        "nutrient": "sugars",
+        "label": "糖",
+        "candidate_value": 5.0,
+        "current_value": 10.0,
+        "unit": "g",
+        "basis": "per_100g",
+        "direction": "lower",
+        "outcome": "improved",
+    }
     assert result["ranking_method"]["layers"] == [
         "same_category_use",
         "allergen_and_constraint_safety",
@@ -235,6 +268,64 @@ def test_comparison_refuses_mismatched_nutrition_basis() -> None:
     assert result["status"] == "unknown"
     assert result["comparisons"] == []
     assert "nutrition_basis_or_unit_not_comparable:sodium" in result["unknowns"]
+
+
+def test_comparison_normalizes_packaging_serving_to_per_100g() -> None:
+    products = [
+        {
+            "product_id": "serving",
+            "display_name": "每份标示商品",
+            "revalidated": True,
+            "disposition": "eligible",
+            "risk_level": "compatible",
+            "normalized_label": {
+                "nutrition": {
+                    "basis": {"type": "per_serving", "amount": 25, "unit": "g"},
+                    "nutrients": [
+                        {
+                            "canonical_name": "sugars",
+                            "value": 2,
+                            "unit": "g",
+                            "basis": "per_serving",
+                            "evidence_id": "serving.sugar",
+                        }
+                    ],
+                }
+            },
+        },
+        {
+            "product_id": "hundred",
+            "display_name": "每百克标示商品",
+            "revalidated": True,
+            "disposition": "eligible",
+            "risk_level": "compatible",
+            "normalized_label": {
+                "nutrition": {
+                    "basis": {"type": "per_100g", "amount": 100, "unit": "g"},
+                    "nutrients": [
+                        {
+                            "canonical_name": "sugars",
+                            "value": 10,
+                            "unit": "g",
+                            "basis": "per_100g",
+                            "evidence_id": "hundred.sugar",
+                        }
+                    ],
+                }
+            },
+        },
+    ]
+
+    result = compare_food_products(
+        ProductComparisonRequest(products=products, nutrient_keys=["sugars"])
+    )
+
+    assert result["status"] == "compared"
+    assert result["comparisons"][0]["basis"] == "per_100g"
+    assert [item["value"] for item in result["comparisons"][0]["values"]] == [
+        8.0,
+        10.0,
+    ]
 
 
 def test_final_gate_blocks_forged_eligible_alternative() -> None:
