@@ -36,11 +36,14 @@ def test_official_catalog_covers_priority_mainland_categories() -> None:
 
     oats = catalog.search(category="breakfast_cereal", region="CN")
     sauce = catalog.search(category="sauce_condiment", region="CN")
+    nuts = catalog.search(category="snack", region="CN")
 
     assert [item.display_name for item in oats.records] == ["西麦绿色纯燕麦片"]
     assert [item.display_name for item in sauce.records] == ["李锦记薄盐生抽"]
     assert oats.records[0].label.official_store_name == "西麦官方旗舰店"
     assert sauce.records[0].label.official_store_name == "李锦记京东自营旗舰店"
+    assert [item.display_name for item in nuts.records] == ["沃隆每日坚果"]
+    assert nuts.records[0].label.official_store_name == "沃隆官方旗舰店"
 
 
 def test_partial_official_label_is_visible_but_not_safety_recommended() -> None:

@@ -134,5 +134,38 @@
       "official_store_verified_at": "2026-08-15",
       "source_authority": "manufacturer"
     }
+  },
+  {
+    "product_id": "cn-official:wolong:daily-nuts",
+    "display_name": "沃隆每日坚果",
+    "brand": "沃隆",
+    "category": "snack",
+    "region": "CN",
+    "use_case": "独立包装的混合坚果与果干零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.wolong.daily-nuts.label.2026-08-15",
+      "ingredients_text": "混合坚果与果干；完整包装配料表待核验",
+      "allergen_statement": "含多种坚果；完整包装过敏原提示待核验",
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.wolons.com/list-1.html",
+      "content_hash": "sha256:ef822316297e10c7e505d1e6ea67b5bdea8d3127bb43d82b78ca49deb3ff756f",
+      "evidence_quality": "partial",
+      "source_provider": "wolong_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "manual-review-2026-08-15",
+      "official_store_url": "https://wolong.jd.com/",
+      "official_store_name": "沃隆官方旗舰店",
+      "official_store_verified_at": "2026-08-15",
+      "source_authority": "manufacturer"
+    }
   }
 ]
