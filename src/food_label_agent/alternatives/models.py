@@ -75,7 +75,7 @@ class AlternativeSearchRequest(BaseModel):
     jurisdiction: str = Field(default="CN", min_length=2, max_length=12)
     region: str = Field(default="CN", min_length=2, max_length=12)
     exclude_product_ids: list[str] = Field(default_factory=list, max_length=50)
-    limit: int = Field(default=5, ge=1, le=20)
+    limit: int = Field(default=5, ge=1, le=50)
 
 
 class AlternativeRevalidationRequest(BaseModel):
@@ -85,7 +85,8 @@ class AlternativeRevalidationRequest(BaseModel):
     applicable_date: date
     constraints: list[ConstraintInput] = Field(min_length=1, max_length=16)
     health_concerns: list[str] = Field(default_factory=list, max_length=16)
-    candidates: list[ProductRecord] = Field(max_length=20)
+    current_nutrition_rows: list[list[str]] | None = None
+    candidates: list[ProductRecord] = Field(max_length=50)
     jurisdiction: str = Field(default="CN", min_length=2, max_length=12)
 
 

@@ -107,6 +107,54 @@ def test_every_candidate_is_revalidated_and_milk_match_is_never_eligible() -> No
     assert eligible[0]["packaging_label"]["evidence_id"] in eligible[0]["evidence_ids"]
 
 
+def test_health_concern_ranking_runs_after_safety_and_explains_improvement() -> None:
+    search = find_alternative_products(
+        AlternativeSearchRequest(
+            category="biscuit",
+            applicable_date="2026-08-09",
+            constraints=[_allergy("fish")],
+        ),
+        catalog=JsonProductCatalog(),
+    )
+    for candidate in search["candidates"]:
+        candidate["label"]["nutrition_rows"].append(["碳水化合物", "60克"])
+    result = revalidate_alternatives(
+        AlternativeRevalidationRequest(
+            request_id="alternative-health-ranking",
+            applicable_date="2026-08-09",
+            constraints=[_allergy("fish")],
+            health_concerns=["blood_sugar"],
+            current_nutrition_rows=[
+                ["项目", "每100克"],
+                ["糖", "10克"],
+                ["碳水化合物", "60克"],
+            ],
+            candidates=search["candidates"],
+        )
+    )
+
+    eligible = [item for item in result["results"] if item["disposition"] == "eligible"]
+    assert [item["product_id"] for item in eligible] == [
+        "fixture-biscuit-milk-cracker",
+        "fixture-biscuit-oat-plain",
+    ]
+    assert eligible[0]["ranking_layers"] == {
+        "same_category_use": True,
+        "constraint_safety": True,
+        "health_focus_points": 3,
+        "health_metrics_compared": 2,
+        "official_store_available": False,
+        "portion_basis_available": False,
+    }
+    assert "与当前商品同口径比较，糖更低" in eligible[0]["ranking_reasons"]
+    assert result["ranking_method"]["layers"] == [
+        "same_category_use",
+        "allergen_and_constraint_safety",
+        "health_concern_nutrition",
+        "purchase_and_portion_usability",
+    ]
+
+
 def test_nutrition_hard_limit_filters_high_sodium_candidate() -> None:
     constraint = ConstraintInput(
         kind="nutrition_limit",

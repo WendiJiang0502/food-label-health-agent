@@ -8,6 +8,7 @@ from typing import Any
 
 from food_label_agent.ingredients.api_models import SafetyEvaluationRequest
 from food_label_agent.ingredients.service import evaluate_user_constraints_result
+from food_label_agent.nutrition.normalization import normalize_nutrition_facts
 
 from .catalog import ProductCatalog, configured_catalog
 from .evidence_audit import (
@@ -25,6 +26,26 @@ from .models import (
 )
 
 MAX_LABEL_AGE = timedelta(days=550)
+
+_HEALTH_RANKING_FOCUS = {
+    "blood_sugar": (("sugars", "lower"), ("carbohydrate", "lower")),
+    "sugar_control": (("sugars", "lower"), ("carbohydrate", "lower")),
+    "blood_lipids": (("saturated_fat", "lower"), ("fat", "lower")),
+    "blood_pressure": (("sodium", "lower"),),
+    "weight": (("energy", "lower"),),
+    "gut": (("dietary_fiber", "higher"),),
+    "child": (("sugars", "lower"), ("sodium", "lower")),
+}
+
+_NUTRIENT_DISPLAY_NAMES = {
+    "energy": "能量",
+    "fat": "脂肪",
+    "saturated_fat": "饱和脂肪",
+    "carbohydrate": "碳水化合物",
+    "sugars": "糖",
+    "dietary_fiber": "膳食纤维",
+    "sodium": "钠",
+}
 
 
 def find_alternative_products(
@@ -225,22 +246,13 @@ def revalidate_alternatives(request: AlternativeRevalidationRequest) -> dict[str
             }
         )
     eligible_results = [item for item in results if item["disposition"] == "eligible"]
-    ranked = sorted(
+    ranked = _rank_eligible_results(
         eligible_results,
-        key=lambda item: (
-            -_catalog_tier_score(item["catalog_tier"]),
-            -_authority_score(item["label_source_authority"]),
-            -date.fromisoformat(item["label_confirmed_at"]).toordinal(),
-            item["product_id"],
-        ),
+        health_concerns=request.health_concerns,
+        current_nutrition_rows=request.current_nutrition_rows,
     )
     for rank, item in enumerate(ranked, start=1):
         item["rank"] = rank
-        item["ranking_reasons"] = [
-            f"catalog_tier:{item['catalog_tier']}",
-            f"evidence_authority:{item['label_source_authority']}",
-            f"label_confirmed_at:{item['label_confirmed_at']}",
-        ]
     eligible_ids = {item["product_id"]: index for index, item in enumerate(ranked)}
     results.sort(
         key=lambda item: (
@@ -257,6 +269,161 @@ def revalidate_alternatives(request: AlternativeRevalidationRequest) -> dict[str
         "revalidated_count": len(results),
         "revalidation_rate": 1.0,
         "unknowns": [] if eligible_results else ["no_candidate_passed_revalidation"],
+        "ranking_method": {
+            "layers": [
+                "same_category_use",
+                "allergen_and_constraint_safety",
+                "health_concern_nutrition",
+                "purchase_and_portion_usability",
+            ],
+            "health_concerns": request.health_concerns,
+            "current_product_comparison": bool(request.current_nutrition_rows),
+        },
+    }
+
+
+def _rank_eligible_results(
+    products: list[dict[str, Any]],
+    *,
+    health_concerns: list[str],
+    current_nutrition_rows: list[list[str]] | None,
+) -> list[dict[str, Any]]:
+    focuses = _ranking_focuses(health_concerns)
+    current_values = _normalized_nutrient_values_from_rows(current_nutrition_rows)
+    product_values = {
+        item["product_id"]: _normalized_nutrient_values(
+            item.get("normalized_label", {}).get("nutrition")
+        )
+        for item in products
+    }
+    points = {item["product_id"]: 0 for item in products}
+    comparable_counts = {item["product_id"]: 0 for item in products}
+    for nutrient, direction in focuses:
+        available = [
+            (item["product_id"], product_values[item["product_id"]].get(nutrient))
+            for item in products
+        ]
+        available = [(product_id, value) for product_id, value in available if value]
+        available.sort(key=lambda pair: pair[1][0], reverse=direction == "higher")
+        distinct_values = list(dict.fromkeys(value[0] for _, value in available))
+        value_points = {
+            value: len(distinct_values) - position
+            for position, value in enumerate(distinct_values)
+        }
+        for product_id, value in available:
+            points[product_id] += value_points[value[0]]
+            comparable_counts[product_id] += 1
+
+    for item in products:
+        product_id = item["product_id"]
+        values = product_values[product_id]
+        health_reasons: list[str] = []
+        for nutrient, direction in focuses:
+            candidate = values.get(nutrient)
+            if not candidate:
+                continue
+            current = current_values.get(nutrient)
+            label = _NUTRIENT_DISPLAY_NAMES.get(nutrient, nutrient)
+            if current and candidate[1:] == current[1:]:
+                difference = candidate[0] - current[0]
+                improved = difference < 0 if direction == "lower" else difference > 0
+                if improved:
+                    verb = "更低" if direction == "lower" else "更高"
+                    health_reasons.append(
+                        f"与当前商品同口径比较，{label}{verb}"
+                    )
+                elif difference == 0:
+                    health_reasons.append(f"{label}与当前商品同口径相当")
+            elif len(products) > 1:
+                preference = "越低越优先" if direction == "lower" else "越高越优先"
+                health_reasons.append(f"按{label}{preference}排序")
+
+        nutrition = item.get("normalized_label", {}).get("nutrition") or {}
+        basis = nutrition.get("basis") or {}
+        portion_ready = basis.get("type") == "per_serving" and basis.get("unit") in {
+            "g",
+            "ml",
+        }
+        store_ready = bool(item.get("official_store_url"))
+        experience_score = int(store_ready) + int(portion_ready)
+        ranking_reasons = ["同类用途匹配", "已通过过敏原与个人约束复核"]
+        ranking_reasons.extend(health_reasons[:2])
+        if portion_ready:
+            ranking_reasons.append("包装提供可用的每份口径")
+        if store_ready:
+            ranking_reasons.append("可前往中国大陆官方旗舰店核对")
+        item["ranking_reasons"] = ranking_reasons
+        item["ranking_summary"] = (
+            "；".join(ranking_reasons[2:4])
+            if len(ranking_reasons) > 2
+            else "同类且通过了当前个人约束复核"
+        )
+        item["ranking_layers"] = {
+            "same_category_use": True,
+            "constraint_safety": True,
+            "health_focus_points": points[product_id],
+            "health_metrics_compared": comparable_counts[product_id],
+            "official_store_available": store_ready,
+            "portion_basis_available": portion_ready,
+        }
+        item["_ranking_key"] = (
+            -points[product_id],
+            -comparable_counts[product_id],
+            -_catalog_tier_score(item["catalog_tier"]),
+            -experience_score,
+            -_authority_score(item["label_source_authority"]),
+            -date.fromisoformat(item["label_confirmed_at"]).toordinal(),
+            product_id,
+        )
+    ranked = sorted(products, key=lambda item: item["_ranking_key"])
+    for item in ranked:
+        item.pop("_ranking_key", None)
+    return ranked
+
+
+def _ranking_focuses(health_concerns: list[str]) -> list[tuple[str, str]]:
+    focuses: list[tuple[str, str]] = []
+    for concern in health_concerns:
+        for focus in _HEALTH_RANKING_FOCUS.get(concern, ()):
+            if focus not in focuses:
+                focuses.append(focus)
+    return focuses
+
+
+def _normalized_nutrient_values_from_rows(
+    rows: list[list[str]] | None,
+) -> dict[str, tuple[float, str, str]]:
+    if not rows:
+        return {}
+    normalized = normalize_nutrition_facts(None, rows=rows)
+    return _normalized_nutrient_values(normalized.to_dict() if normalized else None)
+
+
+def _normalized_nutrient_values(
+    nutrition: dict[str, Any] | None,
+) -> dict[str, tuple[float, str, str]]:
+    if not nutrition or not nutrition.get("basis"):
+        return {}
+    basis = nutrition["basis"]
+    basis_type = basis.get("type")
+    basis_amount = float(basis.get("amount") or 0)
+    basis_unit = str(basis.get("unit") or "")
+    if basis_type in {"per_100g", "per_100ml"}:
+        factor = 1.0
+        comparison_basis = basis_type
+    elif basis_type == "per_serving" and basis_amount > 0 and basis_unit in {"g", "ml"}:
+        factor = 100.0 / basis_amount
+        comparison_basis = f"per_100{basis_unit}"
+    else:
+        return {}
+    return {
+        str(item["canonical_name"]): (
+            float(item["value"]) * factor,
+            str(item["unit"]),
+            comparison_basis,
+        )
+        for item in nutrition.get("nutrients", [])
+        if item.get("canonical_name") and item.get("value") is not None
     }
 
 

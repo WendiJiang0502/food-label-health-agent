@@ -87,6 +87,10 @@ def create_app(
         category = request.query_params.get("category") or None
         return JSONResponse(OfficialChinaCatalog().coverage(category=category))
 
+    async def official_catalog_review_queue(request: Request) -> JSONResponse:
+        category = request.query_params.get("category") or None
+        return JSONResponse(OfficialChinaCatalog().review_queue(category=category))
+
     async def official_discovery_status(request: Request) -> JSONResponse:
         category = request.query_params.get("category") or None
         return JSONResponse(discovery.status(category=category))
@@ -422,6 +426,10 @@ def create_app(
         Route(
             "/api/v1/alternatives/catalog-coverage",
             endpoint=official_catalog_coverage,
+        ),
+        Route(
+            "/api/v1/alternatives/catalog-review-queue",
+            endpoint=official_catalog_review_queue,
         ),
         Route(
             "/api/v1/alternatives/discovery",

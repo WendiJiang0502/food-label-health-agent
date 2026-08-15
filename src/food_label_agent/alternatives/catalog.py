@@ -8,7 +8,7 @@ import time
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime, timedelta
 from functools import lru_cache
 from hashlib import sha256
 from pathlib import Path
@@ -43,6 +43,7 @@ OFFICIAL_PRODUCT_HOSTS = {
     "www.meiji.com.cn",
     "meiji.com.cn",
 }
+OFFICIAL_LABEL_REVERIFY_AFTER = timedelta(days=550)
 OFFICIAL_STORE_HOST_SUFFIXES = (".jd.com", ".tmall.com")
 OFF_FIELDS = (
     "code,product_name,product_name_zh,brands,ingredients_text,ingredients_text_zh,"
@@ -213,6 +214,85 @@ class OfficialChinaCatalog:
             )
         )
         return {**summarize_label_coverage(selected), "items": items}
+
+    def review_queue(
+        self,
+        *,
+        category: str | None = None,
+        region: str = "CN",
+        applicable_date: date | None = None,
+    ) -> dict[str, Any]:
+        """Return actionable label-completion work without weakening recommendation gates."""
+
+        review_date = applicable_date or datetime.now(UTC).date()
+        selected = [
+            product
+            for product in self._records()
+            if product.region == region and (category is None or product.category == category)
+        ]
+        items: list[dict[str, Any]] = []
+        for product in selected:
+            label = product.label
+            audit = audit_product_label(product)
+            source_date = label.source_verified_at or label.confirmed_at
+            reverify_due = bool(
+                (label.valid_through and review_date > label.valid_through)
+                or review_date - source_date > OFFICIAL_LABEL_REVERIFY_AFTER
+            )
+            if audit["full_label_ready"] and not reverify_due:
+                continue
+            status = "reverification_due" if reverify_due else "needs_label"
+            missing_fields = list(audit["missing_fields"])
+            items.append(
+                {
+                    "product_id": product.product_id,
+                    "display_name": product.display_name,
+                    "brand": product.brand,
+                    "category": product.category,
+                    "status": status,
+                    "priority": "urgent" if reverify_due else audit["review_priority"],
+                    "missing_fields": missing_fields,
+                    "verified_fields": list(audit["verified_fields"]),
+                    "next_action": (
+                        "重新核对官方页面与当前包装版本"
+                        if reverify_due
+                        else _label_completion_action(missing_fields)
+                    ),
+                    "recommendation_eligible": False,
+                    "source": {
+                        "url": label.source_url,
+                        "type": label.source_type,
+                        "record_version": label.source_record_version,
+                        "verified_at": source_date.isoformat(),
+                        "ingredients_image_url": label.ingredients_image_url,
+                        "nutrition_image_url": label.nutrition_image_url,
+                        "official_store_url": label.official_store_url,
+                        "official_store_name": label.official_store_name,
+                    },
+                }
+            )
+        priority_order = {"urgent": 0, "high": 1, "medium": 2, "complete": 3}
+        items.sort(
+            key=lambda item: (
+                priority_order.get(item["priority"], 4),
+                -len(item["missing_fields"]),
+                item["display_name"],
+            )
+        )
+        missing_field_counts: dict[str, int] = {}
+        for item in items:
+            for field in item["missing_fields"]:
+                missing_field_counts[field] = missing_field_counts.get(field, 0) + 1
+        return {
+            "total_catalog_count": len(selected),
+            "queue_count": len(items),
+            "ready_count": len(selected) - len(items),
+            "reverification_due_count": sum(
+                item["status"] == "reverification_due" for item in items
+            ),
+            "missing_field_counts": missing_field_counts,
+            "items": items,
+        }
 
 
 class OpenFoodFactsCatalog:
@@ -404,6 +484,13 @@ def _catalog_for_mode(selected: str) -> ProductCatalog:
     if selected == "curated":
         return JsonProductCatalog()
     raise ValueError(f"Unsupported product catalog: {selected}")
+
+
+def _label_completion_action(missing_fields: list[str]) -> str:
+    joined = "、".join(missing_fields)
+    if "完整配料表文字" in missing_fields or "包装过敏原提示" in missing_fields:
+        return f"补充包装背标图片并复核：{joined}"
+    return f"核对官方页面或包装图片：{joined}"
 
 
 def _official_source_rejection(product: ProductRecord) -> str | None:

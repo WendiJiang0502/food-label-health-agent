@@ -1648,12 +1648,15 @@ function renderAlternativeResults(payload) {
     header.append(title, status);
     const useCase = document.createElement("p");
     useCase.textContent = item.use_case;
+    const ranking = document.createElement("p");
+    ranking.className = "alternative-ranking";
+    ranking.textContent = `为什么排在这里：${item.ranking_summary || "同类且已通过本次个人约束复核"}`;
     const explanation = document.createElement("p");
     explanation.textContent = item.explanation;
     const evidence = document.createElement("p");
     evidence.className = "alternative-evidence";
     evidence.textContent = `官方标签复核于 ${item.label_source_verified_at || item.label_confirmed_at} · ${sourceAuthorityLabel(item.label_source_authority)}`;
-    article.append(header, useCase, explanation, evidence);
+    article.append(header, useCase, ranking, explanation, evidence);
     if (item.catalog_eligibility?.verified_required_fields?.length) {
       const eligibility = document.createElement("p");
       eligibility.className = "alternative-eligibility";

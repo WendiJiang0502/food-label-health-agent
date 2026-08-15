@@ -63,6 +63,17 @@ def test_official_catalog_coverage_api_lists_every_review_item() -> None:
     assert all("missing_fields" in item["label_coverage"] for item in payload["items"])
 
 
+def test_official_catalog_review_queue_api_excludes_ready_products() -> None:
+    response = asyncio.run(request("GET", "/api/v1/alternatives/catalog-review-queue"))
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["total_catalog_count"] == 100
+    assert payload["queue_count"] == 50
+    assert payload["ready_count"] == 50
+    assert all(item["recommendation_eligible"] is False for item in payload["items"])
+
+
 class _FakeDiscovery:
     def status(self, *, category=None):
         return {

@@ -650,6 +650,9 @@ def revalidate_alternatives(state: AgentState) -> dict:
                 "health_concerns": state["alternative_request"].get(
                     "health_concerns", []
                 ),
+                "current_nutrition_rows": state["alternative_request"].get(
+                    "current_nutrition_rows"
+                ),
                 "jurisdiction": state["jurisdiction"],
             },
         )
@@ -658,11 +661,14 @@ def revalidate_alternatives(state: AgentState) -> dict:
 
     eligible = [item for item in result["results"] if item["disposition"] == "eligible"]
     comparison: dict = {"status": "not_available", "comparisons": [], "unknowns": []}
-    if eligible:
+    comparison_candidates = eligible[
+        : state["alternative_request"].get("display_limit", 5)
+    ]
+    if comparison_candidates:
         try:
             comparison = invoke_mcp_tool(
                 "compare_food_products",
-                {"products": eligible},
+                {"products": comparison_candidates},
             )
         except MCPToolCallError as exc:
             return _tool_failure(state, exc)
@@ -677,6 +683,7 @@ def revalidate_alternatives(state: AgentState) -> dict:
             "candidate_count": result["candidate_count"],
             "revalidated_count": result["revalidated_count"],
             "revalidation_rate": result["revalidation_rate"],
+            "ranking_method": result.get("ranking_method", {}),
         },
         "unknowns": list(
             dict.fromkeys(

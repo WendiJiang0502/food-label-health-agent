@@ -119,7 +119,7 @@ def search_food_regulations(
     applicable_date: str,
     jurisdiction: str = "CN",
     topics: Annotated[list[str] | None, Field(max_length=12)] = None,
-    limit: Annotated[int, Field(ge=1, le=20)] = 5,
+    limit: Annotated[int, Field(ge=1, le=50)] = 5,
 ) -> dict:
     """Hybrid-retrieve applicable clause evidence from official Chinese sources."""
 
@@ -219,8 +219,9 @@ def revalidate_alternatives(
     request_id: Annotated[str, Field(min_length=1, max_length=128)],
     applicable_date: str,
     constraints: Annotated[list[ConstraintInput], Field(min_length=1, max_length=16)],
-    candidates: Annotated[list[dict], Field(max_length=20)],
+    candidates: Annotated[list[dict], Field(max_length=50)],
     health_concerns: Annotated[list[str] | None, Field(max_length=16)] = None,
+    current_nutrition_rows: list[list[str]] | None = None,
     jurisdiction: str = "CN",
 ) -> dict:
     """Re-run the complete deterministic rule engine for every candidate label."""
@@ -230,6 +231,7 @@ def revalidate_alternatives(
         applicable_date=applicable_date,
         constraints=constraints,
         health_concerns=health_concerns or [],
+        current_nutrition_rows=current_nutrition_rows,
         candidates=candidates,
         jurisdiction=jurisdiction,
     )

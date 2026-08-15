@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from datetime import date
 from pathlib import Path
 
 from food_label_agent.alternatives.catalog import OfficialChinaCatalog
@@ -55,6 +56,19 @@ def test_official_catalog_exposes_complete_review_queue() -> None:
     assert coverage["needs_review_count"] == 50
     assert len(coverage["items"]) == 100
     assert coverage["items"][0]["label_coverage"]["review_priority"] == "high"
+
+
+def test_official_catalog_turns_missing_labels_into_actionable_queue() -> None:
+    queue = OfficialChinaCatalog().review_queue(applicable_date=date(2026, 8, 15))
+
+    assert queue["total_catalog_count"] == 100
+    assert queue["ready_count"] == 50
+    assert queue["queue_count"] == 50
+    assert queue["reverification_due_count"] == 0
+    assert queue["missing_field_counts"]["完整配料表文字"] >= 45
+    assert all(item["recommendation_eligible"] is False for item in queue["items"])
+    assert all(item["next_action"] for item in queue["items"])
+    assert all(item["source"]["record_version"] for item in queue["items"])
 
 
 def test_meiji_discovery_skus_stay_out_of_safety_recommendations() -> None:

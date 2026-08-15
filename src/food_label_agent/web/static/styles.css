@@ -742,6 +742,7 @@ h3 { font-size: 1.2rem; }
 .alternative-tier--fully_verified { color: var(--compatible); }
 .alternative-tier--conditionally_verified { color: var(--caution); }
 .alternative-item > p { margin: 8px 0 0; color: var(--muted-small); font-size: 0.76rem; line-height: 1.6; }
+.alternative-item .alternative-ranking { color: var(--ink-deep); font-weight: 720; overflow-wrap: anywhere; }
 .alternative-item .alternative-evidence { color: var(--ink); font-family: var(--font-data); font-size: 0.68rem; overflow-wrap: anywhere; }
 .alternative-item .alternative-eligibility { color: var(--teal); font-weight: 720; overflow-wrap: anywhere; }
 .alternative-label { margin-top: 12px; border-block: 1px solid var(--line); }
