@@ -738,9 +738,12 @@ h3 { font-size: 1.2rem; }
 .alternative-item { border-top: 1px solid var(--line); padding: 18px 0; }
 .alternative-item header { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
 .alternative-item h4 { margin: 0; color: var(--ink-deep); font-size: 1rem; overflow-wrap: anywhere; }
-.alternative-item header span { flex: 0 0 auto; color: var(--compatible); font-size: 0.68rem; font-weight: 800; }
+.alternative-item header span { flex: 0 0 auto; font-size: 0.68rem; font-weight: 800; }
+.alternative-tier--fully_verified { color: var(--compatible); }
+.alternative-tier--conditionally_verified { color: var(--caution); }
 .alternative-item > p { margin: 8px 0 0; color: var(--muted-small); font-size: 0.76rem; line-height: 1.6; }
 .alternative-item .alternative-evidence { color: var(--ink); font-family: var(--font-data); font-size: 0.68rem; overflow-wrap: anywhere; }
+.alternative-item .alternative-eligibility { color: var(--teal); font-weight: 720; overflow-wrap: anywhere; }
 .alternative-label { margin-top: 12px; border-block: 1px solid var(--line); }
 .alternative-label summary { display: grid; min-height: 48px; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 12px; color: var(--teal); cursor: pointer; font-size: 0.68rem; font-weight: 760; list-style: none; }
 .alternative-label summary::-webkit-details-marker { display: none; }

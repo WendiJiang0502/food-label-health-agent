@@ -580,6 +580,7 @@ def search_alternatives(state: AgentState) -> dict:
                 "category": category,
                 "applicable_date": state["applicable_date"],
                 "constraints": [asdict(item) for item in state["user_constraints"]],
+                "health_concerns": request.get("health_concerns", []),
                 "jurisdiction": state["jurisdiction"],
                 "region": request.get("region", "CN"),
                 "exclude_product_ids": request.get("exclude_product_ids", []),
@@ -646,6 +647,9 @@ def revalidate_alternatives(state: AgentState) -> dict:
                 "applicable_date": state["applicable_date"],
                 "constraints": [asdict(item) for item in state["user_constraints"]],
                 "candidates": candidates,
+                "health_concerns": state["alternative_request"].get(
+                    "health_concerns", []
+                ),
                 "jurisdiction": state["jurisdiction"],
             },
         )

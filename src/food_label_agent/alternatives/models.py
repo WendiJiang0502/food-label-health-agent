@@ -71,6 +71,7 @@ class AlternativeSearchRequest(BaseModel):
     category: str = Field(min_length=2, max_length=80)
     applicable_date: date
     constraints: list[ConstraintInput] = Field(min_length=1, max_length=16)
+    health_concerns: list[str] = Field(default_factory=list, max_length=16)
     jurisdiction: str = Field(default="CN", min_length=2, max_length=12)
     region: str = Field(default="CN", min_length=2, max_length=12)
     exclude_product_ids: list[str] = Field(default_factory=list, max_length=50)
@@ -83,6 +84,7 @@ class AlternativeRevalidationRequest(BaseModel):
     request_id: str = Field(min_length=1, max_length=128)
     applicable_date: date
     constraints: list[ConstraintInput] = Field(min_length=1, max_length=16)
+    health_concerns: list[str] = Field(default_factory=list, max_length=16)
     candidates: list[ProductRecord] = Field(max_length=20)
     jurisdiction: str = Field(default="CN", min_length=2, max_length=12)
 
@@ -117,6 +119,7 @@ class AlternativeWorkflowRequest(BaseModel):
     applicable_date: date
     confirmed_fields: dict[str, str]
     constraints: list[ConstraintInput] = Field(min_length=1, max_length=16)
+    health_concerns: list[str] = Field(default_factory=list, max_length=16)
     category: str = Field(min_length=2, max_length=80)
     jurisdiction: str = Field(default="CN", min_length=2, max_length=12)
     region: str = Field(default="CN", min_length=2, max_length=12)

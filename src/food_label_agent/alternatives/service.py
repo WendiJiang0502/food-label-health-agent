@@ -11,8 +11,10 @@ from food_label_agent.ingredients.service import evaluate_user_constraints_resul
 
 from .catalog import ProductCatalog, configured_catalog
 from .evidence_audit import (
+    assess_product_eligibility,
     audit_product_label,
     label_content_hash,
+    summarize_context_eligibility,
     summarize_label_coverage,
 )
 from .models import (
@@ -53,7 +55,16 @@ def find_alternative_products(
         seen_ids.add(product.product_id)
         if product.product_id in excluded_ids:
             continue
-        rejection = _evidence_rejection(product, request.applicable_date)
+        eligibility = assess_product_eligibility(
+            product,
+            constraints=request.constraints,
+            health_concerns=request.health_concerns,
+        )
+        rejection = _evidence_rejection(
+            product,
+            request.applicable_date,
+            eligibility=eligibility,
+        )
         if rejection:
             rejected.append(
                 {
@@ -61,15 +72,23 @@ def find_alternative_products(
                     "display_name": product.display_name,
                     "reason_code": rejection,
                     "evidence_ids": [product.label.evidence_id],
-                    "label_coverage": audit_product_label(product),
+                    "label_coverage": {
+                        **audit_product_label(product),
+                        "context_eligibility": eligibility,
+                    },
                 }
             )
             continue
-        candidates.append(product.model_dump(mode="json"))
+        candidates.append(
+            {
+                **product.model_dump(mode="json"),
+                "catalog_eligibility": eligibility,
+            }
+        )
         if len(candidates) >= request.limit:
             break
     evidence_requirements = [
-        "complete",
+        "required_fields_for_active_context",
         "current_for_applicable_date",
         "content_hash_verified",
     ]
@@ -90,13 +109,21 @@ def find_alternative_products(
         "catalog_scope": catalog_result.provider,
         "catalog_status": catalog_result.status,
         "catalog_warnings": list(catalog_result.warnings),
-        "catalog_coverage": summarize_label_coverage(category_records),
+        "catalog_coverage": {
+            **summarize_label_coverage(category_records),
+            **summarize_context_eligibility(
+                category_records,
+                constraints=request.constraints,
+                health_concerns=request.health_concerns,
+            ),
+        },
         "selection_basis": {
             "source": catalog_result.provider,
             "category_match": "exact",
             "region_match": "exact",
             "evidence_requirements": evidence_requirements,
             "constraint_evaluation": "independent_revalidation_required",
+            "health_concerns": request.health_concerns,
         },
     }
 
@@ -107,6 +134,11 @@ def revalidate_alternatives(request: AlternativeRevalidationRequest) -> dict[str
     results: list[dict[str, Any]] = []
     for index, product in enumerate(request.candidates, start=1):
         label = product.label
+        eligibility = assess_product_eligibility(
+            product,
+            constraints=request.constraints,
+            health_concerns=request.health_concerns,
+        )
         confirmed_fields = {"ingredients": label.ingredients_text}
         if label.allergen_statement:
             confirmed_fields["allergen_statement"] = label.allergen_statement
@@ -124,7 +156,10 @@ def revalidate_alternatives(request: AlternativeRevalidationRequest) -> dict[str
                 constraints=request.constraints,
             )
         )
-        eligible = evaluation.overall_risk_level == "compatible"
+        eligible = (
+            eligibility["eligible_for_current_context"]
+            and evaluation.overall_risk_level == "compatible"
+        )
         results.append(
             {
                 "product_id": product.product_id,
@@ -133,17 +168,27 @@ def revalidate_alternatives(request: AlternativeRevalidationRequest) -> dict[str
                 "category": product.category,
                 "use_case": product.use_case,
                 "catalog_scope": product.catalog_scope,
+                "catalog_tier": eligibility["status"],
+                "catalog_eligibility": eligibility,
                 "disposition": "eligible" if eligible else "excluded",
                 "risk_level": evaluation.overall_risk_level,
                 "reason_code": (
                     "INDEPENDENT_REVALIDATION_PASSED"
                     if eligible
-                    else "INDEPENDENT_REVALIDATION_FAILED"
+                    else (
+                        "LABEL_FIELDS_INSUFFICIENT_FOR_CONTEXT"
+                        if not eligibility["eligible_for_current_context"]
+                        else "INDEPENDENT_REVALIDATION_FAILED"
+                    )
                 ),
                 "explanation": (
-                    "在该候选当前已确认标签中未发现所选约束冲突；这不是绝对安全保证。"
+                    "当前关注项所需字段已经核对，且未发现所选硬性约束冲突；这不是绝对安全保证。"
                     if eligible
-                    else "该候选重新运行完整约束规则后未通过硬过滤。"
+                    else (
+                        "当前关注项所需包装字段尚未齐全，因此不进入推荐。"
+                        if not eligibility["eligible_for_current_context"]
+                        else "该候选重新运行完整约束规则后未通过硬过滤。"
+                    )
                 ),
                 "revalidated": True,
                 "label_confirmed_at": label.confirmed_at.isoformat(),
@@ -183,6 +228,7 @@ def revalidate_alternatives(request: AlternativeRevalidationRequest) -> dict[str
     ranked = sorted(
         eligible_results,
         key=lambda item: (
+            -_catalog_tier_score(item["catalog_tier"]),
             -_authority_score(item["label_source_authority"]),
             -date.fromisoformat(item["label_confirmed_at"]).toordinal(),
             item["product_id"],
@@ -191,6 +237,7 @@ def revalidate_alternatives(request: AlternativeRevalidationRequest) -> dict[str
     for rank, item in enumerate(ranked, start=1):
         item["rank"] = rank
         item["ranking_reasons"] = [
+            f"catalog_tier:{item['catalog_tier']}",
             f"evidence_authority:{item['label_source_authority']}",
             f"label_confirmed_at:{item['label_confirmed_at']}",
         ]
@@ -250,10 +297,15 @@ def compare_food_products(request: ProductComparisonRequest) -> dict[str, Any]:
     }
 
 
-def _evidence_rejection(product: ProductRecord, applicable_date) -> str | None:
+def _evidence_rejection(
+    product: ProductRecord,
+    applicable_date,
+    *,
+    eligibility: dict[str, Any],
+) -> str | None:
     label = product.label
-    if label.evidence_quality != "complete":
-        return "LABEL_EVIDENCE_INCOMPLETE"
+    if not eligibility["eligible_for_current_context"]:
+        return "LABEL_FIELDS_INSUFFICIENT_FOR_CONTEXT"
     if label.content_hash != label_content_hash(product):
         return "LABEL_EVIDENCE_HASH_MISMATCH"
     if label.valid_through and applicable_date > label.valid_through:
@@ -267,6 +319,10 @@ def _evidence_rejection(product: ProductRecord, applicable_date) -> str | None:
 
 def _authority_score(authority: str) -> int:
     return {"manufacturer": 3, "internal_review": 2, "community": 1}.get(authority, 0)
+
+
+def _catalog_tier_score(tier: str) -> int:
+    return {"fully_verified": 2, "conditionally_verified": 1}.get(tier, 0)
 
 
 def _nutrient_values(

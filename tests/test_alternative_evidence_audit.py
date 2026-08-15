@@ -28,7 +28,10 @@ def test_every_official_product_gets_field_level_coverage() -> None:
     assert len(audits) == 14
     assert sum(item["full_label_ready"] for item in audits.values()) == 9
     assert audits["cn-official:yili:pure-milk"]["current_evidence_gate_passed"]
-    assert "完整配料表文字" in audits["cn-official:lkk:less-salt-soy-sauce"]["verified_fields"]
+    assert (
+        "完整配料表文字"
+        in audits["cn-official:lkk:less-salt-soy-sauce"]["verified_fields"]
+    )
     assert "完整配料表文字" in audits["cn-official:wolong:daily-nuts"]["missing_fields"]
 
     summary = summarize_label_coverage(products)
@@ -62,4 +65,7 @@ def test_search_rejection_explains_exact_official_label_gaps() -> None:
         "evidence_gate_count": 0,
         "needs_review_count": 1,
         "coverage_rate": 0.0,
+        "fully_verified_count": 0,
+        "conditionally_verified_count": 0,
+        "context_needs_review_count": 1,
     }

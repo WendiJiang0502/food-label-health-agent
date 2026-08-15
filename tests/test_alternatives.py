@@ -38,17 +38,18 @@ def test_search_rejects_incomplete_label_before_recommendation() -> None:
         "category_match": "exact",
         "region_match": "exact",
         "evidence_requirements": [
-            "complete",
+            "required_fields_for_active_context",
             "current_for_applicable_date",
             "content_hash_verified",
         ],
         "constraint_evaluation": "independent_revalidation_required",
+        "health_concerns": [],
     }
     assert len(result["rejected"]) == 1
     rejected = result["rejected"][0]
     assert rejected["product_id"] == "fixture-biscuit-partial-label"
     assert rejected["display_name"] == "示例·配方待核对薄脆"
-    assert rejected["reason_code"] == "LABEL_EVIDENCE_INCOMPLETE"
+    assert rejected["reason_code"] == "LABEL_FIELDS_INSUFFICIENT_FOR_CONTEXT"
     assert rejected["evidence_ids"] == [
         "product.fixture-biscuit-partial-label.label.2026-08"
     ]

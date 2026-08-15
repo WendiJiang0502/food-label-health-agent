@@ -1557,6 +1557,7 @@ async function findAndRevalidateAlternatives() {
         nutrition_rows: state.analysis.fields.find((field) => field.name === "nutrition_table")
           ?.nutrition_table?.rows || null,
         constraints: state.currentConstraints,
+        health_concerns: state.profile?.healthConcerns || [],
         category,
         resume_token: state.checkpointToken,
       }),
@@ -1619,7 +1620,7 @@ function renderAlternativeResults(payload) {
   );
   const coverage = payload.catalog_coverage || {};
   if (coverage.total) {
-    elements.alternativeSource.textContent += ` 本类别已检索 ${coverage.total} 件官方商品：${coverage.full_label_count} 件已补齐全部包装字段，${coverage.evidence_gate_count} 件达到当前复核门槛，${coverage.needs_review_count} 件仍有字段待补。`;
+    elements.alternativeSource.textContent += ` 本类别共 ${coverage.total} 件官方商品：${coverage.fully_verified_count ?? coverage.full_label_count} 件完整核验，${coverage.conditionally_verified_count || 0} 件按本次关注项条件可用，${coverage.context_needs_review_count ?? coverage.needs_review_count} 件仍需补齐本次所需字段。`;
   }
   elements.alternativeSource.dataset.catalogCopy = elements.alternativeSource.textContent;
   renderAlternativeDiscoverySummary(payload.discovery);
@@ -1642,7 +1643,8 @@ function renderAlternativeResults(payload) {
     const title = document.createElement("h4");
     title.textContent = `${item.rank ? `${item.rank}. ` : ""}${item.display_name}`;
     const status = document.createElement("span");
-    status.textContent = "约束复核通过";
+    status.className = `alternative-tier alternative-tier--${item.catalog_tier || "fully_verified"}`;
+    status.textContent = alternativeTierLabel(item.catalog_tier);
     header.append(title, status);
     const useCase = document.createElement("p");
     useCase.textContent = item.use_case;
@@ -1652,6 +1654,12 @@ function renderAlternativeResults(payload) {
     evidence.className = "alternative-evidence";
     evidence.textContent = `官方标签复核于 ${item.label_source_verified_at || item.label_confirmed_at} · ${sourceAuthorityLabel(item.label_source_authority)}`;
     article.append(header, useCase, explanation, evidence);
+    if (item.catalog_eligibility?.verified_required_fields?.length) {
+      const eligibility = document.createElement("p");
+      eligibility.className = "alternative-eligibility";
+      eligibility.textContent = `本次已核对：${item.catalog_eligibility.verified_required_fields.join("、")}`;
+      article.append(eligibility);
+    }
     const packagingLabel = renderAlternativePackagingLabel(item);
     if (packagingLabel) article.append(packagingLabel);
     if (item.ingredients_image_url?.startsWith("https://")) {
@@ -1776,7 +1784,7 @@ function renderAlternativePackagingLabel(item) {
   const summaryTitle = document.createElement("span");
   summaryTitle.textContent = "查看已核对包装标签";
   const summaryStatus = document.createElement("span");
-  summaryStatus.textContent = label.evidence_quality === "complete" ? "已通过证据门槛" : "部分信息";
+  summaryStatus.textContent = alternativeTierLabel(item.catalog_tier);
   summary.append(summaryTitle, summaryStatus);
 
   const body = document.createElement("div");
@@ -1840,6 +1848,7 @@ function alternativeRejectionLabel(reasonCode) {
     LIVE_LABEL_EVIDENCE_INCOMPLETE: "实时商品缺少完整配料文字、标签图片或版本信息",
     DUPLICATE_PRODUCT_RECORD: "重复商品记录，已合并",
     LABEL_EVIDENCE_INCOMPLETE: "标签证据不完整，未进入安全复核",
+    LABEL_FIELDS_INSUFFICIENT_FOR_CONTEXT: "缺少本次关注项所需的包装字段",
     LABEL_EVIDENCE_EXPIRED: "标签记录已过期，未进入安全复核",
     LABEL_EVIDENCE_STALE: "标签记录过旧，需要重新核对",
     LABEL_EVIDENCE_FROM_FUTURE: "标签日期与当前评估日期不一致",
@@ -1852,6 +1861,14 @@ function alternativeRejectionLabel(reasonCode) {
     OFFICIAL_STORE_HOST_NOT_ALLOWLISTED: "旗舰店平台尚未进入审核清单",
     OFFICIAL_STORE_REVIEW_INCOMPLETE: "官方旗舰店身份或复核日期不完整",
   }[reasonCode] || "证据不足，未进入安全复核";
+}
+
+function alternativeTierLabel(tier) {
+  return {
+    fully_verified: "完整核验",
+    conditionally_verified: "本次条件可用",
+    needs_review: "待核验",
+  }[tier] || "已复核";
 }
 
 function alternativeSourceCopy(scope, status) {

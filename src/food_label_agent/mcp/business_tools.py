@@ -194,6 +194,7 @@ def find_alternative_products(
     category: Annotated[str, Field(min_length=2, max_length=80)],
     applicable_date: str,
     constraints: Annotated[list[ConstraintInput], Field(min_length=1, max_length=16)],
+    health_concerns: Annotated[list[str] | None, Field(max_length=16)] = None,
     jurisdiction: str = "CN",
     region: str = "CN",
     exclude_product_ids: Annotated[list[str] | None, Field(max_length=50)] = None,
@@ -205,6 +206,7 @@ def find_alternative_products(
         category=category,
         applicable_date=applicable_date,
         constraints=constraints,
+        health_concerns=health_concerns or [],
         jurisdiction=jurisdiction,
         region=region,
         exclude_product_ids=exclude_product_ids or [],
@@ -218,6 +220,7 @@ def revalidate_alternatives(
     applicable_date: str,
     constraints: Annotated[list[ConstraintInput], Field(min_length=1, max_length=16)],
     candidates: Annotated[list[dict], Field(max_length=20)],
+    health_concerns: Annotated[list[str] | None, Field(max_length=16)] = None,
     jurisdiction: str = "CN",
 ) -> dict:
     """Re-run the complete deterministic rule engine for every candidate label."""
@@ -226,6 +229,7 @@ def revalidate_alternatives(
         request_id=request_id,
         applicable_date=applicable_date,
         constraints=constraints,
+        health_concerns=health_concerns or [],
         candidates=candidates,
         jurisdiction=jurisdiction,
     )

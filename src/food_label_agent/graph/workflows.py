@@ -100,6 +100,7 @@ def run_alternative_workflow(
         "exclude_product_ids": (
             [request.current_product_id] if request.current_product_id else []
         ),
+        "health_concerns": request.health_concerns,
         "limit": 5,
     }
     final_state = run_agent_graph(working)

@@ -10,7 +10,8 @@ from food_label_agent.web.app import create_app
 
 
 def test_alternative_api_revalidates_every_candidate_and_appends_checkpoint(
-    tmp_path: Path, monkeypatch,
+    tmp_path: Path,
+    monkeypatch,
 ) -> None:
     monkeypatch.setenv("FOOD_LABEL_PRODUCT_CATALOG", "curated")
     asyncio.run(_alternative_api_lifecycle(tmp_path))
@@ -48,6 +49,7 @@ async def _alternative_api_lifecycle(tmp_path: Path) -> None:
                 **evaluation,
                 "category": "biscuit",
                 "region": "CN",
+                "health_concerns": ["weight"],
                 "resume_token": token,
             },
         )
@@ -60,6 +62,7 @@ async def _alternative_api_lifecycle(tmp_path: Path) -> None:
         assert payload["selection_basis"]["constraint_evaluation"] == (
             "independent_revalidation_required"
         )
+        assert payload["selection_basis"]["health_concerns"] == ["weight"]
         assert payload["catalog_coverage"]["total"] == 3
         assert payload["catalog_coverage"]["needs_review_count"] >= 1
         assert payload["candidate_count"] == payload["revalidated_count"] == 2
@@ -69,7 +72,7 @@ async def _alternative_api_lifecycle(tmp_path: Path) -> None:
         ]
         assert payload["excluded"][0]["risk_level"] == "avoid"
         assert payload["evidence_rejected"][0]["reason_code"] == (
-            "LABEL_EVIDENCE_INCOMPLETE"
+            "LABEL_FIELDS_INSUFFICIENT_FOR_CONTEXT"
         )
         assert payload["checkpoint"]["sequence"] == 2
         assert payload["checkpoint"]["resume_token"] is None

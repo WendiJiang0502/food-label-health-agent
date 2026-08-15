@@ -77,7 +77,9 @@ def test_nestle_official_pages_add_nine_complete_frozen_products() -> None:
 
 
 def test_nestle_frozen_products_enter_independent_safety_review() -> None:
-    constraint = ConstraintInput(kind="allergy", canonical_value="fish", severity="severe")
+    constraint = ConstraintInput(
+        kind="allergy", canonical_value="fish", severity="severe"
+    )
     search = find_alternative_products(
         AlternativeSearchRequest(
             category="frozen_food",
@@ -103,9 +105,9 @@ def test_nestle_frozen_products_enter_independent_safety_review() -> None:
 
 def test_official_catalog_merges_dynamically_approved_records(tmp_path: Path) -> None:
     source = json.loads(
-        Path("src/food_label_agent/alternatives/data/official_cn_products.json").read_text(
-            encoding="utf-8"
-        )
+        Path(
+            "src/food_label_agent/alternatives/data/official_cn_products.json"
+        ).read_text(encoding="utf-8")
     )
     approved = tmp_path / "approved.json"
     extra = source[0]
@@ -136,7 +138,73 @@ def test_partial_official_label_is_visible_but_not_safety_recommended() -> None:
 
     assert search["candidates"] == []
     assert search["rejected"][0]["display_name"] == "李锦记薄盐生抽"
-    assert search["rejected"][0]["reason_code"] == "LABEL_EVIDENCE_INCOMPLETE"
+    assert search["rejected"][0]["reason_code"] == (
+        "LABEL_FIELDS_INSUFFICIENT_FOR_CONTEXT"
+    )
+
+
+def test_field_level_gate_marks_partial_catalog_record_conditionally_usable() -> None:
+    search = find_alternative_products(
+        AlternativeSearchRequest(
+            category="dairy",
+            applicable_date="2026-08-15",
+            constraints=[
+                ConstraintInput(
+                    kind="allergy", canonical_value="peanut", severity="severe"
+                )
+            ],
+            health_concerns=[],
+        ),
+        catalog=OfficialChinaCatalog(),
+    )
+
+    pure_milk = next(
+        item
+        for item in search["candidates"]
+        if item["product_id"] == "cn-official:yili:pure-milk"
+    )
+    assert pure_milk["catalog_eligibility"]["status"] == "conditionally_verified"
+    assert pure_milk["catalog_eligibility"]["eligible_for_current_context"] is True
+    assert search["catalog_coverage"]["conditionally_verified_count"] == 1
+
+
+def test_health_concern_requires_only_its_relevant_packaging_fields() -> None:
+    pressure = find_alternative_products(
+        AlternativeSearchRequest(
+            category="frozen_food",
+            applicable_date="2026-08-15",
+            constraints=[
+                ConstraintInput(
+                    kind="allergy", canonical_value="fish", severity="severe"
+                )
+            ],
+            health_concerns=["blood_pressure"],
+            limit=20,
+        ),
+        catalog=OfficialChinaCatalog(),
+    )
+    sugar = find_alternative_products(
+        AlternativeSearchRequest(
+            category="frozen_food",
+            applicable_date="2026-08-15",
+            constraints=[
+                ConstraintInput(
+                    kind="allergy", canonical_value="fish", severity="severe"
+                )
+            ],
+            health_concerns=["blood_sugar"],
+            limit=20,
+        ),
+        catalog=OfficialChinaCatalog(),
+    )
+
+    assert len(pressure["candidates"]) == 9
+    assert sugar["candidates"] == []
+    assert sugar["catalog_coverage"]["context_needs_review_count"] == 9
+    assert all(
+        "糖" in item["label_coverage"]["context_eligibility"]["missing_required_fields"]
+        for item in sugar["rejected"]
+    )
 
 
 def test_official_catalog_rejects_unreviewed_store_identity(tmp_path: Path) -> None:
@@ -181,6 +249,11 @@ def test_official_candidate_is_independently_revalidated() -> None:
     assert search["catalog_scope"] == "china_official_sources"
     assert result["eligible_count"] == 1
     eligible = result["results"][0]
+    assert eligible["catalog_tier"] == "conditionally_verified"
+    assert eligible["catalog_eligibility"]["verified_required_fields"] == [
+        "完整配料表文字",
+        "包装过敏原及交叉接触提示",
+    ]
     assert eligible["label_source_type"] == "official_product_page"
     assert eligible["official_store_name"] == "伊利牛奶官方旗舰店"
     assert eligible["packaging_label"] == {
