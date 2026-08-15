@@ -64,6 +64,11 @@ const elements = {
   riskKicker: document.querySelector("#risk-kicker"),
   safetyTitle: document.querySelector("#safety-title"),
   riskSummary: document.querySelector("#risk-summary"),
+  portionValue: document.querySelector("#portion-value"),
+  portionNote: document.querySelector("#portion-note"),
+  nutritionBasisLabel: document.querySelector("#nutrition-basis-label"),
+  nutritionStatList: document.querySelector("#nutrition-stat-list"),
+  nutritionStatEmpty: document.querySelector("#nutrition-stat-empty"),
   matchedText: document.querySelector("#matched-text"),
   matchedConstraint: document.querySelector("#matched-constraint"),
   matchedLocation: document.querySelector("#matched-location"),
@@ -182,6 +187,19 @@ const nutrientNames = {
   trans_fat: "反式脂肪酸", carbohydrate: "碳水化合物", sugars: "糖",
   dietary_fiber: "膳食纤维", sodium: "钠", calcium: "钙",
 };
+
+const healthNutrientPriorities = {
+  blood_sugar: ["sugars", "carbohydrate", "dietary_fiber"],
+  blood_lipids: ["saturated_fat", "trans_fat", "fat"],
+  blood_pressure: ["sodium"],
+  weight: ["energy", "fat", "carbohydrate"],
+  uric_acid: [],
+  gut: ["dietary_fiber"],
+  sugar_control: ["sugars", "carbohydrate"],
+  child: ["sodium", "sugars", "energy"],
+};
+
+const nutrientUnitNames = { kJ: "千焦", g: "克", mg: "毫克", ml: "毫升" };
 
 initializeProfileFlow();
 loadRememberedConstraints();
@@ -1109,24 +1127,27 @@ function renderSafetyResult(payload) {
   const primary = [...payload.findings].sort(
     (left, right) => riskOrder[right.risk_level] - riskOrder[left.risk_level],
   )[0];
-  const titles = {
-    avoid: "不建议选择",
-    caution: "建议谨慎确认",
-    unknown: "暂时无法判断",
-    compatible: "与当前设置匹配",
+  const nutrition = payload.normalized_label?.nutrition || state.normalizedLabel?.nutrition;
+  const titles = resultTitles(payload.overall_risk_level, primary, nutrition);
+  const findingTitles = {
+    avoid: "不建议食用",
+    caution: "需要谨慎确认",
+    unknown: "信息不足",
+    compatible: "未发现冲突",
   };
   const symbols = { avoid: "!", caution: "?", unknown: "…", compatible: "✓" };
 
   elements.constraintStep.hidden = true;
   elements.safetyResult.hidden = false;
   hideRailError();
-  elements.reviewTitle.textContent = "个人约束检查结果";
+  elements.reviewTitle.textContent = "本次食用结论";
   elements.safetyResult.dataset.risk = payload.overall_risk_level;
   elements.evidencePanel.hidden = false;
   elements.riskSymbol.textContent = symbols[payload.overall_risk_level];
-  elements.riskKicker.textContent = `规则评估 · ${payload.findings.length} 项约束`;
-  elements.safetyTitle.textContent = titles[payload.overall_risk_level];
+  elements.riskKicker.textContent = `已核对 ${payload.findings.length} 项个人设置`;
+  elements.safetyTitle.textContent = titles.heading;
   elements.riskSummary.textContent = primary.explanation;
+  renderDecisionSupport(payload.overall_risk_level, nutrition, payload.findings);
   elements.matchedText.textContent = primary.matched_text || "—";
   elements.matchedConstraint.textContent = constraintLabels[primary.constraint] || primary.constraint;
   elements.matchedLocation.textContent = primary.matched_location;
@@ -1151,7 +1172,7 @@ function renderSafetyResult(payload) {
     const label = document.createElement("strong");
     label.textContent = constraintLabels[finding.constraint] || finding.constraint;
     const status = document.createElement("span");
-    status.textContent = titles[finding.risk_level];
+    status.textContent = findingTitles[finding.risk_level];
     heading.append(label, status);
     const evidence = document.createElement("p");
     evidence.className = "finding-evidence";
@@ -1166,7 +1187,107 @@ function renderSafetyResult(payload) {
   renderAdditiveResults(payload.evidence);
   renderRegulatoryEvidence(payload.evidence, primary);
   elements.safetyResult.focus();
-  announce(`${titles[payload.overall_risk_level]}，${primary.matched_text || primary.explanation}`);
+  announce(`${titles.heading}，${primary.matched_text || primary.explanation}`);
+}
+
+function resultTitles(riskLevel, primary, nutrition) {
+  if (riskLevel === "avoid") return { heading: "不建议食用" };
+  if (riskLevel === "unknown") return { heading: "暂时无法判断" };
+  if (riskLevel === "compatible") return { heading: "可以食用（当前设置下）" };
+  if (primary?.reason_code === "PRECAUTIONARY_ALLERGEN_STATEMENT") {
+    return { heading: "确认过敏风险后再决定" };
+  }
+  return {
+    heading: nutrition?.basis?.type === "per_serving" ? "按包装份量食用" : "谨慎食用，份量待确认",
+  };
+}
+
+function renderDecisionSupport(riskLevel, nutrition, findings) {
+  renderPortionGuidance(riskLevel, nutrition, findings);
+  renderNutritionSnapshot(nutrition);
+}
+
+function renderPortionGuidance(riskLevel, nutrition, findings) {
+  const allergenFinding = findings.find((finding) =>
+    finding.risk_level !== "compatible" && Object.hasOwn(allergenNames, finding.constraint),
+  );
+  if (allergenFinding) {
+    elements.portionValue.textContent = "没有可确认的安全份量";
+    elements.portionNote.textContent = riskLevel === "avoid"
+      ? "标签已明确命中需要避开的成分，不应通过减少份量来降低过敏风险。"
+      : "包装提示可能含有相关过敏原；少量食用也不能被视为安全。";
+    return;
+  }
+
+  const basis = nutrition?.basis;
+  if (basis?.type === "per_serving") {
+    const amount = basis.unit === "serving"
+      ? "包装标示的 1 份"
+      : `包装标示的 1 份（${formatNumber(basis.amount)}${nutrientUnitNames[basis.unit] || basis.unit}）`;
+    elements.portionValue.textContent = amount;
+    elements.portionNote.textContent = "这是包装用于列示营养数值的份量，不是根据个人健康状况生成的每日建议量。";
+    return;
+  }
+
+  elements.portionValue.textContent = "暂缺可靠的一次食用量";
+  elements.portionNote.textContent = basis
+    ? `标签仅提供${nutritionBasisText(basis)}口径，无法可靠换算成一次吃多少。`
+    : "标签没有确认每份大小，系统不会生成看似精确的克数或频率。";
+}
+
+function renderNutritionSnapshot(nutrition) {
+  elements.nutritionStatList.replaceChildren();
+  const basis = nutrition?.basis;
+  elements.nutritionBasisLabel.textContent = basis ? nutritionBasisText(basis) : "口径未确认";
+
+  const healthConcerns = state.profile?.healthConcerns || [];
+  const priorities = [...new Set(
+    healthConcerns.flatMap((concern) => healthNutrientPriorities[concern] || []),
+  )];
+  const defaultKeys = healthConcerns.length || state.profile?.customHealthConcerns?.length
+    ? []
+    : ["energy", "protein", "fat", "carbohydrate", "sodium"];
+  const keys = (priorities.length ? priorities : defaultKeys).slice(0, 4);
+  const facts = new Map((nutrition?.nutrients || []).map((fact) => [fact.canonical_name, fact]));
+
+  if (!nutrition || keys.length === 0) {
+    elements.nutritionStatEmpty.hidden = false;
+    elements.nutritionStatEmpty.textContent = "当前健康关注无法仅凭常规营养成分表量化，已保留配料与证据说明供你核对。";
+    return;
+  }
+
+  elements.nutritionStatEmpty.hidden = true;
+  keys.forEach((key) => {
+    const fact = facts.get(key);
+    const item = document.createElement("div");
+    item.className = "nutrition-stat";
+    const name = document.createElement("span");
+    name.textContent = nutrientNames[key] || key;
+    const value = document.createElement("strong");
+    value.textContent = fact
+      ? `${formatNumber(fact.value)}${nutrientUnitNames[fact.unit] || fact.unit}`
+      : "标签未单列";
+    const note = document.createElement("small");
+    note.textContent = fact ? "包装标示值" : "不等于含量为零";
+    item.append(name, value, note);
+    elements.nutritionStatList.append(item);
+  });
+}
+
+function nutritionBasisText(basis) {
+  if (basis.type === "per_100g") return "每100克";
+  if (basis.type === "per_100ml") return "每100毫升";
+  if (basis.type === "per_serving") {
+    if (basis.unit === "serving") return "每份";
+    return `每份${formatNumber(basis.amount)}${nutrientUnitNames[basis.unit] || basis.unit}`;
+  }
+  return "包装已确认口径";
+}
+
+function formatNumber(value) {
+  return Number.isFinite(Number(value))
+    ? new Intl.NumberFormat("zh-CN", { maximumFractionDigits: 2 }).format(Number(value))
+    : "—";
 }
 
 function renderHealthFocusOnlyResult() {
@@ -1178,9 +1299,10 @@ function renderHealthFocusOnlyResult() {
   elements.safetyResult.hidden = false;
   elements.safetyResult.dataset.risk = "unknown";
   elements.riskSymbol.textContent = "i";
-  elements.riskKicker.textContent = "个性化标签重点";
-  elements.safetyTitle.textContent = "标签信息已整理";
+  elements.riskKicker.textContent = "健康关注的标签信息";
+  elements.safetyTitle.textContent = "暂时无法判断";
   elements.riskSummary.textContent = "你没有设置已知过敏原。本次先按健康关注整理标签重点；当前版本不会把健康问题自动换算成医疗阈值或具体食用份量。";
+  renderDecisionSupport("unknown", state.normalizedLabel?.nutrition, []);
   elements.matchedText.textContent = "未设置硬性回避项";
   elements.matchedConstraint.textContent = healthSummary || "未设置";
   elements.matchedLocation.textContent = "已确认配料表与营养成分表";

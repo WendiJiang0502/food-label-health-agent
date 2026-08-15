@@ -385,17 +385,33 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
               </div>
             </div>
             <p class="risk-summary" id="risk-summary"></p>
+            <section class="decision-support" aria-label="食用份量与关键营养信息">
+              <div class="portion-guidance">
+                <p>本次份量判断</p>
+                <strong id="portion-value">正在读取标签份量</strong>
+                <span id="portion-note">只使用包装已确认的信息，不自动生成医疗摄入量。</span>
+              </div>
+              <div class="nutrition-snapshot">
+                <div class="nutrition-snapshot-heading">
+                  <h3>与你关注相关的标签数值</h3>
+                  <span id="nutrition-basis-label">等待标签口径</span>
+                </div>
+                <div class="nutrition-stat-list" id="nutrition-stat-list"></div>
+                <p class="nutrition-stat-empty" id="nutrition-stat-empty" hidden></p>
+              </div>
+            </section>
+            <h3 class="decision-reason-title">为什么是这个结论</h3>
             <dl class="risk-facts">
               <div>
-                <dt>命中成分</dt>
+                <dt>标签事实</dt>
                 <dd id="matched-text">未显示</dd>
               </div>
               <div>
-                <dt>对应约束</dt>
+                <dt>与你的设置</dt>
                 <dd id="matched-constraint">未显示</dd>
               </div>
               <div>
-                <dt>出现位置</dt>
+                <dt>证据位置</dt>
                 <dd id="matched-location">未显示</dd>
               </div>
             </dl>

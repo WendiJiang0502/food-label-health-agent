@@ -527,7 +527,7 @@ h3 { font-size: 1.2rem; }
 .rail-error strong { color: var(--avoid); }
 .rail-error p { margin: 5px 0 0; color: var(--muted-small); font-size: 0.78rem; }
 
-.safety-result { display: flex; flex-direction: column; justify-content: center; }
+.safety-result { display: flex; flex-direction: column; justify-content: flex-start; }
 .risk-heading { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 16px; }
 .risk-symbol { display: grid; width: 54px; height: 54px; place-items: center; border-radius: 50%; background: rgba(110, 120, 144, 0.12); color: var(--muted); font-size: 1.25rem; font-weight: 850; }
 .risk-kicker { margin-bottom: 7px; }
@@ -535,7 +535,24 @@ h3 { font-size: 1.2rem; }
 .safety-result[data-risk="caution"] .risk-symbol { background: rgba(138, 75, 8, 0.11); color: var(--caution); }
 .safety-result[data-risk="compatible"] .risk-symbol { background: rgba(20, 113, 75, 0.11); color: var(--compatible); }
 .risk-summary { margin: 24px 0 0; color: var(--ink); font-size: 1.02rem; line-height: 1.65; }
-.risk-facts { margin: 26px 0 0; border-top: 1px solid var(--line); }
+.decision-support { margin-top: 24px; border-block: 1px solid var(--line-strong); padding: 20px 0 22px; }
+.portion-guidance { display: grid; grid-template-columns: minmax(112px, 0.55fr) minmax(0, 1.45fr); gap: 5px 18px; border-radius: 8px; background: rgba(144, 154, 191, 0.1); padding: 16px; }
+.portion-guidance p { grid-row: 1 / span 2; margin: 2px 0 0; color: var(--muted-small); font-size: 0.68rem; font-weight: 720; }
+.portion-guidance strong { color: var(--ink-deep); font-size: 1rem; line-height: 1.45; }
+.portion-guidance span { color: var(--muted-small); font-size: 0.68rem; line-height: 1.55; }
+.nutrition-snapshot { margin-top: 22px; }
+.nutrition-snapshot-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.nutrition-snapshot-heading h3 { margin: 0; color: var(--ink-deep); font-family: var(--font-display); font-size: 1rem; }
+.nutrition-snapshot-heading span { color: var(--teal); font-family: var(--font-data); font-size: 0.68rem; font-weight: 760; text-align: right; }
+.nutrition-stat-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 12px; border-top: 1px solid var(--line); }
+.nutrition-stat { display: grid; min-width: 0; gap: 3px; border-bottom: 1px solid var(--line); padding: 13px 12px 13px 0; }
+.nutrition-stat:nth-child(even) { border-left: 1px solid var(--line); padding-inline: 16px 0; }
+.nutrition-stat span { color: var(--muted-small); font-size: 0.68rem; }
+.nutrition-stat strong { color: var(--ink-deep); font-size: 1rem; overflow-wrap: anywhere; }
+.nutrition-stat small { color: var(--muted-small); font-size: 0.68rem; }
+.nutrition-stat-empty { margin: 14px 0 0; color: var(--muted-small); line-height: 1.6; }
+.decision-reason-title { margin: 24px 0 0; color: var(--ink-deep); font-family: var(--font-display); font-size: 1rem; }
+.risk-facts { margin: 10px 0 0; border-top: 1px solid var(--line); }
 .risk-facts > div { display: grid; grid-template-columns: minmax(88px, 0.72fr) minmax(0, 1.28fr); gap: 18px; border-bottom: 1px solid var(--line); padding: 16px 0; }
 .risk-facts dt { color: var(--muted-small); font-size: 0.76rem; }
 .risk-facts dd { margin: 0; font-weight: 760; overflow-wrap: anywhere; }
@@ -871,6 +888,10 @@ footer p { margin: 0; }
   .review-rail { border-radius: 18px; padding: 22px; }
   .constraint-step,
   .safety-result { min-height: 440px; }
+  .portion-guidance { grid-template-columns: 1fr; }
+  .portion-guidance p { grid-row: auto; }
+  .nutrition-stat-list { grid-template-columns: 1fr; }
+  .nutrition-stat:nth-child(even) { border-left: 0; padding-inline: 0; }
   .step-context-row { align-items: flex-start; flex-direction: column; gap: 2px; }
   .constraint-option { flex: 1 0 calc(33.333% - 10px); }
   .constraint-option span { min-width: 0; padding-inline: 12px; }
