@@ -17,7 +17,9 @@ const elements = {
   scanProfileTitle: document.querySelector("#scan-profile-title"),
   scanAllergenSummary: document.querySelector("#scan-allergen-summary"),
   scanHealthSummary: document.querySelector("#scan-health-summary"),
+  constraintAllergenSummaryText: document.querySelector("#constraint-allergen-summary-text"),
   healthFocusSummaryText: document.querySelector("#health-focus-summary-text"),
+  modifyProfileInReview: document.querySelector("#modify-profile-in-review"),
   fileInput: document.querySelector("#label-image"),
   dropZone: document.querySelector("#drop-zone"),
   imageStage: document.querySelector("#image-stage"),
@@ -118,6 +120,7 @@ const state = {
   currentConstraints: [],
   profile: readLocalProfile(),
   profileMemoryItem: null,
+  profileEditReturn: null,
 };
 
 const constraintLabels = {
@@ -183,7 +186,7 @@ const nutrientNames = {
 initializeProfileFlow();
 loadRememberedConstraints();
 
-elements.profileForm.addEventListener("submit", (event) => {
+elements.profileForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const profile = collectProfileFromForm();
   const hasAllergenAnswer = profile.noKnownAllergens
@@ -201,6 +204,31 @@ elements.profileForm.addEventListener("submit", (event) => {
   }
   hideProfileError();
   state.profile = profile;
+  if (state.profileEditReturn === "constraint") {
+    try {
+      if (elements.rememberProfile.checked) await persistProfile(profile);
+      else {
+        await deleteStoredProfile();
+        localStorage.removeItem(PROFILE_STORAGE_KEY);
+      }
+    } catch (error) {
+      showProfileError(`个人档案没有保存：${error.message}`);
+      return;
+    }
+    state.profileEditReturn = null;
+    renderScanProfile(profile);
+    applyProfileConstraints();
+    showProfileScreen("scan");
+    elements.form.hidden = true;
+    elements.constraintStep.hidden = false;
+    elements.safetyResult.hidden = true;
+    elements.reviewRail.hidden = false;
+    elements.reviewTitle.textContent = "确认本次设置";
+    elements.reviewCount.textContent = "个人档案";
+    elements.evaluateButton.focus();
+    announce("个人设置已更新，可以继续检查当前标签");
+    return;
+  }
   renderAdvicePreview(profile);
   showProfileScreen("advice");
   elements.advicePreview.focus?.();
@@ -236,6 +264,7 @@ elements.customHealthConcerns.addEventListener("input", hideProfileError);
 
 elements.editProfileFromAdvice.addEventListener("click", () => editProfile());
 elements.editProfileFromScan.addEventListener("click", () => editProfile());
+elements.modifyProfileInReview.addEventListener("click", () => editProfile("constraint"));
 elements.continueToScan.addEventListener("click", async () => {
   if (!state.profile) return;
   elements.continueToScan.disabled = true;
@@ -278,8 +307,9 @@ function showProfileScreen(screen) {
   elements.heroLayout.hidden = screen !== "scan";
 }
 
-function editProfile() {
+function editProfile(returnTarget = null) {
   if (state.profile) populateProfileForm(state.profile);
+  state.profileEditReturn = returnTarget;
   showProfileScreen("profile");
   window.scrollTo({ top: 0, behavior: "smooth" });
   elements.profileName.focus();
@@ -365,6 +395,7 @@ function renderScanProfile(profile) {
   elements.scanProfileTitle.textContent = profile.name;
   elements.scanAllergenSummary.textContent = allergenSummary || "未设置";
   elements.scanHealthSummary.textContent = healthSummary || "未设置";
+  elements.constraintAllergenSummaryText.textContent = allergenSummary || "未设置";
   elements.healthFocusSummaryText.textContent = healthSummary || "未设置";
 }
 
@@ -514,18 +545,17 @@ elements.form.addEventListener("submit", async (event) => {
 
     state.confirmedFields = fields;
     state.normalizedLabel = payload.normalized_label;
-    setupNutritionLimit(payload.normalized_label?.nutrition);
     elements.form.hidden = true;
     elements.resultState.hidden = true;
     elements.constraintStep.hidden = false;
     elements.safetyResult.hidden = true;
-    elements.reviewTitle.textContent = "设置个人约束";
-    elements.reviewCount.textContent = "个人约束";
+    elements.reviewTitle.textContent = "确认本次设置";
+    elements.reviewCount.textContent = "个人档案";
     elements.proofState.textContent = "标签已确认";
     applyRememberedConstraints();
     applyProfileConstraints();
-    elements.constraintStep.querySelector("input")?.focus();
-    announce("识别文字已确认，请选择需要回避的过敏原");
+    elements.evaluateButton.focus();
+    announce("识别文字已确认，请确认本次使用的个人设置");
   } catch (error) {
     showRailError(error.message);
   } finally {
@@ -587,7 +617,7 @@ elements.constraintForm.addEventListener("submit", async (event) => {
     showRailError(error.message);
   } finally {
     elements.evaluateButton.disabled = false;
-    elements.evaluateButton.firstChild.textContent = "检查并查看依据 ";
+    elements.evaluateButton.firstChild.textContent = "使用这些设置检查 ";
   }
 });
 
@@ -630,16 +660,7 @@ function updateNutritionLimitControl() {
 }
 
 elements.changeConstraints.addEventListener("click", () => {
-  elements.safetyResult.hidden = true;
-  elements.claimResults.hidden = true;
-  elements.claimResultList.replaceChildren();
-  elements.additiveResults.hidden = true;
-  elements.additiveResultList.replaceChildren();
-  elements.constraintStep.hidden = false;
-  elements.alternativeDiscovery.hidden = true;
-  elements.reviewTitle.textContent = "设置个人约束";
-  elements.reviewCount.textContent = "个人约束";
-  elements.constraintStep.querySelector("input")?.focus();
+  editProfile("constraint");
 });
 
 function returnToLabelEditing() {

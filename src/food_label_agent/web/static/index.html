@@ -283,10 +283,20 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
                 返回编辑标签
               </button>
             </div>
-            <h2 id="constraint-title">你需要避开什么？</h2>
-            <p class="constraint-intro">选择过敏约束，也可以按包装口径设置营养成分上限。评估只使用刚才确认的标签事实。</p>
+            <h2 id="constraint-title">本次使用这些设置</h2>
+            <p class="constraint-intro">以下内容来自你的个人档案。确认无误后直接检查当前标签。</p>
+            <dl class="constraint-profile-summary">
+              <div>
+                <dt>需要避开</dt>
+                <dd id="constraint-allergen-summary-text">待设置</dd>
+              </div>
+              <div>
+                <dt>健康关注</dt>
+                <dd id="health-focus-summary-text">待设置</dd>
+              </div>
+            </dl>
             <form id="constraint-form">
-              <fieldset class="constraint-options">
+              <fieldset class="constraint-options" hidden>
                 <legend class="sr-only">选择需要避开的过敏原</legend>
                 <label class="constraint-option">
                   <input type="checkbox" name="constraint" value="milk">
@@ -321,14 +331,6 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
                   <span>甲壳类</span>
                 </label>
               </fieldset>
-              <section class="health-focus-summary" id="health-focus-summary" aria-labelledby="health-focus-summary-title">
-                <div>
-                  <span>来自个人档案</span>
-                  <h3 id="health-focus-summary-title">本次健康关注</h3>
-                </div>
-                <p id="health-focus-summary-text">待设置</p>
-                <small>这些关注用于调整营养信息的解释重点；当前版本不会自动生成医疗阈值。</small>
-              </section>
               <fieldset class="nutrition-limit" id="nutrition-limit" hidden>
                 <legend>营养上限 <span>可选</span></legend>
                 <div class="nutrition-limit-grid">
@@ -348,7 +350,7 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
                 </div>
                 <p id="nutrition-basis-note">按已确认包装口径比较，不自动换算。</p>
               </fieldset>
-              <section class="memory-control" aria-labelledby="memory-title">
+              <section class="memory-control" aria-labelledby="memory-title" hidden>
                 <label class="memory-opt-in" for="remember-constraints">
                   <input id="remember-constraints" type="checkbox">
                   <span>
@@ -367,9 +369,10 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
               </section>
               <p class="constraint-error" id="constraint-error" hidden>请至少选择一项。</p>
               <button class="button button--primary" id="evaluate-button" type="submit">
-                检查并查看依据
+                使用这些设置检查
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg>
               </button>
+              <button class="text-button constraint-profile-edit" id="modify-profile-in-review" type="button">修改个人设置</button>
             </form>
           </section>
 
@@ -481,7 +484,7 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
                 </details>
               </div>
             </section>
-            <button class="text-button" id="change-constraints" type="button">修改个人约束</button>
+            <button class="text-button" id="change-constraints" type="button">修改个人设置</button>
           </section>
         </aside>
         </section>

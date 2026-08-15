@@ -480,6 +480,12 @@ h3 { font-size: 1.2rem; }
 .step-back:hover { text-decoration: underline; text-underline-offset: 4px; }
 .step-back:focus-visible { border-radius: 8px; outline: 3px solid var(--paper); box-shadow: 0 0 0 6px var(--teal); }
 .constraint-intro { margin: 16px 0 28px; color: var(--muted); }
+.constraint-profile-summary { margin: 0 0 28px; border-block: 1px solid var(--line-strong); }
+.constraint-profile-summary > div { display: grid; grid-template-columns: 94px minmax(0, 1fr); gap: 18px; border-bottom: 1px solid var(--line); padding: 18px 0; }
+.constraint-profile-summary > div:last-child { border-bottom: 0; }
+.constraint-profile-summary dt { color: var(--muted-small); font-size: 0.76rem; }
+.constraint-profile-summary dd { margin: 0; color: var(--ink-deep); font-weight: 760; line-height: 1.65; overflow-wrap: anywhere; }
+.constraint-profile-edit { display: block; margin: 12px auto 0; }
 .constraint-options { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 28px; border: 0; padding: 0; }
 .constraint-option { position: relative; cursor: pointer; }
 .constraint-option input { position: absolute; width: 1px; height: 1px; opacity: 0; }
