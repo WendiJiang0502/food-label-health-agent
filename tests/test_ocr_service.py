@@ -24,8 +24,9 @@ def test_demo_ocr_is_explicitly_synthetic_and_requires_confirmation() -> None:
     assert result.synthetic is True
     assert result.provider == "demo-ocr-provider"
     assert result.next_route == "confirm_label"
-    assert result.fields[0].name == "ingredients"
-    assert result.fields[0].requires_confirmation is True
+    indexed = {field.name: field for field in result.fields}
+    assert indexed["ingredients"].requires_confirmation is True
+    assert indexed["product_name"].raw_text == "食品名称：烧烤味薯片"
     assert "演示识别结果" in result.warnings[0]
     assert result.processing.cache_hit is False
     assert result.processing.total_ms >= 0

@@ -26,10 +26,12 @@ def line(
 def test_parser_keeps_field_level_and_line_level_evidence() -> None:
     fields = parse_food_label_fields(
         [
+            line("食品名称：烧烤味薯片", y=0.02),
             line("配料表：小麦粉、白砂糖", y=0.1),
             line("植物油、食用盐", y=0.18),
             line("本产品含有小麦，可能含有花生", y=0.32),
             line("营养成分表 每100克", y=0.48),
+            line("净含量：50克", y=0.56),
             line("0糖 不添加蔗糖", y=0.62),
         ],
         OCRSettings(provider="paddle"),
@@ -38,6 +40,7 @@ def test_parser_keeps_field_level_and_line_level_evidence() -> None:
     indexed = {field.name: field for field in fields}
     ingredients = indexed["ingredients"]
 
+    assert indexed["product_name"].raw_text == "食品名称：烧烤味薯片"
     assert ingredients.raw_text == "小麦粉、白砂糖\n植物油、食用盐"
     assert ingredients.requires_confirmation is True
     assert [item.text for item in ingredients.evidence_lines] == [
@@ -49,6 +52,7 @@ def test_parser_keeps_field_level_and_line_level_evidence() -> None:
     assert ingredients.bounding_box.height == pytest.approx(0.14)
     assert indexed["allergen_statement"].raw_text.endswith("可能含有花生")
     assert indexed["nutrition_basis"].raw_text == "每100克"
+    assert indexed["net_quantity"].raw_text == "净含量：50克"
     assert indexed["label_claims"].raw_text == "0糖 不添加蔗糖"
     assert indexed["label_claims"].requires_confirmation is True
 

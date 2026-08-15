@@ -49,6 +49,14 @@ class DemoOCRProvider:
         del image
         return [
             OCRFieldResult(
+                name="product_name",
+                label="食品名称（演示数据，请核对）",
+                raw_text="食品名称：烧烤味薯片",
+                confidence=0.86,
+                requires_confirmation=True,
+                bounding_box=BoundingBox(x=0.08, y=0.08, width=0.52, height=0.08),
+            ),
+            OCRFieldResult(
                 name="ingredients",
                 label="配料表",
                 raw_text="小麦粉、白砂糖、植物油、麦芽糊精、食用盐、食品添加剂",
@@ -71,6 +79,14 @@ class DemoOCRProvider:
                 confidence=0.96,
                 requires_confirmation=False,
                 bounding_box=BoundingBox(x=0.08, y=0.70, width=0.32, height=0.09),
+            ),
+            OCRFieldResult(
+                name="net_quantity",
+                label="净含量（演示数据，请核对）",
+                raw_text="净含量：50克",
+                confidence=0.82,
+                requires_confirmation=True,
+                bounding_box=BoundingBox(x=0.62, y=0.12, width=0.28, height=0.08),
             ),
             OCRFieldResult(
                 name="nutrition_table",

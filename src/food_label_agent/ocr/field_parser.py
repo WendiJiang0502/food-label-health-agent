@@ -29,6 +29,14 @@ _NUTRITION_BASIS = re.compile(
     r"每\s*(?:100\s*(?:克|g|毫升|ml)|份(?:\s*\d+(?:\.\d+)?\s*(?:克|g|毫升|ml))?)",
     re.IGNORECASE,
 )
+_NET_QUANTITY = re.compile(
+    r"净含量\s*[:：]?\s*\d+(?:\.\d+)?\s*(?:克|g|千克|kg|毫升|ml|升|l)",
+    re.IGNORECASE,
+)
+_PRODUCT_NAME = re.compile(
+    r"(?:食品名称|产品名称|品名)\s*[:：]\s*\S.{1,79}",
+    re.IGNORECASE,
+)
 _CLAIM_CUE = re.compile(
     r"(?:无|零|0)\s*(?:糖|蔗糖|添加|脂肪)|低\s*(?:糖|脂|钠)|高\s*(?:蛋白|纤维|钙)|无麸质|不添加",
     re.IGNORECASE,
@@ -59,6 +67,8 @@ def parse_food_label_fields(
     nutrition_lines = _unique_lines(
         extracted for line in lines for extracted in _nutrition_basis_lines(line)
     )
+    net_quantity_lines = [line for line in lines if _NET_QUANTITY.search(line.text)]
+    product_name_lines = [line for line in lines if _PRODUCT_NAME.search(line.text)]
     claim_lines = [line for line in lines if _CLAIM_CUE.search(line.text)]
 
     fields = [
@@ -75,6 +85,16 @@ def parse_food_label_fields(
             else _missing_ingredients_field()
         )
     ]
+    if product_name_lines:
+        fields.append(
+            _field(
+                name="product_name",
+                label="食品名称",
+                lines=product_name_lines,
+                threshold=settings.general_threshold,
+                force_confirmation=False,
+            )
+        )
     if allergen_lines:
         fields.append(
             _field(
@@ -91,6 +111,16 @@ def parse_food_label_fields(
                 name="nutrition_basis",
                 label="营养标示口径",
                 lines=nutrition_lines,
+                threshold=settings.general_threshold,
+                force_confirmation=False,
+            )
+        )
+    if net_quantity_lines:
+        fields.append(
+            _field(
+                name="net_quantity",
+                label="净含量",
+                lines=net_quantity_lines,
                 threshold=settings.general_threshold,
                 force_confirmation=False,
             )

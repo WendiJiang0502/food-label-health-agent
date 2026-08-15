@@ -134,9 +134,11 @@ def test_upload_returns_structured_demo_ocr() -> None:
     assert payload["synthetic"] is True
     assert payload["next_route"] == "confirm_label"
     assert {field["name"] for field in payload["fields"]} == {
+        "product_name",
         "ingredients",
         "allergen_statement",
         "nutrition_basis",
+        "net_quantity",
         "nutrition_table",
         "label_claims",
     }
@@ -185,6 +187,28 @@ def test_confirmation_api_returns_category_for_portion_reference() -> None:
                 "jurisdiction": "CN",
                 "applicable_date": "2026-08-15",
                 "fields": {"ingredients": "食品名称：烧烤味薯片；配料：马铃薯、植物油"},
+            },
+        )
+    )
+
+    assert response.status_code == 200
+    assert response.json()["alternative_category_suggestion"]["category"] == "snack"
+
+
+def test_category_suggestion_does_not_treat_allergen_trace_as_product_identity() -> None:
+    response = asyncio.run(
+        request(
+            "POST",
+            "/api/v1/labels/confirm",
+            json={
+                "request_id": "category-uses-product-name",
+                "jurisdiction": "CN",
+                "applicable_date": "2026-08-15",
+                "fields": {
+                    "product_name": "食品名称：烧烤味薯片",
+                    "ingredients": "马铃薯、植物油、食用盐",
+                    "allergen_statement": "可能含有花生及坚果制品",
+                },
             },
         )
     )

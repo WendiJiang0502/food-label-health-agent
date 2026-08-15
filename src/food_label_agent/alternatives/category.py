@@ -25,7 +25,11 @@ CATEGORY_TERMS = {
 def suggest_product_category(confirmed_fields: dict[str, str]) -> dict[str, Any]:
     """Suggest, but never silently decide, a supported same-category scope."""
 
-    text = " ".join(confirmed_fields.values())
+    product_name = str(confirmed_fields.get("product_name") or "").strip()
+    text = product_name or " ".join(
+        str(confirmed_fields.get(key) or "")
+        for key in ("ingredients", "label_claims")
+    )
     matches = {
         category: [term for term in terms if term in text]
         for category, terms in CATEGORY_TERMS.items()

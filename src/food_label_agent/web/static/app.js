@@ -64,8 +64,11 @@ const elements = {
   riskKicker: document.querySelector("#risk-kicker"),
   safetyTitle: document.querySelector("#safety-title"),
   riskSummary: document.querySelector("#risk-summary"),
+  portionKind: document.querySelector("#portion-kind"),
   portionValue: document.querySelector("#portion-value"),
   portionNote: document.querySelector("#portion-note"),
+  portionPackageNote: document.querySelector("#portion-package-note"),
+  portionConfidence: document.querySelector("#portion-confidence"),
   portionControls: document.querySelector("#portion-controls"),
   portionPresets: document.querySelector("#portion-presets"),
   portionAmount: document.querySelector("#portion-amount"),
@@ -133,6 +136,7 @@ const state = {
   profileMemoryItem: null,
   profileEditReturn: null,
   portionContext: null,
+  decisionMode: null,
   alternativeDiscoveryRequestId: null,
 };
 
@@ -224,12 +228,19 @@ const nutrientUnitNames = { kJ: "千焦", g: "克", mg: "毫克", ml: "毫升" }
 
 const portionReferences = {
   biscuit: { amount: 25, unit: "g", label: "25克/次" },
+  bread: { amount: 50, unit: "g", label: "50克/次" },
   breakfast_cereal: { amount: 40, unit: "g", label: "40克（干重）/次" },
+  instant_noodles: { amount: 50, unit: "g", label: "50克（干重）/次" },
   snack: { amount: 25, unit: "g", label: "25克/次" },
   confectionery: { amount: 20, unit: "g", label: "20克/次" },
   dairy: { amount: 200, unit: "ml", label: "200毫升/次" },
   drink: { amount: 250, unit: "ml", label: "250毫升/次" },
+  prepared_meal: { amount: 200, unit: "g", label: "200克/次" },
+  frozen_food: { amount: 100, unit: "g", label: "100克/次" },
+  processed_meat: { amount: 50, unit: "g", label: "50克/次" },
+  seafood: { amount: 75, unit: "g", label: "75克/次" },
   sauce_condiment: { amount: 5, unit: "ml", label: "5毫升（约1茶匙）/次" },
+  canned_food: { amount: 50, unit: "g", label: "50克/次" },
 };
 
 initializeProfileFlow();
@@ -1164,7 +1175,6 @@ function renderSafetyResult(payload) {
     (left, right) => riskOrder[right.risk_level] - riskOrder[left.risk_level],
   )[0];
   const nutrition = payload.normalized_label?.nutrition || state.normalizedLabel?.nutrition;
-  const titles = resultTitles(payload.overall_risk_level, primary, nutrition);
   const findingTitles = {
     avoid: "不建议食用",
     caution: "需要谨慎确认",
@@ -1181,16 +1191,24 @@ function renderSafetyResult(payload) {
   elements.evidencePanel.hidden = false;
   elements.riskSymbol.textContent = symbols[payload.overall_risk_level];
   elements.riskKicker.textContent = `已核对 ${payload.findings.length} 项个人设置`;
-  elements.safetyTitle.textContent = titles.heading;
   elements.riskSummary.textContent = primary.explanation;
   const suggestion = payload.alternative_category_suggestion;
   state.suggestedCategory = suggestion?.category || state.suggestedCategory;
-  renderDecisionSupport(
+  state.decisionMode = null;
+  const portionDecision = renderDecisionSupport(
     payload.overall_risk_level,
     nutrition,
     payload.findings,
     state.suggestedCategory,
   );
+  const titles = resultTitles(
+    payload.overall_risk_level,
+    primary,
+    nutrition,
+    portionDecision,
+  );
+  state.decisionMode = titles.mode;
+  elements.safetyTitle.textContent = titles.heading;
   elements.matchedText.textContent = primary.matched_text || "—";
   elements.matchedConstraint.textContent = constraintLabels[primary.constraint] || primary.constraint;
   elements.matchedLocation.textContent = primary.matched_location;
@@ -1232,21 +1250,31 @@ function renderSafetyResult(payload) {
   announce(`${titles.heading}，${primary.matched_text || primary.explanation}`);
 }
 
-function resultTitles(riskLevel, primary, nutrition) {
-  if (riskLevel === "avoid") return { heading: "不建议食用" };
-  if (riskLevel === "unknown") return { heading: "暂时无法判断" };
-  if (riskLevel === "compatible") return { heading: "可以食用（当前设置下）" };
+function resultTitles(riskLevel, primary, nutrition, portionDecision = {}) {
+  if (riskLevel === "avoid") return { heading: "不建议食用", mode: "avoid" };
+  if (riskLevel === "unknown") return { heading: "需要确认包装信息", mode: "unknown" };
   if (primary?.reason_code === "PRECAUTIONARY_ALLERGEN_STATEMENT") {
-    return { heading: "确认过敏风险后再决定" };
+    return { heading: "需要确认包装信息", mode: "unknown" };
   }
-  return {
-    heading: nutrition?.basis?.type === "per_serving" ? "按包装份量食用" : "谨慎食用，份量待确认",
-  };
+  const passedExplicitNutritionLimit = state.currentConstraints.some(
+    (constraint) => constraint.kind === "nutrition_limit",
+  );
+  if (riskLevel === "compatible" && passedExplicitNutritionLimit && nutrition?.basis) {
+    return { heading: "非常建议食用（仅按当前设置）", mode: "recommended" };
+  }
+  if (portionDecision.amountText) {
+    return {
+      heading: `建议按量食用：一次约 ${portionDecision.amountText}`,
+      mode: "portion",
+    };
+  }
+  return { heading: "需要确认包装信息", mode: "unknown" };
 }
 
 function renderDecisionSupport(riskLevel, nutrition, findings, category = null) {
-  renderPortionGuidance(riskLevel, nutrition, findings, category);
+  const decision = renderPortionGuidance(riskLevel, nutrition, findings, category);
   renderNutritionSnapshot(nutrition, state.portionContext);
+  return decision;
 }
 
 function renderPortionGuidance(riskLevel, nutrition, findings, category) {
@@ -1255,20 +1283,26 @@ function renderPortionGuidance(riskLevel, nutrition, findings, category) {
     finding.risk_level !== "compatible" && Object.hasOwn(allergenNames, finding.constraint),
   );
   if (allergenFinding) {
+    elements.portionKind.textContent = "安全约束优先";
     elements.portionValue.textContent = "没有可确认的安全份量";
     elements.portionNote.textContent = riskLevel === "avoid"
       ? "标签已明确命中需要避开的成分，不应通过减少份量来降低过敏风险。"
       : "包装提示可能含有相关过敏原；少量食用也不能被视为安全。";
-    return;
+    elements.portionPackageNote.textContent = "过敏原风险不按克数降级";
+    elements.portionConfidence.textContent = "不提供份量建议";
+    return { status: "blocked", amountText: null };
   }
 
   const blockingFinding = findings.find((finding) =>
     finding.risk_level === "avoid" || finding.risk_level === "caution",
   );
   if (blockingFinding) {
+    elements.portionKind.textContent = "安全约束优先";
     elements.portionValue.textContent = "不建议用减少份量代替风险判断";
     elements.portionNote.textContent = "本次已命中需要回避或谨慎确认的个人设置，请先处理该风险，再讨论一般参考份量。";
-    return;
+    elements.portionPackageNote.textContent = "先处理已命中的个人约束";
+    elements.portionConfidence.textContent = "不用减少份量代替风险判断";
+    return { status: "blocked", amountText: null };
   }
 
   const basis = nutrition?.basis;
@@ -1282,31 +1316,51 @@ function renderPortionGuidance(riskLevel, nutrition, findings, category) {
       label: servingText,
       note: "这是包装用于列示营养数值的份量，不是根据个人健康状况生成的每日建议量。",
     };
+    elements.portionKind.textContent = "包装明确标示的一份";
     elements.portionValue.textContent = servingText;
     elements.portionNote.textContent = reference.note;
+    elements.portionPackageNote.textContent = servingText;
+    elements.portionConfidence.textContent = "来源：已确认的包装营养成分表";
     if (Number.isFinite(reference.amount) && reference.amount > 0) {
       enablePortionControls(nutrition, reference);
     }
-    return;
+    return {
+      status: "packaging",
+      amountText: `${formatNumber(reference.amount)}${nutrientUnitNames[reference.unit] || "份"}`,
+    };
   }
 
   const reference = portionReference(category, nutrition, state.confirmedFields);
   if (reference) {
     const estimate = estimatedPortionNutrition(nutrition, reference);
+    elements.portionKind.textContent = "系统建议的一次食用量";
     elements.portionValue.textContent = `建议从 ${reference.label} 开始`;
     elements.portionNote.textContent = [reference.note, estimate]
       .filter(Boolean)
       .join(" ");
+    elements.portionPackageNote.textContent = reference.packageQuantity
+      ? `包装净含量已识别：${reference.packageQuantity.label}；不默认等于一次食用量`
+      : "未识别到包装明确的每份大小";
+    elements.portionConfidence.textContent = reference.healthAdjusted
+      ? "食品类别参考 + 你的健康关注 + 当前标签数值"
+      : "食品类别通用参考 + 当前标签数值";
     if (canScaleNutrition(nutrition, reference)) {
       enablePortionControls(nutrition, reference);
     }
-    return;
+    return {
+      status: "suggested",
+      amountText: `${formatNumber(reference.amount)}${nutrientUnitNames[reference.unit] || reference.unit}`,
+    };
   }
 
+  elements.portionKind.textContent = "需要确认包装信息";
   elements.portionValue.textContent = "暂缺可靠的一次食用量";
   elements.portionNote.textContent = basis
     ? `标签仅提供${nutritionBasisText(basis)}口径，无法可靠换算成一次吃多少。`
     : "标签没有确认每份大小，系统不会生成看似精确的克数或频率。";
+  elements.portionPackageNote.textContent = "未找到可确认的包装每份信息";
+  elements.portionConfidence.textContent = "证据不足，不生成精确克数";
+  return { status: "unknown", amountText: null };
 }
 
 function resetPortionControls() {
@@ -1350,6 +1404,9 @@ function updatePortionAmount(amount) {
   const unitName = nutrientUnitNames[context.reference.unit] || "份";
   elements.portionValue.textContent = `本次按 ${formatNumber(amount)}${unitName}估算`;
   elements.portionNote.textContent = context.reference.note;
+  if (state.decisionMode === "portion") {
+    elements.safetyTitle.textContent = `建议按量食用：一次约 ${formatNumber(amount)}${unitName}`;
+  }
   elements.portionPresets.querySelectorAll("button").forEach((button) => {
     const presetAmount = context.reference.amount * Number(button.dataset.portionMultiplier);
     const selected = Math.abs(presetAmount - amount) < 0.001;
@@ -1381,25 +1438,69 @@ function portionFactor(nutrition, context) {
 }
 
 function portionReference(category, nutrition, confirmedFields) {
-  const text = Object.values(confirmedFields || {}).join(" ");
-  if (/坚果|果仁|腰果|核桃|扁桃仁|开心果|榛子/.test(text)) {
+  const packageText = Object.values(confirmedFields || {}).join(" ");
+  const identityText = String(confirmedFields?.product_name || "");
+  const packageQuantity = extractPackageQuantity(packageText);
+  if (!category && /坚果|果仁|腰果|核桃|扁桃仁|开心果|榛子/.test(identityText)) {
     return {
       amount: 10,
       unit: "g",
       label: "10克/次",
       note: "中国居民膳食指南建议坚果平均每天约10克；这里按一次10克显示。",
+      packageQuantity,
+      healthAdjusted: false,
     };
   }
   const base = portionReferences[category];
   if (!base) return null;
-  let reference = base;
+  let reference = { ...base };
   if (category === "dairy" && nutrition?.basis?.type === "per_100g") {
     reference = { amount: 100, unit: "g", label: "100克/次" };
   }
-  const note = category === "dairy"
+  let note = category === "dairy"
     ? "膳食指南建议成年人每天摄入300–500毫升液态奶或相当量奶制品；这里提供便于阅读标签的单次参考。"
     : "这是用于理解标签数值的同类食品通用参考份量，不是国家规定份量或个体化医疗处方。";
-  return { ...reference, note };
+  const concernNutrients = new Set(
+    (state.profile?.healthConcerns || [])
+      .flatMap((concern) => healthNutrientPriorities[concern] || []),
+  );
+  const availableNutrients = new Set(
+    (nutrition?.nutrients || []).map((fact) => fact.canonical_name),
+  );
+  const matchedNutrients = [...concernNutrients].filter((key) => availableNutrients.has(key));
+  const healthAdjusted = matchedNutrients.length > 0;
+  if (healthAdjusted) {
+    const adjustedAmount = conservativeStartingAmount(reference.amount, reference.unit);
+    reference = {
+      ...reference,
+      amount: adjustedAmount,
+      label: `${formatNumber(adjustedAmount)}${nutrientUnitNames[reference.unit] || reference.unit}/次`,
+    };
+    const labels = matchedNutrients.slice(0, 2).map((key) => nutrientNames[key] || key);
+    note += ` 你关注${labels.join("、")}，且包装已列出相关数值，因此从较小的通用参考份开始；这不是医疗限量。`;
+  }
+  return { ...reference, note, packageQuantity, healthAdjusted };
+}
+
+function conservativeStartingAmount(amount, unit) {
+  const raw = Number(amount) * 0.75;
+  const step = unit === "ml" || Number(amount) >= 20 ? 5 : 1;
+  return Math.max(step, Math.round(raw / step) * step);
+}
+
+function extractPackageQuantity(text) {
+  const match = String(text || "").match(
+    /净含量\s*[:：]?\s*(\d+(?:\.\d+)?)\s*(克|g|毫升|ml)/i,
+  );
+  if (!match) return null;
+  const amount = Number(match[1]);
+  const unit = /ml|毫升/i.test(match[2]) ? "ml" : "g";
+  if (!Number.isFinite(amount) || amount <= 0) return null;
+  return {
+    amount,
+    unit,
+    label: `${formatNumber(amount)}${nutrientUnitNames[unit]}`,
+  };
 }
 
 function estimatedPortionNutrition(nutrition, reference) {
@@ -1502,7 +1603,7 @@ function renderHealthFocusOnlyResult() {
   elements.safetyResult.dataset.risk = "unknown";
   elements.riskSymbol.textContent = "i";
   elements.riskKicker.textContent = "健康关注的标签信息";
-  elements.safetyTitle.textContent = "暂时无法判断";
+  elements.safetyTitle.textContent = "需要确认包装信息";
   elements.riskSummary.textContent = "你没有设置已知过敏原。本次先按健康关注整理标签重点；下方份量来自食品类别与标签换算，不是根据健康问题生成的医疗阈值。";
   renderDecisionSupport(
     "unknown",

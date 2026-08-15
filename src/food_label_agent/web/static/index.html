@@ -385,11 +385,21 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
               </div>
             </div>
             <p class="risk-summary" id="risk-summary"></p>
-            <section class="decision-support" aria-label="食用份量与关键营养信息">
+            <section class="decision-support" aria-label="建议食用量与关键营养信息">
               <div class="portion-guidance">
-                <p>建议食用量</p>
+                <p id="portion-kind">正在判断份量来源</p>
                 <strong id="portion-value">正在读取标签份量</strong>
                 <span id="portion-note">结合食品类别与标签数值给出通用参考，不作为医疗处方。</span>
+                <dl class="portion-evidence">
+                  <div>
+                    <dt>包装信息</dt>
+                    <dd id="portion-package-note">正在核对</dd>
+                  </div>
+                  <div>
+                    <dt>建议依据</dt>
+                    <dd id="portion-confidence">正在核对</dd>
+                  </div>
+                </dl>
                 <div class="portion-controls" id="portion-controls" hidden>
                   <div class="portion-presets" id="portion-presets" aria-label="快速选择食用份量">
                     <button type="button" data-portion-multiplier="0.5">半份</button>
