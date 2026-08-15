@@ -19,13 +19,47 @@ def test_official_catalog_exposes_verified_mainland_sources() -> None:
     result = OfficialChinaCatalog().search(category="dairy", region="CN")
 
     assert result.provider == "china_official_sources"
-    assert [item.display_name for item in result.records] == ["伊利纯牛奶"]
+    assert [item.display_name for item in result.records] == [
+        "伊利纯牛奶",
+        "安慕希AMX小黑钻0蔗糖酸奶",
+    ]
     label = result.records[0].label
     assert label.source_type == "official_product_page"
     assert label.source_authority == "manufacturer"
     assert label.source_access_region == "CN"
     assert label.official_store_name == "伊利牛奶官方旗舰店"
     assert label.official_store_url and "jd.com" in label.official_store_url
+
+
+def test_official_catalog_covers_priority_mainland_categories() -> None:
+    catalog = OfficialChinaCatalog()
+
+    oats = catalog.search(category="breakfast_cereal", region="CN")
+    sauce = catalog.search(category="sauce_condiment", region="CN")
+
+    assert [item.display_name for item in oats.records] == ["西麦绿色纯燕麦片"]
+    assert [item.display_name for item in sauce.records] == ["李锦记薄盐生抽"]
+    assert oats.records[0].label.official_store_name == "西麦官方旗舰店"
+    assert sauce.records[0].label.official_store_name == "李锦记京东自营旗舰店"
+
+
+def test_partial_official_label_is_visible_but_not_safety_recommended() -> None:
+    search = find_alternative_products(
+        AlternativeSearchRequest(
+            category="sauce_condiment",
+            applicable_date="2026-08-15",
+            constraints=[
+                ConstraintInput(
+                    kind="allergy", canonical_value="peanut", severity="severe"
+                )
+            ],
+        ),
+        catalog=OfficialChinaCatalog(),
+    )
+
+    assert search["candidates"] == []
+    assert search["rejected"][0]["display_name"] == "李锦记薄盐生抽"
+    assert search["rejected"][0]["reason_code"] == "LABEL_EVIDENCE_INCOMPLETE"
 
 
 def test_official_catalog_rejects_unreviewed_store_identity(tmp_path: Path) -> None:
@@ -40,7 +74,9 @@ def test_official_catalog_rejects_unreviewed_store_identity(tmp_path: Path) -> N
 
     result = OfficialChinaCatalog(path).search(category="dairy", region="CN")
 
-    assert result.records == ()
+    assert [item.display_name for item in result.records] == [
+        "安慕希AMX小黑钻0蔗糖酸奶"
+    ]
     assert result.rejected[0]["reason_code"] == "OFFICIAL_STORE_REVIEW_INCOMPLETE"
 
 

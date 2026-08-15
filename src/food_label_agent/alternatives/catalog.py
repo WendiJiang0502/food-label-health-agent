@@ -22,6 +22,7 @@ DATA_PATH = Path(__file__).with_name("data") / "curated_products.json"
 OFFICIAL_CN_DATA_PATH = Path(__file__).with_name("data") / "official_cn_products.json"
 OFF_BASE_URL = "https://world.openfoodfacts.org"
 OFFICIAL_PRODUCT_HOSTS = {
+    "china.lkk.com.cn",
     "www.yili.com",
     "yili.com",
     "www.seamild.com.cn",
