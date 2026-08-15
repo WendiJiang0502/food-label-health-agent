@@ -1,9 +1,9 @@
 <!--
-THESIS: A label becomes useful when it is read through the user's declared needs, not generic nutrition literacy.
+THESIS: A useful label result becomes part of a personal evidence trail instead of disappearing after one scan.
 OWN-WORLD: Warm paper, editorial navy type, tactile package photography, and offset functional Bento cards.
-STORY: The user declares allergens and familiar health concerns, previews the resulting focus, confirms the profile, then photographs and corrects a label before evaluation.
-FIRST VIEWPORT: A personal-profile promise sits beside one structured settings sheet; upload appears only after the profile and its analysis focus are confirmed.
-FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits reference without copying its assets or product metaphors.
+STORY: The user declares personal needs, scans and confirms a label, then moves between the scanner, privacy-preserving history, and neutral health-change records.
+FIRST VIEWPORT: Onboarding remains focused on one profile task; after the first result, a three-destination tab bar turns that result into an ongoing personal workspace.
+FORM: The established editorial utility Bento extends into a compact mobile-first application shell without changing its evidence-led identity.
 -->
 <!doctype html>
 <html lang="zh-CN">
@@ -13,8 +13,8 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
     <meta name="description" content="上传食品标签，确认识别文字，再进行基于证据的健康信息解释。">
     <title>食鉴 · 食品标签健康解释</title>
     <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/static/styles.css?v=preview-category-fix-1">
-    <script src="/static/app.js?v=preview-category-fix-1" defer></script>
+    <link rel="stylesheet" href="/static/styles.css?v=health-history-1">
+    <script src="/static/app.js?v=health-history-1" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#workspace">跳到标签工作区</a>
@@ -531,11 +531,119 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
         </aside>
         </section>
       </div>
+
+      <section class="account-view" id="history-view" hidden aria-labelledby="history-title">
+        <header class="account-view-heading">
+          <div>
+            <p>仅保存结构化摘要</p>
+            <h1 id="history-title">历史识别记录</h1>
+          </div>
+          <button class="text-button" id="clear-scan-history" type="button">清除本设备记录</button>
+        </header>
+        <p class="account-view-intro">这里不会保存你上传的标签图片，只保留商品名称、识别时间、结果和用于理解结果的少量标签数值。</p>
+        <p class="account-empty" id="history-empty">还没有历史记录。完成一次标签判断后，会在这里留下摘要。</p>
+        <ol class="history-list" id="history-list"></ol>
+      </section>
+
+      <section class="account-view" id="user-view" hidden aria-labelledby="user-view-title">
+        <header class="account-view-heading account-view-heading--profile">
+          <div>
+            <p>此设备上的个人档案</p>
+            <h1 id="user-view-title">我的健康变化</h1>
+          </div>
+          <button class="text-button" id="edit-profile-from-user" type="button">修改个人设置</button>
+        </header>
+        <section class="user-profile-summary" aria-labelledby="user-profile-name">
+          <div>
+            <span>当前档案</span>
+            <h2 id="user-profile-name">我的档案</h2>
+          </div>
+          <dl>
+            <div><dt>需要避开</dt><dd id="user-allergen-summary">待设置</dd></div>
+            <div><dt>健康关注</dt><dd id="user-health-summary">待设置</dd></div>
+          </dl>
+        </section>
+
+        <div class="health-change-layout">
+          <section class="health-entry-panel" aria-labelledby="health-entry-title">
+            <div class="health-section-heading">
+              <div>
+                <p>由你主动记录</p>
+                <h2 id="health-entry-title">添加一次健康记录</h2>
+              </div>
+              <span>不作医疗判断</span>
+            </div>
+            <form id="health-entry-form" class="health-entry-form" novalidate>
+              <label>
+                <span>记录日期</span>
+                <input id="health-entry-date" type="date" required>
+              </label>
+              <label>
+                <span>记录项目</span>
+                <select id="health-entry-metric" required>
+                  <option value="weight">体重</option>
+                  <option value="fasting_glucose">空腹血糖</option>
+                  <option value="postprandial_glucose">餐后2小时血糖</option>
+                  <option value="systolic_pressure">收缩压</option>
+                  <option value="diastolic_pressure">舒张压</option>
+                  <option value="total_cholesterol">总胆固醇</option>
+                </select>
+              </label>
+              <label>
+                <span>数值</span>
+                <span class="health-value-field">
+                  <input id="health-entry-value" type="number" inputmode="decimal" min="0.1" max="1000" step="0.1" required aria-describedby="health-entry-unit health-entry-error">
+                  <span id="health-entry-unit">千克</span>
+                </span>
+              </label>
+              <label class="health-note-field">
+                <span>备注 <small>可选</small></span>
+                <input id="health-entry-note" type="text" maxlength="80" placeholder="例如：晨起、饭后两小时">
+              </label>
+              <label class="health-consent" id="health-consent-row">
+                <input id="health-storage-consent" type="checkbox">
+                <span>我同意将健康变化记录保存在此设备。数据不会用于自动诊断，也不会与图片一起保存。</span>
+              </label>
+              <p class="health-entry-error" id="health-entry-error" role="alert" hidden></p>
+              <button class="button button--primary" type="submit">保存这次记录</button>
+            </form>
+          </section>
+
+          <section class="health-timeline-panel" aria-labelledby="health-timeline-title">
+            <div class="health-section-heading">
+              <div>
+                <p>只比较同一指标</p>
+                <h2 id="health-timeline-title">最近变化</h2>
+              </div>
+              <button class="text-button" id="clear-health-history" type="button">清除健康记录</button>
+            </div>
+            <p class="account-empty" id="health-empty">还没有健康变化记录。保存两次同一指标后，会显示与上次的数值差异。</p>
+            <div class="health-trend-list" id="health-trend-list"></div>
+            <ol class="health-record-list" id="health-record-list"></ol>
+            <p class="health-boundary">这里只展示你输入的原始数值和时间变化，不判断“变好”或“变差”。如需解释，请咨询专业医疗人员。</p>
+          </section>
+        </div>
+      </section>
     </main>
 
     <footer>
       <p>食鉴提供标签信息整理与解释，不构成医疗诊断或治疗建议。</p>
     </footer>
+
+    <nav class="app-tabbar" id="app-tabbar" aria-label="主要页面" hidden>
+      <button type="button" data-app-view="scan" aria-current="page">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l1.5-2h7L17 8h3v11H4V8Zm8 3.2a3.1 3.1 0 1 0 0 6.2 3.1 3.1 0 0 0 0-6.2Z" /></svg>
+        <span>拍照识别</span>
+      </button>
+      <button type="button" data-app-view="history">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7v5l3 2m5-2a8 8 0 1 1-2.3-5.7M20 4v5h-5" /></svg>
+        <span>历史记录</span>
+      </button>
+      <button type="button" data-app-view="user">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 8c.8-4 3.1-6 7-6s6.2 2 7 6" /></svg>
+        <span>我的</span>
+      </button>
+    </nav>
 
     <div class="sr-only" id="live-region" aria-live="polite"></div>
   </body>

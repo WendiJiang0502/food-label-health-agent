@@ -898,6 +898,78 @@ h3 { font-size: 1.2rem; }
 .health-focus-summary p { margin: 10px 0 0; color: var(--ink); font-weight: 720; }
 .health-focus-summary small { display: block; margin-top: 6px; color: var(--muted-small); font-size: 0.68rem; line-height: 1.55; }
 
+body.has-app-tabbar { padding-bottom: 112px; }
+
+.account-view { width: min(1080px, 100%); margin: 0 auto; }
+.account-view-heading { display: flex; align-items: end; justify-content: space-between; gap: 28px; border-bottom: 1px solid var(--line-strong); padding-bottom: 24px; }
+.account-view-heading p,
+.health-section-heading p { margin: 0 0 5px; color: var(--teal); font-size: 0.72rem; font-weight: 800; }
+.account-view-heading h1 { max-width: none; font-size: clamp(2.8rem, 5vw, 4.8rem); }
+.account-view-heading .text-button,
+.health-section-heading .text-button { flex: 0 0 auto; margin: 0; }
+.account-view-intro { max-width: 68ch; margin: 22px 0 0; color: var(--muted-small); }
+.account-empty { margin: 32px 0 0; border-block: 1px solid var(--line); padding: 22px 0; color: var(--muted-small); }
+
+.history-list { margin: 28px 0 0; padding: 0; list-style: none; }
+.history-item { display: grid; grid-template-columns: minmax(110px, 0.34fr) minmax(0, 1.66fr); gap: 24px; border-top: 1px solid var(--line); padding: 22px 0; }
+.history-item time { color: var(--muted-small); font-family: var(--font-data); font-size: 0.68rem; }
+.history-item h2 { margin: 0; color: var(--ink-deep); font-size: 1.2rem; }
+.history-outcome { margin: 6px 0 0; color: var(--teal); font-weight: 760; }
+.history-facts { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 12px 0 0; color: var(--muted-small); font-size: 0.72rem; }
+.history-facts span { overflow-wrap: anywhere; }
+
+.user-profile-summary { display: grid; grid-template-columns: minmax(180px, 0.52fr) minmax(0, 1.48fr); gap: 28px; margin-top: 28px; border-block: 1px solid var(--line); padding: 24px 0; }
+.user-profile-summary > div span { color: var(--teal); font-size: 0.68rem; font-weight: 800; }
+.user-profile-summary h2 { margin-top: 4px; font-size: 1.55rem; }
+.user-profile-summary dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin: 0; }
+.user-profile-summary dl > div { min-width: 0; }
+.user-profile-summary dt { color: var(--muted-small); font-size: 0.68rem; }
+.user-profile-summary dd { margin: 5px 0 0; color: var(--ink-deep); font-weight: 720; overflow-wrap: anywhere; }
+
+.health-change-layout { display: grid; grid-template-columns: minmax(300px, 0.76fr) minmax(0, 1.24fr); gap: clamp(32px, 5vw, 72px); margin-top: 52px; }
+.health-entry-panel { align-self: start; border-radius: 16px; background: var(--paper); box-shadow: var(--shadow-card); padding: 28px; }
+.health-timeline-panel { min-width: 0; }
+.health-section-heading { display: flex; align-items: end; justify-content: space-between; gap: 18px; border-bottom: 1px solid var(--line); padding-bottom: 16px; }
+.health-section-heading h2 { font-size: 1.35rem; }
+.health-section-heading > span { color: var(--muted-small); font-size: 0.68rem; }
+.health-entry-form { display: grid; gap: 18px; margin-top: 22px; }
+.health-entry-form > label:not(.health-consent) { display: grid; gap: 7px; color: var(--ink-deep); font-size: 0.76rem; font-weight: 720; }
+.health-entry-form input,
+.health-entry-form select { width: 100%; min-height: 48px; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--paper); color: var(--ink); padding: 10px 12px; }
+.health-entry-form input:focus,
+.health-entry-form select:focus { border-color: var(--teal); outline: 4px solid var(--focus); outline-offset: 1px; }
+.health-note-field small { color: var(--muted-small); font-size: 0.68rem; font-weight: 500; }
+.health-value-field { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; overflow: hidden; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--paper); }
+.health-value-field input { border: 0; border-radius: 0; outline: 0; }
+.health-value-field > span { padding: 0 12px; color: var(--muted-small); font-family: var(--font-data); font-size: 0.68rem; }
+.health-value-field:focus-within { border-color: var(--teal); outline: 4px solid var(--focus); outline-offset: 1px; }
+.health-consent { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 10px; color: var(--muted-small); cursor: pointer; font-size: 0.7rem; line-height: 1.55; }
+.health-consent input { width: 18px; min-height: 18px; margin: 2px 0 0; accent-color: var(--teal); }
+.health-consent:has(input:focus-visible) { border-radius: 8px; outline: 3px solid var(--focus); outline-offset: 4px; }
+.health-entry-error { margin: 0; color: var(--avoid); font-size: 0.72rem; font-weight: 720; }
+
+.health-trend-list { margin-top: 20px; }
+.health-trend-row { display: grid; grid-template-columns: minmax(120px, 0.8fr) minmax(0, 1.2fr); gap: 18px; border-top: 1px solid var(--line); padding: 16px 0; }
+.health-trend-row:first-child { border-top: 0; }
+.health-trend-row dt { color: var(--ink-deep); font-weight: 760; }
+.health-trend-row dd { margin: 0; text-align: end; }
+.health-trend-row strong { display: block; color: var(--ink-deep); }
+.health-trend-row span { color: var(--muted-small); font-family: var(--font-data); font-size: 0.68rem; }
+.health-record-list { margin: 26px 0 0; padding: 0; list-style: none; }
+.health-record-item { display: grid; grid-template-columns: minmax(98px, 0.38fr) minmax(0, 1.62fr); gap: 18px; border-top: 1px solid var(--line); padding: 14px 0; }
+.health-record-item time { color: var(--muted-small); font-family: var(--font-data); font-size: 0.68rem; }
+.health-record-item strong { color: var(--ink-deep); }
+.health-record-item p { margin: 3px 0 0; color: var(--muted-small); font-size: 0.7rem; overflow-wrap: anywhere; }
+.health-boundary { margin: 26px 0 0; color: var(--muted-small); font-size: 0.72rem; line-height: 1.6; }
+
+.app-tabbar { position: fixed; z-index: 80; right: 50%; bottom: 20px; display: grid; width: min(520px, calc(100% - 32px)); grid-template-columns: repeat(3, 1fr); transform: translateX(50%); overflow: hidden; border: 1px solid var(--line-strong); border-radius: 16px; background: var(--paper); box-shadow: 8px 10px 0 rgba(48, 62, 89, 0.12), 0 20px 45px rgba(48, 62, 89, 0.16); }
+.app-tabbar button { display: grid; min-width: 0; min-height: 62px; place-items: center; align-content: center; gap: 3px; border: 0; background: transparent; color: var(--muted-small); cursor: pointer; padding: 7px 8px; font-size: 0.68rem; font-weight: 720; }
+.app-tabbar button + button { border-inline-start: 1px solid var(--line); }
+.app-tabbar button svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; }
+.app-tabbar button:hover { color: var(--teal); }
+.app-tabbar button[aria-current="page"] { background: var(--teal); color: white; }
+.app-tabbar button:focus-visible { position: relative; z-index: 1; outline: 3px solid var(--periwinkle); outline-offset: -4px; }
+
 footer { border-top: 1px solid var(--line); color: var(--muted); padding: 24px clamp(20px, 4vw, 68px); font-size: 0.72rem; }
 footer p { margin: 0; }
 
@@ -921,6 +993,7 @@ footer p { margin: 0; }
   .intro { max-width: 700px; padding: 0; }
   h1 { max-width: none; }
   .workbench:not(.has-analysis) .proof-column { min-height: 630px; }
+  .health-change-layout { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 640px) {
@@ -973,6 +1046,18 @@ footer p { margin: 0; }
   .claim-result-heading { align-items: flex-start; }
   .proof-footnotes { align-items: flex-start; flex-direction: column; gap: 5px; }
   .image-stage { inset: 10px; }
+  .account-view-heading { align-items: flex-start; flex-direction: column; gap: 14px; }
+  .account-view-heading h1 { font-size: 2.8rem; }
+  .history-item,
+  .health-record-item { grid-template-columns: 1fr; gap: 7px; }
+  .user-profile-summary { grid-template-columns: 1fr; gap: 18px; }
+  .user-profile-summary dl { grid-template-columns: 1fr; }
+  .health-entry-panel { border-radius: 16px; padding: 22px; }
+  .health-section-heading { align-items: flex-start; flex-direction: column; gap: 8px; }
+  .health-trend-row { grid-template-columns: 1fr; gap: 5px; }
+  .health-trend-row dd { text-align: start; }
+  .app-tabbar { bottom: 0; width: 100%; border-width: 1px 0 0; border-radius: 0; box-shadow: 0 -8px 24px rgba(48, 62, 89, 0.12); }
+  .app-tabbar button { min-height: 66px; }
   footer { padding: 20px 18px; }
 }
 

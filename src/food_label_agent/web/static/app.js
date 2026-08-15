@@ -106,6 +106,29 @@ const elements = {
   alternativeComparisonList: document.querySelector("#alternative-comparison-list"),
   alternativeExclusions: document.querySelector("#alternative-exclusions"),
   alternativeExclusionList: document.querySelector("#alternative-exclusion-list"),
+  appTabbar: document.querySelector("#app-tabbar"),
+  historyView: document.querySelector("#history-view"),
+  historyList: document.querySelector("#history-list"),
+  historyEmpty: document.querySelector("#history-empty"),
+  clearScanHistory: document.querySelector("#clear-scan-history"),
+  userView: document.querySelector("#user-view"),
+  editProfileFromUser: document.querySelector("#edit-profile-from-user"),
+  userProfileName: document.querySelector("#user-profile-name"),
+  userAllergenSummary: document.querySelector("#user-allergen-summary"),
+  userHealthSummary: document.querySelector("#user-health-summary"),
+  healthEntryForm: document.querySelector("#health-entry-form"),
+  healthEntryDate: document.querySelector("#health-entry-date"),
+  healthEntryMetric: document.querySelector("#health-entry-metric"),
+  healthEntryValue: document.querySelector("#health-entry-value"),
+  healthEntryUnit: document.querySelector("#health-entry-unit"),
+  healthEntryNote: document.querySelector("#health-entry-note"),
+  healthStorageConsent: document.querySelector("#health-storage-consent"),
+  healthConsentRow: document.querySelector("#health-consent-row"),
+  healthEntryError: document.querySelector("#health-entry-error"),
+  healthEmpty: document.querySelector("#health-empty"),
+  healthTrendList: document.querySelector("#health-trend-list"),
+  healthRecordList: document.querySelector("#health-record-list"),
+  clearHealthHistory: document.querySelector("#clear-health-history"),
   changeConstraints: document.querySelector("#change-constraints"),
   errorState: document.querySelector("#error-state"),
   errorMessage: document.querySelector("#error-message"),
@@ -118,6 +141,9 @@ const elements = {
 
 const MEMORY_CREDENTIALS_KEY = "food-label-agent.memory-credentials.v1";
 const PROFILE_STORAGE_KEY = "food-label-agent.health-profile.v1";
+const SCAN_HISTORY_STORAGE_KEY = "food-label-agent.scan-history.v1";
+const HEALTH_HISTORY_STORAGE_KEY = "food-label-agent.health-changes.v1";
+const HEALTH_HISTORY_CONSENT_KEY = "food-label-agent.health-changes-consent.v1";
 
 elements.heroUploadButton.addEventListener("click", () => elements.fileInput.click());
 loadHealthStatus();
@@ -139,6 +165,10 @@ const state = {
   portionContext: null,
   decisionMode: null,
   alternativeDiscoveryRequestId: null,
+  appView: "scan",
+  scanHistory: readStoredArray(SCAN_HISTORY_STORAGE_KEY, 50),
+  healthHistory: readStoredArray(HEALTH_HISTORY_STORAGE_KEY, 200),
+  healthHistoryConsent: localStorage.getItem(HEALTH_HISTORY_CONSENT_KEY) === "granted",
 };
 
 elements.portionPresets.addEventListener("click", (event) => {
@@ -152,6 +182,36 @@ elements.portionPresets.addEventListener("click", (event) => {
 elements.portionAmount.addEventListener("input", () => {
   if (!state.portionContext) return;
   updatePortionAmount(elements.portionAmount.valueAsNumber);
+});
+
+elements.appTabbar.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-app-view]");
+  if (button) switchAppView(button.dataset.appView);
+});
+
+elements.clearScanHistory.addEventListener("click", () => {
+  const profileName = state.profile?.name;
+  if (!state.scanHistory.some((item) => !profileName || item.profileName === profileName)) return;
+  if (!window.confirm("确定清除当前档案保存在此设备上的识别摘要吗？上传图片本来就没有保存。")) return;
+  state.scanHistory = state.scanHistory.filter((item) => profileName && item.profileName !== profileName);
+  if (state.scanHistory.length) localStorage.setItem(SCAN_HISTORY_STORAGE_KEY, JSON.stringify(state.scanHistory));
+  else localStorage.removeItem(SCAN_HISTORY_STORAGE_KEY);
+  renderScanHistory();
+  announce("本设备上的识别历史已清除");
+});
+
+elements.editProfileFromUser.addEventListener("click", () => editProfile("user"));
+elements.healthEntryMetric.addEventListener("change", updateHealthMetricUnit);
+elements.healthEntryForm.addEventListener("submit", saveHealthEntry);
+elements.clearHealthHistory.addEventListener("click", () => {
+  const profileName = state.profile?.name;
+  if (!state.healthHistory.some((item) => !profileName || item.profileName === profileName)) return;
+  if (!window.confirm("确定清除当前档案保存在此设备上的全部健康变化记录吗？此操作无法撤销。")) return;
+  state.healthHistory = state.healthHistory.filter((item) => profileName && item.profileName !== profileName);
+  if (state.healthHistory.length) localStorage.setItem(HEALTH_HISTORY_STORAGE_KEY, JSON.stringify(state.healthHistory));
+  else localStorage.removeItem(HEALTH_HISTORY_STORAGE_KEY);
+  renderHealthHistory();
+  announce("本设备上的健康变化记录已清除");
 });
 
 const constraintLabels = {
@@ -244,8 +304,18 @@ const portionReferences = {
   canned_food: { amount: 50, range: [40, 80], unit: "g", label: "50克/次" },
 };
 
+const healthMetricConfig = {
+  weight: { label: "体重", unit: "千克", min: 10, max: 500, step: 0.1 },
+  fasting_glucose: { label: "空腹血糖", unit: "毫摩尔/升", min: 0.1, max: 50, step: 0.1 },
+  postprandial_glucose: { label: "餐后2小时血糖", unit: "毫摩尔/升", min: 0.1, max: 50, step: 0.1 },
+  systolic_pressure: { label: "收缩压", unit: "毫米汞柱", min: 30, max: 300, step: 1 },
+  diastolic_pressure: { label: "舒张压", unit: "毫米汞柱", min: 20, max: 250, step: 1 },
+  total_cholesterol: { label: "总胆固醇", unit: "毫摩尔/升", min: 0.1, max: 30, step: 0.1 },
+};
+
 initializeProfileFlow();
 loadRememberedConstraints();
+initializeAccountFeatures();
 
 elements.profileForm.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -265,6 +335,24 @@ elements.profileForm.addEventListener("submit", async (event) => {
   }
   hideProfileError();
   state.profile = profile;
+  if (state.profileEditReturn === "user") {
+    try {
+      if (elements.rememberProfile.checked) await persistProfile(profile);
+      else {
+        await deleteStoredProfile();
+        localStorage.removeItem(PROFILE_STORAGE_KEY);
+      }
+    } catch (error) {
+      showProfileError(`个人档案没有保存：${error.message}`);
+      return;
+    }
+    state.profileEditReturn = null;
+    renderScanProfile(profile);
+    revealAppTabbar();
+    switchAppView("user");
+    announce("个人设置已更新");
+    return;
+  }
   if (state.profileEditReturn === "constraint") {
     try {
       if (elements.rememberProfile.checked) await persistProfile(profile);
@@ -366,6 +454,12 @@ function showProfileScreen(screen) {
   elements.profileOnboarding.hidden = screen !== "profile";
   elements.advicePreview.hidden = screen !== "advice";
   elements.heroLayout.hidden = screen !== "scan";
+  elements.historyView.hidden = true;
+  elements.userView.hidden = true;
+  if (screen !== "scan") {
+    elements.appTabbar.hidden = true;
+    document.body.classList.remove("has-app-tabbar");
+  }
 }
 
 function editProfile(returnTarget = null) {
@@ -458,6 +552,9 @@ function renderScanProfile(profile) {
   elements.scanHealthSummary.textContent = healthSummary || "未设置";
   elements.constraintAllergenSummaryText.textContent = allergenSummary || "未设置";
   elements.healthFocusSummaryText.textContent = healthSummary || "未设置";
+  elements.userProfileName.textContent = profile.name;
+  elements.userAllergenSummary.textContent = allergenSummary || "未设置";
+  elements.userHealthSummary.textContent = healthSummary || "未设置";
 }
 
 function readLocalProfile() {
@@ -1247,6 +1344,12 @@ function renderSafetyResult(payload) {
   renderClaimResults(payload.evidence);
   renderAdditiveResults(payload.evidence);
   renderRegulatoryEvidence(payload.evidence, primary);
+  saveScanHistory({
+    outcome: titles.heading,
+    riskLevel: payload.overall_risk_level,
+    nutrition,
+  });
+  revealAppTabbar();
   elements.safetyResult.focus();
   announce(`${titles.heading}，${primary.matched_text || primary.explanation}`);
 }
@@ -1416,6 +1519,7 @@ function updatePortionAmount(amount) {
     elements.safetyTitle.textContent = assessment.state === "above"
       ? `建议重新核对份量：本次 ${formatNumber(amount)}${unitName}`
       : `建议按量食用：本次 ${formatNumber(amount)}${unitName}`;
+    updateCurrentScanHistoryOutcome(elements.safetyTitle.textContent);
   }
   elements.portionPresets.querySelectorAll("button").forEach((button) => {
     const presetAmount = context.reference.amount * Number(button.dataset.portionMultiplier);
@@ -1683,6 +1787,12 @@ function renderHealthFocusOnlyResult() {
   elements.reviewTitle.textContent = "个人标签重点";
   elements.reviewCount.textContent = "已整理";
   elements.proofState.textContent = "标签已确认";
+  saveScanHistory({
+    outcome: elements.safetyTitle.textContent,
+    riskLevel: "unknown",
+    nutrition: state.normalizedLabel?.nutrition,
+  });
+  revealAppTabbar();
   elements.safetyResult.focus();
   announce("标签信息已整理；当前没有设置需要自动检查的过敏原");
 }
@@ -2375,6 +2485,298 @@ function announce(message) {
   window.requestAnimationFrame(() => {
     elements.liveRegion.textContent = message;
   });
+}
+
+function initializeAccountFeatures() {
+  elements.healthEntryDate.value = localDateValue(new Date());
+  elements.healthStorageConsent.checked = state.healthHistoryConsent;
+  elements.healthConsentRow.hidden = state.healthHistoryConsent;
+  updateHealthMetricUnit();
+  renderScanHistory();
+  renderHealthHistory();
+  if (state.profile) renderScanProfile(state.profile);
+}
+
+function revealAppTabbar() {
+  elements.appTabbar.hidden = false;
+  document.body.classList.add("has-app-tabbar");
+  elements.appTabbar.querySelectorAll("button[data-app-view]").forEach((button) => {
+    if (button.dataset.appView === state.appView) button.setAttribute("aria-current", "page");
+    else button.removeAttribute("aria-current");
+  });
+}
+
+function switchAppView(view) {
+  if (!["scan", "history", "user"].includes(view)) return;
+  state.appView = view;
+  elements.profileOnboarding.hidden = true;
+  elements.advicePreview.hidden = true;
+  elements.heroLayout.hidden = view !== "scan";
+  elements.historyView.hidden = view !== "history";
+  elements.userView.hidden = view !== "user";
+  elements.appTabbar.querySelectorAll("button[data-app-view]").forEach((button) => {
+    if (button.dataset.appView === view) button.setAttribute("aria-current", "page");
+    else button.removeAttribute("aria-current");
+  });
+  if (view === "history") renderScanHistory();
+  if (view === "user") {
+    if (state.profile) renderScanProfile(state.profile);
+    renderHealthHistory();
+  }
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  const focusTarget = view === "history"
+    ? elements.historyView.querySelector("h1")
+    : view === "user" ? elements.userView.querySelector("h1") : elements.heroLayout;
+  focusTarget?.setAttribute("tabindex", "-1");
+  focusTarget?.focus({ preventScroll: true });
+  announce(view === "scan" ? "已返回拍照识别" : view === "history" ? "已打开历史识别记录" : "已打开我的健康变化");
+}
+
+function saveScanHistory({ outcome, riskLevel, nutrition }) {
+  if (!state.analysis?.request_id || !state.profile) return;
+  const record = {
+    id: state.analysis.request_id,
+    profileName: state.profile.name,
+    scannedAt: new Date().toISOString(),
+    productName: currentProductName(),
+    outcome: String(outcome || "需要确认包装信息"),
+    riskLevel: String(riskLevel || "unknown"),
+    category: currentCategoryName(),
+    healthFocus: [
+      ...(state.profile.healthConcerns || []).map((value) => healthConcernNames[value] || value),
+      ...(state.profile.customHealthConcerns || []),
+    ].slice(0, 4),
+    nutritionFacts: compactNutritionFacts(nutrition),
+  };
+  state.scanHistory = [record, ...state.scanHistory.filter((item) => item.id !== record.id)].slice(0, 50);
+  localStorage.setItem(SCAN_HISTORY_STORAGE_KEY, JSON.stringify(state.scanHistory));
+  renderScanHistory();
+}
+
+function updateCurrentScanHistoryOutcome(outcome) {
+  if (!state.analysis?.request_id) return;
+  const record = state.scanHistory.find((item) => item.id === state.analysis.request_id);
+  if (!record) return;
+  record.outcome = outcome;
+  localStorage.setItem(SCAN_HISTORY_STORAGE_KEY, JSON.stringify(state.scanHistory));
+}
+
+function currentProductName() {
+  return String(state.confirmedFields?.product_name || "未命名食品")
+    .replace(/^食品名称\s*[:：]?\s*/, "")
+    .trim() || "未命名食品";
+}
+
+function currentCategoryName() {
+  const option = [...elements.alternativeCategory.options]
+    .find((item) => item.value === state.suggestedCategory);
+  return option?.textContent || "类别待确认";
+}
+
+function compactNutritionFacts(nutrition) {
+  if (!nutrition?.nutrients?.length) return [];
+  const priorities = [...new Set(
+    (state.profile?.healthConcerns || [])
+      .flatMap((concern) => healthNutrientPriorities[concern] || []),
+  )];
+  const fallback = ["energy", "sugars", "carbohydrate", "fat", "sodium"];
+  const selectedKeys = [...priorities, ...fallback]
+    .filter((key, index, keys) => keys.indexOf(key) === index)
+    .slice(0, 4);
+  const facts = new Map(nutrition.nutrients.map((item) => [item.canonical_name, item]));
+  return selectedKeys
+    .filter((key) => facts.has(key))
+    .slice(0, 3)
+    .map((key) => {
+      const fact = facts.get(key);
+      return `${nutrientNames[key] || key} ${formatNumber(fact.value)}${nutrientUnitNames[fact.unit] || fact.unit}`;
+    });
+}
+
+function renderScanHistory() {
+  elements.historyList.replaceChildren();
+  const profileName = state.profile?.name;
+  const records = state.scanHistory
+    .filter((item) => !profileName || item.profileName === profileName)
+    .sort((left, right) => String(right.scannedAt).localeCompare(String(left.scannedAt)));
+  elements.historyEmpty.hidden = records.length > 0;
+  elements.clearScanHistory.disabled = records.length === 0;
+  records.forEach((record) => {
+    const item = document.createElement("li");
+    item.className = "history-item";
+    const time = document.createElement("time");
+    time.dateTime = record.scannedAt;
+    time.textContent = formatLocalDateTime(record.scannedAt);
+    const content = document.createElement("div");
+    const title = document.createElement("h2");
+    title.textContent = record.productName || "未命名食品";
+    const outcome = document.createElement("p");
+    outcome.className = "history-outcome";
+    outcome.textContent = record.outcome || "需要确认包装信息";
+    const facts = document.createElement("div");
+    facts.className = "history-facts";
+    [
+      record.category,
+      ...(Array.isArray(record.nutritionFacts) ? record.nutritionFacts : []),
+      ...(Array.isArray(record.healthFocus) ? record.healthFocus : []),
+    ]
+      .filter(Boolean)
+      .slice(0, 6)
+      .forEach((value) => {
+        const fact = document.createElement("span");
+        fact.textContent = value;
+        facts.append(fact);
+      });
+    content.append(title, outcome, facts);
+    item.append(time, content);
+    elements.historyList.append(item);
+  });
+}
+
+function updateHealthMetricUnit() {
+  const metric = healthMetricConfig[elements.healthEntryMetric.value] || healthMetricConfig.weight;
+  elements.healthEntryUnit.textContent = metric.unit;
+  elements.healthEntryValue.min = String(metric.min);
+  elements.healthEntryValue.max = String(metric.max);
+  elements.healthEntryValue.step = String(metric.step);
+}
+
+function saveHealthEntry(event) {
+  event.preventDefault();
+  const metricKey = elements.healthEntryMetric.value;
+  const metric = healthMetricConfig[metricKey];
+  const value = elements.healthEntryValue.valueAsNumber;
+  const recordDate = elements.healthEntryDate.value;
+  if (!metric || !recordDate || recordDate > localDateValue(new Date())) {
+    showHealthEntryError("请选择今天或更早的有效记录日期。");
+    return;
+  }
+  if (!Number.isFinite(value) || value < metric.min || value > metric.max) {
+    showHealthEntryError(`请输入 ${formatNumber(metric.min)}–${formatNumber(metric.max)} ${metric.unit}之间的数值。`);
+    elements.healthEntryValue.focus();
+    return;
+  }
+  if (!state.healthHistoryConsent && !elements.healthStorageConsent.checked) {
+    showHealthEntryError("请先确认同意在此设备保存健康变化记录。");
+    elements.healthStorageConsent.focus();
+    return;
+  }
+  state.healthHistoryConsent = true;
+  localStorage.setItem(HEALTH_HISTORY_CONSENT_KEY, "granted");
+  elements.healthConsentRow.hidden = true;
+  const record = {
+    id: crypto.randomUUID(),
+    profileName: state.profile?.name || "我的档案",
+    date: recordDate,
+    createdAt: new Date().toISOString(),
+    metric: metricKey,
+    value,
+    unit: metric.unit,
+    note: elements.healthEntryNote.value.trim(),
+  };
+  state.healthHistory = [record, ...state.healthHistory].slice(0, 200);
+  localStorage.setItem(HEALTH_HISTORY_STORAGE_KEY, JSON.stringify(state.healthHistory));
+  elements.healthEntryValue.value = "";
+  elements.healthEntryNote.value = "";
+  elements.healthEntryError.hidden = true;
+  renderHealthHistory();
+  announce(`${metric.label}记录已保存在此设备`);
+}
+
+function showHealthEntryError(message) {
+  elements.healthEntryError.textContent = message;
+  elements.healthEntryError.hidden = false;
+}
+
+function renderHealthHistory() {
+  elements.healthTrendList.replaceChildren();
+  elements.healthRecordList.replaceChildren();
+  const profileName = state.profile?.name;
+  const records = state.healthHistory
+    .filter((item) => !profileName || item.profileName === profileName)
+    .sort((left, right) => `${right.date}:${right.createdAt}`.localeCompare(`${left.date}:${left.createdAt}`));
+  elements.healthEmpty.hidden = records.length > 0;
+  elements.clearHealthHistory.disabled = records.length === 0;
+  const grouped = new Map();
+  records.forEach((record) => {
+    const values = grouped.get(record.metric) || [];
+    values.push(record);
+    grouped.set(record.metric, values);
+  });
+  grouped.forEach((values, metricKey) => {
+    const metric = healthMetricConfig[metricKey];
+    if (!metric) return;
+    const latest = values[0];
+    const previous = values[1];
+    const row = document.createElement("dl");
+    row.className = "health-trend-row";
+    const term = document.createElement("dt");
+    term.textContent = metric.label;
+    const description = document.createElement("dd");
+    const latestValue = document.createElement("strong");
+    latestValue.textContent = `${formatNumber(latest.value)} ${metric.unit}`;
+    const change = document.createElement("span");
+    change.textContent = previous
+      ? `较上次 ${formatSignedNumber(latest.value - previous.value)} ${metric.unit} · ${latest.date}`
+      : `目前 1 条记录 · ${latest.date}`;
+    description.append(latestValue, change);
+    row.append(term, description);
+    elements.healthTrendList.append(row);
+  });
+  records.slice(0, 30).forEach((record) => {
+    const metric = healthMetricConfig[record.metric];
+    if (!metric) return;
+    const item = document.createElement("li");
+    item.className = "health-record-item";
+    const time = document.createElement("time");
+    time.dateTime = record.date;
+    time.textContent = formatLocalDate(record.date);
+    const content = document.createElement("div");
+    const value = document.createElement("strong");
+    value.textContent = `${metric.label} · ${formatNumber(record.value)} ${metric.unit}`;
+    const note = document.createElement("p");
+    note.textContent = record.note || "无备注";
+    content.append(value, note);
+    item.append(time, content);
+    elements.healthRecordList.append(item);
+  });
+}
+
+function readStoredArray(key, limit) {
+  try {
+    const value = JSON.parse(localStorage.getItem(key) || "[]");
+    return Array.isArray(value) ? value.filter((item) => item && typeof item === "object").slice(0, limit) : [];
+  } catch {
+    localStorage.removeItem(key);
+    return [];
+  }
+}
+
+function localDateValue(value) {
+  const offset = value.getTimezoneOffset() * 60_000;
+  return new Date(value.getTime() - offset).toISOString().slice(0, 10);
+}
+
+function formatLocalDate(value) {
+  const date = new Date(`${value}T00:00:00`);
+  return Number.isNaN(date.getTime())
+    ? value
+    : new Intl.DateTimeFormat("zh-CN", { year: "numeric", month: "short", day: "numeric" }).format(date);
+}
+
+function formatLocalDateTime(value) {
+  const date = new Date(value);
+  return Number.isNaN(date.getTime())
+    ? "时间待确认"
+    : new Intl.DateTimeFormat("zh-CN", {
+      year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit",
+    }).format(date);
+}
+
+function formatSignedNumber(value) {
+  const formatted = formatNumber(Math.abs(value));
+  if (Math.abs(value) < 0.0001) return "0";
+  return `${value > 0 ? "+" : "−"}${formatted}`;
 }
 
 async function loadHealthStatus() {
