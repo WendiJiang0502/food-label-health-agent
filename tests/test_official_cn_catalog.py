@@ -49,11 +49,56 @@ def test_official_catalog_covers_priority_mainland_categories() -> None:
 def test_official_catalog_exposes_complete_review_queue() -> None:
     coverage = OfficialChinaCatalog().coverage()
 
-    assert coverage["total"] == 5
-    assert coverage["evidence_gate_count"] == 1
+    assert coverage["total"] == 14
+    assert coverage["full_label_count"] == 9
+    assert coverage["evidence_gate_count"] == 10
     assert coverage["needs_review_count"] == 5
-    assert len(coverage["items"]) == 5
+    assert len(coverage["items"]) == 14
     assert coverage["items"][0]["label_coverage"]["review_priority"] == "high"
+
+
+def test_nestle_official_pages_add_nine_complete_frozen_products() -> None:
+    catalog = OfficialChinaCatalog()
+    result = catalog.search(category="frozen_food", region="CN")
+
+    assert len(result.records) == 9
+    assert all(item.label.evidence_quality == "complete" for item in result.records)
+    assert all("nestle.com.cn" in item.label.source_url for item in result.records)
+    assert all(
+        item.label.official_store_name == "雀巢冰淇淋京东自营旗舰店"
+        for item in result.records
+    )
+    assert all(
+        item.label.nutrition_rows
+        and {row[0] for row in item.label.nutrition_rows[1:]}
+        >= {"能量", "蛋白质", "脂肪", "碳水化合物", "钠"}
+        for item in result.records
+    )
+
+
+def test_nestle_frozen_products_enter_independent_safety_review() -> None:
+    constraint = ConstraintInput(kind="allergy", canonical_value="fish", severity="severe")
+    search = find_alternative_products(
+        AlternativeSearchRequest(
+            category="frozen_food",
+            applicable_date="2026-08-15",
+            constraints=[constraint],
+            limit=20,
+        ),
+        catalog=OfficialChinaCatalog(),
+    )
+    result = revalidate_alternatives(
+        AlternativeRevalidationRequest(
+            request_id="nestle-frozen-revalidation",
+            applicable_date="2026-08-15",
+            constraints=[constraint],
+            candidates=search["candidates"],
+        )
+    )
+
+    assert len(search["candidates"]) == 9
+    assert result["revalidated_count"] == 9
+    assert result["eligible_count"] == 9
 
 
 def test_official_catalog_merges_dynamically_approved_records(tmp_path: Path) -> None:

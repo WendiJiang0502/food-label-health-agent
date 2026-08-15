@@ -89,5 +89,34 @@
     "product_path_markers": [".html"],
     "official_store_url": "https://wolong.jd.com/",
     "official_store_name": "沃隆官方旗舰店"
+  },
+  {
+    "source_id": "nestle-china-ice-cream-official",
+    "brand": "雀巢",
+    "category": "frozen_food",
+    "discovery_urls": ["https://www.nestle.com.cn/brands/ice_cream/nestle_icecream"],
+    "product_seed_urls": [
+      "https://www.nestle.com.cn/brands/ice-cream/chengzhen/qinyoubei",
+      "https://www.nestle.com.cn/brands/ice-cream/shengdai",
+      "https://www.nestle.com.cn/brands/ice-cream/chengzhen/xueci",
+      "https://www.nestle.com.cn/brands/ice-cream/bennana",
+      "https://www.nestle.com.cn/brands/ice-cream/8cube-a",
+      "https://www.nestle.com.cn/brands/ice-cream/mega"
+    ],
+    "allowed_hosts": ["www.nestle.com.cn", "nestle.com.cn"],
+    "product_path_markers": ["/brands/ice-cream/"],
+    "official_store_url": "https://mall.jd.com/index-1000333009.html",
+    "official_store_name": "雀巢冰淇淋京东自营旗舰店"
+  },
+  {
+    "source_id": "nestle-ice-cream-jd-official-store",
+    "brand": "雀巢",
+    "category": "frozen_food",
+    "source_type": "official_flagship_store",
+    "discovery_urls": ["https://mall.jd.com/index-1000333009.html"],
+    "allowed_hosts": ["mall.jd.com", "item.jd.com"],
+    "product_path_markers": [".html"],
+    "official_store_url": "https://mall.jd.com/index-1000333009.html",
+    "official_store_name": "雀巢冰淇淋京东自营旗舰店"
   }
 ]

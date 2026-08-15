@@ -33,6 +33,8 @@ OFFICIAL_PRODUCT_HOSTS = {
     "vvfood.cn",
     "www.wolons.com",
     "wolons.com",
+    "www.nestle.com.cn",
+    "nestle.com.cn",
 }
 OFFICIAL_STORE_HOST_SUFFIXES = (".jd.com", ".tmall.com")
 OFF_FIELDS = (

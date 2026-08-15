@@ -14,24 +14,28 @@ def test_every_official_product_gets_field_level_coverage() -> None:
         *catalog.search(category="breakfast_cereal", region="CN").records,
         *catalog.search(category="sauce_condiment", region="CN").records,
         *catalog.search(category="snack", region="CN").records,
+        *catalog.search(category="frozen_food", region="CN").records,
     ]
 
     audits = {product.product_id: audit_product_label(product) for product in products}
-    assert set(audits) == {
+    assert {
         "cn-official:yili:pure-milk",
         "cn-official:yili:amx-zero-sucrose-yogurt",
         "cn-official:seamild:green-pure-oats",
         "cn-official:lkk:less-salt-soy-sauce",
         "cn-official:wolong:daily-nuts",
-    }
+    } < set(audits)
+    assert len(audits) == 14
+    assert sum(item["full_label_ready"] for item in audits.values()) == 9
     assert audits["cn-official:yili:pure-milk"]["current_evidence_gate_passed"]
     assert "完整配料表文字" in audits["cn-official:lkk:less-salt-soy-sauce"]["verified_fields"]
     assert "完整配料表文字" in audits["cn-official:wolong:daily-nuts"]["missing_fields"]
 
     summary = summarize_label_coverage(products)
-    assert summary["total"] == 5
+    assert summary["total"] == 14
+    assert summary["full_label_count"] == 9
     assert summary["needs_review_count"] == 5
-    assert summary["evidence_gate_count"] == 1
+    assert summary["evidence_gate_count"] == 10
 
 
 def test_search_rejection_explains_exact_official_label_gaps() -> None:

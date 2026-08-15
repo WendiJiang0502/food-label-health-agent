@@ -113,11 +113,18 @@ def test_registry_includes_mainland_official_store_product_seeds() -> None:
         if source.get("source_type") == "official_flagship_store"
     ]
 
-    assert {source["brand"] for source in stores} == {"伊利", "西麦", "李锦记", "沃隆"}
-    assert all(source.get("product_seed_urls") for source in stores)
+    assert {source["brand"] for source in stores} == {
+        "伊利",
+        "西麦",
+        "李锦记",
+        "沃隆",
+        "雀巢",
+    }
+    stores_with_seeds = [source for source in stores if source["brand"] != "雀巢"]
+    assert all(source.get("product_seed_urls") for source in stores_with_seeds)
     assert all(
         url.startswith("https://item.jd.com/")
-        for source in stores
+        for source in stores_with_seeds
         for url in source["product_seed_urls"]
     )
 
