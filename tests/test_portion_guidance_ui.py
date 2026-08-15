@@ -25,7 +25,7 @@ def test_result_page_labels_portion_as_a_suggestion() -> None:
 def test_portion_guidance_has_safe_category_defaults_and_label_math() -> None:
     script = (STATIC_DIR / "app.js").read_text(encoding="utf-8")
 
-    assert 'snack: { amount: 25, unit: "g", label: "25克/次" }' in script
+    assert 'snack: { amount: 25, range: [15, 30], unit: "g", label: "25克/次" }' in script
     assert 'label: "10克/次"' in script
     assert "Number(fact.value) * reference.amount / 100" in script
     assert "不建议用减少份量代替风险判断" in script
@@ -38,7 +38,11 @@ def test_portion_guidance_has_safe_category_defaults_and_label_math() -> None:
     assert 'elements.portionKind.textContent = "需要确认包装信息"' in script
     assert "function extractPackageQuantity(text)" in script
     assert "function conservativeStartingAmount(amount, unit)" in script
-    assert "食品类别参考 + 你的健康关注 + 当前标签数值" in script
+    assert "${portionReferenceBasis(reference)} + 你的健康关注 + 当前标签数值" in script
+    assert "function portionAmountAssessment(reference, amount)" in script
+    assert "系统同类换算参考" in script
+    assert "包装独立食用单元" in script
+    assert 'elements.portionAssessment.dataset.state = assessment.state' in script
 
 
 def test_result_page_uses_four_clear_decision_outcomes() -> None:

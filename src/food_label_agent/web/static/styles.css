@@ -557,6 +557,8 @@ h3 { font-size: 1.2rem; }
 .portion-input-wrap > span { padding: 0 11px 0 5px; color: var(--muted-small); font-size: 0.68rem; }
 .portion-input-wrap:has(input[aria-invalid="true"]) { border-color: var(--avoid); }
 .portion-guidance .portion-error { grid-row: auto; margin: 7px 0 0; color: var(--avoid); font-size: 0.68rem; font-weight: 650; }
+.portion-guidance .portion-assessment { margin: 10px 0 0; color: var(--ink); font-size: 0.72rem; line-height: 1.55; }
+.portion-guidance .portion-assessment[data-state="above"] { color: var(--caution); font-weight: 720; }
 .nutrition-snapshot { margin-top: 22px; }
 .nutrition-snapshot-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
 .nutrition-snapshot-heading h3 { margin: 0; color: var(--ink-deep); font-family: var(--font-display); font-size: 1rem; }
@@ -749,6 +751,19 @@ h3 { font-size: 1.2rem; }
 .alternative-item .alternative-ranking { color: var(--ink-deep); font-weight: 720; overflow-wrap: anywhere; }
 .alternative-item .alternative-evidence { color: var(--ink); font-family: var(--font-data); font-size: 0.68rem; overflow-wrap: anywhere; }
 .alternative-item .alternative-eligibility { color: var(--teal); font-weight: 720; overflow-wrap: anywhere; }
+.alternative-evidence-status { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 14px 0 0; border-block: 1px solid var(--line); }
+.alternative-evidence-status > div { min-width: 0; padding: 10px 12px; }
+.alternative-evidence-status > div:nth-child(even) { border-inline-start: 1px solid var(--line); }
+.alternative-evidence-status > div:nth-child(n + 3) { border-top: 1px solid var(--line); }
+.alternative-evidence-status dt { color: var(--muted-small); font-size: 0.68rem; }
+.alternative-evidence-status dd { margin: 4px 0 0; color: var(--ink-deep); font-size: 0.72rem; font-weight: 700; line-height: 1.45; overflow-wrap: anywhere; }
+.alternative-evidence-status--review_required dd,
+.alternative-evidence-status--stale dd,
+.alternative-evidence-status--expired dd { color: var(--caution); }
+.alternative-health-comparisons { margin: 12px 0 0; }
+.alternative-health-comparisons > div { display: grid; grid-template-columns: minmax(76px, 0.4fr) minmax(0, 1.6fr); gap: 12px; border-top: 1px solid var(--line); padding: 9px 0; }
+.alternative-health-comparisons dt { color: var(--muted-small); font-size: 0.68rem; }
+.alternative-health-comparisons dd { margin: 0; color: var(--ink); font-family: var(--font-data); font-size: 0.68rem; text-align: end; overflow-wrap: anywhere; }
 .alternative-label { margin-top: 12px; border-block: 1px solid var(--line); }
 .alternative-label summary { display: grid; min-height: 48px; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 12px; color: var(--teal); cursor: pointer; font-size: 0.68rem; font-weight: 760; list-style: none; }
 .alternative-label summary::-webkit-details-marker { display: none; }
@@ -785,6 +800,7 @@ h3 { font-size: 1.2rem; }
 .alternative-exclusions li p { margin: 6px 0 0; line-height: 1.6; }
 .alternative-exclusions .alternative-review-verified { color: var(--compatible); }
 .alternative-exclusions .alternative-review-missing { color: var(--caution); }
+.alternative-exclusions .alternative-review-evidence { color: var(--ink); font-family: var(--font-data); }
 .alternative-review-link { display: inline-flex; min-height: 44px; align-items: center; margin: 5px 16px 0 0; color: var(--teal); font-weight: 740; text-underline-offset: 4px; }
 .alternative-review-link:focus-visible { border-radius: 8px; outline: 3px solid var(--focus); outline-offset: 2px; }
 .safety-result .text-button { align-self: flex-start; margin-top: 16px; }
@@ -948,6 +964,11 @@ footer p { margin: 0; }
   .memory-saved-heading { align-items: flex-start; flex-direction: column; gap: 2px; }
   .alternative-controls { grid-template-columns: 1fr; }
   .alternative-controls .button { width: 100%; }
+  .alternative-evidence-status { grid-template-columns: 1fr; }
+  .alternative-evidence-status > div:nth-child(even) { border-inline-start: 0; }
+  .alternative-evidence-status > div + div { border-top: 1px solid var(--line); }
+  .alternative-health-comparisons > div { grid-template-columns: 1fr; gap: 4px; }
+  .alternative-health-comparisons dd { text-align: start; }
   .alternative-label-facts > div { grid-template-columns: 1fr; gap: 5px; }
   .claim-result-heading { align-items: flex-start; }
   .proof-footnotes { align-items: flex-start; flex-direction: column; gap: 5px; }

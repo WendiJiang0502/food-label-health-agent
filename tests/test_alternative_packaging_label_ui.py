@@ -14,6 +14,10 @@ def test_official_alternative_renders_confirmed_packaging_label() -> None:
     assert '"过敏原提示"' in script
     assert 'table.className = "alternative-nutrition-table"' in script
     assert "请以实际到手包装为准" in script
+    assert "function renderAlternativeEvidenceStatus(item)" in script
+    assert 'appendAlternativeLabelFact(block, "证据状态"' in script
+    assert 'appendAlternativeLabelFact(block, "包装版本"' in script
+    assert "function comparisonBasisText(basis)" in script
 
 
 def test_incomplete_official_products_show_verified_and_missing_fields() -> None:

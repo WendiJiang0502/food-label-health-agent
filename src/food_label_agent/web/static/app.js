@@ -74,6 +74,7 @@ const elements = {
   portionAmount: document.querySelector("#portion-amount"),
   portionUnit: document.querySelector("#portion-unit"),
   portionError: document.querySelector("#portion-error"),
+  portionAssessment: document.querySelector("#portion-assessment"),
   nutritionBasisLabel: document.querySelector("#nutrition-basis-label"),
   nutritionStatList: document.querySelector("#nutrition-stat-list"),
   nutritionStatEmpty: document.querySelector("#nutrition-stat-empty"),
@@ -227,20 +228,20 @@ const healthNutrientPriorities = {
 const nutrientUnitNames = { kJ: "千焦", g: "克", mg: "毫克", ml: "毫升" };
 
 const portionReferences = {
-  biscuit: { amount: 25, unit: "g", label: "25克/次" },
-  bread: { amount: 50, unit: "g", label: "50克/次" },
-  breakfast_cereal: { amount: 40, unit: "g", label: "40克（干重）/次" },
-  instant_noodles: { amount: 50, unit: "g", label: "50克（干重）/次" },
-  snack: { amount: 25, unit: "g", label: "25克/次" },
-  confectionery: { amount: 20, unit: "g", label: "20克/次" },
-  dairy: { amount: 200, unit: "ml", label: "200毫升/次" },
-  drink: { amount: 250, unit: "ml", label: "250毫升/次" },
-  prepared_meal: { amount: 200, unit: "g", label: "200克/次" },
-  frozen_food: { amount: 100, unit: "g", label: "100克/次" },
-  processed_meat: { amount: 50, unit: "g", label: "50克/次" },
-  seafood: { amount: 75, unit: "g", label: "75克/次" },
-  sauce_condiment: { amount: 5, unit: "ml", label: "5毫升（约1茶匙）/次" },
-  canned_food: { amount: 50, unit: "g", label: "50克/次" },
+  biscuit: { amount: 25, range: [15, 30], unit: "g", label: "25克/次" },
+  bread: { amount: 50, range: [30, 60], unit: "g", label: "50克/次" },
+  breakfast_cereal: { amount: 40, range: [30, 50], unit: "g", label: "40克（干重）/次" },
+  instant_noodles: { amount: 50, range: [40, 60], unit: "g", label: "50克（干重）/次" },
+  snack: { amount: 25, range: [15, 30], unit: "g", label: "25克/次" },
+  confectionery: { amount: 20, range: [10, 25], unit: "g", label: "20克/次" },
+  dairy: { amount: 200, range: [150, 250], unit: "ml", label: "200毫升/次" },
+  drink: { amount: 250, range: [200, 300], unit: "ml", label: "250毫升/次" },
+  prepared_meal: { amount: 200, range: [150, 250], unit: "g", label: "200克/次" },
+  frozen_food: { amount: 100, range: [75, 125], unit: "g", label: "100克/次" },
+  processed_meat: { amount: 50, range: [30, 60], unit: "g", label: "50克/次" },
+  seafood: { amount: 75, range: [50, 100], unit: "g", label: "75克/次" },
+  sauce_condiment: { amount: 5, range: [5, 10], unit: "ml", label: "5毫升（约1茶匙）/次" },
+  canned_food: { amount: 50, range: [40, 80], unit: "g", label: "50克/次" },
 };
 
 initializeProfileFlow();
@@ -1315,6 +1316,7 @@ function renderPortionGuidance(riskLevel, nutrition, findings, category) {
       unit: basis.unit,
       label: servingText,
       note: "这是包装用于列示营养数值的份量，不是根据个人健康状况生成的每日建议量。",
+      origin: "packaging",
     };
     elements.portionKind.textContent = "包装明确标示的一份";
     elements.portionValue.textContent = servingText;
@@ -1342,8 +1344,8 @@ function renderPortionGuidance(riskLevel, nutrition, findings, category) {
       ? `包装净含量已识别：${reference.packageQuantity.label}；不默认等于一次食用量`
       : "未识别到包装明确的每份大小";
     elements.portionConfidence.textContent = reference.healthAdjusted
-      ? "食品类别参考 + 你的健康关注 + 当前标签数值"
-      : "食品类别通用参考 + 当前标签数值";
+      ? `${portionReferenceBasis(reference)} + 你的健康关注 + 当前标签数值`
+      : `${portionReferenceBasis(reference)} + 当前标签数值`;
     if (canScaleNutrition(nutrition, reference)) {
       enablePortionControls(nutrition, reference);
     }
@@ -1368,6 +1370,8 @@ function resetPortionControls() {
   elements.portionControls.hidden = true;
   elements.portionError.hidden = true;
   elements.portionError.textContent = "";
+  elements.portionAssessment.hidden = true;
+  elements.portionAssessment.textContent = "";
   elements.portionPresets.querySelectorAll("button").forEach((button) => {
     button.classList.remove("is-selected");
     button.setAttribute("aria-pressed", "false");
@@ -1402,10 +1406,16 @@ function updatePortionAmount(amount) {
 
   context.amount = amount;
   const unitName = nutrientUnitNames[context.reference.unit] || "份";
+  const assessment = portionAmountAssessment(context.reference, amount);
   elements.portionValue.textContent = `本次按 ${formatNumber(amount)}${unitName}估算`;
   elements.portionNote.textContent = context.reference.note;
+  elements.portionAssessment.hidden = false;
+  elements.portionAssessment.dataset.state = assessment.state;
+  elements.portionAssessment.textContent = assessment.text;
   if (state.decisionMode === "portion") {
-    elements.safetyTitle.textContent = `建议按量食用：一次约 ${formatNumber(amount)}${unitName}`;
+    elements.safetyTitle.textContent = assessment.state === "above"
+      ? `建议重新核对份量：本次 ${formatNumber(amount)}${unitName}`
+      : `建议按量食用：本次 ${formatNumber(amount)}${unitName}`;
   }
   elements.portionPresets.querySelectorAll("button").forEach((button) => {
     const presetAmount = context.reference.amount * Number(button.dataset.portionMultiplier);
@@ -1444,22 +1454,40 @@ function portionReference(category, nutrition, confirmedFields) {
   if (!category && /坚果|果仁|腰果|核桃|扁桃仁|开心果|榛子/.test(identityText)) {
     return {
       amount: 10,
+      range: [10, 10],
       unit: "g",
       label: "10克/次",
       note: "中国居民膳食指南建议坚果平均每天约10克；这里按一次10克显示。",
       packageQuantity,
       healthAdjusted: false,
+      origin: "category",
     };
   }
   const base = portionReferences[category];
   if (!base) return null;
   let reference = { ...base };
   if (category === "dairy" && nutrition?.basis?.type === "per_100g") {
-    reference = { amount: 100, unit: "g", label: "100克/次" };
+    reference = { amount: 100, range: [80, 150], unit: "g", label: "100克/次" };
   }
   let note = category === "dairy"
     ? "膳食指南建议成年人每天摄入300–500毫升液态奶或相当量奶制品；这里提供便于阅读标签的单次参考。"
     : "这是用于理解标签数值的同类食品通用参考份量，不是国家规定份量或个体化医疗处方。";
+  const plausibleSingleUnit = packageQuantity
+    && Array.isArray(reference.range)
+    && packageQuantity.amount >= reference.range[0] * 0.5
+    && packageQuantity.amount <= reference.range[1] * 1.5;
+  const singleUnit = plausibleSingleUnit
+    && packageQuantity.unit === reference.unit
+    && /独立包装|单袋|每袋|一袋|单盒|每盒|每瓶/.test(packageText);
+  if (singleUnit) {
+    reference = {
+      ...reference,
+      amount: packageQuantity.amount,
+      label: `${packageQuantity.label}/独立包装`,
+      origin: "package_unit",
+    };
+    note = "包装文字显示为独立食用单元，因此优先用该单元换算；这不表示整包都适合一次吃完。";
+  }
   const concernNutrients = new Set(
     (state.profile?.healthConcerns || [])
       .flatMap((concern) => healthNutrientPriorities[concern] || []),
@@ -1468,7 +1496,7 @@ function portionReference(category, nutrition, confirmedFields) {
     (nutrition?.nutrients || []).map((fact) => fact.canonical_name),
   );
   const matchedNutrients = [...concernNutrients].filter((key) => availableNutrients.has(key));
-  const healthAdjusted = matchedNutrients.length > 0;
+  const healthAdjusted = matchedNutrients.length > 0 && !singleUnit;
   if (healthAdjusted) {
     const adjustedAmount = conservativeStartingAmount(reference.amount, reference.unit);
     reference = {
@@ -1479,7 +1507,40 @@ function portionReference(category, nutrition, confirmedFields) {
     const labels = matchedNutrients.slice(0, 2).map((key) => nutrientNames[key] || key);
     note += ` 你关注${labels.join("、")}，且包装已列出相关数值，因此从较小的通用参考份开始；这不是医疗限量。`;
   }
-  return { ...reference, note, packageQuantity, healthAdjusted };
+  return {
+    ...reference,
+    note,
+    packageQuantity,
+    healthAdjusted,
+    origin: reference.origin || "category",
+  };
+}
+
+function portionReferenceBasis(reference) {
+  if (reference.origin === "package_unit") return "包装独立食用单元";
+  if (Array.isArray(reference.range)) {
+    const unit = nutrientUnitNames[reference.unit] || reference.unit;
+    return `系统同类换算参考（${formatNumber(reference.range[0])}–${formatNumber(reference.range[1])}${unit}）`;
+  }
+  return "系统同类换算参考";
+}
+
+function portionAmountAssessment(reference, amount) {
+  const unit = nutrientUnitNames[reference.unit] || (reference.unit === "serving" ? "份" : reference.unit);
+  if (reference.origin === "packaging") {
+    const ratio = amount / reference.amount;
+    if (ratio < 0.75) return { state: "below", text: "本次少于包装标示的一份；营养数值已按实际输入量换算。" };
+    if (ratio > 1.25) return { state: "above", text: "本次高于包装标示的一份，请留意包装营养表会被按比例放大。" };
+    return { state: "within", text: "本次约等于包装标示的一份；营养数值已按实际输入量换算。" };
+  }
+  if (Array.isArray(reference.range)) {
+    const [minimum, maximum] = reference.range;
+    const rangeText = `${formatNumber(minimum)}–${formatNumber(maximum)}${unit}`;
+    if (amount < minimum) return { state: "below", text: `本次低于系统同类换算参考 ${rangeText}；这不是风险或医疗判断。` };
+    if (amount > maximum) return { state: "above", text: `本次高于系统同类换算参考 ${rangeText}，建议结合包装份数重新确认实际食用量。` };
+    return { state: "within", text: `本次处于系统同类换算参考 ${rangeText}；这不是国家规定份量或医疗限量。` };
+  }
+  return { state: "within", text: "营养数值已按本次实际输入量换算。" };
 }
 
 function conservativeStartingAmount(amount, unit) {
@@ -1754,15 +1815,27 @@ function renderAlternativeResults(payload) {
     ranking.textContent = `为什么排在这里：${item.ranking_summary || "同类且已通过本次个人约束复核"}`;
     const explanation = document.createElement("p");
     explanation.textContent = item.explanation;
-    const evidence = document.createElement("p");
-    evidence.className = "alternative-evidence";
-    evidence.textContent = `官方标签复核于 ${item.label_source_verified_at || item.label_confirmed_at} · ${sourceAuthorityLabel(item.label_source_authority)}`;
+    const evidence = renderAlternativeEvidenceStatus(item);
     article.append(header, useCase, ranking, explanation, evidence);
     if (item.catalog_eligibility?.verified_required_fields?.length) {
       const eligibility = document.createElement("p");
       eligibility.className = "alternative-eligibility";
       eligibility.textContent = `本次已核对：${item.catalog_eligibility.verified_required_fields.join("、")}`;
       article.append(eligibility);
+    }
+    if (Array.isArray(item.health_comparisons) && item.health_comparisons.length) {
+      const comparisonList = document.createElement("dl");
+      comparisonList.className = "alternative-health-comparisons";
+      item.health_comparisons.slice(0, 3).forEach((comparison) => {
+        const row = document.createElement("div");
+        const term = document.createElement("dt");
+        term.textContent = comparison.label || nutrientNames[comparison.nutrient] || comparison.nutrient;
+        const description = document.createElement("dd");
+        description.textContent = `${formatNumber(comparison.candidate_value)}${comparison.unit}；当前商品 ${formatNumber(comparison.current_value)}${comparison.unit}（${comparisonBasisText(comparison.basis)}）`;
+        row.append(term, description);
+        comparisonList.append(row);
+      });
+      article.append(comparisonList);
     }
     const packagingLabel = renderAlternativePackagingLabel(item);
     if (packagingLabel) article.append(packagingLabel);
@@ -1807,8 +1880,8 @@ function renderAlternativeResults(payload) {
     term.textContent = nutrientNames[comparison.nutrient] || comparison.nutrient;
     const description = document.createElement("dd");
     description.textContent = comparison.values
-      .map((item) => `${item.display_name} ${item.value}${comparison.unit}`)
-      .join("；");
+      .map((item) => `${item.display_name} ${formatNumber(item.value)}${comparison.unit}`)
+      .join("；") + `（${comparisonBasisText(comparison.basis)}）`;
     row.append(term, description);
     elements.alternativeComparisonList.append(row);
   });
@@ -1842,6 +1915,12 @@ function renderAlternativeResults(payload) {
       missing.className = "alternative-review-missing";
       missing.textContent = `待补齐：${item.coverage.missing_fields.join("；") || "无"}`;
       row.append(verified, missing);
+      if (item.coverage.evidence_status) {
+        const evidenceState = document.createElement("p");
+        evidenceState.className = "alternative-review-evidence";
+        evidenceState.textContent = evidenceStatusSummary(item.coverage.evidence_status);
+        row.append(evidenceState);
+      }
       appendAlternativeReviewLink(row, item.coverage.source_url, "查看品牌官方产品页");
       appendAlternativeReviewLink(
         row,
@@ -1852,6 +1931,66 @@ function renderAlternativeResults(payload) {
     elements.alternativeExclusionList.append(row);
   });
   announce(elements.alternativeStatus.textContent);
+}
+
+function renderAlternativeEvidenceStatus(item) {
+  const status = item.evidence_status || {
+    status: item.catalog_tier === "fully_verified" ? "complete" : "partially_verified",
+    label: alternativeTierLabel(item.catalog_tier),
+    source_verified_at: item.label_source_verified_at || item.label_confirmed_at,
+    record_version: item.label_source_record_version,
+  };
+  const block = document.createElement("dl");
+  block.className = `alternative-evidence-status alternative-evidence-status--${status.status}`;
+  appendAlternativeLabelFact(block, "证据状态", status.label || evidenceStatusLabel(status.status));
+  appendAlternativeLabelFact(
+    block,
+    "来源复核",
+    `${status.source_verified_at || item.label_confirmed_at || "日期未记录"} · ${sourceAuthorityLabel(status.source_authority || item.label_source_authority)}`,
+  );
+  appendAlternativeLabelFact(
+    block,
+    "来源类型",
+    alternativeSourceTypeLabel(status.source_type || item.label_source_type),
+  );
+  appendAlternativeLabelFact(block, "包装版本", status.record_version || "版本未记录，购买后请核对实物包装");
+  if (status.valid_through) {
+    appendAlternativeLabelFact(block, "有效核对至", status.valid_through);
+  }
+  return block;
+}
+
+function evidenceStatusSummary(status) {
+  const parts = [status.label || evidenceStatusLabel(status.status)];
+  if (status.source_verified_at) parts.push(`来源复核于 ${status.source_verified_at}`);
+  if (status.record_version) parts.push(`包装版本 ${status.record_version}`);
+  return parts.join(" · ");
+}
+
+function evidenceStatusLabel(status) {
+  return {
+    complete: "证据完整",
+    partially_verified: "部分证据，本次所需字段已核对",
+    review_required: "需要补齐或复核",
+    stale: "可能已过期，需要复核",
+    expired: "已过有效期",
+  }[status] || "证据状态待确认";
+}
+
+function comparisonBasisText(basis) {
+  return {
+    per_100g: "每100克",
+    per_100ml: "每100毫升",
+  }[basis] || "同口径";
+}
+
+function alternativeSourceTypeLabel(sourceType) {
+  return {
+    official_product_page: "品牌官方产品页",
+    official_flagship_store: "中国大陆官方旗舰店",
+    internal_review: "内部人工核验记录",
+    community: "社区资料",
+  }[sourceType] || "来源类型待确认";
 }
 
 function renderAlternativeDiscoverySummary(discoveryPayload) {
@@ -1900,6 +2039,16 @@ function renderAlternativePackagingLabel(item) {
     facts,
     "过敏原提示",
     label.allergen_statement || "官方页面未单列过敏原提示，请以实际到手包装为准。",
+  );
+  appendAlternativeLabelFact(
+    facts,
+    "包装版本",
+    label.record_version || "未记录，购买后请核对实物包装",
+  );
+  appendAlternativeLabelFact(
+    facts,
+    "标签复核",
+    label.source_verified_at || label.confirmed_at || "日期未记录",
   );
   body.append(facts);
 
