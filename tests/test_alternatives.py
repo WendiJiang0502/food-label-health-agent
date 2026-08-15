@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from food_label_agent.alternatives.catalog import JsonProductCatalog
 from food_label_agent.alternatives.models import (
     AlternativeRevalidationRequest,
     AlternativeSearchRequest,
@@ -26,7 +27,8 @@ def test_search_rejects_incomplete_label_before_recommendation() -> None:
             category="biscuit",
             applicable_date="2026-08-09",
             constraints=[_allergy("milk")],
-        )
+        ),
+        catalog=JsonProductCatalog(),
     )
 
     assert result["status"] == "candidates_found"
@@ -59,7 +61,8 @@ def test_search_excludes_current_product_before_revalidation() -> None:
             applicable_date="2026-08-09",
             constraints=[_allergy("milk")],
             exclude_product_ids=["fixture-biscuit-oat-plain"],
-        )
+        ),
+        catalog=JsonProductCatalog(),
     )
 
     assert all(
@@ -74,7 +77,8 @@ def test_every_candidate_is_revalidated_and_milk_match_is_never_eligible() -> No
             category="biscuit",
             applicable_date="2026-08-09",
             constraints=[_allergy("milk")],
-        )
+        ),
+        catalog=JsonProductCatalog(),
     )
     result = revalidate_alternatives(
         AlternativeRevalidationRequest(
@@ -112,7 +116,8 @@ def test_nutrition_hard_limit_filters_high_sodium_candidate() -> None:
             category="processed_meat",
             applicable_date="2026-08-09",
             constraints=[constraint],
-        )
+        ),
+        catalog=JsonProductCatalog(),
     )
     result = revalidate_alternatives(
         AlternativeRevalidationRequest(

@@ -13,13 +13,23 @@ from functools import lru_cache
 from hashlib import sha256
 from pathlib import Path
 from typing import Any, Protocol
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urlparse
 from urllib.request import Request, urlopen
 
 from .models import ProductRecord
 
 DATA_PATH = Path(__file__).with_name("data") / "curated_products.json"
+OFFICIAL_CN_DATA_PATH = Path(__file__).with_name("data") / "official_cn_products.json"
 OFF_BASE_URL = "https://world.openfoodfacts.org"
+OFFICIAL_PRODUCT_HOSTS = {
+    "www.yili.com",
+    "yili.com",
+    "www.seamild.com.cn",
+    "seamild.com.cn",
+    "www.vvfood.cn",
+    "vvfood.cn",
+}
+OFFICIAL_STORE_HOST_SUFFIXES = (".jd.com", ".tmall.com")
 OFF_FIELDS = (
     "code,product_name,product_name_zh,brands,ingredients_text,ingredients_text_zh,"
     "allergens,traces,nutriments,nutrition_data_per,serving_size,selected_images,"
@@ -95,6 +105,41 @@ class JsonProductCatalog:
                 for item in records
                 if item.category == category and item.region == region
             )
+        )
+
+
+class OfficialChinaCatalog:
+    """Serve only manually verified mainland-accessible official sources."""
+
+    def __init__(self, path: str | Path = OFFICIAL_CN_DATA_PATH) -> None:
+        self.path = Path(path)
+
+    def search(self, *, category: str, region: str) -> CatalogSearchResult:
+        payload = json.loads(self.path.read_text(encoding="utf-8"))
+        records = tuple(ProductRecord.model_validate(item) for item in payload)
+        accepted: list[ProductRecord] = []
+        rejected: list[dict[str, Any]] = []
+        for item in records:
+            if item.category != category or item.region != region:
+                continue
+            reason = _official_source_rejection(item)
+            if reason:
+                rejected.append(
+                    {
+                        "product_id": item.product_id,
+                        "display_name": item.display_name,
+                        "reason_code": reason,
+                        "evidence_ids": [item.label.evidence_id],
+                    }
+                )
+                continue
+            accepted.append(item)
+        return CatalogSearchResult(
+            records=tuple(accepted),
+            rejected=tuple(rejected),
+            provider="china_official_sources",
+            status="ok",
+            warnings=("official_sources_require_periodic_human_reverification",),
         )
 
 
@@ -271,9 +316,15 @@ class HybridProductCatalog:
             )
 
 
-@lru_cache(maxsize=3)
 def configured_catalog(mode: str | None = None) -> ProductCatalog:
-    selected = (mode or os.getenv("FOOD_LABEL_PRODUCT_CATALOG", "curated")).strip()
+    selected = (mode or os.getenv("FOOD_LABEL_PRODUCT_CATALOG", "official_cn")).strip()
+    return _catalog_for_mode(selected)
+
+
+@lru_cache(maxsize=4)
+def _catalog_for_mode(selected: str) -> ProductCatalog:
+    if selected == "official_cn":
+        return OfficialChinaCatalog()
     if selected == "openfoodfacts":
         return OpenFoodFactsCatalog()
     if selected == "hybrid":
@@ -281,6 +332,49 @@ def configured_catalog(mode: str | None = None) -> ProductCatalog:
     if selected == "curated":
         return JsonProductCatalog()
     raise ValueError(f"Unsupported product catalog: {selected}")
+
+
+def _official_source_rejection(product: ProductRecord) -> str | None:
+    label = product.label
+    if product.catalog_scope != "official_cn_catalog":
+        return "OFFICIAL_CATALOG_SCOPE_INVALID"
+    if label.source_type not in {
+        "official_product_page",
+        "official_flagship_store",
+    }:
+        return "OFFICIAL_SOURCE_TYPE_REQUIRED"
+    if label.source_authority != "manufacturer":
+        return "OFFICIAL_SOURCE_AUTHORITY_REQUIRED"
+    if (
+        label.source_verified_at is None
+        or label.source_language != "zh-CN"
+        or label.source_access_region != "CN"
+    ):
+        return "OFFICIAL_SOURCE_REVIEW_INCOMPLETE"
+    source_host = _url_host(label.source_url)
+    if label.source_type == "official_product_page":
+        if source_host not in OFFICIAL_PRODUCT_HOSTS:
+            return "OFFICIAL_PRODUCT_HOST_NOT_ALLOWLISTED"
+    elif not _is_official_store_host(source_host):
+        return "OFFICIAL_STORE_HOST_NOT_ALLOWLISTED"
+    if label.official_store_url and (
+        not _is_official_store_host(_url_host(label.official_store_url))
+        or not label.official_store_name
+        or label.official_store_verified_at is None
+    ):
+        return "OFFICIAL_STORE_REVIEW_INCOMPLETE"
+    return None
+
+
+def _url_host(value: str) -> str:
+    parsed = urlparse(value)
+    if parsed.scheme != "https":
+        return ""
+    return (parsed.hostname or "").lower()
+
+
+def _is_official_store_host(host: str) -> bool:
+    return any(host == suffix[1:] or host.endswith(suffix) for suffix in OFFICIAL_STORE_HOST_SUFFIXES)
 
 
 def _map_open_food_facts_product(

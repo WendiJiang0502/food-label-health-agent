@@ -10,8 +10,9 @@ from food_label_agent.web.app import create_app
 
 
 def test_alternative_api_revalidates_every_candidate_and_appends_checkpoint(
-    tmp_path: Path,
+    tmp_path: Path, monkeypatch,
 ) -> None:
+    monkeypatch.setenv("FOOD_LABEL_PRODUCT_CATALOG", "curated")
     asyncio.run(_alternative_api_lifecycle(tmp_path))
 
 

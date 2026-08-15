@@ -63,6 +63,18 @@ def find_alternative_products(
         candidates.append(product.model_dump(mode="json"))
         if len(candidates) >= request.limit:
             break
+    evidence_requirements = [
+        "complete",
+        "current_for_applicable_date",
+        "content_hash_verified",
+    ]
+    if catalog_result.provider == "china_official_sources":
+        evidence_requirements.extend(
+            [
+                "official_source_manually_verified",
+                "mainland_accessible_chinese_source",
+            ]
+        )
     return {
         "status": "candidates_found" if candidates else "unknown",
         "category": request.category,
@@ -77,11 +89,7 @@ def find_alternative_products(
             "source": catalog_result.provider,
             "category_match": "exact",
             "region_match": "exact",
-            "evidence_requirements": [
-                "complete",
-                "current_for_applicable_date",
-                "content_hash_verified",
-            ],
+            "evidence_requirements": evidence_requirements,
             "constraint_evaluation": "independent_revalidation_required",
         },
     }
@@ -135,10 +143,23 @@ def revalidate_alternatives(request: AlternativeRevalidationRequest) -> dict[str
                 "label_confirmed_at": label.confirmed_at.isoformat(),
                 "label_source_url": label.source_url,
                 "label_source_provider": label.source_provider,
+                "label_source_type": label.source_type,
+                "label_source_verified_at": (
+                    label.source_verified_at.isoformat()
+                    if label.source_verified_at
+                    else None
+                ),
                 "label_source_authority": label.source_authority,
                 "label_source_record_version": label.source_record_version,
                 "ingredients_image_url": label.ingredients_image_url,
                 "nutrition_image_url": label.nutrition_image_url,
+                "official_store_url": label.official_store_url,
+                "official_store_name": label.official_store_name,
+                "official_store_verified_at": (
+                    label.official_store_verified_at.isoformat()
+                    if label.official_store_verified_at
+                    else None
+                ),
                 "evidence_ids": [label.evidence_id],
                 "normalized_label": evaluation.normalized_label,
                 "findings": evaluation.findings,

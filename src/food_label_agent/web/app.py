@@ -74,7 +74,7 @@ def create_app(
                 ),
                 "planner": planner_public_status(),
                 "rag": rag2_public_status(),
-                "product_catalog": os.getenv("FOOD_LABEL_PRODUCT_CATALOG", "curated"),
+                "product_catalog": os.getenv("FOOD_LABEL_PRODUCT_CATALOG", "official_cn"),
             }
         )
 
@@ -427,7 +427,7 @@ def run() -> None:
     # The project CLI intentionally defaults to the configured Tencent provider.
     # Credentials remain in the SDK credential chain and are never stored here.
     os.environ.setdefault("FOOD_LABEL_OCR_PROVIDER", "tencent")
-    os.environ.setdefault("FOOD_LABEL_PRODUCT_CATALOG", "hybrid")
+    os.environ.setdefault("FOOD_LABEL_PRODUCT_CATALOG", "official_cn")
     database_path = default_database_path()
     uvicorn.run(
         create_app(

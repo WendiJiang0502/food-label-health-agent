@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 from typing import Any
 
-from food_label_agent.alternatives.catalog import ProductCatalog
+from food_label_agent.alternatives.catalog import JsonProductCatalog, ProductCatalog
 from food_label_agent.alternatives.models import (
     AlternativeRevalidationRequest,
     AlternativeSearchRequest,
@@ -55,6 +55,7 @@ def evaluate_alternative_benchmark(
 
     if not cases:
         raise ValueError("Alternative benchmark requires at least one case")
+    benchmark_catalog = catalog or JsonProductCatalog()
     eligible_count = 0
     violations = 0
     evidence_complete = 0
@@ -74,7 +75,7 @@ def evaluate_alternative_benchmark(
                 applicable_date=case.applicable_date,
                 constraints=constraints,
             ),
-            catalog=catalog,
+            catalog=benchmark_catalog,
         )
         result = revalidate_alternatives(
             AlternativeRevalidationRequest(

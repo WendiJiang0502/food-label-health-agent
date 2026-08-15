@@ -1409,7 +1409,7 @@ function renderAlternativeResults(payload) {
     explanation.textContent = item.explanation;
     const evidence = document.createElement("p");
     evidence.className = "alternative-evidence";
-    evidence.textContent = `标签记录 ${item.label_confirmed_at} · ${sourceAuthorityLabel(item.label_source_authority)} · ${item.evidence_ids.join("、")}`;
+    evidence.textContent = `官方标签复核于 ${item.label_source_verified_at || item.label_confirmed_at} · ${sourceAuthorityLabel(item.label_source_authority)}`;
     article.append(header, useCase, explanation, evidence);
     if (item.ingredients_image_url?.startsWith("https://")) {
       const source = document.createElement("a");
@@ -1426,8 +1426,19 @@ function renderAlternativeResults(payload) {
       record.href = item.label_source_url;
       record.target = "_blank";
       record.rel = "noopener noreferrer";
-      record.textContent = "查看商品源记录";
+      record.textContent = item.label_source_type === "official_flagship_store"
+        ? "查看官方旗舰店商品页"
+        : "查看品牌官方产品页";
       article.append(record);
+    }
+    if (item.official_store_url?.startsWith("https://")) {
+      const store = document.createElement("a");
+      store.className = "alternative-source-link";
+      store.href = item.official_store_url;
+      store.target = "_blank";
+      store.rel = "noopener noreferrer";
+      store.textContent = `查看${item.official_store_name || "官方旗舰店"}`;
+      article.append(store);
     }
     elements.alternativeList.append(article);
   });
@@ -1475,10 +1486,20 @@ function alternativeRejectionLabel(reasonCode) {
     LABEL_EVIDENCE_STALE: "标签记录过旧，需要重新核对",
     LABEL_EVIDENCE_FROM_FUTURE: "标签日期与当前评估日期不一致",
     LABEL_EVIDENCE_HASH_MISMATCH: "标签证据校验失败，未进入安全复核",
+    OFFICIAL_CATALOG_SCOPE_INVALID: "商品不是中国大陆官方来源目录记录",
+    OFFICIAL_SOURCE_TYPE_REQUIRED: "缺少品牌官网或官方旗舰店来源",
+    OFFICIAL_SOURCE_AUTHORITY_REQUIRED: "来源尚未确认为品牌或生产商官方信息",
+    OFFICIAL_SOURCE_REVIEW_INCOMPLETE: "官方来源尚未完成中文与中国大陆可访问性复核",
+    OFFICIAL_PRODUCT_HOST_NOT_ALLOWLISTED: "品牌官网域名尚未进入审核清单",
+    OFFICIAL_STORE_HOST_NOT_ALLOWLISTED: "旗舰店平台尚未进入审核清单",
+    OFFICIAL_STORE_REVIEW_INCOMPLETE: "官方旗舰店身份或复核日期不完整",
   }[reasonCode] || "证据不足，未进入安全复核";
 }
 
 function alternativeSourceCopy(scope, status) {
+  if (scope === "china_official_sources") {
+    return "本次只使用已人工复核的品牌官方产品页和中国大陆官方旗舰店页面；商品信息仍需与实际到手包装再次核对。";
+  }
   if (scope === "open_food_facts") {
     return "本次来自 Open Food Facts 开放商品数据库（ODbL）。这是社区维护数据，页面仅展示具有配料文字、图片和版本记录的候选，仍应与实物包装核对。";
   }

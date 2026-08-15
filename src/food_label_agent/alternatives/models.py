@@ -28,9 +28,21 @@ class ProductLabelEvidence(BaseModel):
     content_hash: str = Field(pattern=r"^sha256:[0-9a-f]{64}$")
     evidence_quality: Literal["complete", "partial"] = "complete"
     source_provider: str = Field(default="internal", min_length=2, max_length=80)
+    source_type: Literal[
+        "official_product_page",
+        "official_flagship_store",
+        "internal_review",
+        "community",
+    ] = "internal_review"
+    source_verified_at: date | None = None
+    source_language: Literal["zh-CN", "other"] = "zh-CN"
+    source_access_region: Literal["CN", "unknown"] = "unknown"
     source_record_version: str | None = Field(default=None, max_length=100)
     ingredients_image_url: str | None = Field(default=None, max_length=1_000)
     nutrition_image_url: str | None = Field(default=None, max_length=1_000)
+    official_store_url: str | None = Field(default=None, max_length=1_000)
+    official_store_name: str | None = Field(default=None, max_length=160)
+    official_store_verified_at: date | None = None
     source_authority: Literal["manufacturer", "internal_review", "community"] = (
         "internal_review"
     )
@@ -45,7 +57,11 @@ class ProductRecord(BaseModel):
     category: str = Field(min_length=2, max_length=80)
     region: str = Field(default="CN", min_length=2, max_length=12)
     use_case: str = Field(min_length=2, max_length=160)
-    catalog_scope: Literal["curated_verification_catalog", "live_open_food_facts"]
+    catalog_scope: Literal[
+        "official_cn_catalog",
+        "curated_verification_catalog",
+        "live_open_food_facts",
+    ]
     label: ProductLabelEvidence
 
 

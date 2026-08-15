@@ -25,7 +25,8 @@ def test_platform_index_and_health() -> None:
     assert "包装声称核对" in page.text
     assert "在此设备记住这些约束" in page.text
     assert "清除全部并撤销授权" in page.text
-    assert "查找同类选择" in page.text
+    assert "查找并逐项复核" in page.text
+    assert "品牌官网和中国大陆官方旗舰店" in page.text
     assert "数据来源将在查找后显示" in page.text
     assert "SAFETY · BUILT IN" not in page.text
     assert "MILESTONE" not in page.text
@@ -45,7 +46,7 @@ def test_platform_index_and_health() -> None:
         "configured": True,
         "remote_processing": False,
     }
-    assert health.json()["product_catalog"] == "curated"
+    assert health.json()["product_catalog"] == "official_cn"
     assert favicon.status_code == 200
 
 

@@ -1,0 +1,39 @@
+[
+  {
+    "product_id": "cn-official:yili:pure-milk",
+    "display_name": "伊利纯牛奶",
+    "brand": "伊利",
+    "category": "dairy",
+    "region": "CN",
+    "use_case": "直接饮用或搭配早餐的常温纯牛奶",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.yili.pure-milk.label.2026-08-15",
+      "ingredients_text": "生牛乳",
+      "allergen_statement": "本产品含有乳及乳制品",
+      "nutrition_table_text": "项目 每100毫升 蛋白质 3.2克 钙 100毫克",
+      "nutrition_basis_text": "每100毫升",
+      "nutrition_rows": [
+        ["项目", "每100毫升"],
+        ["蛋白质", "3.2克"],
+        ["钙", "100毫克"]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-08-15",
+      "source_url": "https://www.yili.com/product/1828",
+      "content_hash": "sha256:6e80f18f32fa28fad1eebbee6f8b9db6e672011e0b49f9fbffc6cb808a8d0aed",
+      "evidence_quality": "complete",
+      "source_provider": "yili_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "manual-review-2026-08-15",
+      "official_store_url": "https://yilishop.jd.com/view_search-689781-7935078-99-1-20-1.html",
+      "official_store_name": "伊利牛奶官方旗舰店",
+      "official_store_verified_at": "2026-08-15",
+      "source_authority": "manufacturer"
+    }
+  }
+]

@@ -237,13 +237,15 @@ async def _test_alternative_tools_are_registered_and_enforce_revalidation() -> N
         "compare_food_products",
         "revalidate_alternatives",
     }.issubset(tools)
-    constraints = [{"kind": "allergy", "canonical_value": "milk", "severity": "severe"}]
+    constraints = [
+        {"kind": "allergy", "canonical_value": "peanut", "severity": "severe"}
+    ]
     found = _json_result(
         await server.call_tool(
             "find_alternative_products",
             {
-                "category": "biscuit",
-                "applicable_date": "2026-08-09",
+                "category": "dairy",
+                "applicable_date": "2026-08-15",
                 "constraints": constraints,
             },
         )
@@ -253,7 +255,7 @@ async def _test_alternative_tools_are_registered_and_enforce_revalidation() -> N
             "revalidate_alternatives",
             {
                 "request_id": "mcp-alternatives",
-                "applicable_date": "2026-08-09",
+                "applicable_date": "2026-08-15",
                 "constraints": constraints,
                 "candidates": found["candidates"],
             },
