@@ -16,6 +16,7 @@ from typing import Any, Protocol
 from urllib.parse import urlencode, urlparse
 from urllib.request import Request, urlopen
 
+from .evidence_audit import audit_product_label, summarize_label_coverage
 from .models import ProductRecord
 
 DATA_PATH = Path(__file__).with_name("data") / "curated_products.json"
@@ -133,6 +134,7 @@ class OfficialChinaCatalog:
                         "display_name": item.display_name,
                         "reason_code": reason,
                         "evidence_ids": [item.label.evidence_id],
+                        "label_coverage": audit_product_label(item),
                     }
                 )
                 continue
@@ -144,6 +146,39 @@ class OfficialChinaCatalog:
             status="ok",
             warnings=("official_sources_require_periodic_human_reverification",),
         )
+
+    def coverage(self, *, category: str | None = None, region: str = "CN") -> dict[str, Any]:
+        """Return a read-only review queue for every discovered official record."""
+
+        payload = json.loads(self.path.read_text(encoding="utf-8"))
+        records = [ProductRecord.model_validate(item) for item in payload]
+        selected = [
+            product
+            for product in records
+            if product.region == region and (category is None or product.category == category)
+        ]
+        items = []
+        for product in selected:
+            audit = audit_product_label(product)
+            items.append(
+                {
+                    "product_id": product.product_id,
+                    "display_name": product.display_name,
+                    "brand": product.brand,
+                    "category": product.category,
+                    "source_rejection": _official_source_rejection(product),
+                    "label_coverage": audit,
+                }
+            )
+        items.sort(
+            key=lambda item: (
+                {"high": 0, "medium": 1, "complete": 2}.get(
+                    item["label_coverage"]["review_priority"], 3
+                ),
+                item["display_name"],
+            )
+        )
+        return {**summarize_label_coverage(selected), "items": items}
 
 
 class OpenFoodFactsCatalog:

@@ -46,6 +46,16 @@ def test_official_catalog_covers_priority_mainland_categories() -> None:
     assert nuts.records[0].label.official_store_name == "沃隆官方旗舰店"
 
 
+def test_official_catalog_exposes_complete_review_queue() -> None:
+    coverage = OfficialChinaCatalog().coverage()
+
+    assert coverage["total"] == 5
+    assert coverage["evidence_gate_count"] == 1
+    assert coverage["needs_review_count"] == 5
+    assert len(coverage["items"]) == 5
+    assert coverage["items"][0]["label_coverage"]["review_priority"] == "high"
+
+
 def test_partial_official_label_is_visible_but_not_safety_recommended() -> None:
     search = find_alternative_products(
         AlternativeSearchRequest(

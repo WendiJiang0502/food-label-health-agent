@@ -60,6 +60,8 @@ async def _alternative_api_lifecycle(tmp_path: Path) -> None:
         assert payload["selection_basis"]["constraint_evaluation"] == (
             "independent_revalidation_required"
         )
+        assert payload["catalog_coverage"]["total"] == 3
+        assert payload["catalog_coverage"]["needs_review_count"] >= 1
         assert payload["candidate_count"] == payload["revalidated_count"] == 2
         assert payload["revalidation_rate"] == 1.0
         assert [item["product_id"] for item in payload["eligible"]] == [

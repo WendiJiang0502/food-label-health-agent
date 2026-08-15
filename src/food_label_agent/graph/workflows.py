@@ -160,6 +160,7 @@ def alternative_payload(state: AgentState, category: str) -> dict:
         "catalog_scope": state["alternative_request"].get("catalog_scope"),
         "catalog_status": state["alternative_request"].get("catalog_status"),
         "catalog_warnings": state["alternative_request"].get("catalog_warnings", []),
+        "catalog_coverage": state["alternative_request"].get("catalog_coverage", {}),
         "selection_basis": state["alternative_request"].get("selection_basis"),
         "eligible": [
             item

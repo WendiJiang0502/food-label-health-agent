@@ -17,3 +17,13 @@ def test_official_alternative_renders_confirmed_packaging_label() -> None:
     assert '"过敏原提示"' in script
     assert 'table.className = "alternative-nutrition-table"' in script
     assert "请以实际到手包装为准" in script
+
+
+def test_incomplete_official_products_show_verified_and_missing_fields() -> None:
+    script = (STATIC_DIR / "app.js").read_text(encoding="utf-8")
+
+    assert "件已补齐全部包装字段" in script
+    assert "件达到当前复核门槛" in script
+    assert 'verified.className = "alternative-review-verified"' in script
+    assert 'missing.className = "alternative-review-missing"' in script
+    assert "查看品牌官方产品页" in script

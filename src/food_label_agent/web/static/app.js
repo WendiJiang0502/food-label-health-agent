@@ -1592,6 +1592,10 @@ function renderAlternativeResults(payload) {
     payload.catalog_scope,
     payload.catalog_status,
   );
+  const coverage = payload.catalog_coverage || {};
+  if (coverage.total) {
+    elements.alternativeSource.textContent += ` 本类别已检索 ${coverage.total} 件官方商品：${coverage.full_label_count} 件已补齐全部包装字段，${coverage.evidence_gate_count} 件达到当前复核门槛，${coverage.needs_review_count} 件仍有字段待补。`;
+  }
   if (!payload.eligible.length) {
     const catalogMatches = payload.candidate_count + payload.evidence_rejected.length;
     elements.alternativeStatus.textContent =
@@ -1674,15 +1678,48 @@ function renderAlternativeResults(payload) {
     ...payload.evidence_rejected.map((item) => ({
       name: item.display_name,
       reason: alternativeRejectionLabel(item.reason_code),
+      coverage: item.label_coverage,
     })),
   ];
   elements.alternativeExclusions.hidden = excluded.length === 0;
   excluded.forEach((item) => {
     const row = document.createElement("li");
-    row.textContent = `${item.name}：${item.reason}`;
+    const name = document.createElement("strong");
+    name.textContent = item.name;
+    const reason = document.createElement("p");
+    reason.textContent = item.reason;
+    row.append(name, reason);
+    if (item.coverage) {
+      const verified = document.createElement("p");
+      verified.className = "alternative-review-verified";
+      verified.textContent = item.coverage.verified_fields.length
+        ? `已核对：${item.coverage.verified_fields.join("；")}`
+        : "尚无可用于判断的完整包装字段。";
+      const missing = document.createElement("p");
+      missing.className = "alternative-review-missing";
+      missing.textContent = `待补齐：${item.coverage.missing_fields.join("；") || "无"}`;
+      row.append(verified, missing);
+      appendAlternativeReviewLink(row, item.coverage.source_url, "查看品牌官方产品页");
+      appendAlternativeReviewLink(
+        row,
+        item.coverage.official_store_url,
+        `查看${item.coverage.official_store_name || "官方旗舰店"}`,
+      );
+    }
     elements.alternativeExclusionList.append(row);
   });
   announce(elements.alternativeStatus.textContent);
+}
+
+function appendAlternativeReviewLink(container, url, label) {
+  if (!url?.startsWith("https://")) return;
+  const link = document.createElement("a");
+  link.className = "alternative-review-link";
+  link.href = url;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  link.textContent = label;
+  container.append(link);
 }
 
 function renderAlternativePackagingLabel(item) {

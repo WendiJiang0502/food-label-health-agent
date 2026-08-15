@@ -44,14 +44,15 @@ def test_search_rejects_incomplete_label_before_recommendation() -> None:
         ],
         "constraint_evaluation": "independent_revalidation_required",
     }
-    assert result["rejected"] == [
-        {
-            "product_id": "fixture-biscuit-partial-label",
-            "display_name": "示例·配方待核对薄脆",
-            "reason_code": "LABEL_EVIDENCE_INCOMPLETE",
-            "evidence_ids": ["product.fixture-biscuit-partial-label.label.2026-08"],
-        }
+    assert len(result["rejected"]) == 1
+    rejected = result["rejected"][0]
+    assert rejected["product_id"] == "fixture-biscuit-partial-label"
+    assert rejected["display_name"] == "示例·配方待核对薄脆"
+    assert rejected["reason_code"] == "LABEL_EVIDENCE_INCOMPLETE"
+    assert rejected["evidence_ids"] == [
+        "product.fixture-biscuit-partial-label.label.2026-08"
     ]
+    assert rejected["label_coverage"]["status"] == "needs_review"
 
 
 def test_search_excludes_current_product_before_revalidation() -> None:

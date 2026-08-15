@@ -12,6 +12,7 @@ from food_label_agent.ingredients.api_models import SafetyEvaluationRequest
 from food_label_agent.ingredients.service import evaluate_user_constraints_result
 
 from .catalog import ProductCatalog, configured_catalog
+from .evidence_audit import audit_product_label, summarize_label_coverage
 from .models import (
     AlternativeRevalidationRequest,
     AlternativeSearchRequest,
@@ -31,6 +32,7 @@ def find_alternative_products(
 
     store = catalog or configured_catalog()
     catalog_result = store.search(category=request.category, region=request.region)
+    category_records = list(catalog_result.records)
     excluded_ids = set(request.exclude_product_ids)
     candidates: list[dict[str, Any]] = []
     rejected: list[dict[str, Any]] = list(catalog_result.rejected)
@@ -57,6 +59,7 @@ def find_alternative_products(
                     "display_name": product.display_name,
                     "reason_code": rejection,
                     "evidence_ids": [product.label.evidence_id],
+                    "label_coverage": audit_product_label(product),
                 }
             )
             continue
@@ -85,6 +88,7 @@ def find_alternative_products(
         "catalog_scope": catalog_result.provider,
         "catalog_status": catalog_result.status,
         "catalog_warnings": list(catalog_result.warnings),
+        "catalog_coverage": summarize_label_coverage(category_records),
         "selection_basis": {
             "source": catalog_result.provider,
             "category_match": "exact",
