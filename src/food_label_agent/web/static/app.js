@@ -1,4 +1,23 @@
 const elements = {
+  profileOnboarding: document.querySelector("#profile-onboarding"),
+  profileForm: document.querySelector("#profile-form"),
+  profileName: document.querySelector("#profile-name"),
+  noKnownAllergens: document.querySelector("#no-known-allergens"),
+  customAllergens: document.querySelector("#custom-allergens"),
+  customHealthConcerns: document.querySelector("#custom-health-concerns"),
+  rememberProfile: document.querySelector("#remember-profile"),
+  profileError: document.querySelector("#profile-error"),
+  advicePreview: document.querySelector("#advice-preview"),
+  adviceProfileName: document.querySelector("#advice-profile-name"),
+  adviceAllergens: document.querySelector("#advice-allergens"),
+  adviceFocusList: document.querySelector("#advice-focus-list"),
+  editProfileFromAdvice: document.querySelector("#edit-profile-from-advice"),
+  continueToScan: document.querySelector("#continue-to-scan"),
+  editProfileFromScan: document.querySelector("#edit-profile-from-scan"),
+  scanProfileTitle: document.querySelector("#scan-profile-title"),
+  scanAllergenSummary: document.querySelector("#scan-allergen-summary"),
+  scanHealthSummary: document.querySelector("#scan-health-summary"),
+  healthFocusSummaryText: document.querySelector("#health-focus-summary-text"),
   fileInput: document.querySelector("#label-image"),
   dropZone: document.querySelector("#drop-zone"),
   imageStage: document.querySelector("#image-stage"),
@@ -54,6 +73,7 @@ const elements = {
   claimResultsCount: document.querySelector("#claim-results-count"),
   claimResultList: document.querySelector("#claim-result-list"),
   evidenceDetails: document.querySelector("#evidence-details"),
+  evidencePanel: document.querySelector("#evidence-panel"),
   evidenceStatus: document.querySelector("#evidence-status"),
   evidenceIntro: document.querySelector("#evidence-intro"),
   citationList: document.querySelector("#citation-list"),
@@ -81,6 +101,7 @@ const elements = {
 };
 
 const MEMORY_CREDENTIALS_KEY = "food-label-agent.memory-credentials.v1";
+const PROFILE_STORAGE_KEY = "food-label-agent.health-profile.v1";
 
 elements.heroUploadButton.addEventListener("click", () => elements.fileInput.click());
 loadHealthStatus();
@@ -95,9 +116,9 @@ const state = {
   memoryCredentials: readMemoryCredentials(),
   rememberedItems: [],
   currentConstraints: [],
+  profile: readLocalProfile(),
+  profileMemoryItem: null,
 };
-
-loadRememberedConstraints();
 
 const constraintLabels = {
   milk: "乳过敏",
@@ -106,6 +127,8 @@ const constraintLabels = {
   soy: "大豆过敏",
   gluten: "麸质相关过敏",
   tree_nut: "坚果过敏",
+  fish: "鱼类过敏",
+  crustacean: "甲壳类过敏",
   energy: "能量上限",
   protein: "蛋白质上限",
   fat: "脂肪上限",
@@ -118,11 +141,294 @@ const constraintLabels = {
   calcium: "钙上限",
 };
 
+const allergenNames = {
+  milk: "乳",
+  egg: "蛋",
+  peanut: "花生",
+  soy: "大豆",
+  gluten: "含麸质谷物",
+  tree_nut: "坚果",
+  fish: "鱼类",
+  crustacean: "甲壳类",
+};
+
+const healthConcernNames = {
+  blood_sugar: "血糖管理",
+  blood_lipids: "血脂管理",
+  blood_pressure: "血压管理",
+  weight: "体重管理",
+  uric_acid: "尿酸管理",
+  gut: "肠胃敏感",
+  sugar_control: "控制糖摄入",
+  child: "儿童饮食",
+};
+
+const healthFocusAdvice = {
+  blood_sugar: ["糖、碳水与膳食纤维", "结合每份大小阅读糖、碳水化合物和膳食纤维，不只看包装正面的“无糖”字样。"],
+  blood_lipids: ["脂肪构成", "重点查看饱和脂肪、反式脂肪和每份总脂肪；标签缺项时会明确提示。"],
+  blood_pressure: ["钠与实际食用份量", "优先查看每份钠含量，并核对包装标示的一份与你实际食用量是否一致。"],
+  weight: ["能量与份量", "结合每份能量和包装份量理解实际摄入，不根据单一营养数字判断食品好坏。"],
+  uric_acid: ["配料与食品类别", "仅凭常规标签通常不能完整判断相关风险；系统会整理可见事实，并标出无法确认的部分。"],
+  gut: ["配料构成与不耐受线索", "优先呈现复杂配料和你主动填写的回避项，不把肠胃反应推断为食物过敏。"],
+  sugar_control: ["糖与碳水化合物", "同时查看糖、碳水化合物和份量，避免只根据“低糖”或“无糖”宣传作决定。"],
+  child: ["过敏原、钠、糖与份量", "先检查明确过敏原，再用儿童实际食用份量理解营养成分；不生成儿童医疗建议。"],
+};
+
 const nutrientNames = {
   energy: "能量", protein: "蛋白质", fat: "脂肪", saturated_fat: "饱和脂肪酸",
   trans_fat: "反式脂肪酸", carbohydrate: "碳水化合物", sugars: "糖",
   dietary_fiber: "膳食纤维", sodium: "钠", calcium: "钙",
 };
+
+initializeProfileFlow();
+loadRememberedConstraints();
+
+elements.profileForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const profile = collectProfileFromForm();
+  const hasAllergenAnswer = profile.noKnownAllergens
+    || profile.allergens.length > 0
+    || profile.customAllergens.length > 0;
+  if (!hasAllergenAnswer) {
+    showProfileError("请选择已知过敏原、填写其他项目，或选择“没有已知过敏原”。");
+    elements.profileForm.querySelector('input[name="profile-allergen"]')?.focus();
+    return;
+  }
+  if (!profile.healthConcerns.length && !profile.customHealthConcerns.length) {
+    showProfileError("请至少选择或填写一项健康关注。我们会据此调整标签解释重点。");
+    elements.profileForm.querySelector('input[name="health-concern"]')?.focus();
+    return;
+  }
+  hideProfileError();
+  state.profile = profile;
+  renderAdvicePreview(profile);
+  showProfileScreen("advice");
+  elements.advicePreview.focus?.();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  announce("个人分析重点已生成，请确认后开始识别");
+});
+
+elements.noKnownAllergens.addEventListener("change", () => {
+  if (!elements.noKnownAllergens.checked) return;
+  elements.profileForm.querySelectorAll('input[name="profile-allergen"]').forEach((input) => {
+    input.checked = false;
+  });
+  elements.customAllergens.value = "";
+  hideProfileError();
+});
+
+elements.profileForm.querySelectorAll('input[name="profile-allergen"]').forEach((input) => {
+  input.addEventListener("change", () => {
+    if (input.checked) elements.noKnownAllergens.checked = false;
+    hideProfileError();
+  });
+});
+
+elements.customAllergens.addEventListener("input", () => {
+  if (elements.customAllergens.value.trim()) elements.noKnownAllergens.checked = false;
+  hideProfileError();
+});
+
+elements.profileForm.querySelectorAll('input[name="health-concern"]').forEach((input) => {
+  input.addEventListener("change", hideProfileError);
+});
+elements.customHealthConcerns.addEventListener("input", hideProfileError);
+
+elements.editProfileFromAdvice.addEventListener("click", () => editProfile());
+elements.editProfileFromScan.addEventListener("click", () => editProfile());
+elements.continueToScan.addEventListener("click", async () => {
+  if (!state.profile) return;
+  elements.continueToScan.disabled = true;
+  elements.continueToScan.firstChild.textContent = "正在准备… ";
+  try {
+    if (elements.rememberProfile.checked) {
+      await persistProfile(state.profile);
+    } else {
+      await deleteStoredProfile();
+      localStorage.removeItem(PROFILE_STORAGE_KEY);
+    }
+    renderScanProfile(state.profile);
+    showProfileScreen("scan");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    elements.heroUploadButton.focus();
+    announce("个人设置已确认，可以拍照或上传食品标签");
+  } catch (error) {
+    showProfileScreen("profile");
+    showProfileError(`个人档案没有保存：${error.message}。你仍可取消保存后继续。`);
+  } finally {
+    elements.continueToScan.disabled = false;
+    elements.continueToScan.firstChild.textContent = "按这些设置开始识别 ";
+  }
+});
+
+function initializeProfileFlow() {
+  if (state.profile) {
+    populateProfileForm(state.profile);
+    elements.rememberProfile.checked = true;
+    renderScanProfile(state.profile);
+    showProfileScreen("scan");
+    return;
+  }
+  showProfileScreen("profile");
+}
+
+function showProfileScreen(screen) {
+  elements.profileOnboarding.hidden = screen !== "profile";
+  elements.advicePreview.hidden = screen !== "advice";
+  elements.heroLayout.hidden = screen !== "scan";
+}
+
+function editProfile() {
+  if (state.profile) populateProfileForm(state.profile);
+  showProfileScreen("profile");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  elements.profileName.focus();
+  announce("可以修改个人档案");
+}
+
+function collectProfileFromForm() {
+  return {
+    name: elements.profileName.value.trim() || "我的档案",
+    allergens: [...elements.profileForm.querySelectorAll('input[name="profile-allergen"]:checked')]
+      .map((input) => input.value),
+    noKnownAllergens: elements.noKnownAllergens.checked,
+    customAllergens: splitEntries(elements.customAllergens.value),
+    healthConcerns: [...elements.profileForm.querySelectorAll('input[name="health-concern"]:checked')]
+      .map((input) => input.value),
+    customHealthConcerns: splitEntries(elements.customHealthConcerns.value),
+  };
+}
+
+function populateProfileForm(profile) {
+  elements.profileName.value = profile.name || "我的档案";
+  elements.profileForm.querySelectorAll('input[name="profile-allergen"]').forEach((input) => {
+    input.checked = profile.allergens?.includes(input.value) || false;
+  });
+  elements.noKnownAllergens.checked = Boolean(profile.noKnownAllergens);
+  elements.customAllergens.value = (profile.customAllergens || []).join("、");
+  elements.profileForm.querySelectorAll('input[name="health-concern"]').forEach((input) => {
+    input.checked = profile.healthConcerns?.includes(input.value) || false;
+  });
+  elements.customHealthConcerns.value = (profile.customHealthConcerns || []).join("、");
+}
+
+function splitEntries(value) {
+  return [...new Set(value.split(/[，,、；;\n]+/).map((item) => item.trim()).filter(Boolean))].slice(0, 12);
+}
+
+function renderAdvicePreview(profile) {
+  elements.adviceProfileName.textContent = profile.name;
+  elements.adviceAllergens.replaceChildren();
+  const known = profile.allergens.map((value) => ({ label: allergenNames[value] || value, support: "supported" }));
+  const custom = profile.customAllergens.map((value) => ({ label: `${value} · 需人工确认`, support: "review" }));
+  const entries = profile.noKnownAllergens ? [{ label: "没有已知过敏原", support: "supported" }] : [...known, ...custom];
+  entries.forEach((entry) => {
+    const tag = document.createElement("span");
+    tag.className = "profile-tag";
+    tag.dataset.support = entry.support;
+    tag.textContent = entry.label;
+    elements.adviceAllergens.append(tag);
+  });
+
+  elements.adviceFocusList.replaceChildren();
+  const focusItems = profile.healthConcerns.map((value) => healthFocusAdvice[value]).filter(Boolean);
+  profile.customHealthConcerns.forEach((value) => {
+    focusItems.push([value, "已记录为自定义关注；系统会整理相关标签事实，但不会据此生成诊断或医疗阈值。"]) ;
+  });
+  focusItems.slice(0, 5).forEach(([title, description], index) => {
+    const item = document.createElement("article");
+    item.className = "focus-item";
+    const number = document.createElement("span");
+    number.textContent = String(index + 1).padStart(2, "0");
+    const content = document.createElement("div");
+    const heading = document.createElement("strong");
+    heading.textContent = title;
+    const copy = document.createElement("p");
+    copy.textContent = description;
+    content.append(heading, copy);
+    item.append(number, content);
+    elements.adviceFocusList.append(item);
+  });
+}
+
+function renderScanProfile(profile) {
+  const allergenSummary = profile.noKnownAllergens
+    ? "没有已知过敏原"
+    : [
+      ...profile.allergens.map((value) => allergenNames[value] || value),
+      ...profile.customAllergens.map((value) => `${value}（需确认）`),
+    ].join("、");
+  const healthSummary = [
+    ...profile.healthConcerns.map((value) => healthConcernNames[value] || value),
+    ...profile.customHealthConcerns,
+  ].join("、");
+  elements.scanProfileTitle.textContent = profile.name;
+  elements.scanAllergenSummary.textContent = allergenSummary || "未设置";
+  elements.scanHealthSummary.textContent = healthSummary || "未设置";
+  elements.healthFocusSummaryText.textContent = healthSummary || "未设置";
+}
+
+function readLocalProfile() {
+  try {
+    const value = JSON.parse(localStorage.getItem(PROFILE_STORAGE_KEY) || "null");
+    if (isValidProfile(value)) return value;
+  } catch {
+    localStorage.removeItem(PROFILE_STORAGE_KEY);
+  }
+  return null;
+}
+
+function isValidProfile(value) {
+  return Boolean(
+    value
+    && typeof value.name === "string"
+    && Array.isArray(value.allergens)
+    && Array.isArray(value.customAllergens)
+    && Array.isArray(value.healthConcerns)
+    && Array.isArray(value.customHealthConcerns)
+  );
+}
+
+function showProfileError(message) {
+  elements.profileError.textContent = message;
+  elements.profileError.hidden = false;
+}
+
+function hideProfileError() {
+  elements.profileError.hidden = true;
+  elements.profileError.textContent = "";
+}
+
+async function persistProfile(profile) {
+  await ensureMemoryConsent();
+  const { profileId } = state.memoryCredentials;
+  const payload = {
+    kind: "response_preference",
+    value: { preference: "health_profile", profile },
+  };
+  const endpoint = state.profileMemoryItem
+    ? `/api/v1/memory/items/${state.profileMemoryItem.memory_id}?profile_id=${encodeURIComponent(profileId)}`
+    : `/api/v1/memory/items?profile_id=${encodeURIComponent(profileId)}`;
+  const response = await fetch(
+    endpoint,
+    memoryRequestOptions(state.profileMemoryItem ? "PUT" : "POST", payload),
+  );
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.message || "无法保存个人档案");
+  state.profileMemoryItem = result.item;
+  localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(profile));
+}
+
+async function deleteStoredProfile() {
+  if (!state.profileMemoryItem || !state.memoryCredentials) return;
+  const { profileId } = state.memoryCredentials;
+  const response = await fetch(
+    `/api/v1/memory/items/${state.profileMemoryItem.memory_id}?profile_id=${encodeURIComponent(profileId)}`,
+    memoryRequestOptions("DELETE"),
+  );
+  if (!response.ok) throw new Error("无法清除已保存的个人档案");
+  state.profileMemoryItem = null;
+}
 
 elements.nutritionKey.addEventListener("change", updateNutritionLimitControl);
 elements.editLabel.addEventListener("click", returnToLabelEditing);
@@ -217,6 +523,7 @@ elements.form.addEventListener("submit", async (event) => {
     elements.reviewCount.textContent = "个人约束";
     elements.proofState.textContent = "标签已确认";
     applyRememberedConstraints();
+    applyProfileConstraints();
     elements.constraintStep.querySelector("input")?.focus();
     announce("识别文字已确认，请选择需要回避的过敏原");
   } catch (error) {
@@ -233,10 +540,9 @@ elements.constraintForm.addEventListener("submit", async (event) => {
     .map((input) => input.value);
   const nutritionSelected = Boolean(elements.nutritionKey.value);
   const nutritionThreshold = elements.nutritionThreshold.valueAsNumber;
-  if (!selected.length && !nutritionSelected) {
-    elements.constraintError.hidden = false;
-    elements.constraintForm.querySelector("input")?.focus();
-    announce("请至少选择一项需要回避的过敏原");
+  const hasCustomAvoidance = Boolean(state.profile?.customAllergens?.length);
+  if (!selected.length && !nutritionSelected && !hasCustomAvoidance) {
+    renderHealthFocusOnlyResult();
     return;
   }
   if (nutritionSelected && (!Number.isFinite(nutritionThreshold) || nutritionThreshold < 0)) {
@@ -571,7 +877,7 @@ async function ensureMemoryConsent() {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       profile_id: profileId,
-      purpose: "跨会话保存用户明确选择的食品约束",
+      purpose: "跨会话保存用户明确填写的个人饮食关注与食品约束",
       explicit_consent: true,
     }),
   });
@@ -597,6 +903,18 @@ async function loadRememberedConstraints() {
       throw new Error(payload.message || "无法读取已保存约束。");
     }
     state.rememberedItems = payload.items.filter((item) => item.kind === "constraint");
+    state.profileMemoryItem = payload.items.find(
+      (item) => item.kind === "response_preference" && item.value?.preference === "health_profile",
+    ) || null;
+    const rememberedProfile = state.profileMemoryItem?.value?.profile;
+    if (isValidProfile(rememberedProfile)) {
+      state.profile = rememberedProfile;
+      localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(rememberedProfile));
+      populateProfileForm(rememberedProfile);
+      elements.rememberProfile.checked = true;
+      renderScanProfile(rememberedProfile);
+      if (!state.analysis) showProfileScreen("scan");
+    }
     renderRememberedConstraints();
     applyRememberedConstraints();
     elements.memoryStatus.textContent = state.rememberedItems.length
@@ -614,9 +932,14 @@ function currentConstraintValues() {
       canonical_value: input.value,
       severity: "severe",
     }));
-  if (!elements.nutritionKey.value) return allergyValues;
+  const customAvoidances = (state.profile?.customAllergens || []).map((value) => ({
+    kind: "user_avoidance",
+    canonical_value: value,
+    severity: "unspecified",
+  }));
+  if (!elements.nutritionKey.value) return [...allergyValues, ...customAvoidances];
   const option = elements.nutritionKey.selectedOptions[0];
-  return [...allergyValues, {
+  return [...allergyValues, ...customAvoidances, {
     kind: "nutrition_limit",
     canonical_value: elements.nutritionKey.value,
     operator: "max",
@@ -624,6 +947,14 @@ function currentConstraintValues() {
     unit: option.dataset.unit,
     basis: option.dataset.basis,
   }];
+}
+
+function applyProfileConstraints() {
+  if (!state.profile) return;
+  elements.constraintForm.querySelectorAll('input[name="constraint"]').forEach((input) => {
+    input.checked = state.profile.allergens.includes(input.value);
+  });
+  renderScanProfile(state.profile);
 }
 
 async function syncRememberedConstraints() {
@@ -742,9 +1073,14 @@ async function revokeRememberedConstraints() {
 function clearMemoryCredentials() {
   state.memoryCredentials = null;
   state.rememberedItems = [];
+  state.profileMemoryItem = null;
+  state.profile = null;
   localStorage.removeItem(MEMORY_CREDENTIALS_KEY);
+  localStorage.removeItem(PROFILE_STORAGE_KEY);
   elements.rememberConstraints.checked = false;
+  elements.rememberProfile.checked = false;
   renderRememberedConstraints();
+  if (!state.analysis) showProfileScreen("profile");
 }
 
 function renderSafetyResult(payload) {
@@ -753,10 +1089,10 @@ function renderSafetyResult(payload) {
     (left, right) => riskOrder[right.risk_level] - riskOrder[left.risk_level],
   )[0];
   const titles = {
-    avoid: "不建议食用",
-    caution: "需要谨慎确认",
-    unknown: "当前信息不足",
-    compatible: "未发现约束冲突",
+    avoid: "不建议选择",
+    caution: "建议谨慎确认",
+    unknown: "暂时无法判断",
+    compatible: "与当前设置匹配",
   };
   const symbols = { avoid: "!", caution: "?", unknown: "…", compatible: "✓" };
 
@@ -765,6 +1101,7 @@ function renderSafetyResult(payload) {
   hideRailError();
   elements.reviewTitle.textContent = "个人约束检查结果";
   elements.safetyResult.dataset.risk = payload.overall_risk_level;
+  elements.evidencePanel.hidden = false;
   elements.riskSymbol.textContent = symbols[payload.overall_risk_level];
   elements.riskKicker.textContent = `规则评估 · ${payload.findings.length} 项约束`;
   elements.safetyTitle.textContent = titles[payload.overall_risk_level];
@@ -809,6 +1146,33 @@ function renderSafetyResult(payload) {
   renderRegulatoryEvidence(payload.evidence, primary);
   elements.safetyResult.focus();
   announce(`${titles[payload.overall_risk_level]}，${primary.matched_text || primary.explanation}`);
+}
+
+function renderHealthFocusOnlyResult() {
+  const healthSummary = [
+    ...(state.profile?.healthConcerns || []).map((value) => healthConcernNames[value] || value),
+    ...(state.profile?.customHealthConcerns || []),
+  ].join("、");
+  elements.constraintStep.hidden = true;
+  elements.safetyResult.hidden = false;
+  elements.safetyResult.dataset.risk = "unknown";
+  elements.riskSymbol.textContent = "i";
+  elements.riskKicker.textContent = "个性化标签重点";
+  elements.safetyTitle.textContent = "标签信息已整理";
+  elements.riskSummary.textContent = "你没有设置已知过敏原。本次先按健康关注整理标签重点；当前版本不会把健康问题自动换算成医疗阈值或具体食用份量。";
+  elements.matchedText.textContent = "未设置硬性回避项";
+  elements.matchedConstraint.textContent = healthSummary || "未设置";
+  elements.matchedLocation.textContent = "已确认配料表与营养成分表";
+  elements.additionalFindings.hidden = true;
+  elements.claimResults.hidden = true;
+  elements.additiveResults.hidden = true;
+  elements.evidencePanel.hidden = true;
+  elements.alternativeDiscovery.hidden = true;
+  elements.reviewTitle.textContent = "个人标签重点";
+  elements.reviewCount.textContent = "已整理";
+  elements.proofState.textContent = "标签已确认";
+  elements.safetyResult.focus();
+  announce("标签信息已整理；当前没有设置需要自动检查的过敏原");
 }
 
 async function findAndRevalidateAlternatives() {

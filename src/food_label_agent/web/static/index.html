@@ -1,8 +1,8 @@
 <!--
-THESIS: A food package becomes understandable the moment its label enters the workbench.
+THESIS: A label becomes useful when it is read through the user's declared needs, not generic nutrition literacy.
 OWN-WORLD: Warm paper, editorial navy type, tactile package photography, and offset functional Bento cards.
-STORY: The user uploads a label, confirms its facts, selects personal constraints, and sees the first deterministic safety result.
-FIRST VIEWPORT: A concise promise and one primary action sit beside the live upload workbench; no internal Agent architecture is exposed.
+STORY: The user declares allergens and familiar health concerns, previews the resulting focus, confirms the profile, then photographs and corrects a label before evaluation.
+FIRST VIEWPORT: A personal-profile promise sits beside one structured settings sheet; upload appears only after the profile and its analysis focus are confirmed.
 FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits reference without copying its assets or product metaphors.
 -->
 <!doctype html>
@@ -40,13 +40,130 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
     </header>
 
     <main>
-      <div class="hero-layout" id="hero-layout">
+      <section class="profile-onboarding" id="profile-onboarding" aria-labelledby="profile-title">
+        <div class="profile-intro">
+          <p class="eyebrow">先告诉我们什么对你重要</p>
+          <h1 id="profile-title">先了解你，<br>再看懂食品。</h1>
+          <p>你的选择会决定每次标签分析优先检查什么。这里只记录你主动填写的信息，不作诊断。</p>
+          <div class="profile-promise" aria-label="个人设置用途">
+            <strong>一次设置，之后每次都先确认</strong>
+            <span>你可以随时修改，也可以只为某次分析临时调整。</span>
+          </div>
+        </div>
+
+        <form class="profile-form" id="profile-form" novalidate>
+          <div class="profile-form-heading">
+            <span>我的饮食关注</span>
+            <p>带 * 的问题需要选择后才能继续</p>
+          </div>
+
+          <label class="profile-name-field" for="profile-name">
+            <span>档案名称</span>
+            <input id="profile-name" name="profile-name" type="text" maxlength="32" value="我的档案" autocomplete="nickname">
+            <small>当前为此设备上的个人档案，不代表已创建登录账户。</small>
+          </label>
+
+          <fieldset class="profile-fieldset">
+            <legend>需要避开的过敏原 <span>可多选</span></legend>
+            <p class="field-question">请选择你已知的过敏原；如果没有，可以选择“没有已知过敏原”。</p>
+            <div class="choice-grid choice-grid--allergens">
+              <label class="choice-chip"><input type="checkbox" name="profile-allergen" value="milk"><span>乳</span></label>
+              <label class="choice-chip"><input type="checkbox" name="profile-allergen" value="egg"><span>蛋</span></label>
+              <label class="choice-chip"><input type="checkbox" name="profile-allergen" value="peanut"><span>花生</span></label>
+              <label class="choice-chip"><input type="checkbox" name="profile-allergen" value="soy"><span>大豆</span></label>
+              <label class="choice-chip"><input type="checkbox" name="profile-allergen" value="gluten"><span>含麸质谷物</span></label>
+              <label class="choice-chip"><input type="checkbox" name="profile-allergen" value="tree_nut"><span>坚果</span></label>
+              <label class="choice-chip"><input type="checkbox" name="profile-allergen" value="fish"><span>鱼类</span></label>
+              <label class="choice-chip"><input type="checkbox" name="profile-allergen" value="crustacean"><span>甲壳类</span></label>
+              <label class="choice-chip choice-chip--none"><input type="checkbox" id="no-known-allergens" value="none"><span>没有已知过敏原</span></label>
+            </div>
+            <label class="custom-entry" for="custom-allergens">
+              <span>没有找到？直接填写</span>
+              <input id="custom-allergens" type="text" maxlength="160" placeholder="例如：芒果、芝麻；可用逗号分隔">
+              <small>暂未被规则支持的项目会原样记录，并在分析时提示需要人工确认。</small>
+            </label>
+          </fieldset>
+
+          <fieldset class="profile-fieldset">
+            <legend>你关注哪些健康问题？ <span>可多选 *</span></legend>
+            <p class="field-question">我们会把专业营养成分转成与你的关注相关的解释。</p>
+            <div class="choice-grid choice-grid--health">
+              <label class="choice-chip"><input type="checkbox" name="health-concern" value="blood_sugar"><span>血糖管理</span></label>
+              <label class="choice-chip"><input type="checkbox" name="health-concern" value="blood_lipids"><span>血脂管理</span></label>
+              <label class="choice-chip"><input type="checkbox" name="health-concern" value="blood_pressure"><span>血压管理</span></label>
+              <label class="choice-chip"><input type="checkbox" name="health-concern" value="weight"><span>体重管理</span></label>
+              <label class="choice-chip"><input type="checkbox" name="health-concern" value="uric_acid"><span>尿酸管理</span></label>
+              <label class="choice-chip"><input type="checkbox" name="health-concern" value="gut"><span>肠胃敏感</span></label>
+              <label class="choice-chip"><input type="checkbox" name="health-concern" value="sugar_control"><span>控制糖摄入</span></label>
+              <label class="choice-chip"><input type="checkbox" name="health-concern" value="child"><span>儿童饮食</span></label>
+            </div>
+            <label class="custom-entry" for="custom-health-concerns">
+              <span>其他健康关注</span>
+              <input id="custom-health-concerns" type="text" maxlength="160" placeholder="例如：孕期饮食；可用逗号分隔">
+              <small>自由填写内容用于调整解释重点，不会被当作医学诊断。</small>
+            </label>
+          </fieldset>
+
+          <label class="profile-consent" for="remember-profile">
+            <input id="remember-profile" type="checkbox">
+            <span>
+              <strong>在此设备保存这份个人档案</strong>
+              <small>保存后，下次会先显示你的设置供确认；你可以随时清除并撤销授权。</small>
+            </span>
+          </label>
+          <p class="profile-error" id="profile-error" hidden role="alert"></p>
+          <button class="button button--primary profile-submit" type="submit">
+            查看我的分析重点
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg>
+          </button>
+        </form>
+      </section>
+
+      <section class="advice-preview" id="advice-preview" hidden aria-labelledby="advice-title">
+        <div class="advice-heading">
+          <p class="eyebrow">个人分析方案</p>
+          <h1 id="advice-title">我们会这样<br>帮你看标签。</h1>
+          <p>这是根据你的选择生成的分析重点。拍摄具体食品后，才能判断标签是否与你的设置冲突。</p>
+        </div>
+        <div class="advice-sheet">
+          <div class="advice-profile-line">
+            <span id="advice-profile-name">我的档案</span>
+            <button class="text-button" id="edit-profile-from-advice" type="button">返回修改</button>
+          </div>
+          <section aria-labelledby="advice-allergen-title">
+            <h2 id="advice-allergen-title">首先检查必须避开的成分</h2>
+            <div class="profile-tag-list" id="advice-allergens"></div>
+          </section>
+          <section aria-labelledby="advice-focus-title">
+            <h2 id="advice-focus-title">重点读懂这些信息</h2>
+            <div class="focus-list" id="advice-focus-list"></div>
+          </section>
+          <p class="advice-boundary">这些提示用于帮助你阅读标签，不构成医疗诊断、治疗建议或个体化营养处方。</p>
+          <button class="button button--primary" id="continue-to-scan" type="button">
+            按这些设置开始识别
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg>
+          </button>
+        </div>
+      </section>
+
+      <div class="hero-layout" id="hero-layout" hidden>
         <section class="intro" aria-labelledby="page-title">
           <p class="eyebrow">食品标签解释 Agent</p>
           <h1 id="page-title">看懂标签，<br>再决定吃什么。</h1>
-          <p class="intro-copy">拍下配料表，先核对文字，再查看配料与过敏原信息。</p>
+          <p class="intro-copy">确认本次使用的个人设置，再拍下配料表进行识别。</p>
+          <section class="scan-profile-summary" aria-labelledby="scan-profile-title">
+            <div>
+              <span>本次分析依据</span>
+              <h2 id="scan-profile-title">我的档案</h2>
+            </div>
+            <button class="text-button" id="edit-profile-from-scan" type="button">修改</button>
+            <dl>
+              <div><dt>需要避开</dt><dd id="scan-allergen-summary">待设置</dd></div>
+              <div><dt>健康关注</dt><dd id="scan-health-summary">待设置</dd></div>
+            </dl>
+          </section>
           <button class="button button--hero" id="hero-upload-button" type="button">
-            上传食品标签
+            拍照或上传标签
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg>
           </button>
           <p class="intro-note">支持配料表、营养成分表与过敏原提示</p>
@@ -195,7 +312,23 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
                   <input type="checkbox" name="constraint" value="tree_nut">
                   <span>坚果</span>
                 </label>
+                <label class="constraint-option">
+                  <input type="checkbox" name="constraint" value="fish">
+                  <span>鱼类</span>
+                </label>
+                <label class="constraint-option">
+                  <input type="checkbox" name="constraint" value="crustacean">
+                  <span>甲壳类</span>
+                </label>
               </fieldset>
+              <section class="health-focus-summary" id="health-focus-summary" aria-labelledby="health-focus-summary-title">
+                <div>
+                  <span>来自个人档案</span>
+                  <h3 id="health-focus-summary-title">本次健康关注</h3>
+                </div>
+                <p id="health-focus-summary-text">待设置</p>
+                <small>这些关注用于调整营养信息的解释重点；当前版本不会自动生成医疗阈值。</small>
+              </section>
               <fieldset class="nutrition-limit" id="nutrition-limit" hidden>
                 <legend>营养上限 <span>可选</span></legend>
                 <div class="nutrition-limit-grid">
@@ -209,7 +342,7 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
                     <span>不超过</span>
                     <span class="measurement-input">
                       <input id="nutrition-threshold" name="nutrition-threshold" type="number" min="0" step="any" inputmode="decimal" disabled>
-                      <output id="nutrition-unit">—</output>
+                      <output id="nutrition-unit">无</output>
                     </span>
                   </label>
                 </div>
@@ -252,15 +385,15 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
             <dl class="risk-facts">
               <div>
                 <dt>命中成分</dt>
-                <dd id="matched-text">—</dd>
+                <dd id="matched-text">未显示</dd>
               </div>
               <div>
                 <dt>对应约束</dt>
-                <dd id="matched-constraint">—</dd>
+                <dd id="matched-constraint">未显示</dd>
               </div>
               <div>
                 <dt>出现位置</dt>
-                <dd id="matched-location">—</dd>
+                <dd id="matched-location">未显示</dd>
               </div>
             </dl>
             <div class="additional-findings" id="additional-findings" hidden></div>
@@ -296,7 +429,7 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
               <div class="alternative-heading">
                 <div>
                   <p>同一套约束 · 独立复核</p>
-                  <h3 id="alternative-title">查找同类选择</h3>
+                  <h3 id="alternative-title">更适合你的同类选择</h3>
                 </div>
                 <span id="alternative-count">尚未查找</span>
               </div>
