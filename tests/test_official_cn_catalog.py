@@ -49,19 +49,48 @@ def test_official_catalog_covers_priority_mainland_categories() -> None:
 def test_official_catalog_exposes_complete_review_queue() -> None:
     coverage = OfficialChinaCatalog().coverage()
 
-    assert coverage["total"] == 14
-    assert coverage["full_label_count"] == 9
-    assert coverage["evidence_gate_count"] == 10
-    assert coverage["needs_review_count"] == 5
-    assert len(coverage["items"]) == 14
+    assert coverage["total"] == 100
+    assert coverage["full_label_count"] == 50
+    assert coverage["evidence_gate_count"] == 51
+    assert coverage["needs_review_count"] == 50
+    assert len(coverage["items"]) == 100
     assert coverage["items"][0]["label_coverage"]["review_priority"] == "high"
 
 
-def test_nestle_official_pages_add_nine_complete_frozen_products() -> None:
+def test_meiji_discovery_skus_stay_out_of_safety_recommendations() -> None:
+    catalog = OfficialChinaCatalog()
+    result = catalog.search(category="confectionery", region="CN")
+    meiji = [item for item in result.records if item.brand == "明治"]
+
+    assert len(meiji) == 45
+    assert all(item.label.evidence_quality == "partial" for item in meiji)
+
+    search = find_alternative_products(
+        AlternativeSearchRequest(
+            category="confectionery",
+            applicable_date="2026-08-15",
+            constraints=[
+                ConstraintInput(
+                    kind="allergy", canonical_value="peanut", severity="severe"
+                )
+            ],
+            limit=20,
+        ),
+        catalog=catalog,
+    )
+
+    assert all(item["brand"] != "明治" for item in search["candidates"])
+    assert sum(
+        item["product_id"].startswith("cn-official:meiji:")
+        for item in search["rejected"]
+    ) == 45
+
+
+def test_nestle_official_pages_expose_complete_frozen_products() -> None:
     catalog = OfficialChinaCatalog()
     result = catalog.search(category="frozen_food", region="CN")
 
-    assert len(result.records) == 9
+    assert len(result.records) == 27
     assert all(item.label.evidence_quality == "complete" for item in result.records)
     assert all("nestle.com.cn" in item.label.source_url for item in result.records)
     assert all(
@@ -98,9 +127,9 @@ def test_nestle_frozen_products_enter_independent_safety_review() -> None:
         )
     )
 
-    assert len(search["candidates"]) == 9
-    assert result["revalidated_count"] == 9
-    assert result["eligible_count"] == 9
+    assert len(search["candidates"]) == 20
+    assert result["revalidated_count"] == 20
+    assert result["eligible_count"] == 20
 
 
 def test_official_catalog_merges_dynamically_approved_records(tmp_path: Path) -> None:
@@ -198,9 +227,9 @@ def test_health_concern_requires_only_its_relevant_packaging_fields() -> None:
         catalog=OfficialChinaCatalog(),
     )
 
-    assert len(pressure["candidates"]) == 9
+    assert len(pressure["candidates"]) == 20
     assert sugar["candidates"] == []
-    assert sugar["catalog_coverage"]["context_needs_review_count"] == 9
+    assert sugar["catalog_coverage"]["context_needs_review_count"] == 27
     assert all(
         "糖" in item["label_coverage"]["context_eligibility"]["missing_required_fields"]
         for item in sugar["rejected"]

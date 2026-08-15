@@ -56,10 +56,10 @@ def test_official_catalog_coverage_api_lists_every_review_item() -> None:
 
     assert response.status_code == 200
     payload = response.json()
-    assert payload["total"] == 14
-    assert payload["full_label_count"] == 9
-    assert payload["evidence_gate_count"] == 10
-    assert len(payload["items"]) == 14
+    assert payload["total"] == 100
+    assert payload["full_label_count"] == 50
+    assert payload["evidence_gate_count"] == 51
+    assert len(payload["items"]) == 100
     assert all("missing_fields" in item["label_coverage"] for item in payload["items"])
 
 

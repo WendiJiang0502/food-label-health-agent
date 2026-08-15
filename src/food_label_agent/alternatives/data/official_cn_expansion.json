@@ -1,0 +1,3661 @@
+[
+  {
+    "product_id": "cn-official:kinder:chocolate:4-bars",
+    "display_name": "健达巧克力4条装（50克）",
+    "brand": "健达",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "独立小条装牛奶巧克力零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.kinder:chocolate.4-bars.label.2026-08-15",
+      "ingredients_text": "牛奶巧克力40%（白砂糖，全脂乳粉，可可脂，可可液块，磷脂，食用香料），白砂糖，脱脂乳粉，植物油，无水奶油，磷脂，食用香料。奶制品：33%；可可制品：13%；牛奶巧克力部分总可可固形物：32%",
+      "allergen_statement": "含有乳制品、大豆",
+      "nutrition_table_text": "项目 每份（12.5克）；能量 295千焦；蛋白质 1.1克；脂肪 4.4克；碳水化合物 6.7克；钠 15毫克",
+      "nutrition_basis_text": "每份（12.5克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（12.5克）"
+        ],
+        [
+          "能量",
+          "295千焦"
+        ],
+        [
+          "蛋白质",
+          "1.1克"
+        ],
+        [
+          "脂肪",
+          "4.4克"
+        ],
+        [
+          "碳水化合物",
+          "6.7克"
+        ],
+        [
+          "钠",
+          "15毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.kinder.com/cn/zh/kinderchocolate",
+      "evidence_quality": "complete",
+      "source_provider": "kinder_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:4-bars",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:647028867f438c7e201d5c810bb3872725d10565af8074cadc1062cd089ed0f1"
+    }
+  },
+  {
+    "product_id": "cn-official:kinder:chocolate:8-bars",
+    "display_name": "健达巧克力8条装（100克）",
+    "brand": "健达",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "独立小条装牛奶巧克力零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.kinder:chocolate.8-bars.label.2026-08-15",
+      "ingredients_text": "牛奶巧克力40%（白砂糖，全脂乳粉，可可脂，可可液块，磷脂，食用香料），白砂糖，脱脂乳粉，植物油，无水奶油，磷脂，食用香料。奶制品：33%；可可制品：13%；牛奶巧克力部分总可可固形物：32%",
+      "allergen_statement": "含有乳制品、大豆",
+      "nutrition_table_text": "项目 每份（12.5克）；能量 295千焦；蛋白质 1.1克；脂肪 4.4克；碳水化合物 6.7克；钠 15毫克",
+      "nutrition_basis_text": "每份（12.5克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（12.5克）"
+        ],
+        [
+          "能量",
+          "295千焦"
+        ],
+        [
+          "蛋白质",
+          "1.1克"
+        ],
+        [
+          "脂肪",
+          "4.4克"
+        ],
+        [
+          "碳水化合物",
+          "6.7克"
+        ],
+        [
+          "钠",
+          "15毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.kinder.com/cn/zh/kinderchocolate",
+      "evidence_quality": "complete",
+      "source_provider": "kinder_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:8-bars",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:647028867f438c7e201d5c810bb3872725d10565af8074cadc1062cd089ed0f1"
+    }
+  },
+  {
+    "product_id": "cn-official:kinder:chocolate:20-bars",
+    "display_name": "健达巧克力20条装（250克）",
+    "brand": "健达",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "独立小条装牛奶巧克力零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.kinder:chocolate.20-bars.label.2026-08-15",
+      "ingredients_text": "牛奶巧克力40%（白砂糖，全脂乳粉，可可脂，可可液块，磷脂，食用香料），白砂糖，脱脂乳粉，植物油，无水奶油，磷脂，食用香料。奶制品：33%；可可制品：13%；牛奶巧克力部分总可可固形物：32%",
+      "allergen_statement": "含有乳制品、大豆",
+      "nutrition_table_text": "项目 每份（12.5克）；能量 295千焦；蛋白质 1.1克；脂肪 4.4克；碳水化合物 6.7克；钠 15毫克",
+      "nutrition_basis_text": "每份（12.5克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（12.5克）"
+        ],
+        [
+          "能量",
+          "295千焦"
+        ],
+        [
+          "蛋白质",
+          "1.1克"
+        ],
+        [
+          "脂肪",
+          "4.4克"
+        ],
+        [
+          "碳水化合物",
+          "6.7克"
+        ],
+        [
+          "钠",
+          "15毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.kinder.com/cn/zh/kinderchocolate",
+      "evidence_quality": "complete",
+      "source_provider": "kinder_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:20-bars",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:647028867f438c7e201d5c810bb3872725d10565af8074cadc1062cd089ed0f1"
+    }
+  },
+  {
+    "product_id": "cn-official:kinder:chocolate-mini:84g",
+    "display_name": "健达巧克力迷你型（84克）",
+    "brand": "健达",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "迷你独立包装牛奶巧克力零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.kinder:chocolate-mini.84g.label.2026-08-15",
+      "ingredients_text": "牛奶巧克力40%（白砂糖，全脂乳粉，可可脂，可可液块，磷脂，食用香料），白砂糖，脱脂乳粉，植物油，无水奶油，磷脂，食用香料。奶制品：33%；可可制品：13%；牛奶巧克力部分总可可固形物：32%",
+      "allergen_statement": "含有乳制品、大豆",
+      "nutrition_table_text": "项目 每份（6克）；能量 141千焦；蛋白质 0.5克；脂肪 2.1克；碳水化合物 3.2克；钠 7毫克",
+      "nutrition_basis_text": "每份（6克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（6克）"
+        ],
+        [
+          "能量",
+          "141千焦"
+        ],
+        [
+          "蛋白质",
+          "0.5克"
+        ],
+        [
+          "脂肪",
+          "2.1克"
+        ],
+        [
+          "碳水化合物",
+          "3.2克"
+        ],
+        [
+          "钠",
+          "7毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.kinder.com/cn/zh/kinderchocolate",
+      "evidence_quality": "complete",
+      "source_provider": "kinder_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:84g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:b995a4b5bda9826ed0c8810ee429f569e1b6192d3ac41d747ce32f3ecbd582e7"
+    }
+  },
+  {
+    "product_id": "cn-official:kinder:chocolate-mini:192g",
+    "display_name": "健达巧克力迷你型（192克）",
+    "brand": "健达",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "迷你独立包装牛奶巧克力零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.kinder:chocolate-mini.192g.label.2026-08-15",
+      "ingredients_text": "牛奶巧克力40%（白砂糖，全脂乳粉，可可脂，可可液块，磷脂，食用香料），白砂糖，脱脂乳粉，植物油，无水奶油，磷脂，食用香料。奶制品：33%；可可制品：13%；牛奶巧克力部分总可可固形物：32%",
+      "allergen_statement": "含有乳制品、大豆",
+      "nutrition_table_text": "项目 每份（6克）；能量 141千焦；蛋白质 0.5克；脂肪 2.1克；碳水化合物 3.2克；钠 7毫克",
+      "nutrition_basis_text": "每份（6克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（6克）"
+        ],
+        [
+          "能量",
+          "141千焦"
+        ],
+        [
+          "蛋白质",
+          "0.5克"
+        ],
+        [
+          "脂肪",
+          "2.1克"
+        ],
+        [
+          "碳水化合物",
+          "3.2克"
+        ],
+        [
+          "钠",
+          "7毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.kinder.com/cn/zh/kinderchocolate",
+      "evidence_quality": "complete",
+      "source_provider": "kinder_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:192g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:b995a4b5bda9826ed0c8810ee429f569e1b6192d3ac41d747ce32f3ecbd582e7"
+    }
+  },
+  {
+    "product_id": "cn-official:kinder:maxi:1-bar",
+    "display_name": "健达倍多1条装（21克）",
+    "brand": "健达",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "大条装牛奶夹心巧克力零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.kinder:maxi.1-bar.label.2026-08-15",
+      "ingredients_text": "牛奶巧克力40%（白砂糖，全脂乳粉，可可脂，可可液块，磷脂，食用香料），白砂糖，脱脂乳粉，植物油，无水奶油，磷脂，食用香料。奶制品：33%；可可制品：13%；牛奶巧克力部分总可可固形物：32%",
+      "allergen_statement": "含有乳制品、大豆",
+      "nutrition_table_text": "项目 每份（21克）；能量 495千焦；蛋白质 1.8克；脂肪 7.4克；碳水化合物 11.2克；钠 26毫克",
+      "nutrition_basis_text": "每份（21克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（21克）"
+        ],
+        [
+          "能量",
+          "495千焦"
+        ],
+        [
+          "蛋白质",
+          "1.8克"
+        ],
+        [
+          "脂肪",
+          "7.4克"
+        ],
+        [
+          "碳水化合物",
+          "11.2克"
+        ],
+        [
+          "钠",
+          "26毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.kinder.com/cn/zh/kinder-maxi",
+      "evidence_quality": "complete",
+      "source_provider": "kinder_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:1-bar",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:8288323bd9ca7d518f6ca6fd404904a83590dddff5655e18889d34147b8acea4"
+    }
+  },
+  {
+    "product_id": "cn-official:kinder:maxi:6-bars",
+    "display_name": "健达倍多6条装（126克）",
+    "brand": "健达",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "大条装牛奶夹心巧克力零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.kinder:maxi.6-bars.label.2026-08-15",
+      "ingredients_text": "牛奶巧克力40%（白砂糖，全脂乳粉，可可脂，可可液块，磷脂，食用香料），白砂糖，脱脂乳粉，植物油，无水奶油，磷脂，食用香料。奶制品：33%；可可制品：13%；牛奶巧克力部分总可可固形物：32%",
+      "allergen_statement": "含有乳制品、大豆",
+      "nutrition_table_text": "项目 每份（21克）；能量 495千焦；蛋白质 1.8克；脂肪 7.4克；碳水化合物 11.2克；钠 26毫克",
+      "nutrition_basis_text": "每份（21克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（21克）"
+        ],
+        [
+          "能量",
+          "495千焦"
+        ],
+        [
+          "蛋白质",
+          "1.8克"
+        ],
+        [
+          "脂肪",
+          "7.4克"
+        ],
+        [
+          "碳水化合物",
+          "11.2克"
+        ],
+        [
+          "钠",
+          "26毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.kinder.com/cn/zh/kinder-maxi",
+      "evidence_quality": "complete",
+      "source_provider": "kinder_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:6-bars",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:8288323bd9ca7d518f6ca6fd404904a83590dddff5655e18889d34147b8acea4"
+    }
+  },
+  {
+    "product_id": "cn-official:kinder:joy:1-egg",
+    "display_name": "健达奇趣蛋1只装（20克）",
+    "brand": "健达",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "带脆球与玩具的独立杯装甜食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.kinder:joy.1-egg.label.2026-08-15",
+      "ingredients_text": "白砂糖，植物油，脱脂乳粉，低脂可可粉4%，小麦粉，小麦淀粉，固体麦精（大麦，麦芽），磷脂，乳清蛋白粉，食用香精香料，碳酸氢铵，碳酸氢钠，食用盐。奶制品：20%",
+      "allergen_statement": "含有乳制品、麸质、大豆",
+      "nutrition_table_text": "项目 每份（20克）；能量 456千焦；蛋白质 1.6克；脂肪 6.4克；碳水化合物 11.3克；钠 25毫克",
+      "nutrition_basis_text": "每份（20克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（20克）"
+        ],
+        [
+          "能量",
+          "456千焦"
+        ],
+        [
+          "蛋白质",
+          "1.6克"
+        ],
+        [
+          "脂肪",
+          "6.4克"
+        ],
+        [
+          "碳水化合物",
+          "11.3克"
+        ],
+        [
+          "钠",
+          "25毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.kinder.com/cn/zh/kinderjoy",
+      "evidence_quality": "complete",
+      "source_provider": "kinder_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:1-egg",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e9a3d7b272651389179f055c57ddc6da0ee0550a51cc8c3852eeec8f4620682e"
+    }
+  },
+  {
+    "product_id": "cn-official:kinder:joy:3-eggs",
+    "display_name": "健达奇趣蛋3只装（60克）",
+    "brand": "健达",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "带脆球与玩具的独立杯装甜食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.kinder:joy.3-eggs.label.2026-08-15",
+      "ingredients_text": "白砂糖，植物油，脱脂乳粉，低脂可可粉4%，小麦粉，小麦淀粉，固体麦精（大麦，麦芽），磷脂，乳清蛋白粉，食用香精香料，碳酸氢铵，碳酸氢钠，食用盐。奶制品：20%",
+      "allergen_statement": "含有乳制品、麸质、大豆",
+      "nutrition_table_text": "项目 每份（20克）；能量 456千焦；蛋白质 1.6克；脂肪 6.4克；碳水化合物 11.3克；钠 25毫克",
+      "nutrition_basis_text": "每份（20克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（20克）"
+        ],
+        [
+          "能量",
+          "456千焦"
+        ],
+        [
+          "蛋白质",
+          "1.6克"
+        ],
+        [
+          "脂肪",
+          "6.4克"
+        ],
+        [
+          "碳水化合物",
+          "11.3克"
+        ],
+        [
+          "钠",
+          "25毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.kinder.com/cn/zh/kinderjoy",
+      "evidence_quality": "complete",
+      "source_provider": "kinder_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:3-eggs",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e9a3d7b272651389179f055c57ddc6da0ee0550a51cc8c3852eeec8f4620682e"
+    }
+  },
+  {
+    "product_id": "cn-official:kinder:bueno:2-bars",
+    "display_name": "健达缤纷乐2条装",
+    "brand": "健达",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "牛奶巧克力榛果酱夹心威化零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.kinder:bueno.2-bars.label.2026-08-15",
+      "ingredients_text": "牛奶巧克力31.5%（白砂糖，可可脂，可可液块，脱脂乳粉，无水奶油，磷脂，食用香料），白砂糖，植物油，小麦粉，榛子10.5%，脱脂乳粉，全脂乳粉，黑巧克力（白砂糖，可可液块，可可脂，磷脂，食用香料），低脂可可粉，磷脂，碳酸氢钠，碳酸氢铵，食用盐，食用香料",
+      "allergen_statement": "含有乳制品、麸质、榛子、大豆",
+      "nutrition_table_text": "项目 每份（21.5克）；能量 507千焦；蛋白质 1.8克；脂肪 8.0克；碳水化合物 10.6克；钠 23毫克",
+      "nutrition_basis_text": "每份（21.5克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（21.5克）"
+        ],
+        [
+          "能量",
+          "507千焦"
+        ],
+        [
+          "蛋白质",
+          "1.8克"
+        ],
+        [
+          "脂肪",
+          "8.0克"
+        ],
+        [
+          "碳水化合物",
+          "10.6克"
+        ],
+        [
+          "钠",
+          "23毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.kinder.com/cn/zh/kinderbueno",
+      "evidence_quality": "complete",
+      "source_provider": "kinder_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:2-bars",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:69cc6315c96e5f623a352e8fa3c4e07183ab38643e8392943a7c425aa6f893cb"
+    }
+  },
+  {
+    "product_id": "cn-official:kinder:bueno:2x3-bars",
+    "display_name": "健达缤纷乐（2×3）条装",
+    "brand": "健达",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "牛奶巧克力榛果酱夹心威化零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.kinder:bueno.2x3-bars.label.2026-08-15",
+      "ingredients_text": "牛奶巧克力31.5%（白砂糖，可可脂，可可液块，脱脂乳粉，无水奶油，磷脂，食用香料），白砂糖，植物油，小麦粉，榛子10.5%，脱脂乳粉，全脂乳粉，黑巧克力（白砂糖，可可液块，可可脂，磷脂，食用香料），低脂可可粉，磷脂，碳酸氢钠，碳酸氢铵，食用盐，食用香料",
+      "allergen_statement": "含有乳制品、麸质、榛子、大豆",
+      "nutrition_table_text": "项目 每份（21.5克）；能量 507千焦；蛋白质 1.8克；脂肪 8.0克；碳水化合物 10.6克；钠 23毫克",
+      "nutrition_basis_text": "每份（21.5克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（21.5克）"
+        ],
+        [
+          "能量",
+          "507千焦"
+        ],
+        [
+          "蛋白质",
+          "1.8克"
+        ],
+        [
+          "脂肪",
+          "8.0克"
+        ],
+        [
+          "碳水化合物",
+          "10.6克"
+        ],
+        [
+          "钠",
+          "23毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.kinder.com/cn/zh/kinderbueno",
+      "evidence_quality": "complete",
+      "source_provider": "kinder_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:2x3-bars",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:69cc6315c96e5f623a352e8fa3c4e07183ab38643e8392943a7c425aa6f893cb"
+    }
+  },
+  {
+    "product_id": "cn-official:kinder:bueno-white:2-bars",
+    "display_name": "健达缤纷乐白巧克力2条装",
+    "brand": "健达",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "白巧克力榛果酱夹心威化零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.kinder:bueno-white.2-bars.label.2026-08-15",
+      "ingredients_text": "白巧克力28%（可可脂，白砂糖，脱脂乳粉，无水奶油，磷脂，食用香料），植物油，白砂糖，小麦粉，脱脂乳粉，全脂乳粉，榛子5%，乳清粉，小麦淀粉，低脂可可粉，乳清蛋白粉，磷脂，碳酸氢铵，碳酸氢钠，食用香精香料，食用盐。奶制品：21.5%；可可制品：11%；威化饼干：12%",
+      "allergen_statement": "含有乳制品、麸质、榛子、大豆",
+      "nutrition_table_text": "项目 每份（19.5克）；能量 463千焦；蛋白质 1.7克；脂肪 7.0克；碳水化合物 10.3克；钠 25毫克",
+      "nutrition_basis_text": "每份（19.5克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（19.5克）"
+        ],
+        [
+          "能量",
+          "463千焦"
+        ],
+        [
+          "蛋白质",
+          "1.7克"
+        ],
+        [
+          "脂肪",
+          "7.0克"
+        ],
+        [
+          "碳水化合物",
+          "10.3克"
+        ],
+        [
+          "钠",
+          "25毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.kinder.com/cn/zh/kinderbueno",
+      "evidence_quality": "complete",
+      "source_provider": "kinder_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:2-bars",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:f44b780c47b11f8cdac233caa69eee35fde2e902f5cf475af70580404c7e4f46"
+    }
+  },
+  {
+    "product_id": "cn-official:kinder:bueno-white:2x3-bars",
+    "display_name": "健达缤纷乐白巧克力（2×3）条装",
+    "brand": "健达",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "白巧克力榛果酱夹心威化零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.kinder:bueno-white.2x3-bars.label.2026-08-15",
+      "ingredients_text": "白巧克力28%（可可脂，白砂糖，脱脂乳粉，无水奶油，磷脂，食用香料），植物油，白砂糖，小麦粉，脱脂乳粉，全脂乳粉，榛子5%，乳清粉，小麦淀粉，低脂可可粉，乳清蛋白粉，磷脂，碳酸氢铵，碳酸氢钠，食用香精香料，食用盐。奶制品：21.5%；可可制品：11%；威化饼干：12%",
+      "allergen_statement": "含有乳制品、麸质、榛子、大豆",
+      "nutrition_table_text": "项目 每份（19.5克）；能量 463千焦；蛋白质 1.7克；脂肪 7.0克；碳水化合物 10.3克；钠 25毫克",
+      "nutrition_basis_text": "每份（19.5克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（19.5克）"
+        ],
+        [
+          "能量",
+          "463千焦"
+        ],
+        [
+          "蛋白质",
+          "1.7克"
+        ],
+        [
+          "脂肪",
+          "7.0克"
+        ],
+        [
+          "碳水化合物",
+          "10.3克"
+        ],
+        [
+          "钠",
+          "25毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.kinder.com/cn/zh/kinderbueno",
+      "evidence_quality": "complete",
+      "source_provider": "kinder_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:2x3-bars",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:f44b780c47b11f8cdac233caa69eee35fde2e902f5cf475af70580404c7e4f46"
+    }
+  },
+  {
+    "product_id": "cn-official:kinder:happy-hippo:1-bar",
+    "display_name": "健达快乐河马1条装（20.7克）",
+    "brand": "健达",
+    "category": "biscuit",
+    "region": "CN",
+    "use_case": "河马造型双重酱心威化饼干",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.kinder:happy-hippo.1-bar.label.2026-08-15",
+      "ingredients_text": "白砂糖，植物油，小麦粉，全脂乳粉，低脂可可粉，脱脂乳粉，榛子，乳清粉，黑巧克力，小麦淀粉，磷脂，乳清蛋白粉，碳酸氢铵，碳酸氢钠，食用盐，食用香料。奶制品：12%；可可制品：5.4%",
+      "allergen_statement": "含有乳制品、麸质、榛子、大豆",
+      "nutrition_table_text": "项目 每份（20.7克）；能量 513千焦；蛋白质 1.4克；脂肪 8.0克；碳水化合物 11.1克；钠 22毫克",
+      "nutrition_basis_text": "每份（20.7克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（20.7克）"
+        ],
+        [
+          "能量",
+          "513千焦"
+        ],
+        [
+          "蛋白质",
+          "1.4克"
+        ],
+        [
+          "脂肪",
+          "8.0克"
+        ],
+        [
+          "碳水化合物",
+          "11.1克"
+        ],
+        [
+          "钠",
+          "22毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.kinder.com/cn/zh/kinderhappyhippo",
+      "evidence_quality": "complete",
+      "source_provider": "kinder_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:1-bar",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:ee1f4df800ab74a73ea5df2948c3f281e8dfa7ab2b1068df7fb9157029a96e61"
+    }
+  },
+  {
+    "product_id": "cn-official:kinder:happy-hippo:5-bars",
+    "display_name": "健达快乐河马5条装（103.5克）",
+    "brand": "健达",
+    "category": "biscuit",
+    "region": "CN",
+    "use_case": "河马造型双重酱心威化饼干",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.kinder:happy-hippo.5-bars.label.2026-08-15",
+      "ingredients_text": "白砂糖，植物油，小麦粉，全脂乳粉，低脂可可粉，脱脂乳粉，榛子，乳清粉，黑巧克力，小麦淀粉，磷脂，乳清蛋白粉，碳酸氢铵，碳酸氢钠，食用盐，食用香料。奶制品：12%；可可制品：5.4%",
+      "allergen_statement": "含有乳制品、麸质、榛子、大豆",
+      "nutrition_table_text": "项目 每份（20.7克）；能量 513千焦；蛋白质 1.4克；脂肪 8.0克；碳水化合物 11.1克；钠 22毫克",
+      "nutrition_basis_text": "每份（20.7克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（20.7克）"
+        ],
+        [
+          "能量",
+          "513千焦"
+        ],
+        [
+          "蛋白质",
+          "1.4克"
+        ],
+        [
+          "脂肪",
+          "8.0克"
+        ],
+        [
+          "碳水化合物",
+          "11.1克"
+        ],
+        [
+          "钠",
+          "22毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.kinder.com/cn/zh/kinderhappyhippo",
+      "evidence_quality": "complete",
+      "source_provider": "kinder_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:5-bars",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:ee1f4df800ab74a73ea5df2948c3f281e8dfa7ab2b1068df7fb9157029a96e61"
+    }
+  },
+  {
+    "product_id": "cn-official:kinder:tronky:1-bar",
+    "display_name": "健达轻脆怡注心饼干1条装（18克）",
+    "brand": "健达",
+    "category": "biscuit",
+    "region": "CN",
+    "use_case": "奶酱巧克力夹心注心饼干",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.kinder:tronky.1-bar.label.2026-08-15",
+      "ingredients_text": "脱脂乳粉，白砂糖，植物油，小麦粉，牛奶巧克力15%，黄油，低脂可可粉，榛子，小麦淀粉，磷脂，食用盐，稀奶油粉，乳清粉，碳酸氢钠，碳酸铵，食用香料，碳酸氢铵。奶制品：26.5%",
+      "allergen_statement": "含有麸质、大豆、乳制品、榛子",
+      "nutrition_table_text": "项目 每份（18克）；能量 389千焦；蛋白质 1.9克；脂肪 4.9克；碳水化合物 10.2克；钠 36毫克",
+      "nutrition_basis_text": "每份（18克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（18克）"
+        ],
+        [
+          "能量",
+          "389千焦"
+        ],
+        [
+          "蛋白质",
+          "1.9克"
+        ],
+        [
+          "脂肪",
+          "4.9克"
+        ],
+        [
+          "碳水化合物",
+          "10.2克"
+        ],
+        [
+          "钠",
+          "36毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.kinder.com/cn/zh/kindertronky",
+      "evidence_quality": "complete",
+      "source_provider": "kinder_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:1-bar",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:77ff295dc59ff6b6299a6f0ce295a97c5199134f867f06aedd3c39a29b6e5b38"
+    }
+  },
+  {
+    "product_id": "cn-official:kinder:tronky:5-bars",
+    "display_name": "健达轻脆怡注心饼干5条装（90克）",
+    "brand": "健达",
+    "category": "biscuit",
+    "region": "CN",
+    "use_case": "奶酱巧克力夹心注心饼干",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.kinder:tronky.5-bars.label.2026-08-15",
+      "ingredients_text": "脱脂乳粉，白砂糖，植物油，小麦粉，牛奶巧克力15%，黄油，低脂可可粉，榛子，小麦淀粉，磷脂，食用盐，稀奶油粉，乳清粉，碳酸氢钠，碳酸铵，食用香料，碳酸氢铵。奶制品：26.5%",
+      "allergen_statement": "含有麸质、大豆、乳制品、榛子",
+      "nutrition_table_text": "项目 每份（18克）；能量 389千焦；蛋白质 1.9克；脂肪 4.9克；碳水化合物 10.2克；钠 36毫克",
+      "nutrition_basis_text": "每份（18克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（18克）"
+        ],
+        [
+          "能量",
+          "389千焦"
+        ],
+        [
+          "蛋白质",
+          "1.9克"
+        ],
+        [
+          "脂肪",
+          "4.9克"
+        ],
+        [
+          "碳水化合物",
+          "10.2克"
+        ],
+        [
+          "钠",
+          "36毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.kinder.com/cn/zh/kindertronky",
+      "evidence_quality": "complete",
+      "source_provider": "kinder_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:5-bars",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:77ff295dc59ff6b6299a6f0ce295a97c5199134f867f06aedd3c39a29b6e5b38"
+    }
+  },
+  {
+    "product_id": "cn-official:kinder:milkredible-cocoa:23-4g",
+    "display_name": "健达妙兹乐嚼可可风味奶糖（23.4克）",
+    "brand": "健达",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "单颗独立包装的夹心奶糖",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.kinder:milkredible-cocoa.23-4g.label.2026-08-15",
+      "ingredients_text": "白砂糖，葡萄糖浆，奶油风味挂浆（植物油，脱脂乳粉，磷脂，食用香料），可可风味奶糖夹心（白砂糖，植物油，脱脂乳粉，可可粉，磷脂，食用香精香料），水，明胶，山梨糖醇液，食用盐，食用香精。奶制品含量不低于12%；可可固形物含量不低于0.4%",
+      "allergen_statement": "含有乳制品、大豆制品，可能含有麸质",
+      "nutrition_table_text": "项目 每份（3.9克）；能量 69千焦；蛋白质 0.2克；脂肪 0.6克；碳水化合物 2.6克；钠 9毫克",
+      "nutrition_basis_text": "每份（3.9克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（3.9克）"
+        ],
+        [
+          "能量",
+          "69千焦"
+        ],
+        [
+          "蛋白质",
+          "0.2克"
+        ],
+        [
+          "脂肪",
+          "0.6克"
+        ],
+        [
+          "碳水化合物",
+          "2.6克"
+        ],
+        [
+          "钠",
+          "9毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.kinder.com/cn/zh/kindermilkredible",
+      "evidence_quality": "complete",
+      "source_provider": "kinder_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:23-4g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:05a9c5b764714460bbc3a0eac1b436089c0dd2e62c8b99a22a6927d2b003b9db"
+    }
+  },
+  {
+    "product_id": "cn-official:kinder:milkredible-cocoa:46-8g",
+    "display_name": "健达妙兹乐嚼可可风味奶糖（46.8克）",
+    "brand": "健达",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "单颗独立包装的夹心奶糖",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.kinder:milkredible-cocoa.46-8g.label.2026-08-15",
+      "ingredients_text": "白砂糖，葡萄糖浆，奶油风味挂浆（植物油，脱脂乳粉，磷脂，食用香料），可可风味奶糖夹心（白砂糖，植物油，脱脂乳粉，可可粉，磷脂，食用香精香料），水，明胶，山梨糖醇液，食用盐，食用香精。奶制品含量不低于12%；可可固形物含量不低于0.4%",
+      "allergen_statement": "含有乳制品、大豆制品，可能含有麸质",
+      "nutrition_table_text": "项目 每份（3.9克）；能量 69千焦；蛋白质 0.2克；脂肪 0.6克；碳水化合物 2.6克；钠 9毫克",
+      "nutrition_basis_text": "每份（3.9克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（3.9克）"
+        ],
+        [
+          "能量",
+          "69千焦"
+        ],
+        [
+          "蛋白质",
+          "0.2克"
+        ],
+        [
+          "脂肪",
+          "0.6克"
+        ],
+        [
+          "碳水化合物",
+          "2.6克"
+        ],
+        [
+          "钠",
+          "9毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.kinder.com/cn/zh/kindermilkredible",
+      "evidence_quality": "complete",
+      "source_provider": "kinder_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:46-8g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:05a9c5b764714460bbc3a0eac1b436089c0dd2e62c8b99a22a6927d2b003b9db"
+    }
+  },
+  {
+    "product_id": "cn-official:kinder:milkredible-cocoa:105-3g",
+    "display_name": "健达妙兹乐嚼可可风味奶糖（105.3克）",
+    "brand": "健达",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "单颗独立包装的夹心奶糖",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.kinder:milkredible-cocoa.105-3g.label.2026-08-15",
+      "ingredients_text": "白砂糖，葡萄糖浆，奶油风味挂浆（植物油，脱脂乳粉，磷脂，食用香料），可可风味奶糖夹心（白砂糖，植物油，脱脂乳粉，可可粉，磷脂，食用香精香料），水，明胶，山梨糖醇液，食用盐，食用香精。奶制品含量不低于12%；可可固形物含量不低于0.4%",
+      "allergen_statement": "含有乳制品、大豆制品，可能含有麸质",
+      "nutrition_table_text": "项目 每份（3.9克）；能量 69千焦；蛋白质 0.2克；脂肪 0.6克；碳水化合物 2.6克；钠 9毫克",
+      "nutrition_basis_text": "每份（3.9克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（3.9克）"
+        ],
+        [
+          "能量",
+          "69千焦"
+        ],
+        [
+          "蛋白质",
+          "0.2克"
+        ],
+        [
+          "脂肪",
+          "0.6克"
+        ],
+        [
+          "碳水化合物",
+          "2.6克"
+        ],
+        [
+          "钠",
+          "9毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.kinder.com/cn/zh/kindermilkredible",
+      "evidence_quality": "complete",
+      "source_provider": "kinder_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:105-3g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:05a9c5b764714460bbc3a0eac1b436089c0dd2e62c8b99a22a6927d2b003b9db"
+    }
+  },
+  {
+    "product_id": "cn-official:kinder:milkredible-milk:23-4g",
+    "display_name": "健达妙兹乐嚼牛奶风味奶糖（23.4克）",
+    "brand": "健达",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "单颗独立包装的夹心奶糖",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.kinder:milkredible-milk.23-4g.label.2026-08-15",
+      "ingredients_text": "白砂糖，葡萄糖浆，奶油风味挂浆（植物油，脱脂乳粉，磷脂，食用香料），奶油风味奶糖夹心（植物油，白砂糖，脱脂乳粉，磷脂，食用香料），水，明胶，山梨糖醇液，食用盐，食用香精。奶制品含量不低于13%",
+      "allergen_statement": "含有乳制品、大豆制品，可能含有麸质",
+      "nutrition_table_text": "项目 每份（3.9克）；能量 69千焦；蛋白质 0.2克；脂肪 0.6克；碳水化合物 2.6克；钠 9毫克",
+      "nutrition_basis_text": "每份（3.9克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（3.9克）"
+        ],
+        [
+          "能量",
+          "69千焦"
+        ],
+        [
+          "蛋白质",
+          "0.2克"
+        ],
+        [
+          "脂肪",
+          "0.6克"
+        ],
+        [
+          "碳水化合物",
+          "2.6克"
+        ],
+        [
+          "钠",
+          "9毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.kinder.com/cn/zh/kindermilkredible",
+      "evidence_quality": "complete",
+      "source_provider": "kinder_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:23-4g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:beb6b21a8b2cdc4b348b90463f495da6d62908ed09a11d351a575b6d6057ed45"
+    }
+  },
+  {
+    "product_id": "cn-official:kinder:milkredible-milk:46-8g",
+    "display_name": "健达妙兹乐嚼牛奶风味奶糖（46.8克）",
+    "brand": "健达",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "单颗独立包装的夹心奶糖",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.kinder:milkredible-milk.46-8g.label.2026-08-15",
+      "ingredients_text": "白砂糖，葡萄糖浆，奶油风味挂浆（植物油，脱脂乳粉，磷脂，食用香料），奶油风味奶糖夹心（植物油，白砂糖，脱脂乳粉，磷脂，食用香料），水，明胶，山梨糖醇液，食用盐，食用香精。奶制品含量不低于13%",
+      "allergen_statement": "含有乳制品、大豆制品，可能含有麸质",
+      "nutrition_table_text": "项目 每份（3.9克）；能量 69千焦；蛋白质 0.2克；脂肪 0.6克；碳水化合物 2.6克；钠 9毫克",
+      "nutrition_basis_text": "每份（3.9克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（3.9克）"
+        ],
+        [
+          "能量",
+          "69千焦"
+        ],
+        [
+          "蛋白质",
+          "0.2克"
+        ],
+        [
+          "脂肪",
+          "0.6克"
+        ],
+        [
+          "碳水化合物",
+          "2.6克"
+        ],
+        [
+          "钠",
+          "9毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.kinder.com/cn/zh/kindermilkredible",
+      "evidence_quality": "complete",
+      "source_provider": "kinder_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:46-8g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:beb6b21a8b2cdc4b348b90463f495da6d62908ed09a11d351a575b6d6057ed45"
+    }
+  },
+  {
+    "product_id": "cn-official:kinder:milkredible-milk:105-3g",
+    "display_name": "健达妙兹乐嚼牛奶风味奶糖（105.3克）",
+    "brand": "健达",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "单颗独立包装的夹心奶糖",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.kinder:milkredible-milk.105-3g.label.2026-08-15",
+      "ingredients_text": "白砂糖，葡萄糖浆，奶油风味挂浆（植物油，脱脂乳粉，磷脂，食用香料），奶油风味奶糖夹心（植物油，白砂糖，脱脂乳粉，磷脂，食用香料），水，明胶，山梨糖醇液，食用盐，食用香精。奶制品含量不低于13%",
+      "allergen_statement": "含有乳制品、大豆制品，可能含有麸质",
+      "nutrition_table_text": "项目 每份（3.9克）；能量 69千焦；蛋白质 0.2克；脂肪 0.6克；碳水化合物 2.6克；钠 9毫克",
+      "nutrition_basis_text": "每份（3.9克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（3.9克）"
+        ],
+        [
+          "能量",
+          "69千焦"
+        ],
+        [
+          "蛋白质",
+          "0.2克"
+        ],
+        [
+          "脂肪",
+          "0.6克"
+        ],
+        [
+          "碳水化合物",
+          "2.6克"
+        ],
+        [
+          "钠",
+          "9毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.kinder.com/cn/zh/kindermilkredible",
+      "evidence_quality": "complete",
+      "source_provider": "kinder_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:105-3g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:beb6b21a8b2cdc4b348b90463f495da6d62908ed09a11d351a575b6d6057ed45"
+    }
+  },
+  {
+    "product_id": "cn-official:nestle:xueci-strawberry-redbean:33g",
+    "display_name": "雀巢雪糍草莓红豆味（33克）",
+    "brand": "雀巢",
+    "category": "frozen_food",
+    "region": "CN",
+    "use_case": "糯米外皮冰淇淋零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.nestle:xueci-strawberry-redbean.33g.label.2026-08-15",
+      "ingredients_text": "水，白砂糖，糯米粉（≥7.5%），草莓果酱（≥6%），红豆沙（≥5%），植物油，乳粉，葡萄糖浆，麦芽糊精，淀粉，乳清粉，蛋糕预拌粉（鸡蛋蛋白粉，白砂糖，增稠剂（466，412），酸度调节剂（330）），食品添加剂（乳化剂（471），增稠剂（412，407，410），着色剂（红曲红），酸度调节剂（330））",
+      "allergen_statement": "含有乳制品、蛋制品和大豆制品，可能含有坚果",
+      "nutrition_table_text": "项目 每份（33克）；能量 306千焦；蛋白质 1.0克；脂肪 2.3克；碳水化合物 12.0克；钠 17毫克",
+      "nutrition_basis_text": "每份（33克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（33克）"
+        ],
+        [
+          "能量",
+          "306千焦"
+        ],
+        [
+          "蛋白质",
+          "1.0克"
+        ],
+        [
+          "脂肪",
+          "2.3克"
+        ],
+        [
+          "碳水化合物",
+          "12.0克"
+        ],
+        [
+          "钠",
+          "17毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.nestle.com.cn/brands/ice-cream/chengzhen/xueci",
+      "evidence_quality": "complete",
+      "source_provider": "nestle_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:33g",
+      "source_authority": "manufacturer",
+      "official_store_url": "https://mall.jd.com/index-1000333009.html",
+      "official_store_name": "雀巢冰淇淋京东自营旗舰店",
+      "official_store_verified_at": "2026-08-15",
+      "content_hash": "sha256:e23f74b63fae6077b7935112d4f13c8098fb0ba6e5a83a00b244ed8980de3931"
+    }
+  },
+  {
+    "product_id": "cn-official:nestle:8cube-strawberry:43g",
+    "display_name": "雀巢8次方草莓白巧克力味（每份43克）",
+    "brand": "雀巢",
+    "category": "frozen_food",
+    "region": "CN",
+    "use_case": "分块盒装白巧克力脆皮冰淇淋",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.nestle:8cube-strawberry.43g.label.2026-08-15",
+      "ingredients_text": "水，代可可脂白巧克力，白砂糖，植物油，葡萄糖浆，麦芽糊精，果葡糖浆，乳清粉，饼干，全脂乳粉，食品添加剂（增稠剂（412，410，466，407），乳化剂（322，471），酸度调节剂（330），着色剂（红曲红）），食用香精",
+      "allergen_statement": "含有乳制品、谷物（含麸质）和大豆制品，可能含有芝麻和坚果",
+      "nutrition_table_text": "项目 每份（43克）；能量 528千焦；蛋白质 0.6克；脂肪 8.1克；碳水化合物 12.8克；钠 12毫克",
+      "nutrition_basis_text": "每份（43克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（43克）"
+        ],
+        [
+          "能量",
+          "528千焦"
+        ],
+        [
+          "蛋白质",
+          "0.6克"
+        ],
+        [
+          "脂肪",
+          "8.1克"
+        ],
+        [
+          "碳水化合物",
+          "12.8克"
+        ],
+        [
+          "钠",
+          "12毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.nestle.com.cn/brands/ice-cream/8cube-a",
+      "evidence_quality": "complete",
+      "source_provider": "nestle_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:43g",
+      "source_authority": "manufacturer",
+      "official_store_url": "https://mall.jd.com/index-1000333009.html",
+      "official_store_name": "雀巢冰淇淋京东自营旗舰店",
+      "official_store_verified_at": "2026-08-15",
+      "content_hash": "sha256:213f9d7807fe65664c86f571ed6c4f5cfaef99dae97bb09bf3da14bc66f5db99"
+    }
+  },
+  {
+    "product_id": "cn-official:nestle:8cube-white-sesame:42g",
+    "display_name": "雀巢8次方黑芝麻白巧克力味（每份42克）",
+    "brand": "雀巢",
+    "category": "frozen_food",
+    "region": "CN",
+    "use_case": "分块盒装白巧克力脆皮冰淇淋",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.nestle:8cube-white-sesame.42g.label.2026-08-15",
+      "ingredients_text": "水，代可可脂白巧克力，植物油，白砂糖，葡萄糖浆，麦芽糊精，乳清粉，乳粉，黑芝麻，食品添加剂（乳化剂（471，322，477），增稠剂（412，466，410，407），着色剂（160b，100ii）），食用香精",
+      "allergen_statement": "含有芝麻、大豆制品和乳制品，可能含有坚果和谷物（含麸质）",
+      "nutrition_table_text": "项目 每份（42克）；能量 563千焦；蛋白质 1.1克；脂肪 9.2克；碳水化合物 12.0克；钠 21毫克",
+      "nutrition_basis_text": "每份（42克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（42克）"
+        ],
+        [
+          "能量",
+          "563千焦"
+        ],
+        [
+          "蛋白质",
+          "1.1克"
+        ],
+        [
+          "脂肪",
+          "9.2克"
+        ],
+        [
+          "碳水化合物",
+          "12.0克"
+        ],
+        [
+          "钠",
+          "21毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.nestle.com.cn/brands/ice-cream/8cube-a",
+      "evidence_quality": "complete",
+      "source_provider": "nestle_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:42g",
+      "source_authority": "manufacturer",
+      "official_store_url": "https://mall.jd.com/index-1000333009.html",
+      "official_store_name": "雀巢冰淇淋京东自营旗舰店",
+      "official_store_verified_at": "2026-08-15",
+      "content_hash": "sha256:10006d322113d7c35cfe9ea27d3a897aa38440007fc6bcf4b65ff5024756c572"
+    }
+  },
+  {
+    "product_id": "cn-official:nestle:huaxintong-berry:67g",
+    "display_name": "雀巢花心筒蓝莓树莓味（67克）",
+    "brand": "雀巢",
+    "category": "frozen_food",
+    "region": "CN",
+    "use_case": "甜筒装果酱冰淇淋",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.nestle:huaxintong-berry.67g.label.2026-08-15",
+      "ingredients_text": "水，冰淇淋筒，白砂糖，植物油，蓝莓树莓果酱，乳粉，葡萄糖浆，乳清粉，熟制扁桃仁，可可粉，麦芽糊精，食品添加剂（乳化剂（322，471，477），增稠剂（412，466，410，407），着色剂（160b，100ii）），食用香精，氢化植物油",
+      "allergen_statement": "含有小麦、坚果、大豆和乳制品，可能含有花生",
+      "nutrition_table_text": "项目 每份（67克）；能量 844千焦；蛋白质 2.6克；脂肪 10.9克；碳水化合物 23.3克；钠 41毫克",
+      "nutrition_basis_text": "每份（67克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（67克）"
+        ],
+        [
+          "能量",
+          "844千焦"
+        ],
+        [
+          "蛋白质",
+          "2.6克"
+        ],
+        [
+          "脂肪",
+          "10.9克"
+        ],
+        [
+          "碳水化合物",
+          "23.3克"
+        ],
+        [
+          "钠",
+          "41毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.nestle.com.cn/brands/ice-cream/huaxintong",
+      "evidence_quality": "complete",
+      "source_provider": "nestle_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:67g",
+      "source_authority": "manufacturer",
+      "official_store_url": "https://mall.jd.com/index-1000333009.html",
+      "official_store_name": "雀巢冰淇淋京东自营旗舰店",
+      "official_store_verified_at": "2026-08-15",
+      "content_hash": "sha256:5c44228cac6b3220c3c6bc479ca0db7ba1bbea86b4b7417125eea51401ff45c2"
+    }
+  },
+  {
+    "product_id": "cn-official:nestle:huaxintong-chocolate:67g",
+    "display_name": "雀巢花心筒巧克力味（67克）",
+    "brand": "雀巢",
+    "category": "frozen_food",
+    "region": "CN",
+    "use_case": "甜筒装巧克力风味冰淇淋",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.nestle:huaxintong-chocolate.67g.label.2026-08-15",
+      "ingredients_text": "水，冰淇淋筒，白砂糖，巧克力味酱（葡萄糖浆，果葡糖浆，水，可可粉，麦芽糊精，乳粉，白砂糖，增稠剂（1442，407），食用盐，食用香精），植物油，乳粉，葡萄糖浆，稀奶油，可可粉，代可可脂黑巧克力，乳清粉，食品添加剂（乳化剂（322，471），增稠剂（412，466，410，407），着色剂（100ii，160b）），食用香精，氢化植物油",
+      "allergen_statement": "含有小麦、大豆和乳制品，可能含有花生和坚果",
+      "nutrition_table_text": "项目 每份（67克）；能量 844千焦；蛋白质 2.6克；脂肪 10.9克；碳水化合物 23.3克；钠 41毫克",
+      "nutrition_basis_text": "每份（67克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（67克）"
+        ],
+        [
+          "能量",
+          "844千焦"
+        ],
+        [
+          "蛋白质",
+          "2.6克"
+        ],
+        [
+          "脂肪",
+          "10.9克"
+        ],
+        [
+          "碳水化合物",
+          "23.3克"
+        ],
+        [
+          "钠",
+          "41毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.nestle.com.cn/brands/ice-cream/huaxintong",
+      "evidence_quality": "complete",
+      "source_provider": "nestle_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:67g",
+      "source_authority": "manufacturer",
+      "official_store_url": "https://mall.jd.com/index-1000333009.html",
+      "official_store_name": "雀巢冰淇淋京东自营旗舰店",
+      "official_store_verified_at": "2026-08-15",
+      "content_hash": "sha256:16767142ef519e010617bd45ede9f8c204bc55e72a17231a0cba03ea756e16c1"
+    }
+  },
+  {
+    "product_id": "cn-official:nestle:huaxintong-cookie:67g",
+    "display_name": "雀巢花心筒曲奇味（67克）",
+    "brand": "雀巢",
+    "category": "frozen_food",
+    "region": "CN",
+    "use_case": "甜筒装曲奇冰淇淋",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.nestle:huaxintong-cookie.67g.label.2026-08-15",
+      "ingredients_text": "水，冰淇淋筒，白砂糖，植物油，乳粉，葡萄糖浆，曲奇饼干，乳清粉，熟制扁桃仁，可可粉，麦芽糊精，食品添加剂（乳化剂（471，322，477），增稠剂（412，466，410，407），着色剂（160b，100ii）），食用香精，氢化植物油",
+      "allergen_statement": "含有小麦、坚果、大豆和乳制品，可能含有花生",
+      "nutrition_table_text": "项目 每份（67克）；能量 844千焦；蛋白质 2.6克；脂肪 10.9克；碳水化合物 23.3克；钠 41毫克",
+      "nutrition_basis_text": "每份（67克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（67克）"
+        ],
+        [
+          "能量",
+          "844千焦"
+        ],
+        [
+          "蛋白质",
+          "2.6克"
+        ],
+        [
+          "脂肪",
+          "10.9克"
+        ],
+        [
+          "碳水化合物",
+          "23.3克"
+        ],
+        [
+          "钠",
+          "41毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.nestle.com.cn/brands/ice-cream/huaxintong",
+      "evidence_quality": "complete",
+      "source_provider": "nestle_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:67g",
+      "source_authority": "manufacturer",
+      "official_store_url": "https://mall.jd.com/index-1000333009.html",
+      "official_store_name": "雀巢冰淇淋京东自营旗舰店",
+      "official_store_verified_at": "2026-08-15",
+      "content_hash": "sha256:fec703503038ee7b6dc7fb2b8b7292b84b237e55bfb57e7d76f2411ff3b570c9"
+    }
+  },
+  {
+    "product_id": "cn-official:nestle:bennana-red-fruit:40g",
+    "display_name": "雀巢笨NANA红色果味冰棍（40克）",
+    "brand": "雀巢",
+    "category": "frozen_food",
+    "region": "CN",
+    "use_case": "果味棒状冰品",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.nestle:bennana-red-fruit.40g.label.2026-08-15",
+      "ingredients_text": "水，白砂糖，葡萄糖浆，麦芽糊精，食品添加剂（增稠剂（466，410，412），酸度调节剂（330）），食用香精，果蔬汁饮料浓浆（苹果汁，黑胡萝卜汁，水，酸度调节剂（330））",
+      "allergen_statement": "可能含有乳制品和坚果",
+      "nutrition_table_text": "项目 每份（40克）；能量 141千焦；蛋白质 0克；脂肪 0克；碳水化合物 8.3克；钠 12毫克",
+      "nutrition_basis_text": "每份（40克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（40克）"
+        ],
+        [
+          "能量",
+          "141千焦"
+        ],
+        [
+          "蛋白质",
+          "0克"
+        ],
+        [
+          "脂肪",
+          "0克"
+        ],
+        [
+          "碳水化合物",
+          "8.3克"
+        ],
+        [
+          "钠",
+          "12毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.nestle.com.cn/brands/ice-cream/bennana",
+      "evidence_quality": "complete",
+      "source_provider": "nestle_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:40g",
+      "source_authority": "manufacturer",
+      "official_store_url": "https://mall.jd.com/index-1000333009.html",
+      "official_store_name": "雀巢冰淇淋京东自营旗舰店",
+      "official_store_verified_at": "2026-08-15",
+      "content_hash": "sha256:10e4bfa1bf4626fb07786ade8c0c87fe0f7205800361b48bb31944a8c8b817ab"
+    }
+  },
+  {
+    "product_id": "cn-official:nestle:bennana-blue-fruit:40g",
+    "display_name": "雀巢笨NANA蓝色果味冰棍（40克）",
+    "brand": "雀巢",
+    "category": "frozen_food",
+    "region": "CN",
+    "use_case": "果味棒状冰品",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.nestle:bennana-blue-fruit.40g.label.2026-08-15",
+      "ingredients_text": "水，白砂糖，葡萄糖浆，麦芽糊精，食品添加剂（增稠剂（466，410，412），酸度调节剂（330），着色剂（栀子蓝）），食用香精，果蔬汁饮料浓浆（苹果汁，黑胡萝卜汁，水，酸度调节剂（330））",
+      "allergen_statement": "可能含有乳制品和坚果",
+      "nutrition_table_text": "项目 每份（40克）；能量 141千焦；蛋白质 0克；脂肪 0克；碳水化合物 8.3克；钠 12毫克",
+      "nutrition_basis_text": "每份（40克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（40克）"
+        ],
+        [
+          "能量",
+          "141千焦"
+        ],
+        [
+          "蛋白质",
+          "0克"
+        ],
+        [
+          "脂肪",
+          "0克"
+        ],
+        [
+          "碳水化合物",
+          "8.3克"
+        ],
+        [
+          "钠",
+          "12毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.nestle.com.cn/brands/ice-cream/bennana",
+      "evidence_quality": "complete",
+      "source_provider": "nestle_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:40g",
+      "source_authority": "manufacturer",
+      "official_store_url": "https://mall.jd.com/index-1000333009.html",
+      "official_store_name": "雀巢冰淇淋京东自营旗舰店",
+      "official_store_verified_at": "2026-08-15",
+      "content_hash": "sha256:babf59b80b2a87fb23a11d140d9eddb554a51a053cc74416ac8126124a022ebd"
+    }
+  },
+  {
+    "product_id": "cn-official:nestle:bennana-milk:52g",
+    "display_name": "雀巢笨NANA奶味冰棍（52克）",
+    "brand": "雀巢",
+    "category": "frozen_food",
+    "region": "CN",
+    "use_case": "奶味棒状冰品",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.nestle:bennana-milk.52g.label.2026-08-15",
+      "ingredients_text": "水，白砂糖，葡萄糖浆，脱脂乳粉，植物油，麦芽糊精，食品添加剂（增稠剂（410，407，412，466），酸度调节剂（330，339i），乳化剂（471，477），着色剂（100ii）），食用香精",
+      "allergen_statement": "可能含有乳制品和坚果",
+      "nutrition_table_text": "项目 每份（52克）；能量 309千焦；蛋白质 0.3克；脂肪 1.6克；碳水化合物 14.4克；钠 19毫克",
+      "nutrition_basis_text": "每份（52克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（52克）"
+        ],
+        [
+          "能量",
+          "309千焦"
+        ],
+        [
+          "蛋白质",
+          "0.3克"
+        ],
+        [
+          "脂肪",
+          "1.6克"
+        ],
+        [
+          "碳水化合物",
+          "14.4克"
+        ],
+        [
+          "钠",
+          "19毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.nestle.com.cn/brands/ice-cream/bennana",
+      "evidence_quality": "complete",
+      "source_provider": "nestle_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:52g",
+      "source_authority": "manufacturer",
+      "official_store_url": "https://mall.jd.com/index-1000333009.html",
+      "official_store_name": "雀巢冰淇淋京东自营旗舰店",
+      "official_store_verified_at": "2026-08-15",
+      "content_hash": "sha256:5047d80d4e25464589bda380d27c0572c7f4e286c7bef038f494138939ef96a5"
+    }
+  },
+  {
+    "product_id": "cn-official:nestle:milk-bar-original:59g",
+    "display_name": "雀巢牛奶棒原味（59克）",
+    "brand": "雀巢",
+    "category": "frozen_food",
+    "region": "CN",
+    "use_case": "乳粉配方棒状冰淇淋",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.nestle:milk-bar-original.59g.label.2026-08-15",
+      "ingredients_text": "水，葡萄糖浆，乳粉（≥10%），白砂糖，植物油，乳清粉，无水奶油，食品添加剂（增稠剂（明胶，410，412，407），乳化剂（471）），聚葡萄糖，食用香精",
+      "allergen_statement": "含有乳制品，可能含有坚果",
+      "nutrition_table_text": "项目 每份（59克）；能量 480千焦；蛋白质 2.0克；脂肪 5.2克；碳水化合物 14.9克；钠 26毫克",
+      "nutrition_basis_text": "每份（59克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（59克）"
+        ],
+        [
+          "能量",
+          "480千焦"
+        ],
+        [
+          "蛋白质",
+          "2.0克"
+        ],
+        [
+          "脂肪",
+          "5.2克"
+        ],
+        [
+          "碳水化合物",
+          "14.9克"
+        ],
+        [
+          "钠",
+          "26毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.nestle.com.cn/brands/ice-cream/chengzhen/niunaibang",
+      "evidence_quality": "complete",
+      "source_provider": "nestle_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:59g",
+      "source_authority": "manufacturer",
+      "official_store_url": "https://mall.jd.com/index-1000333009.html",
+      "official_store_name": "雀巢冰淇淋京东自营旗舰店",
+      "official_store_verified_at": "2026-08-15",
+      "content_hash": "sha256:9b85fff1b04070b941c28d2be7e94e1706a58619ed686eca6f9ae9221608d053"
+    }
+  },
+  {
+    "product_id": "cn-official:nestle:milk-bar-chocolate:56g",
+    "display_name": "雀巢牛奶棒巧克力味（56克）",
+    "brand": "雀巢",
+    "category": "frozen_food",
+    "region": "CN",
+    "use_case": "可可乳粉配方棒状冰淇淋",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.nestle:milk-bar-chocolate.56g.label.2026-08-15",
+      "ingredients_text": "水，葡萄糖浆，乳粉（≥9%），白砂糖，植物油，可可粉（≥2%），食品添加剂（增稠剂（明胶，410，407），乳化剂（471）），麦芽糊精，乳清粉",
+      "allergen_statement": "含有乳制品，可能含有坚果",
+      "nutrition_table_text": "项目 每份（56克）；能量 424千焦；蛋白质 1.9克；脂肪 4.9克；碳水化合物 12.4克；钠 19毫克",
+      "nutrition_basis_text": "每份（56克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（56克）"
+        ],
+        [
+          "能量",
+          "424千焦"
+        ],
+        [
+          "蛋白质",
+          "1.9克"
+        ],
+        [
+          "脂肪",
+          "4.9克"
+        ],
+        [
+          "碳水化合物",
+          "12.4克"
+        ],
+        [
+          "钠",
+          "19毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.nestle.com.cn/brands/ice-cream/chengzhen/niunaibang",
+      "evidence_quality": "complete",
+      "source_provider": "nestle_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:56g",
+      "source_authority": "manufacturer",
+      "official_store_url": "https://mall.jd.com/index-1000333009.html",
+      "official_store_name": "雀巢冰淇淋京东自营旗舰店",
+      "official_store_verified_at": "2026-08-15",
+      "content_hash": "sha256:98d438894957ab93cf3d7072b72097880951d0a7084f5227b432c38edb030d4e"
+    }
+  },
+  {
+    "product_id": "cn-official:nestle:milk-bar-purple-sweet-potato:56g",
+    "display_name": "雀巢牛奶棒紫薯味（56克）",
+    "brand": "雀巢",
+    "category": "frozen_food",
+    "region": "CN",
+    "use_case": "紫薯乳粉配方棒状冰淇淋",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.nestle:milk-bar-purple-sweet-potato.56g.label.2026-08-15",
+      "ingredients_text": "水，葡萄糖浆，全脂乳粉（≥8%），紫薯果味酱（紫薯，果葡糖浆，水，白砂糖，苹果，增稠剂（1442），酸度调节剂（330，331iii），食用香精），白砂糖，植物油，乳清粉，无水奶油，聚葡萄糖，食品添加剂（增稠剂（明胶，410，412，407），乳化剂（471））。紫薯含量不低于3%",
+      "allergen_statement": "含有乳制品，可能含有坚果",
+      "nutrition_table_text": "项目 每份（56克）；能量 462千焦；蛋白质 1.7克；脂肪 4.5克；碳水化合物 15.7克；钠 24毫克",
+      "nutrition_basis_text": "每份（56克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（56克）"
+        ],
+        [
+          "能量",
+          "462千焦"
+        ],
+        [
+          "蛋白质",
+          "1.7克"
+        ],
+        [
+          "脂肪",
+          "4.5克"
+        ],
+        [
+          "碳水化合物",
+          "15.7克"
+        ],
+        [
+          "钠",
+          "24毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.nestle.com.cn/brands/ice-cream/chengzhen/niunaibang",
+      "evidence_quality": "complete",
+      "source_provider": "nestle_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:56g",
+      "source_authority": "manufacturer",
+      "official_store_url": "https://mall.jd.com/index-1000333009.html",
+      "official_store_name": "雀巢冰淇淋京东自营旗舰店",
+      "official_store_verified_at": "2026-08-15",
+      "content_hash": "sha256:718d2d3808e739c347638ef8bf5fbffc086567541dfa5436fb30c2b483c0a3ba"
+    }
+  },
+  {
+    "product_id": "cn-official:nestle:dessert-bar-nougat:56g",
+    "display_name": "雀巢甜品棒恋上牛轧（56克）",
+    "brand": "雀巢",
+    "category": "frozen_food",
+    "region": "CN",
+    "use_case": "扁桃仁牛轧风味棒状冰淇淋",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.nestle:dessert-bar-nougat.56g.label.2026-08-15",
+      "ingredients_text": "水，葡萄糖浆，全脂乳粉（≥8%），白砂糖，焙烤扁桃仁碎（≥3%），植物油，扁桃仁酱（≥2.8%），乳清粉，无水奶油，食品添加剂（增稠剂（明胶，410，412，407），乳化剂（471）），聚葡萄糖",
+      "allergen_statement": "含有乳制品和扁桃仁，可能含有其它坚果",
+      "nutrition_table_text": "项目 每份（56克）；能量 504千焦；蛋白质 3.1克；脂肪 7.1克；碳水化合物 11.1克；钠 28毫克",
+      "nutrition_basis_text": "每份（56克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（56克）"
+        ],
+        [
+          "能量",
+          "504千焦"
+        ],
+        [
+          "蛋白质",
+          "3.1克"
+        ],
+        [
+          "脂肪",
+          "7.1克"
+        ],
+        [
+          "碳水化合物",
+          "11.1克"
+        ],
+        [
+          "钠",
+          "28毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.nestle.com.cn/brands/ice-cream/chengzhen/tianpinbang-a",
+      "evidence_quality": "complete",
+      "source_provider": "nestle_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:56g",
+      "source_authority": "manufacturer",
+      "official_store_url": "https://mall.jd.com/index-1000333009.html",
+      "official_store_name": "雀巢冰淇淋京东自营旗舰店",
+      "official_store_verified_at": "2026-08-15",
+      "content_hash": "sha256:d861caa4e0eb7fee9df334a42a7910a1f7f1a2eec782f3ae0bd46640685ee526"
+    }
+  },
+  {
+    "product_id": "cn-official:nestle:dessert-bar-berry:60g",
+    "display_name": "雀巢甜品棒恋恋莓雪（60克）",
+    "brand": "雀巢",
+    "category": "frozen_food",
+    "region": "CN",
+    "use_case": "莓果白巧克力棒状冰淇淋",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.nestle:dessert-bar-berry.60g.label.2026-08-15",
+      "ingredients_text": "水，白巧克力（≥15%），植物油，白砂糖，葡萄糖浆，麦芽糊精，草莓酱（≥2.5%），脱脂乳粉，乳清粉，蔓越莓果脯（≥1.3%），干酪（芝士）（≥0.7%），食品添加剂（增稠剂（412，466，410，407），乳化剂（471，477，322），酸度调节剂（330），着色剂（红曲红））",
+      "allergen_statement": "含有乳制品和大豆制品，可能含有蛋制品和坚果",
+      "nutrition_table_text": "项目 每份（60克）；能量 757千焦；蛋白质 1.7克；脂肪 12.7克；碳水化合物 15.2克；钠 51毫克",
+      "nutrition_basis_text": "每份（60克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（60克）"
+        ],
+        [
+          "能量",
+          "757千焦"
+        ],
+        [
+          "蛋白质",
+          "1.7克"
+        ],
+        [
+          "脂肪",
+          "12.7克"
+        ],
+        [
+          "碳水化合物",
+          "15.2克"
+        ],
+        [
+          "钠",
+          "51毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.nestle.com.cn/brands/ice-cream/chengzhen/tianpinbang-b",
+      "evidence_quality": "complete",
+      "source_provider": "nestle_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:60g",
+      "source_authority": "manufacturer",
+      "official_store_url": "https://mall.jd.com/index-1000333009.html",
+      "official_store_name": "雀巢冰淇淋京东自营旗舰店",
+      "official_store_verified_at": "2026-08-15",
+      "content_hash": "sha256:895cc5f9e79be066c1a6dcadec5f86c288b63d5da160a9ed6c549e584c816c4d"
+    }
+  },
+  {
+    "product_id": "cn-official:nestle:small-cup-chocolate:75g",
+    "display_name": "雀巢小杯巧克力味（75克）",
+    "brand": "雀巢",
+    "category": "frozen_food",
+    "region": "CN",
+    "use_case": "单杯巧克力风味冰淇淋",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.nestle:small-cup-chocolate.75g.label.2026-08-15",
+      "ingredients_text": "水，白砂糖，植物油，葡萄糖浆，乳清粉，麦芽糊精，乳粉，可可粉，食品添加剂（增稠剂（412，466，410，407），乳化剂（471，477），着色剂（150a，100ii，160b）），食用香精，食用盐",
+      "allergen_statement": "可能含有乳制品和坚果",
+      "nutrition_table_text": "项目 每份（75克）；能量 549千焦；蛋白质 1.1克；脂肪 5.2克；碳水化合物 19.9克；钠 45毫克",
+      "nutrition_basis_text": "每份（75克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（75克）"
+        ],
+        [
+          "能量",
+          "549千焦"
+        ],
+        [
+          "蛋白质",
+          "1.1克"
+        ],
+        [
+          "脂肪",
+          "5.2克"
+        ],
+        [
+          "碳水化合物",
+          "19.9克"
+        ],
+        [
+          "钠",
+          "45毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.nestle.com.cn/brands/ice-cream/shengdai",
+      "evidence_quality": "complete",
+      "source_provider": "nestle_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:75g",
+      "source_authority": "manufacturer",
+      "official_store_url": "https://mall.jd.com/index-1000333009.html",
+      "official_store_name": "雀巢冰淇淋京东自营旗舰店",
+      "official_store_verified_at": "2026-08-15",
+      "content_hash": "sha256:58a2d72beae80f5139a1b2d525a682f77f1f73f336edb5ee29b3b6e20d4b45f3"
+    }
+  },
+  {
+    "product_id": "cn-official:nestle:small-cup-fruit:75g",
+    "display_name": "雀巢小杯果味（75克）",
+    "brand": "雀巢",
+    "category": "frozen_food",
+    "region": "CN",
+    "use_case": "单杯果味冰淇淋",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.nestle:small-cup-fruit.75g.label.2026-08-15",
+      "ingredients_text": "水，白砂糖，植物油，葡萄糖浆，麦芽糊精，乳清粉，乳粉，食品添加剂（增稠剂（412，466，410，407），乳化剂（471，477），着色剂（100ii，160b，120）），食用香精",
+      "allergen_statement": "可能含有乳制品和坚果",
+      "nutrition_table_text": "项目 每份（75克）；能量 549千焦；蛋白质 1.1克；脂肪 5.2克；碳水化合物 19.9克；钠 45毫克",
+      "nutrition_basis_text": "每份（75克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（75克）"
+        ],
+        [
+          "能量",
+          "549千焦"
+        ],
+        [
+          "蛋白质",
+          "1.1克"
+        ],
+        [
+          "脂肪",
+          "5.2克"
+        ],
+        [
+          "碳水化合物",
+          "19.9克"
+        ],
+        [
+          "钠",
+          "45毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.nestle.com.cn/brands/ice-cream/shengdai",
+      "evidence_quality": "complete",
+      "source_provider": "nestle_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:75g",
+      "source_authority": "manufacturer",
+      "official_store_url": "https://mall.jd.com/index-1000333009.html",
+      "official_store_name": "雀巢冰淇淋京东自营旗舰店",
+      "official_store_verified_at": "2026-08-15",
+      "content_hash": "sha256:3e37c73341e8db95ae103af2729e3469769f0bffd14bb142ab4a6ac2cf9a9491"
+    }
+  },
+  {
+    "product_id": "cn-official:nestle:family-tub-vanilla:50g-serving",
+    "display_name": "雀巢家庭装香草风味冰淇淋（每份50克）",
+    "brand": "雀巢",
+    "category": "frozen_food",
+    "region": "CN",
+    "use_case": "家庭分享装冰淇淋",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.nestle:family-tub-vanilla.50g-serving.label.2026-08-15",
+      "ingredients_text": "水，白砂糖，植物油，葡萄糖浆，麦芽糊精，乳清粉，乳粉，食品添加剂（增稠剂（412，466，410，407），乳化剂（471，477）），食用香精",
+      "allergen_statement": "含有乳制品，可能含有坚果",
+      "nutrition_table_text": "项目 每份（50克）；能量 368千焦；蛋白质 0.7克；脂肪 3.5克；碳水化合物 13.3克；钠 30毫克",
+      "nutrition_basis_text": "每份（50克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（50克）"
+        ],
+        [
+          "能量",
+          "368千焦"
+        ],
+        [
+          "蛋白质",
+          "0.7克"
+        ],
+        [
+          "脂肪",
+          "3.5克"
+        ],
+        [
+          "碳水化合物",
+          "13.3克"
+        ],
+        [
+          "钠",
+          "30毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.nestle.com.cn/brands/ice-cream/icecream",
+      "evidence_quality": "complete",
+      "source_provider": "nestle_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:50g-serving",
+      "source_authority": "manufacturer",
+      "official_store_url": "https://mall.jd.com/index-1000333009.html",
+      "official_store_name": "雀巢冰淇淋京东自营旗舰店",
+      "official_store_verified_at": "2026-08-15",
+      "content_hash": "sha256:88982bbafc4a400f6d7afb592a3947bb80cb34d3d366216a405e2c8963ad3b17"
+    }
+  },
+  {
+    "product_id": "cn-official:nestle:family-tub-chocolate:50g-serving",
+    "display_name": "雀巢家庭装巧克力风味冰淇淋（每份50克）",
+    "brand": "雀巢",
+    "category": "frozen_food",
+    "region": "CN",
+    "use_case": "家庭分享装冰淇淋",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.nestle:family-tub-chocolate.50g-serving.label.2026-08-15",
+      "ingredients_text": "水，白砂糖，植物油，葡萄糖浆，乳清粉，麦芽糊精，乳粉，可可粉，食品添加剂（增稠剂（412，466，410，407），乳化剂（471，477），着色剂（150a，100ii，160b）），食用香精，食用盐",
+      "allergen_statement": "含有乳制品，可能含有坚果",
+      "nutrition_table_text": "项目 每份（50克）；能量 368千焦；蛋白质 0.7克；脂肪 3.5克；碳水化合物 13.3克；钠 30毫克",
+      "nutrition_basis_text": "每份（50克）",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每份（50克）"
+        ],
+        [
+          "能量",
+          "368千焦"
+        ],
+        [
+          "蛋白质",
+          "0.7克"
+        ],
+        [
+          "脂肪",
+          "3.5克"
+        ],
+        [
+          "碳水化合物",
+          "13.3克"
+        ],
+        [
+          "钠",
+          "30毫克"
+        ]
+      ],
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.nestle.com.cn/brands/ice-cream/icecream",
+      "evidence_quality": "complete",
+      "source_provider": "nestle_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "page-review-2026-08-15:50g-serving",
+      "source_authority": "manufacturer",
+      "official_store_url": "https://mall.jd.com/index-1000333009.html",
+      "official_store_name": "雀巢冰淇淋京东自营旗舰店",
+      "official_store_verified_at": "2026-08-15",
+      "content_hash": "sha256:30670c728af509ad9737448cca1df271717310f72611deab820a7110eccf769e"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:01-65g",
+    "display_name": "明治牛奶巧克力（65g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.01-65g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:01-65g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:02-65g",
+    "display_name": "明治特浓牛奶巧克力（65g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.02-65g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:02-65g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:03-50-65g",
+    "display_name": "明治黑巧克力50%（65g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.03-50-65g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:03-50-65g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:04-60-65g",
+    "display_name": "明治特纯黑巧克力60%（65g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.04-60-65g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:04-60-65g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:05-70-65g",
+    "display_name": "明治超纯黑巧克力70%（65g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.05-70-65g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:05-70-65g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:06-65g",
+    "display_name": "明治草莓巧克力（65g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.06-65g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:06-65g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:07-75g",
+    "display_name": "明治牛奶巧克力（75g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.07-75g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:07-75g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:08-75g",
+    "display_name": "明治特浓牛奶巧克力（75g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.08-75g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:08-75g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:09-50-75g",
+    "display_name": "明治黑巧克力50%（75g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.09-50-75g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:09-50-75g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:10-60-75g",
+    "display_name": "明治特纯黑巧克力60%（75g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.10-60-75g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:10-60-75g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:11-70-75g",
+    "display_name": "明治超纯黑巧克力70%（75g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.11-70-75g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:11-70-75g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:12-75g",
+    "display_name": "明治草莓巧克力（75g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.12-75g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:12-75g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:13-55g",
+    "display_name": "明治雪吻巧克力可可口味（55g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.13-55g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:13-55g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:14-55g",
+    "display_name": "明治雪吻巧克力抹茶口味（55g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.14-55g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:14-55g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:15-55g",
+    "display_name": "明治雪吻巧克力草莓口味（55g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.15-55g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:15-55g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:16-55g",
+    "display_name": "明治雪吻巧克力牛奶口味（55g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.16-55g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:16-55g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:17-55g",
+    "display_name": "明治雪吻巧克力柚子口味（55g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.17-55g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:17-55g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:18-55g",
+    "display_name": "明治雪吻巧克力意式榛果巴旦木口味（55g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.18-55g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:18-55g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:19-29g",
+    "display_name": "明治雪吻巧克力可可口味（29g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.19-29g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:19-29g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:20-29g",
+    "display_name": "明治雪吻巧克力抹茶口味（29g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.20-29g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:20-29g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:21-29g",
+    "display_name": "明治雪吻巧克力草莓口味（29g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.21-29g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:21-29g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:22-29g",
+    "display_name": "明治雪吻巧克力牛奶口味（29g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.22-29g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:22-29g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:23-29g",
+    "display_name": "明治雪吻巧克力柚子口味（29g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.23-29g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:23-29g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:24-29g",
+    "display_name": "明治雪吻巧克力意式榛果巴旦木口味（29g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.24-29g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:24-29g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:25-58g",
+    "display_name": "明治澳洲坚果夹心巧克力（58g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.25-58g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:25-58g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:26-58g",
+    "display_name": "明治澳洲坚果夹心黑巧克力（58g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.26-58g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:26-58g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:27-58g",
+    "display_name": "明治澳洲坚果夹心巧克力龙井口味（58g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.27-58g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:27-58g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:28-58g",
+    "display_name": "明治澳洲坚果夹心巧克力桂花乌龙口味（58g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.28-58g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:28-58g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:29-80g",
+    "display_name": "明治巴旦木夹心巧克力（80g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.29-80g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:29-80g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:30-80g",
+    "display_name": "明治巴旦木夹心黑巧克力（80g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.30-80g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:30-80g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:31-66g",
+    "display_name": "明治巴旦木夹心巧克力脆脆燕麦味（66g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.31-66g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:31-66g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:32-66g",
+    "display_name": "明治巴旦木夹心黑巧克力脆脆燕麦味（66g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.32-66g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:32-66g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:33-50g",
+    "display_name": "明治橡皮糖巧克力青提味（50g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.33-50g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:33-50g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:34-50g",
+    "display_name": "明治橡皮糖巧克力草莓味（50g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.34-50g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:34-50g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:35-50g",
+    "display_name": "明治橡皮糖巧克力水蜜桃酸奶味（50g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.35-50g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:35-50g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:36-50g",
+    "display_name": "明治橡皮糖巧克力芒果味（50g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.36-50g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:36-50g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:37-50g",
+    "display_name": "明治巧克娃娃巧克力（50g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.37-50g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:37-50g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:38-50g",
+    "display_name": "明治幻彩巧克力（50g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.38-50g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:38-50g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:39-8g",
+    "display_name": "明治巧克娃娃巧克力（8g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.39-8g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:39-8g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:40-8g",
+    "display_name": "明治幻彩巧克力（8g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.40-8g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:40-8g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:41-8g",
+    "display_name": "明治香蕉巧克力（8g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.41-8g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:41-8g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:42-8g",
+    "display_name": "明治橡皮糖巧克力青提味（8g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.42-8g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:42-8g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:43-8g",
+    "display_name": "明治橡皮糖巧克力草莓味（8g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.43-8g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:43-8g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:44-8g",
+    "display_name": "明治橡皮糖巧克力水蜜桃酸奶味（8g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.44-8g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:44-8g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  },
+  {
+    "product_id": "cn-official:meiji:45-8g",
+    "display_name": "明治巧巧球巧克力黑糖奶茶口味（8g）",
+    "brand": "明治",
+    "category": "confectionery",
+    "region": "CN",
+    "use_case": "巧克力及糖果零食",
+    "catalog_scope": "official_cn_catalog",
+    "label": {
+      "evidence_id": "official.meiji.discovery.45-8g.2026-08-15",
+      "ingredients_text": "完整包装配料表待核验；官网当前仅确认商品名称与规格",
+      "allergen_statement": null,
+      "nutrition_table_text": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": null,
+      "confirmed_by": "human_review",
+      "confirmed_at": "2026-08-15",
+      "valid_through": "2027-02-15",
+      "source_url": "https://www.meiji.com.cn/product/cookie-product.html",
+      "evidence_quality": "partial",
+      "source_provider": "meiji_china_official_website",
+      "source_type": "official_product_page",
+      "source_verified_at": "2026-08-15",
+      "source_language": "zh-CN",
+      "source_access_region": "CN",
+      "source_record_version": "discovery-review-2026-08-15:45-8g",
+      "source_authority": "manufacturer",
+      "content_hash": "sha256:e2f573ae948a0759e94af948fc11331679a79da1243e7fac7e2d293f7b01c791"
+    }
+  }
+]

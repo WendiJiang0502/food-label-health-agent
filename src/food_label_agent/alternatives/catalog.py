@@ -22,6 +22,9 @@ from .models import ProductRecord
 
 DATA_PATH = Path(__file__).with_name("data") / "curated_products.json"
 OFFICIAL_CN_DATA_PATH = Path(__file__).with_name("data") / "official_cn_products.json"
+OFFICIAL_CN_EXPANSION_PATH = (
+    Path(__file__).with_name("data") / "official_cn_expansion.json"
+)
 OFF_BASE_URL = "https://world.openfoodfacts.org"
 OFFICIAL_PRODUCT_HOSTS = {
     "china.lkk.com.cn",
@@ -35,6 +38,10 @@ OFFICIAL_PRODUCT_HOSTS = {
     "wolons.com",
     "www.nestle.com.cn",
     "nestle.com.cn",
+    "www.kinder.com",
+    "kinder.com",
+    "www.meiji.com.cn",
+    "meiji.com.cn",
 }
 OFFICIAL_STORE_HOST_SUFFIXES = (".jd.com", ".tmall.com")
 OFF_FIELDS = (
@@ -122,15 +129,21 @@ class OfficialChinaCatalog:
         self,
         path: str | Path = OFFICIAL_CN_DATA_PATH,
         *,
+        expansion_path: str | Path | None = OFFICIAL_CN_EXPANSION_PATH,
         approved_path: str | Path | None = None,
     ) -> None:
         self.path = Path(path)
+        self.expansion_path = Path(expansion_path) if expansion_path else None
         self.approved_path = (
             Path(approved_path) if approved_path else default_approved_catalog_path()
         )
 
     def _records(self) -> tuple[ProductRecord, ...]:
         payload = json.loads(self.path.read_text(encoding="utf-8"))
+        if self.expansion_path and self.expansion_path.exists():
+            expansion = json.loads(self.expansion_path.read_text(encoding="utf-8"))
+            if isinstance(expansion, list):
+                payload.extend(item for item in expansion if isinstance(item, dict))
         if self.approved_path.exists():
             reviewed = json.loads(self.approved_path.read_text(encoding="utf-8"))
             if isinstance(reviewed, list):
