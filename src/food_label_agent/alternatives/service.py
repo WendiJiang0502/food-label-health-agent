@@ -2,17 +2,19 @@
 
 from __future__ import annotations
 
-import json
 from collections.abc import Iterable
 from datetime import date, timedelta
-from hashlib import sha256
 from typing import Any
 
 from food_label_agent.ingredients.api_models import SafetyEvaluationRequest
 from food_label_agent.ingredients.service import evaluate_user_constraints_result
 
 from .catalog import ProductCatalog, configured_catalog
-from .evidence_audit import audit_product_label, summarize_label_coverage
+from .evidence_audit import (
+    audit_product_label,
+    label_content_hash,
+    summarize_label_coverage,
+)
 from .models import (
     AlternativeRevalidationRequest,
     AlternativeSearchRequest,
@@ -252,7 +254,7 @@ def _evidence_rejection(product: ProductRecord, applicable_date) -> str | None:
     label = product.label
     if label.evidence_quality != "complete":
         return "LABEL_EVIDENCE_INCOMPLETE"
-    if label.content_hash != _label_content_hash(product):
+    if label.content_hash != label_content_hash(product):
         return "LABEL_EVIDENCE_HASH_MISMATCH"
     if label.valid_through and applicable_date > label.valid_through:
         return "LABEL_EVIDENCE_EXPIRED"
@@ -261,21 +263,6 @@ def _evidence_rejection(product: ProductRecord, applicable_date) -> str | None:
     if applicable_date - label.confirmed_at > MAX_LABEL_AGE:
         return "LABEL_EVIDENCE_STALE"
     return None
-
-
-def _label_content_hash(product: ProductRecord) -> str:
-    label = product.label
-    payload = {
-        "ingredients_text": label.ingredients_text,
-        "allergen_statement": label.allergen_statement or "",
-        "nutrition_table_text": label.nutrition_table_text or "",
-        "nutrition_basis_text": label.nutrition_basis_text or "",
-        "nutrition_rows": label.nutrition_rows or [],
-    }
-    encoded = json.dumps(
-        payload, ensure_ascii=False, sort_keys=True, separators=(",", ":")
-    ).encode()
-    return f"sha256:{sha256(encoded).hexdigest()}"
 
 
 def _authority_score(authority: str) -> int:

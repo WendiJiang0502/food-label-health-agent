@@ -56,6 +56,25 @@ def test_official_catalog_exposes_complete_review_queue() -> None:
     assert coverage["items"][0]["label_coverage"]["review_priority"] == "high"
 
 
+def test_official_catalog_merges_dynamically_approved_records(tmp_path: Path) -> None:
+    source = json.loads(
+        Path("src/food_label_agent/alternatives/data/official_cn_products.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    approved = tmp_path / "approved.json"
+    extra = source[0]
+    extra["product_id"] = "cn-official:yili:pure-milk-reviewed-copy"
+    extra["display_name"] = "伊利纯牛奶审核新增规格"
+    approved.write_text(json.dumps([extra], ensure_ascii=False), encoding="utf-8")
+
+    result = OfficialChinaCatalog(approved_path=approved).search(
+        category="dairy", region="CN"
+    )
+
+    assert "伊利纯牛奶审核新增规格" in [item.display_name for item in result.records]
+
+
 def test_partial_official_label_is_visible_but_not_safety_recommended() -> None:
     search = find_alternative_products(
         AlternativeSearchRequest(

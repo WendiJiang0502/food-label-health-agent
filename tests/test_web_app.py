@@ -4,6 +4,7 @@ import asyncio
 
 import httpx
 
+from food_label_agent.alternatives.discovery import DiscoveryRefreshResult
 from food_label_agent.web.app import create_app
 
 
@@ -59,6 +60,52 @@ def test_official_catalog_coverage_api_lists_every_review_item() -> None:
     assert payload["evidence_gate_count"] == 1
     assert len(payload["items"]) == 5
     assert all("missing_fields" in item["label_coverage"] for item in payload["items"])
+
+
+class _FakeDiscovery:
+    def status(self, *, category=None):
+        return {
+            "discovered_count": 7,
+            "needs_label_count": 5,
+            "ready_for_review_count": 2,
+            "approved_count": 0,
+            "rejected_count": 0,
+            "last_refreshed_at": "2026-08-15T00:00:00+00:00",
+            "items": [],
+        }
+
+    def refresh(self, *, category=None):
+        return DiscoveryRefreshResult(status="completed", summary=self.status(category=category))
+
+    def review(self, **_kwargs):
+        raise PermissionError
+
+
+def test_official_discovery_refresh_and_status_api() -> None:
+    app = create_app(discovery_service=_FakeDiscovery())
+
+    async def scenario():
+        transport = httpx.ASGITransport(app=app)
+        async with httpx.AsyncClient(transport=transport, base_url="http://test") as client:
+            refreshed = await client.post(
+                "/api/v1/alternatives/discovery/refresh", json={"category": "snack"}
+            )
+            status = await client.get(
+                "/api/v1/alternatives/discovery", params={"category": "snack"}
+            )
+            forbidden = await client.post(
+                "/api/v1/alternatives/discovery/review",
+                headers={"Authorization": "Bearer invalid"},
+                json={"candidate_id": "candidate-1", "decision": "reject"},
+            )
+            return refreshed, status, forbidden
+
+    refreshed, status, forbidden = asyncio.run(scenario())
+
+    assert refreshed.status_code == 200
+    assert refreshed.json()["summary"]["discovered_count"] == 7
+    assert status.json()["ready_for_review_count"] == 2
+    assert forbidden.status_code == 403
 
 
 def test_upload_returns_structured_demo_ocr() -> None:

@@ -16,6 +16,7 @@ from typing import Any, Protocol
 from urllib.parse import urlencode, urlparse
 from urllib.request import Request, urlopen
 
+from .discovery import default_approved_catalog_path
 from .evidence_audit import audit_product_label, summarize_label_coverage
 from .models import ProductRecord
 
@@ -115,12 +116,31 @@ class JsonProductCatalog:
 class OfficialChinaCatalog:
     """Serve only manually verified mainland-accessible official sources."""
 
-    def __init__(self, path: str | Path = OFFICIAL_CN_DATA_PATH) -> None:
+    def __init__(
+        self,
+        path: str | Path = OFFICIAL_CN_DATA_PATH,
+        *,
+        approved_path: str | Path | None = None,
+    ) -> None:
         self.path = Path(path)
+        self.approved_path = (
+            Path(approved_path) if approved_path else default_approved_catalog_path()
+        )
+
+    def _records(self) -> tuple[ProductRecord, ...]:
+        payload = json.loads(self.path.read_text(encoding="utf-8"))
+        if self.approved_path.exists():
+            reviewed = json.loads(self.approved_path.read_text(encoding="utf-8"))
+            if isinstance(reviewed, list):
+                payload.extend(item for item in reviewed if isinstance(item, dict))
+        records: dict[str, ProductRecord] = {}
+        for item in payload:
+            record = ProductRecord.model_validate(item)
+            records[record.product_id] = record
+        return tuple(records.values())
 
     def search(self, *, category: str, region: str) -> CatalogSearchResult:
-        payload = json.loads(self.path.read_text(encoding="utf-8"))
-        records = tuple(ProductRecord.model_validate(item) for item in payload)
+        records = self._records()
         accepted: list[ProductRecord] = []
         rejected: list[dict[str, Any]] = []
         for item in records:
@@ -150,8 +170,7 @@ class OfficialChinaCatalog:
     def coverage(self, *, category: str | None = None, region: str = "CN") -> dict[str, Any]:
         """Return a read-only review queue for every discovered official record."""
 
-        payload = json.loads(self.path.read_text(encoding="utf-8"))
-        records = [ProductRecord.model_validate(item) for item in payload]
+        records = self._records()
         selected = [
             product
             for product in records

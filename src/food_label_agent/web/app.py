@@ -9,14 +9,16 @@ from pathlib import Path
 
 from pydantic import ValidationError
 from starlette.applications import Starlette
+from starlette.concurrency import run_in_threadpool
 from starlette.datastructures import UploadFile
 from starlette.requests import Request
 from starlette.responses import FileResponse, JSONResponse
 from starlette.routing import Mount, Route
 from starlette.staticfiles import StaticFiles
 
-from food_label_agent.alternatives.category import suggest_product_category
 from food_label_agent.alternatives.catalog import OfficialChinaCatalog
+from food_label_agent.alternatives.category import suggest_product_category
+from food_label_agent.alternatives.discovery import OfficialProductDiscovery
 from food_label_agent.alternatives.models import AlternativeWorkflowRequest
 from food_label_agent.domain.models import LabelField
 from food_label_agent.graph.planner import planner_public_status
@@ -52,10 +54,12 @@ def create_app(
     *,
     checkpoint_store: SQLiteCheckpointStore | None = None,
     memory_store: SQLiteMemoryStore | None = None,
+    discovery_service: OfficialProductDiscovery | None = None,
 ) -> Starlette:
     service = OCRService(provider or create_ocr_provider())
     checkpoints = checkpoint_store or SQLiteCheckpointStore()
     memories = memory_store or SQLiteMemoryStore()
+    discovery = discovery_service or OfficialProductDiscovery()
 
     async def index(_: Request) -> FileResponse:
         return FileResponse(
@@ -82,6 +86,36 @@ def create_app(
     async def official_catalog_coverage(request: Request) -> JSONResponse:
         category = request.query_params.get("category") or None
         return JSONResponse(OfficialChinaCatalog().coverage(category=category))
+
+    async def official_discovery_status(request: Request) -> JSONResponse:
+        category = request.query_params.get("category") or None
+        return JSONResponse(discovery.status(category=category))
+
+    async def refresh_official_discovery(request: Request) -> JSONResponse:
+        try:
+            payload = await request.json()
+            category = str(payload.get("category") or "").strip() or None
+            result = await run_in_threadpool(discovery.refresh, category=category)
+            return JSONResponse(result.to_dict())
+        except (TypeError, ValueError) as exc:
+            return _error(str(exc), status_code=422)
+
+    async def review_official_discovery(request: Request) -> JSONResponse:
+        try:
+            payload = await request.json()
+            item = discovery.review(
+                candidate_id=str(payload.get("candidate_id") or ""),
+                decision=str(payload.get("decision") or ""),
+                review_token=_bearer_token(request),
+                product=payload.get("product"),
+            )
+            return JSONResponse({"status": "reviewed", "item": item})
+        except PermissionError:
+            return _error("目录审核凭证无效。", status_code=403)
+        except KeyError:
+            return _error("没有找到这条待复核商品。", status_code=404)
+        except (TypeError, ValueError, ValidationError) as exc:
+            return _error(str(exc), status_code=422)
 
     async def analyze_label(request: Request) -> JSONResponse:
         try:
@@ -268,6 +302,11 @@ def create_app(
                 parsed.request_id, parsed.resume_token
             )
             result, final_state = run_alternative_workflow(parsed, state=resumed_state)
+            result["discovery"] = {
+                "status": "cached",
+                "summary": discovery.status(category=parsed.category),
+                "warnings": [],
+            }
             checkpoint = checkpoints.save(final_state, resume_token=parsed.resume_token)
             result["checkpoint"] = checkpoint.to_dict()
             return JSONResponse(result)
@@ -383,6 +422,21 @@ def create_app(
         Route(
             "/api/v1/alternatives/catalog-coverage",
             endpoint=official_catalog_coverage,
+        ),
+        Route(
+            "/api/v1/alternatives/discovery",
+            endpoint=official_discovery_status,
+            methods=["GET"],
+        ),
+        Route(
+            "/api/v1/alternatives/discovery/refresh",
+            endpoint=refresh_official_discovery,
+            methods=["POST"],
+        ),
+        Route(
+            "/api/v1/alternatives/discovery/review",
+            endpoint=review_official_discovery,
+            methods=["POST"],
         ),
         Route("/api/v1/ocr/analyze", endpoint=analyze_label, methods=["POST"]),
         Route("/api/v1/labels/confirm", endpoint=confirm_label, methods=["POST"]),

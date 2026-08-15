@@ -133,6 +133,7 @@ const state = {
   profileMemoryItem: null,
   profileEditReturn: null,
   portionContext: null,
+  alternativeDiscoveryRequestId: null,
 };
 
 elements.portionPresets.addEventListener("click", (event) => {
@@ -1540,6 +1541,9 @@ async function findAndRevalidateAlternatives() {
   elements.alternativeStatus.textContent = "正在检查候选标签完整度，并重新运行全部个人约束。";
   elements.alternativeResults.hidden = true;
   announce("正在查找并逐项复核同类候选");
+  const discoveryRequestId = `${category}:${Date.now()}`;
+  state.alternativeDiscoveryRequestId = discoveryRequestId;
+  const discoveryPromise = refreshOfficialDiscovery(category);
   try {
     const response = await fetch("/api/v1/alternatives/search", {
       method: "POST",
@@ -1561,12 +1565,33 @@ async function findAndRevalidateAlternatives() {
     if (!response.ok) throw new Error(payload.message || "替代品复核失败。");
     if (payload.checkpoint?.resume_token) state.checkpointToken = payload.checkpoint.resume_token;
     renderAlternativeResults(payload);
+    discoveryPromise.then((freshDiscovery) => {
+      if (
+        freshDiscovery
+        && state.alternativeDiscoveryRequestId === discoveryRequestId
+      ) {
+        renderAlternativeDiscoverySummary(freshDiscovery);
+      }
+    });
   } catch (error) {
     elements.alternativeStatus.textContent = error.message;
     announce(error.message);
   } finally {
     elements.findAlternatives.disabled = false;
     elements.findAlternatives.textContent = "查找并逐项复核";
+  }
+}
+
+async function refreshOfficialDiscovery(category) {
+  try {
+    const response = await fetch("/api/v1/alternatives/discovery/refresh", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ category }),
+    });
+    return response.ok ? await response.json() : null;
+  } catch (_error) {
+    return null;
   }
 }
 
@@ -1595,6 +1620,12 @@ function renderAlternativeResults(payload) {
   const coverage = payload.catalog_coverage || {};
   if (coverage.total) {
     elements.alternativeSource.textContent += ` 本类别已检索 ${coverage.total} 件官方商品：${coverage.full_label_count} 件已补齐全部包装字段，${coverage.evidence_gate_count} 件达到当前复核门槛，${coverage.needs_review_count} 件仍有字段待补。`;
+  }
+  elements.alternativeSource.dataset.catalogCopy = elements.alternativeSource.textContent;
+  renderAlternativeDiscoverySummary(payload.discovery);
+  const discovery = payload.discovery?.summary;
+  if (discovery?.discovered_count) {
+    elements.alternativeCount.title = `自动发现队列：${discovery.discovered_count} 件`;
   }
   if (!payload.eligible.length) {
     const catalogMatches = payload.candidate_count + payload.evidence_rejected.length;
@@ -1709,6 +1740,19 @@ function renderAlternativeResults(payload) {
     elements.alternativeExclusionList.append(row);
   });
   announce(elements.alternativeStatus.textContent);
+}
+
+function renderAlternativeDiscoverySummary(discoveryPayload) {
+  const baseCopy = elements.alternativeSource.dataset.catalogCopy
+    || elements.alternativeSource.textContent;
+  const discovery = discoveryPayload?.summary;
+  if (discovery?.discovered_count) {
+    elements.alternativeSource.textContent = `${baseCopy} 自动发现队列另有 ${discovery.discovered_count} 件：${discovery.needs_label_count} 件待补包装标签，${discovery.ready_for_review_count} 件待人工审核，${discovery.change_detected_count || 0} 件发现页面变更，${discovery.approved_count} 件已审核入库。`;
+  } else if (discoveryPayload?.status === "unavailable") {
+    elements.alternativeSource.textContent = `${baseCopy} 本次官方页面暂时无法刷新，已继续使用上次审核目录。`;
+  } else {
+    elements.alternativeSource.textContent = `${baseCopy} 暂未发现可准确识别的新商品页面；已保留现有审核目录。`;
+  }
 }
 
 function appendAlternativeReviewLink(container, url, label) {

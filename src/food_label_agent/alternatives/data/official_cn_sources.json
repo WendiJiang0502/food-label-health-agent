@@ -1,0 +1,93 @@
+[
+  {
+    "source_id": "yili-official",
+    "brand": "伊利",
+    "category": "dairy",
+    "discovery_urls": ["https://www.yili.com/product"],
+    "allowed_hosts": ["www.yili.com", "yili.com"],
+    "product_path_markers": ["/product/"],
+    "official_store_url": "https://yilishop.jd.com/",
+    "official_store_name": "伊利牛奶官方旗舰店"
+  },
+  {
+    "source_id": "seamild-official",
+    "brand": "西麦",
+    "category": "breakfast_cereal",
+    "discovery_urls": ["https://www.seamild.com.cn/product/6/"],
+    "allowed_hosts": ["www.seamild.com.cn", "seamild.com.cn"],
+    "product_path_markers": ["/product/"],
+    "official_store_url": "https://mall.jd.com/index-18928462.html",
+    "official_store_name": "西麦官方旗舰店"
+  },
+  {
+    "source_id": "lkk-official",
+    "brand": "李锦记",
+    "category": "sauce_condiment",
+    "discovery_urls": ["https://china.lkk.com.cn/enterprise/zh-cn/Products/"],
+    "allowed_hosts": ["china.lkk.com.cn"],
+    "product_path_markers": ["/products/"],
+    "official_store_url": "https://lijinji.jd.com/",
+    "official_store_name": "李锦记京东自营旗舰店"
+  },
+  {
+    "source_id": "wolong-official",
+    "brand": "沃隆",
+    "category": "snack",
+    "discovery_urls": ["https://www.wolons.com/list-1.html"],
+    "allowed_hosts": ["www.wolons.com", "wolons.com"],
+    "product_path_markers": ["/detail", "/product", "/show"],
+    "official_store_url": "https://wolong.jd.com/",
+    "official_store_name": "沃隆官方旗舰店"
+  },
+  {
+    "source_id": "yili-jd-official-store",
+    "brand": "伊利",
+    "category": "dairy",
+    "source_type": "official_flagship_store",
+    "discovery_urls": ["https://yilishop.jd.com/"],
+    "product_seed_urls": ["https://item.jd.com/10094444937375.html"],
+    "allowed_hosts": ["yilishop.jd.com", "item.jd.com", "mall.jd.com"],
+    "product_path_markers": [".html"],
+    "official_store_url": "https://yilishop.jd.com/",
+    "official_store_name": "伊利牛奶官方旗舰店"
+  },
+  {
+    "source_id": "seamild-jd-official-store",
+    "brand": "西麦",
+    "category": "breakfast_cereal",
+    "source_type": "official_flagship_store",
+    "discovery_urls": ["https://mall.jd.com/index-18928462.html"],
+    "product_seed_urls": [
+      "https://item.jd.com/100047734290.html",
+      "https://item.jd.com/10310929022.html"
+    ],
+    "allowed_hosts": ["mall.jd.com", "item.jd.com"],
+    "product_path_markers": [".html"],
+    "official_store_url": "https://mall.jd.com/index-18928462.html",
+    "official_store_name": "西麦官方旗舰店"
+  },
+  {
+    "source_id": "lkk-jd-official-store",
+    "brand": "李锦记",
+    "category": "sauce_condiment",
+    "source_type": "official_flagship_store",
+    "discovery_urls": ["https://lijinji.jd.com/"],
+    "product_seed_urls": ["https://item.jd.com/10161496401099.html"],
+    "allowed_hosts": ["lijinji.jd.com", "item.jd.com", "mall.jd.com"],
+    "product_path_markers": [".html"],
+    "official_store_url": "https://lijinji.jd.com/",
+    "official_store_name": "李锦记京东自营旗舰店"
+  },
+  {
+    "source_id": "wolong-jd-official-store",
+    "brand": "沃隆",
+    "category": "snack",
+    "source_type": "official_flagship_store",
+    "discovery_urls": ["https://wolong.jd.com/"],
+    "product_seed_urls": ["https://item.jd.com/100045185717.html"],
+    "allowed_hosts": ["wolong.jd.com", "item.jd.com", "mall.jd.com"],
+    "product_path_markers": [".html"],
+    "official_store_url": "https://wolong.jd.com/",
+    "official_store_name": "沃隆官方旗舰店"
+  }
+]

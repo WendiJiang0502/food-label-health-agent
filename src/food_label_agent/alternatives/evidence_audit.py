@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import json
+from hashlib import sha256
 from typing import Any
 
 from .models import ProductRecord
@@ -20,6 +22,23 @@ _CORE_NUTRIENTS = {
     "碳水化合物": "碳水化合物",
     "钠": "钠",
 }
+
+
+def label_content_hash(product: ProductRecord) -> str:
+    """Return the canonical hash used to detect reviewed label mutations."""
+
+    label = product.label
+    payload = {
+        "ingredients_text": label.ingredients_text,
+        "allergen_statement": label.allergen_statement or "",
+        "nutrition_table_text": label.nutrition_table_text or "",
+        "nutrition_basis_text": label.nutrition_basis_text or "",
+        "nutrition_rows": label.nutrition_rows or [],
+    }
+    encoded = json.dumps(
+        payload, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+    ).encode()
+    return f"sha256:{sha256(encoded).hexdigest()}"
 
 
 def audit_product_label(product: ProductRecord) -> dict[str, Any]:
