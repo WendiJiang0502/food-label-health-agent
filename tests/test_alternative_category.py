@@ -25,3 +25,21 @@ def test_category_suggestion_covers_condiments() -> None:
     )
 
     assert result["category"] == "sauce_condiment"
+
+
+def test_category_suggestion_covers_daily_nuts() -> None:
+    result = suggest_product_category(
+        {"product_name": "每日坚果", "ingredients": "核桃仁、腰果仁"}
+    )
+
+    assert result["status"] == "suggested"
+    assert result["category"] == "snack"
+
+
+def test_category_suggestion_covers_light_soy_sauce() -> None:
+    result = suggest_product_category(
+        {"product_name": "薄盐生抽", "ingredients": "水、大豆、小麦"}
+    )
+
+    assert result["status"] == "suggested"
+    assert result["category"] == "sauce_condiment"

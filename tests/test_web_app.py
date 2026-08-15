@@ -102,6 +102,25 @@ def test_confirmation_api_enters_normalization_route() -> None:
     assert response.status_code == 200
     assert response.json()["next_route"] == "normalize_label"
     assert response.json()["normalized_label"]["ingredients"][0]["raw_name"] == "小麦粉"
+    assert response.json()["alternative_category_suggestion"]["category"] is None
+
+
+def test_confirmation_api_returns_category_for_portion_reference() -> None:
+    response = asyncio.run(
+        request(
+            "POST",
+            "/api/v1/labels/confirm",
+            json={
+                "request_id": "portion-category",
+                "jurisdiction": "CN",
+                "applicable_date": "2026-08-15",
+                "fields": {"ingredients": "食品名称：烧烤味薯片；配料：马铃薯、植物油"},
+            },
+        )
+    )
+
+    assert response.status_code == 200
+    assert response.json()["alternative_category_suggestion"]["category"] == "snack"
 
 
 def test_safety_api_returns_traceable_avoid_result() -> None:

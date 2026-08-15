@@ -134,6 +134,9 @@ def create_app(
             parsed = ConfirmLabelRequest.model_validate(payload)
             result = service.confirm(parsed)
             response = result.model_dump(mode="json")
+            response["alternative_category_suggestion"] = suggest_product_category(
+                parsed.fields
+            )
             if parsed.resume_token:
                 state = checkpoints.load_latest(parsed.request_id, parsed.resume_token)
                 state["jurisdiction"] = parsed.jurisdiction
