@@ -66,6 +66,11 @@ const elements = {
   riskSummary: document.querySelector("#risk-summary"),
   portionValue: document.querySelector("#portion-value"),
   portionNote: document.querySelector("#portion-note"),
+  portionControls: document.querySelector("#portion-controls"),
+  portionPresets: document.querySelector("#portion-presets"),
+  portionAmount: document.querySelector("#portion-amount"),
+  portionUnit: document.querySelector("#portion-unit"),
+  portionError: document.querySelector("#portion-error"),
   nutritionBasisLabel: document.querySelector("#nutrition-basis-label"),
   nutritionStatList: document.querySelector("#nutrition-stat-list"),
   nutritionStatEmpty: document.querySelector("#nutrition-stat-empty"),
@@ -127,7 +132,21 @@ const state = {
   profile: readLocalProfile(),
   profileMemoryItem: null,
   profileEditReturn: null,
+  portionContext: null,
 };
+
+elements.portionPresets.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-portion-multiplier]");
+  if (!button || !state.portionContext) return;
+  const amount = state.portionContext.reference.amount * Number(button.dataset.portionMultiplier);
+  elements.portionAmount.value = formatInputNumber(amount);
+  updatePortionAmount(amount);
+});
+
+elements.portionAmount.addEventListener("input", () => {
+  if (!state.portionContext) return;
+  updatePortionAmount(elements.portionAmount.valueAsNumber);
+});
 
 const constraintLabels = {
   milk: "乳过敏",
@@ -702,6 +721,7 @@ function returnToLabelEditing() {
   state.confirmedFields = null;
   state.normalizedLabel = null;
   state.suggestedCategory = null;
+  state.portionContext = null;
   state.currentConstraints = [];
   elements.reviewTitle.textContent = "确认识别文字";
   elements.reviewCount.textContent = `${state.analysis?.fields.length || 0} 项`;
@@ -898,6 +918,7 @@ function resetResult() {
   state.confirmedFields = null;
   state.normalizedLabel = null;
   state.suggestedCategory = null;
+  state.portionContext = null;
   state.checkpointToken = null;
   state.currentConstraints = [];
   elements.workbench.classList.remove("has-analysis");
@@ -1224,10 +1245,11 @@ function resultTitles(riskLevel, primary, nutrition) {
 
 function renderDecisionSupport(riskLevel, nutrition, findings, category = null) {
   renderPortionGuidance(riskLevel, nutrition, findings, category);
-  renderNutritionSnapshot(nutrition);
+  renderNutritionSnapshot(nutrition, state.portionContext);
 }
 
 function renderPortionGuidance(riskLevel, nutrition, findings, category) {
+  resetPortionControls();
   const allergenFinding = findings.find((finding) =>
     finding.risk_level !== "compatible" && Object.hasOwn(allergenNames, finding.constraint),
   );
@@ -1250,11 +1272,20 @@ function renderPortionGuidance(riskLevel, nutrition, findings, category) {
 
   const basis = nutrition?.basis;
   if (basis?.type === "per_serving") {
-    const amount = basis.unit === "serving"
+    const servingText = basis.unit === "serving"
       ? "包装标示的 1 份"
       : `包装标示的 1 份（${formatNumber(basis.amount)}${nutrientUnitNames[basis.unit] || basis.unit}）`;
-    elements.portionValue.textContent = amount;
-    elements.portionNote.textContent = "这是包装用于列示营养数值的份量，不是根据个人健康状况生成的每日建议量。";
+    const reference = {
+      amount: basis.unit === "serving" ? 1 : Number(basis.amount),
+      unit: basis.unit,
+      label: servingText,
+      note: "这是包装用于列示营养数值的份量，不是根据个人健康状况生成的每日建议量。",
+    };
+    elements.portionValue.textContent = servingText;
+    elements.portionNote.textContent = reference.note;
+    if (Number.isFinite(reference.amount) && reference.amount > 0) {
+      enablePortionControls(nutrition, reference);
+    }
     return;
   }
 
@@ -1265,6 +1296,9 @@ function renderPortionGuidance(riskLevel, nutrition, findings, category) {
     elements.portionNote.textContent = [reference.note, estimate]
       .filter(Boolean)
       .join(" ");
+    if (canScaleNutrition(nutrition, reference)) {
+      enablePortionControls(nutrition, reference);
+    }
     return;
   }
 
@@ -1272,6 +1306,77 @@ function renderPortionGuidance(riskLevel, nutrition, findings, category) {
   elements.portionNote.textContent = basis
     ? `标签仅提供${nutritionBasisText(basis)}口径，无法可靠换算成一次吃多少。`
     : "标签没有确认每份大小，系统不会生成看似精确的克数或频率。";
+}
+
+function resetPortionControls() {
+  state.portionContext = null;
+  elements.portionControls.hidden = true;
+  elements.portionError.hidden = true;
+  elements.portionError.textContent = "";
+  elements.portionPresets.querySelectorAll("button").forEach((button) => {
+    button.classList.remove("is-selected");
+    button.setAttribute("aria-pressed", "false");
+  });
+}
+
+function enablePortionControls(nutrition, reference) {
+  const isServing = reference.unit === "serving";
+  const limits = isServing
+    ? { min: 0.25, max: 10, step: 0.25 }
+    : { min: 1, max: 2000, step: 1 };
+  state.portionContext = { nutrition, reference, amount: reference.amount, ...limits };
+  elements.portionControls.hidden = false;
+  elements.portionAmount.min = String(limits.min);
+  elements.portionAmount.max = String(limits.max);
+  elements.portionAmount.step = String(limits.step);
+  elements.portionAmount.value = formatInputNumber(reference.amount);
+  elements.portionUnit.textContent = nutrientUnitNames[reference.unit] || (isServing ? "份" : reference.unit);
+  updatePortionAmount(reference.amount);
+}
+
+function updatePortionAmount(amount) {
+  const context = state.portionContext;
+  if (!context) return;
+  const valid = Number.isFinite(amount) && amount >= context.min && amount <= context.max;
+  elements.portionAmount.setAttribute("aria-invalid", String(!valid));
+  elements.portionError.hidden = valid;
+  elements.portionError.textContent = valid
+    ? ""
+    : `请输入 ${formatNumber(context.min)}–${formatNumber(context.max)}${nutrientUnitNames[context.reference.unit] || "份"}。`;
+  if (!valid) return;
+
+  context.amount = amount;
+  const unitName = nutrientUnitNames[context.reference.unit] || "份";
+  elements.portionValue.textContent = `本次按 ${formatNumber(amount)}${unitName}估算`;
+  elements.portionNote.textContent = context.reference.note;
+  elements.portionPresets.querySelectorAll("button").forEach((button) => {
+    const presetAmount = context.reference.amount * Number(button.dataset.portionMultiplier);
+    const selected = Math.abs(presetAmount - amount) < 0.001;
+    button.classList.toggle("is-selected", selected);
+    button.setAttribute("aria-pressed", String(selected));
+  });
+  renderNutritionSnapshot(context.nutrition, context);
+}
+
+function canScaleNutrition(nutrition, reference) {
+  const basis = nutrition?.basis;
+  if (!basis) return false;
+  if (basis.type === "per_serving") {
+    return basis.unit === reference.unit && Number(basis.amount || 1) > 0;
+  }
+  return (basis.type === "per_100g" && reference.unit === "g")
+    || (basis.type === "per_100ml" && reference.unit === "ml");
+}
+
+function portionFactor(nutrition, context) {
+  const basis = nutrition?.basis;
+  if (!basis || !context) return null;
+  if (basis.type === "per_100g" || basis.type === "per_100ml") return context.amount / 100;
+  if (basis.type === "per_serving") {
+    const basisAmount = basis.unit === "serving" ? 1 : Number(basis.amount);
+    return basisAmount > 0 ? context.amount / basisAmount : null;
+  }
+  return null;
 }
 
 function portionReference(category, nutrition, confirmedFields) {
@@ -1319,10 +1424,16 @@ function estimatedPortionNutrition(nutrition, reference) {
     : "请同时核对包装标示的一份大小。";
 }
 
-function renderNutritionSnapshot(nutrition) {
+function renderNutritionSnapshot(nutrition, portionContext = null) {
   elements.nutritionStatList.replaceChildren();
   const basis = nutrition?.basis;
-  elements.nutritionBasisLabel.textContent = basis ? nutritionBasisText(basis) : "口径未确认";
+  const factor = portionFactor(nutrition, portionContext);
+  const portionUnit = portionContext
+    ? nutrientUnitNames[portionContext.reference.unit] || "份"
+    : null;
+  elements.nutritionBasisLabel.textContent = factor !== null
+    ? `按${formatNumber(portionContext.amount)}${portionUnit}估算`
+    : basis ? nutritionBasisText(basis) : "口径未确认";
 
   const healthConcerns = state.profile?.healthConcerns || [];
   const priorities = [...new Set(
@@ -1349,10 +1460,12 @@ function renderNutritionSnapshot(nutrition) {
     name.textContent = nutrientNames[key] || key;
     const value = document.createElement("strong");
     value.textContent = fact
-      ? `${formatNumber(fact.value)}${nutrientUnitNames[fact.unit] || fact.unit}`
+      ? `${formatNumber(Number(fact.value) * (factor ?? 1))}${nutrientUnitNames[fact.unit] || fact.unit}`
       : "标签未单列";
     const note = document.createElement("small");
-    note.textContent = fact ? "包装标示值" : "不等于含量为零";
+    note.textContent = fact
+      ? factor !== null ? `由${nutritionBasisText(basis)}包装值换算` : "包装标示值"
+      : "不等于含量为零";
     item.append(name, value, note);
     elements.nutritionStatList.append(item);
   });
@@ -1372,6 +1485,10 @@ function formatNumber(value) {
   return Number.isFinite(Number(value))
     ? new Intl.NumberFormat("zh-CN", { maximumFractionDigits: 2 }).format(Number(value))
     : "—";
+}
+
+function formatInputNumber(value) {
+  return Number.isInteger(Number(value)) ? String(Number(value)) : String(Number(value).toFixed(2));
 }
 
 function renderHealthFocusOnlyResult() {

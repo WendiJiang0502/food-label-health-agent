@@ -390,6 +390,21 @@ FORM: Editorial utility Bento, adapted from the user-pinned Nova Benefits refere
                 <p>建议食用量</p>
                 <strong id="portion-value">正在读取标签份量</strong>
                 <span id="portion-note">结合食品类别与标签数值给出通用参考，不作为医疗处方。</span>
+                <div class="portion-controls" id="portion-controls" hidden>
+                  <div class="portion-presets" id="portion-presets" aria-label="快速选择食用份量">
+                    <button type="button" data-portion-multiplier="0.5">半份</button>
+                    <button type="button" data-portion-multiplier="1">参考份</button>
+                    <button type="button" data-portion-multiplier="2">两份</button>
+                  </div>
+                  <label class="portion-input-label" for="portion-amount">
+                    <span>本次吃多少</span>
+                    <span class="portion-input-wrap">
+                      <input id="portion-amount" type="number" inputmode="decimal" autocomplete="off" aria-describedby="portion-error">
+                      <span id="portion-unit" aria-hidden="true">克</span>
+                    </span>
+                  </label>
+                  <p class="portion-error" id="portion-error" role="alert" hidden></p>
+                </div>
               </div>
               <div class="nutrition-snapshot">
                 <div class="nutrition-snapshot-heading">

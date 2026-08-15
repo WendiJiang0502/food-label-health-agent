@@ -12,6 +12,9 @@ def test_result_page_labels_portion_as_a_suggestion() -> None:
 
     assert "建议食用量" in html
     assert "不作为医疗处方" in html
+    assert 'data-portion-multiplier="0.5"' in html
+    assert 'data-portion-multiplier="2"' in html
+    assert 'id="portion-amount"' in html
 
 
 def test_portion_guidance_has_safe_category_defaults_and_label_math() -> None:
@@ -22,3 +25,6 @@ def test_portion_guidance_has_safe_category_defaults_and_label_math() -> None:
     assert "Number(fact.value) * reference.amount / 100" in script
     assert "不建议用减少份量代替风险判断" in script
     assert "不是国家规定份量或个体化医疗处方" in script
+    assert "function updatePortionAmount(amount)" in script
+    assert "Number(fact.value) * (factor ?? 1)" in script
+    assert 'elements.portionControls.hidden = true' in script

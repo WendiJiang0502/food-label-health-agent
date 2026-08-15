@@ -540,6 +540,19 @@ h3 { font-size: 1.2rem; }
 .portion-guidance p { grid-row: 1 / span 2; margin: 2px 0 0; color: var(--muted-small); font-size: 0.68rem; font-weight: 720; }
 .portion-guidance strong { color: var(--ink-deep); font-size: 1rem; line-height: 1.45; }
 .portion-guidance span { color: var(--muted-small); font-size: 0.68rem; line-height: 1.55; }
+.portion-controls { grid-column: 2; min-width: 0; margin-top: 10px; border-top: 1px solid var(--line); padding-top: 12px; }
+.portion-presets { display: flex; flex-wrap: wrap; gap: 7px; }
+.portion-presets button { min-height: 44px; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--paper); color: var(--ink); cursor: pointer; padding: 8px 13px; font: inherit; font-size: 0.68rem; font-weight: 720; }
+.portion-presets button:hover { border-color: var(--teal); color: var(--teal); }
+.portion-presets button.is-selected { border-color: var(--teal); background: var(--teal); color: white; }
+.portion-presets button:focus-visible,
+.portion-input-wrap:focus-within { outline: 3px solid var(--focus); outline-offset: 2px; }
+.portion-input-label { display: grid; grid-template-columns: minmax(90px, 1fr) minmax(116px, 0.72fr); align-items: center; gap: 12px; margin-top: 10px; color: var(--ink); font-size: 0.68rem; font-weight: 720; }
+.portion-input-wrap { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; overflow: hidden; border: 1px solid var(--line-strong); border-radius: 8px; background: var(--paper); }
+.portion-input-wrap input { width: 100%; min-width: 0; min-height: 44px; border: 0; outline: 0; background: transparent; color: var(--ink-deep); padding: 8px 4px 8px 11px; font: inherit; font-family: var(--font-data); }
+.portion-input-wrap > span { padding: 0 11px 0 5px; color: var(--muted-small); font-size: 0.68rem; }
+.portion-input-wrap:has(input[aria-invalid="true"]) { border-color: var(--avoid); }
+.portion-guidance .portion-error { grid-row: auto; margin: 7px 0 0; color: var(--avoid); font-size: 0.68rem; font-weight: 650; }
 .nutrition-snapshot { margin-top: 22px; }
 .nutrition-snapshot-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
 .nutrition-snapshot-heading h3 { margin: 0; color: var(--ink-deep); font-family: var(--font-display); font-size: 1rem; }
@@ -890,6 +903,7 @@ footer p { margin: 0; }
   .safety-result { min-height: 440px; }
   .portion-guidance { grid-template-columns: 1fr; }
   .portion-guidance p { grid-row: auto; }
+  .portion-controls { grid-column: 1; }
   .nutrition-stat-list { grid-template-columns: 1fr; }
   .nutrition-stat:nth-child(even) { border-left: 0; padding-inline: 0; }
   .step-context-row { align-items: flex-start; flex-direction: column; gap: 2px; }
