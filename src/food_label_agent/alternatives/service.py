@@ -160,6 +160,14 @@ def revalidate_alternatives(request: AlternativeRevalidationRequest) -> dict[str
                     if label.official_store_verified_at
                     else None
                 ),
+                "packaging_label": {
+                    "ingredients_text": label.ingredients_text,
+                    "allergen_statement": label.allergen_statement,
+                    "nutrition_basis_text": label.nutrition_basis_text,
+                    "nutrition_rows": label.nutrition_rows or [],
+                    "evidence_quality": label.evidence_quality,
+                    "evidence_id": label.evidence_id,
+                },
                 "evidence_ids": [label.evidence_id],
                 "normalized_label": evaluation.normalized_label,
                 "findings": evaluation.findings,

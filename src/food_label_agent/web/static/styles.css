@@ -741,6 +741,26 @@ h3 { font-size: 1.2rem; }
 .alternative-item header span { flex: 0 0 auto; color: var(--compatible); font-size: 0.68rem; font-weight: 800; }
 .alternative-item > p { margin: 8px 0 0; color: var(--muted-small); font-size: 0.76rem; line-height: 1.6; }
 .alternative-item .alternative-evidence { color: var(--ink); font-family: var(--font-data); font-size: 0.68rem; overflow-wrap: anywhere; }
+.alternative-label { margin-top: 12px; border-block: 1px solid var(--line); }
+.alternative-label summary { display: grid; min-height: 48px; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 12px; color: var(--teal); cursor: pointer; font-size: 0.68rem; font-weight: 760; list-style: none; }
+.alternative-label summary::-webkit-details-marker { display: none; }
+.alternative-label summary::after { content: "+"; color: var(--teal); font-size: 1rem; line-height: 1; }
+.alternative-label[open] summary::after { content: "−"; }
+.alternative-label summary > span:nth-child(2) { color: var(--compatible); font-family: var(--font-data); text-align: end; }
+.alternative-label summary:focus-visible { border-radius: 8px; outline: 3px solid var(--focus); outline-offset: 2px; }
+.alternative-label-body { padding: 2px 0 16px; }
+.alternative-label-facts { margin: 0; }
+.alternative-label-facts > div { display: grid; grid-template-columns: minmax(78px, 0.42fr) minmax(0, 1.58fr); gap: 14px; border-top: 1px solid var(--line); padding: 12px 0; }
+.alternative-label-facts dt { color: var(--muted-small); font-size: 0.68rem; }
+.alternative-label-facts dd { margin: 0; color: var(--ink); font-size: 0.68rem; line-height: 1.65; overflow-wrap: anywhere; }
+.alternative-nutrition-table { width: 100%; margin-top: 12px; border-collapse: collapse; color: var(--ink); font-size: 0.68rem; }
+.alternative-nutrition-table caption { padding-bottom: 8px; color: var(--ink-deep); font-weight: 760; text-align: start; }
+.alternative-nutrition-table th,
+.alternative-nutrition-table td { border-block: 1px solid var(--line); padding: 10px 8px; text-align: start; overflow-wrap: anywhere; }
+.alternative-nutrition-table th { color: var(--muted-small); font-family: var(--font-data); font-weight: 720; }
+.alternative-label-missing,
+.alternative-label-note { margin: 12px 0 0; color: var(--muted-small); font-size: 0.68rem; line-height: 1.6; overflow-wrap: anywhere; }
+.alternative-label-note { font-family: var(--font-data); }
 .alternative-source-link { display: inline-flex; min-height: 44px; align-items: center; margin-inline-end: 16px; color: var(--teal); font-family: var(--font-data); font-size: 0.68rem; font-weight: 750; text-underline-offset: 4px; }
 .alternative-source-link:focus-visible { border-radius: 6px; outline: 3px solid var(--focus); outline-offset: 2px; }
 .alternative-comparison { border-top: 1px solid var(--line); padding: 16px 0; }
@@ -913,6 +933,7 @@ footer p { margin: 0; }
   .memory-saved-heading { align-items: flex-start; flex-direction: column; gap: 2px; }
   .alternative-controls { grid-template-columns: 1fr; }
   .alternative-controls .button { width: 100%; }
+  .alternative-label-facts > div { grid-template-columns: 1fr; gap: 5px; }
   .claim-result-heading { align-items: flex-start; }
   .proof-footnotes { align-items: flex-start; flex-direction: column; gap: 5px; }
   .image-stage { inset: 10px; }

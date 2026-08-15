@@ -1617,6 +1617,8 @@ function renderAlternativeResults(payload) {
     evidence.className = "alternative-evidence";
     evidence.textContent = `官方标签复核于 ${item.label_source_verified_at || item.label_confirmed_at} · ${sourceAuthorityLabel(item.label_source_authority)}`;
     article.append(header, useCase, explanation, evidence);
+    const packagingLabel = renderAlternativePackagingLabel(item);
+    if (packagingLabel) article.append(packagingLabel);
     if (item.ingredients_image_url?.startsWith("https://")) {
       const source = document.createElement("a");
       source.className = "alternative-source-link";
@@ -1681,6 +1683,75 @@ function renderAlternativeResults(payload) {
     elements.alternativeExclusionList.append(row);
   });
   announce(elements.alternativeStatus.textContent);
+}
+
+function renderAlternativePackagingLabel(item) {
+  const label = item.packaging_label;
+  if (!label?.ingredients_text) return null;
+
+  const details = document.createElement("details");
+  details.className = "alternative-label";
+  const summary = document.createElement("summary");
+  const summaryTitle = document.createElement("span");
+  summaryTitle.textContent = "查看已核对包装标签";
+  const summaryStatus = document.createElement("span");
+  summaryStatus.textContent = label.evidence_quality === "complete" ? "已通过证据门槛" : "部分信息";
+  summary.append(summaryTitle, summaryStatus);
+
+  const body = document.createElement("div");
+  body.className = "alternative-label-body";
+  const facts = document.createElement("dl");
+  facts.className = "alternative-label-facts";
+  appendAlternativeLabelFact(facts, "配料表", label.ingredients_text);
+  appendAlternativeLabelFact(
+    facts,
+    "过敏原提示",
+    label.allergen_statement || "官方页面未单列过敏原提示，请以实际到手包装为准。",
+  );
+  body.append(facts);
+
+  if (Array.isArray(label.nutrition_rows) && label.nutrition_rows.length) {
+    const table = document.createElement("table");
+    table.className = "alternative-nutrition-table";
+    const caption = document.createElement("caption");
+    caption.textContent = label.nutrition_basis_text
+      ? `营养成分表 · ${label.nutrition_basis_text}`
+      : "营养成分表";
+    table.append(caption);
+    label.nutrition_rows.forEach((row, rowIndex) => {
+      const tableRow = document.createElement("tr");
+      row.forEach((cell) => {
+        const tableCell = document.createElement(rowIndex === 0 ? "th" : "td");
+        tableCell.textContent = cell;
+        if (rowIndex === 0) tableCell.scope = "col";
+        tableRow.append(tableCell);
+      });
+      table.append(tableRow);
+    });
+    body.append(table);
+  } else {
+    const missing = document.createElement("p");
+    missing.className = "alternative-label-missing";
+    missing.textContent = "官方页面未提供可完整核对的营养成分表，请以实际到手包装为准。";
+    body.append(missing);
+  }
+
+  const note = document.createElement("p");
+  note.className = "alternative-label-note";
+  note.textContent = "这里只显示已经核对的字段；未列出的营养项目不代表含量为零。购买后仍需核对配方和包装版本。";
+  body.append(note);
+  details.append(summary, body);
+  return details;
+}
+
+function appendAlternativeLabelFact(list, termText, descriptionText) {
+  const row = document.createElement("div");
+  const term = document.createElement("dt");
+  term.textContent = termText;
+  const description = document.createElement("dd");
+  description.textContent = descriptionText;
+  row.append(term, description);
+  list.append(row);
 }
 
 function alternativeRejectionLabel(reasonCode) {

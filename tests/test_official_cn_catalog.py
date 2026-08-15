@@ -109,3 +109,15 @@ def test_official_candidate_is_independently_revalidated() -> None:
     eligible = result["results"][0]
     assert eligible["label_source_type"] == "official_product_page"
     assert eligible["official_store_name"] == "伊利牛奶官方旗舰店"
+    assert eligible["packaging_label"] == {
+        "ingredients_text": "生牛乳",
+        "allergen_statement": "本产品含有乳及乳制品",
+        "nutrition_basis_text": "每100毫升",
+        "nutrition_rows": [
+            ["项目", "每100毫升"],
+            ["蛋白质", "3.2克"],
+            ["钙", "100毫克"],
+        ],
+        "evidence_quality": "complete",
+        "evidence_id": "official.yili.pure-milk.label.2026-08-15",
+    }

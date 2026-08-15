@@ -100,6 +100,9 @@ def test_every_candidate_is_revalidated_and_milk_match_is_never_eligible() -> No
     assert all(item["evidence_ids"] for item in result["results"])
     assert eligible[0]["rank"] == 1
     assert eligible[0]["ranking_reasons"]
+    assert eligible[0]["packaging_label"]["ingredients_text"]
+    assert eligible[0]["packaging_label"]["evidence_quality"] == "complete"
+    assert eligible[0]["packaging_label"]["evidence_id"] in eligible[0]["evidence_ids"]
 
 
 def test_nutrition_hard_limit_filters_high_sodium_candidate() -> None:
