@@ -14,6 +14,9 @@
   --caution: #8a4b08;
   --avoid: #a9362b;
   --compatible: #14714b;
+  --action-lime: #9ad62d;
+  --action-lime-deep: #4c7109;
+  --action-lime-soft: #edf8d9;
   --focus: rgba(10, 70, 80, 0.22);
   --font-display: "Iowan Old Style", "Songti SC", STSong, Georgia, serif;
   --font-ui: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Helvetica Neue", sans-serif;
@@ -898,7 +901,7 @@ h3 { font-size: 1.2rem; }
 .health-focus-summary p { margin: 10px 0 0; color: var(--ink); font-weight: 720; }
 .health-focus-summary small { display: block; margin-top: 6px; color: var(--muted-small); font-size: 0.68rem; line-height: 1.55; }
 
-body.has-app-tabbar { padding-bottom: 112px; }
+body.has-app-tabbar { padding-bottom: 128px; }
 
 .account-view { width: min(1080px, 100%); margin: 0 auto; }
 .account-view-heading { display: flex; align-items: end; justify-content: space-between; gap: 28px; border-bottom: 1px solid var(--line-strong); padding-bottom: 24px; }
@@ -1036,13 +1039,19 @@ body.has-app-tabbar { padding-bottom: 112px; }
 .health-record-item p { margin: 3px 0 0; color: var(--muted-small); font-size: 0.7rem; overflow-wrap: anywhere; }
 .health-boundary { margin: 26px 0 0; color: var(--muted-small); font-size: 0.72rem; line-height: 1.6; }
 
-.app-tabbar { position: fixed; z-index: 80; right: 50%; bottom: 20px; display: grid; width: min(520px, calc(100% - 32px)); grid-template-columns: repeat(3, 1fr); transform: translateX(50%); overflow: hidden; border: 0; border-radius: 16px; background: #ffffff; box-shadow: 8px 10px 0 rgba(48, 62, 89, 0.1), 0 20px 45px rgba(48, 62, 89, 0.14); padding: 5px; }
-.app-tabbar button { display: grid; min-width: 0; min-height: 62px; place-items: center; align-content: center; gap: 3px; border: 0; background: transparent; color: var(--muted-small); cursor: pointer; padding: 7px 8px; font-size: 0.68rem; font-weight: 720; }
+.app-tabbar { position: fixed; z-index: 80; right: 50%; bottom: 20px; display: grid; width: min(460px, calc(100% - 32px)); min-height: 76px; grid-template-columns: repeat(3, 1fr); align-items: end; transform: translateX(50%); overflow: visible; border: 0; border-radius: 16px; background: #ffffff; box-shadow: 8px 10px 0 rgba(48, 62, 89, 0.1), 0 20px 45px rgba(48, 62, 89, 0.14); padding: 6px 16px 8px; }
+.app-tabbar button { display: grid; min-width: 0; min-height: 62px; grid-template-rows: 38px 18px; place-items: center; align-content: end; gap: 2px; border: 0; background: transparent; color: var(--muted-small); cursor: pointer; padding: 4px 8px 0; font-size: 0.7rem; font-weight: 720; }
 .app-tabbar button + button { border-inline-start: 0; }
+.app-tabbar-icon { display: grid; width: 36px; height: 36px; place-items: center; border-radius: 50%; }
 .app-tabbar button svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; }
 .app-tabbar button:hover { color: var(--teal); }
-.app-tabbar button[aria-current="page"] { border-radius: 12px; background: #f0f1f3; color: var(--teal); }
-.app-tabbar button:focus-visible { position: relative; z-index: 1; outline: 3px solid var(--periwinkle); outline-offset: -4px; }
+.app-tabbar button:not(.app-tabbar-primary)[aria-current="page"] { color: var(--ink-deep); }
+.app-tabbar button:not(.app-tabbar-primary)[aria-current="page"] .app-tabbar-icon { background: var(--action-lime-soft); color: var(--action-lime-deep); }
+.app-tabbar-primary .app-tabbar-icon { width: 58px; height: 58px; transform: translateY(-17px); background: var(--action-lime); box-shadow: 0 7px 0 rgba(76, 113, 9, 0.26), 0 15px 26px rgba(76, 113, 9, 0.22); color: #203005; }
+.app-tabbar-primary .app-tabbar-icon svg { width: 27px; height: 27px; stroke-width: 1.9; }
+.app-tabbar-primary > span:last-child { transform: translateY(-12px); color: var(--ink-deep); font-weight: 800; }
+.app-tabbar-primary:hover .app-tabbar-icon { background: #8ec722; }
+.app-tabbar button:focus-visible { position: relative; z-index: 1; border-radius: 12px; outline: 3px solid var(--periwinkle); outline-offset: 2px; }
 
 footer { border-top: 1px solid var(--line); color: var(--muted); padding: 24px clamp(20px, 4vw, 68px); font-size: 0.72rem; }
 footer p { margin: 0; }
@@ -1149,8 +1158,8 @@ footer p { margin: 0; }
   .health-section-heading { align-items: flex-start; flex-direction: column; gap: 8px; }
   .health-trend-row { grid-template-columns: 1fr; gap: 5px; }
   .health-trend-row dd { text-align: start; }
-  .app-tabbar { bottom: 0; width: 100%; border-radius: 0; box-shadow: 0 -8px 24px rgba(48, 62, 89, 0.12); padding-bottom: max(5px, env(safe-area-inset-bottom)); }
-  .app-tabbar button { min-height: 66px; }
+  .app-tabbar { bottom: 0; width: 100%; min-height: calc(76px + env(safe-area-inset-bottom)); border-radius: 16px 16px 0 0; box-shadow: 0 -8px 24px rgba(48, 62, 89, 0.12); padding-bottom: max(8px, env(safe-area-inset-bottom)); }
+  .app-tabbar button { min-height: 68px; }
   footer { padding: 20px 18px; }
 }
 

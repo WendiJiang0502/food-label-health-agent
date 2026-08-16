@@ -19,6 +19,9 @@ def test_result_stage_exposes_three_primary_app_views() -> None:
     assert "我的" in html
     assert 'id="history-view"' in html
     assert 'id="user-view"' in html
+    nav = html[html.index('<nav class="app-tabbar"'):html.index("</nav>", html.index('<nav class="app-tabbar"'))]
+    assert nav.index('data-app-view="history"') < nav.index('data-app-view="scan"') < nav.index('data-app-view="user"')
+    assert 'class="app-tabbar-primary"' in nav
 
 
 def test_scan_history_keeps_summary_without_image_data() -> None:
@@ -51,7 +54,9 @@ def test_bottom_navigation_and_health_views_have_mobile_rules() -> None:
     styles = (STATIC_DIR / "styles.css").read_text(encoding="utf-8")
 
     assert ".app-tabbar" in styles
-    assert ".app-tabbar button[aria-current=\"page\"]" in styles
+    assert ".app-tabbar button:not(.app-tabbar-primary)[aria-current=\"page\"]" in styles
+    assert ".app-tabbar-primary .app-tabbar-icon" in styles
+    assert "--action-lime" in styles
     assert ".health-change-layout" in styles
     assert ".health-trend-row" in styles
     assert "grid-template-columns: 1fr" in styles
