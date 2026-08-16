@@ -116,6 +116,25 @@ const elements = {
   userProfileName: document.querySelector("#user-profile-name"),
   userAllergenSummary: document.querySelector("#user-allergen-summary"),
   userHealthSummary: document.querySelector("#user-health-summary"),
+  dashboardTodayLabel: document.querySelector("#dashboard-today-label"),
+  dashboardScanCount: document.querySelector("#dashboard-scan-count"),
+  dashboardScanNote: document.querySelector("#dashboard-scan-note"),
+  dashboardHealthCount: document.querySelector("#dashboard-health-count"),
+  dashboardHealthNote: document.querySelector("#dashboard-health-note"),
+  dashboardLatestLabel: document.querySelector("#dashboard-latest-label"),
+  dashboardLatestValue: document.querySelector("#dashboard-latest-value"),
+  dashboardLatestNote: document.querySelector("#dashboard-latest-note"),
+  dashboardFocusCount: document.querySelector("#dashboard-focus-count"),
+  dashboardFocusNote: document.querySelector("#dashboard-focus-note"),
+  healthPeriodButtons: document.querySelectorAll("[data-health-period]"),
+  healthStatisticsRange: document.querySelector("#health-statistics-range"),
+  healthRingTotal: document.querySelector("#health-ring-total"),
+  healthRingLegend: document.querySelector("#health-ring-legend"),
+  healthRings: document.querySelectorAll(".health-ring"),
+  scanActivityTotal: document.querySelector("#scan-activity-total"),
+  scanActivityDots: document.querySelector("#scan-activity-dots"),
+  healthActivityTotal: document.querySelector("#health-activity-total"),
+  healthActivityChart: document.querySelector("#health-activity-chart"),
   healthEntryForm: document.querySelector("#health-entry-form"),
   healthEntryDate: document.querySelector("#health-entry-date"),
   healthEntryMetric: document.querySelector("#health-entry-metric"),
@@ -169,6 +188,7 @@ const state = {
   scanHistory: readStoredArray(SCAN_HISTORY_STORAGE_KEY, 50),
   healthHistory: readStoredArray(HEALTH_HISTORY_STORAGE_KEY, 200),
   healthHistoryConsent: localStorage.getItem(HEALTH_HISTORY_CONSENT_KEY) === "granted",
+  healthPeriod: "week",
 };
 
 elements.portionPresets.addEventListener("click", (event) => {
@@ -187,6 +207,16 @@ elements.portionAmount.addEventListener("input", () => {
 elements.appTabbar.addEventListener("click", (event) => {
   const button = event.target.closest("button[data-app-view]");
   if (button) switchAppView(button.dataset.appView);
+});
+
+elements.healthPeriodButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    state.healthPeriod = button.dataset.healthPeriod;
+    elements.healthPeriodButtons.forEach((item) => {
+      item.setAttribute("aria-pressed", String(item === button));
+    });
+    renderHealthDashboard();
+  });
 });
 
 elements.clearScanHistory.addEventListener("click", () => {
@@ -2631,6 +2661,7 @@ function renderScanHistory() {
     item.append(time, content);
     elements.historyList.append(item);
   });
+  renderHealthDashboard();
 }
 
 function updateHealthMetricUnit() {
@@ -2740,6 +2771,167 @@ function renderHealthHistory() {
     item.append(time, content);
     elements.healthRecordList.append(item);
   });
+  renderHealthDashboard(records);
+}
+
+function renderHealthDashboard(profileHealthRecords = null) {
+  const profileName = state.profile?.name;
+  const healthRecords = profileHealthRecords || state.healthHistory
+    .filter((item) => !profileName || item.profileName === profileName)
+    .sort((left, right) => `${right.date}:${right.createdAt}`.localeCompare(`${left.date}:${left.createdAt}`));
+  const scanRecords = state.scanHistory
+    .filter((item) => !profileName || item.profileName === profileName)
+    .sort((left, right) => String(right.scannedAt).localeCompare(String(left.scannedAt)));
+  const focusItems = [
+    ...(state.profile?.healthConcerns || []),
+    ...(state.profile?.customHealthConcerns || []),
+  ];
+  const latestHealth = healthRecords[0];
+  const latestMetric = latestHealth ? healthMetricConfig[latestHealth.metric] : null;
+
+  elements.dashboardTodayLabel.textContent = new Intl.DateTimeFormat("zh-CN", {
+    month: "numeric", day: "numeric", weekday: "short",
+  }).format(new Date());
+  elements.dashboardScanCount.textContent = `${scanRecords.length} 次`;
+  elements.dashboardScanNote.textContent = scanRecords[0]
+    ? `最近：${scanRecords[0].productName || "未命名食品"}`
+    : "暂无识别摘要";
+  elements.dashboardHealthCount.textContent = `${healthRecords.length} 条`;
+  elements.dashboardHealthNote.textContent = healthRecords[0]
+    ? `最近记录于 ${formatLocalDate(healthRecords[0].date)}`
+    : "等待第一条记录";
+  elements.dashboardLatestLabel.textContent = latestMetric?.label || "最近数值";
+  elements.dashboardLatestValue.textContent = latestHealth && latestMetric
+    ? `${formatNumber(latestHealth.value)} ${latestMetric.unit}`
+    : "暂无";
+  elements.dashboardLatestNote.textContent = latestHealth
+    ? `${formatLocalDate(latestHealth.date)} · 由你主动填写`
+    : "由你主动填写";
+  elements.dashboardFocusCount.textContent = `${focusItems.length} 项`;
+  elements.dashboardFocusNote.textContent = focusItems.length
+    ? focusItems.slice(0, 2).map((item) => healthConcernNames[item] || item).join("、")
+    : "尚未设置关注项";
+
+  const bins = buildHealthActivityBins(state.healthPeriod);
+  const periodHealthRecords = healthRecords.filter((record) => dateFallsInBins(record.date, bins));
+  const periodScanRecords = scanRecords.filter((record) => dateFallsInBins(record.scannedAt, bins));
+  const rangeLabels = { week: "最近 7 天", month: "最近 30 天", year: "最近 12 个月" };
+  elements.healthStatisticsRange.textContent = rangeLabels[state.healthPeriod] || rangeLabels.week;
+  elements.healthRingTotal.textContent = String(periodHealthRecords.length);
+  renderHealthComposition(periodHealthRecords);
+  renderScanActivity(periodScanRecords, bins);
+  renderHealthActivity(periodHealthRecords, bins);
+}
+
+function renderHealthComposition(records) {
+  const counts = new Map();
+  records.forEach((record) => counts.set(record.metric, (counts.get(record.metric) || 0) + 1));
+  const entries = [...counts.entries()]
+    .filter(([metric]) => healthMetricConfig[metric])
+    .sort((left, right) => right[1] - left[1])
+    .slice(0, 4);
+  const colors = ["#5258d9", "#f6b52d", "#f45e45", "#71336f"];
+  elements.healthRingLegend.replaceChildren();
+  elements.healthRings.forEach((ring, index) => {
+    const radius = Number(ring.getAttribute("r"));
+    const circumference = 2 * Math.PI * radius;
+    const share = records.length && entries[index] ? entries[index][1] / records.length : 0;
+    ring.style.strokeDasharray = `${circumference * share * 0.92} ${circumference}`;
+  });
+  if (!entries.length) {
+    const empty = document.createElement("li");
+    empty.className = "health-ring-empty";
+    empty.textContent = "所选时间内还没有健康记录。保存后，这里会显示记录项目构成。";
+    elements.healthRingLegend.append(empty);
+    return;
+  }
+  entries.forEach(([metricKey, count], index) => {
+    const item = document.createElement("li");
+    const dot = document.createElement("i");
+    dot.style.setProperty("--legend-color", colors[index]);
+    const label = document.createElement("span");
+    label.textContent = healthMetricConfig[metricKey].label;
+    const value = document.createElement("strong");
+    value.textContent = `${count} 条`;
+    item.append(dot, label, value);
+    elements.healthRingLegend.append(item);
+  });
+}
+
+function renderScanActivity(records, bins) {
+  elements.scanActivityDots.replaceChildren();
+  elements.scanActivityDots.style.setProperty("--activity-columns", String(bins.length));
+  const activeBins = new Set(records.map((record) => findActivityBinIndex(record.scannedAt, bins)).filter((index) => index >= 0));
+  const activeDates = new Set(records.flatMap((record) => {
+    const date = new Date(record.scannedAt);
+    return Number.isNaN(date.getTime()) ? [] : [localDateValue(date)];
+  }));
+  elements.scanActivityTotal.textContent = `${activeDates.size} 天`;
+  bins.forEach((bin, index) => {
+    const item = document.createElement("span");
+    item.className = `activity-dot${activeBins.has(index) ? " is-active" : ""}`;
+    item.textContent = bin.label;
+    item.title = `${bin.fullLabel}：${activeBins.has(index) ? "有识别摘要" : "无识别摘要"}`;
+    elements.scanActivityDots.append(item);
+  });
+}
+
+function renderHealthActivity(records, bins) {
+  elements.healthActivityChart.replaceChildren();
+  elements.healthActivityChart.style.setProperty("--activity-columns", String(bins.length));
+  const counts = bins.map((_, index) => records.filter((record) => findActivityBinIndex(record.date, bins) === index).length);
+  const maximum = Math.max(...counts, 1);
+  elements.healthActivityTotal.textContent = `${records.length} 条`;
+  bins.forEach((bin, index) => {
+    const item = document.createElement("span");
+    item.className = "activity-bar";
+    item.title = `${bin.fullLabel}：${counts[index]} 条健康记录`;
+    const bar = document.createElement("i");
+    bar.style.height = `${Math.max(5, Math.round((counts[index] / maximum) * 82))}px`;
+    const label = document.createElement("span");
+    label.textContent = bin.label;
+    item.append(bar, label);
+    elements.healthActivityChart.append(item);
+  });
+}
+
+function buildHealthActivityBins(period) {
+  const now = new Date();
+  now.setHours(23, 59, 59, 999);
+  if (period === "year") {
+    return Array.from({ length: 12 }, (_, index) => {
+      const offset = 11 - index;
+      const start = new Date(now.getFullYear(), now.getMonth() - offset, 1);
+      const end = new Date(now.getFullYear(), now.getMonth() - offset + 1, 0, 23, 59, 59, 999);
+      return { start, end, label: `${start.getMonth() + 1}月`, fullLabel: `${start.getFullYear()}年${start.getMonth() + 1}月` };
+    });
+  }
+  const binCount = period === "month" ? 6 : 7;
+  const daysPerBin = period === "month" ? 5 : 1;
+  return Array.from({ length: binCount }, (_, index) => {
+    const daysAgo = (binCount - index) * daysPerBin;
+    const start = new Date(now);
+    start.setDate(start.getDate() - daysAgo + 1);
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(start);
+    end.setDate(end.getDate() + daysPerBin - 1);
+    end.setHours(23, 59, 59, 999);
+    if (end > now) end.setTime(now.getTime());
+    const label = period === "week"
+      ? new Intl.DateTimeFormat("zh-CN", { weekday: "narrow" }).format(start)
+      : `${start.getMonth() + 1}/${start.getDate()}`;
+    return { start, end, label, fullLabel: `${formatLocalDate(localDateValue(start))}–${formatLocalDate(localDateValue(end))}` };
+  });
+}
+
+function dateFallsInBins(value, bins) {
+  return findActivityBinIndex(value, bins) >= 0;
+}
+
+function findActivityBinIndex(value, bins) {
+  const date = String(value).includes("T") ? new Date(value) : new Date(`${value}T12:00:00`);
+  if (Number.isNaN(date.getTime())) return -1;
+  return bins.findIndex((bin) => date >= bin.start && date <= bin.end);
 }
 
 function readStoredArray(key, limit) {

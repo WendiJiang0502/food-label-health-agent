@@ -1,9 +1,9 @@
 <!--
-THESIS: A useful label result becomes part of a personal evidence trail instead of disappearing after one scan.
-OWN-WORLD: Warm paper, editorial navy type, tactile package photography, and offset functional Bento cards.
-STORY: The user declares personal needs, scans and confirms a label, then moves between the scanner, privacy-preserving history, and neutral health-change records.
-FIRST VIEWPORT: Onboarding remains focused on one profile task; after the first result, a three-destination tab bar turns that result into an ongoing personal workspace.
-FORM: The established editorial utility Bento extends into a compact mobile-first application shell without changing its evidence-led identity.
+THESIS: A useful label result becomes a vivid personal evidence trail, not a health score that disappears after one scan.
+OWN-WORLD: Warm paper surrounds a crisp white mobile dashboard; cobalt, marigold, coral, and plum distinguish record categories through geometric data motifs.
+STORY: The user declares personal needs, confirms labels, then sees scanning and self-entered health activity without automatic medical interpretation.
+FIRST VIEWPORT: “我的” opens with four asymmetric activity tiles beside neutral ring, dot, and bar summaries; the entry form and full timeline follow below.
+FORM: A mobile health-dashboard language extends the established editorial utility Bento while preserving every evidence and privacy boundary.
 -->
 <!doctype html>
 <html lang="zh-CN">
@@ -13,8 +13,8 @@ FORM: The established editorial utility Bento extends into a compact mobile-firs
     <meta name="description" content="上传食品标签，确认识别文字，再进行基于证据的健康信息解释。">
     <title>食鉴 · 食品标签健康解释</title>
     <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/static/styles.css?v=health-history-1">
-    <script src="/static/app.js?v=health-history-1" defer></script>
+    <link rel="stylesheet" href="/static/styles.css?v=health-dashboard-1">
+    <script src="/static/app.js?v=health-dashboard-1" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#workspace">跳到标签工作区</a>
@@ -546,17 +546,102 @@ FORM: The established editorial utility Bento extends into a compact mobile-firs
       </section>
 
       <section class="account-view" id="user-view" hidden aria-labelledby="user-view-title">
-        <header class="account-view-heading account-view-heading--profile">
+        <header class="health-dashboard-header">
           <div>
-            <p>此设备上的个人档案</p>
-            <h1 id="user-view-title">我的健康变化</h1>
+            <p>今天，继续了解自己的选择</p>
+            <h1 id="user-view-title"><span id="user-profile-name">我的档案</span>的健康主页</h1>
           </div>
-          <button class="text-button" id="edit-profile-from-user" type="button">修改个人设置</button>
+          <button class="dashboard-profile-button" id="edit-profile-from-user" type="button" aria-label="修改个人设置">
+            <span aria-hidden="true">食</span>
+            <strong>修改档案</strong>
+          </button>
         </header>
-        <section class="user-profile-summary" aria-labelledby="user-profile-name">
+
+        <div class="health-dashboard-grid">
+          <section class="health-overview-panel" aria-labelledby="health-overview-title">
+            <div class="dashboard-section-title">
+              <div>
+                <p>来自此设备的记录</p>
+                <h2 id="health-overview-title">今日概览</h2>
+              </div>
+              <span id="dashboard-today-label">今天</span>
+            </div>
+            <div class="dashboard-metric-grid">
+              <article class="dashboard-metric dashboard-metric--scan">
+                <svg class="dashboard-metric-art" viewBox="0 0 120 90" aria-hidden="true">
+                  <circle cx="70" cy="38" r="31"/><circle cx="70" cy="38" r="20"/><circle cx="70" cy="38" r="8"/>
+                </svg>
+                <div><span>食品识别</span><strong id="dashboard-scan-count">0 次</strong><small id="dashboard-scan-note">暂无识别摘要</small></div>
+              </article>
+              <article class="dashboard-metric dashboard-metric--records">
+                <svg class="dashboard-metric-art" viewBox="0 0 120 90" aria-hidden="true">
+                  <rect x="20" y="18" width="48" height="48" rx="8"/><rect x="48" y="34" width="48" height="48" rx="8"/>
+                </svg>
+                <div><span>主动记录</span><strong id="dashboard-health-count">0 条</strong><small id="dashboard-health-note">等待第一条记录</small></div>
+              </article>
+              <article class="dashboard-metric dashboard-metric--latest">
+                <svg class="dashboard-metric-art" viewBox="0 0 120 90" aria-hidden="true">
+                  <path d="M4 65 27 43l16 13 24-39 18 31 31-30"/><path d="M4 79 28 59l16 10 23-27 18 18 31-22"/>
+                </svg>
+                <div><span id="dashboard-latest-label">最近数值</span><strong id="dashboard-latest-value">暂无</strong><small id="dashboard-latest-note">由你主动填写</small></div>
+              </article>
+              <article class="dashboard-metric dashboard-metric--focus">
+                <svg class="dashboard-metric-art" viewBox="0 0 120 90" aria-hidden="true">
+                  <circle cx="43" cy="45" r="30"/><circle cx="72" cy="45" r="30"/><circle cx="91" cy="45" r="30"/>
+                </svg>
+                <div><span>健康关注</span><strong id="dashboard-focus-count">0 项</strong><small id="dashboard-focus-note">尚未设置关注项</small></div>
+              </article>
+            </div>
+          </section>
+
+          <section class="health-statistics-panel" aria-labelledby="health-statistics-title">
+            <div class="statistics-heading">
+              <div>
+                <p>只统计记录，不评价健康</p>
+                <h2 id="health-statistics-title">记录统计</h2>
+              </div>
+              <span class="statistics-range" id="health-statistics-range">最近 7 天</span>
+            </div>
+            <div class="health-period-switch" role="group" aria-label="统计时间范围">
+              <button type="button" data-health-period="week" aria-pressed="true">周</button>
+              <button type="button" data-health-period="month" aria-pressed="false">月</button>
+              <button type="button" data-health-period="year" aria-pressed="false">年</button>
+            </div>
+            <div class="health-composition">
+              <svg class="health-ring-chart" viewBox="0 0 180 180" role="img" aria-labelledby="health-ring-title health-ring-desc">
+                <title id="health-ring-title">健康记录项目构成</title>
+                <desc id="health-ring-desc">不同颜色表示各记录项目在所选时间范围内的记录次数，不代表健康评分。</desc>
+                <circle class="health-ring-track" cx="90" cy="90" r="66"/>
+                <circle class="health-ring health-ring--one" cx="90" cy="90" r="66"/>
+                <circle class="health-ring-track" cx="90" cy="90" r="51"/>
+                <circle class="health-ring health-ring--two" cx="90" cy="90" r="51"/>
+                <circle class="health-ring-track" cx="90" cy="90" r="36"/>
+                <circle class="health-ring health-ring--three" cx="90" cy="90" r="36"/>
+                <circle class="health-ring-track" cx="90" cy="90" r="21"/>
+                <circle class="health-ring health-ring--four" cx="90" cy="90" r="21"/>
+                <text x="90" y="86" text-anchor="middle" id="health-ring-total">0</text>
+                <text x="90" y="105" text-anchor="middle">条记录</text>
+              </svg>
+              <ul class="health-ring-legend" id="health-ring-legend" aria-label="记录项目图例"></ul>
+            </div>
+            <section class="activity-summary" aria-labelledby="scan-activity-title">
+              <div><h3 id="scan-activity-title">食品识别活跃日</h3><span id="scan-activity-total">0 天</span></div>
+              <p>有识别摘要的日期会被点亮</p>
+              <div class="scan-activity-dots" id="scan-activity-dots" aria-label="所选周期的食品识别活跃日"></div>
+            </section>
+            <section class="activity-summary" aria-labelledby="health-activity-title">
+              <div><h3 id="health-activity-title">健康记录频率</h3><span id="health-activity-total">0 条</span></div>
+              <p>柱高只表示记录次数</p>
+              <div class="health-activity-chart" id="health-activity-chart" aria-label="所选周期的健康记录频率"></div>
+            </section>
+            <p class="statistics-boundary">颜色用于区分记录类型，不表示风险、达标或健康程度。</p>
+          </section>
+        </div>
+
+        <section class="user-profile-summary" aria-labelledby="profile-summary-title">
           <div>
-            <span>当前档案</span>
-            <h2 id="user-profile-name">我的档案</h2>
+            <span>当前分析依据</span>
+            <h2 id="profile-summary-title">我的食品关注</h2>
           </div>
           <dl>
             <div><dt>需要避开</dt><dd id="user-allergen-summary">待设置</dd></div>
