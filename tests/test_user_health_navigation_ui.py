@@ -54,8 +54,7 @@ def test_bottom_navigation_and_health_views_have_mobile_rules() -> None:
     styles = (STATIC_DIR / "styles.css").read_text(encoding="utf-8")
 
     assert ".app-tabbar" in styles
-    assert ".app-tabbar button:not(.app-tabbar-primary)[aria-current=\"page\"]" in styles
-    assert ".app-tabbar-primary .app-tabbar-icon" in styles
+    assert ".app-tabbar button[aria-current=\"page\"] .app-tabbar-icon" in styles
     assert "--action-lime" in styles
     assert ".health-change-layout" in styles
     assert ".health-trend-row" in styles
@@ -76,3 +75,5 @@ def test_user_page_uses_neutral_health_dashboard_statistics() -> None:
     assert "function buildHealthActivityBins" in script
     assert ".dashboard-metric--scan" in styles
     assert ".health-ring-chart" in styles
+    assert "--health-deep" in styles
+    assert "--health-leaf" in styles

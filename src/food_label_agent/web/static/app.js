@@ -2830,7 +2830,7 @@ function renderHealthComposition(records) {
     .filter(([metric]) => healthMetricConfig[metric])
     .sort((left, right) => right[1] - left[1])
     .slice(0, 4);
-  const colors = ["#5258d9", "#f6b52d", "#f45e45", "#71336f"];
+  const colors = ["var(--health-deep)", "var(--health-leaf)", "var(--health-soft)", "var(--health-mid)"];
   elements.healthRingLegend.replaceChildren();
   elements.healthRings.forEach((ring, index) => {
     const radius = Number(ring.getAttribute("r"));
