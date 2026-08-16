@@ -1,9 +1,9 @@
 <!--
 THESIS: A useful label result becomes a vivid personal evidence trail, not a health score that disappears after one scan.
-OWN-WORLD: Warm paper surrounds a softly green-tinted mobile dashboard; deep teal, leaf, seafoam, and forest distinguish record categories through geometric data motifs.
+OWN-WORLD: Warm paper surrounds a cream medical organizer; muted yellow, blue, coral, and sage header bands distinguish record categories without implying health quality.
 STORY: The user declares personal needs, confirms labels, then sees scanning and self-entered health activity without automatic medical interpretation.
-FIRST VIEWPORT: “我的” opens with four asymmetric activity tiles beside neutral ring, dot, and bar summaries; the entry form and full timeline follow below.
-FORM: Flat, outlined health panels and a dark fluid dock extend the established editorial utility Bento while preserving every evidence and privacy boundary.
+FIRST VIEWPORT: “我的” opens with four vertically stacked record cards beside neutral ring, dot, and bar summaries; the entry form and full timeline follow below.
+FORM: Flat, outlined cream panels and a compact dark dock with a canvas-bordered active cutout preserve every evidence and privacy boundary.
 -->
 <!doctype html>
 <html lang="zh-CN">
@@ -13,8 +13,8 @@ FORM: Flat, outlined health panels and a dark fluid dock extend the established 
     <meta name="description" content="上传食品标签，确认识别文字，再进行基于证据的健康信息解释。">
     <title>食鉴 · 食品标签健康解释</title>
     <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/static/styles.css?v=health-dashboard-4">
-    <script src="/static/app.js?v=health-dashboard-4" defer></script>
+    <link rel="stylesheet" href="/static/styles.css?v=health-dashboard-5">
+    <script src="/static/app.js?v=health-dashboard-5" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#workspace">跳到标签工作区</a>
@@ -568,28 +568,36 @@ FORM: Flat, outlined health panels and a dark fluid dock extend the established 
             </div>
             <div class="dashboard-metric-grid" id="dashboard-metric-grid">
               <button class="dashboard-metric dashboard-metric--scan" type="button" data-dashboard-action="history" aria-label="查看食品识别历史">
-                <svg class="dashboard-metric-art" viewBox="0 0 120 90" aria-hidden="true">
-                  <circle cx="70" cy="38" r="31"/><circle cx="70" cy="38" r="20"/><circle cx="70" cy="38" r="8"/>
-                </svg>
-                <div><span>食品识别</span><strong id="dashboard-scan-count">0 次</strong><small id="dashboard-scan-note">暂无识别摘要</small></div>
+                <span class="dashboard-metric-head">
+                  <span class="dashboard-metric-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 4H5a1 1 0 0 0-1 1v3m12-4h3a1 1 0 0 1 1 1v3M8 20H5a1 1 0 0 1-1-1v-3m12 4h3a1 1 0 0 0 1-1v-3M8 9h8v6H8z"/></svg></span>
+                  <span class="dashboard-metric-title"><small>识别档案</small><span>食品识别</span></span>
+                  <strong id="dashboard-scan-count">0 次</strong>
+                </span>
+                <span class="dashboard-metric-body"><span><small>最近识别</small><span id="dashboard-scan-note">暂无识别摘要</span></span><span class="dashboard-metric-action">查看历史 <b aria-hidden="true">→</b></span></span>
               </button>
               <button class="dashboard-metric dashboard-metric--records" type="button" data-dashboard-action="record" aria-label="添加一次健康记录">
-                <svg class="dashboard-metric-art" viewBox="0 0 120 90" aria-hidden="true">
-                  <rect x="20" y="18" width="48" height="48" rx="8"/><rect x="48" y="34" width="48" height="48" rx="8"/>
-                </svg>
-                <div><span>主动记录</span><strong id="dashboard-health-count">0 条</strong><small id="dashboard-health-note">等待第一条记录</small></div>
+                <span class="dashboard-metric-head">
+                  <span class="dashboard-metric-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5h8M9 3h6v4H9zM7 5H5v16h14V5h-2M12 10v6m-3-3h6"/></svg></span>
+                  <span class="dashboard-metric-title"><small>自主管理</small><span>主动记录</span></span>
+                  <strong id="dashboard-health-count">0 条</strong>
+                </span>
+                <span class="dashboard-metric-body"><span><small>最近记录</small><span id="dashboard-health-note">等待第一条记录</span></span><span class="dashboard-metric-action">添加记录 <b aria-hidden="true">＋</b></span></span>
               </button>
               <button class="dashboard-metric dashboard-metric--latest" type="button" data-dashboard-action="latest" aria-label="查看最近健康数值">
-                <svg class="dashboard-metric-art" viewBox="0 0 120 90" aria-hidden="true">
-                  <path d="M4 65 27 43l16 13 24-39 18 31 31-30"/><path d="M4 79 28 59l16 10 23-27 18 18 31-22"/>
-                </svg>
-                <div><span id="dashboard-latest-label">最近数值</span><strong id="dashboard-latest-value">暂无</strong><small id="dashboard-latest-note">由你主动填写</small></div>
+                <span class="dashboard-metric-head">
+                  <span class="dashboard-metric-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V5m0 14h16M7 15l4-4 3 2 5-6"/><path d="m16 7 3 0 0 3"/></svg></span>
+                  <span class="dashboard-metric-title"><small>最近填写</small><span id="dashboard-latest-label">最近数值</span></span>
+                  <strong id="dashboard-latest-value">暂无</strong>
+                </span>
+                <span class="dashboard-metric-body"><span><small>记录说明</small><span id="dashboard-latest-note">由你主动填写</span></span><span class="dashboard-metric-action">查看变化 <b aria-hidden="true">→</b></span></span>
               </button>
               <button class="dashboard-metric dashboard-metric--focus" type="button" data-dashboard-action="profile" aria-label="修改健康关注设置">
-                <svg class="dashboard-metric-art" viewBox="0 0 120 90" aria-hidden="true">
-                  <circle cx="43" cy="45" r="30"/><circle cx="72" cy="45" r="30"/><circle cx="91" cy="45" r="30"/>
-                </svg>
-                <div><span>健康关注</span><strong id="dashboard-focus-count">0 项</strong><small id="dashboard-focus-note">尚未设置关注项</small></div>
+                <span class="dashboard-metric-head">
+                  <span class="dashboard-metric-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/><path d="M8 12h2l1-2 2 4 1-2h2"/></svg></span>
+                  <span class="dashboard-metric-title"><small>个人档案</small><span>健康关注</span></span>
+                  <strong id="dashboard-focus-count">0 项</strong>
+                </span>
+                <span class="dashboard-metric-body"><span><small>当前关注</small><span id="dashboard-focus-note">尚未设置关注项</span></span><span class="dashboard-metric-action">修改档案 <b aria-hidden="true">→</b></span></span>
               </button>
             </div>
           </section>

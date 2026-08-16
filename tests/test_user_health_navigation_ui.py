@@ -59,6 +59,8 @@ def test_bottom_navigation_and_health_views_have_mobile_rules() -> None:
     nav_styles = styles[styles.index(".app-tabbar {"):styles.index("footer {")]
     assert "box-shadow" not in nav_styles
     assert "--app-tabbar-active-x" in nav_styles
+    assert "border: 5px solid var(--canvas)" in nav_styles
+    assert "min-height: 60px" in nav_styles
     assert "--action-lime" in styles
     assert ".health-change-layout" in styles
     assert ".health-trend-row" in styles
@@ -78,6 +80,9 @@ def test_user_page_uses_neutral_health_dashboard_statistics() -> None:
     assert "function renderHealthDashboard" in script
     assert "function buildHealthActivityBins" in script
     assert ".dashboard-metric--scan" in styles
+    assert ".dashboard-metric-head" in styles
+    assert ".dashboard-metric-icon" in styles
+    assert "grid-template-columns: 1fr" in styles[styles.index(".dashboard-metric-grid"):styles.index(".health-period-switch")]
     assert ".health-ring-chart" in styles
     assert "--health-deep" in styles
     assert "--health-leaf" in styles
