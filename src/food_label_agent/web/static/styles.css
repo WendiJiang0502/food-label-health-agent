@@ -930,15 +930,16 @@ body.has-app-tabbar { padding-bottom: 128px; }
 .health-dashboard-header > div > p { margin: 0 0 7px; color: var(--muted-small); font-size: 0.8rem; }
 .health-dashboard-header h1 { max-width: none; font-family: var(--font-ui); font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; }
 .health-dashboard-header h1 span { color: var(--teal); }
-.dashboard-profile-button { display: inline-flex; min-height: 48px; align-items: center; gap: 10px; border: 0; border-radius: 999px; background: var(--paper); box-shadow: 5px 7px 0 rgba(48, 62, 89, 0.1); color: var(--ink-deep); cursor: pointer; padding: 6px 15px 6px 7px; }
+.dashboard-profile-button { display: inline-flex; min-height: 48px; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--ink-deep); cursor: pointer; padding: 6px 15px 6px 7px; }
 .dashboard-profile-button > span { display: grid; width: 34px; height: 34px; place-items: center; border-radius: 50%; background: var(--teal); color: white; font-family: var(--font-display); font-weight: 700; }
 .dashboard-profile-button strong { font-size: 0.76rem; }
-.dashboard-profile-button:hover { transform: translateY(-1px); box-shadow: 6px 9px 0 rgba(48, 62, 89, 0.11); }
+.dashboard-profile-button:hover { background: var(--health-surface); border-color: var(--health-mid); }
 .dashboard-profile-button:focus-visible { outline: 4px solid var(--focus); outline-offset: 3px; }
 
 .health-dashboard-grid { display: grid; grid-template-columns: minmax(380px, 0.92fr) minmax(430px, 1.08fr); gap: clamp(28px, 5vw, 64px); align-items: stretch; }
 .health-overview-panel,
-.health-statistics-panel { min-width: 0; border-radius: 16px; background: var(--health-surface); box-shadow: 12px 15px 0 rgba(23, 102, 106, 0.07), 0 24px 55px rgba(23, 102, 106, 0.06); padding: clamp(22px, 3vw, 34px); }
+.health-statistics-panel { min-width: 0; border: 1px solid rgba(23, 102, 106, 0.14); border-radius: 16px; background: var(--health-surface); padding: clamp(22px, 3vw, 34px); }
+.health-overview-panel { border: 0; background: transparent; padding: 0; }
 .dashboard-section-title,
 .statistics-heading { display: flex; align-items: end; justify-content: space-between; gap: 18px; }
 .dashboard-section-title p,
@@ -948,11 +949,16 @@ body.has-app-tabbar { padding-bottom: 128px; }
 .dashboard-section-title > span,
 .statistics-range { color: var(--muted-small); font-family: var(--font-data); font-size: 0.66rem; }
 .dashboard-metric-grid { display: grid; grid-template-columns: 1.08fr 0.92fr; grid-template-rows: 1.05fr 0.95fr; gap: 12px; min-height: 450px; margin-top: 24px; }
-.dashboard-metric { position: relative; display: flex; min-height: 200px; align-items: flex-end; overflow: hidden; border-radius: 16px; color: white; padding: 20px; isolation: isolate; }
+.dashboard-metric { position: relative; display: flex; width: 100%; min-height: 200px; align-items: flex-end; overflow: hidden; border: 0; border-radius: 16px; color: white; cursor: pointer; padding: 20px; text-align: start; isolation: isolate; }
 .dashboard-metric--scan { background: var(--health-deep); }
 .dashboard-metric--records { background: var(--health-leaf); color: #20300c; }
 .dashboard-metric--latest { background: var(--health-soft); color: #15342d; }
 .dashboard-metric--focus { background: var(--health-mid); }
+.dashboard-metric::after { position: absolute; z-index: 2; top: 14px; right: 15px; display: grid; width: 28px; height: 28px; place-items: center; border-radius: 50%; background: rgba(255, 255, 255, 0.22); color: currentColor; content: "↗"; font-size: 0.82rem; font-weight: 800; }
+.dashboard-metric--records::after,
+.dashboard-metric--latest::after { background: rgba(21, 52, 45, 0.12); }
+.dashboard-metric:hover { filter: saturate(0.88) brightness(1.04); }
+.dashboard-metric:focus-visible { outline: 4px solid var(--teal); outline-offset: 4px; }
 .dashboard-metric:nth-child(2),
 .dashboard-metric:nth-child(4) { min-height: 184px; }
 .dashboard-metric > div { position: relative; z-index: 1; display: grid; width: 100%; }
@@ -1009,7 +1015,7 @@ body.has-app-tabbar { padding-bottom: 128px; }
 .user-profile-summary dd { margin: 5px 0 0; color: var(--ink-deep); font-weight: 720; overflow-wrap: anywhere; }
 
 .health-change-layout { display: grid; grid-template-columns: minmax(300px, 0.76fr) minmax(0, 1.24fr); gap: clamp(32px, 5vw, 72px); margin-top: 52px; }
-.health-entry-panel { align-self: start; border-radius: 16px; background: #ffffff; box-shadow: 8px 10px 0 rgba(48, 62, 89, 0.08); padding: 28px; }
+.health-entry-panel { align-self: start; border: 1px solid var(--line); border-radius: 16px; background: #ffffff; padding: 28px; }
 .health-timeline-panel { min-width: 0; padding-top: 6px; }
 .health-section-heading { display: flex; align-items: end; justify-content: space-between; gap: 18px; border-bottom: 1px solid var(--line); padding-bottom: 16px; }
 .health-section-heading h2 { font-size: 1.35rem; }
@@ -1044,17 +1050,19 @@ body.has-app-tabbar { padding-bottom: 128px; }
 .health-record-item p { margin: 3px 0 0; color: var(--muted-small); font-size: 0.7rem; overflow-wrap: anywhere; }
 .health-boundary { margin: 26px 0 0; color: var(--muted-small); font-size: 0.72rem; line-height: 1.6; }
 
-.app-tabbar { position: fixed; z-index: 80; right: 50%; bottom: 20px; display: grid; width: min(460px, calc(100% - 32px)); min-height: 76px; grid-template-columns: repeat(3, 1fr); align-items: end; transform: translateX(50%); overflow: visible; border: 0; border-radius: 16px; background: #ffffff; padding: 6px 16px 8px; }
-.app-tabbar button { display: grid; min-width: 0; min-height: 62px; grid-template-rows: 38px 18px; place-items: center; align-content: end; gap: 2px; border: 0; background: transparent; color: var(--muted-small); cursor: pointer; padding: 4px 8px 0; font-size: 0.7rem; font-weight: 720; }
+.app-tabbar { --app-tabbar-active-x: 50%; position: fixed; z-index: 80; right: 50%; bottom: 20px; display: grid; width: min(460px, calc(100% - 32px)); min-height: 76px; grid-template-columns: repeat(3, 1fr); align-items: end; transform: translateX(50%); overflow: visible; border: 0; border-radius: 24px; background: #111a18; padding: 6px 16px 8px; }
+.app-tabbar-fluid { position: absolute; z-index: 0; left: 0; bottom: 20px; width: 56px; height: 56px; transform: translate3d(calc(var(--app-tabbar-active-x) - 50%), -7px, 0); border-radius: 48% 52% 46% 54%; background: var(--action-lime); pointer-events: none; transition: transform 360ms var(--ease-out), border-radius 360ms var(--ease-out), background-color 180ms ease-out; }
+.app-tabbar[data-active-view="scan"] .app-tabbar-fluid { border-radius: 50% 46% 54% 50%; }
+.app-tabbar[data-active-view="user"] .app-tabbar-fluid { border-radius: 52% 48% 56% 44%; }
+.app-tabbar button { position: relative; z-index: 1; display: grid; min-width: 0; min-height: 62px; grid-template-rows: 38px 18px; place-items: center; align-content: end; gap: 2px; border: 0; background: transparent; color: #c7d0cc; cursor: pointer; padding: 4px 8px 0; font-size: 0.7rem; font-weight: 720; }
 .app-tabbar button + button { border-inline-start: 0; }
 .app-tabbar-icon { display: grid; width: 36px; height: 36px; place-items: center; border-radius: 50%; }
 .app-tabbar button svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; }
-.app-tabbar button:hover { color: var(--teal); }
-.app-tabbar button[aria-current="page"] { color: var(--ink-deep); }
-.app-tabbar button[aria-current="page"] .app-tabbar-icon { width: 58px; height: 58px; transform: translateY(-17px); background: var(--action-lime); color: #203005; }
-.app-tabbar button[aria-current="page"] .app-tabbar-icon svg { width: 27px; height: 27px; stroke-width: 1.9; }
-.app-tabbar button[aria-current="page"] > span:last-child { transform: translateY(-12px); color: var(--ink-deep); font-weight: 800; }
-.app-tabbar button[aria-current="page"]:hover .app-tabbar-icon { background: #8ec722; }
+.app-tabbar button:hover { color: white; }
+.app-tabbar button[aria-current="page"] { color: #203005; }
+.app-tabbar button[aria-current="page"] .app-tabbar-icon { transform: translateY(-10px) scale(1.12); }
+.app-tabbar button[aria-current="page"] .app-tabbar-icon svg { stroke-width: 1.9; }
+.app-tabbar button[aria-current="page"] > span:last-child { transform: translateY(-5px); color: white; font-weight: 800; }
 .app-tabbar button:focus-visible { position: relative; z-index: 1; border-radius: 12px; outline: 3px solid var(--periwinkle); outline-offset: 2px; }
 
 footer { border-top: 1px solid var(--line); color: var(--muted); padding: 24px clamp(20px, 4vw, 68px); font-size: 0.72rem; }
@@ -1085,6 +1093,7 @@ footer p { margin: 0; }
   .health-change-layout { grid-template-columns: 1fr; }
   .health-overview-panel,
   .health-statistics-panel { padding: 28px; }
+  .health-overview-panel { padding: 0; }
 }
 
 @media (max-width: 640px) {
@@ -1145,6 +1154,7 @@ footer p { margin: 0; }
   .dashboard-profile-button strong { display: none; }
   .health-overview-panel,
   .health-statistics-panel { padding: 20px; }
+  .health-overview-panel { padding: 0; }
   .dashboard-metric-grid { gap: 9px; min-height: 390px; }
   .dashboard-metric { min-height: 180px; padding: 15px; }
   .dashboard-metric:nth-child(2),

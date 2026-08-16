@@ -22,6 +22,7 @@ def test_result_stage_exposes_three_primary_app_views() -> None:
     nav = html[html.index('<nav class="app-tabbar"'):html.index("</nav>", html.index('<nav class="app-tabbar"'))]
     assert nav.index('data-app-view="history"') < nav.index('data-app-view="scan"') < nav.index('data-app-view="user"')
     assert 'class="app-tabbar-primary"' in nav
+    assert 'class="app-tabbar-fluid"' in nav
 
 
 def test_scan_history_keeps_summary_without_image_data() -> None:
@@ -55,6 +56,9 @@ def test_bottom_navigation_and_health_views_have_mobile_rules() -> None:
 
     assert ".app-tabbar" in styles
     assert ".app-tabbar button[aria-current=\"page\"] .app-tabbar-icon" in styles
+    nav_styles = styles[styles.index(".app-tabbar {"):styles.index("footer {")]
+    assert "box-shadow" not in nav_styles
+    assert "--app-tabbar-active-x" in nav_styles
     assert "--action-lime" in styles
     assert ".health-change-layout" in styles
     assert ".health-trend-row" in styles
@@ -77,3 +81,17 @@ def test_user_page_uses_neutral_health_dashboard_statistics() -> None:
     assert ".health-ring-chart" in styles
     assert "--health-deep" in styles
     assert "--health-leaf" in styles
+
+
+def test_dashboard_cards_are_keyboard_actions_with_real_destinations() -> None:
+    html = (STATIC_DIR / "index.html").read_text(encoding="utf-8")
+    script = (STATIC_DIR / "app.js").read_text(encoding="utf-8")
+
+    assert 'data-dashboard-action="history"' in html
+    assert 'data-dashboard-action="record"' in html
+    assert 'data-dashboard-action="latest"' in html
+    assert 'data-dashboard-action="profile"' in html
+    assert "function handleDashboardAction(action)" in script
+    assert 'switchAppView("history")' in script
+    assert 'editProfile("user")' in script
+    assert "function updateAppTabbarIndicator" in script

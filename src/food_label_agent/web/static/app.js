@@ -116,6 +116,7 @@ const elements = {
   userProfileName: document.querySelector("#user-profile-name"),
   userAllergenSummary: document.querySelector("#user-allergen-summary"),
   userHealthSummary: document.querySelector("#user-health-summary"),
+  dashboardMetricGrid: document.querySelector("#dashboard-metric-grid"),
   dashboardTodayLabel: document.querySelector("#dashboard-today-label"),
   dashboardScanCount: document.querySelector("#dashboard-scan-count"),
   dashboardScanNote: document.querySelector("#dashboard-scan-note"),
@@ -208,6 +209,17 @@ elements.appTabbar.addEventListener("click", (event) => {
   const button = event.target.closest("button[data-app-view]");
   if (button) switchAppView(button.dataset.appView);
 });
+
+elements.dashboardMetricGrid.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-dashboard-action]");
+  if (button) handleDashboardAction(button.dataset.dashboardAction);
+});
+
+if ("ResizeObserver" in window) {
+  new ResizeObserver(() => updateAppTabbarIndicator()).observe(elements.appTabbar);
+} else {
+  window.addEventListener("resize", () => updateAppTabbarIndicator());
+}
 
 elements.healthPeriodButtons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -2534,6 +2546,7 @@ function revealAppTabbar() {
     if (button.dataset.appView === state.appView) button.setAttribute("aria-current", "page");
     else button.removeAttribute("aria-current");
   });
+  updateAppTabbarIndicator(state.appView);
 }
 
 function switchAppView(view) {
@@ -2548,6 +2561,7 @@ function switchAppView(view) {
     if (button.dataset.appView === view) button.setAttribute("aria-current", "page");
     else button.removeAttribute("aria-current");
   });
+  updateAppTabbarIndicator(view);
   if (view === "history") renderScanHistory();
   if (view === "user") {
     if (state.profile) renderScanProfile(state.profile);
@@ -2560,6 +2574,40 @@ function switchAppView(view) {
   focusTarget?.setAttribute("tabindex", "-1");
   focusTarget?.focus({ preventScroll: true });
   announce(view === "scan" ? "已返回拍照识别" : view === "history" ? "已打开历史识别记录" : "已打开我的健康变化");
+}
+
+function updateAppTabbarIndicator(view = state.appView) {
+  elements.appTabbar.dataset.activeView = view;
+  window.requestAnimationFrame(() => {
+    const activeButton = elements.appTabbar.querySelector(`button[data-app-view="${view}"]`);
+    if (!activeButton || elements.appTabbar.hidden) return;
+    const navBox = elements.appTabbar.getBoundingClientRect();
+    const buttonBox = activeButton.getBoundingClientRect();
+    const center = buttonBox.left - navBox.left + buttonBox.width / 2;
+    elements.appTabbar.style.setProperty("--app-tabbar-active-x", `${center}px`);
+  });
+}
+
+function handleDashboardAction(action) {
+  if (action === "history") {
+    switchAppView("history");
+    return;
+  }
+  if (action === "profile") {
+    editProfile("user");
+    return;
+  }
+  const profileName = state.profile?.name;
+  const hasHealthRecords = state.healthHistory.some((item) => !profileName || item.profileName === profileName);
+  const target = action === "latest" && hasHealthRecords
+    ? elements.healthRecordList.closest("section")
+    : elements.healthEntryForm.closest("section");
+  const heading = target?.querySelector("h2");
+  if (!target || !heading) return;
+  target.scrollIntoView({ behavior: "smooth", block: "start" });
+  heading.setAttribute("tabindex", "-1");
+  heading.focus({ preventScroll: true });
+  announce(action === "latest" && hasHealthRecords ? "已定位到最近健康变化" : "已定位到添加健康记录");
 }
 
 function saveScanHistory({ outcome, riskLevel, nutrition }) {
