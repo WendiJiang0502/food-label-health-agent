@@ -5,6 +5,7 @@ import asyncio
 import httpx
 
 from food_label_agent.alternatives.discovery import DiscoveryRefreshResult
+from food_label_agent.mcp import business_tools
 from food_label_agent.web.app import create_app
 
 
@@ -263,6 +264,45 @@ def test_safety_api_returns_traceable_avoid_result() -> None:
         citation["standard_number"] for citation in interpretation["citations"]
     } == {"GB 7718-2011"}
     assert any(citation["page_start"] == 7 for citation in interpretation["citations"])
+
+
+def test_safety_api_keeps_deterministic_result_when_rag_is_unavailable(
+    monkeypatch,
+) -> None:
+    def unavailable_regulatory_search(**_kwargs):
+        raise RuntimeError("rag_embedding_api_key_missing")
+
+    monkeypatch.setitem(
+        business_tools.BUSINESS_TOOLS,
+        "search_food_regulations",
+        unavailable_regulatory_search,
+    )
+    response = asyncio.run(
+        request(
+            "POST",
+            "/api/v1/labels/evaluate",
+            json={
+                "request_id": "request-rag-unavailable",
+                "jurisdiction": "CN",
+                "applicable_date": "2026-08-16",
+                "confirmed_fields": {"ingredients": "小麦粉、乳清蛋白、食用盐"},
+                "constraints": [
+                    {
+                        "kind": "allergy",
+                        "canonical_value": "milk",
+                        "severity": "severe",
+                    }
+                ],
+            },
+        )
+    )
+
+    payload = response.json()
+    assert response.status_code == 200
+    assert payload["overall_risk_level"] == "avoid"
+    assert payload["findings"][0]["matched_text"] == "乳清蛋白"
+    assert payload["evidence"]["final_status"] == "blocked"
+    assert "mcp_tool_failed:search_food_regulations" in payload["evidence"]["errors"]
 
 
 def test_compatible_result_does_not_claim_regulatory_safety_proof() -> None:

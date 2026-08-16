@@ -276,5 +276,5 @@ def invoke_mcp_tool(tool_name: str, arguments: Mapping[str, Any]) -> dict[str, A
         return handler(**dict(arguments))
     except MCPToolCallError:
         raise
-    except (KeyError, TypeError, ValueError) as exc:
+    except (KeyError, TypeError, ValueError, RuntimeError) as exc:
         raise MCPToolCallError(tool_name, exc) from exc
