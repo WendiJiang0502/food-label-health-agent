@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import json
 from dataclasses import asdict
 from datetime import UTC, datetime
 from pathlib import Path
@@ -65,6 +66,26 @@ def create_app(
         return FileResponse(
             STATIC_DIR / "index.html", headers={"Cache-Control": "no-cache"}
         )
+
+    async def developer(_: Request) -> FileResponse:
+        return FileResponse(STATIC_DIR / "developer.html", headers={"Cache-Control": "no-cache"})
+
+    async def developer_traces(request: Request) -> JSONResponse:
+        configured = os.getenv("FOOD_LABEL_DEV_TOKEN")
+        try:
+            supplied = _bearer_token(request)
+        except PermissionError:
+            supplied = None
+        if not configured or supplied != configured:
+            return _error("开发者轨迹需要有效的开发者令牌。", status_code=403)
+        path = Path(os.getenv("FOOD_LABEL_TRACE_REPORT", "/tmp/internal-pilot-suite.json"))
+        if not path.exists():
+            return JSONResponse({"status": "empty", "traces": [], "metrics": {}})
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            return _error("轨迹报告暂时无法读取。", status_code=503)
+        return JSONResponse({"status": "found", "report_path": str(path), **payload})
 
     async def health(_: Request) -> JSONResponse:
         return JSONResponse(
@@ -422,6 +443,8 @@ def create_app(
 
     routes = [
         Route("/", endpoint=index),
+        Route("/developer", endpoint=developer),
+        Route("/api/developer-traces", endpoint=developer_traces),
         Route("/api/health", endpoint=health),
         Route(
             "/api/v1/alternatives/catalog-coverage",

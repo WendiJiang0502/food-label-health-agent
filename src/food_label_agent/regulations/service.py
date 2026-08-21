@@ -8,6 +8,7 @@ from pathlib import Path
 from .corpus import OFFICIAL_CLAUSES
 from .models import RegulationSearchRequest, RegulationSearchResponse
 from .semantic import RAG2Settings, create_semantic_providers
+from .semantic import RAGProviderError
 from .serialization import load_clause_index
 from .store import RegulationStore
 
@@ -34,5 +35,19 @@ def search_regulations(
     request: RegulationSearchRequest,
 ) -> RegulationSearchResponse:
     """Search the official store without mixing inapplicable versions."""
-
-    return get_default_regulation_store().search(request)
+    store = get_default_regulation_store()
+    try:
+        return store.search(request)
+    except RAGProviderError as exc:
+        # Dense embeddings and the independent reranker are optional
+        # accelerators. The local BM25/TF-IDF index remains the authoritative
+        # offline path; it applies the same jurisdiction/date/topic filters.
+        fallback = store.search(request, profile="hybrid_tfidf")
+        return fallback.model_copy(
+            update={
+                "unknowns": [
+                    *fallback.unknowns,
+                    f"rag_provider_unavailable_fallback_used:{exc}",
+                ]
+            }
+        )

@@ -1,0 +1,32 @@
+{
+  "schema_version": "real_food_label_dataset_v1",
+  "dataset_id": "real_food_labels_internal_v1",
+  "jurisdiction": "CN",
+  "cases": [
+    {
+      "label_id": "real_001",
+      "image_path": "images/real_001.jpg",
+      "category": "biscuit",
+      "source_note": "",
+      "reviewer": "",
+      "reviewed_at": "2026-08-21",
+      "confirmed_facts": {
+        "ingredients": [],
+        "allergen_statement": null,
+        "nutrition": null,
+        "claims": []
+      },
+      "tasks": [
+        {
+          "task_id": "real_001_task_01",
+          "question": "",
+          "user_profile": {"allergens": [], "limits": {}},
+          "expected_status": "blocked | compatible | unknown | needs_confirmation",
+          "expected_findings": [],
+          "required_evidence": [],
+          "must_not_claim": []
+        }
+      ]
+    }
+  ]
+}

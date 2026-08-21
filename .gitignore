@@ -10,6 +10,9 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .ruff_cache/
+evaluation/real_labels/images/
+evaluation/real_labels/manifest.json
+evaluation/real_labels/annotations/
 .coverage
 htmlcov/
 dist/

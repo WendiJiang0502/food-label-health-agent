@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Callable, Mapping
 from functools import lru_cache
+import time
 from typing import Any
 
 from food_label_agent.domain.models import WorkflowTraceEvent
@@ -59,7 +60,9 @@ def _traced(
     node_name: str, node: Callable[[AgentState], Mapping[str, Any]]
 ) -> Callable[[AgentState], dict[str, Any]]:
     def run(state: AgentState) -> dict[str, Any]:
+        started = time.perf_counter()
         update = dict(node(state))
+        duration_ms = round((time.perf_counter() - started) * 1000, 3)
         status_before = state["status"]
         stage_before = state["stage"]
         status_after = update.get("status", status_before)
@@ -83,6 +86,7 @@ def _traced(
                 detail={
                     "error_count": len(update.get("errors", state["errors"])),
                     "unknown_count": len(update.get("unknowns", state["unknowns"])),
+                    "duration_ms": duration_ms,
                 },
             ),
         ]

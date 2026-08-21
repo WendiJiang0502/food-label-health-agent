@@ -1,0 +1,3140 @@
+{
+  "schema_version": "internal_pilot_suite_v1",
+  "lanes": {
+    "personal_constraints": {
+      "dataset_id": "internal_pilot_food_label_v1",
+      "dataset_version": "1.0.0",
+      "case_count": 15,
+      "results": [
+        {
+          "actual_workflow_status": "completed",
+          "evidence_status": "grounded",
+          "business_blocked": false,
+          "provider_unavailable": false,
+          "provider_errors": [],
+          "business_errors": [],
+          "finding_codes": [
+            "DIRECT_ALLERGEN_DERIVATIVE"
+          ],
+          "workflow_trace": [
+            "validate_input",
+            "extract_label",
+            "confirm_label",
+            "normalize_label",
+            "evaluate_safety",
+            "react_orchestrator",
+            "final_safety_gate"
+          ],
+          "node_timings": [
+            {
+              "node": "validate_input",
+              "duration_ms": 0.011,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "extract_label",
+              "duration_ms": 0.005,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "confirm_label",
+              "duration_ms": 0.006,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "normalize_label",
+              "duration_ms": 0.188,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "evaluate_safety",
+              "duration_ms": 0.191,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "react_orchestrator",
+              "duration_ms": 18.353,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "final_safety_gate",
+              "duration_ms": 0.17,
+              "outcome": "succeeded"
+            }
+          ],
+          "tool_stats": {
+            "search_food_regulations": {
+              "calls": 1,
+              "successes": 1,
+              "failures": 0,
+              "retries": 0
+            },
+            "explain_ingredient": {
+              "calls": 1,
+              "successes": 1,
+              "failures": 0,
+              "retries": 0
+            }
+          },
+          "case_id": "case_001",
+          "expected_status": "blocked"
+        },
+        {
+          "actual_workflow_status": "completed",
+          "evidence_status": "grounded",
+          "business_blocked": false,
+          "provider_unavailable": false,
+          "provider_errors": [],
+          "business_errors": [],
+          "finding_codes": [
+            "DIRECT_ALLERGEN_DERIVATIVE"
+          ],
+          "workflow_trace": [
+            "validate_input",
+            "extract_label",
+            "confirm_label",
+            "normalize_label",
+            "evaluate_safety",
+            "react_orchestrator",
+            "final_safety_gate"
+          ],
+          "node_timings": [
+            {
+              "node": "validate_input",
+              "duration_ms": 0.004,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "extract_label",
+              "duration_ms": 0.005,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "confirm_label",
+              "duration_ms": 0.005,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "normalize_label",
+              "duration_ms": 0.1,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "evaluate_safety",
+              "duration_ms": 0.176,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "react_orchestrator",
+              "duration_ms": 15.159,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "final_safety_gate",
+              "duration_ms": 0.161,
+              "outcome": "succeeded"
+            }
+          ],
+          "tool_stats": {
+            "search_food_regulations": {
+              "calls": 1,
+              "successes": 1,
+              "failures": 0,
+              "retries": 0
+            },
+            "explain_ingredient": {
+              "calls": 1,
+              "successes": 1,
+              "failures": 0,
+              "retries": 0
+            }
+          },
+          "case_id": "case_002",
+          "expected_status": "blocked"
+        },
+        {
+          "actual_workflow_status": "completed",
+          "evidence_status": "grounded",
+          "business_blocked": false,
+          "provider_unavailable": false,
+          "provider_errors": [],
+          "business_errors": [],
+          "finding_codes": [
+            "PRECAUTIONARY_ALLERGEN_STATEMENT"
+          ],
+          "workflow_trace": [
+            "validate_input",
+            "extract_label",
+            "confirm_label",
+            "normalize_label",
+            "evaluate_safety",
+            "react_orchestrator",
+            "final_safety_gate"
+          ],
+          "node_timings": [
+            {
+              "node": "validate_input",
+              "duration_ms": 0.005,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "extract_label",
+              "duration_ms": 0.004,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "confirm_label",
+              "duration_ms": 0.005,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "normalize_label",
+              "duration_ms": 0.078,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "evaluate_safety",
+              "duration_ms": 0.279,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "react_orchestrator",
+              "duration_ms": 15.318,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "final_safety_gate",
+              "duration_ms": 0.11,
+              "outcome": "succeeded"
+            }
+          ],
+          "tool_stats": {
+            "search_food_regulations": {
+              "calls": 1,
+              "successes": 1,
+              "failures": 0,
+              "retries": 0
+            },
+            "explain_ingredient": {
+              "calls": 1,
+              "successes": 1,
+              "failures": 0,
+              "retries": 0
+            }
+          },
+          "case_id": "case_003",
+          "expected_status": "needs_confirmation"
+        },
+        {
+          "actual_workflow_status": "completed",
+          "evidence_status": "not_required",
+          "business_blocked": false,
+          "provider_unavailable": false,
+          "provider_errors": [],
+          "business_errors": [],
+          "finding_codes": [
+            "NO_CONFLICT_IN_CONFIRMED_LABEL"
+          ],
+          "workflow_trace": [
+            "validate_input",
+            "extract_label",
+            "confirm_label",
+            "normalize_label",
+            "evaluate_safety",
+            "react_orchestrator",
+            "final_safety_gate"
+          ],
+          "node_timings": [
+            {
+              "node": "validate_input",
+              "duration_ms": 0.004,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "extract_label",
+              "duration_ms": 0.004,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "confirm_label",
+              "duration_ms": 0.004,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "normalize_label",
+              "duration_ms": 0.056,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "evaluate_safety",
+              "duration_ms": 0.107,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "react_orchestrator",
+              "duration_ms": 0.073,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "final_safety_gate",
+              "duration_ms": 0.041,
+              "outcome": "succeeded"
+            }
+          ],
+          "tool_stats": {},
+          "case_id": "case_004",
+          "expected_status": "unknown"
+        },
+        {
+          "actual_workflow_status": "completed",
+          "evidence_status": "grounded",
+          "business_blocked": false,
+          "provider_unavailable": false,
+          "provider_errors": [],
+          "business_errors": [],
+          "finding_codes": [
+            "DIRECT_ALLERGEN_DERIVATIVE"
+          ],
+          "workflow_trace": [
+            "validate_input",
+            "extract_label",
+            "confirm_label",
+            "normalize_label",
+            "evaluate_safety",
+            "react_orchestrator",
+            "final_safety_gate"
+          ],
+          "node_timings": [
+            {
+              "node": "validate_input",
+              "duration_ms": 0.004,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "extract_label",
+              "duration_ms": 0.003,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "confirm_label",
+              "duration_ms": 0.004,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "normalize_label",
+              "duration_ms": 0.054,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "evaluate_safety",
+              "duration_ms": 0.109,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "react_orchestrator",
+              "duration_ms": 15.54,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "final_safety_gate",
+              "duration_ms": 0.117,
+              "outcome": "succeeded"
+            }
+          ],
+          "tool_stats": {
+            "search_food_regulations": {
+              "calls": 1,
+              "successes": 1,
+              "failures": 0,
+              "retries": 0
+            },
+            "explain_ingredient": {
+              "calls": 1,
+              "successes": 1,
+              "failures": 0,
+              "retries": 0
+            }
+          },
+          "case_id": "case_005",
+          "expected_status": "blocked"
+        },
+        {
+          "actual_workflow_status": "needs_confirmation",
+          "evidence_status": "not_required",
+          "business_blocked": false,
+          "provider_unavailable": false,
+          "provider_errors": [],
+          "business_errors": [],
+          "finding_codes": [],
+          "workflow_trace": [
+            "validate_input",
+            "extract_label",
+            "confirm_label",
+            "normalize_label"
+          ],
+          "node_timings": [
+            {
+              "node": "validate_input",
+              "duration_ms": 0.004,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "extract_label",
+              "duration_ms": 0.003,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "confirm_label",
+              "duration_ms": 0.004,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "normalize_label",
+              "duration_ms": 0.258,
+              "outcome": "paused"
+            }
+          ],
+          "tool_stats": {},
+          "case_id": "case_006",
+          "expected_status": "compatible"
+        },
+        {
+          "actual_workflow_status": "needs_confirmation",
+          "evidence_status": "not_required",
+          "business_blocked": false,
+          "provider_unavailable": false,
+          "provider_errors": [],
+          "business_errors": [],
+          "finding_codes": [],
+          "workflow_trace": [
+            "validate_input",
+            "extract_label",
+            "confirm_label",
+            "normalize_label"
+          ],
+          "node_timings": [
+            {
+              "node": "validate_input",
+              "duration_ms": 0.004,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "extract_label",
+              "duration_ms": 0.003,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "confirm_label",
+              "duration_ms": 0.004,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "normalize_label",
+              "duration_ms": 0.07,
+              "outcome": "paused"
+            }
+          ],
+          "tool_stats": {},
+          "case_id": "case_007",
+          "expected_status": "blocked"
+        },
+        {
+          "actual_workflow_status": "needs_confirmation",
+          "evidence_status": "not_required",
+          "business_blocked": false,
+          "provider_unavailable": false,
+          "provider_errors": [],
+          "business_errors": [],
+          "finding_codes": [],
+          "workflow_trace": [
+            "validate_input",
+            "extract_label",
+            "confirm_label",
+            "normalize_label"
+          ],
+          "node_timings": [
+            {
+              "node": "validate_input",
+              "duration_ms": 0.004,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "extract_label",
+              "duration_ms": 0.003,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "confirm_label",
+              "duration_ms": 0.004,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "normalize_label",
+              "duration_ms": 0.059,
+              "outcome": "paused"
+            }
+          ],
+          "tool_stats": {},
+          "case_id": "case_008",
+          "expected_status": "unknown"
+        },
+        {
+          "actual_workflow_status": "needs_confirmation",
+          "evidence_status": "not_required",
+          "business_blocked": false,
+          "provider_unavailable": false,
+          "provider_errors": [],
+          "business_errors": [],
+          "finding_codes": [],
+          "workflow_trace": [
+            "validate_input",
+            "extract_label",
+            "confirm_label",
+            "normalize_label"
+          ],
+          "node_timings": [
+            {
+              "node": "validate_input",
+              "duration_ms": 0.003,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "extract_label",
+              "duration_ms": 0.003,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "confirm_label",
+              "duration_ms": 0.004,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "normalize_label",
+              "duration_ms": 0.067,
+              "outcome": "paused"
+            }
+          ],
+          "tool_stats": {},
+          "case_id": "case_009",
+          "expected_status": "needs_confirmation"
+        },
+        {
+          "actual_workflow_status": "needs_confirmation",
+          "evidence_status": "not_required",
+          "business_blocked": false,
+          "provider_unavailable": false,
+          "provider_errors": [],
+          "business_errors": [],
+          "finding_codes": [],
+          "workflow_trace": [
+            "validate_input",
+            "extract_label",
+            "confirm_label",
+            "normalize_label"
+          ],
+          "node_timings": [
+            {
+              "node": "validate_input",
+              "duration_ms": 0.003,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "extract_label",
+              "duration_ms": 0.004,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "confirm_label",
+              "duration_ms": 0.004,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "normalize_label",
+              "duration_ms": 0.067,
+              "outcome": "paused"
+            }
+          ],
+          "tool_stats": {},
+          "case_id": "case_011",
+          "expected_status": "blocked"
+        },
+        {
+          "actual_workflow_status": "needs_confirmation",
+          "evidence_status": "not_required",
+          "business_blocked": false,
+          "provider_unavailable": false,
+          "provider_errors": [],
+          "business_errors": [],
+          "finding_codes": [],
+          "workflow_trace": [
+            "validate_input",
+            "extract_label",
+            "confirm_label",
+            "normalize_label"
+          ],
+          "node_timings": [
+            {
+              "node": "validate_input",
+              "duration_ms": 0.003,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "extract_label",
+              "duration_ms": 0.003,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "confirm_label",
+              "duration_ms": 0.004,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "normalize_label",
+              "duration_ms": 0.066,
+              "outcome": "paused"
+            }
+          ],
+          "tool_stats": {},
+          "case_id": "case_016",
+          "expected_status": "compatible"
+        },
+        {
+          "actual_workflow_status": "completed",
+          "evidence_status": "grounded",
+          "business_blocked": false,
+          "provider_unavailable": false,
+          "provider_errors": [],
+          "business_errors": [],
+          "finding_codes": [
+            "DIRECT_ALLERGEN_DERIVATIVE"
+          ],
+          "workflow_trace": [
+            "validate_input",
+            "extract_label",
+            "confirm_label",
+            "normalize_label",
+            "evaluate_safety",
+            "react_orchestrator",
+            "final_safety_gate"
+          ],
+          "node_timings": [
+            {
+              "node": "validate_input",
+              "duration_ms": 0.004,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "extract_label",
+              "duration_ms": 0.003,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "confirm_label",
+              "duration_ms": 0.004,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "normalize_label",
+              "duration_ms": 0.054,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "evaluate_safety",
+              "duration_ms": 0.12,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "react_orchestrator",
+              "duration_ms": 15.245,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "final_safety_gate",
+              "duration_ms": 0.116,
+              "outcome": "succeeded"
+            }
+          ],
+          "tool_stats": {
+            "search_food_regulations": {
+              "calls": 1,
+              "successes": 1,
+              "failures": 0,
+              "retries": 0
+            },
+            "explain_ingredient": {
+              "calls": 1,
+              "successes": 1,
+              "failures": 0,
+              "retries": 0
+            }
+          },
+          "case_id": "case_017",
+          "expected_status": "blocked"
+        },
+        {
+          "actual_workflow_status": "needs_confirmation",
+          "evidence_status": "not_required",
+          "business_blocked": false,
+          "provider_unavailable": false,
+          "provider_errors": [],
+          "business_errors": [],
+          "finding_codes": [],
+          "workflow_trace": [
+            "validate_input",
+            "extract_label",
+            "confirm_label",
+            "normalize_label"
+          ],
+          "node_timings": [
+            {
+              "node": "validate_input",
+              "duration_ms": 0.004,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "extract_label",
+              "duration_ms": 0.004,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "confirm_label",
+              "duration_ms": 0.005,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "normalize_label",
+              "duration_ms": 0.084,
+              "outcome": "paused"
+            }
+          ],
+          "tool_stats": {},
+          "case_id": "case_018",
+          "expected_status": "unknown"
+        },
+        {
+          "actual_workflow_status": "needs_confirmation",
+          "evidence_status": "not_required",
+          "business_blocked": false,
+          "provider_unavailable": false,
+          "provider_errors": [],
+          "business_errors": [],
+          "finding_codes": [],
+          "workflow_trace": [
+            "validate_input",
+            "extract_label",
+            "confirm_label",
+            "normalize_label"
+          ],
+          "node_timings": [
+            {
+              "node": "validate_input",
+              "duration_ms": 0.004,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "extract_label",
+              "duration_ms": 0.003,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "confirm_label",
+              "duration_ms": 0.005,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "normalize_label",
+              "duration_ms": 0.081,
+              "outcome": "paused"
+            }
+          ],
+          "tool_stats": {},
+          "case_id": "case_019",
+          "expected_status": "unknown"
+        },
+        {
+          "actual_workflow_status": "completed",
+          "evidence_status": "grounded",
+          "business_blocked": false,
+          "provider_unavailable": false,
+          "provider_errors": [],
+          "business_errors": [],
+          "finding_codes": [
+            "DIRECT_ALLERGEN_DERIVATIVE"
+          ],
+          "workflow_trace": [
+            "validate_input",
+            "extract_label",
+            "confirm_label",
+            "normalize_label",
+            "evaluate_safety",
+            "react_orchestrator",
+            "final_safety_gate"
+          ],
+          "node_timings": [
+            {
+              "node": "validate_input",
+              "duration_ms": 0.003,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "extract_label",
+              "duration_ms": 0.003,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "confirm_label",
+              "duration_ms": 0.004,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "normalize_label",
+              "duration_ms": 0.056,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "evaluate_safety",
+              "duration_ms": 0.134,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "react_orchestrator",
+              "duration_ms": 15.371,
+              "outcome": "succeeded"
+            },
+            {
+              "node": "final_safety_gate",
+              "duration_ms": 0.122,
+              "outcome": "succeeded"
+            }
+          ],
+          "tool_stats": {
+            "search_food_regulations": {
+              "calls": 1,
+              "successes": 1,
+              "failures": 0,
+              "retries": 0
+            },
+            "explain_ingredient": {
+              "calls": 1,
+              "successes": 1,
+              "failures": 0,
+              "retries": 0
+            }
+          },
+          "case_id": "case_020",
+          "expected_status": "needs_confirmation"
+        }
+      ],
+      "adapter_errors": 0,
+      "provider_unavailable_cases": 0,
+      "traces": [
+        {
+          "schema_version": "food_label_trace_v1",
+          "run_id": "pilot-case_001",
+          "lane": "personal_constraints",
+          "case_id": "case_001",
+          "status": "completed",
+          "duration_ms": 278.999,
+          "spans": [],
+          "counters": {
+            "workflow_runs": 1,
+            "tool_calls": 3,
+            "tool:search_food_regulations:calls": 1,
+            "tool:search_food_regulations:failures": 0,
+            "tool:search_food_regulations:retries": 0,
+            "tool:explain_ingredient:calls": 1,
+            "tool:explain_ingredient:failures": 0,
+            "tool:explain_ingredient:retries": 0
+          },
+          "token_usage": {
+            "input": 0,
+            "output": 0,
+            "total": 0
+          },
+          "cost_usd": 0.0,
+          "outcome": {
+            "node_timings": [
+              {
+                "node": "validate_input",
+                "duration_ms": 0.011,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "extract_label",
+                "duration_ms": 0.005,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "confirm_label",
+                "duration_ms": 0.006,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "normalize_label",
+                "duration_ms": 0.188,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "evaluate_safety",
+                "duration_ms": 0.191,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "react_orchestrator",
+                "duration_ms": 18.353,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "final_safety_gate",
+                "duration_ms": 0.17,
+                "outcome": "succeeded"
+              }
+            ],
+            "expected_status": "blocked",
+            "actual_status": "completed"
+          }
+        },
+        {
+          "schema_version": "food_label_trace_v1",
+          "run_id": "pilot-case_002",
+          "lane": "personal_constraints",
+          "case_id": "case_002",
+          "status": "completed",
+          "duration_ms": 17.02,
+          "spans": [],
+          "counters": {
+            "workflow_runs": 1,
+            "tool_calls": 3,
+            "tool:search_food_regulations:calls": 1,
+            "tool:search_food_regulations:failures": 0,
+            "tool:search_food_regulations:retries": 0,
+            "tool:explain_ingredient:calls": 1,
+            "tool:explain_ingredient:failures": 0,
+            "tool:explain_ingredient:retries": 0
+          },
+          "token_usage": {
+            "input": 0,
+            "output": 0,
+            "total": 0
+          },
+          "cost_usd": 0.0,
+          "outcome": {
+            "node_timings": [
+              {
+                "node": "validate_input",
+                "duration_ms": 0.004,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "extract_label",
+                "duration_ms": 0.005,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "confirm_label",
+                "duration_ms": 0.005,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "normalize_label",
+                "duration_ms": 0.1,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "evaluate_safety",
+                "duration_ms": 0.176,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "react_orchestrator",
+                "duration_ms": 15.159,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "final_safety_gate",
+                "duration_ms": 0.161,
+                "outcome": "succeeded"
+              }
+            ],
+            "expected_status": "blocked",
+            "actual_status": "completed"
+          }
+        },
+        {
+          "schema_version": "food_label_trace_v1",
+          "run_id": "pilot-case_003",
+          "lane": "personal_constraints",
+          "case_id": "case_003",
+          "status": "completed",
+          "duration_ms": 17.088,
+          "spans": [],
+          "counters": {
+            "workflow_runs": 1,
+            "tool_calls": 3,
+            "tool:search_food_regulations:calls": 1,
+            "tool:search_food_regulations:failures": 0,
+            "tool:search_food_regulations:retries": 0,
+            "tool:explain_ingredient:calls": 1,
+            "tool:explain_ingredient:failures": 0,
+            "tool:explain_ingredient:retries": 0
+          },
+          "token_usage": {
+            "input": 0,
+            "output": 0,
+            "total": 0
+          },
+          "cost_usd": 0.0,
+          "outcome": {
+            "node_timings": [
+              {
+                "node": "validate_input",
+                "duration_ms": 0.005,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "extract_label",
+                "duration_ms": 0.004,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "confirm_label",
+                "duration_ms": 0.005,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "normalize_label",
+                "duration_ms": 0.078,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "evaluate_safety",
+                "duration_ms": 0.279,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "react_orchestrator",
+                "duration_ms": 15.318,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "final_safety_gate",
+                "duration_ms": 0.11,
+                "outcome": "succeeded"
+              }
+            ],
+            "expected_status": "needs_confirmation",
+            "actual_status": "completed"
+          }
+        },
+        {
+          "schema_version": "food_label_trace_v1",
+          "run_id": "pilot-case_004",
+          "lane": "personal_constraints",
+          "case_id": "case_004",
+          "status": "completed",
+          "duration_ms": 1.428,
+          "spans": [],
+          "counters": {
+            "workflow_runs": 1,
+            "tool_calls": 1
+          },
+          "token_usage": {
+            "input": 0,
+            "output": 0,
+            "total": 0
+          },
+          "cost_usd": 0.0,
+          "outcome": {
+            "node_timings": [
+              {
+                "node": "validate_input",
+                "duration_ms": 0.004,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "extract_label",
+                "duration_ms": 0.004,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "confirm_label",
+                "duration_ms": 0.004,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "normalize_label",
+                "duration_ms": 0.056,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "evaluate_safety",
+                "duration_ms": 0.107,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "react_orchestrator",
+                "duration_ms": 0.073,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "final_safety_gate",
+                "duration_ms": 0.041,
+                "outcome": "succeeded"
+              }
+            ],
+            "expected_status": "unknown",
+            "actual_status": "completed"
+          }
+        },
+        {
+          "schema_version": "food_label_trace_v1",
+          "run_id": "pilot-case_005",
+          "lane": "personal_constraints",
+          "case_id": "case_005",
+          "status": "completed",
+          "duration_ms": 17.019,
+          "spans": [],
+          "counters": {
+            "workflow_runs": 1,
+            "tool_calls": 3,
+            "tool:search_food_regulations:calls": 1,
+            "tool:search_food_regulations:failures": 0,
+            "tool:search_food_regulations:retries": 0,
+            "tool:explain_ingredient:calls": 1,
+            "tool:explain_ingredient:failures": 0,
+            "tool:explain_ingredient:retries": 0
+          },
+          "token_usage": {
+            "input": 0,
+            "output": 0,
+            "total": 0
+          },
+          "cost_usd": 0.0,
+          "outcome": {
+            "node_timings": [
+              {
+                "node": "validate_input",
+                "duration_ms": 0.004,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "extract_label",
+                "duration_ms": 0.003,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "confirm_label",
+                "duration_ms": 0.004,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "normalize_label",
+                "duration_ms": 0.054,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "evaluate_safety",
+                "duration_ms": 0.109,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "react_orchestrator",
+                "duration_ms": 15.54,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "final_safety_gate",
+                "duration_ms": 0.117,
+                "outcome": "succeeded"
+              }
+            ],
+            "expected_status": "blocked",
+            "actual_status": "completed"
+          }
+        },
+        {
+          "schema_version": "food_label_trace_v1",
+          "run_id": "pilot-case_006",
+          "lane": "personal_constraints",
+          "case_id": "case_006",
+          "status": "needs_confirmation",
+          "duration_ms": 1.025,
+          "spans": [],
+          "counters": {
+            "workflow_runs": 1,
+            "tool_calls": 0
+          },
+          "token_usage": {
+            "input": 0,
+            "output": 0,
+            "total": 0
+          },
+          "cost_usd": 0.0,
+          "outcome": {
+            "node_timings": [
+              {
+                "node": "validate_input",
+                "duration_ms": 0.004,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "extract_label",
+                "duration_ms": 0.003,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "confirm_label",
+                "duration_ms": 0.004,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "normalize_label",
+                "duration_ms": 0.258,
+                "outcome": "paused"
+              }
+            ],
+            "expected_status": "compatible",
+            "actual_status": "needs_confirmation"
+          }
+        },
+        {
+          "schema_version": "food_label_trace_v1",
+          "run_id": "pilot-case_007",
+          "lane": "personal_constraints",
+          "case_id": "case_007",
+          "status": "needs_confirmation",
+          "duration_ms": 0.776,
+          "spans": [],
+          "counters": {
+            "workflow_runs": 1,
+            "tool_calls": 0
+          },
+          "token_usage": {
+            "input": 0,
+            "output": 0,
+            "total": 0
+          },
+          "cost_usd": 0.0,
+          "outcome": {
+            "node_timings": [
+              {
+                "node": "validate_input",
+                "duration_ms": 0.004,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "extract_label",
+                "duration_ms": 0.003,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "confirm_label",
+                "duration_ms": 0.004,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "normalize_label",
+                "duration_ms": 0.07,
+                "outcome": "paused"
+              }
+            ],
+            "expected_status": "blocked",
+            "actual_status": "needs_confirmation"
+          }
+        },
+        {
+          "schema_version": "food_label_trace_v1",
+          "run_id": "pilot-case_008",
+          "lane": "personal_constraints",
+          "case_id": "case_008",
+          "status": "needs_confirmation",
+          "duration_ms": 0.737,
+          "spans": [],
+          "counters": {
+            "workflow_runs": 1,
+            "tool_calls": 0
+          },
+          "token_usage": {
+            "input": 0,
+            "output": 0,
+            "total": 0
+          },
+          "cost_usd": 0.0,
+          "outcome": {
+            "node_timings": [
+              {
+                "node": "validate_input",
+                "duration_ms": 0.004,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "extract_label",
+                "duration_ms": 0.003,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "confirm_label",
+                "duration_ms": 0.004,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "normalize_label",
+                "duration_ms": 0.059,
+                "outcome": "paused"
+              }
+            ],
+            "expected_status": "unknown",
+            "actual_status": "needs_confirmation"
+          }
+        },
+        {
+          "schema_version": "food_label_trace_v1",
+          "run_id": "pilot-case_009",
+          "lane": "personal_constraints",
+          "case_id": "case_009",
+          "status": "needs_confirmation",
+          "duration_ms": 0.763,
+          "spans": [],
+          "counters": {
+            "workflow_runs": 1,
+            "tool_calls": 0
+          },
+          "token_usage": {
+            "input": 0,
+            "output": 0,
+            "total": 0
+          },
+          "cost_usd": 0.0,
+          "outcome": {
+            "node_timings": [
+              {
+                "node": "validate_input",
+                "duration_ms": 0.003,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "extract_label",
+                "duration_ms": 0.003,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "confirm_label",
+                "duration_ms": 0.004,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "normalize_label",
+                "duration_ms": 0.067,
+                "outcome": "paused"
+              }
+            ],
+            "expected_status": "needs_confirmation",
+            "actual_status": "needs_confirmation"
+          }
+        },
+        {
+          "schema_version": "food_label_trace_v1",
+          "run_id": "pilot-case_011",
+          "lane": "personal_constraints",
+          "case_id": "case_011",
+          "status": "needs_confirmation",
+          "duration_ms": 0.75,
+          "spans": [],
+          "counters": {
+            "workflow_runs": 1,
+            "tool_calls": 0
+          },
+          "token_usage": {
+            "input": 0,
+            "output": 0,
+            "total": 0
+          },
+          "cost_usd": 0.0,
+          "outcome": {
+            "node_timings": [
+              {
+                "node": "validate_input",
+                "duration_ms": 0.003,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "extract_label",
+                "duration_ms": 0.004,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "confirm_label",
+                "duration_ms": 0.004,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "normalize_label",
+                "duration_ms": 0.067,
+                "outcome": "paused"
+              }
+            ],
+            "expected_status": "blocked",
+            "actual_status": "needs_confirmation"
+          }
+        },
+        {
+          "schema_version": "food_label_trace_v1",
+          "run_id": "pilot-case_016",
+          "lane": "personal_constraints",
+          "case_id": "case_016",
+          "status": "needs_confirmation",
+          "duration_ms": 0.762,
+          "spans": [],
+          "counters": {
+            "workflow_runs": 1,
+            "tool_calls": 0
+          },
+          "token_usage": {
+            "input": 0,
+            "output": 0,
+            "total": 0
+          },
+          "cost_usd": 0.0,
+          "outcome": {
+            "node_timings": [
+              {
+                "node": "validate_input",
+                "duration_ms": 0.003,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "extract_label",
+                "duration_ms": 0.003,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "confirm_label",
+                "duration_ms": 0.004,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "normalize_label",
+                "duration_ms": 0.066,
+                "outcome": "paused"
+              }
+            ],
+            "expected_status": "compatible",
+            "actual_status": "needs_confirmation"
+          }
+        },
+        {
+          "schema_version": "food_label_trace_v1",
+          "run_id": "pilot-case_017",
+          "lane": "personal_constraints",
+          "case_id": "case_017",
+          "status": "completed",
+          "duration_ms": 16.699,
+          "spans": [],
+          "counters": {
+            "workflow_runs": 1,
+            "tool_calls": 3,
+            "tool:search_food_regulations:calls": 1,
+            "tool:search_food_regulations:failures": 0,
+            "tool:search_food_regulations:retries": 0,
+            "tool:explain_ingredient:calls": 1,
+            "tool:explain_ingredient:failures": 0,
+            "tool:explain_ingredient:retries": 0
+          },
+          "token_usage": {
+            "input": 0,
+            "output": 0,
+            "total": 0
+          },
+          "cost_usd": 0.0,
+          "outcome": {
+            "node_timings": [
+              {
+                "node": "validate_input",
+                "duration_ms": 0.004,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "extract_label",
+                "duration_ms": 0.003,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "confirm_label",
+                "duration_ms": 0.004,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "normalize_label",
+                "duration_ms": 0.054,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "evaluate_safety",
+                "duration_ms": 0.12,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "react_orchestrator",
+                "duration_ms": 15.245,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "final_safety_gate",
+                "duration_ms": 0.116,
+                "outcome": "succeeded"
+              }
+            ],
+            "expected_status": "blocked",
+            "actual_status": "completed"
+          }
+        },
+        {
+          "schema_version": "food_label_trace_v1",
+          "run_id": "pilot-case_018",
+          "lane": "personal_constraints",
+          "case_id": "case_018",
+          "status": "needs_confirmation",
+          "duration_ms": 0.868,
+          "spans": [],
+          "counters": {
+            "workflow_runs": 1,
+            "tool_calls": 0
+          },
+          "token_usage": {
+            "input": 0,
+            "output": 0,
+            "total": 0
+          },
+          "cost_usd": 0.0,
+          "outcome": {
+            "node_timings": [
+              {
+                "node": "validate_input",
+                "duration_ms": 0.004,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "extract_label",
+                "duration_ms": 0.004,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "confirm_label",
+                "duration_ms": 0.005,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "normalize_label",
+                "duration_ms": 0.084,
+                "outcome": "paused"
+              }
+            ],
+            "expected_status": "unknown",
+            "actual_status": "needs_confirmation"
+          }
+        },
+        {
+          "schema_version": "food_label_trace_v1",
+          "run_id": "pilot-case_019",
+          "lane": "personal_constraints",
+          "case_id": "case_019",
+          "status": "needs_confirmation",
+          "duration_ms": 0.813,
+          "spans": [],
+          "counters": {
+            "workflow_runs": 1,
+            "tool_calls": 0
+          },
+          "token_usage": {
+            "input": 0,
+            "output": 0,
+            "total": 0
+          },
+          "cost_usd": 0.0,
+          "outcome": {
+            "node_timings": [
+              {
+                "node": "validate_input",
+                "duration_ms": 0.004,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "extract_label",
+                "duration_ms": 0.003,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "confirm_label",
+                "duration_ms": 0.005,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "normalize_label",
+                "duration_ms": 0.081,
+                "outcome": "paused"
+              }
+            ],
+            "expected_status": "unknown",
+            "actual_status": "needs_confirmation"
+          }
+        },
+        {
+          "schema_version": "food_label_trace_v1",
+          "run_id": "pilot-case_020",
+          "lane": "personal_constraints",
+          "case_id": "case_020",
+          "status": "completed",
+          "duration_ms": 16.913,
+          "spans": [],
+          "counters": {
+            "workflow_runs": 1,
+            "tool_calls": 3,
+            "tool:search_food_regulations:calls": 1,
+            "tool:search_food_regulations:failures": 0,
+            "tool:search_food_regulations:retries": 0,
+            "tool:explain_ingredient:calls": 1,
+            "tool:explain_ingredient:failures": 0,
+            "tool:explain_ingredient:retries": 0
+          },
+          "token_usage": {
+            "input": 0,
+            "output": 0,
+            "total": 0
+          },
+          "cost_usd": 0.0,
+          "outcome": {
+            "node_timings": [
+              {
+                "node": "validate_input",
+                "duration_ms": 0.003,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "extract_label",
+                "duration_ms": 0.003,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "confirm_label",
+                "duration_ms": 0.004,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "normalize_label",
+                "duration_ms": 0.056,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "evaluate_safety",
+                "duration_ms": 0.134,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "react_orchestrator",
+                "duration_ms": 15.371,
+                "outcome": "succeeded"
+              },
+              {
+                "node": "final_safety_gate",
+                "duration_ms": 0.122,
+                "outcome": "succeeded"
+              }
+            ],
+            "expected_status": "needs_confirmation",
+            "actual_status": "completed"
+          }
+        }
+      ],
+      "metrics": {
+        "run_count": 15,
+        "average_latency_ms": 24.777,
+        "p95_latency_ms": 278.999,
+        "total_cost_usd": 0.0,
+        "average_cost_usd": 0.0,
+        "total_tokens": 0,
+        "cost_rates": {
+          "input_usd_per_1k": 0.0,
+          "output_usd_per_1k": 0.0
+        }
+      }
+    },
+    "general_explanations": {
+      "dataset_id": "internal_pilot_general_explanations_v1",
+      "case_count": 5,
+      "results": [
+        {
+          "case_id": "case_010",
+          "entrypoint": "claims_and_consistency",
+          "actual_status": "inconsistent",
+          "interpretation_status": "unknown",
+          "findings": [
+            {
+              "claim_type": "sugar_free",
+              "claim_text": "无糖",
+              "label_evidence_ids": [
+                "label.claims.item.1"
+              ],
+              "regulatory_evidence_ids": [],
+              "matched_text": null,
+              "unknowns": [],
+              "limitations": [
+                "无糖不等于适合所有糖尿病患者。",
+                "一致性检查仅基于用户确认的标签文字，不替代实验室检测或监管认定。"
+              ],
+              "status": "inconsistent",
+              "reason_code": "SUGAR_THRESHOLD_EXCEEDED",
+              "explanation": "已确认糖含量为 8 g/100 mL，超过 0.5 g/100 mL 的声称阈值。",
+              "measured_value": 8.0,
+              "threshold": 0.5,
+              "basis": "per_100ml"
+            }
+          ],
+          "unknowns": [
+            "claim_interpretation_missing_regulatory_evidence"
+          ],
+          "evidence_count": 5,
+          "expected_status": "inconsistent"
+        },
+        {
+          "case_id": "case_012",
+          "entrypoint": "claims_and_consistency",
+          "actual_status": "checked",
+          "interpretation_status": "interpreted",
+          "findings": [
+            {
+              "claim_type": "no_sucrose",
+              "claim_text": "无蔗糖",
+              "label_evidence_ids": [
+                "label.claims.item.1"
+              ],
+              "regulatory_evidence_ids": [],
+              "matched_text": null,
+              "unknowns": [],
+              "limitations": [
+                "无蔗糖或不添加蔗糖不等于无糖。",
+                "一致性检查仅基于用户确认的标签文字，不替代实验室检测或监管认定。"
+              ],
+              "status": "not_contradicted",
+              "reason_code": "NO_DIRECT_INGREDIENT_CONTRADICTION_FOUND",
+              "explanation": "已确认配料表中未发现与该声称直接冲突的配料名称；这不是实验室含量或合规证明。但配料表含“葡萄糖浆”，因此不能据此理解为无糖。"
+            }
+          ],
+          "unknowns": [
+            "regulatory_compliance_not_established_by_semantic_interpretation"
+          ],
+          "evidence_count": 5,
+          "expected_status": "checked"
+        },
+        {
+          "case_id": "case_013",
+          "entrypoint": "claims_and_consistency",
+          "actual_status": "checked",
+          "interpretation_status": "unknown",
+          "findings": [
+            {
+              "claim_type": "sugar_free",
+              "claim_text": "无糖",
+              "label_evidence_ids": [
+                "label.claims.item.1"
+              ],
+              "regulatory_evidence_ids": [],
+              "matched_text": null,
+              "unknowns": [],
+              "limitations": [
+                "无糖不等于适合所有糖尿病患者。",
+                "一致性检查仅基于用户确认的标签文字，不替代实验室检测或监管认定。"
+              ],
+              "status": "consistent",
+              "reason_code": "SUGAR_THRESHOLD_MET",
+              "explanation": "已确认糖含量为 0 g/100 mL，不超过 0.5 g/100 mL 的声称阈值。",
+              "measured_value": 0.0,
+              "threshold": 0.5,
+              "basis": "per_100ml"
+            }
+          ],
+          "unknowns": [
+            "claim_interpretation_missing_regulatory_evidence"
+          ],
+          "evidence_count": 5,
+          "expected_status": "checked"
+        },
+        {
+          "case_id": "case_014",
+          "entrypoint": "ingredient_explanation",
+          "actual_status": "explained",
+          "unknowns": [
+            "additive_standard_evidence_missing"
+          ],
+          "evidence_count": 0,
+          "expected_status": "explained"
+        },
+        {
+          "case_id": "case_015",
+          "entrypoint": "ingredient_explanation",
+          "actual_status": "unknown",
+          "unknowns": [
+            "ingredient_identity_or_regulatory_evidence_missing"
+          ],
+          "evidence_count": 0,
+          "expected_status": "unknown"
+        }
+      ],
+      "traces": [
+        {
+          "schema_version": "food_label_trace_v1",
+          "run_id": "pilot-case_010",
+          "lane": "general_explanations",
+          "case_id": "case_010",
+          "status": "inconsistent",
+          "duration_ms": 13.729,
+          "spans": [],
+          "counters": {
+            "workflow_runs": 1,
+            "evidence_queries": 1
+          },
+          "token_usage": {
+            "input": 0,
+            "output": 0,
+            "total": 0
+          },
+          "cost_usd": 0.0,
+          "outcome": {
+            "expected_status": "inconsistent",
+            "actual_status": "inconsistent"
+          }
+        },
+        {
+          "schema_version": "food_label_trace_v1",
+          "run_id": "pilot-case_012",
+          "lane": "general_explanations",
+          "case_id": "case_012",
+          "status": "checked",
+          "duration_ms": 11.867,
+          "spans": [],
+          "counters": {
+            "workflow_runs": 1,
+            "evidence_queries": 1
+          },
+          "token_usage": {
+            "input": 0,
+            "output": 0,
+            "total": 0
+          },
+          "cost_usd": 0.0,
+          "outcome": {
+            "expected_status": "checked",
+            "actual_status": "checked"
+          }
+        },
+        {
+          "schema_version": "food_label_trace_v1",
+          "run_id": "pilot-case_013",
+          "lane": "general_explanations",
+          "case_id": "case_013",
+          "status": "checked",
+          "duration_ms": 11.489,
+          "spans": [],
+          "counters": {
+            "workflow_runs": 1,
+            "evidence_queries": 1
+          },
+          "token_usage": {
+            "input": 0,
+            "output": 0,
+            "total": 0
+          },
+          "cost_usd": 0.0,
+          "outcome": {
+            "expected_status": "checked",
+            "actual_status": "checked"
+          }
+        },
+        {
+          "schema_version": "food_label_trace_v1",
+          "run_id": "pilot-case_014",
+          "lane": "general_explanations",
+          "case_id": "case_014",
+          "status": "explained",
+          "duration_ms": 0.053,
+          "spans": [],
+          "counters": {
+            "workflow_runs": 1,
+            "evidence_queries": 0
+          },
+          "token_usage": {
+            "input": 0,
+            "output": 0,
+            "total": 0
+          },
+          "cost_usd": 0.0,
+          "outcome": {
+            "expected_status": "explained",
+            "actual_status": "explained"
+          }
+        },
+        {
+          "schema_version": "food_label_trace_v1",
+          "run_id": "pilot-case_015",
+          "lane": "general_explanations",
+          "case_id": "case_015",
+          "status": "unknown",
+          "duration_ms": 0.015,
+          "spans": [],
+          "counters": {
+            "workflow_runs": 1,
+            "evidence_queries": 0
+          },
+          "token_usage": {
+            "input": 0,
+            "output": 0,
+            "total": 0
+          },
+          "cost_usd": 0.0,
+          "outcome": {
+            "expected_status": "unknown",
+            "actual_status": "unknown"
+          }
+        }
+      ],
+      "metrics": {
+        "run_count": 5,
+        "average_latency_ms": 7.431,
+        "p95_latency_ms": 13.729,
+        "total_cost_usd": 0.0,
+        "average_cost_usd": 0.0,
+        "total_tokens": 0,
+        "cost_rates": {
+          "input_usd_per_1k": 0.0,
+          "output_usd_per_1k": 0.0
+        }
+      }
+    },
+    "alternatives": {
+      "schema_version": "alternative_pilot_v1",
+      "case_count": 4,
+      "results": [
+        {
+          "case_id": "case_016",
+          "search_status": "unknown",
+          "candidate_count": 0,
+          "revalidated_count": 0,
+          "revalidation_rate": 1.0,
+          "eligible_product_ids": [],
+          "excluded_product_ids": [],
+          "comparison_status": "not_compared",
+          "catalog_warnings": [
+            "official_sources_require_periodic_human_reverification"
+          ]
+        },
+        {
+          "case_id": "case_017",
+          "search_status": "candidates_found",
+          "candidate_count": 4,
+          "revalidated_count": 4,
+          "revalidation_rate": 1.0,
+          "eligible_product_ids": [
+            "cn-official:kinder:happy-hippo:1-bar",
+            "cn-official:kinder:happy-hippo:5-bars",
+            "cn-official:kinder:tronky:1-bar",
+            "cn-official:kinder:tronky:5-bars"
+          ],
+          "excluded_product_ids": [],
+          "comparison_status": "unknown",
+          "catalog_warnings": [
+            "official_sources_require_periodic_human_reverification"
+          ]
+        },
+        {
+          "case_id": "case_018",
+          "search_status": "candidates_found",
+          "candidate_count": 4,
+          "revalidated_count": 4,
+          "revalidation_rate": 1.0,
+          "eligible_product_ids": [],
+          "excluded_product_ids": [
+            "cn-official:kinder:happy-hippo:1-bar",
+            "cn-official:kinder:happy-hippo:5-bars",
+            "cn-official:kinder:tronky:1-bar",
+            "cn-official:kinder:tronky:5-bars"
+          ],
+          "comparison_status": "not_compared",
+          "catalog_warnings": [
+            "official_sources_require_periodic_human_reverification"
+          ]
+        },
+        {
+          "case_id": "case_019",
+          "search_status": "unknown",
+          "candidate_count": 0,
+          "revalidated_count": 0,
+          "revalidation_rate": 1.0,
+          "eligible_product_ids": [],
+          "excluded_product_ids": [],
+          "comparison_status": "not_compared",
+          "catalog_warnings": [
+            "official_sources_require_periodic_human_reverification"
+          ]
+        }
+      ],
+      "traces": [
+        {
+          "schema_version": "food_label_trace_v1",
+          "run_id": "pilot-case_016",
+          "lane": "alternatives",
+          "case_id": "case_016",
+          "status": "completed",
+          "duration_ms": 2.874,
+          "spans": [],
+          "counters": {
+            "candidate_searches": 1,
+            "candidate_revalidations": 0,
+            "comparisons": 0
+          },
+          "token_usage": {
+            "input": 0,
+            "output": 0,
+            "total": 0
+          },
+          "cost_usd": 0.0,
+          "outcome": {
+            "eligible_count": 0,
+            "comparison_status": "not_compared"
+          }
+        },
+        {
+          "schema_version": "food_label_trace_v1",
+          "run_id": "pilot-case_017",
+          "lane": "alternatives",
+          "case_id": "case_017",
+          "status": "completed",
+          "duration_ms": 2.281,
+          "spans": [],
+          "counters": {
+            "candidate_searches": 1,
+            "candidate_revalidations": 4,
+            "comparisons": 0
+          },
+          "token_usage": {
+            "input": 0,
+            "output": 0,
+            "total": 0
+          },
+          "cost_usd": 0.0,
+          "outcome": {
+            "eligible_count": 4,
+            "comparison_status": "unknown"
+          }
+        },
+        {
+          "schema_version": "food_label_trace_v1",
+          "run_id": "pilot-case_018",
+          "lane": "alternatives",
+          "case_id": "case_018",
+          "status": "completed",
+          "duration_ms": 2.191,
+          "spans": [],
+          "counters": {
+            "candidate_searches": 1,
+            "candidate_revalidations": 4,
+            "comparisons": 0
+          },
+          "token_usage": {
+            "input": 0,
+            "output": 0,
+            "total": 0
+          },
+          "cost_usd": 0.0,
+          "outcome": {
+            "eligible_count": 0,
+            "comparison_status": "not_compared"
+          }
+        },
+        {
+          "schema_version": "food_label_trace_v1",
+          "run_id": "pilot-case_019",
+          "lane": "alternatives",
+          "case_id": "case_019",
+          "status": "completed",
+          "duration_ms": 1.212,
+          "spans": [],
+          "counters": {
+            "candidate_searches": 1,
+            "candidate_revalidations": 0,
+            "comparisons": 0
+          },
+          "token_usage": {
+            "input": 0,
+            "output": 0,
+            "total": 0
+          },
+          "cost_usd": 0.0,
+          "outcome": {
+            "eligible_count": 0,
+            "comparison_status": "not_compared"
+          }
+        }
+      ],
+      "metrics": {
+        "run_count": 4,
+        "average_latency_ms": 2.139,
+        "p95_latency_ms": 2.874,
+        "total_cost_usd": 0.0,
+        "average_cost_usd": 0.0,
+        "total_tokens": 0,
+        "cost_rates": {
+          "input_usd_per_1k": 0.0,
+          "output_usd_per_1k": 0.0
+        }
+      }
+    }
+  },
+  "regression_summary": {
+    "adapter_errors": 0,
+    "provider_unavailable_cases": 0,
+    "general_case_count": 5,
+    "alternative_case_count": 4,
+    "alternative_revalidation_failures": [],
+    "general_status_mismatches": []
+  },
+  "traces": [
+    {
+      "schema_version": "food_label_trace_v1",
+      "run_id": "pilot-case_001",
+      "lane": "personal_constraints",
+      "case_id": "case_001",
+      "status": "completed",
+      "duration_ms": 278.999,
+      "spans": [],
+      "counters": {
+        "workflow_runs": 1,
+        "tool_calls": 3,
+        "tool:search_food_regulations:calls": 1,
+        "tool:search_food_regulations:failures": 0,
+        "tool:search_food_regulations:retries": 0,
+        "tool:explain_ingredient:calls": 1,
+        "tool:explain_ingredient:failures": 0,
+        "tool:explain_ingredient:retries": 0
+      },
+      "token_usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0
+      },
+      "cost_usd": 0.0,
+      "outcome": {
+        "node_timings": [
+          {
+            "node": "validate_input",
+            "duration_ms": 0.011,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "extract_label",
+            "duration_ms": 0.005,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "confirm_label",
+            "duration_ms": 0.006,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "normalize_label",
+            "duration_ms": 0.188,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "evaluate_safety",
+            "duration_ms": 0.191,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "react_orchestrator",
+            "duration_ms": 18.353,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "final_safety_gate",
+            "duration_ms": 0.17,
+            "outcome": "succeeded"
+          }
+        ],
+        "expected_status": "blocked",
+        "actual_status": "completed"
+      }
+    },
+    {
+      "schema_version": "food_label_trace_v1",
+      "run_id": "pilot-case_002",
+      "lane": "personal_constraints",
+      "case_id": "case_002",
+      "status": "completed",
+      "duration_ms": 17.02,
+      "spans": [],
+      "counters": {
+        "workflow_runs": 1,
+        "tool_calls": 3,
+        "tool:search_food_regulations:calls": 1,
+        "tool:search_food_regulations:failures": 0,
+        "tool:search_food_regulations:retries": 0,
+        "tool:explain_ingredient:calls": 1,
+        "tool:explain_ingredient:failures": 0,
+        "tool:explain_ingredient:retries": 0
+      },
+      "token_usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0
+      },
+      "cost_usd": 0.0,
+      "outcome": {
+        "node_timings": [
+          {
+            "node": "validate_input",
+            "duration_ms": 0.004,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "extract_label",
+            "duration_ms": 0.005,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "confirm_label",
+            "duration_ms": 0.005,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "normalize_label",
+            "duration_ms": 0.1,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "evaluate_safety",
+            "duration_ms": 0.176,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "react_orchestrator",
+            "duration_ms": 15.159,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "final_safety_gate",
+            "duration_ms": 0.161,
+            "outcome": "succeeded"
+          }
+        ],
+        "expected_status": "blocked",
+        "actual_status": "completed"
+      }
+    },
+    {
+      "schema_version": "food_label_trace_v1",
+      "run_id": "pilot-case_003",
+      "lane": "personal_constraints",
+      "case_id": "case_003",
+      "status": "completed",
+      "duration_ms": 17.088,
+      "spans": [],
+      "counters": {
+        "workflow_runs": 1,
+        "tool_calls": 3,
+        "tool:search_food_regulations:calls": 1,
+        "tool:search_food_regulations:failures": 0,
+        "tool:search_food_regulations:retries": 0,
+        "tool:explain_ingredient:calls": 1,
+        "tool:explain_ingredient:failures": 0,
+        "tool:explain_ingredient:retries": 0
+      },
+      "token_usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0
+      },
+      "cost_usd": 0.0,
+      "outcome": {
+        "node_timings": [
+          {
+            "node": "validate_input",
+            "duration_ms": 0.005,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "extract_label",
+            "duration_ms": 0.004,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "confirm_label",
+            "duration_ms": 0.005,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "normalize_label",
+            "duration_ms": 0.078,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "evaluate_safety",
+            "duration_ms": 0.279,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "react_orchestrator",
+            "duration_ms": 15.318,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "final_safety_gate",
+            "duration_ms": 0.11,
+            "outcome": "succeeded"
+          }
+        ],
+        "expected_status": "needs_confirmation",
+        "actual_status": "completed"
+      }
+    },
+    {
+      "schema_version": "food_label_trace_v1",
+      "run_id": "pilot-case_004",
+      "lane": "personal_constraints",
+      "case_id": "case_004",
+      "status": "completed",
+      "duration_ms": 1.428,
+      "spans": [],
+      "counters": {
+        "workflow_runs": 1,
+        "tool_calls": 1
+      },
+      "token_usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0
+      },
+      "cost_usd": 0.0,
+      "outcome": {
+        "node_timings": [
+          {
+            "node": "validate_input",
+            "duration_ms": 0.004,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "extract_label",
+            "duration_ms": 0.004,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "confirm_label",
+            "duration_ms": 0.004,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "normalize_label",
+            "duration_ms": 0.056,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "evaluate_safety",
+            "duration_ms": 0.107,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "react_orchestrator",
+            "duration_ms": 0.073,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "final_safety_gate",
+            "duration_ms": 0.041,
+            "outcome": "succeeded"
+          }
+        ],
+        "expected_status": "unknown",
+        "actual_status": "completed"
+      }
+    },
+    {
+      "schema_version": "food_label_trace_v1",
+      "run_id": "pilot-case_005",
+      "lane": "personal_constraints",
+      "case_id": "case_005",
+      "status": "completed",
+      "duration_ms": 17.019,
+      "spans": [],
+      "counters": {
+        "workflow_runs": 1,
+        "tool_calls": 3,
+        "tool:search_food_regulations:calls": 1,
+        "tool:search_food_regulations:failures": 0,
+        "tool:search_food_regulations:retries": 0,
+        "tool:explain_ingredient:calls": 1,
+        "tool:explain_ingredient:failures": 0,
+        "tool:explain_ingredient:retries": 0
+      },
+      "token_usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0
+      },
+      "cost_usd": 0.0,
+      "outcome": {
+        "node_timings": [
+          {
+            "node": "validate_input",
+            "duration_ms": 0.004,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "extract_label",
+            "duration_ms": 0.003,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "confirm_label",
+            "duration_ms": 0.004,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "normalize_label",
+            "duration_ms": 0.054,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "evaluate_safety",
+            "duration_ms": 0.109,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "react_orchestrator",
+            "duration_ms": 15.54,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "final_safety_gate",
+            "duration_ms": 0.117,
+            "outcome": "succeeded"
+          }
+        ],
+        "expected_status": "blocked",
+        "actual_status": "completed"
+      }
+    },
+    {
+      "schema_version": "food_label_trace_v1",
+      "run_id": "pilot-case_006",
+      "lane": "personal_constraints",
+      "case_id": "case_006",
+      "status": "needs_confirmation",
+      "duration_ms": 1.025,
+      "spans": [],
+      "counters": {
+        "workflow_runs": 1,
+        "tool_calls": 0
+      },
+      "token_usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0
+      },
+      "cost_usd": 0.0,
+      "outcome": {
+        "node_timings": [
+          {
+            "node": "validate_input",
+            "duration_ms": 0.004,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "extract_label",
+            "duration_ms": 0.003,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "confirm_label",
+            "duration_ms": 0.004,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "normalize_label",
+            "duration_ms": 0.258,
+            "outcome": "paused"
+          }
+        ],
+        "expected_status": "compatible",
+        "actual_status": "needs_confirmation"
+      }
+    },
+    {
+      "schema_version": "food_label_trace_v1",
+      "run_id": "pilot-case_007",
+      "lane": "personal_constraints",
+      "case_id": "case_007",
+      "status": "needs_confirmation",
+      "duration_ms": 0.776,
+      "spans": [],
+      "counters": {
+        "workflow_runs": 1,
+        "tool_calls": 0
+      },
+      "token_usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0
+      },
+      "cost_usd": 0.0,
+      "outcome": {
+        "node_timings": [
+          {
+            "node": "validate_input",
+            "duration_ms": 0.004,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "extract_label",
+            "duration_ms": 0.003,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "confirm_label",
+            "duration_ms": 0.004,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "normalize_label",
+            "duration_ms": 0.07,
+            "outcome": "paused"
+          }
+        ],
+        "expected_status": "blocked",
+        "actual_status": "needs_confirmation"
+      }
+    },
+    {
+      "schema_version": "food_label_trace_v1",
+      "run_id": "pilot-case_008",
+      "lane": "personal_constraints",
+      "case_id": "case_008",
+      "status": "needs_confirmation",
+      "duration_ms": 0.737,
+      "spans": [],
+      "counters": {
+        "workflow_runs": 1,
+        "tool_calls": 0
+      },
+      "token_usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0
+      },
+      "cost_usd": 0.0,
+      "outcome": {
+        "node_timings": [
+          {
+            "node": "validate_input",
+            "duration_ms": 0.004,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "extract_label",
+            "duration_ms": 0.003,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "confirm_label",
+            "duration_ms": 0.004,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "normalize_label",
+            "duration_ms": 0.059,
+            "outcome": "paused"
+          }
+        ],
+        "expected_status": "unknown",
+        "actual_status": "needs_confirmation"
+      }
+    },
+    {
+      "schema_version": "food_label_trace_v1",
+      "run_id": "pilot-case_009",
+      "lane": "personal_constraints",
+      "case_id": "case_009",
+      "status": "needs_confirmation",
+      "duration_ms": 0.763,
+      "spans": [],
+      "counters": {
+        "workflow_runs": 1,
+        "tool_calls": 0
+      },
+      "token_usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0
+      },
+      "cost_usd": 0.0,
+      "outcome": {
+        "node_timings": [
+          {
+            "node": "validate_input",
+            "duration_ms": 0.003,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "extract_label",
+            "duration_ms": 0.003,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "confirm_label",
+            "duration_ms": 0.004,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "normalize_label",
+            "duration_ms": 0.067,
+            "outcome": "paused"
+          }
+        ],
+        "expected_status": "needs_confirmation",
+        "actual_status": "needs_confirmation"
+      }
+    },
+    {
+      "schema_version": "food_label_trace_v1",
+      "run_id": "pilot-case_011",
+      "lane": "personal_constraints",
+      "case_id": "case_011",
+      "status": "needs_confirmation",
+      "duration_ms": 0.75,
+      "spans": [],
+      "counters": {
+        "workflow_runs": 1,
+        "tool_calls": 0
+      },
+      "token_usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0
+      },
+      "cost_usd": 0.0,
+      "outcome": {
+        "node_timings": [
+          {
+            "node": "validate_input",
+            "duration_ms": 0.003,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "extract_label",
+            "duration_ms": 0.004,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "confirm_label",
+            "duration_ms": 0.004,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "normalize_label",
+            "duration_ms": 0.067,
+            "outcome": "paused"
+          }
+        ],
+        "expected_status": "blocked",
+        "actual_status": "needs_confirmation"
+      }
+    },
+    {
+      "schema_version": "food_label_trace_v1",
+      "run_id": "pilot-case_016",
+      "lane": "personal_constraints",
+      "case_id": "case_016",
+      "status": "needs_confirmation",
+      "duration_ms": 0.762,
+      "spans": [],
+      "counters": {
+        "workflow_runs": 1,
+        "tool_calls": 0
+      },
+      "token_usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0
+      },
+      "cost_usd": 0.0,
+      "outcome": {
+        "node_timings": [
+          {
+            "node": "validate_input",
+            "duration_ms": 0.003,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "extract_label",
+            "duration_ms": 0.003,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "confirm_label",
+            "duration_ms": 0.004,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "normalize_label",
+            "duration_ms": 0.066,
+            "outcome": "paused"
+          }
+        ],
+        "expected_status": "compatible",
+        "actual_status": "needs_confirmation"
+      }
+    },
+    {
+      "schema_version": "food_label_trace_v1",
+      "run_id": "pilot-case_017",
+      "lane": "personal_constraints",
+      "case_id": "case_017",
+      "status": "completed",
+      "duration_ms": 16.699,
+      "spans": [],
+      "counters": {
+        "workflow_runs": 1,
+        "tool_calls": 3,
+        "tool:search_food_regulations:calls": 1,
+        "tool:search_food_regulations:failures": 0,
+        "tool:search_food_regulations:retries": 0,
+        "tool:explain_ingredient:calls": 1,
+        "tool:explain_ingredient:failures": 0,
+        "tool:explain_ingredient:retries": 0
+      },
+      "token_usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0
+      },
+      "cost_usd": 0.0,
+      "outcome": {
+        "node_timings": [
+          {
+            "node": "validate_input",
+            "duration_ms": 0.004,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "extract_label",
+            "duration_ms": 0.003,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "confirm_label",
+            "duration_ms": 0.004,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "normalize_label",
+            "duration_ms": 0.054,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "evaluate_safety",
+            "duration_ms": 0.12,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "react_orchestrator",
+            "duration_ms": 15.245,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "final_safety_gate",
+            "duration_ms": 0.116,
+            "outcome": "succeeded"
+          }
+        ],
+        "expected_status": "blocked",
+        "actual_status": "completed"
+      }
+    },
+    {
+      "schema_version": "food_label_trace_v1",
+      "run_id": "pilot-case_018",
+      "lane": "personal_constraints",
+      "case_id": "case_018",
+      "status": "needs_confirmation",
+      "duration_ms": 0.868,
+      "spans": [],
+      "counters": {
+        "workflow_runs": 1,
+        "tool_calls": 0
+      },
+      "token_usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0
+      },
+      "cost_usd": 0.0,
+      "outcome": {
+        "node_timings": [
+          {
+            "node": "validate_input",
+            "duration_ms": 0.004,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "extract_label",
+            "duration_ms": 0.004,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "confirm_label",
+            "duration_ms": 0.005,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "normalize_label",
+            "duration_ms": 0.084,
+            "outcome": "paused"
+          }
+        ],
+        "expected_status": "unknown",
+        "actual_status": "needs_confirmation"
+      }
+    },
+    {
+      "schema_version": "food_label_trace_v1",
+      "run_id": "pilot-case_019",
+      "lane": "personal_constraints",
+      "case_id": "case_019",
+      "status": "needs_confirmation",
+      "duration_ms": 0.813,
+      "spans": [],
+      "counters": {
+        "workflow_runs": 1,
+        "tool_calls": 0
+      },
+      "token_usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0
+      },
+      "cost_usd": 0.0,
+      "outcome": {
+        "node_timings": [
+          {
+            "node": "validate_input",
+            "duration_ms": 0.004,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "extract_label",
+            "duration_ms": 0.003,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "confirm_label",
+            "duration_ms": 0.005,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "normalize_label",
+            "duration_ms": 0.081,
+            "outcome": "paused"
+          }
+        ],
+        "expected_status": "unknown",
+        "actual_status": "needs_confirmation"
+      }
+    },
+    {
+      "schema_version": "food_label_trace_v1",
+      "run_id": "pilot-case_020",
+      "lane": "personal_constraints",
+      "case_id": "case_020",
+      "status": "completed",
+      "duration_ms": 16.913,
+      "spans": [],
+      "counters": {
+        "workflow_runs": 1,
+        "tool_calls": 3,
+        "tool:search_food_regulations:calls": 1,
+        "tool:search_food_regulations:failures": 0,
+        "tool:search_food_regulations:retries": 0,
+        "tool:explain_ingredient:calls": 1,
+        "tool:explain_ingredient:failures": 0,
+        "tool:explain_ingredient:retries": 0
+      },
+      "token_usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0
+      },
+      "cost_usd": 0.0,
+      "outcome": {
+        "node_timings": [
+          {
+            "node": "validate_input",
+            "duration_ms": 0.003,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "extract_label",
+            "duration_ms": 0.003,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "confirm_label",
+            "duration_ms": 0.004,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "normalize_label",
+            "duration_ms": 0.056,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "evaluate_safety",
+            "duration_ms": 0.134,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "react_orchestrator",
+            "duration_ms": 15.371,
+            "outcome": "succeeded"
+          },
+          {
+            "node": "final_safety_gate",
+            "duration_ms": 0.122,
+            "outcome": "succeeded"
+          }
+        ],
+        "expected_status": "needs_confirmation",
+        "actual_status": "completed"
+      }
+    },
+    {
+      "schema_version": "food_label_trace_v1",
+      "run_id": "pilot-case_010",
+      "lane": "general_explanations",
+      "case_id": "case_010",
+      "status": "inconsistent",
+      "duration_ms": 13.729,
+      "spans": [],
+      "counters": {
+        "workflow_runs": 1,
+        "evidence_queries": 1
+      },
+      "token_usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0
+      },
+      "cost_usd": 0.0,
+      "outcome": {
+        "expected_status": "inconsistent",
+        "actual_status": "inconsistent"
+      }
+    },
+    {
+      "schema_version": "food_label_trace_v1",
+      "run_id": "pilot-case_012",
+      "lane": "general_explanations",
+      "case_id": "case_012",
+      "status": "checked",
+      "duration_ms": 11.867,
+      "spans": [],
+      "counters": {
+        "workflow_runs": 1,
+        "evidence_queries": 1
+      },
+      "token_usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0
+      },
+      "cost_usd": 0.0,
+      "outcome": {
+        "expected_status": "checked",
+        "actual_status": "checked"
+      }
+    },
+    {
+      "schema_version": "food_label_trace_v1",
+      "run_id": "pilot-case_013",
+      "lane": "general_explanations",
+      "case_id": "case_013",
+      "status": "checked",
+      "duration_ms": 11.489,
+      "spans": [],
+      "counters": {
+        "workflow_runs": 1,
+        "evidence_queries": 1
+      },
+      "token_usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0
+      },
+      "cost_usd": 0.0,
+      "outcome": {
+        "expected_status": "checked",
+        "actual_status": "checked"
+      }
+    },
+    {
+      "schema_version": "food_label_trace_v1",
+      "run_id": "pilot-case_014",
+      "lane": "general_explanations",
+      "case_id": "case_014",
+      "status": "explained",
+      "duration_ms": 0.053,
+      "spans": [],
+      "counters": {
+        "workflow_runs": 1,
+        "evidence_queries": 0
+      },
+      "token_usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0
+      },
+      "cost_usd": 0.0,
+      "outcome": {
+        "expected_status": "explained",
+        "actual_status": "explained"
+      }
+    },
+    {
+      "schema_version": "food_label_trace_v1",
+      "run_id": "pilot-case_015",
+      "lane": "general_explanations",
+      "case_id": "case_015",
+      "status": "unknown",
+      "duration_ms": 0.015,
+      "spans": [],
+      "counters": {
+        "workflow_runs": 1,
+        "evidence_queries": 0
+      },
+      "token_usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0
+      },
+      "cost_usd": 0.0,
+      "outcome": {
+        "expected_status": "unknown",
+        "actual_status": "unknown"
+      }
+    },
+    {
+      "schema_version": "food_label_trace_v1",
+      "run_id": "pilot-case_016",
+      "lane": "alternatives",
+      "case_id": "case_016",
+      "status": "completed",
+      "duration_ms": 2.874,
+      "spans": [],
+      "counters": {
+        "candidate_searches": 1,
+        "candidate_revalidations": 0,
+        "comparisons": 0
+      },
+      "token_usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0
+      },
+      "cost_usd": 0.0,
+      "outcome": {
+        "eligible_count": 0,
+        "comparison_status": "not_compared"
+      }
+    },
+    {
+      "schema_version": "food_label_trace_v1",
+      "run_id": "pilot-case_017",
+      "lane": "alternatives",
+      "case_id": "case_017",
+      "status": "completed",
+      "duration_ms": 2.281,
+      "spans": [],
+      "counters": {
+        "candidate_searches": 1,
+        "candidate_revalidations": 4,
+        "comparisons": 0
+      },
+      "token_usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0
+      },
+      "cost_usd": 0.0,
+      "outcome": {
+        "eligible_count": 4,
+        "comparison_status": "unknown"
+      }
+    },
+    {
+      "schema_version": "food_label_trace_v1",
+      "run_id": "pilot-case_018",
+      "lane": "alternatives",
+      "case_id": "case_018",
+      "status": "completed",
+      "duration_ms": 2.191,
+      "spans": [],
+      "counters": {
+        "candidate_searches": 1,
+        "candidate_revalidations": 4,
+        "comparisons": 0
+      },
+      "token_usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0
+      },
+      "cost_usd": 0.0,
+      "outcome": {
+        "eligible_count": 0,
+        "comparison_status": "not_compared"
+      }
+    },
+    {
+      "schema_version": "food_label_trace_v1",
+      "run_id": "pilot-case_019",
+      "lane": "alternatives",
+      "case_id": "case_019",
+      "status": "completed",
+      "duration_ms": 1.212,
+      "spans": [],
+      "counters": {
+        "candidate_searches": 1,
+        "candidate_revalidations": 0,
+        "comparisons": 0
+      },
+      "token_usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0
+      },
+      "cost_usd": 0.0,
+      "outcome": {
+        "eligible_count": 0,
+        "comparison_status": "not_compared"
+      }
+    }
+  ],
+  "metrics": {
+    "run_count": 24,
+    "average_latency_ms": 17.39,
+    "p95_latency_ms": 17.088,
+    "total_cost_usd": 0.0,
+    "average_cost_usd": 0.0,
+    "total_tokens": 0,
+    "cost_rates": {
+      "input_usd_per_1k": 0.0,
+      "output_usd_per_1k": 0.0
+    }
+  }
+}
