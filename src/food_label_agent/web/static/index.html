@@ -1,9 +1,9 @@
 <!--
-THESIS: A useful label result becomes a vivid personal evidence trail, not a health score that disappears after one scan.
-OWN-WORLD: A single warm-ivory clinical organizer uses black-gray type, fine taupe outlines, pastel pink actions, and muted yellow, blue, pink, and sage category bands.
-STORY: The user declares personal needs, confirms labels, then sees scanning and self-entered health activity without automatic medical interpretation.
-FIRST VIEWPORT: “我的” opens with four vertically stacked record cards beside neutral ring, dot, and bar summaries; the entry form and full timeline follow below.
-FORM: Flat, outlined cream panels and a compact light dock with a canvas-bordered pastel active cutout preserve every evidence and privacy boundary.
+THESIS: 食鉴把一次食品标签识别变成轻盈、可回看的个人检查流程，拒绝把复杂安全判断压成一个分数。
+OWN-WORLD: Bright health-log surfaces use soft white cards, charcoal type, acid-lime actions, and small cyan/coral/lilac data accents on a pale cool canvas.
+STORY: The user sets constraints, scans a label, confirms the evidence, then reads the result in plain language.
+FIRST VIEWPORT: The profile step leads with one clear promise and a compact two-column setup card; the scan step leads with a vivid lime action and a large label workspace.
+FORM: Rounded mobile-health cards, gentle separators, compact pills, and a floating bottom dock make every state feel like one calm personal dashboard.
 -->
 <!doctype html>
 <html lang="zh-CN">
@@ -13,8 +13,8 @@ FORM: Flat, outlined cream panels and a compact light dock with a canvas-bordere
     <meta name="description" content="上传食品标签，确认识别文字，再进行基于证据的健康信息解释。">
     <title>食鉴 · 食品标签健康解释</title>
     <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/static/styles.css?v=health-dashboard-6">
-    <script src="/static/app.js?v=health-dashboard-6" defer></script>
+    <link rel="stylesheet" href="/static/styles.css?v=health-dashboard-10">
+    <script src="/static/app.js?v=health-dashboard-10" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#workspace">跳到标签工作区</a>
@@ -45,10 +45,6 @@ FORM: Flat, outlined cream panels and a compact light dock with a canvas-bordere
           <p class="eyebrow">先告诉我们什么对你重要</p>
           <h1 id="profile-title">先了解你，<br>再看懂食品。</h1>
           <p>你的选择会决定每次标签分析优先检查什么。这里只记录你主动填写的信息，不作诊断。</p>
-          <div class="profile-promise" aria-label="个人设置用途">
-            <strong>一次设置，之后每次都先确认</strong>
-            <span>你可以随时修改，也可以只为某次分析临时调整。</span>
-          </div>
         </div>
 
         <form class="profile-form" id="profile-form" novalidate>
@@ -113,7 +109,7 @@ FORM: Flat, outlined cream panels and a compact light dock with a canvas-bordere
           </label>
           <p class="profile-error" id="profile-error" hidden role="alert"></p>
           <button class="button button--primary profile-submit" type="submit">
-            查看我的分析重点
+            <span id="profile-submit-label">查看我的分析重点</span>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg>
           </button>
         </form>
@@ -148,7 +144,7 @@ FORM: Flat, outlined cream panels and a compact light dock with a canvas-bordere
 
       <div class="hero-layout" id="hero-layout" hidden>
         <section class="intro" aria-labelledby="page-title">
-          <p class="eyebrow">食品标签解释 Agent</p>
+          <p class="eyebrow">食品标签解释</p>
           <h1 id="page-title">看懂标签，<br>再决定吃什么。</h1>
           <p class="intro-copy">确认本次使用的个人设置，再拍下配料表进行识别。</p>
           <section class="scan-profile-summary" aria-labelledby="scan-profile-title">
@@ -533,16 +529,46 @@ FORM: Flat, outlined cream panels and a compact light dock with a canvas-bordere
       </div>
 
       <section class="account-view" id="history-view" hidden aria-labelledby="history-title">
-        <header class="account-view-heading">
-          <div>
-            <p>仅保存结构化摘要</p>
-            <h1 id="history-title">历史识别记录</h1>
+        <div id="history-index">
+          <header class="account-view-heading">
+            <div>
+              <p>仅保存结构化摘要</p>
+              <h1 id="history-title">历史识别记录</h1>
+            </div>
+            <button class="text-button" id="clear-scan-history" type="button">清除本设备记录</button>
+          </header>
+          <p class="account-view-intro">这里不会保存你上传的标签图片，只保留商品名称、识别时间、结果和用于理解结果的少量标签数值。</p>
+          <p class="account-empty" id="history-empty">还没有历史记录。完成一次标签判断后，会在这里留下摘要。</p>
+          <ol class="history-list" id="history-list"></ol>
+        </div>
+
+        <section class="history-detail" id="history-detail" hidden aria-labelledby="history-detail-title">
+          <button class="history-detail-back" id="history-detail-back" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7" /></svg>
+            返回历史记录
+          </button>
+          <header class="history-detail-heading">
+            <div>
+              <p>当时保存的结构化结果</p>
+              <h1 id="history-detail-title">未命名食品</h1>
+              <time id="history-detail-time"></time>
+            </div>
+            <strong class="history-detail-outcome" id="history-detail-outcome">需要确认包装信息</strong>
+          </header>
+          <p class="history-detail-summary" id="history-detail-summary"></p>
+          <dl class="history-detail-facts" id="history-detail-facts"></dl>
+          <div class="history-detail-groups">
+            <section aria-labelledby="history-detail-nutrition-title">
+              <h2 id="history-detail-nutrition-title">当时保留的标签数值</h2>
+              <ul id="history-detail-nutrition"></ul>
+            </section>
+            <section aria-labelledby="history-detail-focus-title">
+              <h2 id="history-detail-focus-title">当时使用的健康关注</h2>
+              <ul id="history-detail-focus"></ul>
+            </section>
           </div>
-          <button class="text-button" id="clear-scan-history" type="button">清除本设备记录</button>
-        </header>
-        <p class="account-view-intro">这里不会保存你上传的标签图片，只保留商品名称、识别时间、结果和用于理解结果的少量标签数值。</p>
-        <p class="account-empty" id="history-empty">还没有历史记录。完成一次标签判断后，会在这里留下摘要。</p>
-        <ol class="history-list" id="history-list"></ol>
+          <p class="history-detail-boundary">这里只展示当时保存在此设备上的摘要，不包含上传图片，也不会重新运行或补写当时的分析。</p>
+        </section>
       </section>
 
       <section class="account-view" id="user-view" hidden aria-labelledby="user-view-title">
@@ -566,7 +592,14 @@ FORM: Flat, outlined cream panels and a compact light dock with a canvas-bordere
               </div>
               <span id="dashboard-today-label">今天</span>
             </div>
-            <div class="dashboard-metric-grid" id="dashboard-metric-grid">
+            <div class="dashboard-deck-controls" aria-label="概览卡片控制">
+              <p>第 <span id="dashboard-deck-current">1</span> 张，共 4 张</p>
+            </div>
+            <div class="dashboard-deck-shell">
+              <button class="dashboard-deck-arrow dashboard-deck-arrow--prev" id="dashboard-deck-prev" type="button" aria-label="上一张概览卡片">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7" /></svg>
+              </button>
+              <div class="dashboard-metric-grid" id="dashboard-metric-grid" role="region" aria-roledescription="卡片组" aria-label="今日概览，使用左右方向键切换">
               <button class="dashboard-metric dashboard-metric--scan" type="button" data-dashboard-action="history" aria-label="查看食品识别历史">
                 <span class="dashboard-metric-head">
                   <span class="dashboard-metric-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 4H5a1 1 0 0 0-1 1v3m12-4h3a1 1 0 0 1 1 1v3M8 20H5a1 1 0 0 1-1-1v-3m12 4h3a1 1 0 0 0 1-1v-3M8 9h8v6H8z"/></svg></span>
@@ -599,6 +632,10 @@ FORM: Flat, outlined cream panels and a compact light dock with a canvas-bordere
                 </span>
                 <span class="dashboard-metric-body"><span><small>当前关注</small><span id="dashboard-focus-note">尚未设置关注项</span></span><span class="dashboard-metric-action">修改档案 <b aria-hidden="true">→</b></span></span>
               </button>
+              </div>
+              <button class="dashboard-deck-arrow dashboard-deck-arrow--next" id="dashboard-deck-next" type="button" aria-label="下一张概览卡片">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg>
+              </button>
             </div>
           </section>
 
@@ -615,21 +652,13 @@ FORM: Flat, outlined cream panels and a compact light dock with a canvas-bordere
               <button type="button" data-health-period="month" aria-pressed="false">月</button>
               <button type="button" data-health-period="year" aria-pressed="false">年</button>
             </div>
-            <div class="health-composition">
-              <svg class="health-ring-chart" viewBox="0 0 180 180" role="img" aria-labelledby="health-ring-title health-ring-desc">
-                <title id="health-ring-title">健康记录项目构成</title>
-                <desc id="health-ring-desc">不同颜色表示各记录项目在所选时间范围内的记录次数，不代表健康评分。</desc>
-                <circle class="health-ring-track" cx="90" cy="90" r="66"/>
-                <circle class="health-ring health-ring--one" cx="90" cy="90" r="66"/>
-                <circle class="health-ring-track" cx="90" cy="90" r="51"/>
-                <circle class="health-ring health-ring--two" cx="90" cy="90" r="51"/>
-                <circle class="health-ring-track" cx="90" cy="90" r="36"/>
-                <circle class="health-ring health-ring--three" cx="90" cy="90" r="36"/>
-                <circle class="health-ring-track" cx="90" cy="90" r="21"/>
-                <circle class="health-ring health-ring--four" cx="90" cy="90" r="21"/>
-                <text x="90" y="86" text-anchor="middle" id="health-ring-total">0</text>
-                <text x="90" y="105" text-anchor="middle">条记录</text>
-              </svg>
+            <div class="health-composition" aria-labelledby="health-composition-title">
+              <div class="health-composition-summary">
+                <span id="health-composition-title">记录项目构成</span>
+                <strong><span id="health-ring-total">0</span> 条记录</strong>
+                <p>按项目统计次数，不代表健康评分。</p>
+              </div>
+              <div class="health-ring-chart health-composition-bar" id="health-composition-bar" role="img" aria-label="所选时间内还没有健康记录"></div>
               <ul class="health-ring-legend" id="health-ring-legend" aria-label="记录项目图例"></ul>
             </div>
             <section class="activity-summary" aria-labelledby="scan-activity-title">

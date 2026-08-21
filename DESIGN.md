@@ -1,26 +1,27 @@
 ---
 name: Food Label Health Agent
-description: A warm editorial Bento workbench for evidence-led food label analysis
+description: A bright health-log dashboard for evidence-led food label analysis
 colors:
-  paper-canvas: "#F4F0E8"
-  paper-surface: "#FFFDF8"
-  editorial-navy: "#26334A"
-  editorial-navy-deep: "#172338"
-  action-teal: "#0A4650"
-  action-teal-hover: "#06343C"
-  supporting-periwinkle: "#909ABF"
-  muted-ink: "#6E7890"
-  muted-small: "#566177"
+  paper-canvas: "#F4F6F5"
+  paper-surface: "#FFFFFF"
+  editorial-navy: "#202727"
+  editorial-navy-deep: "#101817"
+  action-teal: "#138A7C"
+  action-teal-hover: "#0D6E64"
+  action-lime: "#B7E95B"
+  supporting-cyan: "#A9DFE5"
+  muted-ink: "#788583"
+  muted-small: "#64716F"
   caution: "#8A4B08"
   avoid: "#A9362B"
   compatible: "#14714B"
 typography:
   display:
-    fontFamily: "Iowan Old Style, Songti SC, STSong, Georgia, serif"
-    fontSize: "clamp(3.5rem, 5vw, 5.2rem)"
-    fontWeight: 600
-    lineHeight: 0.93
-    letterSpacing: "-0.055em"
+    fontFamily: "Avenir Next, SF Pro Display, PingFang SC, sans-serif"
+    fontSize: "clamp(2.85rem, 5vw, 5.6rem)"
+    fontWeight: 800
+    lineHeight: 0.94
+    letterSpacing: "-0.04em"
   body:
     fontFamily: "-apple-system, BlinkMacSystemFont, SF Pro Text, PingFang SC, sans-serif"
     fontSize: "1rem"
@@ -32,10 +33,10 @@ typography:
     fontWeight: 700
     lineHeight: 1.4
 rounded:
-  control: "8px"
-  field: "10px"
-  review: "22px"
-  proof: "24px"
+  control: "12px"
+  field: "14px"
+  review: "20px"
+  proof: "28px"
   pill: "999px"
 spacing:
   xs: "4px"
@@ -61,7 +62,7 @@ components:
 
 ## Creative North Star
 
-**The Editorial Label Desk** turns a photographed package into a calm, tangible evidence workspace. The visual language adapts the user-pinned Nova Benefits Bento reference: warm paper, dark editorial type, asymmetrical functional cards, physical-object photography, and modest offset depth. It does not copy the reference's assets, brand, or benefits-product metaphors.
+**The Personal Health Log** turns a photographed package into a calm, tangible evidence workspace. The visual language takes the user's references as a direction: pale cool canvas, white rounded cards, acid-lime primary actions, soft cyan/coral/lilac data accents, and compact mobile-health dashboard patterns. It does not copy their assets, brand, or wellness claims.
 
 The first viewport contains exactly one promise and one task. The generated unbranded pouch demonstrates which surface to photograph; it has no readable claims and never acts as evidence. After OCR succeeds, the editorial introduction exits and the uploaded label becomes the visual focus beside its correction fields.
 
@@ -76,27 +77,27 @@ The first viewport contains exactly one promise and one task. The generated unbr
 
 ### Color
 
-- `#F4F0E8` is the warm paper canvas.
-- `#FFFDF8` is the elevated work surface.
-- `#26334A` and `#172338` carry editorial headings and high-contrast copy.
-- `#0A4650` is reserved for primary actions, focus, and active evidence.
-- `#909ABF` supports the introductory promise without becoming a status color.
-- `#566177` is the accessible small-copy tone on paper surfaces.
+- `#F4F6F5` is the pale health-log canvas.
+- `#FFFFFF` is the elevated work surface.
+- `#202727` and `#101817` carry headings and high-contrast copy.
+- `#B7E95B` is the primary action and active navigation accent.
+- `#138A7C` carries focus and evidence links.
+- `#64716F` is the accessible small-copy tone on surfaces.
 - Semantic caution, conflict, and compatibility colors appear only beside explicit state text.
 
 ### Typography
 
-Editorial display text uses Iowan Old Style with Songti SC and Georgia fallbacks. Chinese line breaks are controlled by physical container width rather than `ch` units. Operational copy uses the platform sans-serif stack. OCR confidence and evidence metadata use the monospace stack.
+Product UI uses a rounded, platform-native sans stack with heavier display weights and tighter tracking. OCR confidence and evidence metadata use the monospace stack.
 
 ### Layout
 
-Desktop begins as an asymmetric two-column hero: the consumer promise owns roughly 36% and the live upload workbench owns 64%. The upload card combines the example package and the action in one surface. When OCR completes, the introduction is hidden and the workspace becomes a 7/5 image-to-correction split.
+Desktop begins as an asymmetric two-column hero: the consumer promise owns roughly 36% and the live upload workbench owns 64%. The upload card combines the example package and the action in one surface. When OCR completes, the introduction is hidden and the workspace becomes a 7/5 image-to-correction split. Returning users bypass onboarding and land on the personal dashboard; first-time users see the profile form until they intentionally save it.
 
 Below 900px the hero stacks in reading order. Below 640px, the package and upload action stack inside the card and the primary button spans the available width. Every interactive target is at least 44px.
 
 ### Depth and shape
 
-White work surfaces use a restrained offset shadow to evoke printed cards. Primary actions use the same directional offset. Cards use 18–24px radii; buttons and inputs use compact 8–10px radii. Pills remain limited to transient state.
+White work surfaces use restrained layered shadows. Cards use 18–28px radii; buttons and inputs use 12–14px radii. Pills remain limited to transient state. Dashboard colors identify record categories, never health quality.
 
 ## Components
 
@@ -111,6 +112,18 @@ The empty state shows an unbranded package reference, supported file types, the 
 ### OCR review
 
 Review fields stay hidden until analysis succeeds. Confidence remains visible, low-confidence fields say `需确认`, and selecting a field activates its matching image annotation. Confirmation is the only primary action in this state.
+
+### Personal dashboard deck
+
+The dashboard's signature interaction is a four-card layered deck. One card is actionable at a time; the next cards peek from underneath to communicate sequence. Previous and next controls sit directly against the card's left and right edges, while an explicit “第 n 张，共 4 张” label explains position. Users can also use keyboard arrows or a horizontal touch gesture. It never auto-advances, and reduced-motion preferences remove the transition.
+
+### Record composition
+
+Record composition uses one horizontal stacked bar with directly labeled counts. Empty data is expressed as an empty state, not as a zero-valued ring or a health score. The chart's accessible label repeats the same count information in plain language.
+
+### Historical result detail
+
+Every saved recognition summary is a keyboard-accessible destination. Its detail view shows only the structured fields that were actually retained on the device: time, outcome, category, selected profile, compact nutrition facts, health focus, and—when available—the original decision summary and evidence location. Older records degrade to an explicit basic-summary state; the interface never reconstructs deleted images or invents missing evidence.
 
 ## Guardrails
 

@@ -101,3 +101,18 @@ def test_dashboard_cards_are_keyboard_actions_with_real_destinations() -> None:
     assert 'switchAppView("history")' in script
     assert 'editProfile("user")' in script
     assert "function updateAppTabbarIndicator" in script
+
+
+def test_scan_history_items_open_a_structured_result_detail() -> None:
+    html = (STATIC_DIR / "index.html").read_text(encoding="utf-8")
+    script = (STATIC_DIR / "app.js").read_text(encoding="utf-8")
+
+    assert 'id="history-detail"' in html
+    assert 'id="history-detail-back"' in html
+    assert 'id="history-detail-facts"' in html
+    assert 'className = "history-item-open"' in script
+    assert "openHistoryDetail(button.dataset.historyId)" in script
+    assert "function openHistoryDetail(recordId)" in script
+    assert "function closeHistoryDetail" in script
+    assert "decisionSummary: compactHistoryText" in script
+    assert "matchedLocation: compactHistoryText" in script

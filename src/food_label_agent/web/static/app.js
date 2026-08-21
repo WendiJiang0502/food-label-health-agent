@@ -7,6 +7,7 @@ const elements = {
   customHealthConcerns: document.querySelector("#custom-health-concerns"),
   rememberProfile: document.querySelector("#remember-profile"),
   profileError: document.querySelector("#profile-error"),
+  profileSubmitLabel: document.querySelector("#profile-submit-label"),
   advicePreview: document.querySelector("#advice-preview"),
   adviceProfileName: document.querySelector("#advice-profile-name"),
   adviceAllergens: document.querySelector("#advice-allergens"),
@@ -108,15 +109,28 @@ const elements = {
   alternativeExclusionList: document.querySelector("#alternative-exclusion-list"),
   appTabbar: document.querySelector("#app-tabbar"),
   historyView: document.querySelector("#history-view"),
+  historyIndex: document.querySelector("#history-index"),
   historyList: document.querySelector("#history-list"),
   historyEmpty: document.querySelector("#history-empty"),
   clearScanHistory: document.querySelector("#clear-scan-history"),
+  historyDetail: document.querySelector("#history-detail"),
+  historyDetailBack: document.querySelector("#history-detail-back"),
+  historyDetailTitle: document.querySelector("#history-detail-title"),
+  historyDetailTime: document.querySelector("#history-detail-time"),
+  historyDetailOutcome: document.querySelector("#history-detail-outcome"),
+  historyDetailSummary: document.querySelector("#history-detail-summary"),
+  historyDetailFacts: document.querySelector("#history-detail-facts"),
+  historyDetailNutrition: document.querySelector("#history-detail-nutrition"),
+  historyDetailFocus: document.querySelector("#history-detail-focus"),
   userView: document.querySelector("#user-view"),
   editProfileFromUser: document.querySelector("#edit-profile-from-user"),
   userProfileName: document.querySelector("#user-profile-name"),
   userAllergenSummary: document.querySelector("#user-allergen-summary"),
   userHealthSummary: document.querySelector("#user-health-summary"),
   dashboardMetricGrid: document.querySelector("#dashboard-metric-grid"),
+  dashboardDeckCurrent: document.querySelector("#dashboard-deck-current"),
+  dashboardDeckPrev: document.querySelector("#dashboard-deck-prev"),
+  dashboardDeckNext: document.querySelector("#dashboard-deck-next"),
   dashboardTodayLabel: document.querySelector("#dashboard-today-label"),
   dashboardScanCount: document.querySelector("#dashboard-scan-count"),
   dashboardScanNote: document.querySelector("#dashboard-scan-note"),
@@ -131,7 +145,7 @@ const elements = {
   healthStatisticsRange: document.querySelector("#health-statistics-range"),
   healthRingTotal: document.querySelector("#health-ring-total"),
   healthRingLegend: document.querySelector("#health-ring-legend"),
-  healthRings: document.querySelectorAll(".health-ring"),
+  healthCompositionBar: document.querySelector("#health-composition-bar"),
   scanActivityTotal: document.querySelector("#scan-activity-total"),
   scanActivityDots: document.querySelector("#scan-activity-dots"),
   healthActivityTotal: document.querySelector("#health-activity-total"),
@@ -161,6 +175,7 @@ const elements = {
 
 const MEMORY_CREDENTIALS_KEY = "food-label-agent.memory-credentials.v1";
 const PROFILE_STORAGE_KEY = "food-label-agent.health-profile.v1";
+const ONBOARDING_COMPLETE_KEY = "food-label-agent.onboarding-complete.v1";
 const SCAN_HISTORY_STORAGE_KEY = "food-label-agent.scan-history.v1";
 const HEALTH_HISTORY_STORAGE_KEY = "food-label-agent.health-changes.v1";
 const HEALTH_HISTORY_CONSENT_KEY = "food-label-agent.health-changes-consent.v1";
@@ -190,6 +205,8 @@ const state = {
   healthHistory: readStoredArray(HEALTH_HISTORY_STORAGE_KEY, 200),
   healthHistoryConsent: localStorage.getItem(HEALTH_HISTORY_CONSENT_KEY) === "granted",
   healthPeriod: "week",
+  dashboardDeckIndex: 0,
+  historyDetailId: null,
 };
 
 elements.portionPresets.addEventListener("click", (event) => {
@@ -212,7 +229,46 @@ elements.appTabbar.addEventListener("click", (event) => {
 
 elements.dashboardMetricGrid.addEventListener("click", (event) => {
   const button = event.target.closest("button[data-dashboard-action]");
-  if (button) handleDashboardAction(button.dataset.dashboardAction);
+  if (!button) return;
+  if (dashboardDeckSuppressClick) {
+    event.preventDefault();
+    dashboardDeckSuppressClick = false;
+    return;
+  }
+  const cards = [...elements.dashboardMetricGrid.querySelectorAll(".dashboard-metric")];
+  const cardIndex = cards.indexOf(button);
+  if (cardIndex !== state.dashboardDeckIndex) {
+    setDashboardDeckIndex(cardIndex, true, true);
+    return;
+  }
+  handleDashboardAction(button.dataset.dashboardAction);
+});
+
+elements.dashboardDeckPrev.addEventListener("click", () => moveDashboardDeck(-1));
+elements.dashboardDeckNext.addEventListener("click", () => moveDashboardDeck(1));
+elements.dashboardMetricGrid.addEventListener("keydown", (event) => {
+  if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+  event.preventDefault();
+  moveDashboardDeck(event.key === "ArrowRight" ? 1 : -1, true);
+});
+
+let dashboardDeckPointerStart = null;
+let dashboardDeckSuppressClick = false;
+elements.dashboardMetricGrid.addEventListener("pointerdown", (event) => {
+  if (event.pointerType === "mouse") return;
+  dashboardDeckPointerStart = { x: event.clientX, y: event.clientY };
+});
+elements.dashboardMetricGrid.addEventListener("pointerup", (event) => {
+  if (!dashboardDeckPointerStart) return;
+  const deltaX = event.clientX - dashboardDeckPointerStart.x;
+  const deltaY = event.clientY - dashboardDeckPointerStart.y;
+  dashboardDeckPointerStart = null;
+  if (Math.abs(deltaX) < 42 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+  dashboardDeckSuppressClick = true;
+  moveDashboardDeck(deltaX < 0 ? 1 : -1, true);
+});
+elements.dashboardMetricGrid.addEventListener("pointercancel", () => {
+  dashboardDeckPointerStart = null;
 });
 
 if ("ResizeObserver" in window) {
@@ -241,6 +297,12 @@ elements.clearScanHistory.addEventListener("click", () => {
   renderScanHistory();
   announce("本设备上的识别历史已清除");
 });
+
+elements.historyList.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-history-id]");
+  if (button) openHistoryDetail(button.dataset.historyId);
+});
+elements.historyDetailBack.addEventListener("click", () => closeHistoryDetail());
 
 elements.editProfileFromUser.addEventListener("click", () => editProfile("user"));
 elements.healthEntryMetric.addEventListener("change", updateHealthMetricUnit);
@@ -376,6 +438,7 @@ elements.profileForm.addEventListener("submit", async (event) => {
     return;
   }
   hideProfileError();
+  localStorage.setItem(ONBOARDING_COMPLETE_KEY, "true");
   state.profile = profile;
   if (state.profileEditReturn === "user") {
     try {
@@ -489,6 +552,13 @@ function initializeProfileFlow() {
     showProfileScreen("scan");
     return;
   }
+  const hasPriorUse = localStorage.getItem(ONBOARDING_COMPLETE_KEY) === "true"
+    || state.scanHistory.length > 0
+    || state.healthHistory.length > 0;
+  if (hasPriorUse) {
+    showProfileScreen("scan");
+    return;
+  }
   showProfileScreen("profile");
 }
 
@@ -507,6 +577,15 @@ function showProfileScreen(screen) {
 function editProfile(returnTarget = null) {
   if (state.profile) populateProfileForm(state.profile);
   state.profileEditReturn = returnTarget;
+  const hasPriorUse = localStorage.getItem(ONBOARDING_COMPLETE_KEY) === "true"
+    || state.scanHistory.length > 0
+    || state.healthHistory.length > 0;
+  let submitLabel = "查看我的分析重点";
+  if (returnTarget === "user") submitLabel = "保存档案修改";
+  else if (returnTarget === "constraint") submitLabel = "保存并更新本次分析";
+  else if (state.profile) submitLabel = "更新我的分析重点";
+  else if (hasPriorUse) submitLabel = "保存档案设置";
+  elements.profileSubmitLabel.textContent = submitLabel;
   showProfileScreen("profile");
   window.scrollTo({ top: 0, behavior: "smooth" });
   elements.profileName.focus();
@@ -2537,6 +2616,13 @@ function initializeAccountFeatures() {
   renderScanHistory();
   renderHealthHistory();
   if (state.profile) renderScanProfile(state.profile);
+  const hasPriorUse = localStorage.getItem(ONBOARDING_COMPLETE_KEY) === "true"
+    || state.scanHistory.length > 0
+    || state.healthHistory.length > 0;
+  if (hasPriorUse) {
+    revealAppTabbar();
+    switchAppView("user", { focus: false, scroll: false });
+  }
 }
 
 function revealAppTabbar() {
@@ -2550,7 +2636,7 @@ function revealAppTabbar() {
   updateAppTabbarIndicator(state.appView);
 }
 
-function switchAppView(view) {
+function switchAppView(view, options = {}) {
   if (!["scan", "history", "user"].includes(view)) return;
   state.appView = view;
   document.body.dataset.appView = view;
@@ -2564,18 +2650,52 @@ function switchAppView(view) {
     else button.removeAttribute("aria-current");
   });
   updateAppTabbarIndicator(view);
-  if (view === "history") renderScanHistory();
+  if (view === "history") {
+    closeHistoryDetail({ focus: false });
+    renderScanHistory();
+  }
   if (view === "user") {
     if (state.profile) renderScanProfile(state.profile);
     renderHealthHistory();
   }
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  if (options.scroll !== false) window.scrollTo({ top: 0, behavior: "smooth" });
   const focusTarget = view === "history"
     ? elements.historyView.querySelector("h1")
     : view === "user" ? elements.userView.querySelector("h1") : elements.heroLayout;
-  focusTarget?.setAttribute("tabindex", "-1");
-  focusTarget?.focus({ preventScroll: true });
-  announce(view === "scan" ? "已返回拍照识别" : view === "history" ? "已打开历史识别记录" : "已打开我的健康变化");
+  if (options.focus !== false) {
+    focusTarget?.setAttribute("tabindex", "-1");
+    focusTarget?.focus({ preventScroll: true });
+    announce(view === "scan" ? "已返回拍照识别" : view === "history" ? "已打开历史识别记录" : "已打开我的健康变化");
+  }
+}
+
+function moveDashboardDeck(direction, focusActive = false) {
+  const cards = [...elements.dashboardMetricGrid.querySelectorAll(".dashboard-metric")];
+  if (!cards.length) return;
+  const nextIndex = (state.dashboardDeckIndex + direction + cards.length) % cards.length;
+  setDashboardDeckIndex(nextIndex, focusActive, true);
+}
+
+function setDashboardDeckIndex(index, focusActive = false, announceChange = false) {
+  const cards = [...elements.dashboardMetricGrid.querySelectorAll(".dashboard-metric")];
+  if (!cards.length) return;
+  state.dashboardDeckIndex = Math.max(0, Math.min(index, cards.length - 1));
+  cards.forEach((card, cardIndex) => {
+    const depth = (cardIndex - state.dashboardDeckIndex + cards.length) % cards.length;
+    card.dataset.deckDepth = String(depth);
+    card.classList.toggle("is-active", depth === 0);
+    card.setAttribute("aria-hidden", depth === 0 ? "false" : "true");
+    card.toggleAttribute("inert", depth !== 0);
+    card.tabIndex = depth === 0 ? 0 : -1;
+  });
+  elements.dashboardDeckCurrent.textContent = String(state.dashboardDeckIndex + 1);
+  const activeCard = cards[state.dashboardDeckIndex];
+  elements.dashboardMetricGrid.setAttribute(
+    "aria-label",
+    `今日概览，第 ${state.dashboardDeckIndex + 1} 张，共 ${cards.length} 张：${activeCard.getAttribute("aria-label")}`,
+  );
+  if (focusActive) activeCard.focus({ preventScroll: true });
+  if (announceChange) announce(`已切换到第 ${state.dashboardDeckIndex + 1} 张概览卡片`);
 }
 
 function updateAppTabbarIndicator(view = state.appView) {
@@ -2627,10 +2747,19 @@ function saveScanHistory({ outcome, riskLevel, nutrition }) {
       ...(state.profile.customHealthConcerns || []),
     ].slice(0, 4),
     nutritionFacts: compactNutritionFacts(nutrition),
+    decisionSummary: compactHistoryText(elements.riskSummary.textContent, 360),
+    matchedText: compactHistoryText(elements.matchedText.textContent, 180),
+    matchedConstraint: compactHistoryText(elements.matchedConstraint.textContent, 180),
+    matchedLocation: compactHistoryText(elements.matchedLocation.textContent, 180),
   };
   state.scanHistory = [record, ...state.scanHistory.filter((item) => item.id !== record.id)].slice(0, 50);
   localStorage.setItem(SCAN_HISTORY_STORAGE_KEY, JSON.stringify(state.scanHistory));
   renderScanHistory();
+}
+
+function compactHistoryText(value, maxLength) {
+  const normalized = String(value || "").replace(/\s+/g, " ").trim();
+  return normalized.length > maxLength ? `${normalized.slice(0, maxLength - 1)}…` : normalized;
 }
 
 function updateCurrentScanHistoryOutcome(outcome) {
@@ -2707,11 +2836,99 @@ function renderScanHistory() {
         fact.textContent = value;
         facts.append(fact);
       });
-    content.append(title, outcome, facts);
-    item.append(time, content);
+    const action = document.createElement("span");
+    action.className = "history-item-action";
+    action.innerHTML = '查看当时结果 <b aria-hidden="true">›</b>';
+    content.append(title, outcome, facts, action);
+    const openButton = document.createElement("button");
+    openButton.className = "history-item-open";
+    openButton.type = "button";
+    openButton.dataset.historyId = record.id;
+    openButton.setAttribute("aria-label", `查看 ${record.productName || "未命名食品"} 在 ${formatLocalDateTime(record.scannedAt)} 的识别结果`);
+    item.append(time, content, openButton);
     elements.historyList.append(item);
   });
   renderHealthDashboard();
+}
+
+function openHistoryDetail(recordId) {
+  const record = state.scanHistory.find((item) => String(item.id) === String(recordId));
+  if (!record) {
+    announce("这条历史记录已经不存在");
+    renderScanHistory();
+    return;
+  }
+  state.historyDetailId = String(record.id);
+  elements.historyIndex.hidden = true;
+  elements.historyDetail.hidden = false;
+  elements.historyDetailTitle.textContent = record.productName || "未命名食品";
+  elements.historyDetailTime.dateTime = record.scannedAt || "";
+  elements.historyDetailTime.textContent = formatLocalDateTime(record.scannedAt);
+  elements.historyDetailOutcome.textContent = record.outcome || "需要确认包装信息";
+  elements.historyDetailOutcome.dataset.risk = record.riskLevel || "unknown";
+  elements.historyDetailSummary.textContent = record.decisionSummary
+    || "这条记录来自较早版本，当时只保存了基础摘要；以下内容是本设备仍然保留的信息。";
+
+  elements.historyDetailFacts.replaceChildren();
+  [
+    ["商品类别", record.category || "类别待确认"],
+    ["使用档案", record.profileName || "未记录"],
+    ["标签事实", record.matchedText],
+    ["与你的设置", record.matchedConstraint],
+    ["证据位置", record.matchedLocation],
+  ].filter(([, value]) => value).forEach(([label, value]) => {
+    const row = document.createElement("div");
+    const term = document.createElement("dt");
+    const description = document.createElement("dd");
+    term.textContent = label;
+    description.textContent = value;
+    row.append(term, description);
+    elements.historyDetailFacts.append(row);
+  });
+
+  renderHistoryDetailList(
+    elements.historyDetailNutrition,
+    record.nutritionFacts,
+    "当时没有保留可展示的标签数值。",
+  );
+  renderHistoryDetailList(
+    elements.historyDetailFocus,
+    record.healthFocus,
+    "当时没有保留健康关注摘要。",
+  );
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  elements.historyDetailTitle.setAttribute("tabindex", "-1");
+  elements.historyDetailTitle.focus({ preventScroll: true });
+  announce(`已打开 ${elements.historyDetailTitle.textContent} 的历史识别结果`);
+}
+
+function renderHistoryDetailList(target, values, emptyText) {
+  target.replaceChildren();
+  const items = Array.isArray(values) ? values.filter(Boolean).slice(0, 12) : [];
+  if (!items.length) {
+    const empty = document.createElement("li");
+    empty.className = "history-detail-empty";
+    empty.textContent = emptyText;
+    target.append(empty);
+    return;
+  }
+  items.forEach((value) => {
+    const item = document.createElement("li");
+    item.textContent = value;
+    target.append(item);
+  });
+}
+
+function closeHistoryDetail({ focus = true } = {}) {
+  const detailId = state.historyDetailId;
+  state.historyDetailId = null;
+  elements.historyDetail.hidden = true;
+  elements.historyIndex.hidden = false;
+  if (!focus) return;
+  const returnTarget = [...elements.historyList.querySelectorAll("button[data-history-id]")]
+    .find((button) => String(button.dataset.historyId) === String(detailId));
+  returnTarget?.focus({ preventScroll: true });
+  announce("已返回历史识别记录");
 }
 
 function updateHealthMetricUnit() {
@@ -2871,6 +3088,7 @@ function renderHealthDashboard(profileHealthRecords = null) {
   renderHealthComposition(periodHealthRecords);
   renderScanActivity(periodScanRecords, bins);
   renderHealthActivity(periodHealthRecords, bins);
+  setDashboardDeckIndex(state.dashboardDeckIndex);
 }
 
 function renderHealthComposition(records) {
@@ -2882,20 +3100,27 @@ function renderHealthComposition(records) {
     .slice(0, 4);
   const colors = ["var(--health-deep)", "var(--health-leaf)", "var(--health-soft)", "var(--health-mid)"];
   elements.healthRingLegend.replaceChildren();
-  elements.healthRings.forEach((ring, index) => {
-    const radius = Number(ring.getAttribute("r"));
-    const circumference = 2 * Math.PI * radius;
-    const share = records.length && entries[index] ? entries[index][1] / records.length : 0;
-    ring.style.strokeDasharray = `${circumference * share * 0.92} ${circumference}`;
-  });
+  elements.healthCompositionBar.replaceChildren();
   if (!entries.length) {
+    elements.healthCompositionBar.classList.add("is-empty");
+    elements.healthCompositionBar.setAttribute("aria-label", "所选时间内还没有健康记录");
     const empty = document.createElement("li");
     empty.className = "health-ring-empty";
-    empty.textContent = "所选时间内还没有健康记录。保存后，这里会显示记录项目构成。";
+    empty.textContent = "保存第一条记录后，这里会按项目显示次数。";
     elements.healthRingLegend.append(empty);
     return;
   }
+  elements.healthCompositionBar.classList.remove("is-empty");
+  elements.healthCompositionBar.setAttribute(
+    "aria-label",
+    entries.map(([metricKey, count]) => `${healthMetricConfig[metricKey].label} ${count} 条`).join("，"),
+  );
   entries.forEach(([metricKey, count], index) => {
+    const segment = document.createElement("span");
+    segment.style.setProperty("--segment-color", colors[index]);
+    segment.style.setProperty("--segment-share", String(count));
+    segment.title = `${healthMetricConfig[metricKey].label}：${count} 条`;
+    elements.healthCompositionBar.append(segment);
     const item = document.createElement("li");
     const dot = document.createElement("i");
     dot.style.setProperty("--legend-color", colors[index]);
