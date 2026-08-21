@@ -4,6 +4,7 @@ import json
 
 from food_label_agent.regulations.models import RegulationSearchRequest
 from food_label_agent.regulations.semantic import (
+    DEFAULT_RAG_PROFILE,
     OpenAIDenseEmbeddingProvider,
     OpenAIIndependentReranker,
     RAG2Settings,
@@ -17,6 +18,15 @@ from food_label_agent.regulations.store import (
 )
 
 TARGET = "reg.cn.gb7718-2011.55ec4a2419d5ea77"
+
+
+def test_rag2_is_the_default_profile_and_environment_can_override(monkeypatch) -> None:
+    monkeypatch.delenv("FOOD_LABEL_RAG_PROFILE", raising=False)
+    assert DEFAULT_RAG_PROFILE == "hybrid_dense_rerank"
+    assert RAG2Settings.from_environment().profile == "hybrid_dense_rerank"
+
+    monkeypatch.setenv("FOOD_LABEL_RAG_PROFILE", "hybrid_tfidf")
+    assert RAG2Settings.from_environment().profile == "hybrid_tfidf"
 
 
 class ChineseSemanticFake:

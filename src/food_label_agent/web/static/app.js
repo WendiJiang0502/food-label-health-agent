@@ -2542,6 +2542,7 @@ function initializeAccountFeatures() {
 function revealAppTabbar() {
   elements.appTabbar.hidden = false;
   document.body.classList.add("has-app-tabbar");
+  document.body.dataset.appView = state.appView;
   elements.appTabbar.querySelectorAll("button[data-app-view]").forEach((button) => {
     if (button.dataset.appView === state.appView) button.setAttribute("aria-current", "page");
     else button.removeAttribute("aria-current");
@@ -2552,6 +2553,7 @@ function revealAppTabbar() {
 function switchAppView(view) {
   if (!["scan", "history", "user"].includes(view)) return;
   state.appView = view;
+  document.body.dataset.appView = view;
   elements.profileOnboarding.hidden = true;
   elements.advicePreview.hidden = true;
   elements.heroLayout.hidden = view !== "scan";

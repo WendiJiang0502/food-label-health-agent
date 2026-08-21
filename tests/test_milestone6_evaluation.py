@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from dataclasses import replace
 from pathlib import Path
 
@@ -53,7 +54,9 @@ def clean_version_snapshot():
 
 def test_development_report_is_green_but_never_claims_ocr_release_readiness(
     clean_version_snapshot,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
+    monkeypatch.setenv("FOOD_LABEL_RAG_PROFILE", "hybrid_dense_rerank")
     report = run_evaluation(
         profile="development", version_snapshot=clean_version_snapshot
     )
@@ -61,6 +64,7 @@ def test_development_report_is_green_but_never_claims_ocr_release_readiness(
     assert report.evaluation_passed is True
     assert report.release_ready is False
     assert report.release_blockers == ()
+    assert os.environ["FOOD_LABEL_RAG_PROFILE"] == "hybrid_dense_rerank"
     assert report.components["ocr"]["status"] == "not_run"
     assert report.warnings
     assert set(report.components) == {

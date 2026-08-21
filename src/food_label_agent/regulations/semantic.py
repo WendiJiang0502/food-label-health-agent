@@ -13,6 +13,7 @@ from typing import Any, Protocol
 
 OPENAI_EMBEDDINGS_URL = "https://api.openai.com/v1/embeddings"
 OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses"
+DEFAULT_RAG_PROFILE = "hybrid_dense_rerank"
 
 
 class RAGProviderError(RuntimeError):
@@ -40,7 +41,7 @@ Transport = Callable[[str, dict[str, str], dict[str, Any], float], dict[str, Any
 
 @dataclass(frozen=True, slots=True)
 class RAG2Settings:
-    profile: str = "hybrid_tfidf"
+    profile: str = DEFAULT_RAG_PROFILE
     embedding_model: str = "text-embedding-3-large"
     embedding_dimensions: int = 1024
     reranker_model: str = "gpt-5.6-terra"
@@ -49,7 +50,7 @@ class RAG2Settings:
 
     @classmethod
     def from_environment(cls) -> RAG2Settings:
-        profile = os.getenv("FOOD_LABEL_RAG_PROFILE", "hybrid_tfidf").strip()
+        profile = os.getenv("FOOD_LABEL_RAG_PROFILE", DEFAULT_RAG_PROFILE).strip()
         if profile not in {
             "bm25",
             "hybrid_tfidf",

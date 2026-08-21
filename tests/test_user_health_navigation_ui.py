@@ -60,7 +60,8 @@ def test_bottom_navigation_and_health_views_have_mobile_rules() -> None:
     assert "box-shadow" not in nav_styles
     assert "--app-tabbar-active-x" in nav_styles
     assert "border: 5px solid var(--canvas)" in nav_styles
-    assert "min-height: 60px" in nav_styles
+    assert "min-height: 58px" in nav_styles
+    assert "background: #fffaf0" in nav_styles
     assert "--action-lime" in styles
     assert ".health-change-layout" in styles
     assert ".health-trend-row" in styles

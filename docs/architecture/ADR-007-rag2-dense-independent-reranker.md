@@ -1,6 +1,6 @@
 # ADR-007：中文 Dense Retrieval 与独立 Reranker
 
-状态：Accepted，默认切换等待真实消融  
+状态：Accepted，真实消融通过并已切换默认
 日期：2026-08-12
 
 ## 背景
@@ -59,8 +59,8 @@ jurisdiction/date/topic/explicit-standard filter
 - 官方证据率和无证据拒答率为 100%；
 - 版本违规为 0。
 
-离线统一评测只运行 BM25 与 RAG 1.0，不会意外调用远程服务。真实四组消融必须显式运行 `food-label-rag-eval --live`。
+离线统一评测只运行 BM25 与 RAG 1.0，不会意外调用远程服务。真实四组消融必须显式运行 `food-label-rag-eval --live`。2026-08-12 的验收运行全部通过，结果记录于 [`../evaluation/RAG2_EVALUATION_2026-08-12.md`](../evaluation/RAG2_EVALUATION_2026-08-12.md)。
 
 ## 后果
 
-Dense 与 Reranker 是可替换 Provider，不进入法规数据模型。未来可以接入本地中文 embedding 或 cross-encoder，而不改变法规条款、MCP 合同、安全过滤和评测数据。默认 Profile 在真实消融证明提升前保持 `hybrid_tfidf`。
+Dense 与 Reranker 是可替换 Provider，不进入法规数据模型。未来可以接入本地中文 embedding 或 cross-encoder，而不改变法规条款、MCP 合同、安全过滤和评测数据。真实消融证明质量提升且安全门无回归后，默认 Profile 已切换为 `hybrid_dense_rerank`；`hybrid_tfidf` 继续作为显式离线和应急回退。

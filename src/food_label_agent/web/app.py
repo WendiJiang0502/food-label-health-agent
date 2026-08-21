@@ -498,7 +498,9 @@ app = create_app()
 def run() -> None:
     import uvicorn
 
-    # The project CLI intentionally defaults to the configured Tencent provider.
+    # Set deployment defaults before constructing the application.  Provider
+    # construction is intentionally eager so a bad OCR installation or missing
+    # cloud dependency fails at startup instead of on the first upload.
     # Credentials remain in the SDK credential chain and are never stored here.
     os.environ.setdefault("FOOD_LABEL_OCR_PROVIDER", "tencent")
     os.environ.setdefault("FOOD_LABEL_PRODUCT_CATALOG", "official_cn")

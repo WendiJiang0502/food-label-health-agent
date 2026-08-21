@@ -5,6 +5,8 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
+import os
+from contextlib import contextmanager
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Literal
@@ -56,23 +58,24 @@ def run_evaluation(
     if profile not in {"development", "release"}:
         raise ValueError("Unsupported evaluation profile")
     versions = version_snapshot or build_version_snapshot()
-    components = {
-        "rules": evaluate_allergen_rules().to_dict(),
-        "rag": evaluate_rag_benchmark(
-            get_default_regulation_store(), RAG_BENCHMARK, k=5
-        ).to_dict(),
-        "rag2_ablation": evaluate_rag2_ablation(
-            get_default_regulation_store()
-        ).to_dict(),
-        "agent": evaluate_agent_benchmark().to_dict(),
-        "planner_ablation": evaluate_planner_ablation().to_dict(),
-        "alternatives": evaluate_alternative_benchmark(
-            ALTERNATIVE_BENCHMARK,
-            catalog=JsonProductCatalog(),
-        ).to_dict(),
-        "safety_gate": evaluate_final_safety_gate().to_dict(),
-        "failure_corpus": evaluate_failure_corpus().to_dict(),
-    }
+    with _offline_rag_profile():
+        components = {
+            "rules": evaluate_allergen_rules().to_dict(),
+            "rag": evaluate_rag_benchmark(
+                get_default_regulation_store(), RAG_BENCHMARK, k=5
+            ).to_dict(),
+            "rag2_ablation": evaluate_rag2_ablation(
+                get_default_regulation_store()
+            ).to_dict(),
+            "agent": evaluate_agent_benchmark().to_dict(),
+            "planner_ablation": evaluate_planner_ablation().to_dict(),
+            "alternatives": evaluate_alternative_benchmark(
+                ALTERNATIVE_BENCHMARK,
+                catalog=JsonProductCatalog(),
+            ).to_dict(),
+            "safety_gate": evaluate_final_safety_gate().to_dict(),
+            "failure_corpus": evaluate_failure_corpus().to_dict(),
+        }
     warnings = []
     if ocr_images is None:
         components["ocr"] = {
@@ -111,6 +114,23 @@ def run_evaluation(
         versions=versions.to_dict(),
         components=components,
     )
+
+
+@contextmanager
+def _offline_rag_profile():
+    """Prevent the unified offline suite from calling the production RAG provider."""
+
+    previous = os.environ.get("FOOD_LABEL_RAG_PROFILE")
+    os.environ["FOOD_LABEL_RAG_PROFILE"] = "hybrid_tfidf"
+    get_default_regulation_store.cache_clear()
+    try:
+        yield
+    finally:
+        if previous is None:
+            os.environ.pop("FOOD_LABEL_RAG_PROFILE", None)
+        else:
+            os.environ["FOOD_LABEL_RAG_PROFILE"] = previous
+        get_default_regulation_store.cache_clear()
 
 
 def render_markdown(report: EvaluationReport) -> str:
