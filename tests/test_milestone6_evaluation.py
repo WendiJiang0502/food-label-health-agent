@@ -6,6 +6,7 @@ from pathlib import Path
 
 import pytest
 
+from food_label_agent.evaluation.evidence_routing import evaluate_evidence_routing
 from food_label_agent.evaluation.failures import evaluate_failure_corpus
 from food_label_agent.evaluation.rules import evaluate_allergen_rules
 from food_label_agent.evaluation.safety import evaluate_final_safety_gate
@@ -47,6 +48,14 @@ def test_final_safety_gate_blocks_all_adversarial_bypasses() -> None:
     assert result.evaluation_passed is True
 
 
+def test_evidence_routing_rejects_related_but_unsupported_clauses() -> None:
+    result = evaluate_evidence_routing()
+
+    assert result.supporting_evidence_accuracy == 1.0
+    assert result.hard_negative_rejection_rate == 1.0
+    assert result.evaluation_passed is True
+
+
 @pytest.fixture(scope="module")
 def clean_version_snapshot():
     return replace(build_version_snapshot(), git_dirty=False)
@@ -71,6 +80,7 @@ def test_development_report_is_green_but_never_claims_ocr_release_readiness(
         "rules",
         "rag",
         "rag2_ablation",
+        "evidence_routing",
         "agent",
         "planner_ablation",
         "alternatives",

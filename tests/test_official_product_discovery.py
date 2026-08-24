@@ -129,6 +129,16 @@ def test_registry_includes_mainland_official_store_product_seeds() -> None:
     )
 
 
+def test_registry_includes_processed_meat_manufacturer_discovery() -> None:
+    sources = json.loads(SOURCE_REGISTRY_PATH.read_text(encoding="utf-8"))
+    processed_meat = [
+        source for source in sources if source.get("category") == "processed_meat"
+    ]
+
+    assert any(source["brand"] == "荷美尔" for source in processed_meat)
+    assert all(source.get("product_seed_urls") for source in processed_meat)
+
+
 def test_dynamic_discovery_keeps_unreviewed_products_out_of_recommendations(
     tmp_path: Path,
 ) -> None:

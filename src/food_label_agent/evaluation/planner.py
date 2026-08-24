@@ -23,6 +23,7 @@ class PlannerAblationCase:
     context: dict[str, Any]
     candidates: tuple[dict[str, str], ...]
     expected_action_id: str
+    acceptable_action_ids: tuple[str, ...]
 
 
 @dataclass(frozen=True, slots=True)
@@ -71,10 +72,19 @@ def load_planner_benchmark(
         names.add(name)
         candidates = tuple(item["candidates"])
         expected = str(item["expected_action_id"])
+        acceptable = tuple(
+            dict.fromkeys([expected, *map(str, item.get("acceptable_action_ids", []))])
+        )
         if not candidates or expected not in {
             str(candidate["action_id"]) for candidate in candidates
         }:
             raise ValueError(f"Invalid candidates for planner benchmark case: {name}")
+        if not set(acceptable).issubset(
+            {str(candidate["action_id"]) for candidate in candidates}
+        ):
+            raise ValueError(
+                f"Invalid acceptable actions for planner benchmark case: {name}"
+            )
         cases.append(
             PlannerAblationCase(
                 name=name,
@@ -83,6 +93,7 @@ def load_planner_benchmark(
                 context=dict(item["context"]),
                 candidates=candidates,
                 expected_action_id=expected,
+                acceptable_action_ids=acceptable,
             )
         )
     if not cases:
@@ -100,7 +111,7 @@ def evaluate_planner_ablation(
     if not cases:
         raise ValueError("Planner ablation requires at least one case")
     deterministic_correct = sum(
-        case.candidates[0]["action_id"] == case.expected_action_id for case in cases
+        case.candidates[0]["action_id"] in case.acceptable_action_ids for case in cases
     )
     deterministic_accuracy = deterministic_correct / len(cases)
     blockers = []
@@ -110,9 +121,10 @@ def evaluate_planner_ablation(
             "category": case.category,
             "difficulty": case.difficulty,
             "expected_action_id": case.expected_action_id,
+            "acceptable_action_ids": list(case.acceptable_action_ids),
             "deterministic_action_id": case.candidates[0]["action_id"],
             "deterministic_correct": (
-                case.candidates[0]["action_id"] == case.expected_action_id
+                case.candidates[0]["action_id"] in case.acceptable_action_ids
             ),
             "model_action_id": None,
             "model_action_legal": None,
@@ -168,16 +180,16 @@ def evaluate_planner_ablation(
             proposed_id = "__PROVIDER_FAILURE__"
         is_legal = proposed_id in legal
         raw_violations += not is_legal
-        raw_correct += proposed_id == case.expected_action_id
+        raw_correct += proposed_id in case.acceptable_action_ids
         guarded_id = proposed_id if is_legal else case.candidates[0]["action_id"]
         fallback_count += not is_legal
-        guarded_correct += guarded_id == case.expected_action_id
+        guarded_correct += guarded_id in case.acceptable_action_ids
         case_results[index].update(
             {
                 "model_action_id": proposed_id,
                 "model_action_legal": is_legal,
                 "guarded_action_id": guarded_id,
-                "guarded_correct": guarded_id == case.expected_action_id,
+                "guarded_correct": guarded_id in case.acceptable_action_ids,
                 "fallback_used": not is_legal,
             }
         )

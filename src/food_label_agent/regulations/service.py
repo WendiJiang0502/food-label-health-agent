@@ -7,8 +7,7 @@ from pathlib import Path
 
 from .corpus import OFFICIAL_CLAUSES
 from .models import RegulationSearchRequest, RegulationSearchResponse
-from .semantic import RAG2Settings, create_semantic_providers
-from .semantic import RAGProviderError
+from .semantic import RAG2Settings, RAGProviderError, create_semantic_providers
 from .serialization import load_clause_index
 from .store import RegulationStore
 
@@ -35,6 +34,30 @@ def search_regulations(
     request: RegulationSearchRequest,
 ) -> RegulationSearchResponse:
     """Search the official store without mixing inapplicable versions."""
+    return _search_regulations_cached(
+        request.query,
+        request.jurisdiction,
+        request.applicable_date.isoformat(),
+        tuple(request.topics),
+        request.limit,
+    )
+
+
+@lru_cache(maxsize=512)
+def _search_regulations_cached(
+    query: str,
+    jurisdiction: str,
+    applicable_date: str,
+    topics: tuple[str, ...],
+    limit: int,
+) -> RegulationSearchResponse:
+    request = RegulationSearchRequest(
+        query=query,
+        jurisdiction=jurisdiction,
+        applicable_date=applicable_date,
+        topics=list(topics),
+        limit=limit,
+    )
     store = get_default_regulation_store()
     try:
         return store.search(request)
@@ -51,3 +74,8 @@ def search_regulations(
                 ]
             }
         )
+
+
+def clear_regulation_caches() -> None:
+    get_default_regulation_store.cache_clear()
+    _search_regulations_cached.cache_clear()

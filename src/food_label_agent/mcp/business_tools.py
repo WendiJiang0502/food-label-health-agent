@@ -93,7 +93,7 @@ def evaluate_user_constraints(
     request_id: Annotated[str, Field(min_length=1, max_length=128)],
     applicable_date: str,
     confirmed_fields: dict[str, str],
-    constraints: Annotated[list[ConstraintInput], Field(min_length=1, max_length=16)],
+    constraints: Annotated[list[ConstraintInput], Field(max_length=16)],
     jurisdiction: str = "CN",
     nutrition_rows: list[list[str]] | None = None,
 ) -> dict:
@@ -193,23 +193,27 @@ def verify_label_consistency(
 def find_alternative_products(
     category: Annotated[str, Field(min_length=2, max_length=80)],
     applicable_date: str,
-    constraints: Annotated[list[ConstraintInput], Field(min_length=1, max_length=16)],
+    constraints: Annotated[list[ConstraintInput], Field(max_length=16)],
+    substitute_categories: Annotated[list[str] | None, Field(max_length=6)] = None,
     health_concerns: Annotated[list[str] | None, Field(max_length=16)] = None,
     jurisdiction: str = "CN",
     region: str = "CN",
     exclude_product_ids: Annotated[list[str] | None, Field(max_length=50)] = None,
-    limit: Annotated[int, Field(ge=1, le=20)] = 5,
+    current_product_name: str | None = None,
+    limit: Annotated[int, Field(ge=1, le=20)] = 8,
 ) -> dict:
     """Find products only from current, complete, source-traceable label evidence."""
 
     request = AlternativeSearchRequest(
         category=category,
+        substitute_categories=substitute_categories or [],
         applicable_date=applicable_date,
         constraints=constraints,
         health_concerns=health_concerns or [],
         jurisdiction=jurisdiction,
         region=region,
         exclude_product_ids=exclude_product_ids or [],
+        current_product_name=current_product_name,
         limit=limit,
     )
     return find_alternatives_service(request)
@@ -218,9 +222,10 @@ def find_alternative_products(
 def revalidate_alternatives(
     request_id: Annotated[str, Field(min_length=1, max_length=128)],
     applicable_date: str,
-    constraints: Annotated[list[ConstraintInput], Field(min_length=1, max_length=16)],
+    constraints: Annotated[list[ConstraintInput], Field(max_length=16)],
     candidates: Annotated[list[dict], Field(max_length=50)],
     health_concerns: Annotated[list[str] | None, Field(max_length=16)] = None,
+    source_category: str | None = None,
     current_nutrition_rows: list[list[str]] | None = None,
     jurisdiction: str = "CN",
 ) -> dict:
@@ -231,6 +236,7 @@ def revalidate_alternatives(
         applicable_date=applicable_date,
         constraints=constraints,
         health_concerns=health_concerns or [],
+        source_category=source_category,
         current_nutrition_rows=current_nutrition_rows,
         candidates=candidates,
         jurisdiction=jurisdiction,

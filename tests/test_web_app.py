@@ -27,7 +27,8 @@ def test_platform_index_and_health() -> None:
     assert "包装声称核对" in page.text
     assert "在此设备记住这些约束" in page.text
     assert "清除全部并撤销授权" in page.text
-    assert "查找并逐项复核" in page.text
+    assert "重新查找同用途替代品" in page.text
+    assert "系统会根据当前商品自动确定替代用途" in page.text
     assert "品牌官网和中国大陆官方旗舰店" in page.text
     assert "数据来源将在查找后显示" in page.text
     assert "SAFETY · BUILT IN" not in page.text
@@ -48,7 +49,7 @@ def test_platform_index_and_health() -> None:
         "configured": True,
         "remote_processing": False,
     }
-    assert health.json()["product_catalog"] == "official_cn"
+    assert health.json()["product_catalog"] == "official_cn_expanded"
     assert favicon.status_code == 200
 
 
@@ -393,7 +394,8 @@ def test_additive_explanations_are_returned_without_safety_or_compliance_claim()
     additive = payload["evidence"]["interpretations"][0]
     assert additive["explanation_type"] == "additive"
     assert additive["risk_level"] == "not_applicable"
-    assert "仅凭配料表无法判断实际用量" in additive["explanation"]
+    assert "属于护色剂、防腐剂" in additive["explanation"]
+    assert "实际用量" not in additive["explanation"]
     assert payload["evidence"]["status"] == "grounded"
 
 

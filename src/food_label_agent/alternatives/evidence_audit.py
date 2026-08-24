@@ -171,7 +171,8 @@ def assess_product_eligibility(
     """
 
     audit = audit_product_label(product)
-    required = {"ingredients"}
+    safety_required = {"ingredients"}
+    comparison_requested: set[str] = set()
     supported_concerns: list[str] = []
     unsupported_concerns: list[str] = []
     for concern in dict.fromkeys(health_concerns):
@@ -180,15 +181,17 @@ def assess_product_eligibility(
             unsupported_concerns.append(concern)
             continue
         supported_concerns.append(concern)
-        required.update(fields)
+        comparison_requested.update(fields - {"ingredients", "allergen_statement"})
     for constraint in constraints:
         if constraint.kind == "nutrition_limit":
-            required.update({"nutrition_basis", constraint.canonical_value})
+            safety_required.update({"nutrition_basis", constraint.canonical_value})
         else:
-            required.update({"ingredients", "allergen_statement"})
+            safety_required.update({"ingredients", "allergen_statement"})
 
     available = _available_fields(product)
-    missing = sorted(required - available, key=_field_sort_key)
+    missing = sorted(safety_required - available, key=_field_sort_key)
+    missing_comparison = sorted(comparison_requested - available, key=_field_sort_key)
+    verified_comparison = sorted(comparison_requested & available, key=_field_sort_key)
     full_label_ready = bool(audit["full_label_ready"])
     eligible = not missing
     if not eligible:
@@ -202,13 +205,24 @@ def assess_product_eligibility(
         "eligible_for_current_context": eligible,
         "required_fields": [
             _FIELD_LABELS.get(item, item)
-            for item in sorted(required, key=_field_sort_key)
+            for item in sorted(safety_required, key=_field_sort_key)
         ],
         "verified_required_fields": [
             _FIELD_LABELS.get(item, item)
-            for item in sorted(required & available, key=_field_sort_key)
+            for item in sorted(safety_required & available, key=_field_sort_key)
         ],
         "missing_required_fields": [_FIELD_LABELS.get(item, item) for item in missing],
+        "comparison_requested_fields": [
+            _FIELD_LABELS.get(item, item)
+            for item in sorted(comparison_requested, key=_field_sort_key)
+        ],
+        "verified_comparison_fields": [
+            _FIELD_LABELS.get(item, item) for item in verified_comparison
+        ],
+        "missing_comparison_fields": [
+            _FIELD_LABELS.get(item, item) for item in missing_comparison
+        ],
+        "health_comparison_available": bool(verified_comparison),
         "supported_health_concerns": supported_concerns,
         "unsupported_health_concerns": unsupported_concerns,
         "full_label_ready": full_label_ready,

@@ -7,6 +7,7 @@ safety evaluation, and the final safety gate remain outside this loop.
 
 from __future__ import annotations
 
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import asdict, dataclass
 from typing import Any
 
@@ -15,6 +16,7 @@ from food_label_agent.domain.models import AuditEvent, ToolTraceEvent
 from food_label_agent.domain.types import AnalysisStatus, RiskLevel, WorkflowStage
 from food_label_agent.mcp.business_tools import MCPToolCallError, invoke_mcp_tool
 
+from .evidence_plan import EvidenceNeed, build_evidence_plan, evidence_supports_need
 from .nodes import (
     _additive_ingredients,
     _ingredient_for_finding,
@@ -152,6 +154,27 @@ def react_orchestrator(
 
     calls_used = 0
     for step in range(1, step_limit + 1):
+        if proposer is None:
+            parallel_candidates = candidate_actions(working)
+            can_run_parallel = (
+                len(parallel_candidates) > 1
+                and all(
+                    item.tool_name == "search_food_regulations"
+                    for item in parallel_candidates
+                )
+                and calls_used + len(parallel_candidates) <= tool_limit
+            )
+            if can_run_parallel:
+                calls_used, failed = _run_parallel_retrievals(
+                    working,
+                    parallel_candidates,
+                    step=step,
+                    calls_used=calls_used,
+                    tool_limit=tool_limit,
+                )
+                if failed:
+                    break
+                continue
         selection = choose_next_action(working, action_proposer=proposer)
         decision = selection.decision
         _record_planner_selection(working, step, selection)
@@ -297,6 +320,152 @@ def react_orchestrator(
     return _react_update(working, step_limit, tool_limit, calls_used)
 
 
+def _run_parallel_retrievals(
+    state: AgentState,
+    decisions: tuple[ReactDecision, ...],
+    *,
+    step: int,
+    calls_used: int,
+    tool_limit: int,
+) -> tuple[int, bool]:
+    """Execute independent regulation needs concurrently and preserve safe retries."""
+
+    selections = [
+        PlannerSelection(
+            decision=decision,
+            mode="deterministic_parallel",
+            outcome="selected",
+            candidate_count=len(decisions),
+        )
+        for decision in decisions
+    ]
+    for selection in selections:
+        validate_react_decision(selection.decision)
+        _record_planner_selection(state, step, selection)
+
+    with ThreadPoolExecutor(max_workers=min(4, len(decisions))) as executor:
+        futures = [
+            executor.submit(
+                invoke_mcp_tool,
+                decision.tool_name or "",
+                decision.arguments or {},
+            )
+            for decision in decisions
+        ]
+        calls_used += len(futures)
+
+        for decision, selection, future in zip(decisions, selections, futures):
+            status_before = state["status"].value
+            recovered = False
+            try:
+                result = future.result()
+            except MCPToolCallError:
+                state["tool_trace"].append(
+                    ToolTraceEvent(
+                        step=step,
+                        action=decision.action,
+                        reason_code=decision.reason_code,
+                        tool_name=decision.tool_name,
+                        outcome="retry_scheduled",
+                        status_before=status_before,
+                        status_after=state["status"].value,
+                        observation={
+                            **selection.observation(),
+                            **(decision.trace_context or {}),
+                            "attempt": 1,
+                            "parallel_batch": True,
+                        },
+                    )
+                )
+                state["audit_events"].append(
+                    AuditEvent(
+                        event_type="react_tool_retry_scheduled",
+                        actor=f"react:mcp:{decision.tool_name}",
+                        detail={
+                            "step": step,
+                            "attempt": 1,
+                            "parallel_batch": True,
+                            "reason_code": decision.reason_code,
+                        },
+                    )
+                )
+                if calls_used >= tool_limit:
+                    _record_parallel_failure(state, decision, selection, step)
+                    return calls_used, True
+                calls_used += 1
+                try:
+                    result = invoke_mcp_tool(
+                        decision.tool_name or "", decision.arguments or {}
+                    )
+                    recovered = True
+                except MCPToolCallError:
+                    _record_parallel_failure(state, decision, selection, step)
+                    return calls_used, True
+
+            _apply_tool_result(state, decision, result)
+            state["tool_trace"].append(
+                ToolTraceEvent(
+                    step=step,
+                    action=decision.action,
+                    reason_code=decision.reason_code,
+                    tool_name=decision.tool_name,
+                    outcome="recovered" if recovered else "succeeded",
+                    status_before=status_before,
+                    status_after=state["status"].value,
+                    observation={
+                        **selection.observation(),
+                        **(decision.trace_context or {}),
+                        **_result_observation(decision, result),
+                        "attempt": 2 if recovered else 1,
+                        "parallel_batch": True,
+                    },
+                )
+            )
+            state["audit_events"].append(
+                AuditEvent(
+                    event_type="react_tool_called",
+                    actor=f"react:mcp:{decision.tool_name}",
+                    detail={
+                        "step": step,
+                        "reason_code": decision.reason_code,
+                        "outcome": "recovered" if recovered else "succeeded",
+                        "parallel_batch": True,
+                    },
+                )
+            )
+    return calls_used, False
+
+
+def _record_parallel_failure(
+    state: AgentState,
+    decision: ReactDecision,
+    selection: PlannerSelection,
+    step: int,
+) -> None:
+    state["status"] = AnalysisStatus.BLOCKED
+    state["errors"].append(f"mcp_tool_failed:{decision.tool_name}")
+    state["unknowns"] = list(
+        dict.fromkeys([*state["unknowns"], f"{decision.tool_name}_unavailable"])
+    )
+    state["tool_trace"].append(
+        ToolTraceEvent(
+            step=step,
+            action=decision.action,
+            reason_code=decision.reason_code,
+            tool_name=decision.tool_name,
+            outcome="failed",
+            status_before=AnalysisStatus.IN_PROGRESS.value,
+            status_after=state["status"].value,
+            observation={
+                **selection.observation(),
+                **(decision.trace_context or {}),
+                "attempt": 2,
+                "parallel_batch": True,
+            },
+        )
+    )
+
+
 def candidate_actions(state: AgentState) -> tuple[ReactDecision, ...]:
     """Build the complete legal action set for the current evidence phase."""
 
@@ -313,55 +482,11 @@ def candidate_actions(state: AgentState) -> tuple[ReactDecision, ...]:
     additives = _additive_ingredients(state["normalized_label"])
     claim = state["label_fields"].get("label_claims")
 
-    if (
-        allergen_findings
-        and not _has_standard(state, "GB 7718")
-        and "RETRIEVE_ALLERGEN_RULES" not in attempted
-    ):
-        terms = [
-            value
-            for item in allergen_findings
-            for value in (item.matched_text, item.constraint)
-            if value
-        ]
-        retrievals.append(
-            _search_decision(
-                state,
-                "RETRIEVE_ALLERGEN_RULES",
-                " ".join([*terms, "食品标签 配料表 过敏原 致敏物质"]),
-                ["allergen", "ingredient_labeling"],
-            )
-        )
-    if (
-        additives
-        and not _has_standard(state, "GB 2760")
-        and "RETRIEVE_ADDITIVE_RULES" not in attempted
-    ):
-        terms = [
-            item.get("canonical_name") or item.get("raw_name") for item in additives
-        ]
-        retrievals.append(
-            _search_decision(
-                state,
-                "RETRIEVE_ADDITIVE_RULES",
-                " ".join([*terms, "GB 2760-2024 食品添加剂使用标准"]),
-                ["food_additive"],
-            )
-        )
-    if (
-        claim
-        and claim.raw_text.strip()
-        and not _has_standard(state, "GB 28050")
-        and "RETRIEVE_CLAIM_RULES" not in attempted
-    ):
-        retrievals.append(
-            _search_decision(
-                state,
-                "RETRIEVE_CLAIM_RULES",
-                f"{claim.raw_text} 无糖 低糖 糖含量 营养声称 表C.1",
-                ["nutrition_claim"],
-            )
-        )
+    for need in build_evidence_plan(state):
+        reason_code = _reason_for_need(need.need_id)
+        if reason_code in attempted:
+            continue
+        retrievals.append(_search_decision(state, reason_code, need))
     if retrievals:
         return tuple(retrievals)
 
@@ -622,20 +747,18 @@ def _stop_decision() -> ReactDecision:
 
 
 def _search_decision(
-    state: AgentState, reason_code: str, query: str, topics: list[str]
+    state: AgentState, reason_code: str, need: EvidenceNeed
 ) -> ReactDecision:
     return ReactDecision(
         action="search_food_regulations",
         reason_code=reason_code,
         tool_name="search_food_regulations",
-        arguments={
-            "query": query,
-            "jurisdiction": state["jurisdiction"],
-            "applicable_date": state["applicable_date"],
-            "topics": topics,
-            "limit": 5,
+        arguments=need.search_arguments(state),
+        trace_context={
+            "evidence_need_id": need.need_id,
+            "topics": list(need.topics),
+            "expected_standard_prefixes": list(need.expected_standard_prefixes),
         },
-        trace_context={"topics": topics},
     )
 
 
@@ -644,12 +767,36 @@ def _apply_tool_result(
 ) -> None:
     if decision.tool_name == "search_food_regulations":
         existing = {item.source_id: item for item in state["regulatory_evidence"]}
-        for item in result["results"]:
+        need = EvidenceNeed(
+            need_id=str(
+                (decision.trace_context or {}).get("evidence_need_id", "unknown")
+            ),
+            query=str((decision.arguments or {}).get("query", "")),
+            topics=tuple((decision.trace_context or {}).get("topics", [])),
+            expected_standard_prefixes=tuple(
+                (decision.trace_context or {}).get("expected_standard_prefixes", [])
+            ),
+            purpose="react evidence retrieval",
+        )
+        supporting = [
+            item for item in result["results"] if evidence_supports_need(item, need)
+        ]
+        for item in supporting:
             evidence = _regulatory_evidence(item)
             existing[evidence.source_id] = evidence
         state["regulatory_evidence"] = list(existing.values())
         state["unknowns"] = list(
-            dict.fromkeys([*state["unknowns"], *result.get("unknowns", [])])
+            dict.fromkeys(
+                [
+                    *state["unknowns"],
+                    *result.get("unknowns", []),
+                    *(
+                        []
+                        if supporting
+                        else [f"no_supporting_official_evidence:{need.need_id}"]
+                    ),
+                ]
+            )
         )
         state["stage"] = WorkflowStage.REGULATORY_RETRIEVAL
     elif decision.tool_name == "explain_ingredient":
@@ -695,11 +842,13 @@ def _result_observation(decision: ReactDecision, result: dict) -> dict[str, Any]
     }
 
 
-def _has_standard(state: AgentState, prefix: str) -> bool:
-    return any(
-        str(item.standard_number or "").startswith(prefix)
-        for item in state["regulatory_evidence"]
-    )
+def _reason_for_need(need_id: str) -> str:
+    return {
+        "allergen_labeling": "RETRIEVE_ALLERGEN_RULES",
+        "nutrition_labeling": "RETRIEVE_NUTRITION_RULES",
+        "food_additive": "RETRIEVE_ADDITIVE_RULES",
+        "nutrition_claim": "RETRIEVE_CLAIM_RULES",
+    }[need_id]
 
 
 def _prerequisite_failure(

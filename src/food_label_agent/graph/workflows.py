@@ -96,14 +96,16 @@ def run_alternative_workflow(
     working["alternative_request"] = {
         "enabled": True,
         "category": request.category,
+        "substitute_categories": request.substitute_categories,
         "region": request.region,
         "exclude_product_ids": (
             [request.current_product_id] if request.current_product_id else []
         ),
+        "current_product_name": request.confirmed_fields.get("product_name"),
         "health_concerns": request.health_concerns,
         "current_nutrition_rows": request.nutrition_rows,
         "limit": 50,
-        "display_limit": 5,
+        "display_limit": 8,
     }
     final_state = run_agent_graph(working)
     return alternative_payload(final_state, request.category), final_state
@@ -169,7 +171,7 @@ def alternative_payload(state: AgentState, category: str) -> dict:
             item
             for item in state["alternatives"]
             if item.get("disposition") == "eligible"
-        ][: state["alternative_request"].get("display_limit", 5)],
+        ][: state["alternative_request"].get("display_limit", 8)],
         "excluded": [
             item
             for item in state["alternatives"]

@@ -68,17 +68,22 @@ def test_bottom_navigation_and_health_views_have_mobile_rules() -> None:
     assert "grid-template-columns: 1fr" in styles
 
 
-def test_user_page_uses_neutral_health_dashboard_statistics() -> None:
+def test_user_page_uses_value_trends_and_non_diagnostic_guidance() -> None:
     html = (STATIC_DIR / "index.html").read_text(encoding="utf-8")
     script = (STATIC_DIR / "app.js").read_text(encoding="utf-8")
     styles = (STATIC_DIR / "styles.css").read_text(encoding="utf-8")
 
-    assert 'id="health-statistics-title">记录统计' in html
+    assert 'id="health-statistics-title">健康趋势' in html
+    assert 'id="health-activity-title">本期数值趋势' in html
+    assert 'id="health-trend-advice"' in html
+    assert "健康记录频率" not in html
     assert 'data-health-period="week"' in html
     assert 'data-health-period="month"' in html
     assert 'data-health-period="year"' in html
-    assert "不表示风险、达标或健康程度" in html
+    assert "不替代诊断、治疗或用药建议" in html
     assert "function renderHealthDashboard" in script
+    assert "至少保存两次同一指标" in script
+    assert "trendAdvice" in script
     assert "function buildHealthActivityBins" in script
     assert ".dashboard-metric--scan" in styles
     assert ".dashboard-metric-head" in styles

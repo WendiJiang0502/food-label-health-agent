@@ -47,9 +47,14 @@ def test_additive_explanation_separates_function_from_compliance() -> None:
     assert response.risk_level == "not_applicable"
     assert response.knowledge_evidence_ids == ["knowledge.additives.cn.v2.亚硝酸钠"]
     assert response.regulatory_evidence_ids == ["reg.cn.gb2760-2024.announcement"]
-    assert "仅凭配料表无法判断实际用量" in response.explanation
+    assert "属于护色剂、防腐剂" in response.explanation
+    assert "实际用量" not in response.explanation
+    assert "未核对食品类别、实际用量" in response.limitations[1]
     assert "安全" not in response.explanation
     assert "有害" not in response.explanation
+    assert "通常可以放心食用" in response.health_guidance
+    assert "本身不等于有害" in response.health_guidance
+    assert "不能替厂家核验是否超量" in response.health_guidance
 
 
 def test_unknown_name_inside_additive_group_stays_unknown_without_guessing() -> None:
@@ -68,6 +73,7 @@ def test_unknown_name_inside_additive_group_stays_unknown_without_guessing() -> 
     assert explanation["unknowns"] == ["declared_additive_not_in_function_dictionary"]
     assert "标签将“神秘粉”列在食品添加剂分组中" in explanation["explanation"]
     assert "词典尚未收录" in explanation["explanation"]
+    assert "暂不能给出“可以放心食用”的结论" in explanation["health_guidance"]
     assert evidence["final_status"] == "completed"
 
 
@@ -116,6 +122,10 @@ def test_common_declared_additives_have_officially_identified_dictionary_entries
     assert len(evidence["interpretations"]) == 11
     assert {item["status"] for item in evidence["interpretations"]} == {"explained"}
     assert all(item["knowledge_evidence_ids"] for item in evidence["interpretations"])
+    assert all(
+        "通常可以放心食用" in item["health_guidance"]
+        for item in evidence["interpretations"]
+    )
 
 
 def test_large_additive_group_and_allergen_are_all_explained_within_budget() -> None:

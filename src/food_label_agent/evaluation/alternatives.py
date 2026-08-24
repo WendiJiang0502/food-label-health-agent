@@ -29,6 +29,36 @@ class AlternativeBenchmarkCase:
 
 
 @dataclass(frozen=True, slots=True)
+class AlternativeAvailabilityCase:
+    """One repeatable catalog-availability scenario for a real substitute use."""
+
+    name: str
+    category: str
+    applicable_date: str
+    minimum_eligible: int
+    substitute_categories: tuple[str, ...] = ()
+    constraints: tuple[dict[str, Any], ...] = ()
+    health_concerns: tuple[str, ...] = ()
+    current_product_name: str | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class AlternativeAvailabilityEvaluation:
+    case_count: int
+    passed_case_count: int
+    availability_rate: float
+    hard_constraint_violation_rate: float
+    eligible_counts: dict[str, int]
+    evaluation_passed: bool
+    release_blockers: tuple[str, ...]
+
+    def to_dict(self) -> dict[str, Any]:
+        result = asdict(self)
+        result["release_blockers"] = list(self.release_blockers)
+        return result
+
+
+@dataclass(frozen=True, slots=True)
 class AlternativeEvaluation:
     case_count: int
     hard_constraint_violation_rate: float
@@ -143,6 +173,69 @@ def evaluate_alternative_benchmark(
         recommendation_traceability_rate=traceability_rate,
         expected_result_accuracy=expected_accuracy,
         nutrition_comparison_integrity=comparison_integrity,
+        evaluation_passed=not blockers,
+        release_blockers=tuple(blockers),
+    )
+
+
+def evaluate_alternative_availability(
+    cases: tuple[AlternativeAvailabilityCase, ...],
+    *,
+    catalog: ProductCatalog,
+) -> AlternativeAvailabilityEvaluation:
+    """Verify breadth repeatedly without rewarding unsafe or duplicate results."""
+
+    if not cases:
+        raise ValueError("Alternative availability evaluation requires at least one case")
+    eligible_counts: dict[str, int] = {}
+    passed = 0
+    violations = 0
+    eligible_total = 0
+    for index, case in enumerate(cases, start=1):
+        constraints = [
+            ConstraintInput.model_validate(item) for item in case.constraints
+        ]
+        search = find_alternative_products(
+            AlternativeSearchRequest(
+                category=case.category,
+                substitute_categories=list(case.substitute_categories),
+                applicable_date=case.applicable_date,
+                constraints=constraints,
+                health_concerns=list(case.health_concerns),
+                current_product_name=case.current_product_name,
+                limit=50,
+            ),
+            catalog=catalog,
+        )
+        result = revalidate_alternatives(
+            AlternativeRevalidationRequest(
+                request_id=f"alternative-availability-{index}",
+                applicable_date=case.applicable_date,
+                constraints=constraints,
+                health_concerns=list(case.health_concerns),
+                source_category=case.category,
+                candidates=search["candidates"],
+            )
+        )
+        eligible = [
+            item for item in result["results"] if item["disposition"] == "eligible"
+        ]
+        eligible_counts[case.name] = len(eligible)
+        passed += len(eligible) >= case.minimum_eligible
+        violations += sum(item["risk_level"] != "compatible" for item in eligible)
+        eligible_total += len(eligible)
+    violation_rate = violations / eligible_total if eligible_total else 0.0
+    blockers: list[str] = []
+    if passed != len(cases):
+        blockers.append("alternative_catalog_availability_below_minimum")
+    if violation_rate:
+        blockers.append("alternative_availability_contains_constraint_violation")
+    return AlternativeAvailabilityEvaluation(
+        case_count=len(cases),
+        passed_case_count=passed,
+        availability_rate=passed / len(cases),
+        hard_constraint_violation_rate=violation_rate,
+        eligible_counts=eligible_counts,
         evaluation_passed=not blockers,
         release_blockers=tuple(blockers),
     )

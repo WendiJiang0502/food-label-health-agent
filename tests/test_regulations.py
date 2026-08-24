@@ -2,7 +2,10 @@ from __future__ import annotations
 
 from food_label_agent.regulations.corpus import OFFICIAL_CLAUSES
 from food_label_agent.regulations.models import RegulationSearchRequest
-from food_label_agent.regulations.service import search_regulations
+from food_label_agent.regulations.service import (
+    _search_regulations_cached,
+    search_regulations,
+)
 
 
 def search(*, applicable_date: str, query: str = "乳清蛋白 过敏原"):
@@ -119,3 +122,22 @@ def test_current_additive_standard_is_registered_with_official_evidence() -> Non
     assert response.status == "found"
     assert {item["standard_number"] for item in response.results} == {"GB 2760-2024"}
     assert response.results[0]["source_type"] == "official_announcement"
+
+
+def test_identical_regulation_query_reuses_cached_response() -> None:
+    request = RegulationSearchRequest(
+        query="GB 7718 致敏物质标示",
+        jurisdiction="CN",
+        applicable_date="2026-08-09",
+        topics=["allergen", "ingredient_labeling"],
+        limit=5,
+    )
+    before = _search_regulations_cached.cache_info()
+
+    first = search_regulations(request)
+    second = search_regulations(request)
+
+    after = _search_regulations_cached.cache_info()
+    assert first == second
+    assert after.misses - before.misses == 1
+    assert after.hits - before.hits == 1

@@ -66,3 +66,24 @@ def test_agent_evaluation_counts_unnecessary_calls() -> None:
     assert result.unnecessary_tool_call_rate == 0.5
     assert result.exact_sequence_match is False
     assert result.trajectory_passed is False
+
+
+def test_agent_evaluation_accepts_equivalent_safe_sequence() -> None:
+    trace = [
+        _event(1, "search_food_regulations"),
+        _event(2, "verify_label_consistency"),
+        _event(3, None, outcome="completed"),
+    ]
+
+    result = evaluate_agent_trajectory(
+        trace,
+        expected_tools=["verify_label_consistency", "search_food_regulations"],
+        acceptable_tool_sequences=[
+            ["search_food_regulations", "verify_label_consistency"]
+        ],
+        final_gate_applied=True,
+        hard_risk_preserved=True,
+    )
+
+    assert result.exact_sequence_match is True
+    assert result.trajectory_passed is True

@@ -134,7 +134,9 @@ def test_react_blocks_after_bounded_retry_failure(monkeypatch) -> None:
     monkeypatch.setattr(react, "invoke_mcp_tool", unavailable)
     update = react.react_orchestrator(_ready_state())
 
-    assert calls == 2
+    # Three independent evidence requests are already in flight; only the
+    # failed request selected for handling is retried once.
+    assert calls == 4
     assert update["status"].value == "blocked"
     assert update["tool_trace"][-1].outcome == "failed"
     assert "mcp_tool_failed:search_food_regulations" in update["errors"]

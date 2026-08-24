@@ -60,6 +60,8 @@ const elements = {
   memoryStatus: document.querySelector("#memory-status"),
   revokeMemory: document.querySelector("#revoke-memory"),
   evaluateButton: document.querySelector("#evaluate-button"),
+  evaluateButtonLabel: document.querySelector("#evaluate-button-label"),
+  evaluationProgress: document.querySelector("#evaluation-progress"),
   safetyResult: document.querySelector("#safety-result"),
   riskSymbol: document.querySelector("#risk-symbol"),
   riskKicker: document.querySelector("#risk-kicker"),
@@ -68,6 +70,8 @@ const elements = {
   portionKind: document.querySelector("#portion-kind"),
   portionValue: document.querySelector("#portion-value"),
   portionNote: document.querySelector("#portion-note"),
+  portionCategoryPrompt: document.querySelector("#portion-category-prompt"),
+  portionCategory: document.querySelector("#portion-category"),
   portionPackageNote: document.querySelector("#portion-package-note"),
   portionConfidence: document.querySelector("#portion-confidence"),
   portionControls: document.querySelector("#portion-controls"),
@@ -96,6 +100,10 @@ const elements = {
   citationList: document.querySelector("#citation-list"),
   evidenceEmpty: document.querySelector("#evidence-empty"),
   alternativeDiscovery: document.querySelector("#alternative-discovery"),
+  alternativeTargetName: document.querySelector("#alternative-target-name"),
+  alternativeTargetReason: document.querySelector("#alternative-target-reason"),
+  editAlternativeTarget: document.querySelector("#edit-alternative-target"),
+  alternativeCategoryCorrection: document.querySelector("#alternative-category-correction"),
   alternativeCategory: document.querySelector("#alternative-category"),
   findAlternatives: document.querySelector("#find-alternatives"),
   alternativeCount: document.querySelector("#alternative-count"),
@@ -150,6 +158,7 @@ const elements = {
   scanActivityDots: document.querySelector("#scan-activity-dots"),
   healthActivityTotal: document.querySelector("#health-activity-total"),
   healthActivityChart: document.querySelector("#health-activity-chart"),
+  healthTrendAdvice: document.querySelector("#health-trend-advice"),
   healthEntryForm: document.querySelector("#health-entry-form"),
   healthEntryDate: document.querySelector("#health-entry-date"),
   healthEntryMetric: document.querySelector("#health-entry-metric"),
@@ -190,6 +199,8 @@ const state = {
   confirmedFields: null,
   normalizedLabel: null,
   suggestedCategory: null,
+  substituteCategories: [],
+  alternativeSuggestion: null,
   checkpointToken: null,
   memoryCredentials: readMemoryCredentials(),
   rememberedItems: [],
@@ -198,6 +209,7 @@ const state = {
   profileMemoryItem: null,
   profileEditReturn: null,
   portionContext: null,
+  safetyResultContext: null,
   decisionMode: null,
   alternativeDiscoveryRequestId: null,
   appView: "scan",
@@ -208,6 +220,33 @@ const state = {
   dashboardDeckIndex: 0,
   historyDetailId: null,
 };
+
+elements.portionCategory.replaceChildren(
+  ...[...elements.alternativeCategory.children].map((option) => option.cloneNode(true)),
+);
+
+elements.portionCategory.addEventListener("change", () => {
+  applyConfirmedPortionCategory(elements.portionCategory.value);
+});
+
+elements.alternativeCategory.addEventListener("change", () => {
+  state.alternativeSuggestion = null;
+  state.suggestedCategory = elements.alternativeCategory.value || null;
+  state.substituteCategories = state.suggestedCategory
+    ? alternativeSubstitutionScopes[state.suggestedCategory] || [state.suggestedCategory]
+    : [];
+  renderAlternativeTarget();
+  resetAlternativeResults();
+  applyConfirmedPortionCategory(elements.alternativeCategory.value);
+});
+
+elements.editAlternativeTarget.addEventListener("click", () => {
+  const willOpen = elements.alternativeCategoryCorrection.hidden;
+  elements.alternativeCategoryCorrection.hidden = !willOpen;
+  elements.editAlternativeTarget.setAttribute("aria-expanded", String(willOpen));
+  elements.editAlternativeTarget.textContent = willOpen ? "收起更正" : "识别不对？更改";
+  if (willOpen) elements.alternativeCategory.focus();
+});
 
 elements.portionPresets.addEventListener("click", (event) => {
   const button = event.target.closest("button[data-portion-multiplier]");
@@ -361,6 +400,23 @@ const healthConcernNames = {
   child: "儿童饮食",
 };
 
+const alternativeSubstitutionScopes = {
+  biscuit: ["biscuit", "snack"],
+  bread: ["bread", "breakfast_cereal"],
+  breakfast_cereal: ["breakfast_cereal", "bread"],
+  instant_noodles: ["instant_noodles", "prepared_meal"],
+  drink: ["drink", "dairy"],
+  dairy: ["dairy", "drink"],
+  snack: ["snack", "biscuit"],
+  confectionery: ["confectionery", "snack"],
+  prepared_meal: ["prepared_meal", "instant_noodles"],
+  frozen_food: ["frozen_food"],
+  processed_meat: ["processed_meat"],
+  seafood: ["seafood", "canned_food"],
+  sauce_condiment: ["sauce_condiment"],
+  canned_food: ["canned_food"],
+};
+
 const healthFocusAdvice = {
   blood_sugar: ["糖、碳水与膳食纤维", "结合每份大小阅读糖、碳水化合物和膳食纤维，不只看包装正面的“无糖”字样。"],
   blood_lipids: ["脂肪构成", "重点查看饱和脂肪、反式脂肪和每份总脂肪；标签缺项时会明确提示。"],
@@ -409,12 +465,12 @@ const portionReferences = {
 };
 
 const healthMetricConfig = {
-  weight: { label: "体重", unit: "千克", min: 10, max: 500, step: 0.1 },
-  fasting_glucose: { label: "空腹血糖", unit: "毫摩尔/升", min: 0.1, max: 50, step: 0.1 },
-  postprandial_glucose: { label: "餐后2小时血糖", unit: "毫摩尔/升", min: 0.1, max: 50, step: 0.1 },
-  systolic_pressure: { label: "收缩压", unit: "毫米汞柱", min: 30, max: 300, step: 1 },
-  diastolic_pressure: { label: "舒张压", unit: "毫米汞柱", min: 20, max: 250, step: 1 },
-  total_cholesterol: { label: "总胆固醇", unit: "毫摩尔/升", min: 0.1, max: 30, step: 0.1 },
+  weight: { label: "体重", unit: "千克", min: 10, max: 500, step: 0.1, trendTolerance: 0.2, trendAdvice: "尽量在相近时间和条件下记录，以周趋势观察变化，不要因单次读数突然大幅调整饮食。" },
+  fasting_glucose: { label: "空腹血糖", unit: "毫摩尔/升", min: 0.1, max: 50, step: 0.1, trendTolerance: 0.2, trendAdvice: "保持测量条件一致，并在备注中记录饮食、运动或用药变化；若连续多次明显变化或伴有不适，请咨询医生。" },
+  postprandial_glucose: { label: "餐后2小时血糖", unit: "毫摩尔/升", min: 0.1, max: 50, step: 0.1, trendTolerance: 0.2, trendAdvice: "尽量固定餐后测量时间，并记录餐食差异；若连续多次明显变化或伴有不适，请咨询医生。" },
+  systolic_pressure: { label: "收缩压", unit: "毫米汞柱", min: 30, max: 300, step: 1, trendTolerance: 2, trendAdvice: "在相近时段和安静状态下继续记录；若连续多次明显变化或伴有不适，请咨询医生。" },
+  diastolic_pressure: { label: "舒张压", unit: "毫米汞柱", min: 20, max: 250, step: 1, trendTolerance: 2, trendAdvice: "在相近时段和安静状态下继续记录；若连续多次明显变化或伴有不适，请咨询医生。" },
+  total_cholesterol: { label: "总胆固醇", unit: "毫摩尔/升", min: 0.1, max: 30, step: 0.1, trendTolerance: 0.1, trendAdvice: "优先比较同一检测机构和相近条件下的结果；持续变化应由医生结合其他血脂指标解释。" },
 };
 
 initializeProfileFlow();
@@ -824,7 +880,9 @@ elements.form.addEventListener("submit", async (event) => {
 
     state.confirmedFields = fields;
     state.normalizedLabel = payload.normalized_label;
-    state.suggestedCategory = payload.alternative_category_suggestion?.category || null;
+    state.alternativeSuggestion = payload.alternative_category_suggestion || null;
+    state.suggestedCategory = state.alternativeSuggestion?.category || null;
+    state.substituteCategories = state.alternativeSuggestion?.substitute_categories || [];
     elements.form.hidden = true;
     elements.resultState.hidden = true;
     elements.constraintStep.hidden = false;
@@ -852,6 +910,7 @@ elements.constraintForm.addEventListener("submit", async (event) => {
   const nutritionThreshold = elements.nutritionThreshold.valueAsNumber;
   const hasCustomAvoidance = Boolean(state.profile?.customAllergens?.length);
   if (!selected.length && !nutritionSelected && !hasCustomAvoidance) {
+    state.currentConstraints = [];
     renderHealthFocusOnlyResult();
     return;
   }
@@ -863,9 +922,7 @@ elements.constraintForm.addEventListener("submit", async (event) => {
   }
   elements.constraintError.hidden = true;
   hideRailError();
-  elements.evaluateButton.disabled = true;
-  elements.evaluateButton.firstChild.textContent = "正在核对… ";
-  announce("正在检查过敏原并核对官方依据");
+  startEvaluationProgress();
   const constraints = currentConstraintValues();
   state.currentConstraints = constraints;
 
@@ -896,10 +953,62 @@ elements.constraintForm.addEventListener("submit", async (event) => {
   } catch (error) {
     showRailError(error.message);
   } finally {
-    elements.evaluateButton.disabled = false;
-    elements.evaluateButton.firstChild.textContent = "使用这些设置检查 ";
+    stopEvaluationProgress();
   }
 });
+
+let evaluationProgressTimer = null;
+let evaluationProgressFrame = null;
+
+function startEvaluationProgress() {
+  const stages = [
+    { value: 18, label: "正在核对个人设置" },
+    { value: 46, label: "正在运行安全规则" },
+    { value: 72, label: "正在整理标签结论" },
+    { value: 90, label: "正在核对判断依据" },
+  ];
+  let stageIndex = 0;
+  const applyStage = () => {
+    const stage = stages[stageIndex];
+    elements.evaluateButtonLabel.textContent = stage.label;
+    elements.evaluationProgress.setAttribute("aria-valuenow", String(stage.value));
+    elements.evaluationProgress.setAttribute("aria-valuetext", `${stage.label}，${stage.value}%`);
+    elements.evaluateButton.style.setProperty("--evaluation-progress", String(stage.value / 100));
+  };
+  elements.evaluateButton.disabled = true;
+  elements.evaluateButton.classList.add("is-evaluating");
+  elements.evaluateButton.setAttribute("aria-busy", "true");
+  elements.evaluateButton.style.setProperty("--evaluation-progress", "0");
+  elements.evaluationProgress.hidden = false;
+  evaluationProgressFrame = window.requestAnimationFrame(() => {
+    evaluationProgressFrame = window.requestAnimationFrame(() => {
+      if (!elements.evaluateButton.classList.contains("is-evaluating")) return;
+      applyStage();
+      evaluationProgressTimer = window.setInterval(() => {
+        if (stageIndex < stages.length - 1) {
+          stageIndex += 1;
+          applyStage();
+        }
+      }, 700);
+    });
+  });
+  announce("正在核对个人设置并运行安全规则");
+}
+
+function stopEvaluationProgress() {
+  window.clearInterval(evaluationProgressTimer);
+  window.cancelAnimationFrame(evaluationProgressFrame);
+  evaluationProgressTimer = null;
+  evaluationProgressFrame = null;
+  elements.evaluateButton.disabled = false;
+  elements.evaluateButton.classList.remove("is-evaluating");
+  elements.evaluateButton.removeAttribute("aria-busy");
+  elements.evaluateButtonLabel.textContent = "使用这些设置检查";
+  elements.evaluationProgress.hidden = true;
+  elements.evaluationProgress.setAttribute("aria-valuenow", "0");
+  elements.evaluationProgress.removeAttribute("aria-valuetext");
+  elements.evaluateButton.style.removeProperty("--evaluation-progress");
+}
 
 elements.constraintForm.addEventListener("change", () => {
   elements.constraintError.textContent = "请至少选择一项。";
@@ -952,7 +1061,12 @@ function returnToLabelEditing() {
   state.confirmedFields = null;
   state.normalizedLabel = null;
   state.suggestedCategory = null;
+  state.substituteCategories = [];
+  state.alternativeSuggestion = null;
   state.portionContext = null;
+  state.safetyResultContext = null;
+  elements.portionCategory.value = "";
+  elements.alternativeCategory.value = "";
   state.currentConstraints = [];
   elements.reviewTitle.textContent = "确认识别文字";
   elements.reviewCount.textContent = `${state.analysis?.fields.length || 0} 项`;
@@ -1149,7 +1263,12 @@ function resetResult() {
   state.confirmedFields = null;
   state.normalizedLabel = null;
   state.suggestedCategory = null;
+  state.substituteCategories = [];
+  state.alternativeSuggestion = null;
   state.portionContext = null;
+  state.safetyResultContext = null;
+  elements.portionCategory.value = "";
+  elements.alternativeCategory.value = "";
   state.checkpointToken = null;
   state.currentConstraints = [];
   elements.workbench.classList.remove("has-analysis");
@@ -1412,9 +1531,21 @@ function renderSafetyResult(payload) {
   elements.riskKicker.textContent = `已核对 ${payload.findings.length} 项个人设置`;
   elements.riskSummary.textContent = primary.explanation;
   const suggestion = payload.alternative_category_suggestion;
+  state.alternativeSuggestion = suggestion || null;
   state.suggestedCategory = suggestion?.category || state.suggestedCategory;
+  state.substituteCategories = suggestion?.substitute_categories?.length
+    ? suggestion.substitute_categories
+    : (state.suggestedCategory
+      ? alternativeSubstitutionScopes[state.suggestedCategory] || [state.suggestedCategory]
+      : []);
+  state.safetyResultContext = {
+    riskLevel: payload.overall_risk_level,
+    nutrition,
+    findings: payload.findings,
+    primary,
+  };
   state.decisionMode = null;
-  const portionDecision = renderDecisionSupport(
+  renderDecisionSupport(
     payload.overall_risk_level,
     nutrition,
     payload.findings,
@@ -1424,7 +1555,6 @@ function renderSafetyResult(payload) {
     payload.overall_risk_level,
     primary,
     nutrition,
-    portionDecision,
   );
   state.decisionMode = titles.mode;
   elements.safetyTitle.textContent = titles.heading;
@@ -1434,11 +1564,11 @@ function renderSafetyResult(payload) {
   elements.reviewCount.textContent = payload.overall_risk_level === "avoid" ? "明确命中" : "评估完成";
   elements.proofState.textContent = "安全规则已评估";
   resetAlternativeResults();
-  if (suggestion?.status === "suggested" && suggestion.category) {
+  if (suggestion?.category) {
     elements.alternativeCategory.value = suggestion.category;
-    const name = elements.alternativeCategory.selectedOptions[0]?.textContent || suggestion.category;
-    elements.alternativeStatus.textContent = `根据已确认标签建议“${name}”，请核对后再查找。`;
+    elements.portionCategory.value = suggestion.category;
   }
+  renderAlternativeTarget(suggestion);
   elements.alternativeDiscovery.hidden = false;
 
   const secondary = payload.findings.filter((finding) => finding !== primary);
@@ -1473,9 +1603,12 @@ function renderSafetyResult(payload) {
   revealAppTabbar();
   elements.safetyResult.focus();
   announce(`${titles.heading}，${primary.matched_text || primary.explanation}`);
+  if (suggestion?.status === "automatic" && suggestion.category) {
+    window.setTimeout(() => findAndRevalidateAlternatives({ automatic: true }), 0);
+  }
 }
 
-function resultTitles(riskLevel, primary, nutrition, portionDecision = {}) {
+function resultTitles(riskLevel, primary, nutrition) {
   if (riskLevel === "avoid") return { heading: "不建议食用", mode: "avoid" };
   if (riskLevel === "unknown") return { heading: "需要确认包装信息", mode: "unknown" };
   if (primary?.reason_code === "PRECAUTIONARY_ALLERGEN_STATEMENT") {
@@ -1485,15 +1618,42 @@ function resultTitles(riskLevel, primary, nutrition, portionDecision = {}) {
     (constraint) => constraint.kind === "nutrition_limit",
   );
   if (riskLevel === "compatible" && passedExplicitNutritionLimit && nutrition?.basis) {
-    return { heading: "非常建议食用（仅按当前设置）", mode: "recommended" };
+    return { heading: "符合你设置的营养上限", mode: "compatible" };
   }
-  if (portionDecision.amountText) {
-    return {
-      heading: `建议按量食用：一次约 ${portionDecision.amountText}`,
-      mode: "portion",
-    };
+  if (riskLevel === "compatible") {
+    return { heading: "未发现与当前设置冲突", mode: "compatible" };
   }
-  return { heading: "需要确认包装信息", mode: "unknown" };
+  return { heading: "需要确认标签信息", mode: "unknown" };
+}
+
+function applyConfirmedPortionCategory(category) {
+  const selectedCategory = category || null;
+  state.suggestedCategory = selectedCategory;
+  elements.portionCategory.value = selectedCategory || "";
+  elements.alternativeCategory.value = selectedCategory || "";
+  const context = state.safetyResultContext;
+  if (!context || elements.safetyResult.hidden) return;
+  renderDecisionSupport(
+    context.riskLevel,
+    context.nutrition,
+    context.findings,
+    selectedCategory,
+  );
+  const titles = context.healthFocusOnly
+    ? { heading: "标签重点已整理", mode: "health_focus" }
+    : resultTitles(
+      context.riskLevel,
+      context.primary,
+      context.nutrition,
+    );
+  state.decisionMode = titles.mode;
+  elements.safetyTitle.textContent = titles.heading;
+  updateCurrentScanHistoryOutcome(titles.heading);
+  if (selectedCategory) {
+    const categoryName = elements.portionCategory.selectedOptions[0]?.textContent || selectedCategory;
+    elements.alternativeStatus.textContent = `已按“${categoryName}”更新建议食用量，也将用这个类别查找替代品。`;
+    announce(`已按${categoryName}更新建议食用量`);
+  }
 }
 
 function renderDecisionSupport(riskLevel, nutrition, findings, category = null) {
@@ -1558,6 +1718,7 @@ function renderPortionGuidance(riskLevel, nutrition, findings, category) {
 
   const reference = portionReference(category, nutrition, state.confirmedFields);
   if (reference) {
+    elements.portionCategoryPrompt.hidden = true;
     const estimate = estimatedPortionNutrition(nutrition, reference);
     elements.portionKind.textContent = "系统建议的一次食用量";
     elements.portionValue.textContent = `建议从 ${reference.label} 开始`;
@@ -1579,18 +1740,23 @@ function renderPortionGuidance(riskLevel, nutrition, findings, category) {
     };
   }
 
-  elements.portionKind.textContent = "需要确认包装信息";
-  elements.portionValue.textContent = "暂缺可靠的一次食用量";
+  elements.portionCategoryPrompt.hidden = false;
+  elements.portionCategory.value = "";
+  elements.portionKind.textContent = "标签数值已可用";
+  elements.portionValue.textContent = "确认食品类别后即可估算一次食用量";
   elements.portionNote.textContent = basis
-    ? `标签仅提供${nutritionBasisText(basis)}口径，无法可靠换算成一次吃多少。`
-    : "标签没有确认每份大小，系统不会生成看似精确的克数或频率。";
-  elements.portionPackageNote.textContent = "未找到可确认的包装每份信息";
-  elements.portionConfidence.textContent = "证据不足，不生成精确克数";
-  return { status: "unknown", amountText: null };
+    ? `已识别${nutritionBasisText(basis)}营养数值。不同类食品的通用参考份量差异很大，先确认类别才能换算，不需要重新识别标签。`
+    : "标签没有可换算的营养口径；确认食品类别后仍可显示通用参考份量。";
+  elements.portionPackageNote.textContent = basis
+    ? `${nutritionBasisText(basis)}数值已确认，包装未单列每份`
+    : "未找到可确认的包装每份信息";
+  elements.portionConfidence.textContent = "待确认食品类别，不将整包默认为一份";
+  return { status: "category_required", amountText: null };
 }
 
 function resetPortionControls() {
   state.portionContext = null;
+  elements.portionCategoryPrompt.hidden = true;
   elements.portionControls.hidden = true;
   elements.portionError.hidden = true;
   elements.portionError.textContent = "";
@@ -1636,12 +1802,6 @@ function updatePortionAmount(amount) {
   elements.portionAssessment.hidden = false;
   elements.portionAssessment.dataset.state = assessment.state;
   elements.portionAssessment.textContent = assessment.text;
-  if (state.decisionMode === "portion") {
-    elements.safetyTitle.textContent = assessment.state === "above"
-      ? `建议重新核对份量：本次 ${formatNumber(amount)}${unitName}`
-      : `建议按量食用：本次 ${formatNumber(amount)}${unitName}`;
-    updateCurrentScanHistoryOutcome(elements.safetyTitle.textContent);
-  }
   elements.portionPresets.querySelectorAll("button").forEach((button) => {
     const presetAmount = context.reference.amount * Number(button.dataset.portionMultiplier);
     const selected = Math.abs(presetAmount - amount) < 0.001;
@@ -1691,6 +1851,11 @@ function portionReference(category, nutrition, confirmedFields) {
   const base = portionReferences[category];
   if (!base) return null;
   let reference = { ...base };
+  if (nutrition?.basis?.type === "per_100g" && reference.unit === "ml") {
+    reference = { ...reference, unit: "g", label: `${formatNumber(reference.amount)}克/次` };
+  } else if (nutrition?.basis?.type === "per_100ml" && reference.unit === "g") {
+    reference = { ...reference, unit: "ml", label: `${formatNumber(reference.amount)}毫升/次` };
+  }
   if (category === "dairy" && nutrition?.basis?.type === "per_100g") {
     reference = { amount: 100, range: [80, 150], unit: "g", label: "100克/次" };
   }
@@ -1889,14 +2054,23 @@ function renderHealthFocusOnlyResult() {
   elements.safetyResult.dataset.risk = "unknown";
   elements.riskSymbol.textContent = "i";
   elements.riskKicker.textContent = "健康关注的标签信息";
-  elements.safetyTitle.textContent = "需要确认包装信息";
+  elements.safetyTitle.textContent = "标签重点已整理";
   elements.riskSummary.textContent = "你没有设置已知过敏原。本次先按健康关注整理标签重点；下方份量来自食品类别与标签换算，不是根据健康问题生成的医疗阈值。";
+  const nutrition = state.normalizedLabel?.nutrition;
+  state.safetyResultContext = {
+    riskLevel: "unknown",
+    nutrition,
+    findings: [],
+    primary: null,
+    healthFocusOnly: true,
+  };
   renderDecisionSupport(
     "unknown",
-    state.normalizedLabel?.nutrition,
+    nutrition,
     [],
     state.suggestedCategory,
   );
+  state.decisionMode = "health_focus";
   elements.matchedText.textContent = "未设置硬性回避项";
   elements.matchedConstraint.textContent = healthSummary || "未设置";
   elements.matchedLocation.textContent = "已确认配料表与营养成分表";
@@ -1904,7 +2078,9 @@ function renderHealthFocusOnlyResult() {
   elements.claimResults.hidden = true;
   elements.additiveResults.hidden = true;
   elements.evidencePanel.hidden = true;
-  elements.alternativeDiscovery.hidden = true;
+  resetAlternativeResults();
+  renderAlternativeTarget();
+  elements.alternativeDiscovery.hidden = false;
   elements.reviewTitle.textContent = "个人标签重点";
   elements.reviewCount.textContent = "已整理";
   elements.proofState.textContent = "标签已确认";
@@ -1916,22 +2092,52 @@ function renderHealthFocusOnlyResult() {
   revealAppTabbar();
   elements.safetyResult.focus();
   announce("标签信息已整理；当前没有设置需要自动检查的过敏原");
+  if (state.alternativeSuggestion?.status === "automatic" && state.suggestedCategory) {
+    window.setTimeout(() => findAndRevalidateAlternatives({ automatic: true }), 0);
+  }
 }
 
-async function findAndRevalidateAlternatives() {
-  const category = elements.alternativeCategory.value;
+function renderAlternativeTarget(suggestion = state.alternativeSuggestion) {
+  const category = state.suggestedCategory;
+  const selectedName = elements.alternativeCategory.selectedOptions[0]?.textContent;
   if (!category) {
-    elements.alternativeStatus.textContent = "请先选择与当前商品相同的类别。";
+    elements.alternativeTargetName.textContent = "还不能确定替代用途";
+    elements.alternativeTargetReason.textContent = "当前标签缺少明确的商品名称或用途线索，请更正一次；之后会按这个用途查找。";
+    elements.alternativeCategoryCorrection.hidden = false;
+    elements.editAlternativeTarget.hidden = true;
+    elements.alternativeStatus.textContent = "确认替代目标后即可查找。";
+    return;
+  }
+  elements.alternativeTargetName.textContent = suggestion?.category_label || selectedName || category;
+  const scopeNames = state.substituteCategories
+    .map((value) => [...elements.alternativeCategory.options]
+      .find((option) => option.value === value)?.textContent)
+    .filter(Boolean);
+  elements.alternativeTargetReason.textContent = suggestion?.reason
+    || `先找${selectedName || category}，不足时再检查${scopeNames.slice(1).join("、") || "相近食用场景"}。`;
+  elements.alternativeCategoryCorrection.hidden = true;
+  elements.editAlternativeTarget.hidden = false;
+  elements.editAlternativeTarget.setAttribute("aria-expanded", "false");
+  elements.editAlternativeTarget.textContent = "识别不对？更改";
+}
+
+async function findAndRevalidateAlternatives({ automatic = false } = {}) {
+  const category = state.suggestedCategory || elements.alternativeCategory.value;
+  if (!category) {
+    elements.alternativeStatus.textContent = "当前标签还不能确定替代用途，请更正后再查找。";
+    elements.alternativeCategoryCorrection.hidden = false;
     elements.alternativeCategory.focus();
     return;
   }
-  if (!state.checkpointToken || !state.currentConstraints.length) {
-    elements.alternativeStatus.textContent = "当前分析会话无法恢复，请重新检查个人约束。";
+  if (!state.checkpointToken) {
+    elements.alternativeStatus.textContent = "当前分析会话无法恢复，请重新确认标签后再查找。";
     return;
   }
   elements.findAlternatives.disabled = true;
-  elements.findAlternatives.textContent = "正在逐一复核…";
-  elements.alternativeStatus.textContent = "正在检查候选标签完整度，并重新运行全部个人约束。";
+  elements.findAlternatives.textContent = "正在查找并复核…";
+  elements.alternativeStatus.textContent = automatic
+    ? "已自动确定替代用途，正在查找同类别和同用途候选。"
+    : "正在重新查找同类别和同用途候选。";
   elements.alternativeResults.hidden = true;
   announce("正在查找并逐项复核同类候选");
   const discoveryRequestId = `${category}:${Date.now()}`;
@@ -1952,6 +2158,9 @@ async function findAndRevalidateAlternatives() {
         constraints: state.currentConstraints,
         health_concerns: state.profile?.healthConcerns || [],
         category,
+        substitute_categories: state.substituteCategories.length
+          ? state.substituteCategories
+          : [category],
         resume_token: state.checkpointToken,
       }),
     });
@@ -1972,7 +2181,7 @@ async function findAndRevalidateAlternatives() {
     announce(error.message);
   } finally {
     elements.findAlternatives.disabled = false;
-    elements.findAlternatives.textContent = "查找并逐项复核";
+    elements.findAlternatives.textContent = "重新查找同用途替代品";
   }
 }
 
@@ -2010,10 +2219,14 @@ function renderAlternativeResults(payload) {
   elements.alternativeSource.textContent = alternativeSourceCopy(
     payload.catalog_scope,
     payload.catalog_status,
+    payload.catalog_warnings || [],
   );
   const coverage = payload.catalog_coverage || {};
   if (coverage.total) {
-    elements.alternativeSource.textContent += ` 本类别共 ${coverage.total} 件官方商品：${coverage.fully_verified_count ?? coverage.full_label_count} 件完整核验，${coverage.conditionally_verified_count || 0} 件按本次关注项条件可用，${coverage.context_needs_review_count ?? coverage.needs_review_count} 件仍需补齐本次所需字段。`;
+    elements.alternativeSource.textContent += ` 本次替代范围共检查 ${coverage.total} 件商品：${coverage.fully_verified_count ?? coverage.full_label_count} 件完整核验，${coverage.conditionally_verified_count || 0} 件满足本次硬约束所需字段，${coverage.context_needs_review_count ?? coverage.needs_review_count} 件仍需补齐安全判断字段。`;
+  }
+  if (coverage.equivalent_package_variants_collapsed) {
+    elements.alternativeSource.textContent += ` 已合并 ${coverage.equivalent_package_variants_collapsed} 个同配方包装规格，避免重复商品挤占结果。`;
   }
   elements.alternativeSource.dataset.catalogCopy = elements.alternativeSource.textContent;
   renderAlternativeDiscoverySummary(payload.discovery);
@@ -2022,12 +2235,15 @@ function renderAlternativeResults(payload) {
     elements.alternativeCount.title = `自动发现队列：${discovery.discovered_count} 件`;
   }
   if (!payload.eligible.length) {
-    const catalogMatches = payload.candidate_count + payload.evidence_rejected.length;
+    const catalogMatches = payload.candidate_count
+      + payload.evidence_rejected.length
+      + (coverage.equivalent_package_variants_collapsed || 0);
     elements.alternativeStatus.textContent =
-      `目录找到 ${catalogMatches} 条同类记录；${payload.revalidated_count} 条进入约束复核，当前没有候选通过全部约束。`;
+      `系统自动检查了 ${catalogMatches} 条同类别或同用途记录；${payload.revalidated_count} 条进入约束复核，本次没有可以明确推荐的结果。`;
+    renderAlternativeEmptyState(payload);
   } else {
     elements.alternativeStatus.textContent =
-      `已逐一复核 ${payload.revalidated_count}/${payload.candidate_count} 项候选；仅展示通过硬约束的结果。`;
+      `找到 ${payload.eligible.length} 个可替换选择；已逐一复核 ${payload.revalidated_count}/${payload.candidate_count} 项不同配方。`;
   }
   payload.eligible.forEach((item) => {
     const article = document.createElement("article");
@@ -2040,10 +2256,16 @@ function renderAlternativeResults(payload) {
     status.textContent = alternativeTierLabel(item.catalog_tier);
     header.append(title, status);
     const useCase = document.createElement("p");
-    useCase.textContent = item.use_case;
-    const ranking = document.createElement("p");
-    ranking.className = "alternative-ranking";
-    ranking.textContent = `为什么排在这里：${item.ranking_summary || "同类且已通过本次个人约束复核"}`;
+    useCase.textContent = item.substitution_match === "same_use"
+      ? `同用途备选 · ${item.use_case}`
+      : `同类别替代 · ${item.use_case}`;
+    const ranking = document.createElement("div");
+    ranking.className = "alternative-fit-reason";
+    const rankingTitle = document.createElement("strong");
+    rankingTitle.textContent = alternativeFitTitle(item);
+    const rankingCopy = document.createElement("p");
+    rankingCopy.textContent = alternativeFitCopy(item);
+    ranking.append(rankingTitle, rankingCopy);
     const explanation = document.createElement("p");
     explanation.textContent = item.explanation;
     const evidence = renderAlternativeEvidenceStatus(item);
@@ -2062,7 +2284,8 @@ function renderAlternativeResults(payload) {
         const term = document.createElement("dt");
         term.textContent = comparison.label || nutrientNames[comparison.nutrient] || comparison.nutrient;
         const description = document.createElement("dd");
-        description.textContent = `${formatNumber(comparison.candidate_value)}${comparison.unit}；当前商品 ${formatNumber(comparison.current_value)}${comparison.unit}（${comparisonBasisText(comparison.basis)}）`;
+        description.textContent = alternativeComparisonCopy(comparison);
+        row.dataset.outcome = comparison.outcome || "unknown";
         row.append(term, description);
         comparisonList.append(row);
       });
@@ -2137,14 +2360,21 @@ function renderAlternativeResults(payload) {
     reason.textContent = item.reason;
     row.append(name, reason);
     if (item.coverage) {
+      const contextCoverage = item.coverage.context_eligibility || {};
+      const verifiedPackagingFields = item.coverage.verified_fields || [];
+      const missingForCurrentContext = contextCoverage.missing_required_fields
+        || item.coverage.missing_fields
+        || [];
       const verified = document.createElement("p");
       verified.className = "alternative-review-verified";
-      verified.textContent = item.coverage.verified_fields.length
-        ? `已核对：${item.coverage.verified_fields.join("；")}`
+      verified.textContent = verifiedPackagingFields.length
+        ? `包装已核对：${verifiedPackagingFields.join("；")}`
         : "尚无可用于判断的完整包装字段。";
       const missing = document.createElement("p");
       missing.className = "alternative-review-missing";
-      missing.textContent = `待补齐：${item.coverage.missing_fields.join("；") || "无"}`;
+      missing.textContent = missingForCurrentContext.length
+        ? `本次仍需补齐：${missingForCurrentContext.join("；")}`
+        : "本次所需字段已齐；该候选因其他证据规则暂不推荐。";
       row.append(verified, missing);
       if (item.coverage.evidence_status) {
         const evidenceState = document.createElement("p");
@@ -2162,6 +2392,68 @@ function renderAlternativeResults(payload) {
     elements.alternativeExclusionList.append(row);
   });
   announce(elements.alternativeStatus.textContent);
+}
+
+function renderAlternativeEmptyState(payload) {
+  const block = document.createElement("div");
+  block.className = "alternative-empty-state";
+  const title = document.createElement("strong");
+  title.textContent = "这次不建议为了“有结果”而放宽你的约束";
+  const copy = document.createElement("p");
+  const constraintBlocked = payload.excluded?.length || 0;
+  const evidenceBlocked = payload.evidence_rejected?.length || 0;
+  const catalogMatches = payload.candidate_count + constraintBlocked + evidenceBlocked;
+  if (catalogMatches === 0) {
+    title.textContent = "当前类别还没有可审核的完整标签";
+    copy.textContent = "已查询官方审核库和实时标签目录。系统会继续从品牌官方产品页发现候选；只有补齐配料、过敏原提示和版本信息并经人工审核后，才会进入可推荐库。";
+  } else if (constraintBlocked) {
+    copy.textContent = `${constraintBlocked} 件未通过你的硬性约束，${evidenceBlocked} 件因安全判断字段不足暂不推荐。系统已经扩展到相近食用场景；过敏原等硬性回避项不会为了凑结果而放宽。`;
+  } else {
+    copy.textContent = `${evidenceBlocked} 件同类别或同用途商品的安全判断字段还不足。可查看下方待核验列表，了解具体缺少什么。`;
+  }
+  block.append(title, copy);
+  elements.alternativeList.append(block);
+}
+
+function alternativeFitTitle(item) {
+  const comparisons = item.health_comparisons || [];
+  if (comparisons.some((comparison) => comparison.outcome === "improved")) {
+    return "为什么更符合你的关注";
+  }
+  if (item.substitution_match === "same_use") return "为什么作为同用途备选";
+  return "为什么它能进入备选";
+}
+
+function alternativeFitCopy(item) {
+  const comparisons = item.health_comparisons || [];
+  const improved = comparisons
+    .filter((comparison) => comparison.outcome === "improved")
+    .map(alternativeComparisonCopy);
+  const substitution = item.substitution_match === "same_use"
+    ? `${item.substitution_reason || "属于相近食用场景"}。`
+    : "与当前商品同类别。";
+  if (improved.length) return `${substitution}${improved.slice(0, 2).join("；")}`;
+  if (comparisons.length) {
+    return `${substitution}已通过硬性约束，但已比较的营养指标没有明显优于当前商品。${item.ranking_summary || ""}`;
+  }
+  return `${substitution}已通过硬性约束复核。缺少可同口径比较的营养数据时，只把它作为替代品，不声称更健康。${item.ranking_summary || ""}`;
+}
+
+function alternativeComparisonCopy(comparison) {
+  const candidate = Number(comparison.candidate_value);
+  const current = Number(comparison.current_value);
+  const label = comparison.label || nutrientNames[comparison.nutrient] || comparison.nutrient;
+  const direction = comparison.direction === "higher" ? "高" : "低";
+  const difference = Math.abs(candidate - current);
+  const percent = current > 0 ? Math.round((difference / current) * 100) : null;
+  const basis = comparisonBasisText(comparison.basis);
+  if (comparison.outcome === "improved") {
+    return `${basis}${label} ${formatNumber(candidate)}${comparison.unit}，比当前商品${direction} ${formatNumber(difference)}${comparison.unit}${percent === null ? "" : `（${percent}%）`}`;
+  }
+  if (comparison.outcome === "same") {
+    return `${basis}${label} ${formatNumber(candidate)}${comparison.unit}，与当前商品相同`;
+  }
+  return `${basis}${label} ${formatNumber(candidate)}${comparison.unit}；当前商品 ${formatNumber(current)}${comparison.unit}，这一项没有更优`;
 }
 
 function renderAlternativeEvidenceStatus(item) {
@@ -2355,12 +2647,20 @@ function alternativeTierLabel(tier) {
   }[tier] || "已复核";
 }
 
-function alternativeSourceCopy(scope, status) {
+function alternativeSourceCopy(scope, status, warnings = []) {
   if (scope === "china_official_sources") {
     return "本次只使用已人工复核的品牌官方产品页和中国大陆官方旗舰店页面；商品信息仍需与实际到手包装再次核对。";
   }
   if (scope === "open_food_facts") {
-    return "本次来自 Open Food Facts 开放商品数据库（ODbL）。这是社区维护数据，页面仅展示具有配料文字、图片和版本记录的候选，仍应与实物包装核对。";
+    return "本次来自 Open Food Facts 开放商品数据库（ODbL）。这是社区维护数据，页面只展示具有已审核配料文字和版本日期的候选，仍应与实物包装核对。";
+  }
+  if (scope === "china_official_sources_with_live_supplement") {
+    if (warnings.includes("live_catalog_used_last_successful_cache")) {
+      return "实时目录暂时不可用，已沿用本次服务最后一次成功取得的版本化标签，并继续逐件复核；购买前请核对当前实物包装。";
+    }
+    return status === "degraded"
+      ? "已使用人工复核的中国官方目录；实时标签补充本次暂时不可用，因此结果数量可能较少。"
+      : "本次合并使用了已复核的中国官方目录，以及具有已审核配料文字和版本日期的实时标签记录；每件商品仍会独立复核。";
   }
   if (scope === "open_food_facts_with_curated_fallback" || status === "degraded") {
     return "实时商品目录本次未返回可复核证据，已明确降级为项目内置验收目录；其中商品是测试记录，不代表在售。";
@@ -2397,10 +2697,22 @@ function renderAdditiveResults(evidence) {
     const explanation = document.createElement("p");
     explanation.textContent = item.explanation || "已识别标签文字，但当前解释词典尚未建立可靠映射。";
     if (item.status === "unknown") explanation.className = "additive-unknown";
-    const boundary = document.createElement("p");
-    boundary.className = "additive-boundary";
-    boundary.textContent = item.limitations?.[1] || item.limitations?.[0] || "不能仅凭名称判断实际用量或合规性。";
-    article.append(header, explanation, boundary);
+    article.append(header, explanation);
+    const guidance = document.createElement("p");
+    guidance.className = `additive-health-guidance${item.status === "unknown" ? " is-unknown" : ""}`;
+    const guidanceLabel = document.createElement("strong");
+    guidanceLabel.textContent = "健康怎么看：";
+    guidance.append(
+      guidanceLabel,
+      item.health_guidance || "当前证据不足，暂不能给出剂量安全结论。",
+    );
+    article.append(guidance);
+    if (item.status === "unknown") {
+      const boundary = document.createElement("p");
+      boundary.className = "additive-boundary";
+      boundary.textContent = item.limitations?.[0] || "这个名称暂无可靠的功能映射，需要继续核对。";
+      article.append(boundary);
+    }
     elements.additiveResultList.append(article);
   });
 }
@@ -3153,21 +3465,55 @@ function renderScanActivity(records, bins) {
 
 function renderHealthActivity(records, bins) {
   elements.healthActivityChart.replaceChildren();
-  elements.healthActivityChart.style.setProperty("--activity-columns", String(bins.length));
-  const counts = bins.map((_, index) => records.filter((record) => findActivityBinIndex(record.date, bins) === index).length);
-  const maximum = Math.max(...counts, 1);
-  elements.healthActivityTotal.textContent = `${records.length} 条`;
-  bins.forEach((bin, index) => {
-    const item = document.createElement("span");
-    item.className = "activity-bar";
-    item.title = `${bin.fullLabel}：${counts[index]} 条健康记录`;
-    const bar = document.createElement("i");
-    bar.style.height = `${Math.max(5, Math.round((counts[index] / maximum) * 82))}px`;
-    const label = document.createElement("span");
-    label.textContent = bin.label;
-    item.append(bar, label);
-    elements.healthActivityChart.append(item);
+  const grouped = new Map();
+  records.forEach((record) => {
+    const values = grouped.get(record.metric) || [];
+    values.push(record);
+    grouped.set(record.metric, values);
   });
+  const trends = [...grouped.entries()].flatMap(([metricKey, values]) => {
+    const metric = healthMetricConfig[metricKey];
+    if (!metric || values.length < 2) return [];
+    const ordered = [...values].sort((left, right) =>
+      `${left.date}:${left.createdAt}`.localeCompare(`${right.date}:${right.createdAt}`));
+    const first = ordered[0];
+    const latest = ordered.at(-1);
+    const delta = latest.value - first.value;
+    const direction = Math.abs(delta) <= metric.trendTolerance
+      ? "基本稳定"
+      : (delta > 0 ? "呈上升变化" : "呈下降变化");
+    return [{ metric, first, latest, delta, direction, count: ordered.length }];
+  }).sort((left, right) => right.latest.date.localeCompare(left.latest.date));
+
+  elements.healthActivityTotal.textContent = trends.length ? `${trends.length} 项趋势` : "暂无趋势";
+  elements.healthActivityChart.setAttribute(
+    "aria-label",
+    trends.length
+      ? trends.map((trend) => `${trend.metric.label}${trend.direction}，变化${formatSignedNumber(trend.delta)}${trend.metric.unit}`).join("，")
+      : "所选周期内还没有可比较的健康趋势",
+  );
+  if (!trends.length) {
+    const empty = document.createElement("p");
+    empty.className = "health-value-trend-empty";
+    empty.textContent = "至少保存两次同一指标，才能区分单次波动和持续变化。";
+    elements.healthActivityChart.append(empty);
+    elements.healthTrendAdvice.textContent = "继续记录同一指标，形成趋势后会给出下一步建议。";
+    return;
+  }
+  trends.slice(0, 4).forEach((trend) => {
+    const row = document.createElement("article");
+    row.className = "health-value-trend";
+    const heading = document.createElement("strong");
+    heading.textContent = trend.metric.label;
+    const values = document.createElement("span");
+    values.textContent = `${formatNumber(trend.first.value)} → ${formatNumber(trend.latest.value)} ${trend.metric.unit}`;
+    const change = document.createElement("small");
+    change.textContent = `${trend.direction} · ${formatSignedNumber(trend.delta)} ${trend.metric.unit} · ${trend.count} 次记录`;
+    row.append(heading, values, change);
+    elements.healthActivityChart.append(row);
+  });
+  const lead = trends[0];
+  elements.healthTrendAdvice.textContent = `${lead.metric.label}${lead.direction}。${lead.metric.trendAdvice}`;
 }
 
 function buildHealthActivityBins(period) {

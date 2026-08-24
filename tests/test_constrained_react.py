@@ -72,6 +72,13 @@ def test_react_selects_only_approved_tools_and_records_auditable_trace() -> None
     ]
     assert set(tools) <= APPROVED_REACT_TOOLS
     assert update["react_budget"]["tool_calls_used"] == 7
+    retrievals = [
+        item
+        for item in update["tool_trace"]
+        if item.tool_name == "search_food_regulations"
+    ]
+    assert all(item.observation["parallel_batch"] is True for item in retrievals)
+    assert len({item.step for item in retrievals}) == 1
     assert update["tool_trace"][-1].reason_code == "NO_REQUIRED_TOOL_REMAINS"
     assert "risk_findings" not in update
     assert state["risk_findings"][0].risk_level is RiskLevel.AVOID

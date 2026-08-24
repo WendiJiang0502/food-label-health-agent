@@ -64,5 +64,5 @@ def create_server():
 def run() -> None:
     """Run the modular MCP server over the standard stdio transport."""
 
-    os.environ.setdefault("FOOD_LABEL_PRODUCT_CATALOG", "official_cn")
+    os.environ.setdefault("FOOD_LABEL_PRODUCT_CATALOG", "official_cn_expanded")
     create_server().run(transport="stdio")

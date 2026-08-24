@@ -57,6 +57,8 @@ class ProductRecord(BaseModel):
     category: str = Field(min_length=2, max_length=80)
     region: str = Field(default="CN", min_length=2, max_length=12)
     use_case: str = Field(min_length=2, max_length=160)
+    substitution_match: Literal["exact", "same_use"] | None = None
+    substitution_reason: str | None = Field(default=None, max_length=200)
     catalog_scope: Literal[
         "official_cn_catalog",
         "curated_verification_catalog",
@@ -69,13 +71,15 @@ class AlternativeSearchRequest(BaseModel):
     model_config = ConfigDict(frozen=True)
 
     category: str = Field(min_length=2, max_length=80)
+    substitute_categories: list[str] = Field(default_factory=list, max_length=6)
     applicable_date: date
-    constraints: list[ConstraintInput] = Field(min_length=1, max_length=16)
+    constraints: list[ConstraintInput] = Field(default_factory=list, max_length=16)
     health_concerns: list[str] = Field(default_factory=list, max_length=16)
     jurisdiction: str = Field(default="CN", min_length=2, max_length=12)
     region: str = Field(default="CN", min_length=2, max_length=12)
     exclude_product_ids: list[str] = Field(default_factory=list, max_length=50)
-    limit: int = Field(default=5, ge=1, le=50)
+    current_product_name: str | None = Field(default=None, min_length=2, max_length=200)
+    limit: int = Field(default=8, ge=1, le=50)
 
 
 class AlternativeRevalidationRequest(BaseModel):
@@ -83,8 +87,9 @@ class AlternativeRevalidationRequest(BaseModel):
 
     request_id: str = Field(min_length=1, max_length=128)
     applicable_date: date
-    constraints: list[ConstraintInput] = Field(min_length=1, max_length=16)
+    constraints: list[ConstraintInput] = Field(default_factory=list, max_length=16)
     health_concerns: list[str] = Field(default_factory=list, max_length=16)
+    source_category: str | None = Field(default=None, min_length=2, max_length=80)
     current_nutrition_rows: list[list[str]] | None = None
     candidates: list[ProductRecord] = Field(max_length=50)
     jurisdiction: str = Field(default="CN", min_length=2, max_length=12)
@@ -119,9 +124,10 @@ class AlternativeWorkflowRequest(BaseModel):
     request_id: str = Field(min_length=1, max_length=128)
     applicable_date: date
     confirmed_fields: dict[str, str]
-    constraints: list[ConstraintInput] = Field(min_length=1, max_length=16)
+    constraints: list[ConstraintInput] = Field(default_factory=list, max_length=16)
     health_concerns: list[str] = Field(default_factory=list, max_length=16)
     category: str = Field(min_length=2, max_length=80)
+    substitute_categories: list[str] = Field(default_factory=list, max_length=6)
     jurisdiction: str = Field(default="CN", min_length=2, max_length=12)
     region: str = Field(default="CN", min_length=2, max_length=12)
     current_product_id: str | None = Field(default=None, min_length=3, max_length=128)

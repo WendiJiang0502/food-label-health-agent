@@ -37,14 +37,18 @@ def test_search_rejects_incomplete_label_before_recommendation() -> None:
         "source": "curated_verification_catalog",
         "category_match": "exact",
         "region_match": "exact",
-        "evidence_requirements": [
-            "required_fields_for_active_context",
-            "current_for_applicable_date",
-            "content_hash_verified",
-        ],
-        "constraint_evaluation": "independent_revalidation_required",
-        "health_concerns": [],
-    }
+            "evidence_requirements": [
+                "required_fields_for_hard_constraints",
+                "current_for_applicable_date",
+                "content_hash_verified",
+                "health_comparison_fields_rank_but_do_not_block",
+            ],
+            "constraint_evaluation": "independent_revalidation_required",
+            "health_concerns": [],
+            "health_data_policy": "ranking_only_unless_explicit_limit",
+            "source_category": "biscuit",
+            "searched_categories": ["biscuit"],
+        }
     assert len(result["rejected"]) == 1
     rejected = result["rejected"][0]
     assert rejected["product_id"] == "fixture-biscuit-partial-label"
@@ -71,6 +75,21 @@ def test_search_excludes_current_product_before_revalidation() -> None:
         item["product_id"] != "fixture-biscuit-oat-plain"
         for item in result["candidates"]
     )
+
+
+def test_search_collapses_equivalent_pack_sizes_before_candidate_limit() -> None:
+    result = find_alternative_products(
+        AlternativeSearchRequest(
+            category="confectionery",
+            applicable_date="2026-08-23",
+            constraints=[_allergy("fish")],
+            limit=50,
+        )
+    )
+
+    hashes = [item["label"]["content_hash"] for item in result["candidates"]]
+    assert len(hashes) == len(set(hashes))
+    assert result["catalog_coverage"]["equivalent_package_variants_collapsed"] > 0
 
 
 def test_expired_label_is_excluded_and_exposes_evidence_state() -> None:
@@ -160,6 +179,7 @@ def test_health_concern_ranking_runs_after_safety_and_explains_improvement() -> 
     ]
     assert eligible[0]["ranking_layers"] == {
         "same_category_use": True,
+        "same_use_fallback": False,
         "constraint_safety": True,
         "health_focus_points": 3,
         "health_metrics_compared": 2,
@@ -186,6 +206,58 @@ def test_health_concern_ranking_runs_after_safety_and_explains_improvement() -> 
         "health_concern_nutrition",
         "purchase_and_portion_usability",
     ]
+
+
+def test_health_comparison_fields_rank_candidates_without_blocking_safety() -> None:
+    baseline = find_alternative_products(
+        AlternativeSearchRequest(
+            category="biscuit",
+            applicable_date="2026-08-09",
+            constraints=[_allergy("fish")],
+        ),
+        catalog=JsonProductCatalog(),
+    )
+    with_health_focus = find_alternative_products(
+        AlternativeSearchRequest(
+            category="biscuit",
+            applicable_date="2026-08-09",
+            constraints=[_allergy("fish")],
+            health_concerns=["blood_lipids"],
+        ),
+        catalog=JsonProductCatalog(),
+    )
+
+    assert len(with_health_focus["candidates"]) == len(baseline["candidates"])
+    assert all(
+        "饱和脂肪" in item["catalog_eligibility"]["missing_comparison_fields"]
+        for item in with_health_focus["candidates"]
+    )
+    assert all(
+        item["catalog_eligibility"]["eligible_for_current_context"]
+        for item in with_health_focus["candidates"]
+    )
+
+
+def test_search_rejects_a_requested_category_that_is_not_a_same_use_scope() -> None:
+    result = find_alternative_products(
+        AlternativeSearchRequest(
+            category="biscuit",
+            substitute_categories=["biscuit", "drink"],
+            applicable_date="2026-08-09",
+            constraints=[_allergy("milk")],
+            limit=20,
+        ),
+        catalog=JsonProductCatalog(),
+    )
+
+    assert {
+        item["product_id"] for item in result["candidates"]
+    } == {"fixture-biscuit-oat-plain", "fixture-biscuit-milk-cracker"}
+    assert any(
+        item["reason_code"] == "NOT_A_GENUINE_SAME_USE_SUBSTITUTE"
+        for item in result["rejected"]
+    )
+    assert result["selection_basis"]["category_match"] == "same_use_scope"
 
 
 def test_nutrition_hard_limit_filters_high_sodium_candidate() -> None:

@@ -36,6 +36,7 @@ class IngredientExplanationResponse(BaseModel):
     limitations: list[str]
     explanation_type: str = "allergen"
     knowledge_evidence_ids: list[str] = Field(default_factory=list)
+    health_guidance: str | None = None
 
 
 def explain_ingredient_with_evidence(
@@ -174,11 +175,22 @@ def _explain_additive(
                 "词典未收录不等于该名称无效；在补齐可靠来源前，不推测其功能、用量、合规性或健康影响。"
             ],
             explanation_type="additive",
+            health_guidance=(
+                "当前名称或标准依据尚未确认，暂不能给出“可以放心食用”的结论。"
+                "建议先核对包装上的完整名称。"
+            ),
         )
     explanation = (
-        f"“{raw_name}”被识别为食品添加剂，常见功能类别为{knowledge.function_category}。"
+        f"“{raw_name}”属于{knowledge.function_category}。"
         f"{knowledge.plain_language_function}"
-        "仅凭配料表无法判断实际用量、适用食品类别或是否符合使用标准。"
+    )
+    health_guidance = (
+        "在该食品类别允许使用，且实际用量符合 GB 2760-2024 的限量或"
+        "“按生产需要适量使用”要求时，通常可以放心食用；配料表中出现这个名称"
+        "本身不等于有害。配料表不列实际添加量，因此这里不能替厂家核验是否超量。"
+        if applicable
+        else "已确认它的常见功能，但本次没有取得适用的 GB 2760 标准证据，"
+        "暂不能给出“可以放心食用”的结论。"
     )
     return IngredientExplanationResponse(
         status="explained",
@@ -195,6 +207,7 @@ def _explain_additive(
         ],
         explanation_type="additive",
         knowledge_evidence_ids=[knowledge.evidence_id],
+        health_guidance=health_guidance,
     )
 
 

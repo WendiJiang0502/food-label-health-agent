@@ -13,6 +13,7 @@ from functools import lru_cache
 from hashlib import sha256
 from pathlib import Path
 from typing import Any, Protocol
+from urllib.error import HTTPError
 from urllib.parse import urlencode, urlparse
 from urllib.request import Request, urlopen
 
@@ -42,6 +43,8 @@ OFFICIAL_PRODUCT_HOSTS = {
     "kinder.com",
     "www.meiji.com.cn",
     "meiji.com.cn",
+    "www.hormel.com.cn",
+    "hormel.com.cn",
 }
 OFFICIAL_LABEL_REVERIFY_AFTER = timedelta(days=550)
 OFFICIAL_STORE_HOST_SUFFIXES = (".jd.com", ".tmall.com")
@@ -305,7 +308,7 @@ class OpenFoodFactsCatalog:
         user_agent: str | None = None,
         timeout_seconds: float = 8.0,
         cache_ttl_seconds: int = 300,
-        page_size: int = 20,
+        page_size: int = 50,
         fetch_json: Callable[[str, dict[str, str], float], dict[str, Any]]
         | None = None,
     ) -> None:
@@ -349,6 +352,19 @@ class OpenFoodFactsCatalog:
                 url, {"User-Agent": self.user_agent}, self.timeout_seconds
             )
         except Exception as exc:
+            if cached:
+                stale = cached[1]
+                return CatalogSearchResult(
+                    records=stale.records,
+                    rejected=stale.rejected,
+                    provider=stale.provider,
+                    status="degraded",
+                    warnings=tuple(
+                        dict.fromkeys(
+                            [*stale.warnings, "live_catalog_used_last_successful_cache"]
+                        )
+                    ),
+                )
             raise CatalogUnavailable("Open Food Facts catalog unavailable") from exc
         records: list[ProductRecord] = []
         rejected: list[dict[str, Any]] = []
@@ -357,13 +373,19 @@ class OpenFoodFactsCatalog:
             mapped, rejection = _map_open_food_facts_product(raw, category)
             if mapped is not None:
                 records.append(mapped)
-            elif raw.get("code"):
+            # A sparse search hit can sometimes be completed by the product
+            # endpoint. Do not fan out one request per ordinary incomplete hit:
+            # it makes thin categories slower and less reliable without adding
+            # useful evidence.
+            elif raw.get("code") and not (
+                raw.get("ingredients_text_zh") or raw.get("ingredients_text")
+            ):
                 details_needed.append(raw)
             elif rejection is not None:
                 rejected.append(rejection)
         if details_needed:
             detailed_records, detail_rejections = self._fetch_details(
-                details_needed, category
+                details_needed[:5], category
             )
             records.extend(detailed_records)
             rejected.extend(detail_rejections)
@@ -468,8 +490,62 @@ class HybridProductCatalog:
             )
 
 
+class ExpandedChinaCatalog:
+    """Use reviewed China records first and supplement thin categories live.
+
+    Community records still pass the same field, recency, hash and independent
+    constraint gates as official records. A live outage therefore reduces breadth
+    but can never weaken the recommendation rules.
+    """
+
+    def __init__(
+        self,
+        primary: ProductCatalog | None = None,
+        supplemental: ProductCatalog | None = None,
+        *,
+        minimum_records: int = 12,
+    ) -> None:
+        self.primary = primary or OfficialChinaCatalog()
+        self.supplemental = supplemental or OpenFoodFactsCatalog(timeout_seconds=4.0)
+        self.minimum_records = minimum_records
+
+    def search(self, *, category: str, region: str) -> CatalogSearchResult:
+        primary = self.primary.search(category=category, region=region)
+        if len(primary.records) >= self.minimum_records:
+            return primary
+        try:
+            supplemental = self.supplemental.search(category=category, region=region)
+        except CatalogUnavailable:
+            return CatalogSearchResult(
+                records=primary.records,
+                rejected=primary.rejected,
+                provider="china_official_sources_with_live_supplement",
+                status="degraded",
+                warnings=tuple(
+                    dict.fromkeys(
+                        [*primary.warnings, "live_supplement_temporarily_unavailable"]
+                    )
+                ),
+            )
+        seen = {item.product_id for item in primary.records}
+        extra = tuple(item for item in supplemental.records if item.product_id not in seen)
+        return CatalogSearchResult(
+            records=(*primary.records, *extra),
+            rejected=(*primary.rejected, *supplemental.rejected),
+            provider="china_official_sources_with_live_supplement",
+            status=(
+                "ok"
+                if supplemental.status == "ok"
+                else "degraded"
+            ),
+            warnings=tuple(dict.fromkeys([*primary.warnings, *supplemental.warnings])),
+        )
+
+
 def configured_catalog(mode: str | None = None) -> ProductCatalog:
-    selected = (mode or os.getenv("FOOD_LABEL_PRODUCT_CATALOG", "official_cn")).strip()
+    selected = (
+        mode or os.getenv("FOOD_LABEL_PRODUCT_CATALOG", "official_cn_expanded")
+    ).strip()
     return _catalog_for_mode(selected)
 
 
@@ -477,6 +553,8 @@ def configured_catalog(mode: str | None = None) -> ProductCatalog:
 def _catalog_for_mode(selected: str) -> ProductCatalog:
     if selected == "official_cn":
         return OfficialChinaCatalog()
+    if selected == "official_cn_expanded":
+        return ExpandedChinaCatalog()
     if selected == "openfoodfacts":
         return OpenFoodFactsCatalog()
     if selected == "hybrid":
@@ -555,8 +633,6 @@ def _map_open_food_facts_product(
         missing.append("product_name")
     if not ingredients:
         missing.append("ingredients_text")
-    if not ingredients_image:
-        missing.append("ingredients_image")
     if not last_modified:
         missing.append("source_record_version")
     if "en:ingredients-completed" not in states:
@@ -573,7 +649,7 @@ def _map_open_food_facts_product(
     ingredients_text, embedded_allergen = _split_embedded_sections(ingredients)
     allergen_statement = embedded_allergen or _allergen_statement(raw)
     nutrition_rows = _nutrition_rows(raw)
-    nutrition_basis = "每100克" if nutrition_rows else None
+    nutrition_basis = _nutrition_basis_text(raw) if nutrition_rows else None
     label_payload = {
         "ingredients_text": ingredients_text,
         "allergen_statement": allergen_statement or "",
@@ -607,12 +683,20 @@ def _map_open_food_facts_product(
             "confirmed_at": confirmed_at,
             "source_url": f"{OFF_BASE_URL}/product/{code}",
             "content_hash": f"sha256:{digest}",
-            "evidence_quality": "complete",
+            "evidence_quality": (
+                "complete"
+                if allergen_statement and nutrition_rows
+                else "partial"
+            ),
             "source_provider": "open_food_facts",
             "source_record_version": str(last_modified),
             "ingredients_image_url": ingredients_image,
             "nutrition_image_url": _selected_image(raw, "nutrition"),
             "source_authority": "community",
+            "source_language": (
+                "zh-CN" if raw.get("ingredients_text_zh") else "other"
+            ),
+            "source_access_region": "CN",
         },
     )
     return product, None
@@ -657,10 +741,11 @@ def _selected_image(raw: dict[str, Any], kind: str) -> str | None:
 
 
 def _nutrition_rows(raw: dict[str, Any]) -> list[list[str]] | None:
-    if raw.get("nutrition_data_per") != "100g":
+    basis = raw.get("nutrition_data_per")
+    if basis not in {"100g", "100ml"}:
         return None
     nutrients = raw.get("nutriments") or {}
-    rows: list[list[str]] = [["项目", "每100克"]]
+    rows: list[list[str]] = [["项目", _nutrition_basis_text(raw)]]
     mappings = (
         ("energy-kj", "能量", "千焦", 1.0),
         ("proteins", "蛋白质", "克", 1.0),
@@ -675,7 +760,18 @@ def _nutrition_rows(raw: dict[str, Any]) -> list[list[str]] | None:
     return rows if len(rows) > 1 else None
 
 
+def _nutrition_basis_text(raw: dict[str, Any]) -> str:
+    return "每100毫升" if raw.get("nutrition_data_per") == "100ml" else "每100克"
+
+
 def _fetch_json(url: str, headers: dict[str, str], timeout: float) -> dict[str, Any]:
     request = Request(url, headers=headers)
-    with urlopen(request, timeout=timeout) as response:
-        return json.loads(response.read().decode("utf-8"))
+    for attempt in range(3):
+        try:
+            with urlopen(request, timeout=timeout) as response:
+                return json.loads(response.read().decode("utf-8"))
+        except HTTPError as exc:
+            if exc.code not in {429, 500, 502, 503, 504} or attempt == 2:
+                raise
+            time.sleep(0.25 * (2**attempt))
+    raise CatalogUnavailable("Open Food Facts catalog unavailable")

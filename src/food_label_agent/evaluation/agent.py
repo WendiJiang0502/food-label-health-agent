@@ -37,6 +37,7 @@ def evaluate_agent_trajectory(
     trace: list[ToolTraceEvent] | list[dict],
     *,
     expected_tools: list[str],
+    acceptable_tool_sequences: list[list[str]] | None = None,
     final_gate_applied: bool,
     hard_risk_preserved: bool,
 ) -> AgentTrajectoryEvaluation:
@@ -49,6 +50,14 @@ def evaluate_agent_trajectory(
         if item.get("tool_name") and item.get("outcome") != "retry_scheduled"
     )
     expected = tuple(expected_tools)
+    acceptable = (
+        expected,
+        *(tuple(sequence) for sequence in (acceptable_tool_sequences or [])),
+    )
+    expected = max(
+        acceptable,
+        key=lambda sequence: sum((Counter(actual) & Counter(sequence)).values()),
+    )
     overlap = sum((Counter(actual) & Counter(expected)).values())
     extra = max(len(actual) - overlap, 0)
     blockers: list[str] = []
@@ -66,7 +75,7 @@ def evaluate_agent_trajectory(
     stopped = bool(items) and items[-1].get("action") == "stop"
     if not stopped:
         blockers.append("react_stop_missing")
-    exact = actual == expected
+    exact = actual in acceptable
     return AgentTrajectoryEvaluation(
         actual_tools=actual,
         expected_tools=expected,

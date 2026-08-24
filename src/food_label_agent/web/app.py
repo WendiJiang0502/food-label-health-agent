@@ -100,7 +100,9 @@ def create_app(
                 ),
                 "planner": planner_public_status(),
                 "rag": rag2_public_status(),
-                "product_catalog": os.getenv("FOOD_LABEL_PRODUCT_CATALOG", "official_cn"),
+                "product_catalog": os.getenv(
+                    "FOOD_LABEL_PRODUCT_CATALOG", "official_cn_expanded"
+                ),
             }
         )
 
@@ -526,7 +528,7 @@ def run() -> None:
     # cloud dependency fails at startup instead of on the first upload.
     # Credentials remain in the SDK credential chain and are never stored here.
     os.environ.setdefault("FOOD_LABEL_OCR_PROVIDER", "tencent")
-    os.environ.setdefault("FOOD_LABEL_PRODUCT_CATALOG", "official_cn")
+    os.environ.setdefault("FOOD_LABEL_PRODUCT_CATALOG", "official_cn_expanded")
     database_path = default_database_path()
     uvicorn.run(
         create_app(

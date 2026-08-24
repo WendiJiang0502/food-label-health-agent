@@ -77,7 +77,9 @@ def build_version_snapshot() -> VersionSnapshot:
         ocr_sdk_version=_ocr_sdk_version(settings.provider),
         planner_provider=planner.provider,
         planner_model=planner.model if planner.provider != "deterministic" else None,
-        product_catalog=os.getenv("FOOD_LABEL_PRODUCT_CATALOG", "official_cn"),
+        product_catalog=os.getenv(
+            "FOOD_LABEL_PRODUCT_CATALOG", "official_cn_expanded"
+        ),
         mcp_tools=tuple(sorted(item.name for item in MCP_TOOLS if item.implemented)),
     )
 

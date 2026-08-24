@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import asdict
 
 from food_label_agent.context.builder import build_node_context
@@ -9,6 +10,7 @@ from food_label_agent.domain.models import AuditEvent, Evidence, RiskFinding
 from food_label_agent.domain.types import AnalysisStatus, RiskLevel, WorkflowStage
 from food_label_agent.mcp.business_tools import MCPToolCallError, invoke_mcp_tool
 
+from .evidence_plan import build_evidence_plan, evidence_supports_need
 from .routing import critical_fields_needing_confirmation
 from .routing import final_safety_gate as evaluate_final_safety_gate
 from .state import AgentState
@@ -174,6 +176,27 @@ def evaluate_safety(state: AgentState) -> dict:
             "risk_findings": [],
         }
     if not state["user_constraints"]:
+        alternative_request = state.get("alternative_request", {})
+        if alternative_request.get("enabled") is True:
+            return {
+                "status": AnalysisStatus.IN_PROGRESS,
+                "stage": WorkflowStage.SAFETY_EVALUATION,
+                "risk_findings": [],
+                "unknowns": [
+                    item
+                    for item in state["unknowns"]
+                    if item != "user_constraints_required"
+                ],
+                "audit_events": [
+                    *state["audit_events"],
+                    _context_event(state, "evaluate_safety"),
+                    AuditEvent(
+                        "safety_evaluation_not_required",
+                        "orchestrator",
+                        {"reason": "alternative_search_without_hard_constraints"},
+                    ),
+                ],
+            }
         return {
             "status": AnalysisStatus.NEEDS_CONFIRMATION,
             "stage": WorkflowStage.SAFETY_EVALUATION,
@@ -241,84 +264,39 @@ def evaluate_safety(state: AgentState) -> dict:
 
 def retrieve_regulations(state: AgentState) -> dict:
     """Retrieve official clauses applicable to this state and its risk findings."""
-
-    query_terms = [
-        value
-        for finding in state["risk_findings"]
-        if finding.risk_level is not RiskLevel.COMPATIBLE
-        for value in (finding.matched_text, finding.constraint)
-        if value
-    ]
-    additive_terms = [
-        item.get("canonical_name") or item.get("raw_name")
-        for item in _additive_ingredients(state.get("normalized_label", {}))
-    ]
-    nutrition_only = (
-        bool(state["risk_findings"])
-        and not additive_terms
-        and all(
-            finding.reason_code.startswith(
-                ("USER_NUTRITION_", "NUTRITION_", "NUTRIENT_")
-            )
-            for finding in state["risk_findings"]
-        )
-    )
-    needs_allergen_evidence = any(
-        finding.risk_level is not RiskLevel.COMPATIBLE
-        and not finding.reason_code.startswith(
-            ("USER_NUTRITION_", "NUTRITION_", "NUTRIENT_")
-        )
-        for finding in state["risk_findings"]
-    )
-    searches: list[dict] = []
-    if nutrition_only:
-        searches.append(
-            {
-                "query": " ".join([*query_terms, "营养成分表 标示值 计量单位"]),
-                "topics": ["nutrition_labeling"],
-            }
-        )
-    if needs_allergen_evidence:
-        searches.append(
-            {
-                "query": " ".join([*query_terms, "食品标签 配料表 过敏原 致敏物质"]),
-                "topics": ["allergen", "ingredient_labeling"],
-            }
-        )
-    if additive_terms:
-        searches.append(
-            {
-                "query": " ".join([*additive_terms, "GB 2760-2024 食品添加剂使用标准"]),
-                "topics": ["food_additive"],
-            }
-        )
-    if not searches:
-        searches.append({"query": "食品标签 配料表", "topics": ["ingredient_labeling"]})
+    needs = build_evidence_plan(state)
+    if not needs:
+        return {
+            "status": AnalysisStatus.IN_PROGRESS,
+            "stage": WorkflowStage.REGULATORY_RETRIEVAL,
+            "regulatory_evidence": state["regulatory_evidence"],
+        }
     try:
-        results = [
-            invoke_mcp_tool(
-                "search_food_regulations",
-                {
-                    **search,
-                    "jurisdiction": state["jurisdiction"],
-                    "applicable_date": state["applicable_date"],
-                    "limit": 5,
-                },
+        with ThreadPoolExecutor(max_workers=min(4, len(needs))) as pool:
+            results = list(
+                pool.map(
+                    lambda need: invoke_mcp_tool(
+                        "search_food_regulations", need.search_arguments(state)
+                    ),
+                    needs,
+                )
             )
-            for search in searches
-        ]
     except MCPToolCallError as exc:
         return _tool_failure(state, exc)
 
     evidence_by_id = {
         item["evidence_id"]: _regulatory_evidence(item)
-        for result in results
+        for need, result in zip(needs, results, strict=True)
         for item in result["results"]
+        if evidence_supports_need(item, need)
     }
     evidence = list(evidence_by_id.values())
     retrieval_unknowns = [
         unknown for result in results for unknown in result.get("unknowns", [])
     ]
+    for need, result in zip(needs, results, strict=True):
+        if not any(evidence_supports_need(item, need) for item in result["results"]):
+            retrieval_unknowns.append(f"no_supporting_official_evidence:{need.need_id}")
     retrieval_methods = sorted(
         {result.get("retrieval_method", "unknown") for result in results}
     )
@@ -341,7 +319,9 @@ def retrieve_regulations(state: AgentState) -> dict:
                         if len(retrieval_methods) == 1
                         else retrieval_methods
                     ),
-                    "search_count": len(searches),
+                    "search_count": len(needs),
+                    "evidence_needs": [need.need_id for need in needs],
+                    "parallel": len(needs) > 1,
                 },
             ),
         ],
@@ -578,13 +558,15 @@ def search_alternatives(state: AgentState) -> dict:
             "find_alternative_products",
             {
                 "category": category,
+                "substitute_categories": request.get("substitute_categories", []),
                 "applicable_date": state["applicable_date"],
                 "constraints": [asdict(item) for item in state["user_constraints"]],
                 "health_concerns": request.get("health_concerns", []),
                 "jurisdiction": state["jurisdiction"],
                 "region": request.get("region", "CN"),
                 "exclude_product_ids": request.get("exclude_product_ids", []),
-                "limit": request.get("limit", 5),
+                "current_product_name": request.get("current_product_name"),
+                "limit": request.get("limit", 8),
             },
         )
     except MCPToolCallError as exc:
@@ -650,6 +632,7 @@ def revalidate_alternatives(state: AgentState) -> dict:
                 "health_concerns": state["alternative_request"].get(
                     "health_concerns", []
                 ),
+                "source_category": state["alternative_request"].get("category"),
                 "current_nutrition_rows": state["alternative_request"].get(
                     "current_nutrition_rows"
                 ),

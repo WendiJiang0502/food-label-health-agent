@@ -146,6 +146,24 @@ def test_nestle_frozen_products_enter_independent_safety_review() -> None:
     assert result["eligible_count"] == 20
 
 
+def test_current_product_family_pack_sizes_are_not_returned_as_substitutes() -> None:
+    search = find_alternative_products(
+        AlternativeSearchRequest(
+            category="biscuit",
+            substitute_categories=["confectionery"],
+            applicable_date="2026-08-15",
+            constraints=[],
+            current_product_name="健达快乐河马1条装（20.7克）",
+            limit=50,
+        ),
+        catalog=OfficialChinaCatalog(),
+    )
+
+    names = [item["display_name"] for item in search["candidates"]]
+    assert all("快乐河马" not in name for name in names)
+    assert any("轻脆怡" in name for name in names)
+
+
 def test_official_catalog_merges_dynamically_approved_records(tmp_path: Path) -> None:
     source = json.loads(
         Path(
@@ -211,7 +229,7 @@ def test_field_level_gate_marks_partial_catalog_record_conditionally_usable() ->
     assert search["catalog_coverage"]["conditionally_verified_count"] == 1
 
 
-def test_health_concern_requires_only_its_relevant_packaging_fields() -> None:
+def test_health_concern_comparison_fields_rank_without_blocking_safety_candidates() -> None:
     pressure = find_alternative_products(
         AlternativeSearchRequest(
             category="frozen_food",
@@ -242,11 +260,16 @@ def test_health_concern_requires_only_its_relevant_packaging_fields() -> None:
     )
 
     assert len(pressure["candidates"]) == 20
-    assert sugar["candidates"] == []
-    assert sugar["catalog_coverage"]["context_needs_review_count"] == 27
+    assert len(sugar["candidates"]) == 20
+    assert sugar["catalog_coverage"]["fully_verified_count"] == 27
+    assert sugar["catalog_coverage"]["context_needs_review_count"] == 0
     assert all(
-        "糖" in item["label_coverage"]["context_eligibility"]["missing_required_fields"]
-        for item in sugar["rejected"]
+        "糖" in item["catalog_eligibility"]["missing_comparison_fields"]
+        for item in sugar["candidates"]
+    )
+    assert all(
+        "糖" not in item["catalog_eligibility"]["missing_required_fields"]
+        for item in sugar["candidates"]
     )
 
 

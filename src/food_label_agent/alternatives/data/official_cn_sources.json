@@ -118,5 +118,17 @@
     "product_path_markers": [".html"],
     "official_store_url": "https://mall.jd.com/index-1000333009.html",
     "official_store_name": "雀巢冰淇淋京东自营旗舰店"
+  },
+  {
+    "source_id": "hormel-china-processed-meat-official",
+    "brand": "荷美尔",
+    "category": "processed_meat",
+    "discovery_urls": ["https://hormel.com.cn/zh-hans/category/product"],
+    "product_seed_urls": [
+      "https://hormel.com.cn/zh-hans/category/product/detail!cdzskc",
+      "https://hormel.com.cn/zh-hans/category/product/detail!2-bacon"
+    ],
+    "allowed_hosts": ["www.hormel.com.cn", "hormel.com.cn"],
+    "product_path_markers": ["/zh-hans/category/product/detail"]
   }
 ]

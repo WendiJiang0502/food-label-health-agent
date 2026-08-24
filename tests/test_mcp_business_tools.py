@@ -225,7 +225,8 @@ async def _test_claim_tools_are_registered_on_real_mcp_server() -> None:
     assert "verify_label_consistency" in tools
 
 
-def test_alternative_tools_are_registered_and_enforce_revalidation() -> None:
+def test_alternative_tools_are_registered_and_enforce_revalidation(monkeypatch) -> None:
+    monkeypatch.setenv("FOOD_LABEL_PRODUCT_CATALOG", "official_cn")
     asyncio.run(_test_alternative_tools_are_registered_and_enforce_revalidation())
 
 

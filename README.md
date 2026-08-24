@@ -158,15 +158,15 @@ food-label-platform
 
 然后访问 `http://127.0.0.1:8000`。项目 CLI 默认使用腾讯云 OCR；这个默认值只包含 Provider 选择，不包含任何密钥。凭证继续由腾讯云 SDK 的环境变量或 `~/.tencentcloud/credentials` 提供。上传图片会发送到腾讯云 OCR，本平台不持久化原图。如需本地识别，可显式设置 `FOOD_LABEL_OCR_PROVIDER=paddle`。
 
-正式 CLI 当前默认设置 `FOOD_LABEL_PRODUCT_CATALOG=official_cn`，只使用经过人工审核、可从中国大陆访问的品牌官网或官方旗舰店标签证据。需要实验 Open Food Facts 实时目录时，可显式切换为 `hybrid`；该模式优先访问 Open Food Facts，不可用时回退到内置验收目录，并应配置可识别应用与联系方式的 User-Agent：
+正式 CLI 当前默认设置 `FOOD_LABEL_PRODUCT_CATALOG=official_cn_expanded`：优先使用经过人工审核、可从中国大陆访问的品牌官网或官方旗舰店标签证据；品类不足时，再补充 Open Food Facts 中带中国地区标记、已完成配料审核且具有版本日期的商品。补充商品仍会逐件经过同一套字段、时效、哈希和个人约束复核。建议配置可识别应用与联系方式的 User-Agent：
 
 ```bash
-export FOOD_LABEL_PRODUCT_CATALOG=hybrid
+export FOOD_LABEL_PRODUCT_CATALOG=official_cn_expanded
 export FOOD_LABEL_OPENFOODFACTS_USER_AGENT='LabelLensHealth/0.2 (contact: ops@example.com)'
 food-label-platform
 ```
 
-可显式改为 `openfoodfacts` 禁用回退，或改为 `curated` 仅运行离线验收目录。Open Food Facts 是社区维护的开放数据，应核对实物标签并遵守其 ODbL 数据库许可要求。
+可显式改为 `official_cn` 仅使用人工审核的中国官方目录，改为 `openfoodfacts` 仅使用实时社区目录，或改为 `curated` 仅运行离线验收目录。Open Food Facts 是社区维护的开放数据；界面会标明来源，购买和食用前仍应核对当前实物包装，并遵守其 ODbL 数据库许可要求。
 
 工作流检查点和经授权的长期记忆默认保存在 `~/.local/share/food-label-health-agent/agent-data.sqlite3`，文件权限设为仅当前用户可读写。可用 `FOOD_LABEL_DATA_DIR` 指定其他数据目录。当前能力令牌方案用于本地单用户原型；多用户部署仍需在 API 前增加账户认证、加密密钥管理和数据隔离。
 

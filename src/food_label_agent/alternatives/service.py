@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import re
 from collections.abc import Iterable
+from concurrent.futures import ThreadPoolExecutor
 from datetime import date, timedelta
 from typing import Any
 
@@ -47,85 +49,299 @@ _NUTRIENT_DISPLAY_NAMES = {
     "sodium": "钠",
 }
 
+_SAME_USE_SIGNALS = {
+    ("seafood", "canned_food"): (
+        "鱼",
+        "虾",
+        "蟹",
+        "贝",
+        "金枪鱼",
+        "沙丁鱼",
+        "tuna",
+        "thon",
+        "shrimp",
+    ),
+}
+
+_ALLOWED_SAME_USE_PAIRS = {
+    ("biscuit", "snack"),
+    ("biscuit", "confectionery"),
+    ("bread", "breakfast_cereal"),
+    ("breakfast_cereal", "bread"),
+    ("instant_noodles", "prepared_meal"),
+    ("prepared_meal", "instant_noodles"),
+    ("drink", "dairy"),
+    ("dairy", "drink"),
+    ("snack", "biscuit"),
+    ("confectionery", "snack"),
+    ("confectionery", "biscuit"),
+    ("seafood", "canned_food"),
+    ("canned_food", "processed_meat"),
+    ("canned_food", "seafood"),
+}
+
+_SAME_USE_REASONS = {
+    ("bread", "breakfast_cereal"): "同属早餐主食，可替换一次早餐中的主食位置",
+    ("breakfast_cereal", "bread"): "同属早餐主食，可替换一次早餐中的主食位置",
+    ("instant_noodles", "prepared_meal"): "同属快速正餐，可替换需要快速解决的一餐",
+    ("prepared_meal", "instant_noodles"): "同属快速正餐，可替换需要快速解决的一餐",
+    ("biscuit", "snack"): "同属便携零食，可替换两餐之间的一次加餐",
+    ("snack", "biscuit"): "同属便携零食，可替换两餐之间的一次加餐",
+    ("confectionery", "snack"): "同属便携零食，可替换一次甜食或加餐",
+    ("seafood", "canned_food"): "属于明确含鱼虾的罐装食品，可替换常温即食海鲜",
+}
+
+_CATEGORY_ROLE_SIGNALS = {
+    "drink": (
+        ("alcoholic", ("啤酒", "beer", "tequila", "酒精")),
+        ("water", ("纯净水", "矿泉水", "饮用水", "water")),
+        ("tea", ("茶饮", "茶饮料", "绿茶", "红茶", "乌龙茶", "tea")),
+        ("soda", ("可乐", "汽水", "soda", "cola")),
+        ("juice", ("果汁", "橙汁", "苹果汁", "果味饮料", "juice")),
+        ("plant_drink", ("豆奶", "豆乳", "燕麦奶", "植物蛋白", "soy", "oat")),
+        ("milk_drink", ("含乳饮料", "乳饮料", "milk drink")),
+    ),
+    "dairy": (
+        ("yogurt", ("酸奶", "发酵乳", "yogurt")),
+        ("cheese", ("奶酪", "芝士", "cheese")),
+        ("milk", ("纯牛奶", "牛奶", "生牛乳", "milk")),
+    ),
+    "frozen_food": (
+        ("frozen_dessert", ("冰淇淋", "雪糕", "圣代", "ice cream", "sundae")),
+        ("dumpling", ("水饺", "饺子", "馄饨", "云吞", "dumpling", "wonton")),
+        ("rice_noodle_meal", ("炒饭", "面条", "意面", "rice", "noodle", "pasta")),
+    ),
+    "processed_meat": (
+        ("sausage", ("香肠", "烤肠", "sausage")),
+        ("ham_bacon", ("火腿", "培根", "ham", "bacon")),
+        ("luncheon_meat", ("午餐肉", "luncheon meat")),
+        ("meat_snack", ("鸡胸肉", "肉干", "肉脯", "jerky")),
+    ),
+    "seafood": (
+        ("shrimp", ("虾", "shrimp", "prawn")),
+        ("fish", ("鱼", "金枪鱼", "沙丁鱼", "fish", "tuna", "thon")),
+        ("shellfish", ("蟹", "贝", "crab", "shellfish")),
+    ),
+    "canned_food": (
+        ("seafood", ("鱼", "虾", "金枪鱼", "沙丁鱼", "tuna", "thon")),
+        ("meat", ("午餐肉", "牛肉", "猪肉", "鸡肉", "beef", "pork", "chicken")),
+        ("fruit", ("黄桃", "水果", "fruit", "peach")),
+        ("vegetable", ("豆", "蔬菜", "芽菜", "pea", "vegetable")),
+    ),
+    "snack": (
+        ("chips", ("薯片", "脆片", "膨化", "锅巴", "虾条", "chip", "crisp")),
+        ("nuts", ("坚果", "果仁", "瓜子", "nuts")),
+        ("dried_fruit", ("冻干", "果干", "dried fruit")),
+        (
+            "sweet_snack",
+            (
+                "软糖",
+                "巧克力",
+                "奥利奥",
+                "饼干",
+                "gummi",
+                "oreo",
+                "snickers",
+                "biscotti",
+            ),
+        ),
+    ),
+}
+
+_ROLE_SENSITIVE_CATEGORIES = {
+    "drink",
+    "dairy",
+    "frozen_food",
+    "processed_meat",
+    "seafood",
+    "canned_food",
+    "snack",
+}
+
 
 def find_alternative_products(
     request: AlternativeSearchRequest,
     *,
     catalog: ProductCatalog | None = None,
 ) -> dict[str, Any]:
-    """Find same-category candidates and reject incomplete or stale evidence."""
+    """Find exact and same-use candidates, then reject unsafe evidence."""
 
     store = catalog or configured_catalog()
-    catalog_result = store.search(category=request.category, region=request.region)
-    category_records = list(catalog_result.records)
-    excluded_ids = set(request.exclude_product_ids)
-    candidates: list[dict[str, Any]] = []
-    rejected: list[dict[str, Any]] = list(catalog_result.rejected)
-    seen_ids: set[str] = set()
-    for product in catalog_result.records:
-        if product.product_id in seen_ids:
-            rejected.append(
-                {
-                    "product_id": product.product_id,
-                    "display_name": product.display_name,
-                    "reason_code": "DUPLICATE_PRODUCT_RECORD",
-                    "evidence_ids": [product.label.evidence_id],
-                }
-            )
-            continue
-        seen_ids.add(product.product_id)
-        if product.product_id in excluded_ids:
-            continue
-        eligibility = assess_product_eligibility(
-            product,
-            constraints=request.constraints,
-            health_concerns=request.health_concerns,
-        )
-        evidence_status = _evidence_status(
-            product,
-            request.applicable_date,
-            eligibility=eligibility,
-        )
-        rejection = _evidence_rejection(
-            product,
-            request.applicable_date,
-            eligibility=eligibility,
-        )
-        if rejection:
-            rejected.append(
-                {
-                    "product_id": product.product_id,
-                    "display_name": product.display_name,
-                    "reason_code": rejection,
-                    "evidence_ids": [product.label.evidence_id],
-                    "label_coverage": {
-                        **audit_product_label(product),
-                        "context_eligibility": eligibility,
-                        "evidence_status": evidence_status,
-                    },
-                }
-            )
-            continue
-        candidates.append(
-            {
-                **product.model_dump(mode="json"),
-                "catalog_eligibility": eligibility,
-                "evidence_status": evidence_status,
+    requested_categories = list(
+        dict.fromkeys([request.category, *request.substitute_categories])
+    )
+    if len(requested_categories) == 1:
+        category = requested_categories[0]
+        catalog_results = [
+            (category, store.search(category=category, region=request.region))
+        ]
+    else:
+        with ThreadPoolExecutor(max_workers=min(4, len(requested_categories))) as pool:
+            futures = {
+                category: pool.submit(
+                    store.search,
+                    category=category,
+                    region=request.region,
+                )
+                for category in requested_categories
             }
-        )
+            catalog_results = [
+                (category, futures[category].result())
+                for category in requested_categories
+            ]
+    category_records = [
+        product
+        for _category, result in catalog_results
+        for product in result.records
+    ]
+    excluded_ids = set(request.exclude_product_ids)
+    current_family = _product_family_key(request.current_product_name)
+    current_role = _substitution_role(
+        request.category,
+        request.current_product_name or "",
+    )
+    candidates: list[dict[str, Any]] = []
+    rejected: list[dict[str, Any]] = [
+        {**item, "searched_category": category}
+        for category, result in catalog_results
+        for item in result.rejected
+    ]
+    seen_ids: set[str] = set()
+    seen_label_hashes: set[str] = set()
+    equivalent_package_variants_collapsed = 0
+    for searched_category, catalog_result in catalog_results:
+        for product in catalog_result.records:
+            if product.product_id in seen_ids:
+                rejected.append(
+                    {
+                        "product_id": product.product_id,
+                        "display_name": product.display_name,
+                        "reason_code": "DUPLICATE_PRODUCT_RECORD",
+                        "evidence_ids": [product.label.evidence_id],
+                    }
+                )
+                continue
+            seen_ids.add(product.product_id)
+            if product.product_id in excluded_ids:
+                continue
+            if current_family and _product_family_key(product.display_name) == current_family:
+                continue
+            if (
+                searched_category == request.category
+                and current_role
+                and request.category in _ROLE_SENSITIVE_CATEGORIES
+            ):
+                candidate_role = _substitution_role(
+                    searched_category,
+                    f"{product.display_name} {product.label.ingredients_text}",
+                )
+                if candidate_role and candidate_role != current_role:
+                    rejected.append(
+                        {
+                            "product_id": product.product_id,
+                            "display_name": product.display_name,
+                            "reason_code": "DIFFERENT_USE_WITHIN_CATEGORY",
+                            "evidence_ids": [product.label.evidence_id],
+                        }
+                    )
+                    continue
+            if searched_category != request.category and not _same_use_candidate(
+                request.category,
+                searched_category,
+                product,
+                current_product_name=request.current_product_name,
+            ):
+                rejected.append(
+                    {
+                        "product_id": product.product_id,
+                        "display_name": product.display_name,
+                        "reason_code": "NOT_A_GENUINE_SAME_USE_SUBSTITUTE",
+                        "evidence_ids": [product.label.evidence_id],
+                    }
+                )
+                continue
+            eligibility = assess_product_eligibility(
+                product,
+                constraints=request.constraints,
+                health_concerns=request.health_concerns,
+            )
+            evidence_status = _evidence_status(
+                product,
+                request.applicable_date,
+                eligibility=eligibility,
+            )
+            rejection = _evidence_rejection(
+                product,
+                request.applicable_date,
+                eligibility=eligibility,
+            )
+            if rejection:
+                rejected.append(
+                    {
+                        "product_id": product.product_id,
+                        "display_name": product.display_name,
+                        "reason_code": rejection,
+                        "evidence_ids": [product.label.evidence_id],
+                        "label_coverage": {
+                            **audit_product_label(product),
+                            "context_eligibility": eligibility,
+                            "evidence_status": evidence_status,
+                        },
+                    }
+                )
+                continue
+            # Several pack sizes can share one formula. Count the formula once
+            # so package variants cannot hide genuinely different substitutes.
+            if product.label.content_hash in seen_label_hashes:
+                equivalent_package_variants_collapsed += 1
+                continue
+            seen_label_hashes.add(product.label.content_hash)
+            candidates.append(
+                {
+                    **product.model_dump(mode="json"),
+                    "catalog_eligibility": eligibility,
+                    "evidence_status": evidence_status,
+                    "substitution_match": (
+                        "exact"
+                        if searched_category == request.category
+                        else "same_use"
+                    ),
+                    "substitution_reason": (
+                        "与当前商品属于同一类别"
+                        if searched_category == request.category
+                        else _same_use_reason(request.category, searched_category)
+                    ),
+                }
+            )
+            if len(candidates) >= request.limit:
+                break
         if len(candidates) >= request.limit:
             break
     evidence_requirements = [
-        "required_fields_for_active_context",
+        "required_fields_for_hard_constraints",
         "current_for_applicable_date",
         "content_hash_verified",
+        "health_comparison_fields_rank_but_do_not_block",
     ]
-    if catalog_result.provider == "china_official_sources":
+    providers = list(dict.fromkeys(result.provider for _, result in catalog_results))
+    if "china_official_sources" in providers:
         evidence_requirements.extend(
             [
                 "official_source_manually_verified",
                 "mainland_accessible_chinese_source",
             ]
+        )
+    catalog_coverage = {
+        **summarize_label_coverage(category_records),
+        **summarize_context_eligibility(
+            category_records,
+            constraints=request.constraints,
+            health_concerns=request.health_concerns,
+        ),
+    }
+    if equivalent_package_variants_collapsed:
+        catalog_coverage["equivalent_package_variants_collapsed"] = (
+            equivalent_package_variants_collapsed
         )
     return {
         "status": "candidates_found" if candidates else "unknown",
@@ -134,26 +350,74 @@ def find_alternative_products(
         "candidates": candidates,
         "rejected": rejected,
         "unknowns": [] if candidates else ["no_current_complete_candidate_labels"],
-        "catalog_scope": catalog_result.provider,
-        "catalog_status": catalog_result.status,
-        "catalog_warnings": list(catalog_result.warnings),
-        "catalog_coverage": {
-            **summarize_label_coverage(category_records),
-            **summarize_context_eligibility(
-                category_records,
-                constraints=request.constraints,
-                health_concerns=request.health_concerns,
-            ),
-        },
+        "catalog_scope": providers[0] if len(providers) == 1 else "mixed_sources",
+        "catalog_status": (
+            "degraded"
+            if any(result.status != "ok" for _, result in catalog_results)
+            else "ok"
+        ),
+        "catalog_warnings": list(
+            dict.fromkeys(
+                warning
+                for _, result in catalog_results
+                for warning in result.warnings
+            )
+        ),
+        "catalog_coverage": catalog_coverage,
         "selection_basis": {
-            "source": catalog_result.provider,
-            "category_match": "exact",
+            "source": providers[0] if len(providers) == 1 else "mixed_sources",
+            "category_match": (
+                "exact" if len(requested_categories) == 1 else "same_use_scope"
+            ),
+            "source_category": request.category,
+            "searched_categories": requested_categories,
             "region_match": "exact",
             "evidence_requirements": evidence_requirements,
             "constraint_evaluation": "independent_revalidation_required",
             "health_concerns": request.health_concerns,
+            "health_data_policy": "ranking_only_unless_explicit_limit",
         },
     }
+
+
+def _same_use_candidate(
+    source_category: str,
+    candidate_category: str,
+    product: ProductRecord,
+    *,
+    current_product_name: str | None,
+) -> bool:
+    if (source_category, candidate_category) not in _ALLOWED_SAME_USE_PAIRS:
+        return False
+    if (source_category, candidate_category) == ("dairy", "drink"):
+        return _substitution_role("drink", product.display_name) == "plant_drink"
+    if (source_category, candidate_category) == ("drink", "dairy"):
+        current_role = _substitution_role("drink", current_product_name or "")
+        if current_role not in {"plant_drink", "milk_drink"}:
+            return False
+    signals = _SAME_USE_SIGNALS.get((source_category, candidate_category))
+    if not signals:
+        return True
+    text = (
+        f"{product.display_name} {product.use_case} "
+        f"{product.label.ingredients_text}"
+    ).lower()
+    return any(signal.lower() in text for signal in signals)
+
+
+def _substitution_role(category: str, text: str) -> str | None:
+    normalized = text.lower()
+    for role, signals in _CATEGORY_ROLE_SIGNALS.get(category, ()):
+        if any(signal.lower() in normalized for signal in signals):
+            return role
+    return None
+
+
+def _same_use_reason(source_category: str, candidate_category: str) -> str:
+    return _SAME_USE_REASONS.get(
+        (source_category, candidate_category),
+        "属于相近食用场景，作为同用途备选",
+    )
 
 
 def revalidate_alternatives(request: AlternativeRevalidationRequest) -> dict[str, Any]:
@@ -189,9 +453,12 @@ def revalidate_alternatives(request: AlternativeRevalidationRequest) -> dict[str
                 constraints=request.constraints,
             )
         )
+        rule_risk_level = (
+            evaluation.overall_risk_level if request.constraints else "compatible"
+        )
         eligible = (
             eligibility["eligible_for_current_context"]
-            and evaluation.overall_risk_level == "compatible"
+            and rule_risk_level == "compatible"
         )
         results.append(
             {
@@ -202,10 +469,22 @@ def revalidate_alternatives(request: AlternativeRevalidationRequest) -> dict[str
                 "use_case": product.use_case,
                 "catalog_scope": product.catalog_scope,
                 "catalog_tier": eligibility["status"],
+                "substitution_match": product.substitution_match or (
+                    "exact"
+                    if not request.source_category
+                    or product.category == request.source_category
+                    else "same_use"
+                ),
+                "substitution_reason": product.substitution_reason or (
+                    "与当前商品属于同一类别"
+                    if not request.source_category
+                    or product.category == request.source_category
+                    else "属于相近食用场景，作为同用途备选"
+                ),
                 "catalog_eligibility": eligibility,
                 "evidence_status": evidence_status,
                 "disposition": "eligible" if eligible else "excluded",
-                "risk_level": evaluation.overall_risk_level,
+                "risk_level": rule_risk_level,
                 "reason_code": (
                     "INDEPENDENT_REVALIDATION_PASSED"
                     if eligible
@@ -216,7 +495,7 @@ def revalidate_alternatives(request: AlternativeRevalidationRequest) -> dict[str
                     )
                 ),
                 "explanation": (
-                    "当前关注项所需字段已经核对，且未发现所选硬性约束冲突；这不是绝对安全保证。"
+                    "安全判断所需字段已经核对，且未发现所选硬性约束冲突；健康关注数据仅用于排序，这不是绝对安全保证。"
                     if eligible
                     else (
                         "当前关注项所需包装字段尚未齐全，因此不进入推荐。"
@@ -392,7 +671,11 @@ def _rank_eligible_results(
         }
         store_ready = bool(item.get("official_store_url"))
         experience_score = int(store_ready) + int(portion_ready)
-        ranking_reasons = ["同类用途匹配", "已通过过敏原与个人约束复核"]
+        exact_match = item.get("substitution_match") != "same_use"
+        ranking_reasons = [
+            "与当前商品同类别" if exact_match else "相近食用场景的同用途备选",
+            "已通过过敏原与个人约束复核",
+        ]
         ranking_reasons.extend(health_reasons[:2])
         if portion_ready:
             ranking_reasons.append("包装提供可用的每份口径")
@@ -406,7 +689,8 @@ def _rank_eligible_results(
             else "同类且通过了当前个人约束复核"
         )
         item["ranking_layers"] = {
-            "same_category_use": True,
+            "same_category_use": exact_match,
+            "same_use_fallback": not exact_match,
             "constraint_safety": True,
             "health_focus_points": points[product_id],
             "health_metrics_compared": comparable_counts[product_id],
@@ -414,6 +698,7 @@ def _rank_eligible_results(
             "portion_basis_available": portion_ready,
         }
         item["_ranking_key"] = (
+            -int(exact_match),
             -points[product_id],
             -comparable_counts[product_id],
             -_catalog_tier_score(item["catalog_tier"]),
@@ -435,6 +720,16 @@ def _ranking_focuses(health_concerns: list[str]) -> list[tuple[str, str]]:
             if focus not in focuses:
                 focuses.append(focus)
     return focuses
+
+
+def _product_family_key(value: str | None) -> str:
+    """Collapse pack counts while preserving flavour and formula distinctions."""
+
+    text = str(value or "").lower()
+    text = re.sub(r"[（(][^）)]*[）)]", "", text)
+    text = re.sub(r"\d+(?:\.\d+)?\s*(?:条|只|袋|盒|支|瓶)装", "", text)
+    text = re.sub(r"\d+(?:\.\d+)?\s*(?:克|g|毫升|ml)", "", text)
+    return re.sub(r"[\s\-_·・,，/]+", "", text).strip()
 
 
 def _normalized_nutrient_values_from_rows(
@@ -593,7 +888,7 @@ def _nutrient_values(
 ) -> list[dict[str, Any]]:
     values: list[dict[str, Any]] = []
     for product in products:
-        nutrition = product.get("normalized_label", {}).get("nutrition", {})
+        nutrition = product.get("normalized_label", {}).get("nutrition") or {}
         nutrients = nutrition.get("nutrients", [])
         nutrient = next(
             (item for item in nutrients if item.get("canonical_name") == nutrient_key),

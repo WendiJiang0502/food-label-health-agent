@@ -3,6 +3,7 @@ from __future__ import annotations
 from food_label_agent.alternatives.catalog import (
     CatalogSearchResult,
     CatalogUnavailable,
+    ExpandedChinaCatalog,
     HybridProductCatalog,
     JsonProductCatalog,
     OpenFoodFactsCatalog,
@@ -61,6 +62,25 @@ def test_live_catalog_maps_versioned_label_and_image_evidence_and_caches() -> No
     assert product.label.nutrition_rows[-1] == ["钠", "310毫克"]
 
 
+def test_live_catalog_uses_last_successful_cache_during_a_later_outage() -> None:
+    calls = 0
+
+    def fetch(*_args) -> dict:
+        nonlocal calls
+        calls += 1
+        if calls == 1:
+            return {"products": [_product()]}
+        raise OSError("temporary outage")
+
+    catalog = OpenFoodFactsCatalog(fetch_json=fetch, cache_ttl_seconds=-1)
+    first = catalog.search(category="biscuit", region="CN")
+    second = catalog.search(category="biscuit", region="CN")
+
+    assert first.records == second.records
+    assert second.status == "degraded"
+    assert "live_catalog_used_last_successful_cache" in second.warnings
+
+
 def test_live_catalog_rejects_unreviewed_ingredient_evidence() -> None:
     catalog = OpenFoodFactsCatalog(
         fetch_json=lambda *_: {"products": [_product(complete=False)]}
@@ -71,6 +91,82 @@ def test_live_catalog_rejects_unreviewed_ingredient_evidence() -> None:
     assert result.records == ()
     assert result.rejected[0]["reason_code"] == "LIVE_LABEL_EVIDENCE_INCOMPLETE"
     assert "ingredients_review_state" in result.rejected[0]["missing_fields"]
+
+
+def test_live_catalog_accepts_reviewed_ingredient_text_without_a_separate_image() -> None:
+    raw = _product()
+    raw["selected_images"].pop("ingredients")
+    catalog = OpenFoodFactsCatalog(fetch_json=lambda *_: {"products": [raw]})
+
+    result = catalog.search(category="biscuit", region="CN")
+
+    assert [item.product_id for item in result.records] == ["off:6901668938824"]
+    assert result.records[0].label.ingredients_image_url is None
+
+
+def test_live_catalog_normalizes_drink_nutrition_per_100ml() -> None:
+    raw = _product()
+    raw["nutrition_data_per"] = "100ml"
+    catalog = OpenFoodFactsCatalog(fetch_json=lambda *_: {"products": [raw]})
+
+    result = catalog.search(category="drink", region="CN")
+
+    assert result.records[0].label.nutrition_basis_text == "每100毫升"
+    assert result.records[0].label.nutrition_rows[0] == ["项目", "每100毫升"]
+
+
+def test_drink_search_keeps_the_same_drink_use_instead_of_any_beverage() -> None:
+    products = []
+    for code, name in (
+        ("6900000000001", "DL橙汁"),
+        ("6900000000002", "百事可乐"),
+        ("6900000000003", "饮用纯净水"),
+    ):
+        raw = _product()
+        raw["code"] = code
+        raw["product_name_zh"] = name
+        products.append(raw)
+    catalog = OpenFoodFactsCatalog(fetch_json=lambda *_: {"products": products})
+
+    result = find_alternative_products(
+        AlternativeSearchRequest(
+            category="drink",
+            applicable_date="2026-08-09",
+            current_product_name="鲜橙汁",
+        ),
+        catalog=catalog,
+    )
+
+    assert [item["display_name"] for item in result["candidates"]] == ["DL橙汁"]
+    assert sum(
+        item["reason_code"] == "DIFFERENT_USE_WITHIN_CATEGORY"
+        for item in result["rejected"]
+    ) == 2
+
+
+def test_chips_search_does_not_treat_candy_as_the_same_snack_use() -> None:
+    products = []
+    for code, name in (
+        ("6900000000011", "青柠味薯片"),
+        ("6900000000012", "水果软糖"),
+        ("6900000000013", "每日坚果"),
+    ):
+        raw = _product()
+        raw["code"] = code
+        raw["product_name_zh"] = name
+        products.append(raw)
+    catalog = OpenFoodFactsCatalog(fetch_json=lambda *_: {"products": products})
+
+    result = find_alternative_products(
+        AlternativeSearchRequest(
+            category="snack",
+            applicable_date="2026-08-09",
+            current_product_name="膨化零食与脆片",
+        ),
+        catalog=catalog,
+    )
+
+    assert [item["display_name"] for item in result["candidates"]] == ["青柠味薯片"]
 
 
 def test_live_catalog_enriches_search_record_from_product_detail() -> None:
@@ -121,3 +217,26 @@ def test_hybrid_catalog_uses_explicit_reviewed_fallback_on_live_failure() -> Non
     assert result.provider == "open_food_facts_with_curated_fallback"
     assert result.records
     assert result.warnings == ("live_catalog_unavailable_used_curated_fallback",)
+
+
+def test_expanded_china_catalog_keeps_reviewed_records_and_adds_live_evidence() -> None:
+    live = OpenFoodFactsCatalog(fetch_json=lambda *_: {"products": [_product()]})
+    result = ExpandedChinaCatalog(
+        primary=JsonProductCatalog(), supplemental=live, minimum_records=12
+    ).search(category="biscuit", region="CN")
+
+    assert result.provider == "china_official_sources_with_live_supplement"
+    assert len(result.records) == 4
+    assert sum(item.catalog_scope == "live_open_food_facts" for item in result.records) == 1
+
+
+def test_expanded_china_catalog_degrades_without_dropping_reviewed_records() -> None:
+    result = ExpandedChinaCatalog(
+        primary=JsonProductCatalog(),
+        supplemental=_UnavailableCatalog(),
+        minimum_records=12,
+    ).search(category="biscuit", region="CN")
+
+    assert result.status == "degraded"
+    assert len(result.records) == 3
+    assert "live_supplement_temporarily_unavailable" in result.warnings

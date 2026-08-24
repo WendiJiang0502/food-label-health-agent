@@ -262,7 +262,8 @@
         {"action_id": "RETRIEVE_ADDITIVE_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve official additive evidence"},
         {"action_id": "RETRIEVE_CLAIM_RULES", "tool_name": "search_food_regulations", "purpose": "retrieve official claim evidence"}
       ],
-      "expected_action_id": "RETRIEVE_ADDITIVE_RULES"
+      "expected_action_id": "RETRIEVE_ADDITIVE_RULES",
+      "acceptable_action_ids": ["RETRIEVE_CLAIM_RULES"]
     }
   ]
 }

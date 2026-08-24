@@ -12,11 +12,15 @@ from pathlib import Path
 from typing import Any, Literal
 
 from food_label_agent.alternatives.catalog import JsonProductCatalog
-from food_label_agent.regulations.service import get_default_regulation_store
+from food_label_agent.regulations.service import (
+    clear_regulation_caches,
+    get_default_regulation_store,
+)
 
 from .agent_benchmark import evaluate_agent_benchmark
 from .alternatives import evaluate_alternative_benchmark
 from .benchmarks import ALTERNATIVE_BENCHMARK, RAG_BENCHMARK
+from .evidence_routing import evaluate_evidence_routing
 from .failures import evaluate_failure_corpus
 from .ocr import evaluate_directory
 from .planner import evaluate_planner_ablation
@@ -67,6 +71,7 @@ def run_evaluation(
             "rag2_ablation": evaluate_rag2_ablation(
                 get_default_regulation_store()
             ).to_dict(),
+            "evidence_routing": evaluate_evidence_routing().to_dict(),
             "agent": evaluate_agent_benchmark().to_dict(),
             "planner_ablation": evaluate_planner_ablation().to_dict(),
             "alternatives": evaluate_alternative_benchmark(
@@ -122,7 +127,7 @@ def _offline_rag_profile():
 
     previous = os.environ.get("FOOD_LABEL_RAG_PROFILE")
     os.environ["FOOD_LABEL_RAG_PROFILE"] = "hybrid_tfidf"
-    get_default_regulation_store.cache_clear()
+    clear_regulation_caches()
     try:
         yield
     finally:
@@ -130,7 +135,7 @@ def _offline_rag_profile():
             os.environ.pop("FOOD_LABEL_RAG_PROFILE", None)
         else:
             os.environ["FOOD_LABEL_RAG_PROFILE"] = previous
-        get_default_regulation_store.cache_clear()
+        clear_regulation_caches()
 
 
 def render_markdown(report: EvaluationReport) -> str:

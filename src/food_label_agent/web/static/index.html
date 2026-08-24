@@ -13,8 +13,8 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
     <meta name="description" content="上传食品标签，确认识别文字，再进行基于证据的健康信息解释。">
     <title>食鉴 · 食品标签健康解释</title>
     <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/static/styles.css?v=health-dashboard-10">
-    <script src="/static/app.js?v=health-dashboard-10" defer></script>
+    <link rel="stylesheet" href="/static/styles.css?v=health-dashboard-11">
+    <script src="/static/app.js?v=health-dashboard-11" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#workspace">跳到标签工作区</a>
@@ -365,8 +365,18 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
               </section>
               <p class="constraint-error" id="constraint-error" hidden>请至少选择一项。</p>
               <button class="button button--primary" id="evaluate-button" type="submit">
-                使用这些设置检查
+                <span id="evaluate-button-label">使用这些设置检查</span>
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg>
+                <span
+                  class="evaluation-progress"
+                  id="evaluation-progress"
+                  role="progressbar"
+                  aria-label="结论评估进度"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-valuenow="0"
+                  hidden
+                ></span>
               </button>
               <button class="text-button constraint-profile-edit" id="modify-profile-in-review" type="button">修改个人设置</button>
             </form>
@@ -386,6 +396,10 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
                 <p id="portion-kind">正在判断份量来源</p>
                 <strong id="portion-value">正在读取标签份量</strong>
                 <span id="portion-note">结合食品类别与标签数值给出通用参考，不作为医疗处方。</span>
+                <label class="portion-category-prompt" id="portion-category-prompt" for="portion-category" hidden>
+                  <span>先确认这是哪类食品</span>
+                  <select id="portion-category" aria-describedby="portion-note"></select>
+                </label>
                 <dl class="portion-evidence">
                   <div>
                     <dt>包装信息</dt>
@@ -443,6 +457,7 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
                 <h3 id="additive-results-title">添加剂说明</h3>
                 <span id="additive-results-count">0 项</span>
               </div>
+              <p class="additive-results-summary">先看健康结论：在对应食品类别中按 GB 2760 规定用量使用的添加剂，不应仅因名称出现就判断“有害”。下方分别说明能否按标准放心食用，以及需要注意的边界。</p>
               <div id="additive-result-list"></div>
             </section>
             <section class="claim-results" id="claim-results" aria-labelledby="claim-results-title" hidden>
@@ -474,10 +489,16 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
                 </div>
                 <span id="alternative-count">尚未查找</span>
               </div>
-              <p class="alternative-intro">系统只使用已复核的品牌官网和中国大陆官方旗舰店资料。先确认是同类用途，再通过过敏原和个人约束的硬性筛查；通过后才会按你关心的营养指标、份量口径和官方购买渠道排序。来源、版本或关键字段不足的商品仍留在待核验队列，不会进入推荐。</p>
+              <p class="alternative-intro">系统会根据当前商品自动确定替代用途，先找同类别商品，不足时再扩展到相近食用场景。优先使用已复核的品牌官网和中国大陆官方旗舰店资料，数据较少的类别会补充有标签图像和版本记录的实时目录。每件候选仍会重新检查你的硬性约束；营养数据只用于解释排序，不会因为少列一个非强制营养项目就直接淘汰。</p>
+              <div class="alternative-target" id="alternative-target">
+                <span>本次替代目标</span>
+                <strong id="alternative-target-name">正在根据标签识别</strong>
+                <p id="alternative-target-reason">识别完成后将自动查找，不需要你先选类别。</p>
+                <button class="text-button" id="edit-alternative-target" type="button" aria-expanded="false">识别不对？更改</button>
+              </div>
               <div class="alternative-controls">
-                <label for="alternative-category">
-                  <span>商品类别</span>
+                <label for="alternative-category" id="alternative-category-correction" hidden>
+                  <span>更正替代目标</span>
                   <select id="alternative-category">
                     <option value="">请选择</option>
                     <optgroup label="主食与烘焙">
@@ -506,14 +527,14 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
                     </optgroup>
                   </select>
                 </label>
-                <button class="button button--secondary" id="find-alternatives" type="button">查找并逐项复核</button>
+                <button class="button button--secondary" id="find-alternatives" type="button">重新查找同用途替代品</button>
               </div>
               <p class="alternative-source" id="alternative-source">数据来源将在查找后显示。</p>
               <p class="alternative-status" id="alternative-status" role="status"></p>
               <div id="alternative-results" hidden>
                 <div class="alternative-list" id="alternative-list"></div>
                 <div class="alternative-comparison" id="alternative-comparison" hidden>
-                  <strong>同口径营养比较</strong>
+                  <strong>为什么更符合你的关注</strong>
                   <div id="alternative-comparison-list"></div>
                 </div>
                 <details class="alternative-exclusions" id="alternative-exclusions" hidden>
@@ -642,8 +663,8 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
           <section class="health-statistics-panel" aria-labelledby="health-statistics-title">
             <div class="statistics-heading">
               <div>
-                <p>只统计记录，不评价健康</p>
-                <h2 id="health-statistics-title">记录统计</h2>
+                <p>比较同一指标的变化，不用记录次数代替健康结论</p>
+                <h2 id="health-statistics-title">健康趋势</h2>
               </div>
               <span class="statistics-range" id="health-statistics-range">最近 7 天</span>
             </div>
@@ -667,11 +688,12 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
               <div class="scan-activity-dots" id="scan-activity-dots" aria-label="所选周期的食品识别活跃日"></div>
             </section>
             <section class="activity-summary" aria-labelledby="health-activity-title">
-              <div><h3 id="health-activity-title">健康记录频率</h3><span id="health-activity-total">0 条</span></div>
-              <p>柱高只表示记录次数</p>
-              <div class="health-activity-chart" id="health-activity-chart" aria-label="所选周期的健康记录频率"></div>
+              <div><h3 id="health-activity-title">本期数值趋势</h3><span id="health-activity-total">暂无趋势</span></div>
+              <p>同一指标至少记录两次后，显示起点、最新值和变化</p>
+              <div class="health-activity-chart health-value-trends" id="health-activity-chart" aria-label="所选周期内还没有可比较的健康趋势"></div>
+              <p class="health-trend-advice" id="health-trend-advice">继续记录同一指标，形成趋势后会给出下一步建议。</p>
             </section>
-            <p class="statistics-boundary">颜色用于区分记录类型，不表示风险、达标或健康程度。</p>
+            <p class="statistics-boundary">趋势建议用于帮助你继续观察和调整记录方式，不替代诊断、治疗或用药建议。</p>
           </section>
         </div>
 
