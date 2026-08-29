@@ -10,7 +10,7 @@ from dataclasses import dataclass
 from datetime import date
 
 from food_label_agent.domain.models import Evidence
-from food_label_agent.domain.types import AnalysisStatus, RiskLevel
+from food_label_agent.domain.types import AnalysisStatus, ConstraintKind, RiskLevel
 
 from .state import AgentState
 
@@ -37,7 +37,7 @@ def critical_fields_needing_confirmation(
 
     missing: list[str] = []
     ingredients = state["label_fields"].get(INGREDIENTS_FIELD)
-    if (
+    if ingredients_required(state) and (
         ingredients is None
         or not ingredients.raw_text.strip()
         or not ingredients.is_reliable(confidence_threshold)
@@ -51,6 +51,15 @@ def critical_fields_needing_confirmation(
     ):
         missing.append(LABEL_CLAIMS_FIELD)
     return tuple(missing)
+
+
+def ingredients_required(state: AgentState) -> bool:
+    """Require ingredients unless every declared constraint is nutrition-only."""
+
+    constraints = state.get("user_constraints", [])
+    return not constraints or any(
+        item.kind is not ConstraintKind.NUTRITION_LIMIT for item in constraints
+    )
 
 
 def route_after_ocr(state: AgentState) -> str:

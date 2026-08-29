@@ -13,8 +13,12 @@ CATEGORY_TERMS = {
     "dairy": ("乳制品", "纯牛奶", "牛奶", "酸奶", "奶酪", "黄油", "稀奶油"),
     "snack": ("薯片", "锅巴", "虾条", "爆米花", "膨化食品", "坚果", "果仁", "瓜子"),
     "confectionery": ("糖果", "巧克力", "软糖", "硬糖", "果冻"),
-    "prepared_meal": ("预制菜", "自热饭", "自热火锅", "便当"),
-    "frozen_food": ("速冻", "冷冻食品", "速冻水饺", "速冻汤圆"),
+    "prepared_meal": (
+        "预制菜", "自热饭", "自热米饭", "即食米饭", "自热餐", "自热火锅", "便当"
+    ),
+    "frozen_food": (
+        "速冻", "冷冻食品", "速冻水饺", "速冻汤圆", "冰淇淋", "雪糕", "冰棒", "冰棍"
+    ),
     "processed_meat": ("肉制品", "香肠", "火腿", "培根", "午餐肉"),
     "seafood": ("水产制品", "鱼罐头", "即食鱼", "即食虾"),
     "sauce_condiment": ("调味品", "酱料", "豆瓣酱", "辣椒酱", "酱油", "生抽", "蚝油"),
@@ -78,8 +82,7 @@ def suggest_product_category(confirmed_fields: dict[str, str]) -> dict[str, Any]
 
     product_name = str(confirmed_fields.get("product_name") or "").strip()
     supporting_text = " ".join(
-        str(confirmed_fields.get(key) or "")
-        for key in ("ingredients", "label_claims")
+        str(confirmed_fields.get(key) or "") for key in ("ingredients", "label_claims")
     )
     text = f"{product_name} {supporting_text}".strip()
     scores: dict[str, int] = {}
@@ -95,7 +98,11 @@ def suggest_product_category(confirmed_fields: dict[str, str]) -> dict[str, Any]
         ]
         direct_name_matches[category] = direct
         matches[category] = list(dict.fromkeys([*textual, *signals]))
-        scores[category] = len(direct) * 5 + len(textual) * 3 + len(signals)
+        # A longer product-name term is usually more specific than a short
+        # ingredient-like term. For example, "牛奶巧克力" is a confectionery
+        # product even though "牛奶" also appears in the dairy vocabulary.
+        direct_score = sum(5 + min(len(term), 4) for term in direct)
+        scores[category] = direct_score + len(textual) * 3 + len(signals)
     ranked = sorted(scores, key=lambda category: (-scores[category], category))
     if not ranked or scores[ranked[0]] < 3:
         return {
@@ -117,8 +124,7 @@ def suggest_product_category(confirmed_fields: dict[str, str]) -> dict[str, Any]
     confidence = 0.0 if tied else min(0.96, 0.5 + scores[category] * 0.07)
     substitute_categories = list(SUBSTITUTION_SCOPES[category])
     if category == "biscuit" and any(
-        term in text
-        for term in ("巧克力", "可可", "夹心", "威化", "快乐河马")
+        term in text for term in ("巧克力", "可可", "夹心", "威化", "快乐河马")
     ):
         substitute_categories.append("confectionery")
     elif category == "confectionery" and any(

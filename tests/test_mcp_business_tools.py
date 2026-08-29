@@ -264,7 +264,9 @@ async def _test_alternative_tools_are_registered_and_enforce_revalidation() -> N
     )
 
     assert revalidated["revalidation_rate"] == 1
-    assert revalidated["eligible_count"] == 1
+    assert found["candidates"] == []
+    assert found["catalog_coverage"]["packaging_snapshot_count"] == 0
+    assert revalidated["eligible_count"] == 0
     assert all(item["revalidated"] is True for item in revalidated["results"])
 
 

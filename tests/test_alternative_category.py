@@ -80,3 +80,27 @@ def test_category_suggestion_can_infer_biscuit_from_confirmed_formula() -> None:
         "snack",
         "confectionery",
     ]
+
+
+def test_specific_confectionery_name_outweighs_embedded_dairy_word() -> None:
+    result = suggest_product_category(
+        {"product_name": "牛奶巧克力", "ingredients": "白砂糖、可可脂、全脂乳粉"}
+    )
+
+    assert result["status"] == "automatic"
+    assert result["category"] == "confectionery"
+    assert result["requires_confirmation"] is False
+
+
+def test_self_heating_rice_is_inferred_as_prepared_meal() -> None:
+    result = suggest_product_category({"product_name": "莫小仙自热米饭"})
+
+    assert result["category"] == "prepared_meal"
+    assert result["requires_confirmation"] is False
+
+
+def test_ice_cream_is_inferred_as_frozen_food() -> None:
+    result = suggest_product_category({"product_name": "香草冰淇淋"})
+
+    assert result["category"] == "frozen_food"
+    assert result["requires_confirmation"] is False

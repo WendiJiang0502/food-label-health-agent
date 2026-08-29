@@ -8,17 +8,31 @@ import json
 import os
 from contextlib import contextmanager
 from dataclasses import asdict, dataclass
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, Literal
 
-from food_label_agent.alternatives.catalog import JsonProductCatalog
+from food_label_agent.alternatives.catalog import (
+    PRODUCT_CATEGORIES,
+    JsonProductCatalog,
+    OfficialChinaCatalog,
+)
+from food_label_agent.regulations.semantic import (
+    RAG2Settings,
+    RAGProviderError,
+    create_semantic_providers,
+)
 from food_label_agent.regulations.service import (
     clear_regulation_caches,
     get_default_regulation_store,
 )
 
 from .agent_benchmark import evaluate_agent_benchmark
-from .alternatives import evaluate_alternative_benchmark
+from .alternatives import (
+    AlternativeAvailabilityCase,
+    evaluate_alternative_availability,
+    evaluate_alternative_benchmark,
+)
 from .benchmarks import ALTERNATIVE_BENCHMARK, RAG_BENCHMARK
 from .evidence_routing import evaluate_evidence_routing
 from .failures import evaluate_failure_corpus
@@ -62,15 +76,22 @@ def run_evaluation(
     if profile not in {"development", "release"}:
         raise ValueError("Unsupported evaluation profile")
     versions = version_snapshot or build_version_snapshot()
-    with _offline_rag_profile():
+    evaluation_context = _offline_rag_profile() if profile == "development" else _configured_rag_profile()
+    with evaluation_context:
+        store = get_default_regulation_store()
+        rag_settings = RAG2Settings.from_environment()
+        dense = reranker = None
+        if profile == "release":
+            dense, reranker = create_semantic_providers(rag_settings)
         components = {
             "rules": evaluate_allergen_rules().to_dict(),
-            "rag": evaluate_rag_benchmark(
-                get_default_regulation_store(), RAG_BENCHMARK, k=5
-            ).to_dict(),
-            "rag2_ablation": evaluate_rag2_ablation(
-                get_default_regulation_store()
-            ).to_dict(),
+            "rag": _evaluate_rag_component(store, rag_settings),
+            "rag2_ablation": _evaluate_rag2_component(
+                store,
+                settings=rag_settings,
+                dense_provider=dense,
+                reranker=reranker,
+            ),
             "evidence_routing": evaluate_evidence_routing().to_dict(),
             "agent": evaluate_agent_benchmark().to_dict(),
             "planner_ablation": evaluate_planner_ablation().to_dict(),
@@ -81,6 +102,13 @@ def run_evaluation(
             "safety_gate": evaluate_final_safety_gate().to_dict(),
             "failure_corpus": evaluate_failure_corpus().to_dict(),
         }
+        if profile == "release":
+            components["production_alternatives"] = (
+                _evaluate_production_alternatives()
+            )
+            components["deployment_config"] = _evaluate_deployment_config(
+                rag_settings
+            )
     warnings = []
     if ocr_images is None:
         components["ocr"] = {
@@ -136,6 +164,172 @@ def _offline_rag_profile():
         else:
             os.environ["FOOD_LABEL_RAG_PROFILE"] = previous
         clear_regulation_caches()
+
+
+@contextmanager
+def _configured_rag_profile():
+    """Keep the declared deployment profile unchanged during release evaluation."""
+
+    clear_regulation_caches()
+    try:
+        yield
+    finally:
+        clear_regulation_caches()
+
+
+def _evaluate_rag_component(store: Any, settings: RAG2Settings) -> dict[str, Any]:
+    """Turn a missing remote provider into an auditable release blocker."""
+
+    try:
+        return evaluate_rag_benchmark(
+            store, RAG_BENCHMARK, k=5, profile=settings.profile
+        ).to_dict()
+    except RAGProviderError as error:
+        reason = str(error) or "rag_provider_unavailable"
+        return {
+            "status": "unavailable",
+            "profile": settings.profile,
+            "reason": reason,
+            "evaluation_passed": False,
+            "release_blockers": [f"rag_provider_unavailable:{reason}"],
+        }
+
+
+def _evaluate_rag2_component(
+    store: Any,
+    *,
+    settings: RAG2Settings,
+    dense_provider: Any,
+    reranker: Any,
+) -> dict[str, Any]:
+    try:
+        return evaluate_rag2_ablation(
+            store, dense_provider=dense_provider, reranker=reranker
+        ).to_dict()
+    except RAGProviderError as error:
+        reason = str(error) or "rag_provider_unavailable"
+        return {
+            "status": "unavailable",
+            "profile": settings.profile,
+            "reason": reason,
+            "evaluation_passed": False,
+            "release_blockers": [f"rag_provider_unavailable:{reason}"],
+        }
+
+
+def _evaluate_production_alternatives() -> dict[str, Any]:
+    applicable_date = datetime.now(UTC).date().isoformat()
+    minimum_comparable = float(
+        os.getenv("FOOD_LABEL_MIN_TARGET_COMPARABLE_RATE", "0.5")
+    )
+    minimum_effective = float(
+        os.getenv("FOOD_LABEL_MIN_EFFECTIVE_DISPLAY_RATE", "0.5")
+    )
+    cases = []
+    for category in PRODUCT_CATEGORIES:
+        cases.append(
+            AlternativeAvailabilityCase(
+                name=f"production-{category}-general",
+                category=category,
+                applicable_date=applicable_date,
+                minimum_eligible=3,
+                minimum_distinct_brands=2,
+            )
+        )
+        cases.append(
+            AlternativeAvailabilityCase(
+                name=f"production-{category}-severe-allergy",
+                category=category,
+                applicable_date=applicable_date,
+                minimum_eligible=3,
+                constraints=(
+                    {
+                        "kind": "allergy",
+                        "canonical_value": "fish",
+                        "severity": "severe",
+                    },
+                ),
+                minimum_effective_display_rate=minimum_effective,
+                minimum_distinct_brands=2,
+            )
+        )
+        for concern in (
+            "blood_sugar",
+            "blood_lipids",
+            "blood_pressure",
+            "weight",
+            "child",
+        ):
+            cases.append(
+                AlternativeAvailabilityCase(
+                    name=f"production-{category}-{concern}",
+                    category=category,
+                    applicable_date=applicable_date,
+                    minimum_eligible=3,
+                    health_concerns=(concern,),
+                    minimum_target_comparable_rate=minimum_comparable,
+                    minimum_effective_display_rate=minimum_effective,
+                    minimum_distinct_brands=2,
+                )
+            )
+    catalog = OfficialChinaCatalog()
+    result = evaluate_alternative_availability(tuple(cases), catalog=catalog).to_dict()
+    coverage = catalog.coverage()
+    total = int(coverage.get("total") or 0)
+    complete = int(coverage.get("complete_packaging_snapshot_count") or 0)
+    packaging_rate = complete / total if total else 0.0
+    minimum_packaging_rate = float(
+        os.getenv("FOOD_LABEL_MIN_PACKAGING_SNAPSHOT_RATE", "1.0")
+    )
+    result["catalog_packaging_evidence"] = {
+        "total": total,
+        "complete_packaging_snapshot_count": complete,
+        "coverage_rate": packaging_rate,
+        "minimum_rate": minimum_packaging_rate,
+    }
+    if packaging_rate < minimum_packaging_rate:
+        result["release_blockers"] = list(
+            dict.fromkeys(
+                [
+                    *result["release_blockers"],
+                    "official_packaging_snapshot_coverage_below_minimum",
+                ]
+            )
+        )
+        result["evaluation_passed"] = False
+    return result
+
+
+def _evaluate_deployment_config(settings: RAG2Settings) -> dict[str, Any]:
+    checks = {
+        "production_mode": os.getenv("FOOD_LABEL_PRODUCTION_MODE") == "1",
+        "durable_data_dir": bool(os.getenv("FOOD_LABEL_DATA_DIR", "").strip()),
+        "site_access_token": len(
+            os.getenv("FOOD_LABEL_SITE_ACCESS_TOKEN", "").strip()
+        )
+        >= 24,
+        "discovery_admin_token": bool(
+            os.getenv("FOOD_LABEL_DISCOVERY_ADMIN_TOKEN", "").strip()
+        ),
+        "ocr_provider": os.getenv("FOOD_LABEL_OCR_PROVIDER", "").strip()
+        == "tencent",
+        "official_catalog": os.getenv("FOOD_LABEL_PRODUCT_CATALOG", "").strip()
+        in {"official_cn", "official_cn_expanded"},
+        "rag_profile_declared": bool(os.getenv("FOOD_LABEL_RAG_PROFILE", "").strip()),
+        "rag_configured": not settings.profile.startswith("hybrid_dense")
+        or bool(settings.api_key),
+        "https_public_url": os.getenv("FOOD_LABEL_PUBLIC_BASE_URL", "").startswith(
+            "https://"
+        ),
+    }
+    blockers = [f"deployment_{name}_invalid" for name, passed in checks.items() if not passed]
+    return {
+        "status": "completed",
+        "case_count": len(checks),
+        "checks": checks,
+        "evaluation_passed": not blockers,
+        "release_blockers": blockers,
+    }
 
 
 def render_markdown(report: EvaluationReport) -> str:

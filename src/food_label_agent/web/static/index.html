@@ -17,7 +17,7 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
     <script src="/static/app.js?v=health-dashboard-11" defer></script>
   </head>
   <body>
-    <a class="skip-link" href="#workspace">跳到标签工作区</a>
+    <a class="skip-link" href="#main-content">跳到主要内容</a>
 
     <header class="topbar">
       <a class="brand" href="/" aria-label="食鉴首页">
@@ -35,11 +35,11 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
           </svg>
           图片默认不保存
         </span>
-        <span class="demo-mark" id="ocr-status">演示 OCR</span>
+        <button class="demo-mark" id="ocr-status" type="button" aria-label="重新检测图片处理方式">正在确认处理方式</button>
       </div>
     </header>
 
-    <main>
+    <main id="main-content" tabindex="-1">
       <section class="profile-onboarding" id="profile-onboarding" aria-labelledby="profile-title">
         <div class="profile-intro">
           <p class="eyebrow">先告诉我们什么对你重要</p>
@@ -52,6 +52,9 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
             <span>我的饮食关注</span>
             <p>带 * 的问题需要选择后才能继续</p>
           </div>
+          <button class="text-button profile-skip" id="skip-profile-setup" type="button">
+            暂不设置个人约束，先扫描标签
+          </button>
 
           <label class="profile-name-field" for="profile-name">
             <span>档案名称</span>
@@ -103,8 +106,8 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
           <label class="profile-consent" for="remember-profile">
             <input id="remember-profile" type="checkbox">
             <span>
-              <strong>在此设备保存这份个人档案</strong>
-              <small>保存后，下次会先显示你的设置供确认；你可以随时清除并撤销授权。</small>
+              <strong>授权本服务保存这份个人档案</strong>
+              <small>过敏原与健康关注会保存到本服务；此设备会保留访问凭证。你可以随时清除并撤销授权。</small>
             </span>
           </label>
           <p class="profile-error" id="profile-error" hidden role="alert"></p>
@@ -189,7 +192,7 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
                 accept="image/jpeg,image/png,image/webp,image/heic,image/heif"
               >
               <span class="package-visual" aria-hidden="true">
-                <img src="/static/assets/label-pouch.png?v=editorial-bento-1" alt="">
+                <img src="/static/assets/label-pouch.png?v=editorial-bento-1" alt="" width="1122" height="1402" loading="lazy" decoding="async">
               </span>
               <span class="upload-copy">
                 <span class="upload-symbol" aria-hidden="true">
@@ -391,13 +394,13 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
               </div>
             </div>
             <p class="risk-summary" id="risk-summary"></p>
-            <section class="decision-support" aria-label="建议食用量与关键营养信息">
+            <section class="decision-support" aria-label="食用量换算与关键营养信息">
               <div class="portion-guidance">
                 <p id="portion-kind">正在判断份量来源</p>
                 <strong id="portion-value">正在读取标签份量</strong>
-                <span id="portion-note">结合食品类别与标签数值给出通用参考，不作为医疗处方。</span>
+                <span id="portion-note">这里只按包装标示口径换算，不提供个体化食用量建议。</span>
                 <label class="portion-category-prompt" id="portion-category-prompt" for="portion-category" hidden>
-                  <span>先确认这是哪类食品</span>
+                  <span>替代品食品类别</span>
                   <select id="portion-category" aria-describedby="portion-note"></select>
                 </label>
                 <dl class="portion-evidence">
@@ -406,15 +409,15 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
                     <dd id="portion-package-note">正在核对</dd>
                   </div>
                   <div>
-                    <dt>建议依据</dt>
+                    <dt>换算依据</dt>
                     <dd id="portion-confidence">正在核对</dd>
                   </div>
                 </dl>
                 <div class="portion-controls" id="portion-controls" hidden>
                   <div class="portion-presets" id="portion-presets" aria-label="快速选择食用份量">
-                    <button type="button" data-portion-multiplier="0.5">半份</button>
-                    <button type="button" data-portion-multiplier="1">参考份</button>
-                    <button type="button" data-portion-multiplier="2">两份</button>
+                    <button type="button" data-portion-multiplier="0.5">半个标示口径</button>
+                    <button type="button" data-portion-multiplier="1">标示口径</button>
+                    <button type="button" data-portion-multiplier="2">两倍标示口径</button>
                   </div>
                   <label class="portion-input-label" for="portion-amount">
                     <span>本次吃多少</span>
@@ -485,7 +488,7 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
               <div class="alternative-heading">
                 <div>
                   <p>同一套约束 · 独立复核</p>
-                  <h3 id="alternative-title">更适合你的同类选择</h3>
+                  <h3 id="alternative-title">通过约束复核的同用途备选</h3>
                 </div>
                 <span id="alternative-count">尚未查找</span>
               </div>
@@ -533,8 +536,9 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
               <p class="alternative-status" id="alternative-status" role="status"></p>
               <div id="alternative-results" hidden>
                 <div class="alternative-list" id="alternative-list"></div>
+                <button class="button button--secondary alternative-show-more" id="alternative-show-more" type="button" aria-expanded="false" hidden>查看更多</button>
                 <div class="alternative-comparison" id="alternative-comparison" hidden>
-                  <strong>为什么更符合你的关注</strong>
+                  <strong>可同口径比较的营养信息</strong>
                   <div id="alternative-comparison-list"></div>
                 </div>
                 <details class="alternative-exclusions" id="alternative-exclusions" hidden>

@@ -17,6 +17,13 @@ def test_official_alternative_renders_confirmed_packaging_label() -> None:
     assert "function renderAlternativeEvidenceStatus(item)" in script
     assert 'appendAlternativeLabelFact(block, "证据状态"' in script
     assert 'appendAlternativeLabelFact(block, "包装版本"' in script
+    assert '"实物背标"' in script
+    assert "尚未完成双人独立复核" in script
+    assert "未替代实物背标双人复核" in script
+    assert 'appendAlternativeLabelFact(block, "糖数值状态"' in script
+    assert "不从碳水化合物推算" in script
+    assert "需实物背标复核" in script
+    assert "sugar_evidence_status_counts" in script
     assert "function comparisonBasisText(basis)" in script
     assert "function alternativeComparisonCopy(comparison)" in script
     assert "比当前商品" in script
@@ -27,6 +34,7 @@ def test_incomplete_official_products_show_verified_and_missing_fields() -> None
     script = (STATIC_DIR / "app.js").read_text(encoding="utf-8")
 
     assert "件完整核验" in script
+    assert "实物背标双人复核" in script
     assert "件满足本次硬约束所需字段" in script
     assert "件仍需补齐安全判断字段" in script
     assert "自动发现队列另有" in script

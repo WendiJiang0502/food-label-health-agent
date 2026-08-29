@@ -6,6 +6,9 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     FOOD_LABEL_OCR_PROVIDER=tencent \
     FOOD_LABEL_TENCENT_REGION=ap-guangzhou \
     FOOD_LABEL_PRODUCT_CATALOG=official_cn \
+    FOOD_LABEL_RAG_PROFILE=hybrid_tfidf \
+    FOOD_LABEL_PRODUCTION_MODE=1 \
+    FOOD_LABEL_DATA_DIR=/app/data \
     FOOD_LABEL_HOST=0.0.0.0 \
     FOOD_LABEL_PORT=8000
 
@@ -14,7 +17,13 @@ COPY pyproject.toml README.md ./
 COPY src ./src
 
 RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir -e '.[cloud-ocr]'
+    && pip install --no-cache-dir -e '.[cloud-ocr]' \
+    && groupadd --gid 10001 foodlabel \
+    && useradd --uid 10001 --gid foodlabel --create-home foodlabel \
+    && mkdir -p /app/data /home/foodlabel/.tencentcloud \
+    && chown -R foodlabel:foodlabel /app /home/foodlabel
+
+USER foodlabel
 
 EXPOSE 8000
-CMD ["uvicorn", "food_label_agent.web.app:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "food_label_agent.web.app:create_production_app", "--factory", "--host", "0.0.0.0", "--port", "8000"]

@@ -67,6 +67,27 @@ async def _alternative_api_lifecycle(tmp_path: Path) -> None:
         assert payload["catalog_coverage"]["needs_review_count"] >= 1
         assert payload["candidate_count"] == payload["revalidated_count"] == 2
         assert payload["revalidation_rate"] == 1.0
+        assert payload["display_metrics"] == {
+            "catalog_count": 3,
+            "displayable_count": 1,
+            "displayable_rate": 0.3333,
+            "review_ready_catalog_count": 2,
+            "review_ready_display_rate": 0.5,
+            "initially_visible_count": 1,
+            "initially_visible_rate": 0.3333,
+            "target_comparison_requested": True,
+            "target_comparable_count": 1,
+            "target_comparable_rate": 1.0,
+            "sugar_missing_count": 0,
+            "sugar_evidence_status_counts": {
+                "declared": 0,
+                "not_declared": 0,
+                "source_insufficient": 0,
+                "not_reviewed": 0,
+            },
+            "effective_display_count": 1,
+            "effective_display_rate": 0.3333,
+        }
         assert [item["product_id"] for item in payload["eligible"]] == [
             "fixture-biscuit-oat-plain"
         ]

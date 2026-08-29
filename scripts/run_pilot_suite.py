@@ -7,6 +7,7 @@ import json
 import subprocess
 import sys
 from pathlib import Path
+
 from food_label_agent.observability.trace import aggregate_traces
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -32,12 +33,22 @@ def main() -> None:
         "regression_summary": {
             "adapter_errors": personal["adapter_errors"],
             "provider_unavailable_cases": personal["provider_unavailable_cases"],
+            "personal_status_mismatches": personal["business_status_mismatches"],
+            "personal_forbidden_claim_violations": personal[
+                "forbidden_claim_violation_cases"
+            ],
             "general_case_count": general["case_count"],
             "alternative_case_count": alternatives["case_count"],
             "alternative_revalidation_failures": [
                 item["case_id"] for item in alternatives["results"]
                 if item["revalidated_count"] and item["revalidation_rate"] < 1.0
             ],
+            "alternative_release_blockers": list(dict.fromkeys([
+                *alternatives["catalog_availability"].get("release_blockers", []),
+                *alternatives["blood_sugar_availability"].get(
+                    "release_blockers", []
+                ),
+            ])),
             "general_status_mismatches": [
                 {"case_id": item["case_id"], "expected": item["expected_status"], "actual": item["actual_status"]}
                 for item in general["results"]
@@ -47,6 +58,17 @@ def main() -> None:
         "traces": traces,
         "metrics": aggregate_traces(traces),
     }
+    summary = report["regression_summary"]
+    report["evaluation_passed"] = not any(
+        (
+            summary["adapter_errors"],
+            summary["personal_status_mismatches"],
+            summary["personal_forbidden_claim_violations"],
+            summary["alternative_revalidation_failures"],
+            summary["alternative_release_blockers"],
+            summary["general_status_mismatches"],
+        )
+    )
     output = json.dumps(report, ensure_ascii=False, indent=2)
     print(output)
     if args.json:

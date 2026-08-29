@@ -4,13 +4,17 @@ services:
     restart: unless-stopped
     env_file:
       - .env.production
+    environment:
+      FOOD_LABEL_SITE_ACCESS_TOKEN: "${FOOD_LABEL_SITE_ACCESS_TOKEN:?必须设置站点访问令牌}"
+      FOOD_LABEL_DISCOVERY_ADMIN_TOKEN: "${FOOD_LABEL_DISCOVERY_ADMIN_TOKEN:?必须设置发现队列管理员令牌}"
+      FOOD_LABEL_DATA_DIR: /app/data
     ports:
-      - "8000:8000"
+      - "${FOOD_LABEL_PUBLISH_PORT:-8000}:8000"
     volumes:
-      - food-label-data:/root/.local/share/food-label-health-agent
-      - ${TENCENT_CREDENTIALS_FILE:-~/.tencentcloud/credentials}:/root/.tencentcloud/credentials:ro
+      - food-label-data:/app/data
+      - ${TENCENT_CREDENTIALS_FILE:-~/.tencentcloud/credentials}:/home/foodlabel/.tencentcloud/credentials:ro
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=5)"]
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/ready', timeout=5)"]
       interval: 30s
       timeout: 10s
       retries: 3

@@ -93,7 +93,9 @@ def test_live_catalog_rejects_unreviewed_ingredient_evidence() -> None:
     assert "ingredients_review_state" in result.rejected[0]["missing_fields"]
 
 
-def test_live_catalog_accepts_reviewed_ingredient_text_without_a_separate_image() -> None:
+def test_live_catalog_accepts_reviewed_ingredient_text_without_a_separate_image() -> (
+    None
+):
     raw = _product()
     raw["selected_images"].pop("ingredients")
     catalog = OpenFoodFactsCatalog(fetch_json=lambda *_: {"products": [raw]})
@@ -138,10 +140,13 @@ def test_drink_search_keeps_the_same_drink_use_instead_of_any_beverage() -> None
     )
 
     assert [item["display_name"] for item in result["candidates"]] == ["DL橙汁"]
-    assert sum(
-        item["reason_code"] == "DIFFERENT_USE_WITHIN_CATEGORY"
-        for item in result["rejected"]
-    ) == 2
+    assert (
+        sum(
+            item["reason_code"] == "DIFFERENT_USE_WITHIN_CATEGORY"
+            for item in result["rejected"]
+        )
+        == 2
+    )
 
 
 def test_chips_search_does_not_treat_candy_as_the_same_snack_use() -> None:
@@ -208,6 +213,11 @@ class _UnavailableCatalog:
         raise CatalogUnavailable("offline")
 
 
+class _UnexpectedCatalog:
+    def search(self, *, category: str, region: str) -> CatalogSearchResult:
+        raise AssertionError(f"supplement should not be called for {category}/{region}")
+
+
 def test_hybrid_catalog_uses_explicit_reviewed_fallback_on_live_failure() -> None:
     result = HybridProductCatalog(
         live=_UnavailableCatalog(), fallback=JsonProductCatalog()
@@ -227,7 +237,10 @@ def test_expanded_china_catalog_keeps_reviewed_records_and_adds_live_evidence() 
 
     assert result.provider == "china_official_sources_with_live_supplement"
     assert len(result.records) == 4
-    assert sum(item.catalog_scope == "live_open_food_facts" for item in result.records) == 1
+    assert (
+        sum(item.catalog_scope == "live_open_food_facts" for item in result.records)
+        == 1
+    )
 
 
 def test_expanded_china_catalog_degrades_without_dropping_reviewed_records() -> None:
@@ -240,3 +253,13 @@ def test_expanded_china_catalog_degrades_without_dropping_reviewed_records() -> 
     assert result.status == "degraded"
     assert len(result.records) == 3
     assert "live_supplement_temporarily_unavailable" in result.warnings
+
+
+def test_expanded_catalog_stays_offline_when_official_minimum_is_met() -> None:
+    result = ExpandedChinaCatalog(
+        primary=JsonProductCatalog(), supplemental=_UnexpectedCatalog()
+    ).search(category="biscuit", region="CN")
+
+    assert result.provider == "curated_verification_catalog"
+    assert result.status == "ok"
+    assert len(result.records) == 3

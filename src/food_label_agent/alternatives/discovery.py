@@ -19,6 +19,7 @@ from urllib.request import Request, urlopen
 
 from .evidence_audit import audit_product_label, label_content_hash
 from .models import ProductRecord
+from .packaging_evidence import PackagingEvidenceStore
 
 SOURCE_REGISTRY_PATH = Path(__file__).with_name("data") / "official_cn_sources.json"
 _CORE_NUTRIENTS = ("能量", "蛋白质", "脂肪", "碳水化合物", "钠")
@@ -55,6 +56,10 @@ def default_approved_catalog_path() -> Path:
     return default_discovery_queue_path().with_name("official-reviewed-products.json")
 
 
+def default_packaging_evidence_path() -> Path:
+    return default_discovery_queue_path().with_name("packaging-evidence")
+
+
 @dataclass(frozen=True, slots=True)
 class DiscoveryRefreshResult:
     status: str
@@ -78,6 +83,7 @@ class OfficialProductDiscovery:
         registry_path: str | Path = SOURCE_REGISTRY_PATH,
         queue_path: str | Path | None = None,
         approved_path: str | Path | None = None,
+        packaging_store: PackagingEvidenceStore | None = None,
         fetch_text: Callable[[str, float], str] | None = None,
         timeout_seconds: float = 5.0,
         max_detail_pages: int = 24,
@@ -86,6 +92,9 @@ class OfficialProductDiscovery:
         self.queue_path = Path(queue_path) if queue_path else default_discovery_queue_path()
         self.approved_path = (
             Path(approved_path) if approved_path else default_approved_catalog_path()
+        )
+        self.packaging_store = packaging_store or PackagingEvidenceStore(
+            default_packaging_evidence_path()
         )
         self.fetch_text = fetch_text or _fetch_text
         self.timeout_seconds = timeout_seconds
@@ -126,6 +135,35 @@ class OfficialProductDiscovery:
         items = self._read_json_list(self.queue_path)
         if category:
             items = [item for item in items if item.get("category") == category]
+        sources = self._sources(category)
+        source_brands = sorted(
+            {str(source.get("brand") or "").strip() for source in sources}
+            - {""}
+        )
+        review_target_fields = sorted(
+            {
+                str(field).strip()
+                for source in sources
+                for field in source.get("review_target_fields", [])
+                if str(field).strip()
+            }
+        )
+        priority_reasons = []
+        if len(source_brands) < 2:
+            priority_reasons.append("add_second_brand_official_source")
+        if review_target_fields:
+            priority_reasons.append("complete_target_comparison_fields")
+        priority_reasons.append("capture_packaging_label_snapshot")
+        items = [
+            {
+                **item,
+                "priority_reasons": list(dict.fromkeys([
+                    *priority_reasons,
+                    *(item.get("priority_reasons") or []),
+                ])),
+            }
+            for item in items
+        ]
         counts = {
             "discovered_count": len(items),
             "needs_label_count": sum(
@@ -142,6 +180,13 @@ class OfficialProductDiscovery:
         }
         return {
             **counts,
+            "source_coverage": {
+                "official_source_count": len(sources),
+                "distinct_brand_count": len(source_brands),
+                "brands": source_brands,
+                "review_target_fields": review_target_fields,
+                "priority_reasons": priority_reasons,
+            },
             "last_refreshed_at": max(
                 (str(item.get("last_seen_at") or "") for item in items), default=None
             )
@@ -193,14 +238,25 @@ class OfficialProductDiscovery:
         label = record.label
         if (
             not audit["full_label_ready"]
+            or not audit["complete_packaging_snapshot_ready"]
+            or not record.sku
+            or not record.specification
             or label.evidence_quality != "complete"
             or record.catalog_scope != "official_cn_catalog"
             or label.source_authority != "manufacturer"
             or label.source_access_region != "CN"
             or label.source_verified_at is None
             or label.content_hash != label_content_hash(record)
+            or not all(
+                self.packaging_store.verify_artifact(snapshot)
+                for snapshot in label.packaging_snapshots
+                if snapshot.review_status == "verified"
+                and snapshot.artifact_type == "packaging_photo"
+            )
         ):
-            raise ValueError("核心包装字段尚未补齐，不能进入推荐目录")
+            raise ValueError(
+                "核心包装字段、SKU/规格或双人复核实物背标尚未补齐，不能进入推荐目录"
+            )
         approved = self._read_json_list(self.approved_path)
         approved = [item for item in approved if item.get("product_id") != record.product_id]
         approved.append(record.model_dump(mode="json"))
@@ -451,9 +507,8 @@ def _candidate_from_page(
     )
     allergen = _extract_labeled_text(page.text, ("过敏原信息", "过敏原提示"))
     nutrition_rows, nutrition_basis = _extract_nutrition(product or {})
-    specification = _clean_value(
-        (product or {}).get("size") or (product or {}).get("sku")
-    )
+    sku = _clean_value((product or {}).get("sku"))
+    specification = _clean_value((product or {}).get("size"))
     missing = []
     if not ingredients:
         missing.append("完整配料表文字")
@@ -465,6 +520,11 @@ def _candidate_from_page(
         missing.append("营养标示口径")
     if absent:
         missing.append(f"营养项目：{'、'.join(absent)}")
+    if not sku:
+        missing.append("SKU")
+    if not specification:
+        missing.append("规格")
+    missing.extend(("双人复核实物包装配料图", "双人复核实物包装营养图"))
     complete = not missing
     now = _now_iso()
     extracted_fields = {
@@ -475,7 +535,12 @@ def _candidate_from_page(
     }
     source_fingerprint = sha256(
         json.dumps(
-            {"name": name, "specification": specification, **extracted_fields},
+            {
+                "name": name,
+                "sku": sku,
+                "specification": specification,
+                **extracted_fields,
+            },
             ensure_ascii=False,
             sort_keys=True,
             separators=(",", ":"),
@@ -488,11 +553,13 @@ def _candidate_from_page(
         "brand": source["brand"],
         "category": source["category"],
         "region": "CN",
+        "sku": sku,
         "specification": specification,
         "source_url": url,
         "source_type": source.get("source_type", "official_product_page"),
         "official_store_url": source.get("official_store_url"),
         "official_store_name": source.get("official_store_name"),
+        "review_target_fields": source.get("review_target_fields", []),
         "extracted_fields": extracted_fields,
         "source_fingerprint": f"sha256:{source_fingerprint}",
         "missing_fields": missing,
@@ -500,6 +567,16 @@ def _candidate_from_page(
             "ready_for_human_review" if complete else "evidence_incomplete"
         ),
         "recommendation_eligible": False,
+        "capture_requirements": {
+            "required_identity_fields": ["sku", "specification"],
+            "required_physical_artifacts": [
+                "ingredients_or_combined_packaging_photo",
+                "nutrition_or_combined_packaging_photo",
+            ],
+            "minimum_distinct_reviewers": 2,
+            "official_page_capture_is_sufficient": False,
+            "content_hash_required": True,
+        },
         "first_discovered_at": now,
         "last_seen_at": now,
     }

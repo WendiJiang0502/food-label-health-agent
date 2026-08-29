@@ -3,6 +3,7 @@
     "source_id": "yili-official",
     "brand": "伊利",
     "category": "dairy",
+    "review_target_fields": ["糖"],
     "discovery_urls": ["https://www.yili.com/product"],
     "allowed_hosts": ["www.yili.com", "yili.com"],
     "product_path_markers": ["/product/"],
@@ -23,6 +24,7 @@
     "source_id": "lkk-official",
     "brand": "李锦记",
     "category": "sauce_condiment",
+    "review_target_fields": ["糖"],
     "discovery_urls": ["https://china.lkk.com.cn/enterprise/zh-cn/Products/"],
     "allowed_hosts": ["china.lkk.com.cn"],
     "product_path_markers": ["/products/"],
@@ -43,6 +45,7 @@
     "source_id": "yili-jd-official-store",
     "brand": "伊利",
     "category": "dairy",
+    "review_target_fields": ["糖"],
     "source_type": "official_flagship_store",
     "discovery_urls": ["https://yilishop.jd.com/"],
     "product_seed_urls": ["https://item.jd.com/10094444937375.html"],
@@ -70,6 +73,7 @@
     "source_id": "lkk-jd-official-store",
     "brand": "李锦记",
     "category": "sauce_condiment",
+    "review_target_fields": ["糖"],
     "source_type": "official_flagship_store",
     "discovery_urls": ["https://lijinji.jd.com/"],
     "product_seed_urls": ["https://item.jd.com/10161496401099.html"],
@@ -94,6 +98,7 @@
     "source_id": "nestle-china-ice-cream-official",
     "brand": "雀巢",
     "category": "frozen_food",
+    "review_target_fields": ["糖"],
     "discovery_urls": ["https://www.nestle.com.cn/brands/ice_cream/nestle_icecream"],
     "product_seed_urls": [
       "https://www.nestle.com.cn/brands/ice-cream/chengzhen/qinyoubei",
@@ -113,6 +118,7 @@
     "brand": "雀巢",
     "category": "frozen_food",
     "source_type": "official_flagship_store",
+    "review_target_fields": ["糖"],
     "discovery_urls": ["https://mall.jd.com/index-1000333009.html"],
     "allowed_hosts": ["mall.jd.com", "item.jd.com"],
     "product_path_markers": [".html"],
@@ -130,5 +136,99 @@
     ],
     "allowed_hosts": ["www.hormel.com.cn", "hormel.com.cn"],
     "product_path_markers": ["/zh-hans/category/product/detail"]
+  },
+  {
+    "source_id": "toly-china-bread-official",
+    "brand": "桃李",
+    "category": "bread",
+    "discovery_urls": ["https://www.tolybread.com/"],
+    "product_seed_urls": ["https://www.tolybread.com/"],
+    "allowed_hosts": ["www.tolybread.com", "tolybread.com"],
+    "product_path_markers": ["/product", "/article/"]
+  },
+  {
+    "source_id": "masterkong-china-noodles-official",
+    "brand": "康师傅",
+    "category": "instant_noodles",
+    "discovery_urls": ["https://www.masterkong.com.cn/"],
+    "product_seed_urls": [
+      "https://www.masterkong.com.cn/news/2015/10/21/32587/"
+    ],
+    "allowed_hosts": ["www.masterkong.com.cn", "masterkong.com.cn"],
+    "product_path_markers": ["/news/", "/product/"]
+  },
+  {
+    "source_id": "cocacola-china-drink-official",
+    "brand": "可口可乐",
+    "category": "drink",
+    "discovery_urls": ["https://www.coca-cola.com/cn/zh/brands"],
+    "product_seed_urls": [
+      "https://www.coca-cola.com/cn/zh/brands/coca-cola"
+    ],
+    "allowed_hosts": ["www.coca-cola.com", "coca-cola.com"],
+    "product_path_markers": ["/cn/zh/brands/"]
+  },
+  {
+    "source_id": "moxiaoxian-china-prepared-meal-official",
+    "brand": "莫小仙",
+    "category": "prepared_meal",
+    "discovery_urls": ["https://www.moxiaoxian.cn/index/product"],
+    "product_seed_urls": [
+      "https://www.moxiaoxian.cn/index/proarc/id/299"
+    ],
+    "allowed_hosts": ["www.moxiaoxian.cn", "moxiaoxian.cn"],
+    "product_path_markers": ["/index/proarc/"]
+  },
+  {
+    "source_id": "eaglecoin-china-seafood-official",
+    "brand": "鹰金钱",
+    "category": "seafood",
+    "discovery_urls": ["https://www.eaglecoin.com/"],
+    "product_seed_urls": ["https://www.eaglecoin.com/"],
+    "allowed_hosts": ["www.eaglecoin.com", "eaglecoin.com"],
+    "product_path_markers": ["/product", "/products"]
+  },
+  {
+    "source_id": "hormel-china-canned-food-official",
+    "brand": "SPAM世棒",
+    "category": "canned_food",
+    "discovery_urls": [
+      "https://hormel.com.cn/zh-hans/category/product?type=spam"
+    ],
+    "product_seed_urls": [
+      "https://hormel.com.cn/zh-hans/category/product/detail%21SPAM-Classic"
+    ],
+    "allowed_hosts": ["www.hormel.com.cn", "hormel.com.cn"],
+    "product_path_markers": ["/zh-hans/category/product/detail"]
+  },
+  {
+    "source_id": "kinder-china-biscuit-official",
+    "brand": "健达",
+    "category": "biscuit",
+    "discovery_urls": ["https://www.kinder.com/cn/zh/our-products"],
+    "product_seed_urls": ["https://www.kinder.com/cn/zh/kinder-hippo"],
+    "allowed_hosts": ["www.kinder.com", "kinder.com"],
+    "product_path_markers": ["/cn/zh/kinder-"]
+  },
+  {
+    "source_id": "kinder-china-confectionery-official",
+    "brand": "健达",
+    "category": "confectionery",
+    "review_target_fields": ["糖"],
+    "discovery_urls": ["https://www.kinder.com/cn/zh/our-products"],
+    "product_seed_urls": [
+      "https://www.kinder.com/cn/zh/kinderchocolate"
+    ],
+    "allowed_hosts": ["www.kinder.com", "kinder.com"],
+    "product_path_markers": ["/cn/zh/kinder"]
+  },
+  {
+    "source_id": "meiji-china-confectionery-official",
+    "brand": "明治",
+    "category": "confectionery",
+    "discovery_urls": ["https://www.meiji.com.cn/product/cookie-product.html"],
+    "product_seed_urls": ["https://www.meiji.com.cn/product/cookie-product.html"],
+    "allowed_hosts": ["www.meiji.com.cn", "meiji.com.cn"],
+    "product_path_markers": ["/product/"]
   }
 ]

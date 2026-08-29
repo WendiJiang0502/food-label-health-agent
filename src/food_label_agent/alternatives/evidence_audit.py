@@ -50,6 +50,7 @@ _FIELD_LABELS = {
     "sugars": "糖",
     "dietary_fiber": "膳食纤维",
     "sodium": "钠",
+    "packaging_snapshot": "可复核的包装配料/过敏原图片",
 }
 
 _HEALTH_REQUIREMENTS = {
@@ -82,6 +83,14 @@ def label_content_hash(product: ProductRecord) -> str:
         "nutrition_basis_text": label.nutrition_basis_text or "",
         "nutrition_rows": label.nutrition_rows or [],
     }
+    if label.packaging_snapshots:
+        payload["packaging_snapshots"] = sorted(
+            (
+                snapshot.model_dump(mode="json")
+                for snapshot in label.packaging_snapshots
+            ),
+            key=lambda item: str(item["snapshot_id"]),
+        )
     encoded = json.dumps(
         payload, ensure_ascii=False, sort_keys=True, separators=(",", ":")
     ).encode()
@@ -105,6 +114,14 @@ def audit_product_label(product: ProductRecord) -> dict[str, Any]:
 
     verified_fields: list[str] = []
     missing_fields: list[str] = []
+    if product.sku:
+        verified_fields.append("SKU/条码")
+    else:
+        missing_fields.append("SKU/条码")
+    if product.specification:
+        verified_fields.append("商品规格")
+    else:
+        missing_fields.append("商品规格")
     if ingredients_ready:
         verified_fields.append("完整配料表文字")
     else:
@@ -122,17 +139,57 @@ def audit_product_label(product: ProductRecord) -> dict[str, Any]:
     if missing_core:
         missing_fields.append(f"营养项目：{'、'.join(missing_core)}")
 
-    full_label_ready = ingredients_ready and allergen_ready and not missing_core
-    base_evidence_status = "complete" if full_label_ready else "review_required"
+    transcribed_label_ready = ingredients_ready and allergen_ready and not missing_core
+    verified_packaging_kinds = _verified_packaging_kinds(product)
+    ingredient_snapshot_ready = bool(
+        verified_packaging_kinds & {"ingredients", "combined"}
+    )
+    nutrition_snapshot_ready = bool(
+        verified_packaging_kinds & {"nutrition", "combined"}
+    )
+    complete_packaging_snapshot_ready = (
+        ingredient_snapshot_ready and nutrition_snapshot_ready
+    )
+    # Keep the legacy field as the text-table completeness signal. Consumers must
+    # use complete_packaging_snapshot_ready for physical-package verification.
+    full_label_ready = transcribed_label_ready
+    if not ingredient_snapshot_ready:
+        missing_fields.append("双人复核实物包装配料图")
+    if not nutrition_snapshot_ready:
+        missing_fields.append("双人复核实物包装营养图")
+    base_evidence_status = (
+        "complete"
+        if transcribed_label_ready and complete_packaging_snapshot_ready
+        else "review_required"
+    )
     return {
-        "status": "fully_verified" if full_label_ready else "needs_review",
+        "status": (
+            "fully_verified"
+            if transcribed_label_ready and complete_packaging_snapshot_ready
+            else "needs_review"
+        ),
         "full_label_ready": full_label_ready,
+        "transcribed_label_ready": transcribed_label_ready,
         "current_evidence_gate_passed": label.evidence_quality == "complete",
+        "transcription_gate_passed": (
+            label.evidence_quality == "complete" and transcribed_label_ready
+        ),
         "verified_fields": verified_fields,
         "missing_fields": missing_fields,
         "source_url": label.source_url,
         "official_store_url": label.official_store_url,
         "official_store_name": label.official_store_name,
+        "ingredients_image_url": label.ingredients_image_url,
+        "nutrition_image_url": label.nutrition_image_url,
+        "packaging_snapshot_ready": ingredient_snapshot_ready,
+        "ingredient_snapshot_ready": ingredient_snapshot_ready,
+        "nutrition_snapshot_ready": nutrition_snapshot_ready,
+        "complete_packaging_snapshot_ready": complete_packaging_snapshot_ready,
+        "official_page_snapshot_count": sum(
+            snapshot.review_status == "verified"
+            and snapshot.artifact_type == "official_page_capture"
+            for snapshot in label.packaging_snapshots
+        ),
         "evidence_status": {
             "status": base_evidence_status,
             "label": (
@@ -151,8 +208,10 @@ def audit_product_label(product: ProductRecord) -> dict[str, Any]:
             "source_language": label.source_language,
             "source_access_region": label.source_access_region,
         },
-        "review_priority": _review_priority(
-            ingredients_ready, allergen_ready, missing_core
+        "review_priority": (
+            "high"
+            if not ingredient_snapshot_ready
+            else _review_priority(ingredients_ready, allergen_ready, missing_core)
         ),
     }
 
@@ -187,16 +246,22 @@ def assess_product_eligibility(
             safety_required.update({"nutrition_basis", constraint.canonical_value})
         else:
             safety_required.update({"ingredients", "allergen_statement"})
+            if (
+                product.catalog_scope == "official_cn_catalog"
+                and constraint.severity == "severe"
+            ):
+                safety_required.add("packaging_snapshot")
 
     available = _available_fields(product)
     missing = sorted(safety_required - available, key=_field_sort_key)
     missing_comparison = sorted(comparison_requested - available, key=_field_sort_key)
     verified_comparison = sorted(comparison_requested & available, key=_field_sort_key)
     full_label_ready = bool(audit["full_label_ready"])
+    physical_package_ready = bool(audit["complete_packaging_snapshot_ready"])
     eligible = not missing
     if not eligible:
         tier = "needs_review"
-    elif full_label_ready:
+    elif full_label_ready and physical_package_ready:
         tier = "fully_verified"
     else:
         tier = "conditionally_verified"
@@ -223,6 +288,13 @@ def assess_product_eligibility(
             _FIELD_LABELS.get(item, item) for item in missing_comparison
         ],
         "health_comparison_available": bool(verified_comparison),
+        "sugars_review_status": product.label.sugars_review_status,
+        "sugars_reviewed_at": (
+            product.label.sugars_reviewed_at.isoformat()
+            if product.label.sugars_reviewed_at
+            else None
+        ),
+        "sugars_review_note": product.label.sugars_review_note,
         "supported_health_concerns": supported_concerns,
         "unsupported_health_concerns": unsupported_concerns,
         "full_label_ready": full_label_ready,
@@ -235,8 +307,35 @@ def summarize_label_coverage(products: list[ProductRecord]) -> dict[str, Any]:
     gate_passed = sum(item["current_evidence_gate_passed"] for item in audits)
     return {
         "total": len(products),
+        "sku_count": sum(bool(product.sku) for product in products),
+        "specification_count": sum(
+            bool(product.specification) for product in products
+        ),
         "full_label_count": complete,
+        "transcribed_label_count": sum(
+            item["transcribed_label_ready"] for item in audits
+        ),
         "evidence_gate_count": gate_passed,
+        "packaging_snapshot_count": sum(
+            item["packaging_snapshot_ready"] for item in audits
+        ),
+        "nutrition_snapshot_count": sum(
+            item["nutrition_snapshot_ready"] for item in audits
+        ),
+        "complete_packaging_snapshot_count": sum(
+            item["complete_packaging_snapshot_ready"] for item in audits
+        ),
+        "official_page_snapshot_count": sum(
+            item["official_page_snapshot_count"] for item in audits
+        ),
+        "packaging_needs_review_count": len(products)
+        - sum(item["complete_packaging_snapshot_ready"] for item in audits),
+        "packaging_coverage_rate": (
+            sum(item["complete_packaging_snapshot_ready"] for item in audits)
+            / len(products)
+            if products
+            else 0.0
+        ),
         "needs_review_count": len(products) - complete,
         "coverage_rate": complete / len(products) if products else 0.0,
     }
@@ -278,6 +377,8 @@ def _available_fields(product: ProductRecord) -> set[str]:
         available.add("allergen_statement")
     if _is_verified_text(label.nutrition_basis_text):
         available.add("nutrition_basis")
+    if _verified_packaging_kinds(product) & {"ingredients", "combined"}:
+        available.add("packaging_snapshot")
     nutrient_names = _nutrient_names(product)
     for canonical, aliases in _NUTRIENT_ALIASES.items():
         if any(alias in nutrient_names for alias in aliases):
@@ -290,6 +391,23 @@ def _nutrient_names(product: ProductRecord) -> set[str]:
         str(row[0]).strip()
         for row in (product.label.nutrition_rows or [])[1:]
         if row and str(row[0]).strip()
+    }
+
+
+def _verified_packaging_kinds(product: ProductRecord) -> set[str]:
+    """Return physical-package evidence kinds bound to this exact SKU/spec."""
+
+    if not product.sku or not product.specification:
+        return set()
+    return {
+        snapshot.evidence_kind
+        for snapshot in product.label.packaging_snapshots
+        if snapshot.review_status == "verified"
+        and snapshot.artifact_type == "packaging_photo"
+        and snapshot.sku == product.sku
+        and snapshot.specification == product.specification
+        and snapshot.secondary_reviewer_id
+        and snapshot.secondary_reviewer_id != snapshot.primary_reviewer_id
     }
 
 

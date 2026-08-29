@@ -252,6 +252,8 @@ def _find_ambiguous(
 ) -> IngredientNode | None:
     for item in normalized.iter_ingredients():
         compact = re.sub(r"\s+", "", item.raw_name)
+        if item.relation == "compound" and not item.children:
+            return item
         if any(term in compact for term in category.ambiguous_terms):
             return item
     return None

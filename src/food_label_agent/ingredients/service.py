@@ -58,7 +58,7 @@ def evaluate_user_constraints_result(
 ) -> SafetyEvaluationResponse:
     """Evaluate one validated request using only deterministic safety rules."""
 
-    normalized = normalize_ingredients(request.confirmed_fields["ingredients"])
+    normalized = normalize_ingredients(request.confirmed_fields.get("ingredients", ""))
     nutrition = normalize_nutrition_facts(
         request.confirmed_fields.get("nutrition_table"),
         basis_text=request.confirmed_fields.get("nutrition_basis"),

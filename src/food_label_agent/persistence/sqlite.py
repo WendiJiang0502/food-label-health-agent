@@ -100,6 +100,26 @@ class SQLiteCheckpointStore:
         self._connection.commit()
         _protect_file(self._path)
 
+    @property
+    def path(self) -> str:
+        """Return the configured database path without exposing its contents."""
+
+        return self._path
+
+    @property
+    def durable(self) -> bool:
+        return self._path != ":memory:"
+
+    def healthcheck(self) -> bool:
+        """Verify that the connection can read and, for files, the directory is writable."""
+
+        with self._lock:
+            self._connection.execute("SELECT 1").fetchone()
+        if not self.durable:
+            return True
+        path = Path(self._path).expanduser()
+        return path.exists() and os.access(path.parent, os.W_OK)
+
     def save(
         self, state: AgentState, *, resume_token: str | None = None
     ) -> CheckpointReceipt:
@@ -237,6 +257,22 @@ class SQLiteMemoryStore:
         )
         self._connection.commit()
         _protect_file(self._path)
+
+    @property
+    def path(self) -> str:
+        return self._path
+
+    @property
+    def durable(self) -> bool:
+        return self._path != ":memory:"
+
+    def healthcheck(self) -> bool:
+        with self._lock:
+            self._connection.execute("SELECT 1").fetchone()
+        if not self.durable:
+            return True
+        path = Path(self._path).expanduser()
+        return path.exists() and os.access(path.parent, os.W_OK)
 
     def grant_consent(
         self, profile_id: str, purpose: str, *, explicit_consent: bool
@@ -472,8 +508,12 @@ def deserialize_agent_state(value: dict[str, Any]) -> AgentState:
 def _connect(path: str) -> sqlite3.Connection:
     if path != ":memory:":
         Path(path).expanduser().parent.mkdir(parents=True, exist_ok=True)
-    connection = sqlite3.connect(path, check_same_thread=False)
+    connection = sqlite3.connect(path, check_same_thread=False, timeout=5.0)
     connection.row_factory = sqlite3.Row
+    connection.execute("PRAGMA busy_timeout = 5000")
+    if path != ":memory:":
+        connection.execute("PRAGMA journal_mode = WAL")
+        connection.execute("PRAGMA synchronous = NORMAL")
     return connection
 
 

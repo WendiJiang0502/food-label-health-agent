@@ -9,9 +9,10 @@ from food_label_agent.context.builder import build_node_context
 from food_label_agent.domain.models import AuditEvent, Evidence, RiskFinding
 from food_label_agent.domain.types import AnalysisStatus, RiskLevel, WorkflowStage
 from food_label_agent.mcp.business_tools import MCPToolCallError, invoke_mcp_tool
+from food_label_agent.nutrition.normalization import normalize_nutrition_facts
 
 from .evidence_plan import build_evidence_plan, evidence_supports_need
-from .routing import critical_fields_needing_confirmation
+from .routing import critical_fields_needing_confirmation, ingredients_required
 from .routing import final_safety_gate as evaluate_final_safety_gate
 from .state import AgentState
 
@@ -62,7 +63,7 @@ def confirm_label(state: AgentState) -> dict:
     """Represent the human-in-the-loop boundary as a resumable graph node."""
 
     ingredients = state["label_fields"].get("ingredients")
-    confirmed = bool(
+    confirmed = not ingredients_required(state) or bool(
         ingredients and ingredients.raw_text.strip() and ingredients.confirmed_by_user
     )
     if not confirmed:
@@ -105,9 +106,64 @@ def normalize_label(state: AgentState) -> dict:
                 dict.fromkeys([*state["unknowns"], "ingredients_not_confirmed"])
             ),
         }
-    field = state["label_fields"]["ingredients"]
+    field = state["label_fields"].get("ingredients")
     nutrition_table = state["label_fields"].get("nutrition_table")
     nutrition_basis = state["label_fields"].get("nutrition_basis")
+    if field is None and not ingredients_required(state):
+        nutrition = normalize_nutrition_facts(
+            nutrition_table.raw_text if nutrition_table else None,
+            basis_text=nutrition_basis.raw_text if nutrition_basis else None,
+        )
+        requires_confirmation = nutrition is None or nutrition.requires_confirmation
+        normalized = {
+            "raw_text": "",
+            "source_field": "ingredients",
+            "parse_status": "not_provided_not_required",
+            "requires_confirmation": requires_confirmation,
+            "ingredients": [],
+            "issues": [],
+            "unknown_terms": [],
+            "corrections": [],
+            "nutrition": nutrition.to_dict() if nutrition else None,
+        }
+        return {
+            "status": AnalysisStatus.NEEDS_CONFIRMATION
+            if requires_confirmation
+            else AnalysisStatus.IN_PROGRESS,
+            "stage": WorkflowStage.HUMAN_CONFIRMATION
+            if requires_confirmation
+            else WorkflowStage.LABEL_NORMALIZATION,
+            "normalized_label": normalized,
+            "unknowns": list(
+                dict.fromkeys(
+                    [
+                        *state["unknowns"],
+                        *(
+                            ["nutrition_structure_needs_confirmation"]
+                            if requires_confirmation
+                            else []
+                        ),
+                    ]
+                )
+            ),
+            "audit_events": [
+                *state["audit_events"],
+                _context_event(state, "normalize_label"),
+                AuditEvent(
+                    event_type="nutrition_only_label_normalized",
+                    actor="deterministic:nutrition_normalizer",
+                    detail={"ingredients_required": False},
+                ),
+            ],
+        }
+    if field is None:
+        return {
+            "status": AnalysisStatus.NEEDS_CONFIRMATION,
+            "stage": WorkflowStage.HUMAN_CONFIRMATION,
+            "unknowns": list(
+                dict.fromkeys([*state["unknowns"], "ingredients_not_confirmed"])
+            ),
+        }
     try:
         normalized = invoke_mcp_tool(
             "normalize_food_label",
@@ -169,7 +225,7 @@ def evaluate_safety(state: AgentState) -> dict:
     """Evaluate hard constraints without an LLM in the decision path."""
 
     field = state["label_fields"].get("ingredients")
-    if field is None:
+    if field is None and ingredients_required(state):
         return {
             "status": AnalysisStatus.NEEDS_CONFIRMATION,
             "stage": WorkflowStage.HUMAN_CONFIRMATION,

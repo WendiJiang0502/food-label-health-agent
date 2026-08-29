@@ -8,7 +8,6 @@ from dataclasses import dataclass, field
 from statistics import mean
 from typing import Any
 
-
 TRACE_SCHEMA_VERSION = "food_label_trace_v1"
 
 
@@ -77,7 +76,7 @@ class RunTrace:
 
 def aggregate_traces(traces: list[dict[str, Any]]) -> dict[str, Any]:
     durations = sorted(float(item["duration_ms"]) for item in traces if item.get("duration_ms") is not None)
-    p95_index = max(0, min(len(durations) - 1, int((len(durations) * 0.95 + 0.999999)) - 1)) if durations else 0
+    p95_index = max(0, min(len(durations) - 1, int(len(durations) * 0.95 + 0.999999) - 1)) if durations else 0
     total_cost = sum(float(item.get("cost_usd", 0.0)) for item in traces)
     total_tokens = sum(int(item.get("token_usage", {}).get("total", 0)) for item in traces)
     return {

@@ -82,7 +82,11 @@ def test_search_collapses_equivalent_pack_sizes_before_candidate_limit() -> None
         AlternativeSearchRequest(
             category="confectionery",
             applicable_date="2026-08-23",
-            constraints=[_allergy("fish")],
+            constraints=[
+                ConstraintInput(
+                    kind="allergy", canonical_value="fish", severity="moderate"
+                )
+            ],
             limit=50,
         )
     )

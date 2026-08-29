@@ -41,11 +41,23 @@ class SafetyEvaluationRequest(BaseModel):
 
     @field_validator("confirmed_fields")
     @classmethod
-    def require_ingredients(cls, fields: dict[str, str]) -> dict[str, str]:
-        normalized = {key.strip(): value.strip() for key, value in fields.items()}
-        if not normalized.get("ingredients"):
-            raise ValueError("已确认配料表不能为空。")
-        return normalized
+    def normalize_fields(cls, fields: dict[str, str]) -> dict[str, str]:
+        return {key.strip(): value.strip() for key, value in fields.items()}
+
+    @model_validator(mode="after")
+    def require_ingredients_for_ingredient_constraints(self):
+        needs_ingredients = any(
+            item.kind != "nutrition_limit" for item in self.constraints
+        )
+        if needs_ingredients and not self.confirmed_fields.get("ingredients"):
+            raise ValueError("过敏原或配料约束需要已确认的配料表。")
+        if (
+            not self.confirmed_fields.get("ingredients")
+            and not self.nutrition_rows
+            and not self.confirmed_fields.get("nutrition_table")
+        ):
+            raise ValueError("至少需要已确认的配料表或营养成分表。")
+        return self
 
 
 class SafetyEvaluationResponse(BaseModel):

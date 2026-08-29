@@ -2,18 +2,25 @@
 
 from __future__ import annotations
 
-import os
+import base64
+import hmac
 import json
+import os
+import threading
+import time
+from collections import defaultdict, deque
 from dataclasses import asdict
 from datetime import UTC, datetime
+from hashlib import sha256
 from pathlib import Path
 
 from pydantic import ValidationError
 from starlette.applications import Starlette
 from starlette.concurrency import run_in_threadpool
 from starlette.datastructures import UploadFile
+from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
-from starlette.responses import FileResponse, JSONResponse
+from starlette.responses import FileResponse, JSONResponse, Response
 from starlette.routing import Mount, Route
 from starlette.staticfiles import StaticFiles
 
@@ -48,6 +55,149 @@ from food_label_agent.persistence.sqlite import (
 from food_label_agent.regulations.semantic import rag2_public_status
 
 STATIC_DIR = Path(__file__).with_name("static")
+MAX_IMAGE_BYTES = 10 * 1024 * 1024
+MAX_JSON_BYTES = 1024 * 1024
+
+
+class SecurityHeadersMiddleware(BaseHTTPMiddleware):
+    """Apply a conservative browser security baseline to every response."""
+
+    async def dispatch(self, request: Request, call_next) -> Response:
+        response = await call_next(request)
+        response.headers.setdefault(
+            "Content-Security-Policy",
+            "default-src 'self'; base-uri 'self'; form-action 'self'; "
+            "frame-ancestors 'none'; object-src 'none'; img-src 'self' data: blob:; "
+            "script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self'",
+        )
+        response.headers.setdefault("X-Content-Type-Options", "nosniff")
+        response.headers.setdefault("Referrer-Policy", "no-referrer")
+        response.headers.setdefault("X-Frame-Options", "DENY")
+        response.headers.setdefault(
+            "Permissions-Policy", "geolocation=(), microphone=(), payment=()"
+        )
+        if request.url.scheme == "https" or os.getenv("FOOD_LABEL_FORCE_HTTPS") == "1":
+            response.headers.setdefault(
+                "Strict-Transport-Security", "max-age=31536000; includeSubDomains"
+            )
+        if request.url.path.startswith("/api/"):
+            response.headers.setdefault("Cache-Control", "no-store")
+        return response
+
+
+class RequestBoundaryMiddleware(BaseHTTPMiddleware):
+    """Reject declared oversized bodies before form or JSON parsing allocates them."""
+
+    async def dispatch(self, request: Request, call_next) -> Response:
+        if request.method in {"POST", "PUT", "PATCH"}:
+            content_length = request.headers.get("content-length")
+            if content_length:
+                try:
+                    declared = int(content_length)
+                except ValueError:
+                    return _error("请求体长度无效。", status_code=400)
+                limit = (
+                    MAX_IMAGE_BYTES + 1024 * 1024
+                    if request.url.path == "/api/v1/ocr/analyze"
+                    else MAX_JSON_BYTES
+                )
+                if declared > limit:
+                    return _error("请求内容过大。", status_code=413)
+        return await call_next(request)
+
+
+class SiteAccessMiddleware(BaseHTTPMiddleware):
+    """Protect a Remote deployment with a shared access gate.
+
+    Successful HTTP Basic authentication mints an HttpOnly same-site cookie so
+    workflow endpoints can continue using their independent Bearer capability
+    tokens without an Authorization-header collision.
+    """
+
+    def __init__(self, app, *, token: str) -> None:
+        super().__init__(app)
+        self._token = token
+        self._cookie_value = sha256(token.encode()).hexdigest()
+
+    async def dispatch(self, request: Request, call_next) -> Response:
+        if request.url.path == "/api/ready":
+            return await call_next(request)
+        authorized, mint_cookie = self._authorized(request)
+        if not authorized:
+            return JSONResponse(
+                {"status": "error", "message": "该 Remote 实例需要访问凭证。"},
+                status_code=401,
+                headers={"WWW-Authenticate": 'Basic realm="Food Label Agent"'},
+            )
+        response = await call_next(request)
+        if mint_cookie:
+            response.set_cookie(
+                "food_label_site_access",
+                self._cookie_value,
+                max_age=8 * 60 * 60,
+                httponly=True,
+                secure=request.url.scheme == "https"
+                or os.getenv("FOOD_LABEL_FORCE_HTTPS") == "1",
+                samesite="strict",
+            )
+        return response
+
+    def _authorized(self, request: Request) -> tuple[bool, bool]:
+        cookie = request.cookies.get("food_label_site_access", "")
+        if hmac.compare_digest(cookie, self._cookie_value):
+            return True, False
+        supplied = request.headers.get("x-food-label-site-token", "")
+        if hmac.compare_digest(supplied, self._token):
+            return True, True
+        authorization = request.headers.get("authorization", "")
+        scheme, _, encoded = authorization.partition(" ")
+        if scheme.casefold() != "basic" or not encoded:
+            return False, False
+        try:
+            _, _, password = base64.b64decode(encoded).decode().partition(":")
+        except (ValueError, UnicodeDecodeError):
+            return False, False
+        return hmac.compare_digest(password, self._token), True
+
+
+class RateLimitMiddleware(BaseHTTPMiddleware):
+    """Small single-instance abuse guard; production proxies should add a second layer."""
+
+    def __init__(self, app) -> None:
+        super().__init__(app)
+        self._events: dict[tuple[str, str], deque[float]] = defaultdict(deque)
+        self._lock = threading.Lock()
+
+    async def dispatch(self, request: Request, call_next) -> Response:
+        limit = self._limit_for(request)
+        if limit is None:
+            return await call_next(request)
+        client = request.client.host if request.client else "unknown"
+        key = (client, request.url.path)
+        now = time.monotonic()
+        with self._lock:
+            events = self._events[key]
+            while events and events[0] <= now - 60:
+                events.popleft()
+            if len(events) >= limit:
+                return _error(
+                    "请求过于频繁，请稍后再试。",
+                    status_code=429,
+                    code="RATE_LIMITED",
+                    headers={"Retry-After": "60"},
+                )
+            events.append(now)
+        return await call_next(request)
+
+    @staticmethod
+    def _limit_for(request: Request) -> int | None:
+        if request.method not in {"POST", "PUT", "DELETE"}:
+            return None
+        if request.url.path == "/api/v1/ocr/analyze":
+            return int(os.getenv("FOOD_LABEL_OCR_REQUESTS_PER_MINUTE", "10"))
+        if request.url.path == "/api/v1/alternatives/discovery/refresh":
+            return int(os.getenv("FOOD_LABEL_DISCOVERY_REFRESHES_PER_MINUTE", "2"))
+        return int(os.getenv("FOOD_LABEL_WRITE_REQUESTS_PER_MINUTE", "60"))
 
 
 def create_app(
@@ -56,6 +206,8 @@ def create_app(
     checkpoint_store: SQLiteCheckpointStore | None = None,
     memory_store: SQLiteMemoryStore | None = None,
     discovery_service: OfficialProductDiscovery | None = None,
+    production_mode: bool = False,
+    site_access_token: str | None = None,
 ) -> Starlette:
     service = OCRService(provider or create_ocr_provider())
     checkpoints = checkpoint_store or SQLiteCheckpointStore()
@@ -68,7 +220,9 @@ def create_app(
         )
 
     async def developer(_: Request) -> FileResponse:
-        return FileResponse(STATIC_DIR / "developer.html", headers={"Cache-Control": "no-cache"})
+        return FileResponse(
+            STATIC_DIR / "developer.html", headers={"Cache-Control": "no-cache"}
+        )
 
     async def developer_traces(request: Request) -> JSONResponse:
         configured = os.getenv("FOOD_LABEL_DEV_TOKEN")
@@ -78,7 +232,9 @@ def create_app(
             supplied = None
         if not configured or supplied != configured:
             return _error("开发者轨迹需要有效的开发者令牌。", status_code=403)
-        path = Path(os.getenv("FOOD_LABEL_TRACE_REPORT", "/tmp/internal-pilot-suite.json"))
+        path = Path(
+            os.getenv("FOOD_LABEL_TRACE_REPORT", "/tmp/internal-pilot-suite.json")
+        )
         if not path.exists():
             return JSONResponse({"status": "empty", "traces": [], "metrics": {}})
         try:
@@ -103,7 +259,60 @@ def create_app(
                 "product_catalog": os.getenv(
                     "FOOD_LABEL_PRODUCT_CATALOG", "official_cn_expanded"
                 ),
+                "public_url": os.getenv("FOOD_LABEL_PUBLIC_BASE_URL") or None,
+                "processing_disclosure_verified": True,
+                "storage": {
+                    "durable": checkpoints.durable and memories.durable,
+                    "mode": "sqlite_file"
+                    if checkpoints.durable and memories.durable
+                    else "ephemeral_memory",
+                },
             }
+        )
+
+    async def ready(_: Request) -> JSONResponse:
+        checks: dict[str, dict[str, object]] = {}
+        try:
+            checks["checkpoint_store"] = {
+                "ok": checkpoints.healthcheck(),
+                "durable": checkpoints.durable,
+            }
+            checks["memory_store"] = {
+                "ok": memories.healthcheck(),
+                "durable": memories.durable,
+            }
+        except Exception as exc:  # noqa: BLE001 - readiness must report, not crash
+            checks["persistence"] = {"ok": False, "error": type(exc).__name__}
+        try:
+            coverage = OfficialChinaCatalog().coverage()
+            checks["product_catalog"] = {
+                "ok": int(coverage.get("total", 0)) > 0,
+                "records": int(coverage.get("total", 0)),
+            }
+            if production_mode:
+                complete_packaging = int(
+                    coverage.get("complete_packaging_snapshot_count", 0)
+                )
+                total_products = int(coverage.get("total", 0))
+                checks["product_packaging_evidence"] = {
+                    "ok": total_products > 0 and complete_packaging == total_products,
+                    "verified_records": complete_packaging,
+                    "records": total_products,
+                }
+        except Exception as exc:  # noqa: BLE001
+            checks["product_catalog"] = {"ok": False, "error": type(exc).__name__}
+        checks["ocr"] = {
+            "ok": not production_mode or not service.provider.synthetic,
+            "provider": service.provider.name,
+            "external_dependency_verified": False,
+        }
+        checks["site_access"] = {
+            "ok": not production_mode or bool(site_access_token),
+        }
+        ok = all(bool(item.get("ok")) for item in checks.values())
+        return JSONResponse(
+            {"status": "ready" if ok else "not_ready", "checks": checks},
+            status_code=200 if ok else 503,
         )
 
     async def official_catalog_coverage(request: Request) -> JSONResponse:
@@ -120,10 +329,13 @@ def create_app(
 
     async def refresh_official_discovery(request: Request) -> JSONResponse:
         try:
+            _require_discovery_admin(request, production_mode=production_mode)
             payload = await request.json()
             category = str(payload.get("category") or "").strip() or None
             result = await run_in_threadpool(discovery.refresh, category=category)
             return JSONResponse(result.to_dict())
+        except PermissionError:
+            return _error("自动发现刷新需要有效的管理员令牌。", status_code=403)
         except (TypeError, ValueError) as exc:
             return _error(str(exc), status_code=422)
 
@@ -146,11 +358,13 @@ def create_app(
 
     async def analyze_label(request: Request) -> JSONResponse:
         try:
-            form = await request.form()
+            form = await request.form(
+                max_files=1, max_fields=4, max_part_size=MAX_IMAGE_BYTES
+            )
             upload = form.get("image")
             if not isinstance(upload, UploadFile):
                 return _error("请选择一张食品标签图片。", status_code=422)
-            content = await upload.read()
+            content = await _read_upload_limited(upload, MAX_IMAGE_BYTES)
             result = await service.analyze(
                 content=content,
                 file_name=upload.filename or "label-image",
@@ -448,6 +662,7 @@ def create_app(
         Route("/developer", endpoint=developer),
         Route("/api/developer-traces", endpoint=developer_traces),
         Route("/api/health", endpoint=health),
+        Route("/api/ready", endpoint=ready),
         Route(
             "/api/v1/alternatives/catalog-coverage",
             endpoint=official_catalog_coverage,
@@ -507,17 +722,51 @@ def create_app(
         ),
         Mount("/static", app=StaticFiles(directory=STATIC_DIR), name="static"),
     ]
-    return Starlette(debug=False, routes=routes)
+    application = Starlette(debug=False, routes=routes)
+    if site_access_token:
+        application.add_middleware(SiteAccessMiddleware, token=site_access_token)
+    application.add_middleware(RateLimitMiddleware)
+    application.add_middleware(RequestBoundaryMiddleware)
+    application.add_middleware(SecurityHeadersMiddleware)
+    return application
 
 
-def _error(message: str, *, status_code: int, code: str | None = None) -> JSONResponse:
+def _error(
+    message: str,
+    *,
+    status_code: int,
+    code: str | None = None,
+    headers: dict[str, str] | None = None,
+) -> JSONResponse:
     return JSONResponse(
         {"status": "error", "message": message, **({"code": code} if code else {})},
         status_code=status_code,
+        headers=headers,
     )
 
 
 app = create_app()
+
+
+def create_production_app() -> Starlette:
+    """Construct the deployment app with durable storage and a mandatory access gate."""
+
+    os.environ.setdefault("FOOD_LABEL_OCR_PROVIDER", "tencent")
+    os.environ.setdefault("FOOD_LABEL_PRODUCT_CATALOG", "official_cn_expanded")
+    token = os.getenv("FOOD_LABEL_SITE_ACCESS_TOKEN", "").strip()
+    if len(token) < 24:
+        raise RuntimeError(
+            "FOOD_LABEL_SITE_ACCESS_TOKEN must contain at least 24 characters"
+        )
+    if not os.getenv("FOOD_LABEL_DISCOVERY_ADMIN_TOKEN", "").strip():
+        raise RuntimeError("FOOD_LABEL_DISCOVERY_ADMIN_TOKEN is required")
+    database_path = default_database_path()
+    return create_app(
+        checkpoint_store=SQLiteCheckpointStore(database_path),
+        memory_store=SQLiteMemoryStore(database_path),
+        production_mode=True,
+        site_access_token=token,
+    )
 
 
 def run() -> None:
@@ -529,14 +778,10 @@ def run() -> None:
     # Credentials remain in the SDK credential chain and are never stored here.
     os.environ.setdefault("FOOD_LABEL_OCR_PROVIDER", "tencent")
     os.environ.setdefault("FOOD_LABEL_PRODUCT_CATALOG", "official_cn_expanded")
-    database_path = default_database_path()
     uvicorn.run(
-        create_app(
-            checkpoint_store=SQLiteCheckpointStore(database_path),
-            memory_store=SQLiteMemoryStore(database_path),
-        ),
+        create_production_app(),
         host=os.getenv("FOOD_LABEL_HOST", "127.0.0.1"),
-        port=int(os.getenv("FOOD_LABEL_PORT", "8000")),
+        port=int(os.getenv("FOOD_LABEL_PORT", os.getenv("PORT", "8000"))),
         reload=False,
     )
 
@@ -554,3 +799,28 @@ def _profile_id(request: Request) -> str:
     if not profile_id:
         raise ValueError("profile_id is required")
     return profile_id
+
+
+async def _read_upload_limited(upload: UploadFile, limit: int) -> bytes:
+    chunks: list[bytes] = []
+    total = 0
+    while True:
+        chunk = await upload.read(min(1024 * 1024, limit - total + 1))
+        if not chunk:
+            break
+        total += len(chunk)
+        if total > limit:
+            raise InvalidImageError("图片不能超过 10 MB。")
+        chunks.append(chunk)
+    return b"".join(chunks)
+
+
+def _require_discovery_admin(request: Request, *, production_mode: bool) -> None:
+    configured = os.getenv("FOOD_LABEL_DISCOVERY_ADMIN_TOKEN", "").strip()
+    if not configured:
+        if production_mode:
+            raise PermissionError("Discovery admin token is not configured")
+        return
+    supplied = _bearer_token(request)
+    if not hmac.compare_digest(supplied, configured):
+        raise PermissionError("Invalid discovery admin token")

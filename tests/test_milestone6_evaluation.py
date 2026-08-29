@@ -104,7 +104,7 @@ def test_release_profile_fails_closed_without_private_ocr_dataset(
     assert "ocr:private_ocr_benchmark_required_for_release" in report.release_blockers
 
 
-def test_release_profile_accepts_only_a_complete_ocr_benchmark(
+def test_complete_ocr_alone_cannot_bypass_production_release_gates(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
     clean_version_snapshot,
@@ -140,9 +140,21 @@ def test_release_profile_accepts_only_a_complete_ocr_benchmark(
         version_snapshot=clean_version_snapshot,
     )
 
-    assert report.evaluation_passed is True
-    assert report.release_ready is True
-    assert report.release_blockers == ()
+    assert report.evaluation_passed is False
+    assert report.release_ready is False
+    assert not any(item.startswith("ocr:") for item in report.release_blockers)
+    assert any(
+        item.startswith("production_alternatives:")
+        for item in report.release_blockers
+    )
+    assert any(
+        "severe-allergy" in item for item in report.release_blockers
+    )
+    assert (
+        "production_alternatives:official_packaging_snapshot_coverage_below_minimum"
+        in report.release_blockers
+    )
+    assert any(item.startswith("deployment_config:") for item in report.release_blockers)
 
 
 def test_release_profile_records_dirty_worktree_as_a_blocker() -> None:
@@ -150,3 +162,19 @@ def test_release_profile_records_dirty_worktree_as_a_blocker() -> None:
     report = run_evaluation(profile="release", version_snapshot=dirty)
 
     assert "versions:git_worktree_dirty" in report.release_blockers
+
+
+def test_release_profile_reports_missing_rag_provider_instead_of_crashing(
+    clean_version_snapshot,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("FOOD_LABEL_RAG_PROFILE", "hybrid_dense_rerank")
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+
+    report = run_evaluation(profile="release", version_snapshot=clean_version_snapshot)
+
+    assert report.components["rag"]["status"] == "unavailable"
+    assert any(
+        blocker.startswith("rag:rag_provider_unavailable:")
+        for blocker in report.release_blockers
+    )

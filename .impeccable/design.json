@@ -1,62 +1,62 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-09T13:24:14+08:00",
+  "generatedAt": "2026-08-28T16:30:00+08:00",
   "title": "Design System: Food Label Health Agent",
   "extensions": {
     "colorMeta": {
       "paper-canvas": {
         "role": "neutral",
-        "displayName": "Warm Paper Canvas",
-        "canonical": "#F4F0E8",
-        "tonalRamp": ["#24221E", "#49453E", "#6F6960", "#958E83", "#BBB4A9", "#DDD7CE", "#F4F0E8", "#FFFDF8"]
+        "displayName": "Pale Health-log Canvas",
+        "canonical": "#F4F6F5",
+        "tonalRamp": ["#202524", "#3F4745", "#626C69", "#87918E", "#ADB6B3", "#D3D9D7", "#F4F6F5", "#FFFFFF"]
       },
       "paper-surface": {
         "role": "neutral",
-        "displayName": "Elevated Paper Surface",
-        "canonical": "#FFFDF8",
-        "tonalRamp": ["#282620", "#514D42", "#777267", "#9D988E", "#C2BDB4", "#E5E0D8", "#F6F2EB", "#FFFDF8"]
+        "displayName": "Clean Evidence Surface",
+        "canonical": "#FFFFFF",
+        "tonalRamp": ["#202020", "#464646", "#6E6E6E", "#969696", "#BDBDBD", "#DEDEDE", "#F3F3F3", "#FFFFFF"]
       },
       "editorial-navy": {
         "role": "primary",
-        "displayName": "Editorial Navy",
-        "canonical": "#26334A",
-        "tonalRamp": ["#111722", "#172338", "#26334A", "#44526B", "#68758D", "#909ABF", "#C8CEE0", "#EEF0F7"]
+        "displayName": "Editorial Charcoal",
+        "canonical": "#202727",
+        "tonalRamp": ["#101414", "#202727", "#394242", "#56605F", "#77817F", "#A0A8A6", "#CDD1D0", "#F1F3F2"]
       },
       "editorial-navy-deep": {
         "role": "primary",
-        "displayName": "Deep Editorial Navy",
-        "canonical": "#172338",
-        "tonalRamp": ["#0C121D", "#172338", "#29374E", "#46546C", "#6C7890", "#969FB3", "#CDD1DC", "#F0F1F5"]
+        "displayName": "Deep Editorial Charcoal",
+        "canonical": "#101817",
+        "tonalRamp": ["#08100F", "#101817", "#293130", "#47504E", "#6A7371", "#969D9B", "#C9CDCC", "#F0F2F1"]
       },
       "action-teal": {
         "role": "primary",
         "displayName": "Action Teal",
-        "canonical": "#0A4650",
-        "tonalRamp": ["#032126", "#06343C", "#0A4650", "#28636C", "#4E8189", "#86A8AD", "#BDD2D4", "#E8F1F1"]
+        "canonical": "#138A7C",
+        "tonalRamp": ["#062B27", "#0A4B43", "#0F6B60", "#138A7C", "#3AA697", "#75C2B7", "#B4DED8", "#E8F6F4"]
       },
       "action-teal-hover": {
         "role": "primary",
         "displayName": "Deep Action Teal",
-        "canonical": "#06343C",
-        "tonalRamp": ["#021A1E", "#06343C", "#194B53", "#38666D", "#60868B", "#91ACB0", "#C5D6D8", "#EDF3F3"]
+        "canonical": "#0D6E64",
+        "tonalRamp": ["#05231F", "#073B35", "#0A554D", "#0D6E64", "#368C82", "#70ADA6", "#B1D2CE", "#E8F3F2"]
       },
-      "supporting-periwinkle": {
+      "supporting-cyan": {
         "role": "secondary",
-        "displayName": "Supporting Periwinkle",
-        "canonical": "#909ABF",
-        "tonalRamp": ["#242A42", "#3E4766", "#596487", "#7480A5", "#909ABF", "#B1B8D1", "#D4D8E6", "#F1F2F8"]
+        "displayName": "Supporting Clinical Cyan",
+        "canonical": "#A9DFE5",
+        "tonalRamp": ["#183335", "#2D5559", "#47777C", "#679BA0", "#89BEC4", "#A9DFE5", "#D0EFF2", "#F1FAFB"]
       },
       "muted-ink": {
         "role": "neutral",
         "displayName": "Muted Operational Ink",
-        "canonical": "#6E7890",
-        "tonalRamp": ["#20242E", "#353B4A", "#4E566A", "#6E7890", "#8D96A8", "#AFB5C2", "#D2D6DE", "#F2F3F6"]
+        "canonical": "#788583",
+        "tonalRamp": ["#222827", "#394240", "#56615F", "#788583", "#98A3A1", "#B8C0BE", "#D8DDDC", "#F3F5F4"]
       },
       "muted-small": {
         "role": "neutral",
         "displayName": "Accessible Small Copy",
-        "canonical": "#566177",
-        "tonalRamp": ["#1B1F28", "#303745", "#424C5E", "#566177", "#788296", "#9DA5B4", "#C8CCD4", "#F0F1F3"]
+        "canonical": "#64716F",
+        "tonalRamp": ["#1D2322", "#343C3A", "#4B5755", "#64716F", "#87918F", "#AAB2B0", "#D0D4D3", "#F1F3F2"]
       },
       "caution": {
         "role": "tertiary",
@@ -75,6 +75,12 @@
         "displayName": "Compatible Green",
         "canonical": "#14714B",
         "tonalRamp": ["#062319", "#0A3D29", "#0F583A", "#14714B", "#3B8E6B", "#73AD91", "#B2D2C2", "#E9F3EE"]
+      },
+      "action-lime": {
+        "role": "secondary",
+        "displayName": "Active Navigation Lime",
+        "canonical": "#B7E95B",
+        "tonalRamp": ["#27330C", "#465A18", "#668326", "#87AD37", "#A3CF48", "#B7E95B", "#D7F39E", "#F2FBE0"]
       }
     },
     "typographyMeta": {
@@ -94,17 +100,17 @@
     "shadows": [
       {
         "name": "card-offset",
-        "value": "12px 14px 0 rgba(48, 62, 89, 0.09), 0 28px 60px rgba(48, 62, 89, 0.08)",
+        "value": "12px 14px 0 rgba(32, 39, 39, 0.09), 0 28px 60px rgba(32, 39, 39, 0.08)",
         "purpose": "Structural depth for proof and review work surfaces."
       },
       {
         "name": "action-offset",
-        "value": "7px 8px 0 rgba(10, 70, 80, 0.13)",
+        "value": "7px 8px 0 rgba(19, 138, 124, 0.13)",
         "purpose": "Directional depth for the primary upload action."
       },
       {
         "name": "focus-ring",
-        "value": "0 0 0 6px #0A4650",
+        "value": "0 0 0 6px #138A7C",
         "purpose": "Keyboard focus reinforcement around interactive controls."
       }
     ],
@@ -143,7 +149,7 @@
       "refersTo": "button-primary",
       "description": "The single primary workflow action in each state.",
       "html": "<button class=\"ds-btn-primary\">检查并查看依据 <span aria-hidden=\"true\">›</span></button>",
-      "css": ".ds-btn-primary{display:inline-flex;min-height:50px;align-items:center;justify-content:center;gap:12px;border:0;border-radius:8px;background:var(--teal,#0A4650);color:var(--paper,#FFFDF8);padding:13px 20px;font:750 16px/1.2 -apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;box-shadow:7px 8px 0 rgba(10,70,80,.13);cursor:pointer;transition:background 180ms,transform 180ms,box-shadow 180ms}.ds-btn-primary:hover{background:var(--teal-hover,#06343C);transform:translateY(-2px);box-shadow:9px 11px 0 rgba(10,70,80,.14)}.ds-btn-primary:focus-visible{outline:3px solid var(--paper,#FFFDF8);box-shadow:0 0 0 6px var(--teal,#0A4650)}"
+      "css": ".ds-btn-primary{display:inline-flex;min-height:50px;align-items:center;justify-content:center;gap:12px;border:0;border-radius:12px;background:var(--teal,#138A7C);color:var(--paper,#FFFFFF);padding:13px 20px;font:750 16px/1.2 -apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;box-shadow:7px 8px 0 rgba(19,138,124,.13);cursor:pointer;transition:background 180ms,transform 180ms,box-shadow 180ms}.ds-btn-primary:hover{background:var(--teal-hover,#0D6E64);transform:translateY(-2px);box-shadow:9px 11px 0 rgba(19,138,124,.14)}.ds-btn-primary:focus-visible{outline:3px solid var(--paper,#FFFFFF);box-shadow:0 0 0 6px var(--teal,#138A7C)}"
     },
     {
       "name": "Evidence Correction Field",
@@ -151,54 +157,54 @@
       "refersTo": "input",
       "description": "Editable OCR evidence with explicit confidence and confirmation state.",
       "html": "<label class=\"ds-field\"><span>配料表 <b>OCR 62% · 需确认</b></span><textarea>小麦粉、白砂糖</textarea><small>请重点对照原图确认。</small></label>",
-      "css": ".ds-field{display:grid;gap:8px;color:var(--ink,#26334A);font:700 11px/1.4 SFMono-Regular,Menlo,monospace}.ds-field>span{display:flex;justify-content:space-between;gap:12px}.ds-field b{color:var(--caution,#8A4B08)}.ds-field textarea{min-height:92px;border:1px solid rgba(38,51,74,.26);border-radius:10px;padding:13px 14px;color:var(--ink,#26334A);background:var(--paper,#FFFDF8);font:450 16px/1.55 -apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;resize:vertical}.ds-field textarea:focus{border-color:var(--teal,#0A4650);outline:4px solid rgba(10,70,80,.22)}.ds-field small{color:var(--muted-small,#566177);font:450 12px/1.5 -apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif}"
+      "css": ".ds-field{display:grid;gap:8px;color:var(--ink,#202727);font:700 11px/1.4 SFMono-Regular,Menlo,monospace}.ds-field>span{display:flex;justify-content:space-between;gap:12px}.ds-field b{color:var(--caution,#8A4B08)}.ds-field textarea{min-height:92px;border:1px solid rgba(32,39,39,.26);border-radius:14px;padding:13px 14px;color:var(--ink,#202727);background:var(--paper,#FFFFFF);font:450 16px/1.55 -apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;resize:vertical}.ds-field textarea:focus{border-color:var(--teal,#138A7C);outline:4px solid rgba(19,138,124,.22)}.ds-field small{color:var(--muted-small,#64716F);font:450 12px/1.5 -apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif}"
     },
     {
       "name": "Tactile Upload Card",
       "kind": "card",
       "description": "Functional Bento surface that pairs capture guidance with the upload action.",
       "html": "<label class=\"ds-upload\"><span class=\"ds-package\" aria-hidden=\"true\"></span><span><b>⇧</b><strong>拍照或上传</strong><small>让配料文字清晰入镜</small></span></label>",
-      "css": ".ds-upload{display:grid;min-height:300px;grid-template-columns:1.15fr .85fr;align-items:center;border:1px solid rgba(38,51,74,.08);border-radius:24px;background:var(--paper,#FFFDF8);color:var(--ink,#26334A);box-shadow:12px 14px 0 rgba(48,62,89,.09),0 28px 60px rgba(48,62,89,.08);overflow:hidden;cursor:pointer;transition:transform 180ms}.ds-upload:hover{transform:translateY(-2px)}.ds-package{align-self:stretch;background:linear-gradient(155deg,#E9EEF4,#F4F0E8)}.ds-upload>span:last-child{display:grid;gap:10px;padding:28px}.ds-upload b{display:grid;width:48px;height:48px;place-items:center;border-radius:50%;background:var(--teal,#0A4650);color:#FFF}.ds-upload strong{font:600 28px/1 'Iowan Old Style','Songti SC',serif}.ds-upload small{color:var(--muted-small,#566177)}.ds-upload:focus-within{outline:4px solid rgba(10,70,80,.22);outline-offset:-5px}"
+      "css": ".ds-upload{display:grid;min-height:300px;grid-template-columns:1.15fr .85fr;align-items:center;border:1px solid rgba(32,39,39,.08);border-radius:28px;background:var(--paper,#FFFFFF);color:var(--ink,#202727);box-shadow:12px 14px 0 rgba(32,39,39,.09),0 28px 60px rgba(32,39,39,.08);overflow:hidden;cursor:pointer;transition:transform 180ms}.ds-upload:hover{transform:translateY(-2px)}.ds-package{align-self:stretch;background:linear-gradient(155deg,#A9DFE5,#F4F6F5)}.ds-upload>span:last-child{display:grid;gap:10px;padding:28px}.ds-upload b{display:grid;width:48px;height:48px;place-items:center;border-radius:50%;background:var(--teal,#138A7C);color:#FFF}.ds-upload strong{font:800 28px/1 'Avenir Next','SF Pro Display','PingFang SC',sans-serif}.ds-upload small{color:var(--muted-small,#64716F)}.ds-upload:focus-within{outline:4px solid rgba(19,138,124,.22);outline-offset:-5px}"
     },
     {
       "name": "Constraint Choice",
       "kind": "chip",
       "description": "A 44-pixel-plus hard-constraint control with text and selected state.",
       "html": "<label class=\"ds-choice\"><input type=\"checkbox\"><span>乳</span></label>",
-      "css": ".ds-choice{position:relative;display:inline-flex;cursor:pointer}.ds-choice input{position:absolute;width:1px;height:1px;opacity:0}.ds-choice span{display:grid;min-width:72px;min-height:48px;place-items:center;border:1px solid rgba(38,51,74,.26);border-radius:999px;background:var(--paper,#FFFDF8);color:var(--ink,#26334A);padding:10px 17px;font:720 16px -apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;transition:background 180ms,border-color 180ms,color 180ms,transform 180ms}.ds-choice:hover span{border-color:var(--teal,#0A4650);transform:translateY(-1px)}.ds-choice input:checked+span{border-color:var(--teal,#0A4650);background:var(--teal,#0A4650);color:#FFF}.ds-choice input:focus-visible+span{outline:3px solid var(--paper,#FFFDF8);box-shadow:0 0 0 6px var(--teal,#0A4650)}"
+      "css": ".ds-choice{position:relative;display:inline-flex;cursor:pointer}.ds-choice input{position:absolute;width:1px;height:1px;opacity:0}.ds-choice span{display:grid;min-width:72px;min-height:48px;place-items:center;border:1px solid rgba(32,39,39,.26);border-radius:999px;background:var(--paper,#FFFFFF);color:var(--ink,#202727);padding:10px 17px;font:720 16px -apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;transition:background 180ms,border-color 180ms,color 180ms,transform 180ms}.ds-choice:hover span{border-color:var(--teal,#138A7C);transform:translateY(-1px)}.ds-choice input:checked+span{border-color:var(--teal,#138A7C);background:var(--lime,#B7E95B);color:var(--deep,#101817)}.ds-choice input:focus-visible+span{outline:3px solid var(--paper,#FFFFFF);box-shadow:0 0 0 6px var(--teal,#138A7C)}"
     },
     {
       "name": "Workflow State Pill",
       "kind": "chip",
       "description": "Compact workflow state; never used as a health conclusion by itself.",
       "html": "<span class=\"ds-state\">待人工确认</span>",
-      "css": ".ds-state{display:inline-flex;border-radius:999px;background:rgba(38,51,74,.08);color:var(--ink,#26334A);padding:7px 11px;font:700 11px/1.4 -apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif}"
+      "css": ".ds-state{display:inline-flex;border-radius:999px;background:rgba(32,39,39,.08);color:var(--ink,#202727);padding:7px 11px;font:700 11px/1.4 -apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif}"
     },
     {
       "name": "Personal Risk Result",
       "kind": "custom",
       "description": "The three-fact safety result pairs a symbol with explicit language and traceable label evidence.",
       "html": "<section class=\"ds-risk\"><header><span aria-hidden=\"true\">!</span><div><small>规则评估 · 1 项约束</small><h3>不建议食用</h3></div></header><p>配料表中明确出现乳来源成分乳清蛋白。</p><dl><div><dt>命中成分</dt><dd>乳清蛋白</dd></div><div><dt>对应约束</dt><dd>乳过敏</dd></div><div><dt>出现位置</dt><dd>复合配料第 3 项</dd></div></dl></section>",
-      "css": ".ds-risk{max-width:430px;color:var(--ink,#26334A);font:450 16px/1.55 -apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif}.ds-risk header{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:16px}.ds-risk header>span{display:grid;width:54px;height:54px;place-items:center;border-radius:50%;background:rgba(169,54,43,.11);color:var(--avoid,#A9362B);font-weight:850}.ds-risk small{color:var(--teal,#0A4650);font:800 11px/1.4 SFMono-Regular,Menlo,monospace}.ds-risk h3{margin:5px 0 0;font:600 34px/1.08 'Iowan Old Style','Songti SC',serif}.ds-risk dl{margin:20px 0 0;border-top:1px solid rgba(38,51,74,.14)}.ds-risk dl>div{display:grid;grid-template-columns:110px 1fr;gap:16px;border-bottom:1px solid rgba(38,51,74,.14);padding:14px 0}.ds-risk dt{color:var(--muted-small,#566177);font-size:12px}.ds-risk dd{margin:0;font-weight:760}"
+      "css": ".ds-risk{max-width:430px;color:var(--ink,#202727);font:450 16px/1.55 -apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif}.ds-risk header{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:16px}.ds-risk header>span{display:grid;width:54px;height:54px;place-items:center;border-radius:50%;background:rgba(169,54,43,.11);color:var(--avoid,#A9362B);font-weight:850}.ds-risk small{color:var(--teal,#138A7C);font:800 11px/1.4 SFMono-Regular,Menlo,monospace}.ds-risk h3{margin:5px 0 0;font:800 34px/1.08 'Avenir Next','SF Pro Display','PingFang SC',sans-serif}.ds-risk dl{margin:20px 0 0;border-top:1px solid rgba(32,39,39,.14)}.ds-risk dl>div{display:grid;grid-template-columns:110px 1fr;gap:16px;border-bottom:1px solid rgba(32,39,39,.14);padding:14px 0}.ds-risk dt{color:var(--muted-small,#64716F);font-size:12px}.ds-risk dd{margin:0;font-weight:760}"
     },
     {
       "name": "Claim Consistency Finding",
       "kind": "custom",
       "description": "Separates a package claim's literal meaning from its cross-field consistency status.",
       "html": "<article class=\"ds-claim\"><header><div><strong>0蔗糖</strong><small>按“无蔗糖”理解</small></div><span>与标签冲突</span></header><p>它只指向蔗糖，不等同于无糖。</p><p>已确认配料表出现“白砂糖”。</p><b>冲突成分：白砂糖</b></article>",
-      "css": ".ds-claim{max-width:430px;border-block:1px solid rgba(38,51,74,.14);padding:17px 0;color:var(--ink,#26334A);font:450 16px/1.6 -apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif}.ds-claim header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}.ds-claim header div{display:grid}.ds-claim small{color:var(--muted-small,#566177);font-size:11px}.ds-claim header>span{flex:none;border-radius:999px;background:rgba(169,54,43,.1);color:var(--avoid,#A9362B);padding:5px 9px;font-size:11px;font-weight:780}.ds-claim p{margin:9px 0 0}.ds-claim b{display:block;margin-top:9px;color:var(--avoid,#A9362B)}"
+      "css": ".ds-claim{max-width:430px;border-block:1px solid rgba(32,39,39,.14);padding:17px 0;color:var(--ink,#202727);font:450 16px/1.6 -apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif}.ds-claim header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}.ds-claim header div{display:grid}.ds-claim small{color:var(--muted-small,#64716F);font-size:11px}.ds-claim header>span{flex:none;border-radius:999px;background:rgba(169,54,43,.1);color:var(--avoid,#A9362B);padding:5px 9px;font-size:11px;font-weight:780}.ds-claim p{margin:9px 0 0}.ds-claim b{display:block;margin-top:9px;color:var(--avoid,#A9362B)}"
     },
     {
       "name": "Official Evidence Disclosure",
       "kind": "custom",
       "description": "Keeps official clauses available without displacing the first-screen decision.",
       "html": "<details class=\"ds-evidence\"><summary><span>查看判断依据</span><small>1 条官方依据</small></summary><div><strong>GB 28050—2011</strong><p>适用条款摘要放在这里，并链接至官方来源。</p><a href=\"#\">打开国家卫健委官方来源 ↗</a></div></details>",
-      "css": ".ds-evidence{max-width:430px;border-block:1px solid rgba(38,51,74,.14);color:var(--ink,#26334A);font:450 16px/1.55 -apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif}.ds-evidence summary{display:grid;min-height:52px;grid-template-columns:1fr auto;align-items:center;gap:12px;cursor:pointer;font-weight:760}.ds-evidence summary small{color:var(--muted-small,#566177);font:700 11px/1.4 SFMono-Regular,Menlo,monospace}.ds-evidence summary:focus-visible{border-radius:8px;outline:3px solid rgba(10,70,80,.22);outline-offset:3px}.ds-evidence>div{border-top:1px solid rgba(38,51,74,.14);padding:16px 0 20px}.ds-evidence strong,.ds-evidence a{color:var(--teal,#0A4650)}.ds-evidence a{display:inline-flex;min-height:44px;align-items:center;font-weight:750;text-underline-offset:4px}.ds-evidence a:focus-visible{outline:3px solid rgba(10,70,80,.22);outline-offset:2px}"
+      "css": ".ds-evidence{max-width:430px;border-block:1px solid rgba(32,39,39,.14);color:var(--ink,#202727);font:450 16px/1.55 -apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif}.ds-evidence summary{display:grid;min-height:52px;grid-template-columns:1fr auto;align-items:center;gap:12px;cursor:pointer;font-weight:760}.ds-evidence summary small{color:var(--muted-small,#64716F);font:700 11px/1.4 SFMono-Regular,Menlo,monospace}.ds-evidence summary:focus-visible{border-radius:12px;outline:3px solid rgba(19,138,124,.22);outline-offset:3px}.ds-evidence>div{border-top:1px solid rgba(32,39,39,.14);padding:16px 0 20px}.ds-evidence strong,.ds-evidence a{color:var(--teal,#138A7C)}.ds-evidence a{display:inline-flex;min-height:44px;align-items:center;font-weight:750;text-underline-offset:4px}.ds-evidence a:focus-visible{outline:3px solid rgba(19,138,124,.22);outline-offset:2px}"
     }
   ],
   "narrative": {
-    "northStar": "The Editorial Label Desk",
-    "overview": "The Editorial Label Desk turns a photographed package into a calm, tangible evidence workspace. The visual language adapts the user-pinned Nova Benefits Bento reference: warm paper, dark editorial type, asymmetrical functional cards, physical-object photography, and modest offset depth. It does not copy the reference's assets, brand, or benefits-product metaphors. The first viewport contains exactly one promise and one task. The generated unbranded pouch demonstrates which surface to photograph; it has no readable claims and never acts as evidence. After OCR succeeds, the editorial introduction exits and the uploaded label becomes the visual focus beside its correction fields.",
+    "northStar": "The Personal Health Log",
+    "overview": "The Personal Health Log turns a photographed package into a calm, tangible evidence workspace. The visual language uses a pale cool canvas, white rounded cards, acid-lime primary actions, soft cyan, coral and lilac data accents, and compact mobile-health dashboard patterns. It never lets decoration imply a health result. The first viewport contains exactly one promise and one task. After OCR succeeds, the editorial introduction exits and the uploaded label becomes the visual focus beside its correction fields.",
     "keyCharacteristics": [
       "Function inside the Bento. Every visible card performs upload, review, status, or recovery work.",
       "Progressive disclosure. OCR correction appears only after fields exist; downstream Agent routing stays out of the consumer UI.",
@@ -239,7 +245,7 @@
       "Don't use the generated package as a real product, recommendation, or OCR result.",
       "Don't label a food simply safe, healthy, or unhealthy.",
       "Don't rely on hover for essential information.",
-      "Don't merge this visual experiment into main without explicit approval."
+      "Don't reconstruct deleted images or invent missing evidence."
     ]
   }
 }

@@ -159,19 +159,76 @@ def evidence_payload(state: AgentState) -> dict:
 
 
 def alternative_payload(state: AgentState, category: str) -> dict:
+    eligible = [
+        item
+        for item in state["alternatives"]
+        if item.get("disposition") == "eligible"
+    ]
+    coverage = state["alternative_request"].get("catalog_coverage", {})
+    catalog_total = int(coverage.get("total") or 0)
+    review_ready_total = int(coverage.get("evidence_gate_count") or 0)
+    health_comparison_requested = bool(
+        state["alternative_request"].get("health_concerns")
+    )
+    target_comparable = [
+        item
+        for item in eligible
+        if not item.get("catalog_eligibility", {}).get(
+            "missing_comparison_fields", []
+        )
+    ]
+    sugar_missing = [
+        item
+        for item in eligible
+        if "糖"
+        in item.get("catalog_eligibility", {}).get(
+            "missing_comparison_fields", []
+        )
+    ]
+    sugar_evidence_status_counts = {
+        status: sum(
+            item.get("catalog_eligibility", {}).get("sugars_review_status")
+            == status
+            for item in sugar_missing
+        )
+        for status in (
+            "declared",
+            "not_declared",
+            "source_insufficient",
+            "not_reviewed",
+        )
+    }
+    effective = target_comparable if health_comparison_requested else eligible
+    display_limit = state["alternative_request"].get("display_limit", 8)
+
+    def ratio(numerator: int, denominator: int) -> float:
+        return round(numerator / denominator, 4) if denominator else 0.0
+
     return {
         "status": state["status"].value,
         "category": category,
         "catalog_scope": state["alternative_request"].get("catalog_scope"),
         "catalog_status": state["alternative_request"].get("catalog_status"),
         "catalog_warnings": state["alternative_request"].get("catalog_warnings", []),
-        "catalog_coverage": state["alternative_request"].get("catalog_coverage", {}),
+        "catalog_coverage": coverage,
         "selection_basis": state["alternative_request"].get("selection_basis"),
-        "eligible": [
-            item
-            for item in state["alternatives"]
-            if item.get("disposition") == "eligible"
-        ][: state["alternative_request"].get("display_limit", 8)],
+        "eligible": eligible,
+        "display_metrics": {
+            "catalog_count": catalog_total,
+            "displayable_count": len(eligible),
+            "displayable_rate": ratio(len(eligible), catalog_total),
+            "review_ready_catalog_count": review_ready_total,
+            "review_ready_display_rate": ratio(len(eligible), review_ready_total),
+            "initially_visible_count": min(len(eligible), display_limit),
+            "initially_visible_rate": ratio(min(len(eligible), display_limit), catalog_total),
+            "target_comparison_requested": health_comparison_requested,
+            "target_comparable_count": len(target_comparable),
+            "target_comparable_rate": ratio(len(target_comparable), len(eligible)),
+            "sugar_missing_count": len(sugar_missing),
+            "sugar_evidence_status_counts": sugar_evidence_status_counts,
+            "effective_display_count": len(effective),
+            "effective_display_rate": ratio(len(effective), catalog_total),
+        },
         "excluded": [
             item
             for item in state["alternatives"]

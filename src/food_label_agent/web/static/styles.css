@@ -789,6 +789,7 @@ h3 { font-size: 1.2rem; }
 .alternative-controls select:focus-visible { outline: 3px solid var(--paper); box-shadow: 0 0 0 6px var(--teal); }
 .alternative-status { min-height: 1.5em; margin: 12px 0 0; color: var(--muted-small); font-size: 0.72rem; }
 .alternative-source { margin: 12px 0 0; color: var(--ink); font-size: 0.72rem; line-height: 1.6; overflow-wrap: anywhere; }
+.alternative-show-more { display: block; margin: 16px auto 0; }
 .alternative-list { margin-top: 4px; }
 .alternative-item { border-top: 1px solid var(--line); padding: 18px 0; }
 .alternative-item header { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
@@ -1208,7 +1209,7 @@ footer p { margin: 0; }
 
 @media (max-width: 640px) {
   .topbar { min-height: 64px; padding: 0 18px; }
-  .privacy-mark { display: none; }
+  .privacy-mark { max-width: min(48vw, 220px); font-size: .75rem; line-height: 1.25; }
   main { padding: 42px 14px 48px; }
   .hero-layout { gap: 42px; }
   h1 { font-size: clamp(3.15rem, 15vw, 4.5rem); }
@@ -1556,13 +1557,16 @@ body::before { position: fixed; inset: 0 0 auto; z-index: -1; height: 32vh; back
 .topbar { min-height: 78px; border-bottom: 0; padding-inline: clamp(20px, 5vw, 88px); }
 .brand-mark { width: 42px; height: 42px; border-radius: 14px; background: var(--action-lime); color: #26331c; font-family: var(--font-ui); box-shadow: none; }
 .brand strong { font-size: 1.05rem; }
-.brand small { color: #82918c; }
-.topbar-status { color: #70807b; }
-.demo-mark, .proof-state, .review-count { background: #e8f5d0; color: #557614; }
+.brand small { color: #52615d; }
+.topbar-status { color: #52615d; }
+.demo-mark, .proof-state, .review-count { background: #e8f5d0; color: #42600c; }
+.demo-mark { min-height: 44px; border: 0; padding: 8px 12px; font: inherit; cursor: pointer; }
+.demo-mark:focus-visible { outline: 3px solid var(--action-teal); outline-offset: 3px; }
+.is-upload-disabled { opacity: .72; cursor: not-allowed; }
 main { max-width: 1440px; padding-top: clamp(34px, 5vw, 72px); }
 .profile-onboarding, .advice-preview { gap: clamp(34px, 6vw, 88px); }
 .profile-intro, .advice-heading { padding-top: 24px; }
-.eyebrow { margin-bottom: 18px; color: #6fa20e; font-size: .7rem; letter-spacing: .14em; }
+.eyebrow { margin-bottom: 18px; color: #3f6500; font-size: .7rem; letter-spacing: .14em; }
 h1 { color: var(--ink-deep); font-size: clamp(3rem, 5.5vw, 5rem); font-weight: 760; letter-spacing: -.075em; line-height: .96; }
 h2 { font-family: var(--font-ui); font-weight: 760; letter-spacing: -.05em; }
 .intro-copy { color: #65827d; font-weight: 600; }
@@ -1588,7 +1592,7 @@ h2 { font-family: var(--font-ui); font-weight: 760; letter-spacing: -.05em; }
 .app-tabbar { border: 0; border-radius: 22px; background: rgba(255,255,255,.94); box-shadow: 0 14px 40px rgba(49, 75, 67, .16); }
 .app-tabbar-fluid { border-color: var(--canvas); background: var(--action-lime); }
 .app-tabbar button[aria-current="page"] { color: #2d3f27; }
-footer { border-top-color: var(--line); }
+footer { border-top-color: var(--line); color: #52615d; }
 
 @media (max-width: 640px) {
   .topbar { min-height: 70px; }

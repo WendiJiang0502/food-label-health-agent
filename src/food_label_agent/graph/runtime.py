@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
+import time
 from collections.abc import Callable, Mapping
 from functools import lru_cache
-import time
 from typing import Any
 
 from food_label_agent.domain.models import WorkflowTraceEvent

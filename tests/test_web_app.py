@@ -1,12 +1,15 @@
 from __future__ import annotations
 
 import asyncio
+from pathlib import Path
 
 import httpx
+import pytest
 
 from food_label_agent.alternatives.discovery import DiscoveryRefreshResult
 from food_label_agent.mcp import business_tools
-from food_label_agent.web.app import create_app
+from food_label_agent.persistence.sqlite import SQLiteCheckpointStore, SQLiteMemoryStore
+from food_label_agent.web.app import create_app, create_production_app
 
 
 async def request(method: str, path: str, **kwargs) -> httpx.Response:
@@ -50,7 +53,121 @@ def test_platform_index_and_health() -> None:
         "remote_processing": False,
     }
     assert health.json()["product_catalog"] == "official_cn_expanded"
+    assert health.json()["public_url"] is None
     assert favicon.status_code == 200
+    assert health.json()["processing_disclosure_verified"] is True
+    assert health.json()["storage"]["mode"] == "ephemeral_memory"
+    assert health.headers["x-content-type-options"] == "nosniff"
+    assert health.headers["x-frame-options"] == "DENY"
+    assert "frame-ancestors 'none'" in health.headers["content-security-policy"]
+
+
+def test_readiness_reports_real_local_dependencies() -> None:
+    response = asyncio.run(request("GET", "/api/ready"))
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["status"] == "ready"
+    assert payload["checks"]["checkpoint_store"] == {
+        "ok": True,
+        "durable": False,
+    }
+    assert payload["checks"]["product_catalog"]["records"] == 93
+
+
+def test_production_factory_requires_remote_access_and_admin_tokens(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("FOOD_LABEL_OCR_PROVIDER", "demo")
+    monkeypatch.delenv("FOOD_LABEL_SITE_ACCESS_TOKEN", raising=False)
+    monkeypatch.delenv("FOOD_LABEL_DISCOVERY_ADMIN_TOKEN", raising=False)
+
+    with pytest.raises(RuntimeError, match="SITE_ACCESS_TOKEN"):
+        create_production_app()
+
+    monkeypatch.setenv("FOOD_LABEL_SITE_ACCESS_TOKEN", "a" * 32)
+    with pytest.raises(RuntimeError, match="DISCOVERY_ADMIN_TOKEN"):
+        create_production_app()
+
+
+def test_production_access_gate_and_durable_storage(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    database = tmp_path / "remote.sqlite3"
+    app = create_app(
+        checkpoint_store=SQLiteCheckpointStore(database),
+        memory_store=SQLiteMemoryStore(database),
+        production_mode=True,
+        site_access_token="site-access-token-that-is-long-enough",
+    )
+
+    async def scenario():
+        transport = httpx.ASGITransport(app=app)
+        async with httpx.AsyncClient(
+            transport=transport, base_url="https://remote.test"
+        ) as client:
+            denied = await client.get("/")
+            allowed = await client.get(
+                "/", auth=("foodlabel", "site-access-token-that-is-long-enough")
+            )
+            health = await client.get("/api/health")
+            ready = await client.get("/api/ready")
+            return denied, allowed, health, ready
+
+    denied, allowed, health, ready = asyncio.run(scenario())
+
+    assert denied.status_code == 401
+    assert denied.headers["www-authenticate"].startswith("Basic")
+    assert allowed.status_code == 200
+    assert "food_label_site_access=" in allowed.headers["set-cookie"]
+    assert health.status_code == 200
+    assert health.json()["storage"] == {"durable": True, "mode": "sqlite_file"}
+    assert ready.status_code == 503  # synthetic OCR is forbidden in production
+    assert ready.json()["checks"]["product_packaging_evidence"] == {
+        "ok": False,
+        "verified_records": 0,
+        "records": 93,
+    }
+    assert database.exists()
+
+
+def test_declared_oversized_request_is_rejected_before_parsing() -> None:
+    response = asyncio.run(
+        request(
+            "POST",
+            "/api/v1/labels/confirm",
+            headers={"Content-Length": str(1024 * 1024 + 1)},
+            content=b"{}",
+        )
+    )
+
+    assert response.status_code == 413
+    assert response.json()["message"] == "请求内容过大。"
+
+
+def test_ocr_rate_limit_fails_closed_before_provider_work(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("FOOD_LABEL_OCR_REQUESTS_PER_MINUTE", "2")
+    app = create_app()
+
+    async def scenario():
+        transport = httpx.ASGITransport(app=app)
+        async with httpx.AsyncClient(
+            transport=transport, base_url="http://test"
+        ) as client:
+            first = await client.post("/api/v1/ocr/analyze", content=b"")
+            second = await client.post("/api/v1/ocr/analyze", content=b"")
+            limited = await client.post("/api/v1/ocr/analyze", content=b"")
+            return first, second, limited
+
+    first, second, limited = asyncio.run(scenario())
+
+    assert first.status_code != 429
+    assert second.status_code != 429
+    assert limited.status_code == 429
+    assert limited.headers["retry-after"] == "60"
+    assert limited.json()["code"] == "RATE_LIMITED"
 
 
 def test_official_catalog_coverage_api_lists_every_review_item() -> None:
@@ -58,21 +175,21 @@ def test_official_catalog_coverage_api_lists_every_review_item() -> None:
 
     assert response.status_code == 200
     payload = response.json()
-    assert payload["total"] == 100
-    assert payload["full_label_count"] == 50
-    assert payload["evidence_gate_count"] == 51
-    assert len(payload["items"]) == 100
+    assert payload["total"] == 93
+    assert payload["full_label_count"] == 88
+    assert payload["evidence_gate_count"] == 89
+    assert len(payload["items"]) == 93
     assert all("missing_fields" in item["label_coverage"] for item in payload["items"])
 
 
-def test_official_catalog_review_queue_api_excludes_ready_products() -> None:
+def test_official_catalog_review_queue_api_includes_missing_package_photos() -> None:
     response = asyncio.run(request("GET", "/api/v1/alternatives/catalog-review-queue"))
 
     assert response.status_code == 200
     payload = response.json()
-    assert payload["total_catalog_count"] == 100
-    assert payload["queue_count"] == 50
-    assert payload["ready_count"] == 50
+    assert payload["total_catalog_count"] == 93
+    assert payload["queue_count"] == 93
+    assert payload["ready_count"] == 0
     assert all(item["recommendation_eligible"] is False for item in payload["items"])
 
 
@@ -89,7 +206,9 @@ class _FakeDiscovery:
         }
 
     def refresh(self, *, category=None):
-        return DiscoveryRefreshResult(status="completed", summary=self.status(category=category))
+        return DiscoveryRefreshResult(
+            status="completed", summary=self.status(category=category)
+        )
 
     def review(self, **_kwargs):
         raise PermissionError
@@ -100,7 +219,9 @@ def test_official_discovery_refresh_and_status_api() -> None:
 
     async def scenario():
         transport = httpx.ASGITransport(app=app)
-        async with httpx.AsyncClient(transport=transport, base_url="http://test") as client:
+        async with httpx.AsyncClient(
+            transport=transport, base_url="http://test"
+        ) as client:
             refreshed = await client.post(
                 "/api/v1/alternatives/discovery/refresh", json={"category": "snack"}
             )
@@ -120,6 +241,40 @@ def test_official_discovery_refresh_and_status_api() -> None:
     assert refreshed.json()["summary"]["discovered_count"] == 7
     assert status.json()["ready_for_review_count"] == 2
     assert forbidden.status_code == 403
+
+
+def test_production_discovery_refresh_requires_separate_admin_token(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("FOOD_LABEL_DISCOVERY_ADMIN_TOKEN", "discovery-admin-secret")
+    app = create_app(
+        discovery_service=_FakeDiscovery(),
+        production_mode=True,
+        site_access_token="site-access-token-that-is-long-enough",
+    )
+
+    async def scenario():
+        transport = httpx.ASGITransport(app=app)
+        async with httpx.AsyncClient(
+            transport=transport, base_url="https://remote.test"
+        ) as client:
+            await client.get(
+                "/", auth=("foodlabel", "site-access-token-that-is-long-enough")
+            )
+            denied = await client.post(
+                "/api/v1/alternatives/discovery/refresh", json={"category": "snack"}
+            )
+            allowed = await client.post(
+                "/api/v1/alternatives/discovery/refresh",
+                headers={"Authorization": "Bearer discovery-admin-secret"},
+                json={"category": "snack"},
+            )
+            return denied, allowed
+
+    denied, allowed = asyncio.run(scenario())
+
+    assert denied.status_code == 403
+    assert allowed.status_code == 200
 
 
 def test_upload_returns_structured_demo_ocr() -> None:
@@ -197,7 +352,9 @@ def test_confirmation_api_returns_category_for_portion_reference() -> None:
     assert response.json()["alternative_category_suggestion"]["category"] == "snack"
 
 
-def test_category_suggestion_does_not_treat_allergen_trace_as_product_identity() -> None:
+def test_category_suggestion_does_not_treat_allergen_trace_as_product_identity() -> (
+    None
+):
     response = asyncio.run(
         request(
             "POST",

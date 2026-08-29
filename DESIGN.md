@@ -12,6 +12,8 @@ colors:
   supporting-cyan: "#A9DFE5"
   muted-ink: "#788583"
   muted-small: "#64716F"
+  muted-compact: "#52615D"
+  lime-ink: "#3F6500"
   caution: "#8A4B08"
   avoid: "#A9362B"
   compatible: "#14714B"
@@ -47,9 +49,9 @@ spacing:
   section: "72px"
 components:
   button-primary:
-    backgroundColor: "{colors.action-teal}"
-    textColor: "{colors.paper-surface}"
-    rounded: "{rounded.control}"
+    backgroundColor: "{colors.action-lime}"
+    textColor: "{colors.editorial-navy-deep}"
+    rounded: "{rounded.pill}"
     padding: "13px 20px"
   input:
     backgroundColor: "{colors.paper-surface}"
@@ -72,6 +74,7 @@ The first viewport contains exactly one promise and one task. The generated unbr
 - **Progressive disclosure.** OCR correction appears only after fields exist; downstream Agent routing stays out of the consumer UI.
 - **Evidence before interpretation.** Uploaded imagery and confirmed text lead. Decoration cannot imply a health result.
 - **Plain-language safety.** Risk states combine words and symbols, never color alone; no absolute health score or medical clearance.
+- **Evidence tiers stay visible.** Official page transcription and dual-reviewed physical-package evidence are distinct states. A link or page capture is never styled or worded as a verified back-label photo.
 
 ## Visual language
 
@@ -82,7 +85,8 @@ The first viewport contains exactly one promise and one task. The generated unbr
 - `#202727` and `#101817` carry headings and high-contrast copy.
 - `#B7E95B` is the primary action and active navigation accent.
 - `#138A7C` carries focus and evidence links.
-- `#64716F` is the accessible small-copy tone on surfaces.
+- `#64716F` is the accessible small-copy tone on surfaces; `#52615D` is reserved for the smallest persistent header/footer copy.
+- `#3F6500` is accessible lime-family ink for eyebrow text; bright lime remains a surface or action color, never small text on white.
 - Semantic caution, conflict, and compatibility colors appear only beside explicit state text.
 
 ### Typography
@@ -91,7 +95,7 @@ Product UI uses a rounded, platform-native sans stack with heavier display weigh
 
 ### Layout
 
-Desktop begins as an asymmetric two-column hero: the consumer promise owns roughly 36% and the live upload workbench owns 64%. The upload card combines the example package and the action in one surface. When OCR completes, the introduction is hidden and the workspace becomes a 7/5 image-to-correction split. Returning users bypass onboarding and land on the personal dashboard; first-time users see the profile form until they intentionally save it.
+Desktop begins as an asymmetric two-column hero: the consumer promise owns roughly 36% and the live upload workbench owns 64%. The upload card combines the example package and the action in one surface. When OCR completes, the introduction is hidden and the workspace becomes a 7/5 image-to-correction split. Returning users with a valid saved profile bypass onboarding and land on label scanning with their active constraints visible. Users without a valid saved profile always see onboarding after reload, even if anonymous scan history exists. They may explicitly choose the guest quick-scan path, which states that no personal allergen or health filtering will occur.
 
 Below 900px the hero stacks in reading order. Below 640px, the package and upload action stack inside the card and the primary button spans the available width. Every interactive target is at least 44px.
 
@@ -112,6 +116,10 @@ The empty state shows an unbranded package reference, supported file types, the 
 ### OCR review
 
 Review fields stay hidden until analysis succeeds. Confidence remains visible, low-confidence fields say `需确认`, and selecting a field activates its matching image annotation. Confirmation is the only primary action in this state.
+
+### Alternative evidence state
+
+Every alternative card states whether the physical ingredient and nutrition panels have completed independent dual review. `fully_verified` is reserved for an exact SKU/specification with immutable physical-package evidence. Records backed only by official-page text use the partial-evidence treatment and say that the physical package still needs checking. Legacy image links are labeled as source images and never as sufficient packaging proof.
 
 ### Personal dashboard deck
 

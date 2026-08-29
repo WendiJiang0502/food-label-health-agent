@@ -40,6 +40,9 @@ class AlternativeAvailabilityCase:
     constraints: tuple[dict[str, Any], ...] = ()
     health_concerns: tuple[str, ...] = ()
     current_product_name: str | None = None
+    minimum_target_comparable_rate: float = 0.0
+    minimum_effective_display_rate: float = 0.0
+    minimum_distinct_brands: int = 0
 
 
 @dataclass(frozen=True, slots=True)
@@ -49,6 +52,13 @@ class AlternativeAvailabilityEvaluation:
     availability_rate: float
     hard_constraint_violation_rate: float
     eligible_counts: dict[str, int]
+    catalog_record_count: int
+    displayable_count: int
+    displayable_rate: float
+    target_comparable_count: int
+    target_comparable_rate: float
+    effective_display_rate: float
+    case_metrics: dict[str, dict[str, Any]]
     evaluation_passed: bool
     release_blockers: tuple[str, ...]
 
@@ -191,6 +201,11 @@ def evaluate_alternative_availability(
     passed = 0
     violations = 0
     eligible_total = 0
+    catalog_total = 0
+    target_comparable_total = 0
+    effective_total = 0
+    case_metrics: dict[str, dict[str, Any]] = {}
+    threshold_failures: list[str] = []
     for index, case in enumerate(cases, start=1):
         constraints = [
             ConstraintInput.model_validate(item) for item in case.constraints
@@ -224,18 +239,80 @@ def evaluate_alternative_availability(
         passed += len(eligible) >= case.minimum_eligible
         violations += sum(item["risk_level"] != "compatible" for item in eligible)
         eligible_total += len(eligible)
+        catalog_total += int(search.get("catalog_coverage", {}).get("total") or 0)
+        target_comparable = [
+            item
+            for item in eligible
+            if not item.get("catalog_eligibility", {}).get(
+                "missing_comparison_fields", []
+            )
+        ]
+        target_comparable_total += len(target_comparable)
+        case_effective_count = (
+            len(target_comparable) if case.health_concerns else len(eligible)
+        )
+        effective_total += case_effective_count
+        case_catalog_total = int(search.get("catalog_coverage", {}).get("total") or 0)
+        case_comparable_rate = (
+            len(target_comparable) / len(eligible) if eligible else 0.0
+        )
+        case_effective_rate = (
+            case_effective_count / case_catalog_total if case_catalog_total else 0.0
+        )
+        distinct_brands = sorted(
+            {
+                str(item.get("brand") or "").strip()
+                for item in eligible
+                if str(item.get("brand") or "").strip()
+            }
+        )
+        case_metrics[case.name] = {
+            "catalog_record_count": case_catalog_total,
+            "displayable_count": len(eligible),
+            "target_comparable_count": len(target_comparable),
+            "target_comparable_rate": case_comparable_rate,
+            "effective_display_rate": case_effective_rate,
+            "minimum_target_comparable_rate": case.minimum_target_comparable_rate,
+            "minimum_effective_display_rate": case.minimum_effective_display_rate,
+            "distinct_brand_count": len(distinct_brands),
+            "distinct_brands": distinct_brands,
+            "minimum_distinct_brands": case.minimum_distinct_brands,
+        }
+        if case_comparable_rate < case.minimum_target_comparable_rate:
+            threshold_failures.append(
+                f"{case.name}:target_comparable_rate_below_minimum"
+            )
+        if case_effective_rate < case.minimum_effective_display_rate:
+            threshold_failures.append(
+                f"{case.name}:effective_display_rate_below_minimum"
+            )
+        if len(distinct_brands) < case.minimum_distinct_brands:
+            threshold_failures.append(
+                f"{case.name}:distinct_brand_count_below_minimum"
+            )
     violation_rate = violations / eligible_total if eligible_total else 0.0
     blockers: list[str] = []
     if passed != len(cases):
         blockers.append("alternative_catalog_availability_below_minimum")
     if violation_rate:
         blockers.append("alternative_availability_contains_constraint_violation")
+    if threshold_failures:
+        blockers.extend(threshold_failures)
     return AlternativeAvailabilityEvaluation(
         case_count=len(cases),
         passed_case_count=passed,
         availability_rate=passed / len(cases),
         hard_constraint_violation_rate=violation_rate,
         eligible_counts=eligible_counts,
+        catalog_record_count=catalog_total,
+        displayable_count=eligible_total,
+        displayable_rate=(eligible_total / catalog_total if catalog_total else 0.0),
+        target_comparable_count=target_comparable_total,
+        target_comparable_rate=(
+            target_comparable_total / eligible_total if eligible_total else 0.0
+        ),
+        effective_display_rate=(effective_total / catalog_total if catalog_total else 0.0),
+        case_metrics=case_metrics,
         evaluation_passed=not blockers,
         release_blockers=tuple(blockers),
     )

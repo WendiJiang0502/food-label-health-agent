@@ -45,6 +45,16 @@ OFFICIAL_PRODUCT_HOSTS = {
     "meiji.com.cn",
     "www.hormel.com.cn",
     "hormel.com.cn",
+    "www.tolybread.com",
+    "tolybread.com",
+    "www.masterkong.com.cn",
+    "masterkong.com.cn",
+    "www.coca-cola.com",
+    "coca-cola.com",
+    "www.moxiaoxian.cn",
+    "moxiaoxian.cn",
+    "www.eaglecoin.com",
+    "eaglecoin.com",
 }
 OFFICIAL_LABEL_REVERIFY_AFTER = timedelta(days=550)
 OFFICIAL_STORE_HOST_SUFFIXES = (".jd.com", ".tmall.com")
@@ -186,14 +196,17 @@ class OfficialChinaCatalog:
             warnings=("official_sources_require_periodic_human_reverification",),
         )
 
-    def coverage(self, *, category: str | None = None, region: str = "CN") -> dict[str, Any]:
+    def coverage(
+        self, *, category: str | None = None, region: str = "CN"
+    ) -> dict[str, Any]:
         """Return a read-only review queue for every discovered official record."""
 
         records = self._records()
         selected = [
             product
             for product in records
-            if product.region == region and (category is None or product.category == category)
+            if product.region == region
+            and (category is None or product.category == category)
         ]
         items = []
         for product in selected:
@@ -203,6 +216,8 @@ class OfficialChinaCatalog:
                     "product_id": product.product_id,
                     "display_name": product.display_name,
                     "brand": product.brand,
+                    "sku": product.sku,
+                    "specification": product.specification,
                     "category": product.category,
                     "source_rejection": _official_source_rejection(product),
                     "label_coverage": audit,
@@ -231,7 +246,8 @@ class OfficialChinaCatalog:
         selected = [
             product
             for product in self._records()
-            if product.region == region and (category is None or product.category == category)
+            if product.region == region
+            and (category is None or product.category == category)
         ]
         items: list[dict[str, Any]] = []
         for product in selected:
@@ -242,7 +258,7 @@ class OfficialChinaCatalog:
                 (label.valid_through and review_date > label.valid_through)
                 or review_date - source_date > OFFICIAL_LABEL_REVERIFY_AFTER
             )
-            if audit["full_label_ready"] and not reverify_due:
+            if audit["complete_packaging_snapshot_ready"] and not reverify_due:
                 continue
             status = "reverification_due" if reverify_due else "needs_label"
             missing_fields = list(audit["missing_fields"])
@@ -262,6 +278,16 @@ class OfficialChinaCatalog:
                         else _label_completion_action(missing_fields)
                     ),
                     "recommendation_eligible": False,
+                    "capture_requirements": {
+                        "required_identity_fields": ["sku", "specification"],
+                        "required_physical_artifacts": [
+                            "ingredients_or_combined_packaging_photo",
+                            "nutrition_or_combined_packaging_photo",
+                        ],
+                        "minimum_distinct_reviewers": 2,
+                        "official_page_capture_is_sufficient": False,
+                        "content_hash_required": True,
+                    },
                     "source": {
                         "url": label.source_url,
                         "type": label.source_type,
@@ -271,6 +297,17 @@ class OfficialChinaCatalog:
                         "nutrition_image_url": label.nutrition_image_url,
                         "official_store_url": label.official_store_url,
                         "official_store_name": label.official_store_name,
+                        "packaging_snapshots": [
+                            {
+                                "snapshot_id": snapshot.snapshot_id,
+                                "kind": snapshot.evidence_kind,
+                                "artifact_type": snapshot.artifact_type,
+                                "captured_at": snapshot.captured_at.isoformat(),
+                                "content_hash": snapshot.content_hash,
+                                "review_status": snapshot.review_status,
+                            }
+                            for snapshot in label.packaging_snapshots
+                        ],
                     },
                 }
             )
@@ -503,7 +540,7 @@ class ExpandedChinaCatalog:
         primary: ProductCatalog | None = None,
         supplemental: ProductCatalog | None = None,
         *,
-        minimum_records: int = 12,
+        minimum_records: int = 3,
     ) -> None:
         self.primary = primary or OfficialChinaCatalog()
         self.supplemental = supplemental or OpenFoodFactsCatalog(timeout_seconds=4.0)
@@ -528,16 +565,14 @@ class ExpandedChinaCatalog:
                 ),
             )
         seen = {item.product_id for item in primary.records}
-        extra = tuple(item for item in supplemental.records if item.product_id not in seen)
+        extra = tuple(
+            item for item in supplemental.records if item.product_id not in seen
+        )
         return CatalogSearchResult(
             records=(*primary.records, *extra),
             rejected=(*primary.rejected, *supplemental.rejected),
             provider="china_official_sources_with_live_supplement",
-            status=(
-                "ok"
-                if supplemental.status == "ok"
-                else "degraded"
-            ),
+            status=("ok" if supplemental.status == "ok" else "degraded"),
             warnings=tuple(dict.fromkeys([*primary.warnings, *supplemental.warnings])),
         )
 
@@ -546,15 +581,18 @@ def configured_catalog(mode: str | None = None) -> ProductCatalog:
     selected = (
         mode or os.getenv("FOOD_LABEL_PRODUCT_CATALOG", "official_cn_expanded")
     ).strip()
-    return _catalog_for_mode(selected)
+    minimum_records = int(os.getenv("FOOD_LABEL_OFFICIAL_MINIMUM_RECORDS", "3"))
+    if minimum_records < 1:
+        raise ValueError("FOOD_LABEL_OFFICIAL_MINIMUM_RECORDS must be at least 1")
+    return _catalog_for_mode(selected, minimum_records)
 
 
-@lru_cache(maxsize=4)
-def _catalog_for_mode(selected: str) -> ProductCatalog:
+@lru_cache(maxsize=8)
+def _catalog_for_mode(selected: str, minimum_records: int) -> ProductCatalog:
     if selected == "official_cn":
         return OfficialChinaCatalog()
     if selected == "official_cn_expanded":
-        return ExpandedChinaCatalog()
+        return ExpandedChinaCatalog(minimum_records=minimum_records)
     if selected == "openfoodfacts":
         return OpenFoodFactsCatalog()
     if selected == "hybrid":
@@ -566,6 +604,8 @@ def _catalog_for_mode(selected: str) -> ProductCatalog:
 
 def _label_completion_action(missing_fields: list[str]) -> str:
     joined = "、".join(missing_fields)
+    if any("双人复核实物包装" in field for field in missing_fields):
+        return f"拍摄同一 SKU 的配料与营养背标并完成双人复核：{joined}"
     if "完整配料表文字" in missing_fields or "包装过敏原提示" in missing_fields:
         return f"补充包装背标图片并复核：{joined}"
     return f"核对官方页面或包装图片：{joined}"
@@ -611,7 +651,10 @@ def _url_host(value: str) -> str:
 
 
 def _is_official_store_host(host: str) -> bool:
-    return any(host == suffix[1:] or host.endswith(suffix) for suffix in OFFICIAL_STORE_HOST_SUFFIXES)
+    return any(
+        host == suffix[1:] or host.endswith(suffix)
+        for suffix in OFFICIAL_STORE_HOST_SUFFIXES
+    )
 
 
 def _map_open_food_facts_product(
@@ -684,18 +727,14 @@ def _map_open_food_facts_product(
             "source_url": f"{OFF_BASE_URL}/product/{code}",
             "content_hash": f"sha256:{digest}",
             "evidence_quality": (
-                "complete"
-                if allergen_statement and nutrition_rows
-                else "partial"
+                "complete" if allergen_statement and nutrition_rows else "partial"
             ),
             "source_provider": "open_food_facts",
             "source_record_version": str(last_modified),
             "ingredients_image_url": ingredients_image,
             "nutrition_image_url": _selected_image(raw, "nutrition"),
             "source_authority": "community",
-            "source_language": (
-                "zh-CN" if raw.get("ingredients_text_zh") else "other"
-            ),
+            "source_language": ("zh-CN" if raw.get("ingredients_text_zh") else "other"),
             "source_access_region": "CN",
         },
     )
