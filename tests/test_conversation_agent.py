@@ -109,6 +109,9 @@ def test_provider_replays_only_approved_tool_results_and_disables_storage() -> N
     )
     assert all(payload["store"] is False for payload in payloads)
     assert payloads[0]["parallel_tool_calls"] is False
+    assert payloads[0]["max_tool_calls"] == 6
+    assert reply.request_count == 2
+    assert reply.latency_ms >= 0
     assert any(
         item.get("type") == "function_call_output" for item in payloads[1]["input"]
     )

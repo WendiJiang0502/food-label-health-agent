@@ -16,6 +16,7 @@ export FOOD_LABEL_OCR_PROVIDER="${FOOD_LABEL_OCR_PROVIDER:-tencent}"
 export FOOD_LABEL_PRODUCT_CATALOG="${FOOD_LABEL_PRODUCT_CATALOG:-official_cn_expanded}"
 export FOOD_LABEL_HOST="127.0.0.1"
 export FOOD_LABEL_PORT="8000"
+export FOOD_LABEL_CHAT_METRICS_PATH="${FOOD_LABEL_CHAT_METRICS_PATH:-$HOME/.local/share/food-label-health-agent/conversation-metrics.jsonl}"
 
 exec "$project_dir/.venv/bin/python" -m uvicorn \
   food_label_agent.web.app:app \

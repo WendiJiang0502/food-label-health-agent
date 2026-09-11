@@ -236,6 +236,22 @@ food-label-platform
 
 首版工具白名单仅包括当前标签的法规检索、配料解释和包装声称一致性检查。通用网页搜索、代码执行、文件系统、购买行为和未经复核的商品推荐不向对话模型开放。
 
+M7 对话发布门槛包含 30 个可回归案例。默认模式使用脚本化 Provider 验证紧急本地响应、可信上下文、风险保留、输出措辞和工具白名单；`--live` 只让标记过的少量案例调用当前配置模型。两种模式都不会把回答文本写入评测报告。
+
+```bash
+food-label-conversation-eval \
+  --json artifacts/conversation-evaluation.json \
+  --markdown artifacts/conversation-evaluation.md
+
+food-label-conversation-eval --live \
+  --json artifacts/conversation-evaluation-live.json \
+  --markdown artifacts/conversation-evaluation-live.md
+```
+
+本地启动脚本默认把不含对话原文的运行指标写到 `~/.local/share/food-label-health-agent/conversation-metrics.jsonl`。指标只包含匿名会话标识、模型、边界、延迟、Token 数量和工具名称/状态；可用 `FOOD_LABEL_CHAT_METRICS_PATH` 更改位置或留空关闭。
+
+2026-09-11 的首次真实模型验收结果见 [`docs/evaluation/CONVERSATION_AGENT_EVALUATION_2026-09-11.md`](docs/evaluation/CONVERSATION_AGENT_EVALUATION_2026-09-11.md)。
+
 ### RAG 2.0（默认法规检索链路）
 
 RAG 2.0 使用同一个服务端 `OPENAI_API_KEY`，但拥有独立配置。默认 Profile 为 `hybrid_dense_rerank`；法规查询和已通过本地版本过滤的候选官方条款会发送至 OpenAI，食品原图不会发送给 RAG Provider。部署时必须注入 API Key；Provider 不可用时链路会失败关闭，不会生成无依据结论。

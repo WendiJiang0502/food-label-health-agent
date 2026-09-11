@@ -794,6 +794,8 @@ def create_app(
                             "response_id": reply.response_id,
                             "input_tokens": reply.input_tokens,
                             "output_tokens": reply.output_tokens,
+                            "latency_ms": reply.latency_ms,
+                            "request_count": reply.request_count,
                             "boundary": reply.boundary,
                             "tool_events": list(reply.tool_events),
                             "trusted_label_attached": workflow_state is not None,
@@ -805,6 +807,7 @@ def create_app(
                             "model": reply.model,
                             "boundary": reply.boundary,
                             "tool_calls": len(reply.tool_events),
+                            "latency_ms": reply.latency_ms,
                             "trusted_label_attached": workflow_state is not None,
                         },
                     )

@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import time
 import urllib.error
 import urllib.request
 from collections.abc import Callable, Mapping, Sequence
@@ -68,6 +69,8 @@ class ProviderReply:
     input_tokens: int | None
     output_tokens: int | None
     tool_events: tuple[dict[str, Any], ...]
+    latency_ms: float
+    request_count: int
 
 
 class ConversationProviderError(RuntimeError):
@@ -106,6 +109,7 @@ class OpenAIConversationProvider:
         tool_handler: ToolHandler,
         safety_key: str,
     ) -> ProviderReply:
+        started_at = time.perf_counter()
         if self.settings.provider == "disabled":
             raise ConversationProviderError("conversation_disabled")
         if not self.settings.api_key:
@@ -114,7 +118,7 @@ class OpenAIConversationProvider:
         tool_events: list[dict[str, Any]] = []
         total_input_tokens = 0
         total_output_tokens = 0
-        for _step in range(self.settings.max_tool_calls + 1):
+        for request_count in range(1, self.settings.max_tool_calls + 2):
             payload = {
                 "model": self.settings.model,
                 "instructions": instructions,
@@ -131,6 +135,7 @@ class OpenAIConversationProvider:
                         "tools": list(tools),
                         "tool_choice": "auto",
                         "parallel_tool_calls": False,
+                        "max_tool_calls": self.settings.max_tool_calls,
                     }
                 )
             response = self._request(payload)
@@ -155,6 +160,8 @@ class OpenAIConversationProvider:
                     input_tokens=total_input_tokens or None,
                     output_tokens=total_output_tokens or None,
                     tool_events=tuple(tool_events),
+                    latency_ms=round((time.perf_counter() - started_at) * 1000, 3),
+                    request_count=request_count,
                 )
             if len(tool_events) + len(function_calls) > self.settings.max_tool_calls:
                 raise ConversationProviderError("conversation_tool_budget_exhausted")

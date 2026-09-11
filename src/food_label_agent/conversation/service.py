@@ -3,14 +3,21 @@
 from __future__ import annotations
 
 import json
+import time
 from collections.abc import Sequence
 from dataclasses import asdict, dataclass
 from typing import Any
 
 from food_label_agent.graph.state import AgentState
 from food_label_agent.mcp.business_tools import invoke_mcp_tool
+from food_label_agent.observability.conversation import (
+    ConversationMetric,
+    ConversationObserver,
+    anonymize_session_id,
+    create_conversation_observer,
+)
 
-from .provider import OpenAIConversationProvider
+from .provider import ConversationProviderError, OpenAIConversationProvider
 
 SYSTEM_INSTRUCTIONS = """
 你是“食鉴”的食品标签对话助手。你可以自然、连续地回答用户关于食品标签、配料、营养成分、包装声称和替代品的问题。
@@ -90,11 +97,19 @@ class ConversationReply:
     output_tokens: int | None
     tool_events: tuple[dict[str, Any], ...] = ()
     boundary: str = "standard"
+    latency_ms: float = 0.0
+    request_count: int = 0
 
 
 class ConversationAgent:
-    def __init__(self, provider: OpenAIConversationProvider | None = None) -> None:
+    def __init__(
+        self,
+        provider: OpenAIConversationProvider | None = None,
+        *,
+        observer: ConversationObserver | None = None,
+    ) -> None:
         self.provider = provider or OpenAIConversationProvider()
+        self.observer = observer or create_conversation_observer()
 
     @property
     def configured(self) -> bool:
@@ -107,9 +122,10 @@ class ConversationAgent:
         messages: Sequence[dict[str, Any]],
         state: AgentState | None = None,
     ) -> ConversationReply:
+        started_at = time.perf_counter()
         latest = str(messages[-1].get("content") or "") if messages else ""
         if _looks_like_emergency(latest):
-            return ConversationReply(
+            reply = ConversationReply(
                 text=(
                     "你描述的情况可能是严重过敏反应。请立即停止进食并呼叫当地急救服务；"
                     "如果身边有医生已开具的肾上腺素自动注射器，请按医嘱使用。不要等待聊天回复来判断是否就医。"
@@ -119,20 +135,38 @@ class ConversationAgent:
                 input_tokens=None,
                 output_tokens=None,
                 boundary="emergency",
+                latency_ms=round((time.perf_counter() - started_at) * 1000, 3),
             )
+            self._observe(session_id=session_id, reply=reply, state=state)
+            return reply
         trusted_context = _trusted_context(state)
         prompt_messages = _prompt_messages(messages, trusted_context)
-        provider_reply = self.provider.complete(
-            instructions=SYSTEM_INSTRUCTIONS,
-            messages=prompt_messages,
-            tools=TOOL_SCHEMAS if state is not None else (),
-            tool_handler=lambda name, arguments: self._invoke_tool(
-                name, arguments, state
-            ),
-            safety_key=session_id,
-        )
+        try:
+            provider_reply = self.provider.complete(
+                instructions=SYSTEM_INSTRUCTIONS,
+                messages=prompt_messages,
+                tools=TOOL_SCHEMAS if state is not None else (),
+                tool_handler=lambda name, arguments: self._invoke_tool(
+                    name, arguments, state
+                ),
+                safety_key=session_id,
+            )
+        except ConversationProviderError as exc:
+            self.observer.record(
+                ConversationMetric(
+                    outcome="failed",
+                    session_key=anonymize_session_id(session_id),
+                    model=self.provider.settings.model,
+                    boundary="provider_error",
+                    latency_ms=round((time.perf_counter() - started_at) * 1000, 3),
+                    trusted_label_attached=state is not None,
+                    error_code=exc.code,
+                    retryable=exc.retryable,
+                )
+            )
+            raise
         text, boundary = _enforce_output_boundary(provider_reply.text, state)
-        return ConversationReply(
+        reply = ConversationReply(
             text=text,
             model=provider_reply.model,
             response_id=provider_reply.response_id,
@@ -140,6 +174,28 @@ class ConversationAgent:
             output_tokens=provider_reply.output_tokens,
             tool_events=provider_reply.tool_events,
             boundary=boundary,
+            latency_ms=round((time.perf_counter() - started_at) * 1000, 3),
+            request_count=provider_reply.request_count,
+        )
+        self._observe(session_id=session_id, reply=reply, state=state)
+        return reply
+
+    def _observe(
+        self, *, session_id: str, reply: ConversationReply, state: AgentState | None
+    ) -> None:
+        self.observer.record(
+            ConversationMetric(
+                outcome="completed",
+                session_key=anonymize_session_id(session_id),
+                model=reply.model,
+                boundary=reply.boundary,
+                latency_ms=reply.latency_ms,
+                input_tokens=reply.input_tokens,
+                output_tokens=reply.output_tokens,
+                request_count=reply.request_count,
+                tool_events=reply.tool_events,
+                trusted_label_attached=state is not None,
+            )
         )
 
     def _invoke_tool(
