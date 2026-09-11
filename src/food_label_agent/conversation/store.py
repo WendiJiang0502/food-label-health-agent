@@ -20,6 +20,17 @@ from pathlib import Path
 from typing import Any
 from uuid import uuid4
 
+FEEDBACK_REASONS = frozenset(
+    {
+        "misunderstood",
+        "label_fact_error",
+        "unclear",
+        "risk_issue",
+        "evidence_gap",
+        "other",
+    }
+)
+
 
 @dataclass(frozen=True, slots=True)
 class ConversationSessionReceipt:
@@ -84,6 +95,18 @@ class SQLiteConversationStore:
                 FOREIGN KEY(session_id) REFERENCES conversation_sessions(session_id)
                     ON DELETE CASCADE
             );
+            CREATE TABLE IF NOT EXISTS conversation_feedback (
+                feedback_id TEXT PRIMARY KEY,
+                session_key TEXT NOT NULL,
+                message_key TEXT NOT NULL UNIQUE,
+                helpful INTEGER NOT NULL,
+                reason TEXT,
+                retry_requested INTEGER NOT NULL DEFAULT 0,
+                created_at TEXT NOT NULL,
+                expires_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_conversation_feedback_created
+            ON conversation_feedback(created_at);
             """
         )
         self._connection.commit()
@@ -227,6 +250,7 @@ class SQLiteConversationStore:
             "expires_at": row["expires_at"],
             "messages": self.messages(session_id, access_token),
             "structured_state": self.structured_state(session_id, access_token),
+            "feedback": self.feedback(session_id, access_token),
         }
 
     def structured_state(
@@ -262,12 +286,149 @@ class SQLiteConversationStore:
             )
             self._connection.commit()
 
+    def record_feedback(
+        self,
+        session_id: str,
+        access_token: str,
+        *,
+        message_id: str,
+        helpful: bool,
+        reason: str | None = None,
+        retry_requested: bool = False,
+    ) -> dict[str, Any]:
+        """Persist categorical feedback without conversation or label text."""
+
+        self._authorize(session_id, access_token)
+        normalized_reason = str(reason or "").strip() or None
+        if normalized_reason not in FEEDBACK_REASONS | {None}:
+            raise ValueError("Unsupported conversation feedback reason")
+        if not helpful and normalized_reason is None:
+            raise ValueError("Negative feedback requires a reason")
+        with self._lock:
+            message = self._connection.execute(
+                "SELECT role FROM conversation_messages "
+                "WHERE session_id = ? AND message_id = ?",
+                (session_id, str(message_id).strip()),
+            ).fetchone()
+        if message is None:
+            raise KeyError(str(message_id))
+        if message["role"] != "assistant":
+            raise ValueError("Feedback can only target an assistant message")
+        now = datetime.now().astimezone()
+        expires_at = now + timedelta(days=30)
+        session_key = _token_hash(session_id)[:24]
+        message_key = _token_hash(message_id)[:24]
+        feedback_id = str(uuid4())
+        with self._lock:
+            self._connection.execute(
+                "INSERT INTO conversation_feedback "
+                "(feedback_id, session_key, message_key, helpful, reason, "
+                "retry_requested, created_at, expires_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?) "
+                "ON CONFLICT(message_key) DO UPDATE SET helpful = excluded.helpful, "
+                "reason = excluded.reason, retry_requested = excluded.retry_requested, "
+                "created_at = excluded.created_at, expires_at = excluded.expires_at",
+                (
+                    feedback_id,
+                    session_key,
+                    message_key,
+                    int(helpful),
+                    normalized_reason,
+                    int(retry_requested),
+                    now.isoformat(),
+                    expires_at.isoformat(),
+                ),
+            )
+            self._connection.commit()
+            saved = self._connection.execute(
+                "SELECT feedback_id FROM conversation_feedback WHERE message_key = ?",
+                (message_key,),
+            ).fetchone()
+        return {
+            "feedback_id": saved["feedback_id"],
+            "message_id": message_id,
+            "helpful": helpful,
+            "reason": normalized_reason,
+            "retry_requested": retry_requested,
+            "created_at": now.isoformat(),
+            "expires_at": expires_at.isoformat(),
+        }
+
+    def feedback(self, session_id: str, access_token: str) -> list[dict[str, Any]]:
+        self._authorize(session_id, access_token)
+        self.purge_expired_feedback()
+        session_key = _token_hash(session_id)[:24]
+        message_ids = {
+            _token_hash(row["message_id"])[:24]: row["message_id"]
+            for row in self.messages(session_id, access_token)
+            if row["role"] == "assistant"
+        }
+        with self._lock:
+            rows = self._connection.execute(
+                "SELECT * FROM conversation_feedback WHERE session_key = ? "
+                "ORDER BY created_at",
+                (session_key,),
+            ).fetchall()
+        return [
+            {
+                "feedback_id": row["feedback_id"],
+                "message_id": message_ids.get(row["message_key"]),
+                "helpful": bool(row["helpful"]),
+                "reason": row["reason"],
+                "retry_requested": bool(row["retry_requested"]),
+                "created_at": row["created_at"],
+                "expires_at": row["expires_at"],
+            }
+            for row in rows
+            if row["message_key"] in message_ids
+        ]
+
+    def feedback_summary(self) -> dict[str, Any]:
+        """Return aggregate pilot metrics; never return message or session content."""
+
+        self.purge_expired_feedback()
+        with self._lock:
+            rows = self._connection.execute(
+                "SELECT helpful, reason, retry_requested, session_key "
+                "FROM conversation_feedback"
+            ).fetchall()
+        total = len(rows)
+        helpful_count = sum(bool(row["helpful"]) for row in rows)
+        reason_counts = {
+            reason: sum(row["reason"] == reason for row in rows)
+            for reason in sorted(FEEDBACK_REASONS)
+            if any(row["reason"] == reason for row in rows)
+        }
+        return {
+            "feedback_count": total,
+            "helpful_count": helpful_count,
+            "helpful_rate": round(helpful_count / total, 4) if total else None,
+            "negative_reason_counts": reason_counts,
+            "retry_requested_count": sum(bool(row["retry_requested"]) for row in rows),
+            "unique_session_count": len({row["session_key"] for row in rows}),
+            "raw_conversation_stored": False,
+            "retention_days": 30,
+        }
+
     def delete(self, session_id: str, access_token: str) -> int:
         self._authorize(session_id, access_token)
+        session_key = _token_hash(session_id)[:24]
         with self._lock:
+            self._connection.execute(
+                "DELETE FROM conversation_feedback WHERE session_key = ?",
+                (session_key,),
+            )
             cursor = self._connection.execute(
                 "DELETE FROM conversation_sessions WHERE session_id = ?",
                 (session_id,),
+            )
+            self._connection.commit()
+            return int(cursor.rowcount)
+
+    def purge_expired_feedback(self) -> int:
+        now = datetime.now().astimezone().isoformat()
+        with self._lock:
+            cursor = self._connection.execute(
+                "DELETE FROM conversation_feedback WHERE expires_at < ?", (now,)
             )
             self._connection.commit()
             return int(cursor.rowcount)

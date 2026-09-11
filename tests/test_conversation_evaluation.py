@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 from food_label_agent.conversation.provider import (
     ConversationSettings,
     OpenAIConversationProvider,
@@ -46,6 +48,16 @@ def test_conversation_dataset_has_unique_cases_and_live_canaries() -> None:
         "tool_governance",
         "trusted_context",
     }.issubset({case["category"] for case in cases})
+
+
+def test_conversation_evaluation_can_target_exact_case_ids() -> None:
+    report = evaluate_conversation_agent(case_ids=("contradiction.user.01",))
+
+    assert report.case_count == 1
+    assert report.failed_count == 0
+
+    with pytest.raises(ValueError, match="Unknown conversation case"):
+        evaluate_conversation_agent(case_ids=("missing.case",))
 
 
 def test_metrics_file_contains_no_message_or_raw_session_id(tmp_path: Path) -> None:

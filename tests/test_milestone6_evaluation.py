@@ -86,8 +86,13 @@ def test_development_report_is_green_but_never_claims_ocr_release_readiness(
         "alternatives",
         "safety_gate",
         "failure_corpus",
+        "conversation_m8",
+        "pilot_m9",
         "ocr",
     }
+    assert report.components["conversation_m8"]["case_count"] == 112
+    assert report.components["pilot_m9"]["ready_for_closed_pilot"] is True
+    assert report.components["pilot_m9"]["pilot_outcome_validated"] is False
     markdown = render_markdown(report)
     assert "Milestone 6 统一评测报告" in markdown
     assert "版本快照" in markdown
@@ -118,11 +123,13 @@ def test_complete_ocr_alone_cannot_bypass_production_release_gates(
             "blocked_count": 10,
             "provider_error_count": 0,
             "supervised_count": 30,
+            "release_eligible_supervised_count": 30,
             "aggregate_metrics": {
                 "ingredients_cer": 0.01,
                 "allergen_recall": 1.0,
                 "numeric_token_recall": 1.0,
                 "nutrient_value_alignment_accuracy": 1.0,
+                "critical_fact_recall": 1.0,
             },
             "expected_low_quality_count": 10,
             "low_quality_block_recall": 1.0,
@@ -155,6 +162,35 @@ def test_complete_ocr_alone_cannot_bypass_production_release_gates(
         in report.release_blockers
     )
     assert any(item.startswith("deployment_config:") for item in report.release_blockers)
+
+
+def test_release_ocr_requires_blind_double_review_and_ninety_percent_metrics() -> None:
+    from food_label_agent.evaluation.suite import _evaluate_ocr_release
+
+    result = _evaluate_ocr_release(
+        {
+            "sample_count": 50,
+            "provider_error_count": 0,
+            "supervised_count": 50,
+            "release_eligible_supervised_count": 29,
+            "aggregate_metrics": {
+                "allergen_recall": 1.0,
+                "critical_fact_recall": 0.899,
+                "numeric_token_recall": 0.899,
+                "nutrient_value_alignment_accuracy": 0.899,
+            },
+            "low_quality_block_recall": 1.0,
+        },
+        profile="release",
+    )
+
+    assert result["evaluation_passed"] is False
+    assert set(result["release_blockers"]) == {
+        "ocr_double_reviewed_blind_count_below_release_threshold",
+        "ocr_critical_fact_recall_below_release_threshold",
+        "ocr_numeric_recall_below_release_threshold",
+        "ocr_nutrition_alignment_below_release_threshold",
+    }
 
 
 def test_release_profile_records_dirty_worktree_as_a_blocker() -> None:

@@ -345,15 +345,15 @@ class OfficialProductDiscovery:
         candidates = []
         for identity in seed_products:
             url = str(identity.get("source_url") or "").strip()
-            page = pages.get(url)
-            if page is None:
+            identity_page = pages.get(url)
+            if identity_page is None:
                 continue
             candidate = _candidate_from_page(
                 source,
                 url,
                 _OfficialPage(),
                 identity=identity,
-                source_page_fingerprint=sha256(page.text.encode()).hexdigest(),
+                source_page_fingerprint=sha256(identity_page.text.encode()).hexdigest(),
             )
             if candidate is not None:
                 candidates.append(candidate)

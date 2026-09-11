@@ -15,7 +15,7 @@ dependencies = [
   "numpy>=1.26,<3",
   "opencv-python-headless>=4.10,<5",
   "pdfplumber>=0.11,<1",
-  "pypdf>=6,<7",
+  "pypdf>=6.16.1,<7",
   "pydantic>=2.13,<3",
   "python-multipart>=0.0.20,<1",
   "starlette>=1.3,<2",
@@ -53,8 +53,10 @@ food-label-rag-eval = "food_label_agent.evaluation.rag_ablation:main"
 food-label-conversation-eval = "food_label_agent.evaluation.conversation:main"
 food-label-conversation-models = "food_label_agent.evaluation.conversation_models:main"
 food-label-openai-evals = "food_label_agent.evaluation.openai_evals:main"
+food-label-pilot-eval = "food_label_agent.evaluation.pilot:main"
 food-label-regulations-ingest = "food_label_agent.regulations.cli:main"
 food-label-packaging-evidence = "food_label_agent.alternatives.packaging_cli:main"
+food-label-data = "food_label_agent.persistence.backup:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

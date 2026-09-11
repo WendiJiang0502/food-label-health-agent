@@ -1,8 +1,11 @@
 from __future__ import annotations
 
 import asyncio
+import base64
 from types import SimpleNamespace
 
+import cv2
+import numpy as np
 import pytest
 
 from food_label_agent.ocr.config import OCRSettings
@@ -48,6 +51,9 @@ def cell(row: int, column: int, text: str, confidence: float = 98):
 class FakeRequest:
     ImageBase64: str | None = None
     UseNewModel: bool | None = None
+    EnableDetectSplit: bool | None = None
+    ConfigID: str | None = None
+    WordsType: str | None = None
 
 
 class FakeClient:
@@ -131,7 +137,61 @@ def test_tencent_provider_maps_general_text_and_table_cells() -> None:
     assert "钠\t55毫克" in indexed["nutrition_table"].raw_text
     assert indexed["nutrition_table"].requires_confirmation is True
     assert client.general_request.ImageBase64
-    assert client.table_request.UseNewModel is False
+    assert client.general_request.EnableDetectSplit is True
+    assert client.general_request.ConfigID == "OCR"
+    assert client.general_request.WordsType == "2"
+    assert client.table_request.UseNewModel is True
+
+
+def test_tencent_provider_enlarges_720p_packaging_before_upload() -> None:
+    client = FakeClient()
+    source = np.full((720, 1280, 3), 255, dtype=np.uint8)
+    ok, encoded = cv2.imencode(".jpg", source)
+    assert ok
+
+    asyncio.run(
+        provider(client).analyze(
+            OCRInput(
+                content=encoded.tobytes(),
+                file_name="label.jpg",
+                media_type="image/jpeg",
+                width=1280,
+                height=720,
+            )
+        )
+    )
+
+    uploaded = cv2.imdecode(
+        np.frombuffer(base64.b64decode(client.general_request.ImageBase64), np.uint8),
+        cv2.IMREAD_COLOR,
+    )
+    assert min(uploaded.shape[:2]) == 1100
+
+
+def test_table_row_repairs_energy_label_from_unambiguous_kilojoule_unit() -> None:
+    client = FakeClient()
+    original = client.RecognizeTableAccurateOCR
+
+    def mislabeled_energy(request):
+        response = original(request)
+        response.TableDetections[0].Cells[2].Text = "脂"
+        return response
+
+    client.RecognizeTableAccurateOCR = mislabeled_energy
+    fields = asyncio.run(
+        provider(client).analyze(
+            OCRInput(
+                content=b"image-bytes",
+                file_name="label.jpg",
+                media_type="image/jpeg",
+                width=1000,
+                height=800,
+            )
+        )
+    )
+
+    table = {field.name: field for field in fields}["nutrition_table"]
+    assert "能量\t271千焦" in table.raw_text
 
 
 def test_tencent_provider_skips_table_api_without_nutrition_cues() -> None:
@@ -179,6 +239,8 @@ def test_tencent_environment_settings_are_server_only() -> None:
         {
             "FOOD_LABEL_OCR_PROVIDER": "tencent",
             "FOOD_LABEL_TENCENT_REGION": "ap-shanghai",
+            "FOOD_LABEL_TENCENT_DETECT_SPLIT_ENABLED": "false",
+            "FOOD_LABEL_TENCENT_PRINTED_TEXT_ONLY": "false",
             "FOOD_LABEL_TENCENT_TABLE_ENABLED": "false",
             "FOOD_LABEL_TENCENT_TABLE_NEW_MODEL": "true",
             "FOOD_LABEL_TENCENT_MAX_CONCURRENCY": "4",
@@ -190,6 +252,8 @@ def test_tencent_environment_settings_are_server_only() -> None:
 
     assert settings.provider == "tencent"
     assert settings.tencent_region == "ap-shanghai"
+    assert settings.tencent_detect_split_enabled is False
+    assert settings.tencent_printed_text_only is False
     assert settings.tencent_table_enabled is False
     assert settings.tencent_table_new_model is True
     assert settings.tencent_max_concurrency == 4
@@ -229,6 +293,37 @@ def test_tencent_retryable_failures_open_local_circuit() -> None:
     assert blocked.value.retryable is True
 
 
+def test_tencent_unknown_internal_failure_is_retryable() -> None:
+    class TencentLikeError(Exception):
+        def get_code(self):
+            return "FailedOperation.UnKnowError"
+
+    client = FakeClient()
+    attempts = 0
+
+    def fail_twice_then_succeed(request):
+        nonlocal attempts
+        attempts += 1
+        if attempts < 3:
+            raise TencentLikeError("internal error")
+        return FakeClient().GeneralAccurateOCR(request)
+
+    client.GeneralAccurateOCR = fail_twice_then_succeed
+    asyncio.run(
+        provider(client).analyze(
+            OCRInput(
+                content=b"image-bytes",
+                file_name="label.jpg",
+                media_type="image/jpeg",
+                width=1000,
+                height=800,
+            )
+        )
+    )
+
+    assert attempts == 3
+
+
 def test_tencent_unopened_service_is_translated_to_safe_operator_error() -> None:
     class TencentLikeError(Exception):
         def get_code(self):
@@ -257,7 +352,7 @@ def test_tencent_unopened_service_is_translated_to_safe_operator_error() -> None
     assert "服务尚未开通" in str(captured.value)
 
 
-def test_complete_coordinate_table_skips_paid_table_api() -> None:
+def test_complete_coordinate_table_is_verified_by_table_api() -> None:
     client = FakeClient()
     texts = [
         ("配料：生牛乳", (100, 100, 500, 135)),
@@ -290,7 +385,7 @@ def test_complete_coordinate_table_skips_paid_table_api() -> None:
     )
 
     indexed = {field.name: field for field in fields}
-    assert client.table_request is None
+    assert client.table_request is not None
     assert "钠\t55毫克" in indexed["nutrition_table"].raw_text
 
 
@@ -319,3 +414,77 @@ def test_unavailable_table_api_degrades_to_partial_coordinate_evidence() -> None
 
     assert "nutrition_basis" in {field.name for field in fields}
     assert provider_instance.name == "tencentcloud-general-accurate+coordinate-table"
+
+
+def test_incomplete_full_image_table_uses_review_only_nutrition_crop() -> None:
+    class CropAwareClient(FakeClient):
+        def __init__(self) -> None:
+            super().__init__()
+            self.table_calls = 0
+
+        def GeneralAccurateOCR(self, request):
+            return SimpleNamespace(
+                TextDetections=[
+                    detection("配料：鸡肉、猪肉", 99, (100, 100, 500, 140)),
+                    detection("营养成分表", 99, (280, 360, 440, 400)),
+                    detection("每100g", 99, (330, 410, 450, 445)),
+                    detection("781N", 99, (350, 450, 440, 485)),
+                ]
+            )
+
+        def RecognizeTableAccurateOCR(self, request):
+            self.table_calls += 1
+            if self.table_calls == 1:
+                return SimpleNamespace(TableDetections=[])
+            rows = [
+                (0, "项目", "每100g"),
+                (1, "能量", "78.1kJ"),
+                (2, "蛋白质", "13.5g"),
+                (3, "脂肪", "11.0g"),
+                (4, "氧化化合物", "8.5g"),
+                (5, "钠", "880mg"),
+            ]
+            cells = [
+                value
+                for row, label, amount in rows
+                for value in (cell(row, 0, label), cell(row, 1, amount))
+            ]
+            return SimpleNamespace(
+                TableDetections=[
+                    SimpleNamespace(
+                        Cells=cells,
+                        TableCoordPoint=[
+                            point(100, 300),
+                            point(520, 300),
+                            point(520, 575),
+                            point(100, 575),
+                        ],
+                    )
+                ]
+            )
+
+    client = CropAwareClient()
+    source = np.full((800, 1000, 3), 255, dtype=np.uint8)
+    ok, encoded = cv2.imencode(".jpg", source)
+    assert ok
+
+    fields = asyncio.run(
+        provider(client).analyze(
+            OCRInput(
+                content=encoded.tobytes(),
+                file_name="label.jpg",
+                media_type="image/jpeg",
+                width=1000,
+                height=800,
+            )
+        )
+    )
+
+    table = {field.name: field for field in fields}["nutrition_table"]
+    assert client.table_calls == 2
+    assert "能量\t781kJ" in table.raw_text
+    assert "碳水化合物\t8.5g" in table.raw_text
+    assert table.bounding_box is not None
+    assert table.bounding_box.x >= 0.06
+    assert table.requires_confirmation is True
+    assert table.confidence <= 0.5

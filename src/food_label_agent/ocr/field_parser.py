@@ -11,19 +11,19 @@ from .models import BoundingBox, OCRFieldResult, OCRLineEvidence
 
 _SECTION_STOP = re.compile(
     r"过敏原|致敏|可能含有|本品含有|本产品含有|营养成分|贮存|储存|保质期|生产日期|"
-    r"生产商|制造商|经销商|委托商|地址|电话|执行标准|产品标准|产品类型|质量等级|"
+    r"生产商|制造商|经销商|委托商|地址|电话|执行标准|产品标准|产品类型|产品类别|质量等级|"
     r"质量指标|食用方法|适宜人群|不适宜人群|生产许可证|净含量|主料含量|温馨提示|"
-    r"Manufactured"
+    r"食品名称|产品名称|品名|烹调|减糖|果汁总含量|茶多酚含量|Manufactured"
 )
 _INGREDIENT_HEADING = re.compile(
-    r"^[\s·•:：,，;；]*(?:配料(?:表)?|原材料(?:名)?|原料)\s*[:：]?\s*(.*)"
+    r"(?:^|[·•])[\s·•:：,，;；]*(?:配料(?:表)?|原材料(?:名)?|原料)\s*[:：]?\s*(.*)"
 )
 _DEGRADED_INGREDIENT_HEADING = re.compile(
     r"^[\s·•:：,，;；]*配(?=(?:小麦粉|大米|水[、,，]|牛肉|鸡|猪|马铃薯|白砂糖|燕麦))"
 )
 _ALLERGEN_CUE = re.compile(
     r"过敏原|致敏|可能含有|本品含有|本产品含有|含有(?:麸质|乳|蛋|花生|大豆|坚果|鱼|虾|蟹)"
-    r"|甲壳类动物制品"
+    r"|(?:本品|本产品)?原材料中含有|甲壳类动物制品"
 )
 _NUTRITION_BASIS = re.compile(
     r"每\s*(?:100\s*(?:克|g|毫升|ml)|份(?:\s*\d+(?:\.\d+)?\s*(?:克|g|毫升|ml))?)",
@@ -42,12 +42,24 @@ _CLAIM_CUE = re.compile(
     re.IGNORECASE,
 )
 _SPECIFICATION_LINE = re.compile(
-    r"(?:≥|≤|mg/kg|g/100g|以干基计|指标要求|理化指标)", re.IGNORECASE
+    r"(?:mg/kg|g/100g|以干基计|指标要求|理化指标)", re.IGNORECASE
 )
 _NON_INGREDIENT_VALUE = re.compile(
     r"^(?:项目|营养素参考值|NRV%?|能量|蛋白质|脂肪|反式脂肪酸|"
     r"碳水化合物|钠|钙|糖|膳食纤维|\d+(?:\.\d+)?\s*(?:kJ|千焦|g|克|mg|毫克|%)?)$",
     re.IGNORECASE,
+)
+_NON_INGREDIENT_INSTRUCTION = re.compile(
+    r"分钟|水饺数量|水沸后|蒸架|加盖|煎至|微波炉|扫码|扫一扫|活动规则"
+)
+_ALLERGEN_CONTINUATION = re.compile(
+    r"^\s*(?:质的|分[，,、；;]|含有|可能含有|以及|及其|、|"
+    r"该生产设备|此生产线|本生产线|同一生产线|生产设备|设备还)"
+)
+_ALLERGEN_SECTION_STOP = re.compile(
+    r"营养成分|贮存|储存|保质期|生产日期|生产商|制造商|经销商|委托商|"
+    r"地址|电话|执行标准|产品标准|产品类型|产品类别|质量等级|质量指标|"
+    r"食用方法|生产许可证|净含量|温馨提示|食品名称|产品名称|品名"
 )
 
 
@@ -62,8 +74,11 @@ def parse_food_label_fields(
     lines: list[OCRLine], settings: OCRSettings
 ) -> list[OCRFieldResult]:
     ingredient_lines = _ingredient_lines(lines)
+    ingredient_candidates = (
+        [] if ingredient_lines else _ingredient_candidate_lines(lines)
+    )
     ingredient_section_found = bool(ingredient_lines)
-    allergen_lines = [line for line in lines if _ALLERGEN_CUE.search(line.text)]
+    allergen_lines = _allergen_section_lines(lines)
     nutrition_lines = _unique_lines(
         extracted for line in lines for extracted in _nutrition_basis_lines(line)
     )
@@ -82,7 +97,18 @@ def parse_food_label_fields(
                 confidence_ceiling=0.84,
             )
             if ingredient_section_found
-            else _missing_ingredients_field()
+            else (
+                _field(
+                    name="ingredients",
+                    label="配料候选（标题未识别，请人工确认）",
+                    lines=ingredient_candidates,
+                    threshold=settings.general_threshold,
+                    force_confirmation=True,
+                    confidence_ceiling=0.5,
+                )
+                if ingredient_candidates
+                else _missing_ingredients_field()
+            )
         )
     ]
     if product_name_lines:
@@ -142,12 +168,127 @@ def parse_food_label_fields(
 def _ingredient_lines(lines: list[OCRLine]) -> list[OCRLine]:
     for index, line in enumerate(lines):
         inline = _ingredient_heading_value(line.text)
+        working_lines = lines
+        if (
+            inline is None
+            and re.sub(r"\s+", "", line.text) == "配"
+            and index + 1 < len(lines)
+            and re.match(r"^\s*料\s*[:：]", lines[index + 1].text)
+        ):
+            following = lines[index + 1]
+            merged = OCRLine(
+                text=f"配{following.text}",
+                confidence=min(line.confidence, following.confidence),
+                bounding_box=_union_box([line, following]),
+            )
+            working_lines = [*lines[:index], merged, *lines[index + 2 :]]
+            line = merged
+            inline = _ingredient_heading_value(merged.text)
         if inline is None:
             continue
         if line.bounding_box is not None:
-            return _spatial_ingredient_lines(lines, index, inline)
-        return _sequential_ingredient_lines(lines, index, inline)
+            return _spatial_ingredient_lines(working_lines, index, inline)
+        return _sequential_ingredient_lines(working_lines, index, inline)
     return []
+
+
+def _ingredient_candidate_lines(lines: list[OCRLine]) -> list[OCRLine]:
+    """Expose a review-only candidate when glare hides only the heading."""
+
+    additive_indexes = [
+        index for index, line in enumerate(lines) if "食品添加剂" in line.text
+    ]
+    if not additive_indexes:
+        return []
+    anchor_index = additive_indexes[0]
+    start = anchor_index
+    while start > 0 and anchor_index - start < 3:
+        previous = lines[start - 1]
+        if _is_section_boundary(previous.text) or _is_non_ingredient_line(
+            previous.text
+        ):
+            break
+        start -= 1
+    selected: list[OCRLine] = []
+    for candidate in lines[start : anchor_index + 21]:
+        if selected and _is_section_boundary(candidate.text):
+            break
+        if _is_non_ingredient_line(candidate.text):
+            continue
+        cleaned = _clean_ingredient_text(candidate.text)
+        if cleaned:
+            selected.append(
+                OCRLine(cleaned, candidate.confidence, candidate.bounding_box)
+            )
+    joined = "".join(item.text for item in selected)
+    food_cues = sum(
+        cue in joined
+        for cue in ("鸡肉", "猪肉", "牛肉", "白砂糖", "食用盐", "大豆", "小麦")
+    )
+    if food_cues < 2 or not re.search(r"[、,，]", joined):
+        return []
+    return _unique_lines(selected)
+
+
+def _allergen_section_lines(lines: list[OCRLine]) -> list[OCRLine]:
+    anchor_indexes = [
+        index for index, line in enumerate(lines) if _ALLERGEN_CUE.search(line.text)
+    ]
+    if not anchor_indexes:
+        return []
+    anchor_index = anchor_indexes[0]
+    anchor = lines[anchor_index]
+    if anchor.bounding_box is None:
+        return _sequential_allergen_lines(lines, anchor_index)
+
+    selected = [anchor]
+    ordered = sorted(
+        (line for line in lines if line.bounding_box is not None),
+        key=lambda item: (item.bounding_box.y, item.bounding_box.x),  # type: ignore[union-attr]
+    )
+    previous = anchor
+    for candidate in ordered:
+        candidate_box = candidate.bounding_box
+        previous_box = previous.bounding_box
+        if candidate is anchor or candidate_box is None or previous_box is None:
+            continue
+        if candidate_box.y < anchor.bounding_box.y:  # type: ignore[union-attr]
+            continue
+        row_progress = candidate_box.y - previous_box.y
+        if row_progress < max(min(previous_box.height, candidate_box.height) * 0.2, 0.005):
+            continue
+        vertical_gap = candidate_box.y - (previous_box.y + previous_box.height)
+        max_gap = max(previous_box.height, candidate_box.height, 0.02) * 2.5
+        max_overlap = max(previous_box.height, candidate_box.height) * 0.8
+        same_column = abs(candidate_box.x - previous_box.x) <= 0.12
+        if not (-max_overlap <= vertical_gap <= max_gap and same_column):
+            continue
+        if not _is_allergen_continuation(previous.text, candidate.text):
+            continue
+        selected.append(candidate)
+        previous = candidate
+    return _unique_lines(selected)
+
+
+def _sequential_allergen_lines(
+    lines: list[OCRLine], anchor_index: int
+) -> list[OCRLine]:
+    selected = [lines[anchor_index]]
+    for candidate in lines[anchor_index + 1 : anchor_index + 7]:
+        if not _is_allergen_continuation(selected[-1].text, candidate.text):
+            break
+        selected.append(candidate)
+    return _unique_lines(selected)
+
+
+def _is_allergen_continuation(previous: str, candidate: str) -> bool:
+    if _ALLERGEN_SECTION_STOP.search(candidate) or _is_non_ingredient_line(candidate):
+        return False
+    if _ALLERGEN_CONTINUATION.search(candidate):
+        return True
+    # OCR commonly wraps in the middle of a word. A non-terminal preceding line
+    # therefore remains part of the statement until a known package section begins.
+    return not bool(re.search(r"[。！？.!?]\s*$", previous))
 
 
 def _sequential_ingredient_lines(
@@ -189,7 +330,7 @@ def _spatial_ingredient_lines(
     box = heading.bounding_box
     assert box is not None
     line_height = max(box.height, 0.015)
-    min_x = max(0.0, box.x - 0.22)
+    min_x = max(0.0, box.x - 0.06)
     min_y = max(0.0, box.y - (0.012 if _ingredient_prefix(inline) else 0.055))
     max_y = min(1.0, box.y + 0.30)
 
@@ -207,7 +348,7 @@ def _spatial_ingredient_lines(
         candidate
         for candidate in lines
         if candidate.bounding_box is not None
-        and candidate.bounding_box.y >= box.y - 0.01
+        and candidate.bounding_box.y >= box.y + box.height * 0.8
         and candidate.bounding_box.y <= max_y
         and candidate.bounding_box.x >= min_x
         and candidate.bounding_box.x < blocked_right_start
@@ -245,7 +386,7 @@ def _spatial_ingredient_lines(
         if cleaned:
             candidates.append(OCRLine(cleaned, candidate.confidence, candidate_box))
 
-    tolerance = max(0.025, line_height * 1.5)
+    tolerance = max(0.012, line_height * 0.7)
     candidates.sort(
         key=lambda candidate: (
             round(candidate.bounding_box.y / tolerance) * tolerance,  # type: ignore[union-attr]
@@ -278,6 +419,7 @@ def _is_non_ingredient_line(text: str) -> bool:
     return bool(
         _NON_INGREDIENT_VALUE.fullmatch(normalized)
         or _SPECIFICATION_LINE.search(text)
+        or _NON_INGREDIENT_INSTRUCTION.search(text)
         or re.fullmatch(r"[\d./%\-年月日]+", normalized)
         or normalized == "第、"
         or normalized in {"(油炸方便面)", "（油炸方便面）"}

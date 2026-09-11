@@ -76,6 +76,19 @@ def test_compact_but_sharp_crop_is_warned_not_blocked_by_size() -> None:
     ]
 
 
+def test_clear_720p_label_is_not_warned_by_resolution_alone() -> None:
+    metrics = ImageQualityMetrics(
+        width=720,
+        height=1280,
+        blur_score=240,
+        brightness=130,
+        contrast=42,
+        foreground_ratio=0.08,
+    )
+
+    assert evaluate_quality_metrics(metrics) == ()
+
+
 def test_geometry_and_local_focus_signals_are_review_warnings() -> None:
     metrics = ImageQualityMetrics(
         width=1200,

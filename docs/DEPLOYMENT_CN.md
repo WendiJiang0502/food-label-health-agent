@@ -33,7 +33,23 @@ FOOD_LABEL_CHAT_PROVIDER=openai
 FOOD_LABEL_CHAT_MODEL=gpt-5.6-terra
 FOOD_LABEL_CHAT_REASONING_EFFORT=low
 FOOD_LABEL_CHAT_RETENTION_HOURS=24
+FOOD_LABEL_CHAT_MAX_COST_USD=0.25
+FOOD_LABEL_DEV_TOKEN=由密钥管理服务注入的独立诊断令牌
 OPENAI_API_KEY=由密钥管理服务注入
 ```
 
 国内法规检索仍可使用 `hybrid_tfidf`，避免额外发送法规查询与候选条款。如完成相应数据处理评估后启用远程 RAG，再设置 `FOOD_LABEL_RAG_PROFILE=hybrid_dense_rerank`；所有远程能力共用服务端 API Key，但拥有独立开关。
+
+`FOOD_LABEL_CHAT_MAX_COST_USD` 是一次回答（包括受控工具循环）的硬成本上限，达到上限会停止继续调用并返回安全降级提示。封闭试用期间通过带开发令牌的 `GET /api/v1/pilot/metrics` 查看聚合评价；接口不返回问题、回答或标签原文。
+
+## 备份、恢复与封闭试用验收
+
+不要直接复制正在写入的 SQLite 主库。使用 SQLite 在线备份并立即做完整性检查：
+
+```bash
+mkdir -p /app/backups
+food-label-data backup --source /app/data/agent-data.sqlite3 --output /app/backups/agent-data.sqlite3
+food-label-data verify --path /app/backups/agent-data.sqlite3
+```
+
+恢复演练应在隔离环境中使用备份启动服务，检查 `/api/ready`、创建并删除一条测试会话，随后销毁演练副本。M9 门禁至少需要 10 名真人、100 个已完成任务、任务完成率 85%、有帮助率 80%、严重安全事故为 0，并满足延迟门槛。模板位于 `evaluation/pilot/m9_human_results.template.json`；不得用合成或模型生成数据代替真人证据。

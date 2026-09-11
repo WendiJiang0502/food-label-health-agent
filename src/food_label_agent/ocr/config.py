@@ -91,8 +91,10 @@ class OCRSettings:
     table_parser: str = "disabled"
     table_ocr_version: str = "PP-OCRv5"
     tencent_region: str = "ap-guangzhou"
+    tencent_detect_split_enabled: bool = True
+    tencent_printed_text_only: bool = True
     tencent_table_enabled: bool = True
-    tencent_table_new_model: bool = False
+    tencent_table_new_model: bool = True
     tencent_max_concurrency: int = 2
     tencent_queue_timeout_seconds: float = 10.0
     tencent_circuit_failure_threshold: int = 5
@@ -143,11 +145,17 @@ class OCRSettings:
             tencent_region=source.get(
                 "FOOD_LABEL_TENCENT_REGION", "ap-guangzhou"
             ).strip(),
+            tencent_detect_split_enabled=_read_bool(
+                source, "FOOD_LABEL_TENCENT_DETECT_SPLIT_ENABLED", True
+            ),
+            tencent_printed_text_only=_read_bool(
+                source, "FOOD_LABEL_TENCENT_PRINTED_TEXT_ONLY", True
+            ),
             tencent_table_enabled=_read_bool(
                 source, "FOOD_LABEL_TENCENT_TABLE_ENABLED", True
             ),
             tencent_table_new_model=_read_bool(
-                source, "FOOD_LABEL_TENCENT_TABLE_NEW_MODEL", False
+                source, "FOOD_LABEL_TENCENT_TABLE_NEW_MODEL", True
             ),
             tencent_max_concurrency=_read_int_range(
                 source,

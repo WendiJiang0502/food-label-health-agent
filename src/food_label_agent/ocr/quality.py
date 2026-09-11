@@ -117,12 +117,12 @@ def evaluate_quality_metrics(
                 "图片分辨率过低，请靠近标签重新拍摄",
             )
         )
-    elif short_side < 800:
+    elif short_side < 600:
         issues.append(
             ImageQualityIssue(
                 "IMAGE_SIZE_CAUTION",
                 QualitySeverity.WARNING,
-                "图片分辨率偏低，请重点核对小字",
+                "图片尺寸低于 OCR 建议值，请重点核对小字",
             )
         )
 

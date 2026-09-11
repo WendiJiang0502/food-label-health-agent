@@ -713,6 +713,78 @@ def create_app(
         except ValueError as exc:
             return _error(str(exc), status_code=422)
 
+    async def conversation_feedback(request: Request) -> JSONResponse:
+        try:
+            payload = await request.json()
+            if not isinstance(payload, dict):
+                raise TypeError("反馈请求必须是对象。")
+            if not isinstance(payload.get("helpful"), bool):
+                raise TypeError("请选择这条回答是否有帮助。")
+            session_id = request.path_params["session_id"]
+            feedback = conversations.record_feedback(
+                session_id,
+                _bearer_token(request),
+                message_id=str(payload.get("message_id") or "").strip(),
+                helpful=payload["helpful"],
+                reason=payload.get("reason"),
+                retry_requested=payload.get("retry_requested") is True,
+            )
+            return JSONResponse(
+                {
+                    "status": "recorded",
+                    "feedback": feedback,
+                    "privacy": {
+                        "raw_conversation_stored": False,
+                        "retention_days": 30,
+                    },
+                },
+                status_code=201,
+            )
+        except KeyError:
+            return _error("没有找到这条对话回答。", status_code=404)
+        except PermissionError:
+            return _error("对话访问令牌无效。", status_code=403)
+        except (TypeError, ValueError, json.JSONDecodeError) as exc:
+            return _error(str(exc), status_code=422)
+
+    async def pilot_metrics(request: Request) -> JSONResponse:
+        configured = os.getenv("FOOD_LABEL_DEV_TOKEN", "").strip()
+        try:
+            supplied = _bearer_token(request)
+        except PermissionError:
+            supplied = ""
+        if not configured or not hmac.compare_digest(supplied, configured):
+            return _error("试用指标需要有效的开发者令牌。", status_code=403)
+        summary = conversations.feedback_summary()
+        thresholds = {
+            "minimum_feedback_count": 100,
+            "minimum_unique_sessions": 20,
+            "minimum_helpful_rate": 0.80,
+        }
+        gates = {
+            "feedback_volume": summary["feedback_count"]
+            >= thresholds["minimum_feedback_count"],
+            "session_coverage": summary["unique_session_count"]
+            >= thresholds["minimum_unique_sessions"],
+            "helpful_rate": summary["helpful_rate"] is not None
+            and summary["helpful_rate"] >= thresholds["minimum_helpful_rate"],
+        }
+        return JSONResponse(
+            {
+                "status": "feedback_thresholds_met"
+                if all(gates.values())
+                else "collecting",
+                "summary": summary,
+                "thresholds": thresholds,
+                "gates": gates,
+                "feedback_gate_passed": all(gates.values()),
+                "pilot_outcome_validated": False,
+                "validation_note": (
+                    "聚合反馈不能替代带审核声明的真人任务、严重事件和延迟验收。"
+                ),
+            }
+        )
+
     async def conversation_message(request: Request) -> Response:
         try:
             payload = await request.json()
@@ -799,7 +871,7 @@ def create_app(
                         )
                     for chunk in _text_chunks(reply.text, 42):
                         yield _sse_event("delta", {"text": chunk})
-                    conversations.append_message(
+                    assistant_message = conversations.append_message(
                         session_id,
                         access_token,
                         role="assistant",
@@ -830,6 +902,7 @@ def create_app(
                             "cost_usd": reply.cost_usd,
                             "reasoning_effort": reply.reasoning_effort,
                             "trusted_label_attached": workflow_state is not None,
+                            "message_id": assistant_message["message_id"],
                         },
                     )
                 except ConversationProviderError as exc:
@@ -1098,6 +1171,12 @@ def create_app(
             methods=["POST"],
         ),
         Route(
+            "/api/v1/chat/sessions/{session_id}/feedback",
+            endpoint=conversation_feedback,
+            methods=["POST"],
+        ),
+        Route("/api/v1/pilot/metrics", endpoint=pilot_metrics, methods=["GET"]),
+        Route(
             "/api/v1/memory/consents",
             endpoint=grant_memory_consent,
             methods=["POST"],
@@ -1192,6 +1271,8 @@ def _conversation_error_message(code: str) -> str:
         return "自由对话尚未配置模型访问凭证。"
     if code.startswith("conversation_provider_http_429"):
         return "对话请求较多，请稍后再试。"
+    if code == "conversation_cost_budget_exhausted":
+        return "这次回答已达成本上限，请缩小问题范围后重试。"
     return "对话服务暂时不可用，请稍后再试。"
 
 

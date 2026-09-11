@@ -51,7 +51,7 @@ python3 -m pip install -e '.[cloud-ocr,dev]'
 export FOOD_LABEL_OCR_PROVIDER=tencent
 export FOOD_LABEL_TENCENT_REGION=ap-guangzhou
 export FOOD_LABEL_TENCENT_TABLE_ENABLED=true
-export FOOD_LABEL_TENCENT_TABLE_NEW_MODEL=false
+export FOOD_LABEL_TENCENT_TABLE_NEW_MODEL=true
 food-label-platform
 ```
 
@@ -62,7 +62,7 @@ food-label-platform
 | `FOOD_LABEL_OCR_PROVIDER` | `demo` | 设为 `tencent` 才启用腾讯云 |
 | `FOOD_LABEL_TENCENT_REGION` | `ap-guangzhou` | SDK 请求地域 |
 | `FOOD_LABEL_TENCENT_TABLE_ENABLED` | `true` | 是否在检测到营养内容后调用表格 V3 |
-| `FOOD_LABEL_TENCENT_TABLE_NEW_MODEL` | `false` | 新模型复杂表格效果更好，但耗时更长；默认模型支持坐标返回 |
+| `FOOD_LABEL_TENCENT_TABLE_NEW_MODEL` | `true` | 新模型复杂表格效果更好；食品营养表默认优先准确率，耗时略长 |
 
 ## 4. Provider 内部设计
 

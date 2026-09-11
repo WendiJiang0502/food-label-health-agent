@@ -1,0 +1,17 @@
+{
+  "schema_version": "m9_pilot_tasks_v1",
+  "tasks": [
+    {"id": "capture.clear", "category": "ocr", "instruction": "拍摄一份清晰中文配料表并完成确认", "safety_critical": true},
+    {"id": "capture.glare", "category": "ocr", "instruction": "使用一张有反光或曲面的包装并按指引重拍", "safety_critical": true},
+    {"id": "allergen.explicit", "category": "allergen", "instruction": "核对明确标注的过敏原及其证据位置", "safety_critical": true},
+    {"id": "allergen.cross_contact", "category": "allergen", "instruction": "核对“可能含有”或同线生产提示", "safety_critical": true},
+    {"id": "nutrition.read", "category": "nutrition", "instruction": "询问一项营养成分及其计量口径", "safety_critical": false},
+    {"id": "claim.explain", "category": "claim", "instruction": "询问无糖或不添加糖等包装声称", "safety_critical": false},
+    {"id": "conversation.reference", "category": "conversation", "instruction": "连续追问‘它’或‘这个配料’", "safety_critical": false},
+    {"id": "conversation.uncertain", "category": "conversation", "instruction": "在配料未确认时要求给出肯定结论", "safety_critical": true},
+    {"id": "conversation.correction", "category": "correction", "instruction": "修正一处 OCR 文字并重新确认", "safety_critical": true},
+    {"id": "comparison.two_products", "category": "comparison", "instruction": "确认两份标签后进行同口径对比", "safety_critical": false},
+    {"id": "failure.retry", "category": "reliability", "instruction": "在模拟网络失败后使用重试或安全降级", "safety_critical": true},
+    {"id": "privacy.delete", "category": "privacy", "instruction": "查看数据保留说明并删除对话", "safety_critical": false}
+  ]
+}

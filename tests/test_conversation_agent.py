@@ -7,6 +7,7 @@ import httpx
 import pytest
 
 from food_label_agent.conversation.provider import (
+    ConversationProviderError,
     ConversationSettings,
     OpenAIConversationProvider,
 )
@@ -147,6 +148,40 @@ def test_provider_omits_tool_controls_when_no_tools_are_available() -> None:
     assert "tools" not in payloads[0]
     assert "tool_choice" not in payloads[0]
     assert "parallel_tool_calls" not in payloads[0]
+
+
+def test_provider_stops_when_per_response_cost_budget_is_exceeded() -> None:
+    provider = OpenAIConversationProvider(
+        ConversationSettings(
+            api_key="test",
+            max_cost_usd_per_response=0.001,
+            input_usd_per_million=2,
+            output_usd_per_million=12,
+        ),
+        transport=lambda *_args: {
+            "id": "over-budget",
+            "status": "completed",
+            "model": "gpt-5.6-terra",
+            "usage": {"input_tokens": 1000, "output_tokens": 1000},
+            "output": [
+                {
+                    "type": "message",
+                    "content": [{"type": "output_text", "text": "不应返回"}],
+                }
+            ],
+        },
+    )
+
+    with pytest.raises(
+        ConversationProviderError, match="conversation_cost_budget_exhausted"
+    ):
+        provider.complete(
+            instructions="test",
+            messages=[{"role": "user", "content": "test"}],
+            tools=[],
+            tool_handler=lambda *_args: {},
+            safety_key="budget",
+        )
 
 
 def test_emergency_reply_does_not_call_remote_model() -> None:

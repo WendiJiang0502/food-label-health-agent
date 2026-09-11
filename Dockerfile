@@ -20,7 +20,7 @@ WORKDIR /app
 COPY pyproject.toml README.md ./
 COPY src ./src
 
-RUN pip install --no-cache-dir --upgrade pip \
+RUN pip install --no-cache-dir --upgrade 'pip>=26.2' \
     && pip install --no-cache-dir -e '.[cloud-ocr]' \
     && groupadd --gid 10001 foodlabel \
     && useradd --uid 10001 --gid foodlabel --create-home foodlabel \

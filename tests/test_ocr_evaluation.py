@@ -49,18 +49,27 @@ def test_compare_fields_reports_field_allergen_and_number_metrics() -> None:
             "fields": {
                 "ingredients": "小麦粉、白砂糖",
                 "nutrition_basis": "每100克",
+                "nutrition_table": "蛋白质 5.2克",
             },
+            "ingredient_tokens": ["小麦粉", "白砂糖"],
             "allergens": ["小麦", "花生"],
         },
-        {"ingredients": "小麦粉、白砂糖", "nutrition_basis": "每100g"},
+        {
+            "ingredients": "小麦粉、白砂糖",
+            "nutrition_basis": "每100g",
+            "nutrition_table": "蛋白质 5.2克",
+        },
     )
 
     assert metrics["field_cer"]["ingredients"] == 0
     assert metrics["allergen_recall"] == 0.5
+    assert metrics["ingredient_token_recall"] == 1
+    assert metrics["critical_fact_counts"] == {"matched": 4, "total": 5}
+    assert metrics["critical_fact_recall"] == 0.8
     assert metrics["numeric_token_precision"] == 1
     assert metrics["numeric_token_recall"] == 1
     assert metrics["numeric_token_f1"] == 1
-    assert metrics["nutrient_value_alignment_accuracy"] is None
+    assert metrics["nutrient_value_alignment_accuracy"] == 1
 
 
 def test_directory_evaluation_stops_after_non_retryable_provider_error(

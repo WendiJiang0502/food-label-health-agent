@@ -905,6 +905,15 @@ elements.form.addEventListener("submit", async (event) => {
   event.preventDefault();
   if (!state.analysis) return;
 
+  const allergenConfirmation = elements.fieldList.querySelector(
+    '[data-confirm-field="allergen_statement"]',
+  );
+  if (allergenConfirmation && !allergenConfirmation.checked) {
+    showRailError("请先逐行核对过敏原声明，再继续。", []);
+    allergenConfirmation.focus();
+    return;
+  }
+
   const fields = {};
   elements.fieldList.querySelectorAll("textarea[data-field-name]").forEach((field) => {
     fields[field.dataset.fieldName] = field.value.trim();
@@ -1142,7 +1151,7 @@ function returnToLabelEditing() {
   elements.alternativeCategory.value = "";
   state.currentConstraints = [];
   elements.reviewTitle.textContent = "确认识别文字";
-  elements.reviewCount.textContent = `${state.analysis?.fields.length || 0} 项`;
+  elements.reviewCount.textContent = `${elements.fieldList.querySelectorAll(".ocr-field").length} 项`;
   elements.proofState.textContent = "待重新确认";
   elements.fieldList.querySelector("textarea")?.focus();
   announce("已返回标签文字编辑，请修改后重新确认");
@@ -1201,19 +1210,19 @@ async function analyzeFile(file) {
     if (payload.checkpoint?.resume_token) {
       state.checkpointToken = payload.checkpoint.resume_token;
     }
-    renderFields(payload.fields);
+    const reviewFieldCount = renderFields(payload.fields);
     renderAnnotations(payload.fields);
     elements.workbench.classList.add("has-analysis");
     elements.heroLayout.classList.add("has-analysis");
     elements.reviewRail.hidden = false;
     elements.form.hidden = false;
-    elements.reviewCount.textContent = `${payload.fields.length} 项`;
+    elements.reviewCount.textContent = `${reviewFieldCount} 项`;
     const processing = payload.processing || {};
     const speedNote = processing.cache_hit
       ? "已读取缓存"
       : `${((processing.total_ms || 0) / 1000).toFixed(1)} 秒`;
     elements.proofState.textContent = `待人工确认 · ${speedNote}`;
-    announce(`识别完成，用时${speedNote}，共 ${payload.fields.length} 个字段，其中低置信度字段需要确认`);
+    announce(`识别完成，用时${speedNote}，共 ${reviewFieldCount} 个待核对字段，请先逐行确认过敏原声明`);
   } catch (error) {
     elements.workbench.classList.remove("has-analysis");
     elements.heroLayout.classList.remove("has-analysis");
@@ -1228,10 +1237,23 @@ async function analyzeFile(file) {
 
 function renderFields(fields) {
   elements.fieldList.replaceChildren();
-  fields.forEach((field) => {
+  const reviewFields = [...fields];
+  if (!reviewFields.some((field) => field.name === "allergen_statement")) {
+    reviewFields.splice(Math.min(2, reviewFields.length), 0, {
+      name: "allergen_statement",
+      label: "过敏原提示（未识别）",
+      raw_text: "",
+      confidence: 0,
+      requires_confirmation: true,
+      evidence_lines: [],
+      missing_from_ocr: true,
+    });
+  }
+  reviewFields.forEach((field) => {
     const wrapper = document.createElement("div");
     wrapper.className = "ocr-field";
     wrapper.dataset.fieldName = field.name;
+    if (field.name === "allergen_statement") wrapper.classList.add("ocr-field--allergen");
 
     const meta = document.createElement("div");
     meta.className = "field-meta";
@@ -1264,14 +1286,61 @@ function renderFields(fields) {
     const help = document.createElement("p");
     help.className = "field-help";
     help.id = `${inputId}-help`;
-    help.textContent = field.requires_confirmation
-      ? "请重点对照原图确认。"
-      : "请对照原图确认。";
+    help.textContent = field.name === "allergen_statement"
+      ? (field.missing_from_ocr
+        ? "当前图片中没有识别到声明。请查看原图补录；无法确认时保持为空，后续将按信息不足处理。"
+        : "以下每一行都可能改变过敏判断，请同时核对交叉接触提示。")
+      : (field.requires_confirmation ? "请重点对照原图确认。" : "请对照原图确认。");
 
     meta.append(label, confidence);
     wrapper.append(meta, textarea, help);
+    if (field.name === "allergen_statement") {
+      wrapper.append(renderAllergenEvidence(field));
+      const confirmation = document.createElement("label");
+      confirmation.className = "critical-confirmation";
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.dataset.confirmField = field.name;
+      checkbox.required = true;
+      const confirmationText = document.createElement("span");
+      confirmationText.textContent = field.missing_from_ocr
+        ? "我知道目前不能据此排除过敏风险"
+        : "我已逐行核对，包括“可能含有”和同线生产提示";
+      confirmation.append(checkbox, confirmationText);
+      wrapper.append(confirmation);
+    }
     elements.fieldList.append(wrapper);
   });
+  return reviewFields.length;
+}
+
+function renderAllergenEvidence(field) {
+  const evidence = document.createElement("div");
+  evidence.className = "allergen-evidence";
+  const heading = document.createElement("strong");
+  heading.textContent = field.evidence_lines?.length ? "识别到的原文行" : "当前证据状态";
+  evidence.append(heading);
+  if (!field.evidence_lines?.length) {
+    const missing = document.createElement("p");
+    missing.className = "allergen-evidence__missing";
+    missing.textContent = "没有可高亮的过敏原文字行；请检查照片是否拍全。";
+    evidence.append(missing);
+    return evidence;
+  }
+  const list = document.createElement("ol");
+  field.evidence_lines.forEach((item, index) => {
+    const row = document.createElement("li");
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "allergen-evidence__line";
+    button.textContent = item.text;
+    button.setAttribute("aria-label", `在原图查看过敏原声明第 ${index + 1} 行：${item.text}`);
+    button.addEventListener("click", () => activateField(field.name, index));
+    row.append(button);
+    list.append(row);
+  });
+  evidence.append(list);
+  return evidence;
 }
 
 function renderAnnotations(fields) {
@@ -1280,22 +1349,42 @@ function renderAnnotations(fields) {
   if (!imageRect) return;
 
   fields.forEach((field) => {
+    const lineEvidence = field.name === "allergen_statement"
+      ? (field.evidence_lines || []).filter((item) => item.bounding_box)
+      : [];
+    if (lineEvidence.length) {
+      lineEvidence.forEach((item, index) => {
+        appendAnnotation(field, item.bounding_box, imageRect, index);
+      });
+      return;
+    }
     if (!field.bounding_box) return;
+    appendAnnotation(field, field.bounding_box, imageRect, null);
+  });
+}
+
+function appendAnnotation(field, boundingBox, imageRect, lineIndex) {
     const marker = document.createElement("button");
     marker.type = "button";
     marker.className = "annotation";
     marker.dataset.fieldName = field.name;
-    marker.setAttribute("aria-label", `查看${field.label}识别字段`);
-    marker.style.left = `${imageRect.offsetX + field.bounding_box.x * imageRect.width}px`;
-    marker.style.top = `${imageRect.offsetY + field.bounding_box.y * imageRect.height}px`;
-    marker.style.width = `${field.bounding_box.width * imageRect.width}px`;
-    marker.style.height = `${field.bounding_box.height * imageRect.height}px`;
+    if (lineIndex !== null) {
+      marker.dataset.lineIndex = String(lineIndex);
+      marker.classList.add("annotation--allergen-line");
+    }
+    marker.setAttribute(
+      "aria-label",
+      lineIndex === null ? `查看${field.label}识别字段` : `查看${field.label}第 ${lineIndex + 1} 行`,
+    );
+    marker.style.left = `${imageRect.offsetX + boundingBox.x * imageRect.width}px`;
+    marker.style.top = `${imageRect.offsetY + boundingBox.y * imageRect.height}px`;
+    marker.style.width = `${boundingBox.width * imageRect.width}px`;
+    marker.style.height = `${boundingBox.height * imageRect.height}px`;
     marker.addEventListener("click", () => {
-      activateField(field.name);
+      activateField(field.name, lineIndex);
       document.querySelector(`#field-${field.name}`)?.focus();
     });
     elements.annotationLayer.append(marker);
-  });
 }
 
 function containedImageRect() {
@@ -1323,9 +1412,11 @@ function syncPreviewAspectRatio() {
   elements.proofSheet.style.setProperty("--preview-aspect", `${width} / ${height}`);
 }
 
-function activateField(name) {
+function activateField(name, lineIndex = null) {
   document.querySelectorAll(".annotation").forEach((marker) => {
-    marker.classList.toggle("is-active", marker.dataset.fieldName === name);
+    const sameField = marker.dataset.fieldName === name;
+    const sameLine = lineIndex === null || marker.dataset.lineIndex === String(lineIndex);
+    marker.classList.toggle("is-active", sameField && sameLine);
   });
 }
 
@@ -3195,9 +3286,20 @@ async function restoreChatSession() {
     if (!response.ok) throw new Error("expired");
     const payload = await response.json();
     const messages = payload.session.messages || [];
+    const feedbackByMessage = new Map(
+      (payload.session.feedback || []).map((item) => [item.message_id, item]),
+    );
     if (messages.length && elements.chatLog.dataset.sessionId !== state.chatSession.sessionId) {
       elements.chatLog.replaceChildren();
-      messages.forEach((message) => renderChatMessage(message.role, message.content));
+      let retryContent = "";
+      messages.forEach((message) => {
+        if (message.role === "user") retryContent = message.content;
+        renderChatMessage(message.role, message.content, {
+          messageId: message.message_id,
+          feedback: feedbackByMessage.get(message.message_id),
+          retryContent,
+        });
+      });
       elements.chatLog.dataset.sessionId = state.chatSession.sessionId;
       scrollChatToEnd();
     }
@@ -3295,9 +3397,13 @@ async function sendChatMessage(rawContent) {
         } else if (event.type === "done") {
           completed = true;
           assistant.classList.remove("is-pending");
+          assistant.dataset.messageId = event.data.message_id || "";
           bubbleMeta.textContent = event.data.trusted_label_attached
             ? "已参考当前确认标签"
             : "一般标签知识 · 未关联具体商品";
+          if (event.data.message_id) {
+            appendChatFeedback(assistant, event.data.message_id, null, content);
+          }
           elements.chatStatus.textContent = "回答完成。对话将在 24 小时后自动清除。";
         } else if (event.type === "error") {
           throw new Error(event.data.message || "这次回答没有完成。")
@@ -3338,10 +3444,15 @@ function parseChatEvent(block) {
   }
 }
 
-function renderChatMessage(role, content, { pending = false } = {}) {
+function renderChatMessage(
+  role,
+  content,
+  { pending = false, messageId = null, feedback = null, retryContent = "" } = {},
+) {
   elements.chatLog.querySelector("[data-seed-message]")?.remove();
   const article = document.createElement("article");
   article.className = `chat-message chat-message--${role}`;
+  if (messageId) article.dataset.messageId = messageId;
   if (pending) article.classList.add("is-pending");
   const avatar = document.createElement("div");
   avatar.className = "chat-avatar";
@@ -3355,8 +3466,137 @@ function renderChatMessage(role, content, { pending = false } = {}) {
   meta.textContent = pending ? "正在整理回答…" : role === "user" ? "已发送" : "食鉴回答";
   bubble.append(text, meta);
   article.append(avatar, bubble);
+  if (role === "assistant" && messageId && !pending) {
+    appendChatFeedback(article, messageId, feedback, retryContent);
+  }
   elements.chatLog.append(article);
   return article;
+}
+
+const CHAT_FEEDBACK_REASONS = [
+  ["misunderstood", "没理解问题"],
+  ["label_fact_error", "标签事实不对"],
+  ["unclear", "解释不清楚"],
+  ["risk_issue", "风险提示不当"],
+  ["evidence_gap", "证据不足"],
+  ["other", "其他"],
+];
+
+function appendChatFeedback(article, messageId, existing, retryContent) {
+  if (article.querySelector(".chat-feedback")) return;
+  const bubble = article.querySelector(".chat-bubble");
+  const panel = document.createElement("section");
+  panel.className = "chat-feedback";
+  panel.setAttribute("aria-label", "评价这条回答");
+  const prompt = document.createElement("span");
+  prompt.className = "chat-feedback__prompt";
+  prompt.textContent = existing ? "感谢你的反馈" : "这条回答有帮助吗？";
+  const actions = document.createElement("div");
+  actions.className = "chat-feedback__actions";
+  const helpful = chatFeedbackButton("有帮助", existing?.helpful === true);
+  const needsWork = chatFeedbackButton("需改进", existing?.helpful === false);
+  actions.append(helpful, needsWork);
+  const reasons = document.createElement("div");
+  reasons.className = "chat-feedback__reasons";
+  reasons.hidden = existing?.helpful !== false;
+  CHAT_FEEDBACK_REASONS.forEach(([value, label]) => {
+    const button = chatFeedbackButton(label, existing?.reason === value);
+    button.dataset.feedbackReason = value;
+    button.addEventListener("click", () => submitChatFeedback(article, {
+      messageId,
+      helpful: false,
+      reason: value,
+    }));
+    reasons.append(button);
+  });
+  const recovery = document.createElement("div");
+  recovery.className = "chat-feedback__recovery";
+  if (retryContent) {
+    const retry = document.createElement("button");
+    retry.type = "button";
+    retry.textContent = "重新回答";
+    retry.addEventListener("click", async () => {
+      await submitChatFeedback(article, {
+        messageId,
+        helpful: existing?.helpful ?? false,
+        reason: existing?.reason || "other",
+        retryRequested: true,
+      });
+      await sendChatMessage(retryContent);
+    });
+    recovery.append(retry);
+  }
+  if (state.analysis?.request_id) {
+    const correct = document.createElement("button");
+    correct.type = "button";
+    correct.textContent = "对照包装纠正标签";
+    correct.addEventListener("click", () => {
+      switchAppView("scan");
+      if (state.confirmedFields) returnToLabelEditing();
+    });
+    recovery.append(correct);
+  }
+  helpful.addEventListener("click", () => submitChatFeedback(article, {
+    messageId,
+    helpful: true,
+  }));
+  needsWork.addEventListener("click", () => {
+    reasons.hidden = false;
+    reasons.querySelector("button")?.focus();
+  });
+  panel.append(prompt, actions, reasons, recovery);
+  bubble.append(panel);
+}
+
+function chatFeedbackButton(label, pressed = false) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.textContent = label;
+  button.setAttribute("aria-pressed", String(pressed));
+  return button;
+}
+
+async function submitChatFeedback(
+  article,
+  { messageId, helpful, reason = null, retryRequested = false },
+) {
+  const panel = article.querySelector(".chat-feedback");
+  const prompt = panel.querySelector(".chat-feedback__prompt");
+  const buttons = panel.querySelectorAll("button");
+  buttons.forEach((button) => { button.disabled = true; });
+  prompt.textContent = "正在记录评价…";
+  try {
+    const response = await fetch(
+      `/api/v1/chat/sessions/${encodeURIComponent(state.chatSession.sessionId)}/feedback`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${state.chatSession.accessToken}`,
+        },
+        body: JSON.stringify({
+          message_id: messageId,
+          helpful,
+          reason,
+          retry_requested: retryRequested,
+        }),
+      },
+    );
+    const payload = await response.json();
+    if (!response.ok) throw new Error(payload.message || "评价未能保存。");
+    panel.querySelectorAll("[aria-pressed]").forEach((button) => {
+      const selected = helpful
+        ? button.textContent === "有帮助"
+        : button.dataset.feedbackReason === reason || button.textContent === "需改进";
+      button.setAttribute("aria-pressed", String(selected));
+    });
+    prompt.textContent = "已记录：只保存评价分类，不保存对话原文。";
+    announce("回答评价已记录");
+  } catch (error) {
+    prompt.textContent = error.message;
+  } finally {
+    buttons.forEach((button) => { button.disabled = false; });
+  }
 }
 
 async function clearConversation() {

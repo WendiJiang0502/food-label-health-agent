@@ -32,6 +32,15 @@ def assess_ocr_evidence(fields: list[OCRFieldResult]) -> OCREvidenceReport:
         )
     else:
         text = ingredients.raw_text.strip()
+        if "标题未识别" in ingredients.label:
+            issues.append(
+                _issue(
+                    "INGREDIENT_HEADING_NOT_FOUND",
+                    "blocking",
+                    "已提取可能的配料文字，但未可靠识别配料表标题，必须人工确认",
+                    "ingredients",
+                )
+            )
         if not text:
             issues.append(
                 _issue(

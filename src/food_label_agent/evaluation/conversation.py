@@ -99,8 +99,15 @@ def evaluate_conversation_agent(
     path: Path = DATA_PATH,
     limit: int | None = None,
     model: str | None = None,
+    case_ids: tuple[str, ...] = (),
 ) -> ConversationEvaluationReport:
     cases = list(load_conversation_cases(path))
+    if case_ids:
+        requested = set(case_ids)
+        cases = [case for case in cases if case["id"] in requested]
+        missing = requested - {case["id"] for case in cases}
+        if missing:
+            raise ValueError(f"Unknown conversation case IDs: {sorted(missing)}")
     if limit is not None:
         if limit < 1:
             raise ValueError("Conversation evaluation limit must be positive")
@@ -566,11 +573,15 @@ def main() -> None:
     parser.add_argument("--live", action="store_true", help="Call the configured OpenAI model for live-marked cases")
     parser.add_argument("--limit", type=int)
     parser.add_argument("--model", help="Override the model for live-marked cases")
+    parser.add_argument("--case-id", action="append", default=[])
     parser.add_argument("--json", type=Path, dest="json_output")
     parser.add_argument("--markdown", type=Path, dest="markdown_output")
     args = parser.parse_args()
     report = evaluate_conversation_agent(
-        live=args.live, limit=args.limit, model=args.model
+        live=args.live,
+        limit=args.limit,
+        model=args.model,
+        case_ids=tuple(args.case_id),
     )
     serialized = json.dumps(report.to_dict(), ensure_ascii=False, indent=2) + "\n"
     if args.json_output:

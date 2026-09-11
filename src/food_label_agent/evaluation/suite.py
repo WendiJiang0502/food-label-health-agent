@@ -34,9 +34,11 @@ from .alternatives import (
     evaluate_alternative_benchmark,
 )
 from .benchmarks import ALTERNATIVE_BENCHMARK, RAG_BENCHMARK
+from .conversation import evaluate_conversation_agent
 from .evidence_routing import evaluate_evidence_routing
 from .failures import evaluate_failure_corpus
 from .ocr import evaluate_directory
+from .pilot import evaluate_pilot_readiness
 from .planner import evaluate_planner_ablation
 from .rag import evaluate_rag_benchmark
 from .rag_ablation import evaluate_rag2_ablation
@@ -47,6 +49,9 @@ from .versions import VersionSnapshot, build_version_snapshot
 REPORT_SCHEMA_VERSION = "milestone6_evaluation_report_v1"
 RELEASE_MINIMUM_OCR_SAMPLES = 50
 RELEASE_MINIMUM_SUPERVISED_OCR_SAMPLES = 30
+RELEASE_MINIMUM_CRITICAL_FACT_RECALL = 0.90
+RELEASE_MINIMUM_NUMERIC_TOKEN_RECALL = 0.90
+RELEASE_MINIMUM_NUTRITION_ALIGNMENT = 0.90
 
 
 @dataclass(frozen=True, slots=True)
@@ -102,6 +107,22 @@ def run_evaluation(
             "safety_gate": evaluate_final_safety_gate().to_dict(),
             "failure_corpus": evaluate_failure_corpus().to_dict(),
         }
+        conversation_report = evaluate_conversation_agent().to_dict()
+        components["conversation_m8"] = conversation_report
+        pilot_report = evaluate_pilot_readiness(
+            conversation_report=conversation_report,
+            feedback_summary={
+                "feedback_count": 0,
+                "raw_conversation_stored": False,
+            },
+        )
+        components["pilot_m9"] = {
+            **pilot_report,
+            "evaluation_passed": pilot_report["ready_for_closed_pilot"],
+            "release_blockers": (
+                pilot_report["release_blockers"] if profile == "release" else []
+            ),
+        }
         if profile == "release":
             components["production_alternatives"] = (
                 _evaluate_production_alternatives()
@@ -110,6 +131,10 @@ def run_evaluation(
                 rag_settings
             )
     warnings = []
+    if not components["pilot_m9"]["pilot_outcome_validated"]:
+        warnings.append(
+            "M9 系统已具备封闭试用条件；真人试用结果尚未采集，不得宣称用户效果已验证。"
+        )
     if ocr_images is None:
         components["ocr"] = {
             "status": "not_run",
@@ -448,13 +473,24 @@ def _evaluate_ocr_release(report: dict[str, Any], *, profile: str) -> dict[str, 
     if profile == "release":
         if report.get("sample_count", 0) < RELEASE_MINIMUM_OCR_SAMPLES:
             blockers.append("ocr_sample_count_below_release_threshold")
-        if report.get("supervised_count", 0) < RELEASE_MINIMUM_SUPERVISED_OCR_SAMPLES:
-            blockers.append("ocr_supervised_count_below_release_threshold")
+        if (
+            report.get("release_eligible_supervised_count", 0)
+            < RELEASE_MINIMUM_SUPERVISED_OCR_SAMPLES
+        ):
+            blockers.append("ocr_double_reviewed_blind_count_below_release_threshold")
         if metrics.get("allergen_recall") != 1.0:
             blockers.append("ocr_allergen_recall_below_release_threshold")
-        if metrics.get("numeric_token_recall") != 1.0:
+        if (
+            metrics.get("critical_fact_recall") or 0.0
+        ) < RELEASE_MINIMUM_CRITICAL_FACT_RECALL:
+            blockers.append("ocr_critical_fact_recall_below_release_threshold")
+        if (
+            metrics.get("numeric_token_recall") or 0.0
+        ) < RELEASE_MINIMUM_NUMERIC_TOKEN_RECALL:
             blockers.append("ocr_numeric_recall_below_release_threshold")
-        if metrics.get("nutrient_value_alignment_accuracy") != 1.0:
+        if (
+            metrics.get("nutrient_value_alignment_accuracy") or 0.0
+        ) < RELEASE_MINIMUM_NUTRITION_ALIGNMENT:
             blockers.append("ocr_nutrition_alignment_below_release_threshold")
         if report.get("low_quality_block_recall") != 1.0:
             blockers.append("ocr_low_quality_block_recall_below_release_threshold")

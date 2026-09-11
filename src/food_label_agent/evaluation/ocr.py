@@ -21,7 +21,7 @@ from food_label_agent.ocr.service import OCRService
 _SPACE = re.compile(r"\s+")
 _NUMBER = re.compile(r"\d+(?:\.\d+)?")
 _NUTRIENT_VALUE = re.compile(
-    r"(反式脂肪酸|碳水化合物|蛋白质|能量|脂肪|钠)"
+    r"(反式脂肪酸|反式脂肪|饱和脂肪酸|饱和脂肪|碳水化合物|蛋白质|能量|脂肪|糖|钠)"
     r"[^\d-]*(-?\d+(?:\.\d+)?)(kj|mg|ml|g)"
 )
 
@@ -157,11 +157,21 @@ async def evaluate_directory(images_dir: Path) -> dict[str, Any]:
         }
         if annotation is not None:
             sample["metrics"] = compare_fields(annotation, fields)
+            sample["annotation_status"] = annotation.get(
+                "annotation_status", "unspecified"
+            )
+            sample["dataset_role"] = annotation.get("dataset_role", "unspecified")
         samples.append(sample)
 
     recognized = sum(sample["status"] == "recognized" for sample in samples)
     blocked = sum(sample["status"] == "blocked" for sample in samples)
     supervised = [sample for sample in samples if "metrics" in sample]
+    release_eligible = [
+        sample
+        for sample in supervised
+        if sample.get("annotation_status") == "double_reviewed_gold"
+        and sample.get("dataset_role") == "blind_test"
+    ]
     expected_low_quality = [
         sample for sample in samples if sample.get("expected_blocked") is True
     ]
@@ -178,6 +188,23 @@ async def evaluate_directory(images_dir: Path) -> dict[str, Any]:
             sample["status"] == "provider_error" for sample in samples
         ),
         "supervised_count": len(supervised),
+        "release_eligible_supervised_count": len(release_eligible),
+        "annotation_status_counts": dict(
+            sorted(
+                Counter(
+                    sample.get("annotation_status", "unspecified")
+                    for sample in supervised
+                ).items()
+            )
+        ),
+        "dataset_role_counts": dict(
+            sorted(
+                Counter(
+                    sample.get("dataset_role", "unspecified")
+                    for sample in supervised
+                ).items()
+            )
+        ),
         "aggregate_metrics": _aggregate_sample_metrics(supervised),
         "expected_low_quality_count": len(expected_low_quality),
         "low_quality_block_recall": (
@@ -214,7 +241,19 @@ def _aggregate_sample_metrics(samples: list[dict[str, Any]]) -> dict[str, float 
                 for sample in samples
             ]
         ),
+        "critical_fact_recall": _micro_critical_fact_recall(samples),
     }
+
+
+def _micro_critical_fact_recall(samples: list[dict[str, Any]]) -> float | None:
+    counts = [
+        sample["metrics"].get("critical_fact_counts", {}) for sample in samples
+    ]
+    total = sum(int(item.get("total", 0)) for item in counts)
+    if not total:
+        return None
+    matched = sum(int(item.get("matched", 0)) for item in counts)
+    return round(matched / total, 4)
 
 
 def detect_image_type(content: bytes) -> tuple[str, str] | None:
@@ -246,10 +285,41 @@ def compare_fields(
     combined = "\n".join(actual_fields.values())
     expected_combined = " ".join(str(value) for value in expected_fields.values())
     numeric = numeric_token_metrics(expected_combined, combined)
+    ingredient_tokens = [
+        str(token) for token in annotation.get("ingredient_tokens", [])
+    ]
+    expected_allergens = [str(token) for token in annotation.get("allergens", [])]
+    expected_nutrition = extract_nutrition_facts(
+        str(expected_fields.get("nutrition_table", ""))
+    )
+    actual_nutrition = extract_nutrition_facts(
+        actual_fields.get("nutrition_table", "")
+    )
+    ingredient_matches = sum(
+        normalize_text(token) in normalize_text(actual_fields.get("ingredients", ""))
+        for token in ingredient_tokens
+        if normalize_text(token)
+    )
+    allergen_matches = sum(
+        normalize_text(token) in normalize_text(combined)
+        for token in expected_allergens
+        if normalize_text(token)
+    )
+    nutrition_matches = sum(
+        actual_nutrition.get(name) == value
+        for name, value in expected_nutrition.items()
+    )
+    critical_total = (
+        len(ingredient_tokens) + len(expected_allergens) + len(expected_nutrition)
+    )
+    critical_matched = ingredient_matches + allergen_matches + nutrition_matches
     return {
         "field_cer": field_cer,
         "allergen_recall": _round_optional(
-            token_recall(annotation.get("allergens", []), combined)
+            token_recall(expected_allergens, combined)
+        ),
+        "ingredient_token_recall": _round_optional(
+            token_recall(ingredient_tokens, actual_fields.get("ingredients", ""))
         ),
         "numeric_token_precision": _round_optional(numeric["precision"]),
         "numeric_token_recall": _round_optional(numeric["recall"]),
@@ -259,6 +329,15 @@ def compare_fields(
                 str(expected_fields.get("nutrition_table", "")),
                 actual_fields.get("nutrition_table", ""),
             )
+        ),
+        "critical_fact_counts": {
+            "matched": critical_matched,
+            "total": critical_total,
+        },
+        "critical_fact_recall": (
+            round(critical_matched / critical_total, 4)
+            if critical_total
+            else None
         ),
     }
 

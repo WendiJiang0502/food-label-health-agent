@@ -1,0 +1,13 @@
+{
+  "schema_version": "m9_human_pilot_results_v1",
+  "evidence_type": "human_closed_pilot",
+  "review_attested": false,
+  "participant_count": 0,
+  "completed_task_count": 0,
+  "task_completion_rate": 0.0,
+  "helpful_rate": 0.0,
+  "severe_safety_incident_count": 0,
+  "first_token_p95_ms": null,
+  "complete_latency_p95_ms": null,
+  "note": "完成真人封闭试用后填写；禁止用合成或模型数据代替。"
+}

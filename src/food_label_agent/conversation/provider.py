@@ -28,6 +28,7 @@ class ConversationSettings:
     api_key: str | None = None
     input_usd_per_million: float = 2.0
     output_usd_per_million: float = 12.0
+    max_cost_usd_per_response: float = 0.25
 
     @classmethod
     def from_environment(
@@ -49,6 +50,9 @@ class ConversationSettings:
         max_tools = int(values.get("FOOD_LABEL_CHAT_MAX_TOOL_CALLS", "6"))
         if not 1 <= max_tools <= 8:
             raise ValueError("Conversation max tool calls must be 1 to 8")
+        max_cost = float(values.get("FOOD_LABEL_CHAT_MAX_COST_USD", "0.25"))
+        if not 0.001 <= max_cost <= 5:
+            raise ValueError("Conversation max cost must be between 0.001 and 5 USD")
         return cls(
             provider=provider,
             model=values.get(
@@ -66,6 +70,7 @@ class ConversationSettings:
             output_usd_per_million=float(
                 values.get("FOOD_LABEL_CHAT_OUTPUT_USD_PER_MILLION", "12")
             ),
+            max_cost_usd_per_response=max_cost,
         )
 
 
@@ -158,6 +163,12 @@ class OpenAIConversationProvider:
             usage = response.get("usage") or {}
             total_input_tokens += _int_or_zero(usage.get("input_tokens"))
             total_output_tokens += _int_or_zero(usage.get("output_tokens"))
+            cost_usd = (
+                total_input_tokens * self.settings.input_usd_per_million
+                + total_output_tokens * self.settings.output_usd_per_million
+            ) / 1_000_000
+            if cost_usd > self.settings.max_cost_usd_per_response:
+                raise ConversationProviderError("conversation_cost_budget_exhausted")
             if response.get("status") != "completed":
                 raise ConversationProviderError(
                     "conversation_response_incomplete", retryable=True
@@ -176,10 +187,6 @@ class OpenAIConversationProvider:
                     ) * 1000 + float(transport_first_token)
                 else:
                     first_visible_token_ms = (time.perf_counter() - started_at) * 1000
-                cost_usd = (
-                    total_input_tokens * self.settings.input_usd_per_million
-                    + total_output_tokens * self.settings.output_usd_per_million
-                ) / 1_000_000
                 return ProviderReply(
                     text=text,
                     model=str(response.get("model") or self.settings.model),
@@ -259,6 +266,7 @@ def conversation_public_status(
         "store": False,
         "max_tool_calls": configured.max_tool_calls,
         "reasoning_effort": configured.reasoning_effort,
+        "max_cost_usd_per_response": configured.max_cost_usd_per_response,
     }
 
 

@@ -71,6 +71,24 @@ def test_missing_ingredient_heading_is_unclassified_not_ingredients() -> None:
     assert fields[0].requires_confirmation is True
 
 
+def test_review_only_ingredient_candidate_requires_strong_food_evidence() -> None:
+    fields = parse_food_label_fields(
+        [
+            line("灌肠类", y=0.10),
+            line("鸡肉、猪肉、食品添加剂（乳酸钠、卡拉胶）", y=0.14),
+            line("白砂糖、食用盐、魔芋粉", y=0.18),
+            line("产品标准号：GB/T 20712", y=0.23),
+        ],
+        OCRSettings(provider="tencentcloud"),
+    )
+
+    ingredients = {field.name: field for field in fields}["ingredients"]
+    assert ingredients.label == "配料候选（标题未识别，请人工确认）"
+    assert "鸡肉、猪肉" in ingredients.raw_text
+    assert "产品标准" not in ingredients.raw_text
+    assert ingredients.confidence == 0.5
+
+
 def test_ingredient_word_inside_foreign_sentence_is_not_a_heading() -> None:
     fields = parse_food_label_fields(
         [
@@ -122,6 +140,147 @@ def test_ingredient_value_strips_ocr_bullet_noise() -> None:
 
     ingredients = {field.name: field for field in fields}["ingredients"]
     assert ingredients.raw_text == "生牛乳"
+
+
+def test_ingredient_heading_can_follow_an_ocr_bullet_inside_a_line() -> None:
+    fields = parse_food_label_fields(
+        [line("产品类别：饮料·配料：水、浓缩果汁·生产日期：见瓶盖")],
+        OCRSettings(provider="tencentcloud"),
+    )
+
+    ingredients = {field.name: field for field in fields}["ingredients"]
+    assert ingredients.raw_text == "水、浓缩果汁·"
+
+
+def test_split_ingredient_heading_is_rejoined() -> None:
+    fields = parse_food_label_fields(
+        [
+            line("配", x=0.25, y=0.20, width=0.04, height=0.025),
+            line("料：小麦粉、青菜", x=0.29, y=0.20, width=0.32, height=0.025),
+            line("饮用水、食用盐", x=0.25, y=0.24, width=0.30, height=0.025),
+            line("产品类别：速冻面米食品", x=0.25, y=0.29, width=0.35),
+        ],
+        OCRSettings(provider="tencentcloud"),
+    )
+
+    ingredients = {field.name: field for field in fields}["ingredients"]
+    assert ingredients.raw_text == "小麦粉、青菜\n饮用水、食用盐"
+
+
+def test_allergen_continuation_is_kept_without_adjacent_metadata() -> None:
+    fields = parse_food_label_fields(
+        [
+            line("配料：小麦粉", x=0.2, y=0.1),
+            line("致敏物质提示：本产品含有乳制品、含麸", x=0.2, y=0.4, height=0.025),
+            line("质的谷物制品、花生制品。", x=0.2, y=0.43, height=0.025),
+            line("产品类型：冷冻饮品", x=0.2, y=0.48, height=0.025),
+        ],
+        OCRSettings(provider="tencentcloud"),
+    )
+
+    allergens = {field.name: field for field in fields}["allergen_statement"]
+    assert allergens.raw_text.endswith("质的谷物制品、花生制品。")
+    assert "产品类型" not in allergens.raw_text
+
+
+def test_allergen_continuation_keeps_multiple_wrapped_lines() -> None:
+    fields = parse_food_label_fields(
+        [
+            line(
+                "致敏物质提示：本产品含有小麦、鸡蛋。该生产设备还加工",
+                x=0.20,
+                y=0.40,
+                height=0.025,
+            ),
+            line("含有大豆制品、乳制品、芝麻的产品。", x=0.20, y=0.43, height=0.025),
+            line("产品标准号：GB/T 20980", x=0.20, y=0.47, height=0.025),
+        ],
+        OCRSettings(provider="tencentcloud"),
+    )
+
+    allergens = {field.name: field for field in fields}["allergen_statement"]
+    assert allergens.raw_text.splitlines() == [
+        "致敏物质提示：本产品含有小麦、鸡蛋。该生产设备还加工",
+        "含有大豆制品、乳制品、芝麻的产品。",
+    ]
+
+
+def test_allergen_continuation_keeps_possible_cross_contact_line() -> None:
+    fields = parse_food_label_fields(
+        [
+            line(
+                "过敏原信息：本产品含有大豆、含麸质的谷物和芝麻成分，",
+                x=0.12,
+                y=0.52,
+                height=0.022,
+            ),
+            line(
+                "可能含有花生、坚果、蛋类、鱼类、甲壳纲类动物和乳成分。",
+                x=0.12,
+                y=0.55,
+                height=0.022,
+            ),
+            line("储存条件：-18℃以下", x=0.12, y=0.59, height=0.022),
+        ],
+        OCRSettings(provider="tencentcloud"),
+    )
+
+    allergens = {field.name: field for field in fields}["allergen_statement"]
+    assert "可能含有花生" in allergens.raw_text
+    assert "乳成分" in allergens.raw_text
+    assert "储存条件" not in allergens.raw_text
+
+
+def test_allergen_continuation_can_wrap_in_middle_of_word() -> None:
+    fields = parse_food_label_fields(
+        [
+            line("本产品含有乳制品、含麸", x=0.2, y=0.40, height=0.025),
+            line("质的谷物、花生、坚", x=0.2, y=0.43, height=0.025),
+            line("果及其果仁类制品。", x=0.2, y=0.46, height=0.025),
+            line("净含量：68克", x=0.2, y=0.50, height=0.025),
+        ],
+        OCRSettings(provider="tencentcloud"),
+    )
+
+    allergens = {field.name: field for field in fields}["allergen_statement"]
+    assert allergens.raw_text.splitlines() == [
+        "本产品含有乳制品、含麸",
+        "质的谷物、花生、坚",
+        "果及其果仁类制品。",
+    ]
+
+
+def test_allergen_continuation_accepts_overlapping_tencent_line_boxes() -> None:
+    fields = parse_food_label_fields(
+        [
+            line(
+                "致敏物质提示：本产品含有乳制品，该生产设备还加工含有大豆制品、含麸",
+                x=0.174,
+                y=0.607,
+                width=0.347,
+                height=0.071,
+            ),
+            line(
+                "质的谷物制品、花生制品、蛋制品、坚果及其果仁类制品的产品。",
+                x=0.176,
+                y=0.643,
+                width=0.294,
+                height=0.064,
+            ),
+            line(
+                "产品类型：组合型雪糕",
+                x=0.314,
+                y=0.675,
+                width=0.108,
+                height=0.044,
+            ),
+        ],
+        OCRSettings(provider="tencentcloud"),
+    )
+
+    allergens = {field.name: field for field in fields}["allergen_statement"]
+    assert "质的谷物制品" in allergens.raw_text
+    assert "产品类型" not in allergens.raw_text
 
 
 def test_nutrition_basis_excludes_heading_and_deduplicates_packages() -> None:
@@ -189,6 +348,21 @@ def test_specification_and_dealer_lines_do_not_enter_ingredients() -> None:
 
     ingredients = {field.name: field for field in fields}["ingredients"]
     assert ingredients.raw_text == "精制盐、碘化钾、亚铁氰化钾"
+
+
+def test_ingredient_percentage_lines_are_not_mistaken_for_specifications() -> None:
+    fields = parse_food_label_fields(
+        [
+            line("配料：小麦粉、橙皮（≥9%）", y=0.20),
+            line("鸡蛋、白砂糖（添加量≥1%）", y=0.25),
+            line("生产日期：见喷码", y=0.31),
+        ],
+        OCRSettings(provider="tencentcloud"),
+    )
+
+    ingredients = {field.name: field for field in fields}["ingredients"]
+    assert "橙皮（≥9%）" in ingredients.raw_text
+    assert "添加量≥1%" in ingredients.raw_text
 
 
 def test_heading_followed_by_dealer_details_stays_empty() -> None:

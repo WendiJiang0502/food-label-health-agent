@@ -1,0 +1,21 @@
+{
+  "schema_version": "ocr_dataset_registry_v1",
+  "dataset_id": "tencent-real-labels-2026-09-11",
+  "dataset_role": "frozen_development",
+  "frozen_at": "2026-09-11",
+  "sample_count": 9,
+  "sample_ids": [
+    "0efa3a74bf55",
+    "54c04ba890e2",
+    "6a39423becea",
+    "6be800c4a215",
+    "872004190027",
+    "aa4aa07ef798",
+    "d044be64997e",
+    "f74ed29ca894",
+    "fcb4b7ba7a04"
+  ],
+  "tuning_allowed": true,
+  "release_eligible": false,
+  "reason": "This user-reviewed set is frozen for regression development and must not be counted as an independent blind release benchmark."
+}
