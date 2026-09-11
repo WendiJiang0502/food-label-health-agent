@@ -13,8 +13,8 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
     <meta name="description" content="上传食品标签，确认识别文字，再进行基于证据的健康信息解释。">
     <title>食鉴 · 食品标签健康解释</title>
     <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/static/styles.css?v=health-dashboard-11">
-    <script src="/static/app.js?v=health-dashboard-11" defer></script>
+    <link rel="stylesheet" href="/static/styles.css?v=conversation-agent-1">
+    <script src="/static/app.js?v=conversation-agent-1" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main-content">跳到主要内容</a>
@@ -192,7 +192,7 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
                 accept="image/jpeg,image/png,image/webp,image/heic,image/heif"
               >
               <span class="package-visual" aria-hidden="true">
-                <img src="/static/assets/label-pouch.png?v=editorial-bento-1" alt="" width="1122" height="1402" loading="lazy" decoding="async">
+                <img src="/static/assets/label-pouch.webp?v=editorial-bento-2" alt="" width="1122" height="1402" loading="lazy" decoding="async">
               </span>
               <span class="upload-copy">
                 <span class="upload-symbol" aria-hidden="true">
@@ -394,7 +394,7 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
               </div>
             </div>
             <p class="risk-summary" id="risk-summary"></p>
-            <section class="decision-support" aria-label="食用量换算与关键营养信息">
+            <section class="decision-support" aria-label="食用量判断与关键营养信息">
               <div class="portion-guidance">
                 <p id="portion-kind">正在判断份量来源</p>
                 <strong id="portion-value">正在读取标签份量</strong>
@@ -415,12 +415,12 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
                 </dl>
                 <div class="portion-controls" id="portion-controls" hidden>
                   <div class="portion-presets" id="portion-presets" aria-label="快速选择食用份量">
-                    <button type="button" data-portion-multiplier="0.5">半个标示口径</button>
-                    <button type="button" data-portion-multiplier="1">标示口径</button>
-                    <button type="button" data-portion-multiplier="2">两倍标示口径</button>
+                    <button type="button" data-portion-multiplier="0.5">按一半换算</button>
+                    <button type="button" data-portion-multiplier="1">按包装口径换算</button>
+                    <button type="button" data-portion-multiplier="2">按两倍换算</button>
                   </div>
                   <label class="portion-input-label" for="portion-amount">
-                    <span>本次吃多少</span>
+                    <span>输入实际食用量（只做换算）</span>
                     <span class="portion-input-wrap">
                       <input id="portion-amount" type="number" inputmode="decimal" autocomplete="off" aria-describedby="portion-error portion-assessment">
                       <span id="portion-unit" aria-hidden="true">克</span>
@@ -432,7 +432,7 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
               </div>
               <div class="nutrition-snapshot">
                 <div class="nutrition-snapshot-heading">
-                  <h3>与你关注相关的标签数值</h3>
+                  <h3>判断时需要看的营养数值</h3>
                   <span id="nutrition-basis-label">等待标签口径</span>
                 </div>
                 <div class="nutrition-stat-list" id="nutrition-stat-list"></div>
@@ -455,21 +455,23 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
               </div>
             </dl>
             <div class="additional-findings" id="additional-findings" hidden></div>
-            <section class="additive-results" id="additive-results" aria-labelledby="additive-results-title" hidden>
-              <div class="additive-results-heading">
-                <h3 id="additive-results-title">添加剂说明</h3>
+            <details class="additive-results result-disclosure" id="additive-results" hidden>
+              <summary class="additive-results-heading">
+                <strong id="additive-results-title">添加剂说明</strong>
                 <span id="additive-results-count">0 项</span>
+              </summary>
+              <div class="result-disclosure-body">
+                <p class="additive-results-summary">在对应食品类别中按 GB 2760 规定用量使用的添加剂，不应仅因名称出现就判断“有害”。展开内容会说明标准边界与仍需注意之处。</p>
+                <div id="additive-result-list"></div>
               </div>
-              <p class="additive-results-summary">先看健康结论：在对应食品类别中按 GB 2760 规定用量使用的添加剂，不应仅因名称出现就判断“有害”。下方分别说明能否按标准放心食用，以及需要注意的边界。</p>
-              <div id="additive-result-list"></div>
-            </section>
-            <section class="claim-results" id="claim-results" aria-labelledby="claim-results-title" hidden>
-              <div class="claim-results-heading">
-                <h3 id="claim-results-title">包装声称核对</h3>
+            </details>
+            <details class="claim-results result-disclosure" id="claim-results" hidden>
+              <summary class="claim-results-heading">
+                <strong id="claim-results-title">包装声称核对</strong>
                 <span id="claim-results-count">0 项</span>
-              </div>
-              <div class="claim-result-list" id="claim-result-list"></div>
-            </section>
+              </summary>
+              <div class="result-disclosure-body claim-result-list" id="claim-result-list"></div>
+            </details>
             <div class="evidence-panel" id="evidence-panel">
               <details id="evidence-details">
                 <summary>
@@ -535,6 +537,15 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
               <p class="alternative-source" id="alternative-source">数据来源将在查找后显示。</p>
               <p class="alternative-status" id="alternative-status" role="status"></p>
               <div id="alternative-results" hidden>
+                <section class="alternative-decision-summary" id="alternative-decision-summary" aria-labelledby="alternative-decision-title" hidden>
+                  <div>
+                    <span>本次结果分层</span>
+                    <strong id="alternative-decision-title">正在整理可比较性与证据状态</strong>
+                    <p id="alternative-decision-detail"></p>
+                  </div>
+                  <p class="alternative-next-action" id="alternative-next-action"></p>
+                  <ul class="alternative-state-counts" id="alternative-state-counts" aria-label="替代品分层数量"></ul>
+                </section>
                 <div class="alternative-list" id="alternative-list"></div>
                 <button class="button button--secondary alternative-show-more" id="alternative-show-more" type="button" aria-expanded="false" hidden>查看更多</button>
                 <div class="alternative-comparison" id="alternative-comparison" hidden>
@@ -552,6 +563,65 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
         </aside>
         </section>
       </div>
+
+      <section class="account-view chat-view" id="chat-view" hidden aria-labelledby="chat-title">
+        <header class="chat-heading">
+          <div>
+            <p>基于已确认标签与可追溯依据</p>
+            <h1 id="chat-title">问问食鉴</h1>
+          </div>
+          <button class="text-button" id="clear-chat" type="button">清除此对话</button>
+        </header>
+
+        <div class="chat-workspace">
+          <aside class="chat-context" aria-labelledby="chat-context-title">
+            <span class="chat-context-mark" aria-hidden="true">食</span>
+            <div>
+              <p id="chat-context-title">当前参考</p>
+              <strong id="chat-context-name">未关联标签</strong>
+              <span id="chat-context-detail">可以先问一般标签知识；涉及具体商品时，请先拍摄并确认标签。</span>
+            </div>
+            <button class="button button--secondary" id="chat-scan-action" type="button">去拍标签</button>
+          </aside>
+
+          <div class="chat-sheet">
+            <div class="chat-log" id="chat-log" role="log" aria-live="polite" aria-relevant="additions text">
+              <article class="chat-message chat-message--assistant" data-seed-message>
+                <div class="chat-avatar" aria-hidden="true">食</div>
+                <div class="chat-bubble">
+                  <p>你可以直接问我配料、营养成分、包装声称，或者继续追问刚刚确认过的标签。</p>
+                  <span>具体商品会以已确认标签为准；信息不足时我会直接告诉你。</span>
+                </div>
+              </article>
+            </div>
+
+            <div class="chat-suggestions" id="chat-suggestions" aria-label="问题建议">
+              <button type="button" data-chat-prompt="帮我解释一下这个标签里最需要注意的地方">最需要注意什么？</button>
+              <button type="button" data-chat-prompt="包装上的无糖声称应该怎么理解？">“无糖”怎么理解？</button>
+              <button type="button" data-chat-prompt="食品配料表通常应该按什么顺序阅读？">怎么读配料表？</button>
+            </div>
+
+            <label class="chat-consent" id="chat-consent-row">
+              <input id="chat-remote-consent" type="checkbox">
+              <span>
+                <strong>同意本次短期对话使用 OpenAI</strong>
+                <small>发送你输入的文字；关联标签时还会发送必要的已确认标签事实和个人设置。不发送原始图片，请求设置为不由本应用远程保存。</small>
+              </span>
+            </label>
+
+            <p class="chat-status" id="chat-status" aria-live="polite">对话只在当前短期会话中保留，24 小时后自动清除。</p>
+
+            <form class="chat-composer" id="chat-form">
+              <label class="sr-only" for="chat-input">输入食品标签问题</label>
+              <textarea id="chat-input" rows="1" maxlength="4000" placeholder="例如：这个配料为什么需要注意？" required></textarea>
+              <button type="submit" id="chat-send" aria-label="发送问题">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 14-7-4 14-3-6-7-1Z" /></svg>
+              </button>
+            </form>
+            <p class="chat-boundary">不提供诊断或绝对安全保证。出现呼吸困难、喉头肿胀或意识异常，请立即寻求急救。</p>
+          </div>
+        </div>
+      </section>
 
       <section class="account-view" id="history-view" hidden aria-labelledby="history-title">
         <div id="history-index">
@@ -787,6 +857,10 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
       <button class="app-tabbar-primary" type="button" data-app-view="scan" aria-current="page">
         <span class="app-tabbar-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V5h4m8 0h4v4m0 6v4h-4M8 19H4v-4m4-6h8v6H8V9Z" /></svg></span>
         <span>拍照识别</span>
+      </button>
+      <button type="button" data-app-view="chat">
+        <span class="app-tabbar-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6.5h14v9H9l-4 3v-12Zm4 4h.01M12 10.5h.01m2.99 0h.01" /></svg></span>
+        <span>问问</span>
       </button>
       <button type="button" data-app-view="user">
         <span class="app-tabbar-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 8c.8-4 3.1-6 7-6s6.2 2 7 6" /></svg></span>

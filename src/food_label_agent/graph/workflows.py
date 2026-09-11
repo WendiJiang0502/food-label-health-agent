@@ -159,17 +159,36 @@ def evidence_payload(state: AgentState) -> dict:
 
 
 def alternative_payload(state: AgentState, category: str) -> dict:
-    eligible = [
+    raw_eligible = [
         item
         for item in state["alternatives"]
         if item.get("disposition") == "eligible"
     ]
-    coverage = state["alternative_request"].get("catalog_coverage", {})
-    catalog_total = int(coverage.get("total") or 0)
-    review_ready_total = int(coverage.get("evidence_gate_count") or 0)
     health_comparison_requested = bool(
         state["alternative_request"].get("health_concerns")
     )
+    eligible = [
+        _with_alternative_result_state(
+            item,
+            health_comparison_requested=health_comparison_requested,
+        )
+        for item in raw_eligible
+    ]
+    excluded = [
+        _with_alternative_result_state(
+            item,
+            health_comparison_requested=health_comparison_requested,
+        )
+        for item in state["alternatives"]
+        if item.get("disposition") == "excluded"
+    ]
+    evidence_rejected = [
+        _with_evidence_review_state(item)
+        for item in state["alternative_request"].get("search_rejected", [])
+    ]
+    coverage = state["alternative_request"].get("catalog_coverage", {})
+    catalog_total = int(coverage.get("total") or 0)
+    review_ready_total = int(coverage.get("evidence_gate_count") or 0)
     target_comparable = [
         item
         for item in eligible
@@ -229,12 +248,13 @@ def alternative_payload(state: AgentState, category: str) -> dict:
             "effective_display_count": len(effective),
             "effective_display_rate": ratio(len(effective), catalog_total),
         },
-        "excluded": [
-            item
-            for item in state["alternatives"]
-            if item.get("disposition") == "excluded"
-        ],
-        "evidence_rejected": state["alternative_request"].get("search_rejected", []),
+        "excluded": excluded,
+        "evidence_rejected": evidence_rejected,
+        "result_summary": _alternative_result_summary(
+            eligible=eligible,
+            excluded=excluded,
+            evidence_rejected=evidence_rejected,
+        ),
         "comparison": state["alternative_comparison"],
         "candidate_count": state["alternative_request"].get("candidate_count", 0),
         "revalidated_count": state["alternative_request"].get("revalidated_count", 0),
@@ -244,6 +264,166 @@ def alternative_payload(state: AgentState, category: str) -> dict:
         "errors": state["errors"],
         "workflow_trace": [asdict(item) for item in state["workflow_trace"]],
         "release_gate": evaluate_workflow_release(state),
+    }
+
+
+def _with_alternative_result_state(
+    item: dict,
+    *,
+    health_comparison_requested: bool,
+) -> dict:
+    """Attach one stable, actionable display state without weakening safety."""
+
+    enriched = dict(item)
+    if item.get("disposition") == "excluded":
+        enriched["result_state"] = _result_state_payload(
+            "constraint_conflict",
+            detail="该商品未通过你设置的硬性约束，因此不会进入备选列表。",
+            next_action="可以查看冲突字段；不要为了获得更多结果而放宽严重过敏或明确营养上限。",
+        )
+        return enriched
+
+    eligibility = item.get("catalog_eligibility", {})
+    missing = list(eligibility.get("missing_comparison_fields") or [])
+    if health_comparison_requested and missing:
+        detail, next_action = _limited_comparison_guidance(eligibility, missing)
+        enriched["result_state"] = _result_state_payload(
+            "same_use_evidence_limited",
+            detail=detail,
+            next_action=next_action,
+            missing_fields=missing,
+        )
+        return enriched
+
+    enriched["result_state"] = _result_state_payload(
+        "comparable",
+        detail=(
+            "该商品已通过当前硬性约束，目标营养字段也具备同口径比较证据。"
+            if health_comparison_requested
+            else "该商品已通过当前硬性约束，可作为同类别或同用途备选。"
+        ),
+        next_action="购买前仍需核对实际包装的配方、规格和版本。",
+    )
+    return enriched
+
+
+def _with_evidence_review_state(item: dict) -> dict:
+    enriched = dict(item)
+    coverage = item.get("label_coverage") or {}
+    context = coverage.get("context_eligibility") or {}
+    missing = list(
+        context.get("missing_required_fields")
+        or coverage.get("missing_fields")
+        or []
+    )
+    enriched["result_state"] = _result_state_payload(
+        "packaging_review_required",
+        detail="商品身份可能匹配，但现有包装证据不足以完成本次安全判断。",
+        next_action=(
+            f"需要核对同一 SKU 包装的{'、'.join(missing)}。"
+            if missing
+            else "需要核对同一 SKU 的配料、过敏原提示和营养标签。"
+        ),
+        missing_fields=missing,
+    )
+    return enriched
+
+
+def _limited_comparison_guidance(
+    eligibility: dict,
+    missing_fields: list[str],
+) -> tuple[str, str]:
+    if "糖" in missing_fields:
+        sugar_status = eligibility.get("sugars_review_status")
+        if sugar_status == "not_declared":
+            return (
+                "该商品未单列糖，因此不能判断是否符合你的糖上限。",
+                "可以继续查看碳水化合物，但不能宣称它更适合控糖；购买前请核对实物营养标签。",
+            )
+        if sugar_status == "source_insufficient":
+            return (
+                "当前官方来源没有提供可核对的糖数值，因此不能完成控糖比较。",
+                "需要查看同一 SKU 的完整营养背标；在此之前只作同用途备选。",
+            )
+        return (
+            "该商品缺少已复核的糖数值，暂时不能完成控糖比较。",
+            "请核对同一 SKU 的实物营养背标；不从碳水化合物推算糖。",
+        )
+    joined = "、".join(missing_fields)
+    return (
+        f"该商品缺少{joined}的可比较证据，不能回答当前健康关注。",
+        f"可以作为同用途备选，但购买前需核对实物包装的{joined}；不宣称营养上更优。",
+    )
+
+
+def _result_state_payload(
+    state: str,
+    *,
+    detail: str,
+    next_action: str,
+    missing_fields: list[str] | None = None,
+) -> dict:
+    labels = {
+        "comparable": "可显示并比较",
+        "same_use_evidence_limited": "同用途备选，比较证据不足",
+        "packaging_review_required": "需要核对包装后才能判断",
+        "constraint_conflict": "与你的硬性约束冲突",
+        "no_trusted_candidate": "当前没有可信候选",
+    }
+    return {
+        "state": state,
+        "label": labels[state],
+        "detail": detail,
+        "next_action": next_action,
+        "missing_fields": missing_fields or [],
+    }
+
+
+def _alternative_result_summary(
+    *,
+    eligible: list[dict],
+    excluded: list[dict],
+    evidence_rejected: list[dict],
+) -> dict:
+    counts = {
+        state: sum(
+            item.get("result_state", {}).get("state") == state
+            for item in (*eligible, *excluded, *evidence_rejected)
+        )
+        for state in (
+            "comparable",
+            "same_use_evidence_limited",
+            "packaging_review_required",
+            "constraint_conflict",
+        )
+    }
+    if counts["comparable"]:
+        primary = "comparable"
+    elif counts["same_use_evidence_limited"]:
+        primary = "same_use_evidence_limited"
+    elif counts["packaging_review_required"]:
+        primary = "packaging_review_required"
+    elif counts["constraint_conflict"]:
+        primary = "constraint_conflict"
+    else:
+        primary = "no_trusted_candidate"
+    return {
+        "primary_state": primary,
+        "primary": _result_state_payload(
+            primary,
+            detail=(
+                "已查询当前审核目录，但没有商品同时满足用途、硬性约束和证据要求。"
+                if primary == "no_trusted_candidate"
+                else "本次结果已按可比较性、包装证据和硬性约束分层。"
+            ),
+            next_action=(
+                "可以更正替代用途或稍后重试；系统不会为了显示结果而降低证据门槛。"
+                if primary == "no_trusted_candidate"
+                else "先查看可比较候选，其他商品会明确标出缺少的证据或冲突。"
+            ),
+        ),
+        "counts": counts,
+        "safety_gate_held": True,
     }
 
 

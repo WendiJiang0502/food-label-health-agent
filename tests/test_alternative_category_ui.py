@@ -50,3 +50,10 @@ def test_alternative_results_expose_metrics_and_show_more_control() -> None:
     assert "目标营养可比率" in script
     assert "有效显示率" in script
     assert "visibleCount + pageSize" in script
+    assert 'id="alternative-decision-summary"' in html
+    assert "renderAlternativeDecisionSummary(payload.result_summary)" in script
+    assert "可显示并比较" in script
+    assert "同用途，比较证据不足" in script
+    assert "需核对包装" in script
+    assert "硬性约束冲突" in script
+    assert "暂无可信候选" in script

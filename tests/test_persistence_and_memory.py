@@ -208,3 +208,35 @@ def test_memory_rejects_unconfirmed_or_private_inference_fields(tmp_path: Path) 
             pass
         else:
             raise AssertionError("prohibited long-term memory was accepted")
+
+
+def test_memory_profile_can_be_exported_and_hard_deleted(tmp_path: Path) -> None:
+    store = SQLiteMemoryStore(tmp_path / "memory.sqlite3")
+    consent = store.grant_consent(
+        "profile-portability",
+        "跨会话保存用户明确填写的偏好",
+        explicit_consent=True,
+    )
+    item = store.upsert_item(
+        consent.profile_id,
+        consent.access_token,
+        kind="response_preference",
+        value={"answer_style": "concise"},
+    )
+
+    exported = store.export_profile(consent.profile_id, consent.access_token)
+
+    assert exported["schema_version"] == 1
+    assert exported["consent"]["purpose"] == "跨会话保存用户明确填写的偏好"
+    assert "token_hash" not in exported["consent"]
+    assert exported["items"] == [item]
+    assert store.delete_profile(consent.profile_id, consent.access_token) == {
+        "memory_items": 1,
+        "consents": 1,
+    }
+    try:
+        store.export_profile(consent.profile_id, consent.access_token)
+    except PermissionError:
+        pass
+    else:
+        raise AssertionError("hard-deleted profile remained exportable")

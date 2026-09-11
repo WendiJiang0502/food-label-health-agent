@@ -8,6 +8,8 @@ It never logs or serializes credentials or source images.
 from __future__ import annotations
 
 import asyncio
+import threading
+import time
 from base64 import b64encode
 from collections.abc import Callable, Iterable
 from statistics import fmean
@@ -53,11 +55,58 @@ class TencentCloudOCRProvider:
         self._general_request_factory = general_request_factory
         self._table_request_factory = table_request_factory
         self._table_api_available = settings.tencent_table_enabled
-        self._inference_lock = asyncio.Lock()
+        self._inference_slots = asyncio.Semaphore(settings.tencent_max_concurrency)
+        self._circuit_lock = threading.Lock()
+        self._consecutive_failures = 0
+        self._circuit_open_until = 0.0
 
     async def analyze(self, image: OCRInput) -> list[OCRFieldResult]:
-        async with self._inference_lock:
-            return await asyncio.to_thread(self._analyze_sync, image)
+        self._require_closed_circuit()
+        try:
+            await asyncio.wait_for(
+                self._inference_slots.acquire(),
+                timeout=self.settings.tencent_queue_timeout_seconds,
+            )
+        except TimeoutError as exc:
+            raise OCRProviderError(
+                "TencentCloud.LocalBackpressure",
+                "OCR 请求正在排队，请稍后重试。",
+                retryable=True,
+            ) from exc
+        try:
+            result = await asyncio.to_thread(self._analyze_sync, image)
+        except Exception as exc:
+            self._record_failure(exc)
+            raise
+        else:
+            with self._circuit_lock:
+                self._consecutive_failures = 0
+            return result
+        finally:
+            self._inference_slots.release()
+
+    def _require_closed_circuit(self) -> None:
+        with self._circuit_lock:
+            if time.monotonic() < self._circuit_open_until:
+                raise OCRProviderError(
+                    "TencentCloud.CircuitOpen",
+                    "OCR 服务暂时不可用，请稍后重试。",
+                    retryable=True,
+                )
+
+    def _record_failure(self, error: Exception) -> None:
+        if isinstance(error, OCRProviderError) and not error.retryable:
+            return
+        with self._circuit_lock:
+            self._consecutive_failures += 1
+            if (
+                self._consecutive_failures
+                >= self.settings.tencent_circuit_failure_threshold
+            ):
+                self._circuit_open_until = (
+                    time.monotonic()
+                    + self.settings.tencent_circuit_recovery_seconds
+                )
 
     def _analyze_sync(self, image: OCRInput) -> list[OCRFieldResult]:
         try:

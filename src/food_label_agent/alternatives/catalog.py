@@ -55,6 +55,34 @@ OFFICIAL_PRODUCT_HOSTS = {
     "moxiaoxian.cn",
     "www.eaglecoin.com",
     "eaglecoin.com",
+    "www.mengniu.com.cn",
+    "mengniu.com.cn",
+    "www.uni-president.com.cn",
+    "uni-president.com.cn",
+    "www.synear.cn",
+    "synear.cn",
+    "www.shuanghui.net",
+    "shuanghui.net",
+    "www.haday.com",
+    "haday.com",
+    "www.nongfuspring.com",
+    "nongfuspring.com",
+    "oow.3songshu.com",
+    "3songshu.com",
+    "www.panpanfood.com",
+    "panpanfood.com",
+    "wgmf.com",
+    "www.gulongfoods.com",
+    "gulongfoods.com",
+   "detail.youzan.com",
+    "www.chubang.cn",
+    "chubang.cn",
+    "m.chubang.cn",
+    "www.brightmeat.com",
+    "brightmeat.com",
+    "www.nanfangfood.com",
+    "nanfangfood.com",
+    "32034701.s21i.faiusr.com",
 }
 OFFICIAL_LABEL_REVERIFY_AFTER = timedelta(days=550)
 OFFICIAL_STORE_HOST_SUFFIXES = (".jd.com", ".tmall.com")
@@ -231,7 +259,14 @@ class OfficialChinaCatalog:
                 item["display_name"],
             )
         )
-        return {**summarize_label_coverage(selected), "items": items}
+        return {
+            **summarize_label_coverage(
+                selected,
+                applicable_date=datetime.now(UTC).date(),
+                maximum_source_age_days=OFFICIAL_LABEL_REVERIFY_AFTER.days,
+            ),
+            "items": items,
+        }
 
     def review_queue(
         self,
@@ -604,8 +639,8 @@ def _catalog_for_mode(selected: str, minimum_records: int) -> ProductCatalog:
 
 def _label_completion_action(missing_fields: list[str]) -> str:
     joined = "、".join(missing_fields)
-    if any("双人复核实物包装" in field for field in missing_fields):
-        return f"拍摄同一 SKU 的配料与营养背标并完成双人复核：{joined}"
+    if any("双人复核实物或厂家完整包装" in field for field in missing_fields):
+        return f"取得同一 SKU 的实物或厂家完整背标并完成双人复核：{joined}"
     if "完整配料表文字" in missing_fields or "包装过敏原提示" in missing_fields:
         return f"补充包装背标图片并复核：{joined}"
     return f"核对官方页面或包装图片：{joined}"

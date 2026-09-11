@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 from collections import Counter
-from datetime import date
+from datetime import UTC, date, datetime
 from pathlib import Path
 
 import pytest
@@ -89,6 +89,11 @@ def test_official_catalog_exposes_complete_review_queue() -> None:
     assert coverage["full_label_count"] == 88
     assert coverage["evidence_gate_count"] == 89
     assert coverage["needs_review_count"] == 5
+    assert coverage["expired_evidence_count"] == 0
+    assert coverage["stale_evidence_count"] == 0
+    assert coverage["current_purchase_evidence_count"] == 0
+    assert coverage["purchase_availability_rate"] == 0.0
+    assert coverage["metrics_as_of"] == datetime.now(UTC).date().isoformat()
     assert len(coverage["items"]) == 93
     assert coverage["items"][0]["label_coverage"]["review_priority"] == "high"
 
@@ -101,8 +106,8 @@ def test_official_catalog_turns_missing_labels_into_actionable_queue() -> None:
     assert queue["queue_count"] == 93
     assert queue["reverification_due_count"] == 0
     assert queue["missing_field_counts"]["完整配料表文字"] >= 1
-    assert queue["missing_field_counts"]["双人复核实物包装配料图"] == 93
-    assert queue["missing_field_counts"]["双人复核实物包装营养图"] == 93
+    assert queue["missing_field_counts"]["双人复核实物或厂家完整包装配料图"] == 93
+    assert queue["missing_field_counts"]["双人复核实物或厂家完整包装营养图"] == 93
     assert all(item["recommendation_eligible"] is False for item in queue["items"])
     assert all(item["next_action"] for item in queue["items"])
     assert all(
@@ -283,7 +288,7 @@ def test_severe_allergy_blocks_products_without_packaging_snapshot() -> None:
     ]
     assert len(evidence_rejections) == 27
     assert all(
-        "可复核的包装配料/过敏原图片"
+            "可复核的实物包装或厂家完整背标图片"
         in item["label_coverage"]["context_eligibility"]["missing_required_fields"]
         for item in evidence_rejections
     )
@@ -498,7 +503,7 @@ def test_every_displayable_missing_sugar_candidate_has_an_audited_reason() -> No
     )
 
 
-def test_same_use_juice_and_sausage_searches_offer_three_formulas() -> None:
+def test_near_identical_flavours_do_not_count_as_three_formula_choices() -> None:
     catalog = OfficialChinaCatalog()
     juice = find_alternative_products(
         AlternativeSearchRequest(
@@ -521,8 +526,10 @@ def test_same_use_juice_and_sausage_searches_offer_three_formulas() -> None:
         catalog=catalog,
     )
 
-    assert len({item["label"]["content_hash"] for item in juice["candidates"]}) >= 3
-    assert len({item["label"]["content_hash"] for item in sausage["candidates"]}) >= 3
+    assert len(juice["candidates"]) == 2
+    assert juice["catalog_coverage"]["near_formula_variants_collapsed"] == 1
+    assert len(sausage["candidates"]) == 1
+    assert sausage["catalog_coverage"]["near_formula_variants_collapsed"] == 2
 
 
 def test_official_catalog_rejects_unreviewed_store_identity(tmp_path: Path) -> None:

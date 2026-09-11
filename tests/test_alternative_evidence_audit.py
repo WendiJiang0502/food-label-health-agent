@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from food_label_agent.alternatives.catalog import OfficialChinaCatalog
 from food_label_agent.alternatives.evidence_audit import (
+    assess_product_eligibility,
     audit_product_label,
     summarize_label_coverage,
 )
@@ -80,7 +81,68 @@ def test_search_rejection_explains_exact_official_label_gaps() -> None:
         "packaging_coverage_rate": 0.0,
         "needs_review_count": 1,
         "coverage_rate": 0.75,
+        "expired_evidence_count": 0,
+        "expired_evidence_rate": 0.0,
+        "stale_evidence_count": 0,
+        "stale_evidence_rate": 0.0,
+        "current_purchase_evidence_count": 0,
+        "purchase_availability_rate": 0.0,
+        "metrics_as_of": "2026-08-15",
         "fully_verified_count": 0,
         "conditionally_verified_count": 3,
         "context_needs_review_count": 1,
     }
+
+
+def test_declared_zero_total_fat_provides_only_a_conservative_saturated_bound() -> None:
+    product = next(
+        item
+        for item in OfficialChinaCatalog().search(category="drink", region="CN").records
+        if item.product_id == "cn-official:cocacola:zero-sugar:500ml"
+    )
+
+    assessment = assess_product_eligibility(
+        product, health_concerns=("blood_lipids",)
+    )
+
+    assert assessment["missing_comparison_fields"] == []
+    assert assessment["bounded_comparison_fields"] == [
+        {
+            "nutrient": "saturated_fat",
+            "qualifier": "upper_bound",
+            "value": 0.5,
+            "unit": "g",
+            "basis": "per_100ml",
+            "derivation": "saturated_fat_not_greater_than_declared_total_fat",
+            "regulation_reference": "GB 28050-2011:C.1",
+            "source_evidence_id": product.label.evidence_id,
+            "label": "饱和脂肪",
+        }
+    ]
+
+
+def test_saturated_bound_never_satisfies_an_exact_nutrition_limit() -> None:
+    from food_label_agent.ingredients.api_models import ConstraintInput
+
+    product = next(
+        item
+        for item in OfficialChinaCatalog().search(category="drink", region="CN").records
+        if item.product_id == "cn-official:cocacola:zero-sugar:500ml"
+    )
+
+    assessment = assess_product_eligibility(
+        product,
+        constraints=(
+            ConstraintInput(
+                kind="nutrition_limit",
+                canonical_value="saturated_fat",
+                operator="max",
+                threshold=0.5,
+                unit="g",
+                basis="per_100ml",
+            ),
+        ),
+    )
+
+    assert assessment["eligible_for_current_context"] is False
+    assert "饱和脂肪" in assessment["missing_required_fields"]

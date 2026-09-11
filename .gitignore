@@ -15,6 +15,7 @@ evaluation/real_labels/manifest.json
 evaluation/real_labels/annotations/
 .coverage
 htmlcov/
+.evidence-data/
 dist/
 build/
 *.egg-info/

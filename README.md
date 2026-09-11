@@ -18,6 +18,7 @@
 | 法规检索 | 按中国法域、适用日期和标准版本过滤；BM25 + Dense Embedding 经 RRF 融合后独立重排 |
 | 替代品 | 先确认同类用途，再逐一重跑相同硬约束；证据不完整或风险未知的候选不会进入推荐 |
 | 可恢复工作流 | `AgentState`、SQLite 检查点、能力令牌、节点轨迹和 MCP 工具轨迹 |
+| 自由对话 | `gpt-5.6-terra` 多轮对话；只能调用受控标签工具，具体商品结论复用已确认工作流与最终安全边界 |
 | 消费者网页 | 首次档案设置、回访健康主页、拍照识别、结果证据、滑动概览、历史摘要与历史详情 |
 | 发布门禁 | 统一评测过敏原、OCR、RAG、Agent、替代品与最终安全门，并固定版本信息 |
 
@@ -196,6 +197,23 @@ food-label-platform
 food-label-planner-eval
 FOOD_LABEL_PLANNER_PROVIDER=openai food-label-planner-eval --live
 ```
+
+### 自由对话 Agent
+
+消费者网页的“问问”页使用 OpenAI Responses API 和 `gpt-5.6-terra`。对话可以自然追问，但不能创建任意工具参数、修改确定性风险或跳过标签确认。关联具体商品时，后端使用分析编号和恢复令牌读取可信工作流状态；浏览器不能直接提供一个伪造的“安全结论”。
+
+对话原文保存在独立的短期会话表中，默认 24 小时后自动清除，不进入长期健康记忆。原始图片不会发送给对话模型；普通问题每次发送前都要求本次会话的明确远程处理同意。OpenAI 请求设置 `store: false`。紧急过敏关键词由本地固定规则直接返回急救提示，不依赖远程模型。
+
+```bash
+export OPENAI_API_KEY='由部署环境注入，不要写入仓库'
+export FOOD_LABEL_CHAT_PROVIDER=openai
+export FOOD_LABEL_CHAT_MODEL=gpt-5.6-terra
+export FOOD_LABEL_CHAT_REASONING_EFFORT=low
+export FOOD_LABEL_CHAT_RETENTION_HOURS=24
+food-label-platform
+```
+
+首版工具白名单仅包括当前标签的法规检索、配料解释和包装声称一致性检查。通用网页搜索、代码执行、文件系统、购买行为和未经复核的商品推荐不向对话模型开放。
 
 ### RAG 2.0（默认法规检索链路）
 

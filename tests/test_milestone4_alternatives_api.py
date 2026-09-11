@@ -91,10 +91,19 @@ async def _alternative_api_lifecycle(tmp_path: Path) -> None:
         assert [item["product_id"] for item in payload["eligible"]] == [
             "fixture-biscuit-oat-plain"
         ]
+        assert payload["eligible"][0]["result_state"]["state"] == "comparable"
         assert payload["excluded"][0]["risk_level"] == "avoid"
+        assert payload["excluded"][0]["result_state"]["state"] == (
+            "constraint_conflict"
+        )
         assert payload["evidence_rejected"][0]["reason_code"] == (
             "LABEL_FIELDS_INSUFFICIENT_FOR_CONTEXT"
         )
+        assert payload["evidence_rejected"][0]["result_state"]["state"] == (
+            "packaging_review_required"
+        )
+        assert payload["result_summary"]["primary_state"] == "comparable"
+        assert payload["result_summary"]["safety_gate_held"] is True
         assert payload["checkpoint"]["sequence"] == 2
         assert payload["checkpoint"]["resume_token"] is None
 

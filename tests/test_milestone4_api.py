@@ -101,6 +101,7 @@ async def _memory_lifecycle(tmp_path: Path) -> None:
 
         granted = await client.post(
             "/api/v1/memory/consents",
+            headers={"X-Food-Label-Token-Delivery": "bearer"},
             json={
                 "profile_id": profile_id,
                 "purpose": "跨会话保存用户明确声明的食品约束",

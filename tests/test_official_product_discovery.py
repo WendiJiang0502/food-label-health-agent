@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 import pytest
@@ -91,6 +92,135 @@ def _fetcher(url: str, _timeout: float) -> str:
     return pages[url]
 
 
+def test_discovery_encodes_spaces_in_official_product_links(tmp_path: Path) -> None:
+    registry = _registry(tmp_path / "registry.json")
+
+    def fetcher(url: str, _timeout: float) -> str:
+        if url == "https://brand.example/products":
+            return '<a href="/product/Aromatic Red Cooking soy sauce">商品</a>'
+        if url == "https://brand.example/product/Aromatic%20Red%20Cooking%20soy%20sauce":
+            return """
+                <script type="application/ld+json">
+                {"@type":"Product","name":"红烧酱油","ingredients":"水、大豆、小麦、食用盐",
+                 "size":"500毫升"}
+                </script><p>过敏原提示：含大豆和小麦</p>
+            """
+        raise AssertionError(f"unexpected URL: {url}")
+
+    discovery = OfficialProductDiscovery(
+        registry_path=registry,
+        queue_path=tmp_path / "queue.json",
+        approved_path=tmp_path / "approved.json",
+        packaging_store=_TrustedTestPackagingStore(),
+        fetch_text=fetcher,
+    )
+
+    result = discovery.refresh()
+
+    assert result.status == "completed"
+    assert result.summary["discovered_count"] == 1
+    assert result.summary["items"][0]["source_url"].endswith(
+        "Aromatic%20Red%20Cooking%20soy%20sauce"
+    )
+
+
+def test_discovery_rejects_generic_navigation_pages_as_skus(tmp_path: Path) -> None:
+    registry = _registry(tmp_path / "registry.json")
+
+    def fetcher(url: str, _timeout: float) -> str:
+        if url == "https://brand.example/products":
+            return """
+                <a href="/product/about">关于我们</a>
+                <a href="/product/business">主营产品</a>
+                <a href="/product/search">Search</a>
+                <a href="/product/real">真实坚果 120克</a>
+            """
+        if url == "https://brand.example/product/real":
+            return '<h1>真实坚果</h1><p>净含量：120克</p>'
+        raise AssertionError(f"generic page should not be fetched: {url}")
+
+    discovery = OfficialProductDiscovery(
+        registry_path=registry,
+        queue_path=tmp_path / "queue.json",
+        approved_path=tmp_path / "approved.json",
+        fetch_text=fetcher,
+    )
+
+    result = discovery.refresh(category="snack")
+
+    assert result.status == "completed"
+    assert result.summary["discovered_count"] == 1
+    assert result.summary["items"][0]["display_name"] == "真实坚果"
+
+
+def test_listing_seed_products_capture_identity_without_mixing_label_text(
+    tmp_path: Path,
+) -> None:
+    registry = _registry(tmp_path / "registry.json")
+    sources = json.loads(registry.read_text(encoding="utf-8"))
+    sources[0]["discovery_urls"] = ["https://brand.example/product/display"]
+    sources[0]["product_seed_urls"] = ["https://brand.example/product/display"]
+    sources[0]["seed_products"] = [
+        {
+            "display_name": "可核验坚果",
+            "sku": "6956511998326",
+            "specification": "120克",
+            "source_url": "https://brand.example/product/display",
+            "packaging_photo_url": "https://brand.example/evidence/nut.jpg",
+        },
+        {
+            "display_name": "可核验果干",
+            "sku": "6956511998999",
+            "specification": "100克",
+            "source_url": "https://brand.example/product/display",
+        },
+    ]
+    registry.write_text(json.dumps(sources, ensure_ascii=False), encoding="utf-8")
+
+    def fetcher(_url: str, _timeout: float) -> str:
+        return """
+            <h1>产品中心</h1>
+            <p>可核验坚果 120克 69码：6956511998326</p>
+            <p>另一商品配料表：不应串到种子商品；营养成分：脂肪0克</p>
+        """
+
+    discovery = OfficialProductDiscovery(
+        registry_path=registry,
+        queue_path=tmp_path / "queue.json",
+        approved_path=tmp_path / "approved.json",
+        fetch_text=fetcher,
+    )
+
+    result = discovery.refresh(category="snack")
+
+    assert result.status == "completed"
+    assert result.summary["discovered_count"] == 2
+    assert {item["sku"] for item in result.summary["items"]} == {
+        "6956511998326",
+        "6956511998999",
+    }
+    assert all(
+        item["extracted_fields"]["ingredients_text"] is None
+        for item in result.summary["items"]
+    )
+    assert all(
+        item["identity_evidence"]["label_fields_extracted_from_listing"] is False
+        for item in result.summary["items"]
+    )
+    nut = next(
+        item for item in result.summary["items"] if item["display_name"] == "可核验坚果"
+    )
+    assert nut["evidence_assets"] == [
+        {
+            "url": "https://brand.example/evidence/nut.jpg",
+            "artifact_type": "packaging_photo",
+        }
+    ]
+    assert all(
+        item["recommendation_eligible"] is False for item in result.summary["items"]
+    )
+
+
 def _review_product(source_url: str) -> dict:
     payload = {
         "product_id": "cn-official:test:complete",
@@ -175,14 +305,27 @@ def test_registry_includes_mainland_official_store_product_seeds() -> None:
         "李锦记",
         "沃隆",
         "雀巢",
+        "古龙",
+        "自嗨锅",
     }
     stores_with_seeds = [source for source in stores if source["brand"] != "雀巢"]
     assert all(source.get("product_seed_urls") for source in stores_with_seeds)
+    jd_item_seed_stores = [
+        source
+        for source in stores_with_seeds
+        if source["brand"] in {"伊利", "西麦", "李锦记", "沃隆"}
+    ]
     assert all(
         url.startswith("https://item.jd.com/")
-        for source in stores_with_seeds
+        for source in jd_item_seed_stores
         for url in source["product_seed_urls"]
     )
+    assert next(source for source in stores if source["brand"] == "古龙")[
+        "product_seed_urls"
+    ][0].startswith("https://gulong.jd.com/")
+    assert next(source for source in stores if source["brand"] == "自嗨锅")[
+        "product_seed_urls"
+    ][0].startswith("https://detail.youzan.com/")
 
 
 def test_registry_includes_processed_meat_manufacturer_discovery() -> None:
@@ -193,6 +336,72 @@ def test_registry_includes_processed_meat_manufacturer_discovery() -> None:
 
     assert any(source["brand"] == "荷美尔" for source in processed_meat)
     assert all(source.get("product_seed_urls") for source in processed_meat)
+
+
+def test_three_squirrels_official_identity_seeds_are_sku_bound() -> None:
+    sources = json.loads(SOURCE_REGISTRY_PATH.read_text(encoding="utf-8"))
+    source = next(
+        item
+        for item in sources
+        if item["source_id"] == "three-squirrels-china-snack-official"
+    )
+
+    assert len(source["seed_products"]) == 8
+    assert len({item["sku"] for item in source["seed_products"]}) == 8
+    assert all(len(item["sku"]) == 13 for item in source["seed_products"])
+    assert all(item["specification"] for item in source["seed_products"])
+
+
+def test_nanfang_official_label_artwork_seed_is_bound_to_barcode_and_spec() -> None:
+    sources = json.loads(SOURCE_REGISTRY_PATH.read_text(encoding="utf-8"))
+    source = next(
+        item
+        for item in sources
+        if item["source_id"] == "nanfang-stone-ground-sesame-official-label"
+    )
+    seed = source["seed_products"][0]
+
+    assert seed["sku"] == "6901333388886"
+    assert seed["specification"] == "315克（35克×9袋）"
+    assert seed["official_label_artwork_url"].startswith(
+        "https://32034701.s21i.faiusr.com/"
+    )
+
+
+def test_chubang_and_maling_second_brand_seeds_are_exact_sku_bound() -> None:
+    sources = json.loads(SOURCE_REGISTRY_PATH.read_text(encoding="utf-8"))
+    by_id = {source["source_id"]: source for source in sources}
+
+    chubang = by_id["chubang-yipinxian-official"]["seed_products"][0]
+    assert chubang["sku"] == "6902902009324"
+    assert chubang["specification"] == "500毫升"
+    assert chubang["source_url"].startswith("https://m.chubang.cn/")
+    assert chubang["packaging_photo_url"].startswith(
+        "https://imgservice.suning.cn/"
+    )
+
+    maling = by_id["maling-delicious-luncheon-official"]["seed_products"][0]
+    assert maling["sku"] == "6902131112949"
+    assert maling["specification"] == "340克"
+    assert maling["official_label_artwork_url"].startswith(
+        "https://img.alicdn.com/"
+    )
+
+
+def test_shuanghui_second_brand_seed_is_exact_sku_bound() -> None:
+    sources = json.loads(SOURCE_REGISTRY_PATH.read_text(encoding="utf-8"))
+    source = next(
+        item
+        for item in sources
+        if item["source_id"] == "shuanghui-china-meat-official"
+    )
+    seed = source["seed_products"][0]
+
+    assert seed["display_name"] == "双汇王中王火腿肠"
+    assert seed["sku"] == "6902890228325"
+    assert seed["specification"] == "240克"
+    assert seed["source_url"] == "https://www.shuanghui.net/page-32.html"
+    assert seed["packaging_photo_url"].startswith("https://www.lingshi.us/")
 
 
 def test_missing_sugar_sources_feed_the_review_target_into_discovery() -> None:
@@ -220,6 +429,17 @@ def test_registry_feeds_every_new_category_to_the_automatic_discovery_queue(
 
     assert registered == ALL_ALTERNATIVE_CATEGORIES
     assert NEWLY_COVERED_CATEGORIES <= registered
+    assert all(
+        len(
+            {
+                source["brand"]
+                for source in sources
+                if source["category"] == category
+            }
+        )
+        >= 2
+        for category in ALL_ALTERNATIVE_CATEGORIES
+    )
     for category in NEWLY_COVERED_CATEGORIES:
         category_sources = [
             source for source in sources if source["category"] == category
@@ -246,8 +466,8 @@ def test_discovery_status_exposes_brand_and_packaging_review_priorities(
 
     status = service.status(category="bread")
 
-    assert status["source_coverage"]["distinct_brand_count"] == 1
-    assert "add_second_brand_official_source" in status["source_coverage"][
+    assert status["source_coverage"]["distinct_brand_count"] == 2
+    assert "add_second_brand_official_source" not in status["source_coverage"][
         "priority_reasons"
     ]
     assert "capture_packaging_label_snapshot" in status["source_coverage"][
@@ -378,3 +598,47 @@ def test_review_rejects_snapshot_metadata_when_artifact_is_missing(
             review_token="review-secret",
             product=_review_product(candidate["source_url"]),
         )
+
+
+def test_concurrent_source_merges_do_not_overwrite_each_other(tmp_path: Path) -> None:
+    service = OfficialProductDiscovery(
+        registry_path=_registry(tmp_path / "sources.json"),
+        queue_path=tmp_path / "queue.json",
+        approved_path=tmp_path / "approved.json",
+    )
+
+    def merge(source_id: str) -> None:
+        service._merge_queue(
+            [
+                {
+                    "candidate_id": f"candidate:{source_id}",
+                    "source_id": source_id,
+                    "category": "snack",
+                    "display_name": source_id,
+                    "source_fingerprint": f"sha256:{source_id}",
+                    "first_discovered_at": "2026-08-30T00:00:00+00:00",
+                    "last_seen_at": "2026-08-30T00:00:00+00:00",
+                    "review_status": "evidence_incomplete",
+                }
+            ],
+            {source_id},
+            {"snack"},
+        )
+
+    with ThreadPoolExecutor(max_workers=2) as executor:
+        list(executor.map(merge, ("source-a", "source-b")))
+
+    assert {
+        item["candidate_id"] for item in service._read_json_list(service.queue_path)
+    } == {"candidate:source-a", "candidate:source-b"}
+
+
+def test_corrupt_queue_recovers_from_last_atomic_backup(tmp_path: Path) -> None:
+    queue = tmp_path / "queue.json"
+    OfficialProductDiscovery._write_json_list(queue, [{"candidate_id": "first"}])
+    OfficialProductDiscovery._write_json_list(queue, [{"candidate_id": "second"}])
+    queue.write_text("{truncated", encoding="utf-8")
+
+    assert OfficialProductDiscovery._read_json_list(queue) == [
+        {"candidate_id": "first"}
+    ]

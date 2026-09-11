@@ -12,6 +12,7 @@ from food_label_agent.alternatives.models import (
     ProductComparisonRequest,
 )
 from food_label_agent.alternatives.service import (
+    brand_owner_key,
     compare_food_products,
     find_alternative_products,
     revalidate_alternatives,
@@ -43,6 +44,8 @@ class AlternativeAvailabilityCase:
     minimum_target_comparable_rate: float = 0.0
     minimum_effective_display_rate: float = 0.0
     minimum_distinct_brands: int = 0
+    minimum_distinct_formulas: int = 0
+    minimum_verified_packaging_brands: int = 0
 
 
 @dataclass(frozen=True, slots=True)
@@ -261,9 +264,17 @@ def evaluate_alternative_availability(
         )
         distinct_brands = sorted(
             {
-                str(item.get("brand") or "").strip()
+                brand_owner_key(item.get("brand"))
                 for item in eligible
                 if str(item.get("brand") or "").strip()
+            }
+        )
+        distinct_formula_count = len(eligible)
+        verified_packaging_brands = sorted(
+            {
+                brand_owner_key(item.get("brand"))
+                for item in eligible
+                if _has_complete_verified_packaging(item)
             }
         )
         case_metrics[case.name] = {
@@ -277,6 +288,13 @@ def evaluate_alternative_availability(
             "distinct_brand_count": len(distinct_brands),
             "distinct_brands": distinct_brands,
             "minimum_distinct_brands": case.minimum_distinct_brands,
+            "distinct_formula_count": distinct_formula_count,
+            "minimum_distinct_formulas": case.minimum_distinct_formulas,
+            "verified_packaging_brand_count": len(verified_packaging_brands),
+            "verified_packaging_brands": verified_packaging_brands,
+            "minimum_verified_packaging_brands": (
+                case.minimum_verified_packaging_brands
+            ),
         }
         if case_comparable_rate < case.minimum_target_comparable_rate:
             threshold_failures.append(
@@ -289,6 +307,17 @@ def evaluate_alternative_availability(
         if len(distinct_brands) < case.minimum_distinct_brands:
             threshold_failures.append(
                 f"{case.name}:distinct_brand_count_below_minimum"
+            )
+        if distinct_formula_count < case.minimum_distinct_formulas:
+            threshold_failures.append(
+                f"{case.name}:distinct_formula_count_below_minimum"
+            )
+        if (
+            len(verified_packaging_brands)
+            < case.minimum_verified_packaging_brands
+        ):
+            threshold_failures.append(
+                f"{case.name}:verified_packaging_brand_count_below_minimum"
             )
     violation_rate = violations / eligible_total if eligible_total else 0.0
     blockers: list[str] = []
@@ -316,3 +345,23 @@ def evaluate_alternative_availability(
         evaluation_passed=not blockers,
         release_blockers=tuple(blockers),
     )
+
+
+def _has_complete_verified_packaging(item: dict[str, Any]) -> bool:
+    label = item.get("label") or {}
+    sku = str(item.get("sku") or "")
+    specification = str(item.get("specification") or "")
+    kinds = {
+        str(snapshot.get("evidence_kind") or "")
+        for snapshot in label.get("packaging_snapshots") or []
+        if snapshot.get("artifact_type")
+        in {"packaging_photo", "official_label_artwork"}
+        and snapshot.get("review_status") == "verified"
+        and str(snapshot.get("sku") or "") == sku
+        and str(snapshot.get("specification") or "") == specification
+        and snapshot.get("primary_reviewer_id")
+        and snapshot.get("secondary_reviewer_id")
+        and snapshot.get("primary_reviewer_id")
+        != snapshot.get("secondary_reviewer_id")
+    }
+    return bool(sku and specification and ("combined" in kinds or {"ingredients", "nutrition"} <= kinds))

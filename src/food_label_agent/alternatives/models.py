@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, datetime
 from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
@@ -14,15 +14,17 @@ class PackagingSnapshotEvidence(BaseModel):
     """Immutable image evidence tied to one concrete package/SKU.
 
     An official web-page capture may preserve provenance for transcribed text, but
-    only ``packaging_photo`` represents the physical package and can satisfy a
-    packaging safety gate.
+    only a physical ``packaging_photo`` or SKU-bound manufacturer-issued
+    ``official_label_artwork`` can satisfy a packaging safety gate.
     """
 
     model_config = ConfigDict(frozen=True)
 
     snapshot_id: str = Field(min_length=8, max_length=200)
     evidence_kind: Literal["ingredients", "nutrition", "combined"]
-    artifact_type: Literal["packaging_photo", "official_page_capture"]
+    artifact_type: Literal[
+        "packaging_photo", "official_label_artwork", "official_page_capture"
+    ]
     source_url: str = Field(min_length=8, max_length=1_000)
     captured_at: date
     content_hash: str = Field(pattern=r"^sha256:[0-9a-f]{64}$")
@@ -108,6 +110,29 @@ class ProductLabelEvidence(BaseModel):
     )
 
 
+class PurchaseAvailabilityEvidence(BaseModel):
+    """Time-bounded evidence that an exact SKU can currently be purchased in CN."""
+
+    model_config = ConfigDict(frozen=True)
+
+    purchase_url: str = Field(min_length=8, max_length=1_000)
+    seller_name: str = Field(min_length=2, max_length=160)
+    seller_type: Literal["brand_official_store", "manufacturer_direct"]
+    sku: str = Field(min_length=1, max_length=120)
+    normalized_specification: str = Field(min_length=1, max_length=160)
+    price_cny: float = Field(gt=0, le=1_000_000)
+    in_stock: bool
+    delivery_regions: list[str] = Field(min_length=1, max_length=64)
+    checked_at: datetime
+    valid_through: datetime
+
+    @model_validator(mode="after")
+    def validate_window(self):
+        if self.valid_through <= self.checked_at:
+            raise ValueError("Purchase evidence validity must end after it was checked")
+        return self
+
+
 class ProductRecord(BaseModel):
     model_config = ConfigDict(frozen=True)
 
@@ -127,6 +152,7 @@ class ProductRecord(BaseModel):
         "live_open_food_facts",
     ]
     label: ProductLabelEvidence
+    purchase_availability: PurchaseAvailabilityEvidence | None = None
 
 
 class AlternativeSearchRequest(BaseModel):

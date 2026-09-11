@@ -2,20 +2,24 @@
 
 from __future__ import annotations
 
+import fcntl
 import hmac
 import json
 import os
 import re
+import shutil
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from hashlib import sha256
 from html.parser import HTMLParser
 from pathlib import Path
 from typing import Any
-from urllib.parse import urljoin, urlparse
+from urllib.parse import quote, urljoin, urlparse, urlsplit, urlunsplit
 from urllib.request import Request, urlopen
+from uuid import uuid4
 
 from .evidence_audit import audit_product_label, label_content_hash
 from .models import ProductRecord
@@ -32,7 +36,10 @@ _NUTRITION_KEYS = {
     "sodiumContent": "钠",
 }
 _GENERIC_PAGE_NAMES = (
-    "产品中心",
+    "Search",
+    "主营产品",
+    "关于我们",
+   "产品中心",
     "主推产品",
     "原料",
     "送礼佳品",
@@ -217,6 +224,20 @@ class OfficialProductDiscovery:
         expected = os.getenv("FOOD_LABEL_CATALOG_REVIEW_TOKEN", "")
         if not expected or not hmac.compare_digest(review_token, expected):
             raise PermissionError("Catalog review token is invalid")
+        with self._exclusive_lock():
+            return self._review_unlocked(
+                candidate_id=candidate_id,
+                decision=decision,
+                product=product,
+            )
+
+    def _review_unlocked(
+        self,
+        *,
+        candidate_id: str,
+        decision: str,
+        product: dict[str, Any] | None,
+    ) -> dict[str, Any]:
         items = self._read_json_list(self.queue_path)
         candidate = next((item for item in items if item.get("candidate_id") == candidate_id), None)
         if candidate is None:
@@ -251,7 +272,8 @@ class OfficialProductDiscovery:
                 self.packaging_store.verify_artifact(snapshot)
                 for snapshot in label.packaging_snapshots
                 if snapshot.review_status == "verified"
-                and snapshot.artifact_type == "packaging_photo"
+                and snapshot.artifact_type
+                in {"packaging_photo", "official_label_artwork"}
             )
         ):
             raise ValueError(
@@ -276,7 +298,17 @@ class OfficialProductDiscovery:
         allowed_hosts = {str(host).lower() for host in source["allowed_hosts"]}
         markers = tuple(str(value).lower() for value in source["product_path_markers"])
         pages: dict[str, _OfficialPage] = {}
-        product_seed_urls = set(source.get("product_seed_urls", []))
+        seed_products = [
+            item for item in source.get("seed_products", []) if isinstance(item, dict)
+        ]
+        product_seed_urls = {
+            *source.get("product_seed_urls", []),
+            *(
+                str(item.get("source_url") or "").strip()
+                for item in seed_products
+                if str(item.get("source_url") or "").strip()
+            ),
+        }
         pending = [
             *((url, 0) for url in source["discovery_urls"]),
             *((url, 0) for url in product_seed_urls),
@@ -296,8 +328,11 @@ class OfficialProductDiscovery:
             pages[current_url] = page
             if depth >= 2:
                 continue
-            for href in page.links:
-                url = urljoin(current_url, href).split("#", 1)[0]
+            for href in page.links or ():
+                link_label = (page.link_labels or {}).get(href, "")
+                if any(marker in link_label for marker in _GENERIC_PAGE_NAMES):
+                    continue
+                url = _normalize_discovered_url(urljoin(current_url, href))
                 parsed = urlparse(url)
                 if (
                     parsed.scheme == "https"
@@ -308,6 +343,20 @@ class OfficialProductDiscovery:
                     pending.append((url, depth + 1))
         discovery_urls = set(source["discovery_urls"])
         candidates = []
+        for identity in seed_products:
+            url = str(identity.get("source_url") or "").strip()
+            page = pages.get(url)
+            if page is None:
+                continue
+            candidate = _candidate_from_page(
+                source,
+                url,
+                _OfficialPage(),
+                identity=identity,
+                source_page_fingerprint=sha256(page.text.encode()).hexdigest(),
+            )
+            if candidate is not None:
+                candidates.append(candidate)
         for url, page in pages.items():
             if (
                 url in discovery_urls
@@ -322,6 +371,17 @@ class OfficialProductDiscovery:
         return candidates
 
     def _merge_queue(
+        self,
+        discovered: list[dict[str, Any]],
+        refreshed_source_ids: set[str],
+        refreshed_categories: set[str],
+    ) -> None:
+        with self._exclusive_lock():
+            self._merge_queue_unlocked(
+                discovered, refreshed_source_ids, refreshed_categories
+            )
+
+    def _merge_queue_unlocked(
         self,
         discovered: list[dict[str, Any]],
         refreshed_source_ids: set[str],
@@ -377,7 +437,13 @@ class OfficialProductDiscovery:
     def _read_json_list(path: Path) -> list[dict[str, Any]]:
         if not path.exists():
             return []
-        payload = json.loads(path.read_text(encoding="utf-8"))
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            backup = path.with_suffix(f"{path.suffix}.bak")
+            if not backup.exists():
+                raise
+            payload = json.loads(backup.read_text(encoding="utf-8"))
         if not isinstance(payload, list):
             raise TypeError(f"Expected a JSON list in {path}")
         return [item for item in payload if isinstance(item, dict)]
@@ -385,11 +451,38 @@ class OfficialProductDiscovery:
     @staticmethod
     def _write_json_list(path: Path, payload: list[dict[str, Any]]) -> None:
         path.parent.mkdir(parents=True, exist_ok=True)
-        temporary = path.with_suffix(f"{path.suffix}.tmp")
-        temporary.write_text(
-            json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8"
-        )
-        temporary.replace(path)
+        temporary = path.with_name(f".{path.name}.{uuid4().hex}.tmp")
+        backup = path.with_suffix(f"{path.suffix}.bak")
+        backup_temporary = backup.with_name(f".{backup.name}.{uuid4().hex}.tmp")
+        try:
+            if path.exists():
+                shutil.copy2(path, backup_temporary)
+                backup_temporary.replace(backup)
+            with temporary.open("x", encoding="utf-8") as handle:
+                json.dump(payload, handle, ensure_ascii=False, indent=2)
+                handle.flush()
+                os.fsync(handle.fileno())
+            temporary.replace(path)
+            directory_fd = os.open(path.parent, os.O_RDONLY)
+            try:
+                os.fsync(directory_fd)
+            finally:
+                os.close(directory_fd)
+        finally:
+            for leftover in (temporary, backup_temporary):
+                if leftover.exists():
+                    leftover.unlink()
+
+    @contextmanager
+    def _exclusive_lock(self):
+        lock_path = self.queue_path.with_suffix(f"{self.queue_path.suffix}.lock")
+        lock_path.parent.mkdir(parents=True, exist_ok=True)
+        with lock_path.open("a+", encoding="utf-8") as lock_file:
+            fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX)
+            try:
+                yield
+            finally:
+                fcntl.flock(lock_file.fileno(), fcntl.LOCK_UN)
 
 
 @dataclass(slots=True)
@@ -398,6 +491,7 @@ class _OfficialPage:
     headings: list[str] | None = None
     text: str = ""
     links: list[str] | None = None
+    link_labels: dict[str, str] | None = None
     metadata: dict[str, str] | None = None
     json_ld: list[dict[str, Any]] | None = None
 
@@ -409,18 +503,22 @@ class _PageParser(HTMLParser):
         self.heading_parts: list[str] = []
         self.text_parts: list[str] = []
         self.links: list[str] = []
+        self.link_labels: dict[str, str] = {}
         self.metadata: dict[str, str] = {}
         self.json_ld_chunks: list[str] = []
         self._capture_title = False
         self._capture_heading = False
         self._capture_json_ld = False
+        self._active_link: str | None = None
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         values = {key.lower(): value or "" for key, value in attrs}
         self._capture_title = tag == "title"
         self._capture_heading = tag in {"h1", "h2"}
         if tag == "a" and values.get("href"):
-            self.links.append(values["href"])
+            self._active_link = values["href"]
+            self.links.append(self._active_link)
+            self.link_labels.setdefault(self._active_link, "")
         if tag == "meta":
             key = values.get("property") or values.get("name")
             if key and values.get("content"):
@@ -438,6 +536,8 @@ class _PageParser(HTMLParser):
             self._capture_heading = False
         if tag == "script":
             self._capture_json_ld = False
+        if tag == "a":
+            self._active_link = None
 
     def handle_data(self, data: str) -> None:
         cleaned = " ".join(data.split())
@@ -447,6 +547,11 @@ class _PageParser(HTMLParser):
             self.json_ld_chunks.append(data)
             return
         self.text_parts.append(cleaned)
+        if self._active_link:
+            previous = self.link_labels.get(self._active_link, "")
+            self.link_labels[self._active_link] = " ".join(
+                part for part in (previous, cleaned) if part
+            )
         if self._capture_title:
             self.title_parts.append(cleaned)
         if self._capture_heading:
@@ -469,6 +574,7 @@ def _parse_page(html: str) -> _OfficialPage:
         headings=parser.heading_parts,
         text=" ".join(parser.text_parts),
         links=parser.links,
+        link_labels=parser.link_labels,
         metadata=parser.metadata,
         json_ld=json_ld,
     )
@@ -480,9 +586,14 @@ def _candidate_from_page(
     page: _OfficialPage,
     *,
     allow_title: bool = False,
+    identity: dict[str, Any] | None = None,
+    source_page_fingerprint: str | None = None,
 ) -> dict[str, Any] | None:
     product = next(_walk_products(page.json_ld or []), None)
-    product_name = _clean_value((product or {}).get("name"))
+    identity = identity or {}
+    product_name = _clean_value(identity.get("display_name")) or _clean_value(
+        (product or {}).get("name")
+    )
     heading = ((page.headings or [""])[0]).strip()
     name = str(
         product_name
@@ -491,7 +602,8 @@ def _candidate_from_page(
         or page.title
     ).strip()
     specifically_identified = bool(
-        product_name
+        identity
+        or product_name
         or heading
         or (allow_title and str(source["brand"]).lower() in name.lower())
     )
@@ -507,8 +619,10 @@ def _candidate_from_page(
     )
     allergen = _extract_labeled_text(page.text, ("过敏原信息", "过敏原提示"))
     nutrition_rows, nutrition_basis = _extract_nutrition(product or {})
-    sku = _clean_value((product or {}).get("sku"))
-    specification = _clean_value((product or {}).get("size"))
+    sku = _clean_value(identity.get("sku")) or _clean_value((product or {}).get("sku"))
+    specification = _clean_value(identity.get("specification")) or _clean_value(
+        (product or {}).get("size")
+    )
     missing = []
     if not ingredients:
         missing.append("完整配料表文字")
@@ -524,7 +638,9 @@ def _candidate_from_page(
         missing.append("SKU")
     if not specification:
         missing.append("规格")
-    missing.extend(("双人复核实物包装配料图", "双人复核实物包装营养图"))
+    missing.extend(
+        ("双人复核实物或厂家完整包装配料图", "双人复核实物或厂家完整包装营养图")
+    )
     complete = not missing
     now = _now_iso()
     extracted_fields = {
@@ -539,6 +655,7 @@ def _candidate_from_page(
                 "name": name,
                 "sku": sku,
                 "specification": specification,
+                "source_page_fingerprint": source_page_fingerprint,
                 **extracted_fields,
             },
             ensure_ascii=False,
@@ -547,7 +664,10 @@ def _candidate_from_page(
         ).encode()
     ).hexdigest()
     return {
-        "candidate_id": f"official-discovery:{sha256(url.encode()).hexdigest()[:20]}",
+        "candidate_id": (
+            "official-discovery:"
+            f"{sha256(f'{url}|{sku or name}'.encode()).hexdigest()[:20]}"
+        ),
         "source_id": source["source_id"],
         "display_name": name[:160],
         "brand": source["brand"],
@@ -559,6 +679,39 @@ def _candidate_from_page(
         "source_type": source.get("source_type", "official_product_page"),
         "official_store_url": source.get("official_store_url"),
         "official_store_name": source.get("official_store_name"),
+        "identity_evidence": (
+            {
+                "source_url": url,
+                "identity_fields": ["display_name", "sku", "specification"],
+                "source_page_fingerprint": (
+                    f"sha256:{source_page_fingerprint}"
+                    if source_page_fingerprint
+                    else None
+                ),
+                "label_fields_extracted_from_listing": False,
+            }
+            if identity
+            else None
+        ),
+        "evidence_asset_urls": [
+            str(value)
+            for value in (
+                identity.get("packaging_photo_url"),
+                identity.get("official_label_artwork_url"),
+            )
+            if value
+        ],
+        "evidence_assets": [
+            {"url": str(value), "artifact_type": artifact_type}
+            for artifact_type, value in (
+                ("packaging_photo", identity.get("packaging_photo_url")),
+                (
+                    "official_label_artwork",
+                    identity.get("official_label_artwork_url"),
+                ),
+            )
+            if value
+        ],
         "review_target_fields": source.get("review_target_fields", []),
         "extracted_fields": extracted_fields,
         "source_fingerprint": f"sha256:{source_fingerprint}",
@@ -575,6 +728,7 @@ def _candidate_from_page(
             ],
             "minimum_distinct_reviewers": 2,
             "official_page_capture_is_sufficient": False,
+            "official_label_artwork_is_sufficient_after_dual_review": True,
             "content_hash_required": True,
         },
         "first_discovered_at": now,
@@ -638,6 +792,21 @@ def _fetch_text(url: str, timeout: float) -> str:
     with urlopen(request, timeout=timeout) as response:
         content_type = response.headers.get_content_charset() or "utf-8"
         return response.read(2_000_000).decode(content_type, errors="replace")
+
+
+def _normalize_discovered_url(url: str) -> str:
+    """Encode unsafe link characters before handing a discovered URL to urllib."""
+
+    parsed = urlsplit(url.split("#", 1)[0])
+    return urlunsplit(
+        (
+            parsed.scheme,
+            parsed.netloc,
+            quote(parsed.path, safe="/%:@!$&'()*+,;=-._~"),
+            quote(parsed.query, safe="=&;%:+,/?@!$'()*-._~"),
+            "",
+        )
+    )
 
 
 def _now_iso() -> str:

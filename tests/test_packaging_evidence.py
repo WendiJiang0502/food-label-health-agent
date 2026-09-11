@@ -185,6 +185,33 @@ def test_official_page_capture_and_legacy_url_do_not_count_as_package_photo(
     assert audit["packaging_snapshot_ready"] is False
 
 
+def test_sku_bound_manufacturer_label_artwork_counts_after_dual_review(
+    tmp_path,
+) -> None:
+    store = PackagingEvidenceStore(tmp_path)
+    pending = store.ingest(
+        _png(),
+        evidence_kind="combined",
+        artifact_type="official_label_artwork",
+        source_url="https://brand.example/assets/sku-1-label.png",
+        captured_at=date(2026, 8, 30),
+        sku="SKU-1",
+        specification="100克",
+        reviewer_id="reviewer-one",
+        allowed_hosts={"brand.example"},
+    )
+    verified = store.add_second_review(
+        pending,
+        reviewer_id="reviewer-two",
+        reviewed_at=date(2026, 8, 30),
+    )
+
+    audit = audit_product_label(_product(verified.model_dump(mode="json")))
+
+    assert audit["complete_packaging_snapshot_ready"] is True
+    assert audit["official_label_artwork_snapshot_count"] == 1
+
+
 def test_artifact_tampering_prevents_second_review(tmp_path) -> None:
     store = PackagingEvidenceStore(tmp_path)
     pending = store.ingest(

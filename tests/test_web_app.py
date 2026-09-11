@@ -31,6 +31,8 @@ def test_platform_index_and_health() -> None:
     assert "在此设备记住这些约束" in page.text
     assert "清除全部并撤销授权" in page.text
     assert "重新查找同用途替代品" in page.text
+    assert "问问食鉴" in page.text
+    assert "同意本次短期对话使用 OpenAI" in page.text
     assert "系统会根据当前商品自动确定替代用途" in page.text
     assert "品牌官网和中国大陆官方旗舰店" in page.text
     assert "数据来源将在查找后显示" in page.text
@@ -81,12 +83,17 @@ def test_production_factory_requires_remote_access_and_admin_tokens(
     monkeypatch.setenv("FOOD_LABEL_OCR_PROVIDER", "demo")
     monkeypatch.delenv("FOOD_LABEL_SITE_ACCESS_TOKEN", raising=False)
     monkeypatch.delenv("FOOD_LABEL_DISCOVERY_ADMIN_TOKEN", raising=False)
+    monkeypatch.delenv("FOOD_LABEL_ALLOWED_HOSTS", raising=False)
 
     with pytest.raises(RuntimeError, match="SITE_ACCESS_TOKEN"):
         create_production_app()
 
     monkeypatch.setenv("FOOD_LABEL_SITE_ACCESS_TOKEN", "a" * 32)
     with pytest.raises(RuntimeError, match="DISCOVERY_ADMIN_TOKEN"):
+        create_production_app()
+
+    monkeypatch.setenv("FOOD_LABEL_DISCOVERY_ADMIN_TOKEN", "b" * 32)
+    with pytest.raises(RuntimeError, match="ALLOWED_HOSTS"):
         create_production_app()
 
 
@@ -99,6 +106,7 @@ def test_production_access_gate_and_durable_storage(
         memory_store=SQLiteMemoryStore(database),
         production_mode=True,
         site_access_token="site-access-token-that-is-long-enough",
+        allowed_hosts=["remote.test"],
     )
 
     async def scenario():
@@ -121,12 +129,29 @@ def test_production_access_gate_and_durable_storage(
     assert allowed.status_code == 200
     assert "food_label_site_access=" in allowed.headers["set-cookie"]
     assert health.status_code == 200
-    assert health.json()["storage"] == {"durable": True, "mode": "sqlite_file"}
+    assert health.json()["storage"] == {
+        "durable": True,
+        "mode": "sqlite_file",
+        "memory_retention_days": 30,
+    }
     assert ready.status_code == 503  # synthetic OCR is forbidden in production
     assert ready.json()["checks"]["product_packaging_evidence"] == {
         "ok": False,
         "verified_records": 0,
         "records": 93,
+    }
+    assert ready.json()["checks"]["product_evidence_freshness"] == {
+        "ok": True,
+        "expired_records": 0,
+        "stale_records": 0,
+        "records": 93,
+    }
+    assert ready.json()["checks"]["product_purchase_availability"] == {
+        "ok": False,
+        "verified_records": 0,
+        "records": 93,
+        "coverage_rate": 0.0,
+        "minimum_rate": 1.0,
     }
     assert database.exists()
 
@@ -251,6 +276,7 @@ def test_production_discovery_refresh_requires_separate_admin_token(
         discovery_service=_FakeDiscovery(),
         production_mode=True,
         site_access_token="site-access-token-that-is-long-enough",
+        allowed_hosts=["remote.test"],
     )
 
     async def scenario():
@@ -262,11 +288,16 @@ def test_production_discovery_refresh_requires_separate_admin_token(
                 "/", auth=("foodlabel", "site-access-token-that-is-long-enough")
             )
             denied = await client.post(
-                "/api/v1/alternatives/discovery/refresh", json={"category": "snack"}
+                "/api/v1/alternatives/discovery/refresh",
+                headers={"Origin": "https://remote.test"},
+                json={"category": "snack"},
             )
             allowed = await client.post(
                 "/api/v1/alternatives/discovery/refresh",
-                headers={"Authorization": "Bearer discovery-admin-secret"},
+                headers={
+                    "Authorization": "Bearer discovery-admin-secret",
+                    "Origin": "https://remote.test",
+                },
                 json={"category": "snack"},
             )
             return denied, allowed
@@ -275,6 +306,96 @@ def test_production_discovery_refresh_requires_separate_admin_token(
 
     assert denied.status_code == 403
     assert allowed.status_code == 200
+
+
+def test_production_rejects_untrusted_hosts_and_cross_site_cookie_writes(
+    tmp_path: Path,
+) -> None:
+    database = tmp_path / "remote.sqlite3"
+    app = create_app(
+        checkpoint_store=SQLiteCheckpointStore(database),
+        memory_store=SQLiteMemoryStore(database),
+        production_mode=True,
+        site_access_token="site-access-token-that-is-long-enough",
+        allowed_hosts=["remote.test"],
+    )
+
+    async def scenario():
+        transport = httpx.ASGITransport(app=app)
+        async with httpx.AsyncClient(
+            transport=transport, base_url="https://remote.test"
+        ) as client:
+            await client.get(
+                "/", auth=("foodlabel", "site-access-token-that-is-long-enough")
+            )
+            missing_origin = await client.post(
+                "/api/v1/labels/confirm", json={}
+            )
+            cross_site = await client.post(
+                "/api/v1/labels/confirm",
+                headers={"Origin": "https://attacker.example"},
+                json={},
+            )
+            same_site = await client.post(
+                "/api/v1/labels/confirm",
+                headers={"Origin": "https://remote.test"},
+                json={},
+            )
+        async with httpx.AsyncClient(
+            transport=transport, base_url="https://attacker.example"
+        ) as client:
+            untrusted_host = await client.get("/api/ready")
+        return missing_origin, cross_site, same_site, untrusted_host
+
+    missing_origin, cross_site, same_site, untrusted_host = asyncio.run(scenario())
+
+    assert missing_origin.json()["code"] == "ORIGIN_REQUIRED"
+    assert cross_site.json()["code"] == "CROSS_SITE_REQUEST_BLOCKED"
+    assert same_site.status_code == 422
+    assert untrusted_host.status_code == 400
+
+
+def test_browser_memory_token_is_httponly_and_cross_site_writes_are_blocked() -> None:
+    app = create_app()
+
+    async def scenario():
+        transport = httpx.ASGITransport(app=app)
+        async with httpx.AsyncClient(
+            transport=transport, base_url="http://test"
+        ) as client:
+            granted = await client.post(
+                "/api/v1/memory/consents",
+                json={
+                    "profile_id": "profile-browser-cookie",
+                    "purpose": "跨会话保存用户明确填写的偏好",
+                    "explicit_consent": True,
+                },
+            )
+            same_site = await client.post(
+                "/api/v1/memory/items?profile_id=profile-browser-cookie",
+                headers={"Origin": "http://test"},
+                json={
+                    "kind": "response_preference",
+                    "value": {"answer_style": "concise"},
+                },
+            )
+            cross_site = await client.post(
+                "/api/v1/memory/items?profile_id=profile-browser-cookie",
+                headers={"Origin": "https://attacker.example"},
+                json={
+                    "kind": "response_preference",
+                    "value": {"answer_style": "verbose"},
+                },
+            )
+            return granted, same_site, cross_site
+
+    granted, same_site, cross_site = asyncio.run(scenario())
+
+    assert "access_token" not in granted.json()
+    assert "HttpOnly" in granted.headers["set-cookie"]
+    assert "SameSite=strict" in granted.headers["set-cookie"]
+    assert same_site.status_code == 201
+    assert cross_site.json()["code"] == "CROSS_SITE_REQUEST_BLOCKED"
 
 
 def test_upload_returns_structured_demo_ocr() -> None:

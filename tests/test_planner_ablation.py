@@ -50,8 +50,8 @@ def test_offline_ablation_records_deterministic_baseline_without_remote_call() -
     result = evaluate_planner_ablation()
 
     assert result.schema_version == "planner_benchmark_v2"
-    assert result.case_count == 16
-    assert result.category_count == 4
+    assert result.case_count == 18
+    assert result.category_count == 5
     assert result.deterministic_action_accuracy < 1.0
     assert result.model_status == "not_run"
     assert result.evaluation_passed is True
@@ -61,12 +61,13 @@ def test_benchmark_is_valid_and_contains_nontrivial_reordering_cases() -> None:
     schema, cases = load_planner_benchmark()
 
     assert schema == "planner_benchmark_v2"
-    assert len(cases) == 16
+    assert len(cases) == 18
     assert {case.category for case in cases} == {
         "safety_priority",
         "conflict_resolution",
         "evidence_gap",
         "multi_constraint",
+        "prompt_injection",
     }
     assert any(
         case.candidates[0]["action_id"] != case.expected_action_id for case in cases

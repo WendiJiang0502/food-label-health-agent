@@ -24,6 +24,10 @@ if [[ -z "${FOOD_LABEL_DISCOVERY_ADMIN_TOKEN:-}" ]]; then
   print -u2 "FOOD_LABEL_DISCOVERY_ADMIN_TOKEN 必须设置。"
   exit 2
 fi
+if [[ -z "${FOOD_LABEL_ALLOWED_HOSTS:-}" || "${FOOD_LABEL_ALLOWED_HOSTS}" == *"*"* ]]; then
+  print -u2 "FOOD_LABEL_ALLOWED_HOSTS 必须设置为明确域名，且不能包含通配符。"
+  exit 2
+fi
 
 exec "${project_dir}/.venv/bin/python" -m uvicorn \
   food_label_agent.web.app:create_production_app \

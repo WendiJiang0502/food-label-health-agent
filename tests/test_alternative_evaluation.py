@@ -154,3 +154,54 @@ def test_brand_diversity_threshold_blocks_single_brand_catalog_shape() -> None:
         "distinct_brand_count_below_minimum" in blocker
         for blocker in result.release_blockers
     )
+
+
+def test_subbrand_does_not_inflate_manufacturer_diversity() -> None:
+    case = AlternativeAvailabilityCase(
+        name="dairy-owner-diversity",
+        category="dairy",
+        applicable_date="2026-08-29",
+        minimum_eligible=1,
+        minimum_distinct_brands=2,
+    )
+
+    result = evaluate_alternative_availability((case,), catalog=OfficialChinaCatalog())
+
+    assert result.case_metrics[case.name]["distinct_brands"] == ["伊利"]
+    assert result.evaluation_passed is False
+
+
+def test_formula_diversity_is_an_independent_release_gate() -> None:
+    case = AlternativeAvailabilityCase(
+        name="processed-meat-formula-diversity",
+        category="processed_meat",
+        applicable_date="2026-08-29",
+        minimum_eligible=1,
+        minimum_distinct_formulas=4,
+    )
+
+    result = evaluate_alternative_availability((case,), catalog=OfficialChinaCatalog())
+
+    assert result.case_metrics[case.name]["distinct_formula_count"] == 3
+    assert any(
+        "distinct_formula_count_below_minimum" in blocker
+        for blocker in result.release_blockers
+    )
+
+
+def test_verified_packaging_brand_diversity_is_a_release_gate() -> None:
+    case = AlternativeAvailabilityCase(
+        name="bread-needs-two-verified-packaging-brands",
+        category="bread",
+        applicable_date="2026-08-29",
+        minimum_eligible=1,
+        minimum_verified_packaging_brands=2,
+    )
+
+    result = evaluate_alternative_availability((case,), catalog=OfficialChinaCatalog())
+
+    assert result.case_metrics[case.name]["verified_packaging_brand_count"] == 0
+    assert any(
+        "verified_packaging_brand_count_below_minimum" in blocker
+        for blocker in result.release_blockers
+    )

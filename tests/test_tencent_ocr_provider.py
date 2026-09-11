@@ -181,6 +181,10 @@ def test_tencent_environment_settings_are_server_only() -> None:
             "FOOD_LABEL_TENCENT_REGION": "ap-shanghai",
             "FOOD_LABEL_TENCENT_TABLE_ENABLED": "false",
             "FOOD_LABEL_TENCENT_TABLE_NEW_MODEL": "true",
+            "FOOD_LABEL_TENCENT_MAX_CONCURRENCY": "4",
+            "FOOD_LABEL_TENCENT_QUEUE_TIMEOUT_SECONDS": "3.5",
+            "FOOD_LABEL_TENCENT_CIRCUIT_FAILURE_THRESHOLD": "2",
+            "FOOD_LABEL_TENCENT_CIRCUIT_RECOVERY_SECONDS": "45",
         }
     )
 
@@ -188,6 +192,41 @@ def test_tencent_environment_settings_are_server_only() -> None:
     assert settings.tencent_region == "ap-shanghai"
     assert settings.tencent_table_enabled is False
     assert settings.tencent_table_new_model is True
+    assert settings.tencent_max_concurrency == 4
+    assert settings.tencent_queue_timeout_seconds == 3.5
+    assert settings.tencent_circuit_failure_threshold == 2
+    assert settings.tencent_circuit_recovery_seconds == 45
+
+
+def test_tencent_retryable_failures_open_local_circuit() -> None:
+    class TencentLikeError(Exception):
+        def get_code(self):
+            return "InternalError.ProviderUnavailable"
+
+    client = FakeClient()
+    client.GeneralAccurateOCR = lambda request: (_ for _ in ()).throw(
+        TencentLikeError("temporary failure")
+    )
+    service = provider(
+        client,
+        tencent_circuit_failure_threshold=1,
+        tencent_circuit_recovery_seconds=60,
+    )
+    image = OCRInput(
+        content=b"image-bytes",
+        file_name="label.jpg",
+        media_type="image/jpeg",
+        width=1000,
+        height=800,
+    )
+
+    with pytest.raises(OCRProviderError, match="暂时无法完成识别"):
+        asyncio.run(service.analyze(image))
+    with pytest.raises(OCRProviderError) as blocked:
+        asyncio.run(service.analyze(image))
+
+    assert blocked.value.code == "TencentCloud.CircuitOpen"
+    assert blocked.value.retryable is True
 
 
 def test_tencent_unopened_service_is_translated_to_safe_operator_error() -> None:

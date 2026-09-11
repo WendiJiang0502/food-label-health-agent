@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "food-label-health-agent"
-version = "0.2.0"
+version = "0.3.0"
 description = "Evidence-grounded food label health interpretation agent"
 readme = "README.md"
 requires-python = ">=3.11,<3.15"
@@ -31,8 +31,14 @@ cloud-ocr = [
   "tencentcloud-sdk-python-ocr>=3.1.132,<4",
 ]
 dev = [
+  "bandit[toml]>=1.8,<2",
+  "cyclonedx-bom>=7,<8",
   "httpx>=0.28,<1",
+  "mypy>=1.15,<2",
+  "pip-audit>=2.9,<3",
+  "playwright>=1.55,<2",
   "pytest>=8,<10",
+  "pytest-cov>=6,<8",
   "ruff>=0.12,<1",
 ]
 
@@ -60,3 +66,28 @@ food_label_agent = [
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["food_label_agent"]
+
+[tool.coverage.report]
+fail_under = 70
+show_missing = true
+skip_covered = true
+
+[tool.mypy]
+python_version = "3.13"
+check_untyped_defs = true
+disallow_any_generics = true
+ignore_missing_imports = true
+no_implicit_optional = true
+show_error_codes = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+files = [
+  "src/food_label_agent/alternatives/models.py",
+  "src/food_label_agent/alternatives/evidence_audit.py",
+  "src/food_label_agent/alternatives/discovery.py",
+  "src/food_label_agent/evaluation/suite.py",
+]

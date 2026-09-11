@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-28T16:30:00+08:00",
+  "generatedAt": "2026-08-30T16:30:00+08:00",
   "title": "Design System: Food Label Health Agent",
   "extensions": {
     "colorMeta": {
@@ -57,6 +57,18 @@
         "displayName": "Accessible Small Copy",
         "canonical": "#64716F",
         "tonalRamp": ["#1D2322", "#343C3A", "#4B5755", "#64716F", "#87918F", "#AAB2B0", "#D0D4D3", "#F1F3F2"]
+      },
+      "muted-compact": {
+        "role": "neutral",
+        "displayName": "Compact Persistent Copy",
+        "canonical": "#52615D",
+        "tonalRamp": ["#19201E", "#2D3936", "#3F4D49", "#52615D", "#75837F", "#9CA7A4", "#C7CECC", "#F0F3F2"]
+      },
+      "lime-ink": {
+        "role": "secondary",
+        "displayName": "Accessible Lime-family Ink",
+        "canonical": "#3F6500",
+        "tonalRamp": ["#142000", "#243A00", "#325000", "#3F6500", "#63882A", "#8DAD61", "#BDD19C", "#EFF6E4"]
       },
       "caution": {
         "role": "tertiary",
@@ -147,9 +159,9 @@
       "name": "Editorial Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "The single primary workflow action in each state.",
+      "description": "The single lime primary workflow action in each state, with dark ink reserved for accessible contrast.",
       "html": "<button class=\"ds-btn-primary\">检查并查看依据 <span aria-hidden=\"true\">›</span></button>",
-      "css": ".ds-btn-primary{display:inline-flex;min-height:50px;align-items:center;justify-content:center;gap:12px;border:0;border-radius:12px;background:var(--teal,#138A7C);color:var(--paper,#FFFFFF);padding:13px 20px;font:750 16px/1.2 -apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;box-shadow:7px 8px 0 rgba(19,138,124,.13);cursor:pointer;transition:background 180ms,transform 180ms,box-shadow 180ms}.ds-btn-primary:hover{background:var(--teal-hover,#0D6E64);transform:translateY(-2px);box-shadow:9px 11px 0 rgba(19,138,124,.14)}.ds-btn-primary:focus-visible{outline:3px solid var(--paper,#FFFFFF);box-shadow:0 0 0 6px var(--teal,#138A7C)}"
+      "css": ".ds-btn-primary{display:inline-flex;min-height:50px;align-items:center;justify-content:center;gap:12px;border:0;border-radius:999px;background:var(--lime,#B7E95B);color:var(--deep,#101817);padding:13px 20px;font:800 16px/1.2 -apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;cursor:pointer;transition:background 180ms,transform 180ms,box-shadow 180ms}.ds-btn-primary:hover{background:#C6F171;transform:translateY(-2px);box-shadow:0 8px 18px rgba(130,170,30,.2)}.ds-btn-primary:focus-visible{outline:3px solid var(--paper,#FFFFFF);box-shadow:0 0 0 6px var(--teal,#138A7C)}"
     },
     {
       "name": "Evidence Correction Field",
@@ -210,6 +222,7 @@
       "Progressive disclosure. OCR correction appears only after fields exist; downstream Agent routing stays out of the consumer UI.",
       "Evidence before interpretation. Uploaded imagery and confirmed text lead. Decoration cannot imply a health result.",
       "Plain-language safety. Risk states combine words and symbols, never color alone; no absolute health score or medical clearance."
+      ,"Evidence tiers stay visible. Official-page transcription and dual-reviewed physical-package evidence are never presented as the same proof level."
     ],
     "rules": [
       {
@@ -231,6 +244,11 @@
         "name": "Plain-language Safety",
         "body": "Risk states combine words and symbols, never color alone; no absolute health score or medical clearance.",
         "section": "colors"
+      },
+      {
+        "name": "Evidence Tiers Stay Visible",
+        "body": "Official page text, source captures, and exact-SKU dual-reviewed physical-package photos remain distinct evidence states.",
+        "section": "components"
       }
     ],
     "dos": [
@@ -238,6 +256,7 @@
       "Do reveal OCR correction only after fields exist.",
       "Do let uploaded imagery and confirmed text lead interpretation.",
       "Do pair every risk color with explicit state language and a symbol."
+      ,"Do state the physical-package review tier on every alternative card."
     ],
     "donts": [
       "Don't expose LangGraph nodes, RAG routes, MCP calls, or roadmap stages to consumers.",
@@ -246,6 +265,7 @@
       "Don't label a food simply safe, healthy, or unhealthy.",
       "Don't rely on hover for essential information.",
       "Don't reconstruct deleted images or invent missing evidence."
+      ,"Don't present an official product page or store link as a verified physical back-label photo."
     ]
   }
 }

@@ -156,9 +156,11 @@ def availability_matrix(*, health_concerns: tuple[str, ...] = ()) -> dict:
             minimum_eligible=3,
             health_concerns=health_concerns,
             minimum_target_comparable_rate=0.5 if health_concerns else 0.0,
-            minimum_effective_display_rate=0.5 if health_concerns else 0.0,
-            minimum_distinct_brands=2,
-        )
+           minimum_effective_display_rate=0.5 if health_concerns else 0.0,
+           minimum_distinct_brands=2,
+            minimum_distinct_formulas=3,
+            minimum_verified_packaging_brands=2,
+       )
         for category in PRODUCT_CATEGORIES
     )
     return evaluate_alternative_availability(

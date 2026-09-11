@@ -40,6 +40,40 @@ def _read_threshold(values: Mapping[str, str], name: str, default: float) -> flo
     return value
 
 
+def _read_int_range(
+    values: Mapping[str, str], name: str, default: int, *, minimum: int, maximum: int
+) -> int:
+    raw = values.get(name)
+    if raw is None:
+        return default
+    try:
+        value = int(raw)
+    except ValueError as exc:
+        raise OCRConfigurationError(
+            f"{name} 必须是 {minimum} 到 {maximum} 之间的整数。"
+        ) from exc
+    if not minimum <= value <= maximum:
+        raise OCRConfigurationError(
+            f"{name} 必须是 {minimum} 到 {maximum} 之间的整数。"
+        )
+    return value
+
+
+def _read_positive_float(
+    values: Mapping[str, str], name: str, default: float, *, maximum: float
+) -> float:
+    raw = values.get(name)
+    if raw is None:
+        return default
+    try:
+        value = float(raw)
+    except ValueError as exc:
+        raise OCRConfigurationError(f"{name} 必须是正数。") from exc
+    if not 0 < value <= maximum:
+        raise OCRConfigurationError(f"{name} 必须是大于 0 且不超过 {maximum} 的数字。")
+    return value
+
+
 @dataclass(frozen=True, slots=True)
 class OCRSettings:
     provider: str = "demo"
@@ -59,6 +93,10 @@ class OCRSettings:
     tencent_region: str = "ap-guangzhou"
     tencent_table_enabled: bool = True
     tencent_table_new_model: bool = False
+    tencent_max_concurrency: int = 2
+    tencent_queue_timeout_seconds: float = 10.0
+    tencent_circuit_failure_threshold: int = 5
+    tencent_circuit_recovery_seconds: float = 30.0
 
     @classmethod
     def from_environment(cls, values: Mapping[str, str] | None = None) -> OCRSettings:
@@ -110,5 +148,31 @@ class OCRSettings:
             ),
             tencent_table_new_model=_read_bool(
                 source, "FOOD_LABEL_TENCENT_TABLE_NEW_MODEL", False
+            ),
+            tencent_max_concurrency=_read_int_range(
+                source,
+                "FOOD_LABEL_TENCENT_MAX_CONCURRENCY",
+                2,
+                minimum=1,
+                maximum=16,
+            ),
+            tencent_queue_timeout_seconds=_read_positive_float(
+                source,
+                "FOOD_LABEL_TENCENT_QUEUE_TIMEOUT_SECONDS",
+                10.0,
+                maximum=120.0,
+            ),
+            tencent_circuit_failure_threshold=_read_int_range(
+                source,
+                "FOOD_LABEL_TENCENT_CIRCUIT_FAILURE_THRESHOLD",
+                5,
+                minimum=1,
+                maximum=100,
+            ),
+            tencent_circuit_recovery_seconds=_read_positive_float(
+                source,
+                "FOOD_LABEL_TENCENT_CIRCUIT_RECOVERY_SECONDS",
+                30.0,
+                maximum=600.0,
             ),
         )

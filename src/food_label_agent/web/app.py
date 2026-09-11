@@ -13,14 +13,16 @@ from dataclasses import asdict
 from datetime import UTC, datetime
 from hashlib import sha256
 from pathlib import Path
+from typing import ClassVar
 
 from pydantic import ValidationError
 from starlette.applications import Starlette
 from starlette.concurrency import run_in_threadpool
 from starlette.datastructures import UploadFile
 from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.middleware.trustedhost import TrustedHostMiddleware
 from starlette.requests import Request
-from starlette.responses import FileResponse, JSONResponse, Response
+from starlette.responses import FileResponse, JSONResponse, Response, StreamingResponse
 from starlette.routing import Mount, Route
 from starlette.staticfiles import StaticFiles
 
@@ -28,6 +30,12 @@ from food_label_agent.alternatives.catalog import OfficialChinaCatalog
 from food_label_agent.alternatives.category import suggest_product_category
 from food_label_agent.alternatives.discovery import OfficialProductDiscovery
 from food_label_agent.alternatives.models import AlternativeWorkflowRequest
+from food_label_agent.conversation.provider import (
+    ConversationProviderError,
+    conversation_public_status,
+)
+from food_label_agent.conversation.service import ConversationAgent
+from food_label_agent.conversation.store import SQLiteConversationStore
 from food_label_agent.domain.models import LabelField
 from food_label_agent.graph.planner import planner_public_status
 from food_label_agent.graph.runtime import run_agent_graph
@@ -160,6 +168,39 @@ class SiteAccessMiddleware(BaseHTTPMiddleware):
         return hmac.compare_digest(password, self._token), True
 
 
+class SameOriginWriteMiddleware(BaseHTTPMiddleware):
+    """Reject cross-site browser writes and fail closed for cookie-authenticated writes."""
+
+    _UNSAFE_METHODS: ClassVar[frozenset[str]] = frozenset(
+        {"POST", "PUT", "PATCH", "DELETE"}
+    )
+
+    async def dispatch(self, request: Request, call_next) -> Response:
+        if request.method not in self._UNSAFE_METHODS:
+            return await call_next(request)
+        origin = request.headers.get("origin", "").strip()
+        uses_site_cookie = bool(
+            {"food_label_site_access", "food_label_memory_access"}
+            & request.cookies.keys()
+        )
+        if not origin:
+            if uses_site_cookie:
+                return _error(
+                    "无法验证写请求来源，请从当前站点重新操作。",
+                    status_code=403,
+                    code="ORIGIN_REQUIRED",
+                )
+            return await call_next(request)
+        expected = f"{request.url.scheme}://{request.headers.get('host', '')}"
+        if not hmac.compare_digest(origin.rstrip("/"), expected.rstrip("/")):
+            return _error(
+                "已阻止跨站写请求。",
+                status_code=403,
+                code="CROSS_SITE_REQUEST_BLOCKED",
+            )
+        return await call_next(request)
+
+
 class RateLimitMiddleware(BaseHTTPMiddleware):
     """Small single-instance abuse guard; production proxies should add a second layer."""
 
@@ -205,14 +246,25 @@ def create_app(
     *,
     checkpoint_store: SQLiteCheckpointStore | None = None,
     memory_store: SQLiteMemoryStore | None = None,
+    conversation_store: SQLiteConversationStore | None = None,
+    conversation_agent: ConversationAgent | None = None,
     discovery_service: OfficialProductDiscovery | None = None,
     production_mode: bool = False,
     site_access_token: str | None = None,
+    allowed_hosts: list[str] | None = None,
 ) -> Starlette:
     service = OCRService(provider or create_ocr_provider())
     checkpoints = checkpoint_store or SQLiteCheckpointStore()
     memories = memory_store or SQLiteMemoryStore()
+    chat_retention_hours = int(os.getenv("FOOD_LABEL_CHAT_RETENTION_HOURS", "24"))
+    conversations = conversation_store or SQLiteConversationStore(
+        retention_hours=chat_retention_hours
+    )
+    conversations.purge_expired()
+    chat_agent = conversation_agent or ConversationAgent()
     discovery = discovery_service or OfficialProductDiscovery()
+    memory_retention_days = int(os.getenv("FOOD_LABEL_MEMORY_RETENTION_DAYS", "30"))
+    memories.purge_expired(retention_days=memory_retention_days)
 
     async def index(_: Request) -> FileResponse:
         return FileResponse(
@@ -248,13 +300,16 @@ def create_app(
             {
                 "status": "ok",
                 "service": "food-label-platform",
-                "version": "0.2.0",
+                "version": "0.3.0",
                 "ocr_provider": service.provider.name,
                 "synthetic_ocr": service.provider.synthetic,
                 "remote_processing": getattr(
                     service.provider, "remote_processing", False
                 ),
                 "planner": planner_public_status(),
+                "conversation": conversation_public_status(
+                    chat_agent.provider.settings
+                ),
                 "rag": rag2_public_status(),
                 "product_catalog": os.getenv(
                     "FOOD_LABEL_PRODUCT_CATALOG", "official_cn_expanded"
@@ -266,6 +321,11 @@ def create_app(
                     "mode": "sqlite_file"
                     if checkpoints.durable and memories.durable
                     else "ephemeral_memory",
+                    "memory_retention_days": memory_retention_days,
+                },
+                "conversation_storage": {
+                    "durable": conversations.durable,
+                    "retention_hours": chat_retention_hours,
                 },
             }
         )
@@ -280,6 +340,10 @@ def create_app(
             checks["memory_store"] = {
                 "ok": memories.healthcheck(),
                 "durable": memories.durable,
+            }
+            checks["conversation_store"] = {
+                "ok": conversations.healthcheck(),
+                "durable": conversations.durable,
             }
         except Exception as exc:  # noqa: BLE001 - readiness must report, not crash
             checks["persistence"] = {"ok": False, "error": type(exc).__name__}
@@ -299,6 +363,30 @@ def create_app(
                     "verified_records": complete_packaging,
                     "records": total_products,
                 }
+                expired_count = int(coverage.get("expired_evidence_count", 0))
+                stale_count = int(coverage.get("stale_evidence_count", 0))
+                checks["product_evidence_freshness"] = {
+                    "ok": expired_count == 0 and stale_count == 0,
+                    "expired_records": expired_count,
+                    "stale_records": stale_count,
+                    "records": total_products,
+                }
+                purchase_rate = float(
+                    coverage.get("purchase_availability_rate", 0.0)
+                )
+                minimum_purchase_rate = float(
+                    os.getenv("FOOD_LABEL_MIN_PURCHASE_AVAILABILITY_RATE", "1.0")
+                )
+                checks["product_purchase_availability"] = {
+                    "ok": total_products > 0
+                    and purchase_rate >= minimum_purchase_rate,
+                    "verified_records": int(
+                        coverage.get("current_purchase_evidence_count", 0)
+                    ),
+                    "records": total_products,
+                    "coverage_rate": purchase_rate,
+                    "minimum_rate": minimum_purchase_rate,
+                }
         except Exception as exc:  # noqa: BLE001
             checks["product_catalog"] = {"ok": False, "error": type(exc).__name__}
         checks["ocr"] = {
@@ -308,6 +396,11 @@ def create_app(
         }
         checks["site_access"] = {
             "ok": not production_mode or bool(site_access_token),
+        }
+        checks["conversation"] = {
+            "ok": not production_mode or chat_agent.configured,
+            "configured": chat_agent.configured,
+            "model": chat_agent.provider.settings.model,
         }
         ok = all(bool(item.get("ok")) for item in checks.values())
         return JSONResponse(
@@ -573,6 +666,181 @@ def create_app(
         except PermissionError:
             return _error("恢复令牌无效。", status_code=403)
 
+    async def create_conversation_session(_: Request) -> JSONResponse:
+        receipt = conversations.create_session()
+        return JSONResponse(
+            {
+                "status": "created",
+                "session": receipt.to_dict(),
+                "retention_hours": conversations.retention_hours,
+                "remote_processing": True,
+            },
+            status_code=201,
+        )
+
+    async def get_conversation_session(request: Request) -> JSONResponse:
+        try:
+            session_id = request.path_params["session_id"]
+            return JSONResponse(
+                {
+                    "status": "found",
+                    "session": conversations.session(
+                        session_id, _bearer_token(request)
+                    ),
+                }
+            )
+        except KeyError:
+            return _error("没有找到这个对话，可能已经过期。", status_code=404)
+        except PermissionError:
+            return _error("对话访问令牌无效。", status_code=403)
+        except ValueError as exc:
+            return _error(str(exc), status_code=422)
+
+    async def delete_conversation_session(request: Request) -> JSONResponse:
+        try:
+            session_id = request.path_params["session_id"]
+            deleted = conversations.delete(session_id, _bearer_token(request))
+            return JSONResponse({"status": "deleted", "deleted_sessions": deleted})
+        except KeyError:
+            return _error("没有找到这个对话，可能已经过期。", status_code=404)
+        except PermissionError:
+            return _error("对话访问令牌无效。", status_code=403)
+        except ValueError as exc:
+            return _error(str(exc), status_code=422)
+
+    async def conversation_message(request: Request) -> Response:
+        try:
+            payload = await request.json()
+            if not isinstance(payload, dict):
+                raise TypeError("对话请求必须是对象。")
+            content = str(payload.get("content") or "").strip()
+            if not content or len(content) > 4_000:
+                raise ValueError("请输入 1 到 4000 个字符。")
+            emergency_message = _is_emergency_message(content)
+            if payload.get("remote_processing_consent") is not True and not emergency_message:
+                return _error(
+                    "发送普通问题前，需要明确同意本次短期对话使用 OpenAI。",
+                    status_code=412,
+                    code="REMOTE_PROCESSING_CONSENT_REQUIRED",
+                )
+            session_id = request.path_params["session_id"]
+            access_token = _bearer_token(request)
+            # Authorize before returning a streaming response, so HTTP errors remain clear.
+            conversations.session(session_id, access_token)
+            workflow_request_id = str(
+                payload.get("workflow_request_id") or ""
+            ).strip()
+            workflow_token = str(payload.get("workflow_resume_token") or "").strip()
+            workflow_state = None
+            if workflow_request_id or workflow_token:
+                if not workflow_request_id or not workflow_token:
+                    raise ValueError("关联标签需要完整的分析编号和恢复令牌。")
+                workflow_state = checkpoints.load_latest(
+                    workflow_request_id, workflow_token
+                )
+            if not chat_agent.configured and not emergency_message:
+                return _error(
+                    "自由对话尚未配置模型访问凭证。",
+                    status_code=503,
+                    code="CONVERSATION_NOT_CONFIGURED",
+                )
+            conversations.append_message(
+                session_id,
+                access_token,
+                role="user",
+                content=content,
+                metadata={
+                    "workflow_request_id": workflow_request_id or None,
+                    "trusted_label_attached": workflow_state is not None,
+                },
+            )
+            history = conversations.messages(session_id, access_token, limit=24)
+
+            async def event_stream():
+                yield _sse_event(
+                    "status",
+                    {
+                        "stage": "thinking",
+                        "message": "正在理解你的问题",
+                    },
+                )
+                try:
+                    reply = await run_in_threadpool(
+                        chat_agent.reply,
+                        session_id=session_id,
+                        messages=history,
+                        state=workflow_state,
+                    )
+                    for tool_event in reply.tool_events:
+                        yield _sse_event(
+                            "tool",
+                            {
+                                **tool_event,
+                                "message": _conversation_tool_label(
+                                    str(tool_event.get("name") or "")
+                                ),
+                            },
+                        )
+                    for chunk in _text_chunks(reply.text, 42):
+                        yield _sse_event("delta", {"text": chunk})
+                    conversations.append_message(
+                        session_id,
+                        access_token,
+                        role="assistant",
+                        content=reply.text,
+                        metadata={
+                            "model": reply.model,
+                            "response_id": reply.response_id,
+                            "input_tokens": reply.input_tokens,
+                            "output_tokens": reply.output_tokens,
+                            "boundary": reply.boundary,
+                            "tool_events": list(reply.tool_events),
+                            "trusted_label_attached": workflow_state is not None,
+                        },
+                    )
+                    yield _sse_event(
+                        "done",
+                        {
+                            "model": reply.model,
+                            "boundary": reply.boundary,
+                            "tool_calls": len(reply.tool_events),
+                            "trusted_label_attached": workflow_state is not None,
+                        },
+                    )
+                except ConversationProviderError as exc:
+                    yield _sse_event(
+                        "error",
+                        {
+                            "code": exc.code,
+                            "message": _conversation_error_message(exc.code),
+                            "retryable": exc.retryable,
+                        },
+                    )
+                except Exception:  # noqa: BLE001 - do not leak provider details
+                    yield _sse_event(
+                        "error",
+                        {
+                            "code": "conversation_failed",
+                            "message": "这次回答没有完成，请稍后再试。",
+                            "retryable": True,
+                        },
+                    )
+
+            return StreamingResponse(
+                event_stream(),
+                media_type="text/event-stream",
+                headers={
+                    "Cache-Control": "no-store",
+                    "X-Accel-Buffering": "no",
+                },
+            )
+        except KeyError:
+            return _error("没有找到这个对话或标签分析。", status_code=404)
+        except PermissionError:
+            return _error("对话或标签分析的访问令牌无效。", status_code=403)
+        except (TypeError, ValueError, json.JSONDecodeError) as exc:
+            return _error(str(exc), status_code=422)
+
     async def grant_memory_consent(request: Request) -> JSONResponse:
         try:
             payload = await request.json()
@@ -581,14 +849,42 @@ def create_app(
                 str(payload.get("purpose", "")),
                 explicit_consent=payload.get("explicit_consent") is True,
             )
-            return JSONResponse(
+            return_token = (
+                request.headers.get("x-food-label-token-delivery", "").casefold()
+                == "bearer"
+            )
+            response = JSONResponse(
                 {
                     "status": "consent_granted",
-                    **receipt.to_dict(),
-                    "notice": "访问令牌仅返回一次；撤销授权会删除关联记忆。",
+                    "consent_id": receipt.consent_id,
+                    "profile_id": receipt.profile_id,
+                    "purpose": receipt.purpose,
+                    "granted_at": receipt.granted_at,
+                    **(
+                        {"access_token": receipt.access_token}
+                        if return_token
+                        else {}
+                    ),
+                    "notice": (
+                        "Bearer 访问令牌仅返回一次；撤销授权会删除关联记忆。"
+                        if return_token
+                        else "浏览器凭证已保存为 HttpOnly Cookie；撤销授权会删除关联记忆。"
+                    ),
                 },
                 status_code=201,
             )
+            if not return_token:
+                response.set_cookie(
+                    "food_label_memory_access",
+                    receipt.access_token,
+                    max_age=memory_retention_days * 24 * 60 * 60,
+                    httponly=True,
+                    secure=request.url.scheme == "https"
+                    or os.getenv("FOOD_LABEL_FORCE_HTTPS") == "1",
+                    samesite="strict",
+                    path="/api/v1/",
+                )
+            return response
         except PermissionError:
             return _error("必须由用户明确授权后才能保存长期记忆。", status_code=403)
         except (TypeError, ValueError) as exc:
@@ -597,7 +893,7 @@ def create_app(
     async def memory_items(request: Request) -> JSONResponse:
         try:
             profile_id = _profile_id(request)
-            token = _bearer_token(request)
+            token = _memory_token(request)
             if request.method == "GET":
                 return JSONResponse(
                     {
@@ -618,10 +914,32 @@ def create_app(
         except (TypeError, ValueError) as exc:
             return _error(str(exc), status_code=422)
 
-    async def memory_item(request: Request) -> JSONResponse:
+    async def establish_memory_session(request: Request) -> JSONResponse:
         try:
             profile_id = _profile_id(request)
             token = _bearer_token(request)
+            memories.list_items(profile_id, token)
+            response = JSONResponse({"status": "session_established"})
+            response.set_cookie(
+                "food_label_memory_access",
+                token,
+                max_age=memory_retention_days * 24 * 60 * 60,
+                httponly=True,
+                secure=request.url.scheme == "https"
+                or os.getenv("FOOD_LABEL_FORCE_HTTPS") == "1",
+                samesite="strict",
+                path="/api/v1/",
+            )
+            return response
+        except PermissionError:
+            return _error("长期记忆授权或访问令牌无效。", status_code=403)
+        except ValueError as exc:
+            return _error(str(exc), status_code=422)
+
+    async def memory_item(request: Request) -> JSONResponse:
+        try:
+            profile_id = _profile_id(request)
+            token = _memory_token(request)
             memory_id = request.path_params["memory_id"]
             if request.method == "DELETE":
                 memories.delete_item(profile_id, token, memory_id)
@@ -645,13 +963,43 @@ def create_app(
     async def revoke_memory_consent(request: Request) -> JSONResponse:
         try:
             profile_id = _profile_id(request)
-            deleted = memories.revoke_consent(profile_id, _bearer_token(request))
-            return JSONResponse(
+            deleted = memories.revoke_consent(profile_id, _memory_token(request))
+            response = JSONResponse(
                 {
                     "status": "consent_revoked",
                     "deleted_memory_items": deleted,
                 }
             )
+            response.delete_cookie("food_label_memory_access", path="/api/v1/")
+            return response
+        except PermissionError:
+            return _error("长期记忆授权或访问令牌无效。", status_code=403)
+        except ValueError as exc:
+            return _error(str(exc), status_code=422)
+
+    async def export_profile_data(request: Request) -> JSONResponse:
+        try:
+            return JSONResponse(
+                {
+                    "status": "exported",
+                    "data": memories.export_profile(
+                        _profile_id(request), _memory_token(request)
+                    ),
+                }
+            )
+        except PermissionError:
+            return _error("长期记忆授权或访问令牌无效。", status_code=403)
+        except ValueError as exc:
+            return _error(str(exc), status_code=422)
+
+    async def delete_profile_data(request: Request) -> JSONResponse:
+        try:
+            deleted = memories.delete_profile(
+                _profile_id(request), _memory_token(request)
+            )
+            response = JSONResponse({"status": "deleted", "deleted": deleted})
+            response.delete_cookie("food_label_memory_access", path="/api/v1/")
+            return response
         except PermissionError:
             return _error("长期记忆授权或访问令牌无效。", status_code=403)
         except ValueError as exc:
@@ -705,11 +1053,36 @@ def create_app(
             methods=["DELETE"],
         ),
         Route(
+            "/api/v1/chat/sessions",
+            endpoint=create_conversation_session,
+            methods=["POST"],
+        ),
+        Route(
+            "/api/v1/chat/sessions/{session_id}",
+            endpoint=get_conversation_session,
+            methods=["GET"],
+        ),
+        Route(
+            "/api/v1/chat/sessions/{session_id}",
+            endpoint=delete_conversation_session,
+            methods=["DELETE"],
+        ),
+        Route(
+            "/api/v1/chat/sessions/{session_id}/messages",
+            endpoint=conversation_message,
+            methods=["POST"],
+        ),
+        Route(
             "/api/v1/memory/consents",
             endpoint=grant_memory_consent,
             methods=["POST"],
         ),
         Route("/api/v1/memory/items", endpoint=memory_items, methods=["GET", "POST"]),
+        Route(
+            "/api/v1/memory/session",
+            endpoint=establish_memory_session,
+            methods=["POST"],
+        ),
         Route(
             "/api/v1/memory/items/{memory_id}",
             endpoint=memory_item,
@@ -720,15 +1093,79 @@ def create_app(
             endpoint=revoke_memory_consent,
             methods=["DELETE"],
         ),
+        Route(
+            "/api/v1/privacy/export",
+            endpoint=export_profile_data,
+            methods=["GET"],
+        ),
+        Route(
+            "/api/v1/privacy/profile",
+            endpoint=delete_profile_data,
+            methods=["DELETE"],
+        ),
         Mount("/static", app=StaticFiles(directory=STATIC_DIR), name="static"),
     ]
     application = Starlette(debug=False, routes=routes)
+    if allowed_hosts:
+        application.add_middleware(
+            TrustedHostMiddleware,
+            allowed_hosts=allowed_hosts,
+            www_redirect=False,
+        )
+    application.add_middleware(SameOriginWriteMiddleware)
     if site_access_token:
         application.add_middleware(SiteAccessMiddleware, token=site_access_token)
     application.add_middleware(RateLimitMiddleware)
     application.add_middleware(RequestBoundaryMiddleware)
     application.add_middleware(SecurityHeadersMiddleware)
     return application
+
+
+def _sse_event(event: str, payload: dict[str, object]) -> str:
+    return (
+        f"event: {event}\n"
+        f"data: {json.dumps(payload, ensure_ascii=False, separators=(',', ':'))}\n\n"
+    )
+
+
+def _text_chunks(value: str, size: int) -> list[str]:
+    return [value[index : index + size] for index in range(0, len(value), size)]
+
+
+def _is_emergency_message(value: str) -> bool:
+    return any(
+        term in value.casefold()
+        for term in (
+            "呼吸困难",
+            "喘不过气",
+            "喉头水肿",
+            "喉咙肿",
+            "意识不清",
+            "昏厥",
+            "过敏性休克",
+            "anaphylaxis",
+        )
+    )
+
+
+def _conversation_tool_label(name: str) -> str:
+    return {
+        "search_current_regulations": "已核对适用法规依据",
+        "explain_current_ingredient": "已核对当前标签中的配料",
+        "verify_current_claims": "已核对包装声称与标签事实",
+    }.get(name, "已完成证据核对")
+
+
+def _conversation_error_message(code: str) -> str:
+    if code == "conversation_tool_budget_exhausted":
+        return "这次问题需要的核对步骤过多，请缩小问题范围后重试。"
+    if code == "conversation_model_refused":
+        return "这个问题暂时无法回答，你可以换一种方式询问食品标签事实。"
+    if code == "conversation_api_key_missing":
+        return "自由对话尚未配置模型访问凭证。"
+    if code.startswith("conversation_provider_http_429"):
+        return "对话请求较多，请稍后再试。"
+    return "对话服务暂时不可用，请稍后再试。"
 
 
 def _error(
@@ -760,12 +1197,30 @@ def create_production_app() -> Starlette:
         )
     if not os.getenv("FOOD_LABEL_DISCOVERY_ADMIN_TOKEN", "").strip():
         raise RuntimeError("FOOD_LABEL_DISCOVERY_ADMIN_TOKEN is required")
+    allowed_hosts = [
+        host.strip()
+        for host in os.getenv("FOOD_LABEL_ALLOWED_HOSTS", "").split(",")
+        if host.strip()
+    ]
+    if not allowed_hosts:
+        raise RuntimeError("FOOD_LABEL_ALLOWED_HOSTS is required")
+    if "*" in allowed_hosts:
+        raise RuntimeError("FOOD_LABEL_ALLOWED_HOSTS must not contain '*' in production")
+    if not os.getenv("OPENAI_API_KEY", "").strip():
+        raise RuntimeError("OPENAI_API_KEY is required for the conversation agent")
     database_path = default_database_path()
     return create_app(
         checkpoint_store=SQLiteCheckpointStore(database_path),
         memory_store=SQLiteMemoryStore(database_path),
+        conversation_store=SQLiteConversationStore(
+            database_path,
+            retention_hours=int(
+                os.getenv("FOOD_LABEL_CHAT_RETENTION_HOURS", "24")
+            ),
+        ),
         production_mode=True,
         site_access_token=token,
+        allowed_hosts=allowed_hosts,
     )
 
 
@@ -792,6 +1247,13 @@ def _bearer_token(request: Request) -> str:
     if scheme.casefold() != "bearer" or not token:
         raise PermissionError("Bearer token required")
     return token
+
+
+def _memory_token(request: Request) -> str:
+    cookie = request.cookies.get("food_label_memory_access", "")
+    if cookie:
+        return cookie
+    return _bearer_token(request)
 
 
 def _profile_id(request: Request) -> str:

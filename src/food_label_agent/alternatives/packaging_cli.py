@@ -21,7 +21,11 @@ def main() -> None:
     capture.add_argument("--kind", choices=("ingredients", "nutrition", "combined"), required=True)
     capture.add_argument(
         "--artifact-type",
-        choices=("packaging_photo", "official_page_capture"),
+        choices=(
+            "packaging_photo",
+            "official_label_artwork",
+            "official_page_capture",
+        ),
         required=True,
     )
     capture.add_argument("--source-url", required=True)

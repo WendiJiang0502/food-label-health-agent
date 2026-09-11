@@ -6,6 +6,7 @@ import re
 from collections.abc import Iterable
 from concurrent.futures import ThreadPoolExecutor
 from datetime import date, timedelta
+from difflib import SequenceMatcher
 from typing import Any
 
 from food_label_agent.ingredients.api_models import SafetyEvaluationRequest
@@ -208,7 +209,9 @@ def find_alternative_products(
     ]
     seen_ids: set[str] = set()
     seen_label_hashes: set[str] = set()
+    seen_formula_products: list[ProductRecord] = []
     equivalent_package_variants_collapsed = 0
+    near_formula_variants_collapsed = 0
     for searched_category, catalog_result in catalog_results:
         for product in catalog_result.records:
             if product.product_id in seen_ids:
@@ -295,7 +298,14 @@ def find_alternative_products(
             if product.label.content_hash in seen_label_hashes:
                 equivalent_package_variants_collapsed += 1
                 continue
+            if any(
+                _near_equivalent_formula(product, prior)
+                for prior in seen_formula_products
+            ):
+                near_formula_variants_collapsed += 1
+                continue
             seen_label_hashes.add(product.label.content_hash)
+            seen_formula_products.append(product)
             candidates.append(
                 {
                     **product.model_dump(mode="json"),
@@ -332,7 +342,9 @@ def find_alternative_products(
             ]
         )
     catalog_coverage = {
-        **summarize_label_coverage(category_records),
+        **summarize_label_coverage(
+            category_records, applicable_date=request.applicable_date
+        ),
         **summarize_context_eligibility(
             category_records,
             constraints=request.constraints,
@@ -342,6 +354,10 @@ def find_alternative_products(
     if equivalent_package_variants_collapsed:
         catalog_coverage["equivalent_package_variants_collapsed"] = (
             equivalent_package_variants_collapsed
+        )
+    if near_formula_variants_collapsed:
+        catalog_coverage["near_formula_variants_collapsed"] = (
+            near_formula_variants_collapsed
         )
     return {
         "status": "candidates_found" if candidates else "unknown",
@@ -594,12 +610,28 @@ def _rank_eligible_results(
 ) -> list[dict[str, Any]]:
     focuses = _ranking_focuses(health_concerns)
     current_values = _normalized_nutrient_values_from_rows(current_nutrition_rows)
-    product_values = {
-        item["product_id"]: _normalized_nutrient_values(
+    product_values: dict[str, dict[str, tuple[float, str, str]]] = {}
+    product_qualifiers: dict[str, dict[str, str]] = {}
+    for item in products:
+        product_id = item["product_id"]
+        values = _normalized_nutrient_values(
             item.get("normalized_label", {}).get("nutrition")
         )
-        for item in products
-    }
+        qualifiers: dict[str, str] = {}
+        for bound in item.get("catalog_eligibility", {}).get(
+            "bounded_comparison_fields", []
+        ):
+            nutrient = str(bound.get("nutrient") or "")
+            if not nutrient or nutrient in values:
+                continue
+            values[nutrient] = (
+                float(bound["value"]),
+                str(bound["unit"]),
+                str(bound["basis"]),
+            )
+            qualifiers[nutrient] = str(bound.get("qualifier") or "upper_bound")
+        product_values[product_id] = values
+        product_qualifiers[product_id] = qualifiers
     points = {item["product_id"]: 0 for item in products}
     comparable_counts = {item["product_id"]: 0 for item in products}
     for nutrient, direction in focuses:
@@ -627,6 +659,7 @@ def _rank_eligible_results(
             candidate = values.get(nutrient)
             if not candidate:
                 continue
+            qualifier = product_qualifiers[product_id].get(nutrient)
             current = current_values.get(nutrient)
             label = _NUTRIENT_DISPLAY_NAMES.get(nutrient, nutrient)
             if current and candidate[1:] == current[1:]:
@@ -635,33 +668,41 @@ def _rank_eligible_results(
                 outcome = "improved" if improved else (
                     "same" if difference == 0 else "not_improved"
                 )
-                health_comparisons.append(
-                    {
-                        "nutrient": nutrient,
-                        "label": label,
-                        "candidate_value": candidate[0],
-                        "current_value": current[0],
-                        "unit": candidate[1],
-                        "basis": candidate[2],
-                        "direction": direction,
-                        "outcome": outcome,
-                    }
-                )
+                comparison = {
+                    "nutrient": nutrient,
+                    "label": label,
+                    "candidate_value": candidate[0],
+                    "current_value": current[0],
+                    "unit": candidate[1],
+                    "basis": candidate[2],
+                    "direction": direction,
+                    "outcome": outcome,
+                }
+                if qualifier:
+                    comparison["candidate_qualifier"] = qualifier
+                health_comparisons.append(comparison)
                 if improved:
                     verb = "更低" if direction == "lower" else "更高"
+                    measure = _format_measure(candidate[0], candidate[1])
+                    if qualifier == "upper_bound":
+                        measure = f"不高于{measure}"
                     health_reasons.append(
                         "与当前商品同口径比较，"
-                        f"{label}{_format_measure(candidate[0], candidate[1])}，"
+                        f"{label}{measure}，"
                         f"{verb}于当前的{_format_measure(current[0], current[1])}"
                     )
                 elif difference == 0:
+                    measure = _format_measure(candidate[0], candidate[1])
+                    if qualifier == "upper_bound":
+                        measure = f"不高于{measure}"
                     health_reasons.append(
-                        f"{label}{_format_measure(candidate[0], candidate[1])}，"
+                        f"{label}{measure}，"
                         "与当前商品同口径相当"
                     )
             elif len(products) > 1:
                 preference = "越低越优先" if direction == "lower" else "越高越优先"
-                health_reasons.append(f"按{label}{preference}排序")
+                qualifier_note = "（按保守上限）" if qualifier == "upper_bound" else ""
+                health_reasons.append(f"按{label}{preference}排序{qualifier_note}")
 
         nutrition = item.get("normalized_label", {}).get("nutrition") or {}
         basis = nutrition.get("basis") or {}
@@ -730,6 +771,52 @@ def _product_family_key(value: str | None) -> str:
     text = re.sub(r"\d+(?:\.\d+)?\s*(?:条|只|袋|盒|支|瓶)装", "", text)
     text = re.sub(r"\d+(?:\.\d+)?\s*(?:克|g|毫升|ml)", "", text)
     return re.sub(r"[\s\-_·・,，/]+", "", text).strip()
+
+
+_BRAND_OWNER_ALIASES = {
+    "伊利·安慕希": "伊利",
+    "伊利安慕希": "伊利",
+}
+
+
+def brand_owner_key(value: str | None) -> str:
+    """Return the manufacturer-level brand key used by diversity gates."""
+
+    text = re.sub(r"[\s・]+", "", str(value or "")).strip()
+    return _BRAND_OWNER_ALIASES.get(text, text)
+
+
+def _near_equivalent_formula(left: ProductRecord, right: ProductRecord) -> bool:
+    """Detect near-identical formulas without merging products across owners."""
+
+    if brand_owner_key(left.brand) != brand_owner_key(right.brand):
+        return False
+    left_ingredients = _normalized_ingredients(left.label.ingredients_text)
+    right_ingredients = _normalized_ingredients(right.label.ingredients_text)
+    if not left_ingredients or not right_ingredients:
+        return False
+    ingredient_similarity = SequenceMatcher(
+        None, left_ingredients, right_ingredients, autojunk=False
+    ).ratio()
+    if ingredient_similarity < 0.86:
+        return False
+    left_nutrients = _normalized_nutrient_values_from_rows(left.label.nutrition_rows)
+    right_nutrients = _normalized_nutrient_values_from_rows(right.label.nutrition_rows)
+    comparable = []
+    for nutrient in ("energy", "protein", "fat", "carbohydrate", "sodium"):
+        left_value = left_nutrients.get(nutrient)
+        right_value = right_nutrients.get(nutrient)
+        if not left_value or not right_value or left_value[1:] != right_value[1:]:
+            continue
+        denominator = max(abs(left_value[0]), abs(right_value[0]), 1.0)
+        comparable.append(abs(left_value[0] - right_value[0]) / denominator)
+    return len(comparable) >= 3 and max(comparable) <= 0.2
+
+
+def _normalized_ingredients(value: str) -> str:
+    text = value.lower()
+    text = re.sub(r"\d+(?:\.\d+)?%", "", text)
+    return re.sub(r"[^a-z0-9\u4e00-\u9fff]+", "", text)
 
 
 def _normalized_nutrient_values_from_rows(

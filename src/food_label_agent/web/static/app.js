@@ -111,6 +111,11 @@ const elements = {
   alternativeSource: document.querySelector("#alternative-source"),
   alternativeStatus: document.querySelector("#alternative-status"),
   alternativeResults: document.querySelector("#alternative-results"),
+  alternativeDecisionSummary: document.querySelector("#alternative-decision-summary"),
+  alternativeDecisionTitle: document.querySelector("#alternative-decision-title"),
+  alternativeDecisionDetail: document.querySelector("#alternative-decision-detail"),
+  alternativeNextAction: document.querySelector("#alternative-next-action"),
+  alternativeStateCounts: document.querySelector("#alternative-state-counts"),
   alternativeList: document.querySelector("#alternative-list"),
   alternativeShowMore: document.querySelector("#alternative-show-more"),
   alternativeComparison: document.querySelector("#alternative-comparison"),
@@ -118,6 +123,18 @@ const elements = {
   alternativeExclusions: document.querySelector("#alternative-exclusions"),
   alternativeExclusionList: document.querySelector("#alternative-exclusion-list"),
   appTabbar: document.querySelector("#app-tabbar"),
+  chatView: document.querySelector("#chat-view"),
+  chatLog: document.querySelector("#chat-log"),
+  chatForm: document.querySelector("#chat-form"),
+  chatInput: document.querySelector("#chat-input"),
+  chatSend: document.querySelector("#chat-send"),
+  chatStatus: document.querySelector("#chat-status"),
+  chatSuggestions: document.querySelector("#chat-suggestions"),
+  chatRemoteConsent: document.querySelector("#chat-remote-consent"),
+  chatContextName: document.querySelector("#chat-context-name"),
+  chatContextDetail: document.querySelector("#chat-context-detail"),
+  chatScanAction: document.querySelector("#chat-scan-action"),
+  clearChat: document.querySelector("#clear-chat"),
   historyView: document.querySelector("#history-view"),
   historyIndex: document.querySelector("#history-index"),
   historyList: document.querySelector("#history-list"),
@@ -189,7 +206,10 @@ const PROFILE_STORAGE_KEY = "food-label-agent.health-profile.v1";
 const SCAN_HISTORY_STORAGE_KEY = "food-label-agent.scan-history.v1";
 const HEALTH_HISTORY_STORAGE_KEY = "food-label-agent.health-changes.v1";
 const HEALTH_HISTORY_CONSENT_KEY = "food-label-agent.health-changes-consent.v1";
+const CHAT_SESSION_STORAGE_KEY = "food-label-agent.chat-session.v1";
+const CHAT_CONSENT_SESSION_KEY = "food-label-agent.chat-remote-consent.v1";
 let processingDisclosureVerified = false;
+let conversationConfigured = false;
 
 elements.heroUploadButton.addEventListener("click", () => elements.fileInput.click());
 elements.ocrStatus.addEventListener("click", loadHealthStatus);
@@ -223,7 +243,11 @@ const state = {
   healthPeriod: "week",
   dashboardDeckIndex: 0,
   historyDetailId: null,
+  chatSession: readChatSession(),
+  chatBusy: false,
 };
+
+elements.chatRemoteConsent.checked = sessionStorage.getItem(CHAT_CONSENT_SESSION_KEY) === "granted";
 
 elements.portionCategory.replaceChildren(
   ...[...elements.alternativeCategory.children].map((option) => option.cloneNode(true)),
@@ -268,6 +292,30 @@ elements.portionAmount.addEventListener("input", () => {
 elements.appTabbar.addEventListener("click", (event) => {
   const button = event.target.closest("button[data-app-view]");
   if (button) switchAppView(button.dataset.appView);
+});
+
+elements.chatForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  await sendChatMessage(elements.chatInput.value);
+});
+
+elements.chatSuggestions.addEventListener("click", async (event) => {
+  const button = event.target.closest("button[data-chat-prompt]");
+  if (!button || state.chatBusy) return;
+  await sendChatMessage(button.dataset.chatPrompt);
+});
+
+elements.chatScanAction.addEventListener("click", () => switchAppView("scan"));
+elements.clearChat.addEventListener("click", clearConversation);
+elements.chatInput.addEventListener("input", autoSizeChatInput);
+elements.chatRemoteConsent.addEventListener("change", () => {
+  if (elements.chatRemoteConsent.checked) {
+    sessionStorage.setItem(CHAT_CONSENT_SESSION_KEY, "granted");
+    elements.chatStatus.textContent = "已同意本次短期对话使用 OpenAI。";
+  } else {
+    sessionStorage.removeItem(CHAT_CONSENT_SESSION_KEY);
+    elements.chatStatus.textContent = "发送普通问题前，需要同意本次短期对话使用 OpenAI。";
+  }
 });
 
 elements.dashboardMetricGrid.addEventListener("click", (event) => {
@@ -620,6 +668,7 @@ function showProfileScreen(screen) {
   elements.profileOnboarding.hidden = screen !== "profile";
   elements.advicePreview.hidden = screen !== "advice";
   elements.heroLayout.hidden = screen !== "scan";
+  elements.chatView.hidden = true;
   elements.historyView.hidden = true;
   elements.userView.hidden = true;
   if (screen !== "scan") {
@@ -1292,15 +1341,36 @@ function resetResult() {
 function readMemoryCredentials() {
   try {
     const value = JSON.parse(localStorage.getItem(MEMORY_CREDENTIALS_KEY) || "null");
-    if (value?.profileId && value?.accessToken) return value;
+    if (value?.profileId) {
+      localStorage.setItem(MEMORY_CREDENTIALS_KEY, JSON.stringify({ profileId: value.profileId }));
+      return {
+        profileId: value.profileId,
+        legacyAccessToken: value.accessToken || null,
+      };
+    }
   } catch {
     localStorage.removeItem(MEMORY_CREDENTIALS_KEY);
   }
   return null;
 }
 
+async function migrateLegacyMemoryToken() {
+  const token = state.memoryCredentials?.legacyAccessToken;
+  if (!token) return;
+  const { profileId } = state.memoryCredentials;
+  const response = await fetch(
+    `/api/v1/memory/session?profile_id=${encodeURIComponent(profileId)}`,
+    {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+    },
+  );
+  state.memoryCredentials.legacyAccessToken = null;
+  if (!response.ok) throw new Error("旧版设备凭证迁移失败，请清除档案后重新授权。");
+}
+
 function memoryRequestOptions(method = "GET", body = null) {
-  const headers = { Authorization: `Bearer ${state.memoryCredentials.accessToken}` };
+  const headers = {};
   if (body) headers["Content-Type"] = "application/json";
   return { method, headers, ...(body ? { body: JSON.stringify(body) } : {}) };
 }
@@ -1319,7 +1389,7 @@ async function ensureMemoryConsent() {
   });
   const payload = await response.json();
   if (!response.ok) throw new Error(payload.message || "无法开启约束记忆。");
-  state.memoryCredentials = { profileId, accessToken: payload.access_token };
+  state.memoryCredentials = { profileId };
   localStorage.setItem(MEMORY_CREDENTIALS_KEY, JSON.stringify(state.memoryCredentials));
 }
 
@@ -1328,6 +1398,7 @@ async function loadRememberedConstraints() {
   elements.rememberConstraints.checked = true;
   elements.memoryStatus.textContent = "正在读取已保存约束…";
   try {
+    await migrateLegacyMemoryToken();
     const { profileId } = state.memoryCredentials;
     const response = await fetch(
       `/api/v1/memory/items?profile_id=${encodeURIComponent(profileId)}`,
@@ -1651,8 +1722,11 @@ function applyConfirmedPortionCategory(category) {
     context.findings,
     selectedCategory,
   );
+  const healthDecision = context.healthFocusOnly
+    ? healthFocusDecision(context.nutrition)
+    : null;
   const titles = context.healthFocusOnly
-    ? { heading: "标签重点已整理", mode: "health_focus" }
+    ? { heading: healthDecision.heading, mode: "health_focus" }
     : resultTitles(
       context.riskLevel,
       context.primary,
@@ -1660,6 +1734,7 @@ function applyConfirmedPortionCategory(category) {
     );
   state.decisionMode = titles.mode;
   elements.safetyTitle.textContent = titles.heading;
+  if (healthDecision) elements.riskSummary.textContent = healthDecision.summary;
   updateCurrentScanHistoryOutcome(titles.heading);
   if (selectedCategory) {
     const categoryName = elements.portionCategory.selectedOptions[0]?.textContent || selectedCategory;
@@ -1680,7 +1755,7 @@ function renderPortionGuidance(riskLevel, nutrition, findings, category) {
     finding.risk_level !== "compatible" && Object.hasOwn(allergenNames, finding.constraint),
   );
   if (allergenFinding) {
-    elements.portionKind.textContent = "安全约束优先";
+    elements.portionKind.textContent = "可以吃多少？";
     elements.portionValue.textContent = "没有可确认的安全份量";
     elements.portionNote.textContent = riskLevel === "avoid"
       ? "标签已明确命中需要避开的成分，不应通过减少份量来降低过敏风险。"
@@ -1694,7 +1769,7 @@ function renderPortionGuidance(riskLevel, nutrition, findings, category) {
     finding.risk_level === "avoid" || finding.risk_level === "caution",
   );
   if (blockingFinding) {
-    elements.portionKind.textContent = "安全约束优先";
+    elements.portionKind.textContent = "可以吃多少？";
     elements.portionValue.textContent = "不建议用减少份量代替风险判断";
     elements.portionNote.textContent = "本次已命中需要回避或谨慎确认的个人设置，请先处理该风险，再讨论一般参考份量。";
     elements.portionPackageNote.textContent = "先处理已命中的个人约束";
@@ -1714,11 +1789,11 @@ function renderPortionGuidance(riskLevel, nutrition, findings, category) {
       note: "这是包装用于列示营养数值的份量，不是根据个人健康状况生成的每日建议量。",
       origin: "packaging",
     };
-    elements.portionKind.textContent = "包装明确标示的一份";
-    elements.portionValue.textContent = servingText;
-    elements.portionNote.textContent = reference.note;
+    elements.portionKind.textContent = "可以吃多少？";
+    elements.portionValue.textContent = "包装份量不等于安全食用量";
+    elements.portionNote.textContent = `${servingText}只是包装用于列示营养数值的基准。输入实际食用量后，系统只计算对应的营养摄入。`;
     elements.portionPackageNote.textContent = servingText;
-    elements.portionConfidence.textContent = "来源：已确认的包装营养成分表";
+    elements.portionConfidence.textContent = "只能换算，不能判断这个量是否适合你";
     if (Number.isFinite(reference.amount) && reference.amount > 0) {
       enablePortionControls(nutrition, reference);
     }
@@ -1737,11 +1812,11 @@ function renderPortionGuidance(riskLevel, nutrition, findings, category) {
       origin: "label_basis",
     };
     elements.portionCategoryPrompt.hidden = true;
-    elements.portionKind.textContent = "按标签标示口径换算";
-    elements.portionValue.textContent = reference.label;
-    elements.portionNote.textContent = reference.note;
-    elements.portionPackageNote.textContent = "包装未单列每份大小；不把净含量或整包默认当作一份";
-    elements.portionConfidence.textContent = `来源：已确认的包装${reference.label}营养数值`;
+    elements.portionKind.textContent = "可以吃多少？";
+    elements.portionValue.textContent = "无法从标签确定安全食用量";
+    elements.portionNote.textContent = `${reference.label}只是营养表的计算基准，不代表建议吃${reference.amount}${nutrientUnitNames[reference.unit] || reference.unit}。输入实际食用量后，系统只计算对应的营养摄入。`;
+    elements.portionPackageNote.textContent = `营养成分表按${reference.label}列示；包装未单列每份大小`;
+    elements.portionConfidence.textContent = "只能换算，不能判断这个量是否适合你";
     enablePortionControls(nutrition, reference);
     return {
       status: "label_basis",
@@ -1783,7 +1858,19 @@ function enablePortionControls(nutrition, reference) {
   elements.portionAmount.step = String(limits.step);
   elements.portionAmount.value = formatInputNumber(reference.amount);
   elements.portionUnit.textContent = nutrientUnitNames[reference.unit] || (isServing ? "份" : reference.unit);
+  updatePortionPresetLabels(reference);
   updatePortionAmount(reference.amount);
+}
+
+function updatePortionPresetLabels(reference) {
+  const unitName = nutrientUnitNames[reference.unit] || (reference.unit === "serving" ? "份" : reference.unit);
+  elements.portionPresets.querySelectorAll("button").forEach((button) => {
+    const multiplier = Number(button.dataset.portionMultiplier);
+    const amount = reference.amount * multiplier;
+    button.textContent = reference.unit === "serving"
+      ? `按${formatNumber(amount)}份换算`
+      : `按${formatNumber(amount)}${unitName}换算`;
+  });
 }
 
 function updatePortionAmount(amount) {
@@ -1798,10 +1885,7 @@ function updatePortionAmount(amount) {
   if (!valid) return;
 
   context.amount = amount;
-  const unitName = nutrientUnitNames[context.reference.unit] || "份";
   const assessment = portionAmountAssessment(context.reference, amount);
-  elements.portionValue.textContent = `本次按 ${formatNumber(amount)}${unitName}换算`;
-  elements.portionNote.textContent = context.reference.note;
   elements.portionAssessment.hidden = false;
   elements.portionAssessment.dataset.state = assessment.state;
   elements.portionAssessment.textContent = assessment.text;
@@ -1838,11 +1922,11 @@ function portionFactor(nutrition, context) {
 function portionAmountAssessment(reference, amount) {
   if (reference.origin === "packaging") {
     const ratio = amount / reference.amount;
-    if (ratio < 0.75) return { state: "below", text: "本次少于包装标示的一份；营养数值已按实际输入量换算。" };
-    if (ratio > 1.25) return { state: "above", text: "本次高于包装标示的一份，请留意包装营养表会被按比例放大。" };
-    return { state: "within", text: "本次约等于包装标示的一份；营养数值已按实际输入量换算。" };
+    if (ratio < 0.75) return { state: "below", text: "已按输入量计算，少于包装标示的一份；这不是安全性判断。" };
+    if (ratio > 1.25) return { state: "above", text: "已按输入量计算，多于包装标示的一份；这不是安全性判断。" };
+    return { state: "within", text: "已按输入量计算，约等于包装标示的一份；这不是安全性判断。" };
   }
-  return { state: "within", text: "营养数值已按本次实际输入量等比例换算；这不是食用量建议。" };
+  return { state: "within", text: "已按实际输入量计算营养摄入；这不是安全食用量建议。" };
 }
 
 function renderNutritionSnapshot(nutrition, portionContext = null) {
@@ -1857,9 +1941,7 @@ function renderNutritionSnapshot(nutrition, portionContext = null) {
     : basis ? nutritionBasisText(basis) : "口径未确认";
 
   const healthConcerns = state.profile?.healthConcerns || [];
-  const priorities = [...new Set(
-    healthConcerns.flatMap((concern) => healthNutrientPriorities[concern] || []),
-  )];
+  const priorities = healthPriorityNutrients(healthConcerns);
   const defaultKeys = healthConcerns.length || state.profile?.customHealthConcerns?.length
     ? []
     : ["energy", "protein", "fat", "carbohydrate", "sodium"];
@@ -1892,6 +1974,27 @@ function renderNutritionSnapshot(nutrition, portionContext = null) {
   });
 }
 
+function healthPriorityNutrients(healthConcerns) {
+  const groups = healthConcerns.map((concern) => healthNutrientPriorities[concern] || []);
+  const priorities = [];
+  const longest = Math.max(0, ...groups.map((group) => group.length));
+  for (let index = 0; index < longest; index += 1) {
+    groups.forEach((group) => {
+      const nutrient = group[index];
+      if (nutrient && !priorities.includes(nutrient)) priorities.push(nutrient);
+    });
+  }
+  return priorities;
+}
+
+function healthPrimaryNutrients(healthConcerns) {
+  return [...new Set(
+    healthConcerns
+      .map((concern) => healthNutrientPriorities[concern]?.[0])
+      .filter(Boolean),
+  )];
+}
+
 function nutritionBasisText(basis) {
   if (basis.type === "per_100g") return "每100克";
   if (basis.type === "per_100ml") return "每100毫升";
@@ -1921,10 +2024,11 @@ function renderHealthFocusOnlyResult() {
   elements.safetyResult.hidden = false;
   elements.safetyResult.dataset.risk = "unknown";
   elements.riskSymbol.textContent = "i";
-  elements.riskKicker.textContent = "健康关注的标签信息";
-  elements.safetyTitle.textContent = "标签重点已整理";
-  elements.riskSummary.textContent = "你没有设置已知过敏原。本次先按健康关注整理标签重点；下方份量来自食品类别与标签换算，不是根据健康问题生成的医疗阈值。";
   const nutrition = state.normalizedLabel?.nutrition;
+  const decision = healthFocusDecision(nutrition);
+  elements.riskKicker.textContent = "是否适合你的健康关注";
+  elements.safetyTitle.textContent = decision.heading;
+  elements.riskSummary.textContent = decision.summary;
   state.safetyResultContext = {
     riskLevel: "unknown",
     nutrition,
@@ -1939,9 +2043,11 @@ function renderHealthFocusOnlyResult() {
     state.suggestedCategory,
   );
   state.decisionMode = "health_focus";
-  elements.matchedText.textContent = "未设置硬性回避项";
+  elements.matchedText.textContent = decision.missing.length
+    ? `标签未单列：${decision.missing.map((key) => nutrientNames[key] || key).join("、")}`
+    : "与当前健康关注相关的数值已列出";
   elements.matchedConstraint.textContent = healthSummary || "未设置";
-  elements.matchedLocation.textContent = "已确认配料表与营养成分表";
+  elements.matchedLocation.textContent = "只使用已确认的包装信息；未使用医疗阈值";
   elements.additionalFindings.hidden = true;
   elements.claimResults.hidden = true;
   elements.additiveResults.hidden = true;
@@ -1949,8 +2055,8 @@ function renderHealthFocusOnlyResult() {
   resetAlternativeResults();
   renderAlternativeTarget();
   elements.alternativeDiscovery.hidden = false;
-  elements.reviewTitle.textContent = "个人标签重点";
-  elements.reviewCount.textContent = "已整理";
+  elements.reviewTitle.textContent = "健康关注判断";
+  elements.reviewCount.textContent = decision.missing.length ? "信息不足" : "待结合份量";
   elements.proofState.textContent = "标签已确认";
   saveScanHistory({
     outcome: elements.safetyTitle.textContent,
@@ -1959,10 +2065,40 @@ function renderHealthFocusOnlyResult() {
   });
   revealAppTabbar();
   elements.safetyResult.focus();
-  announce("标签信息已整理；当前没有设置需要自动检查的过敏原");
+  announce(`${decision.heading}；${decision.summary}`);
   if (state.alternativeSuggestion?.status === "automatic" && state.suggestedCategory) {
     window.setTimeout(() => findAndRevalidateAlternatives({ automatic: true }), 0);
   }
+}
+
+function healthFocusDecision(nutrition) {
+  const healthConcerns = state.profile?.healthConcerns || [];
+  const relevant = healthPrimaryNutrients(healthConcerns);
+  const facts = new Set((nutrition?.nutrients || []).map((fact) => fact.canonical_name));
+  const missing = relevant.filter((key) => !facts.has(key));
+  const concernText = healthConcerns
+    .map((value) => healthConcernNames[value] || value)
+    .join("、");
+  if (!relevant.length) {
+    return {
+      heading: "暂时无法从这张标签判断",
+      summary: `${concernText || "你的健康关注"}通常不能只凭常规营养表判断。下方仅整理已确认的包装事实。`,
+      missing,
+    };
+  }
+  if (missing.length) {
+    const missingText = missing.map((key) => nutrientNames[key] || key).join("、");
+    return {
+      heading: "暂时无法判断是否适合你",
+      summary: `你关注${concernText || "健康管理"}，但标签未单列${missingText}。已列出的其他数值不能代替这些缺失字段，因此不能把这款食品判为“健康”或“适合你”。`,
+      missing,
+    };
+  }
+  return {
+    heading: "已找到相关数值，但不能单独判定健康",
+    summary: `标签已列出与${concernText || "你的健康关注"}相关的数值。还需结合实际食用量和由你或专业人员设定的目标，才能判断是否适合。`,
+    missing,
+  };
 }
 
 function renderAlternativeTarget(suggestion = state.alternativeSuggestion) {
@@ -2007,6 +2143,8 @@ async function findAndRevalidateAlternatives({ automatic = false } = {}) {
     ? "已自动确定替代用途，正在查找同类别和同用途候选。"
     : "正在重新查找同类别和同用途候选。";
   elements.alternativeResults.hidden = true;
+  elements.alternativeDecisionSummary.hidden = true;
+  elements.alternativeStateCounts.replaceChildren();
   announce("正在查找并逐项复核同类候选");
   const discoveryRequestId = `${category}:${Date.now()}`;
   state.alternativeDiscoveryRequestId = discoveryRequestId;
@@ -2085,6 +2223,7 @@ function renderAlternativeResults(payload) {
   elements.alternativeComparisonList.replaceChildren();
   elements.alternativeExclusionList.replaceChildren();
   elements.alternativeResults.hidden = false;
+  renderAlternativeDecisionSummary(payload.result_summary);
   elements.alternativeShowMore.hidden = true;
   elements.alternativeShowMore.setAttribute("aria-expanded", "false");
   elements.alternativeCount.textContent = `${payload.eligible.length} 项通过复核`;
@@ -2144,7 +2283,9 @@ function renderAlternativeResults(payload) {
     title.textContent = `${item.rank ? `${item.rank}. ` : ""}${item.display_name}`;
     const status = document.createElement("span");
     status.className = `alternative-tier alternative-tier--${item.catalog_tier || "fully_verified"}`;
-    status.textContent = alternativeTierLabel(item.catalog_tier);
+    status.textContent = item.result_state?.state === "same_use_evidence_limited"
+      ? "只作同用途备选"
+      : alternativeTierLabel(item.catalog_tier);
     header.append(title, status);
     const useCase = document.createElement("p");
     useCase.textContent = item.substitution_match === "same_use"
@@ -2157,10 +2298,11 @@ function renderAlternativeResults(payload) {
     const rankingCopy = document.createElement("p");
     rankingCopy.textContent = alternativeFitCopy(item);
     ranking.append(rankingTitle, rankingCopy);
+    const resultState = renderAlternativeResultState(item.result_state);
     const explanation = document.createElement("p");
     explanation.textContent = item.explanation;
     const evidence = renderAlternativeEvidenceStatus(item);
-    article.append(header, useCase, ranking, explanation, evidence);
+    article.append(header, useCase, resultState, ranking, explanation, evidence);
     if (item.catalog_eligibility?.verified_required_fields?.length) {
       const eligibility = document.createElement("p");
       eligibility.className = "alternative-eligibility";
@@ -2254,11 +2396,13 @@ function renderAlternativeResults(payload) {
     ...payload.excluded.map((item) => ({
       name: item.display_name,
       reason: `${item.risk_level} · ${item.findings[0]?.matched_text || "未通过个人约束"}`,
+      resultState: item.result_state,
     })),
     ...payload.evidence_rejected.map((item) => ({
       name: item.display_name,
       reason: alternativeRejectionLabel(item.reason_code),
       coverage: item.label_coverage,
+      resultState: item.result_state,
     })),
   ];
   elements.alternativeExclusions.hidden = excluded.length === 0;
@@ -2269,6 +2413,7 @@ function renderAlternativeResults(payload) {
     const reason = document.createElement("p");
     reason.textContent = item.reason;
     row.append(name, reason);
+    if (item.resultState) row.append(renderAlternativeResultState(item.resultState));
     if (item.coverage) {
       const contextCoverage = item.coverage.context_eligibility || {};
       const verifiedPackagingFields = item.coverage.verified_fields || [];
@@ -2302,6 +2447,62 @@ function renderAlternativeResults(payload) {
     elements.alternativeExclusionList.append(row);
   });
   announce(elements.alternativeStatus.textContent);
+}
+
+function renderAlternativeDecisionSummary(summary) {
+  elements.alternativeStateCounts.replaceChildren();
+  if (!summary?.primary) {
+    elements.alternativeDecisionSummary.hidden = true;
+    return;
+  }
+  const primary = summary.primary;
+  elements.alternativeDecisionSummary.hidden = false;
+  elements.alternativeDecisionSummary.dataset.state = primary.state;
+  elements.alternativeDecisionTitle.textContent = primary.label;
+  elements.alternativeDecisionDetail.textContent = primary.detail;
+  elements.alternativeNextAction.textContent = `下一步：${primary.next_action}`;
+  const order = [
+    "comparable",
+    "same_use_evidence_limited",
+    "packaging_review_required",
+    "constraint_conflict",
+    "no_trusted_candidate",
+  ];
+  const labels = {
+    comparable: "可显示并比较",
+    same_use_evidence_limited: "同用途，比较证据不足",
+    packaging_review_required: "需核对包装",
+    constraint_conflict: "硬性约束冲突",
+    no_trusted_candidate: "暂无可信候选",
+  };
+  order.forEach((stateName) => {
+    const count = Number(summary.counts?.[stateName] || 0);
+    if (!count) return;
+    const item = document.createElement("li");
+    item.dataset.state = stateName;
+    const number = document.createElement("strong");
+    number.textContent = String(count);
+    const label = document.createElement("span");
+    label.textContent = labels[stateName];
+    item.append(number, label);
+    elements.alternativeStateCounts.append(item);
+  });
+}
+
+function renderAlternativeResultState(resultState) {
+  const block = document.createElement("section");
+  block.className = "alternative-result-state";
+  const stateName = resultState?.state || "packaging_review_required";
+  block.dataset.state = stateName;
+  const title = document.createElement("strong");
+  title.textContent = resultState?.label || "需要核对包装后才能判断";
+  const detail = document.createElement("p");
+  detail.textContent = resultState?.detail || "当前证据不足以完成这项判断。";
+  const action = document.createElement("p");
+  action.className = "alternative-result-action";
+  action.textContent = `下一步：${resultState?.next_action || "请核对同一 SKU 的实物包装。"}`;
+  block.append(title, detail, action);
+  return block;
 }
 
 function renderAlternativeEmptyState(payload) {
@@ -2848,6 +3049,269 @@ function announce(message) {
   });
 }
 
+function readChatSession() {
+  try {
+    const value = JSON.parse(sessionStorage.getItem(CHAT_SESSION_STORAGE_KEY) || "null");
+    if (value?.sessionId && value?.accessToken) return value;
+  } catch {
+    sessionStorage.removeItem(CHAT_SESSION_STORAGE_KEY);
+  }
+  return null;
+}
+
+async function ensureChatSession() {
+  if (state.chatSession) {
+    const restored = await restoreChatSession();
+    if (restored) return state.chatSession;
+  }
+  const response = await fetch("/api/v1/chat/sessions", { method: "POST" });
+  const payload = await response.json();
+  if (!response.ok) throw new Error(payload.message || "无法开始对话。")
+  state.chatSession = {
+    sessionId: payload.session.session_id,
+    accessToken: payload.session.access_token,
+    expiresAt: payload.session.expires_at,
+  };
+  sessionStorage.setItem(CHAT_SESSION_STORAGE_KEY, JSON.stringify(state.chatSession));
+  elements.chatStatus.textContent = conversationConfigured
+    ? "已开始短期对话；内容将在 24 小时后自动清除。"
+    : "对话模型尚未配置；拍照识别等现有功能仍可使用。";
+  return state.chatSession;
+}
+
+async function restoreChatSession() {
+  try {
+    const response = await fetch(
+      `/api/v1/chat/sessions/${encodeURIComponent(state.chatSession.sessionId)}`,
+      { headers: { Authorization: `Bearer ${state.chatSession.accessToken}` } },
+    );
+    if (!response.ok) throw new Error("expired");
+    const payload = await response.json();
+    const messages = payload.session.messages || [];
+    if (messages.length && elements.chatLog.dataset.sessionId !== state.chatSession.sessionId) {
+      elements.chatLog.replaceChildren();
+      messages.forEach((message) => renderChatMessage(message.role, message.content));
+      elements.chatLog.dataset.sessionId = state.chatSession.sessionId;
+      scrollChatToEnd();
+    }
+    elements.chatStatus.textContent = conversationConfigured
+      ? "已恢复当前短期对话；内容将在 24 小时后自动清除。"
+      : "对话模型尚未配置；拍照识别等现有功能仍可使用。";
+    return true;
+  } catch {
+    sessionStorage.removeItem(CHAT_SESSION_STORAGE_KEY);
+    state.chatSession = null;
+    return false;
+  }
+}
+
+async function sendChatMessage(rawContent) {
+  const content = String(rawContent || "").trim();
+  if (!content || state.chatBusy) return;
+  if (content.length > 4000) {
+    elements.chatStatus.textContent = "一次最多输入 4000 个字符，请缩短后再发送。";
+    return;
+  }
+  const emergency = /呼吸困难|喘不过气|喉头水肿|喉咙肿|意识不清|昏厥|过敏性休克|anaphylaxis/i.test(content);
+  if (!emergency && !elements.chatRemoteConsent.checked) {
+    elements.chatStatus.textContent = "请先确认本次短期对话的数据处理方式。";
+    elements.chatRemoteConsent.focus();
+    return;
+  }
+  try {
+    await ensureChatSession();
+  } catch (error) {
+    elements.chatStatus.textContent = error.message;
+    return;
+  }
+
+  state.chatBusy = true;
+  elements.chatInput.value = "";
+  autoSizeChatInput();
+  elements.chatSend.disabled = true;
+  elements.chatSuggestions.hidden = true;
+  renderChatMessage("user", content);
+  const assistant = renderChatMessage("assistant", "", { pending: true });
+  const bubbleText = assistant.querySelector("p");
+  const bubbleMeta = assistant.querySelector("span");
+  elements.chatStatus.textContent = "正在理解你的问题…";
+  scrollChatToEnd();
+
+  try {
+    const attached = Boolean(
+      state.confirmedFields
+      && state.analysis?.request_id
+      && state.checkpointToken,
+    );
+    const response = await fetch(
+      `/api/v1/chat/sessions/${encodeURIComponent(state.chatSession.sessionId)}/messages`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${state.chatSession.accessToken}`,
+        },
+        body: JSON.stringify({
+          content,
+          workflow_request_id: attached ? state.analysis.request_id : null,
+          workflow_resume_token: attached ? state.checkpointToken : null,
+          remote_processing_consent: elements.chatRemoteConsent.checked,
+        }),
+      },
+    );
+    if (!response.ok) {
+      const payload = await response.json();
+      throw new Error(payload.message || "这次回答没有完成。")
+    }
+    if (!response.body) throw new Error("浏览器无法读取流式回答。")
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    let completed = false;
+    while (true) {
+      const { value, done } = await reader.read();
+      buffer += decoder.decode(value || new Uint8Array(), { stream: !done });
+      const blocks = buffer.split("\n\n");
+      buffer = blocks.pop() || "";
+      for (const block of blocks) {
+        const event = parseChatEvent(block);
+        if (!event) continue;
+        if (event.type === "status") {
+          elements.chatStatus.textContent = event.data.message || "正在回答…";
+        } else if (event.type === "tool") {
+          elements.chatStatus.textContent = event.data.message || "正在核对依据…";
+          bubbleMeta.textContent = event.data.message || "已核对依据";
+        } else if (event.type === "delta") {
+          assistant.classList.remove("is-pending");
+          bubbleText.textContent += event.data.text || "";
+          scrollChatToEnd();
+        } else if (event.type === "done") {
+          completed = true;
+          assistant.classList.remove("is-pending");
+          bubbleMeta.textContent = event.data.trusted_label_attached
+            ? "已参考当前确认标签"
+            : "一般标签知识 · 未关联具体商品";
+          elements.chatStatus.textContent = "回答完成。对话将在 24 小时后自动清除。";
+        } else if (event.type === "error") {
+          throw new Error(event.data.message || "这次回答没有完成。")
+        }
+      }
+      if (done) break;
+    }
+    if (!completed || !bubbleText.textContent.trim()) {
+      throw new Error("这次回答没有完整返回，请重试。")
+    }
+  } catch (error) {
+    assistant.classList.remove("is-pending");
+    assistant.classList.add("is-error");
+    bubbleText.textContent = error.message;
+    bubbleMeta.textContent = "你可以稍后重试，或先使用拍照识别功能";
+    elements.chatStatus.textContent = error.message;
+  } finally {
+    state.chatBusy = false;
+    elements.chatSend.disabled = false;
+    elements.chatSuggestions.hidden = false;
+    elements.chatInput.focus();
+    scrollChatToEnd();
+  }
+}
+
+function parseChatEvent(block) {
+  let type = "message";
+  const dataLines = [];
+  block.split("\n").forEach((line) => {
+    if (line.startsWith("event:")) type = line.slice(6).trim();
+    if (line.startsWith("data:")) dataLines.push(line.slice(5).trim());
+  });
+  if (!dataLines.length) return null;
+  try {
+    return { type, data: JSON.parse(dataLines.join("\n")) };
+  } catch {
+    return null;
+  }
+}
+
+function renderChatMessage(role, content, { pending = false } = {}) {
+  elements.chatLog.querySelector("[data-seed-message]")?.remove();
+  const article = document.createElement("article");
+  article.className = `chat-message chat-message--${role}`;
+  if (pending) article.classList.add("is-pending");
+  const avatar = document.createElement("div");
+  avatar.className = "chat-avatar";
+  avatar.setAttribute("aria-hidden", "true");
+  avatar.textContent = role === "assistant" ? "食" : "我";
+  const bubble = document.createElement("div");
+  bubble.className = "chat-bubble";
+  const text = document.createElement("p");
+  text.textContent = content;
+  const meta = document.createElement("span");
+  meta.textContent = pending ? "正在整理回答…" : role === "user" ? "已发送" : "食鉴回答";
+  bubble.append(text, meta);
+  article.append(avatar, bubble);
+  elements.chatLog.append(article);
+  return article;
+}
+
+async function clearConversation() {
+  if (!state.chatSession) {
+    resetChatSurface();
+    return;
+  }
+  if (!window.confirm("确定清除当前对话吗？标签分析和个人档案不会被删除。")) return;
+  try {
+    await fetch(
+      `/api/v1/chat/sessions/${encodeURIComponent(state.chatSession.sessionId)}`,
+      {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${state.chatSession.accessToken}` },
+      },
+    );
+  } finally {
+    state.chatSession = null;
+    sessionStorage.removeItem(CHAT_SESSION_STORAGE_KEY);
+    sessionStorage.removeItem(CHAT_CONSENT_SESSION_KEY);
+    elements.chatRemoteConsent.checked = false;
+    resetChatSurface();
+    elements.chatStatus.textContent = "当前对话已清除，可以开始一个新问题。";
+    announce("当前对话已清除");
+  }
+}
+
+function resetChatSurface() {
+  elements.chatLog.replaceChildren();
+  delete elements.chatLog.dataset.sessionId;
+  const seed = renderChatMessage(
+    "assistant",
+    "你可以直接问我配料、营养成分、包装声称，或者继续追问刚刚确认过的标签。",
+  );
+  seed.dataset.seedMessage = "";
+  seed.querySelector("span").textContent = "具体商品会以已确认标签为准；信息不足时我会直接告诉你。";
+}
+
+function updateChatContext() {
+  const attached = Boolean(state.confirmedFields && state.analysis?.request_id && state.checkpointToken);
+  if (!attached) {
+    elements.chatContextName.textContent = "未关联标签";
+    elements.chatContextDetail.textContent = "可以先问一般标签知识；涉及具体商品时，请先拍摄并确认标签。";
+    elements.chatScanAction.textContent = "去拍标签";
+    return;
+  }
+  elements.chatContextName.textContent = currentProductName();
+  elements.chatContextDetail.textContent = state.currentConstraints.length
+    ? `已关联确认标签，并带入 ${state.currentConstraints.length} 项本次个人设置。`
+    : "已关联确认标签；如需个人化判断，请先完成个人设置检查。";
+  elements.chatScanAction.textContent = "查看标签";
+}
+
+function autoSizeChatInput() {
+  elements.chatInput.style.height = "auto";
+  elements.chatInput.style.height = `${Math.min(elements.chatInput.scrollHeight, 144)}px`;
+}
+
+function scrollChatToEnd() {
+  elements.chatLog.scrollTo({ top: elements.chatLog.scrollHeight, behavior: "smooth" });
+}
+
 function initializeAccountFeatures() {
   elements.healthEntryDate.value = localDateValue(new Date());
   elements.healthStorageConsent.checked = state.healthHistoryConsent;
@@ -2874,12 +3338,13 @@ function revealAppTabbar() {
 }
 
 function switchAppView(view, options = {}) {
-  if (!["scan", "history", "user"].includes(view)) return;
+  if (!["scan", "chat", "history", "user"].includes(view)) return;
   state.appView = view;
   document.body.dataset.appView = view;
   elements.profileOnboarding.hidden = true;
   elements.advicePreview.hidden = true;
   elements.heroLayout.hidden = view !== "scan";
+  elements.chatView.hidden = view !== "chat";
   elements.historyView.hidden = view !== "history";
   elements.userView.hidden = view !== "user";
   elements.appTabbar.querySelectorAll("button[data-app-view]").forEach((button) => {
@@ -2891,6 +3356,12 @@ function switchAppView(view, options = {}) {
     closeHistoryDetail({ focus: false });
     renderScanHistory();
   }
+  if (view === "chat") {
+    updateChatContext();
+    ensureChatSession().catch(() => {
+      elements.chatStatus.textContent = "暂时无法开始对话，请稍后重试。";
+    });
+  }
   if (view === "user") {
     if (state.profile) renderScanProfile(state.profile);
     renderHealthHistory();
@@ -2898,11 +3369,17 @@ function switchAppView(view, options = {}) {
   if (options.scroll !== false) window.scrollTo({ top: 0, behavior: "smooth" });
   const focusTarget = view === "history"
     ? elements.historyView.querySelector("h1")
-    : view === "user" ? elements.userView.querySelector("h1") : elements.heroLayout;
+    : view === "chat" ? elements.chatView.querySelector("h1")
+      : view === "user" ? elements.userView.querySelector("h1") : elements.heroLayout;
   if (options.focus !== false) {
     focusTarget?.setAttribute("tabindex", "-1");
     focusTarget?.focus({ preventScroll: true });
-    announce(view === "scan" ? "已返回拍照识别" : view === "history" ? "已打开历史识别记录" : "已打开我的健康变化");
+    announce(
+      view === "scan" ? "已返回拍照识别"
+        : view === "history" ? "已打开历史识别记录"
+          : view === "chat" ? "已打开食品标签对话"
+            : "已打开我的健康变化",
+    );
   }
 }
 
@@ -3529,6 +4006,10 @@ async function loadHealthStatus() {
     if (health.processing_disclosure_verified !== true) {
       throw new Error("processing disclosure is not verified");
     }
+    conversationConfigured = health.conversation?.configured === true;
+    if (!conversationConfigured) {
+      elements.chatStatus.textContent = "对话模型尚未配置；拍照识别等现有功能仍可使用。";
+    }
     if (health.synthetic_ocr) {
       elements.ocrStatus.textContent = "演示 OCR";
       elements.ocrProofNote.innerHTML = "<strong>演示版</strong> · OCR 结果仅用于测试交互";
@@ -3548,6 +4029,7 @@ async function loadHealthStatus() {
     setUploadAvailability(true);
   } catch {
     processingDisclosureVerified = false;
+    conversationConfigured = false;
     elements.ocrStatus.textContent = "处理方式未确认 · 重试";
     elements.ocrProofNote.innerHTML = "<strong>暂不可上传</strong> · 无法确认图片会在哪里处理";
     setPrivacyStatus("处理位置无法确认；为保护你的标签图片，上传已暂停。点击状态按钮重试");
@@ -3570,6 +4052,9 @@ function plannerPrivacyCopy(health, imageCopy) {
   }
   if (health.rag?.remote_processing) {
     notices.push("法规查询和候选条款会发送至 OpenAI，用于语义检索与重排");
+  }
+  if (health.conversation?.remote_processing) {
+    notices.push("问问功能经同意后由 OpenAI 处理文字，不发送原图");
   }
   return notices.join("；");
 }

@@ -6,13 +6,19 @@ import argparse
 import json
 from pathlib import Path
 
-from food_label_agent.claims.models import ClaimConsistencyRequest, ClaimInterpretationRequest
+from food_label_agent.claims.models import (
+    ClaimConsistencyRequest,
+    ClaimInterpretationRequest,
+)
 from food_label_agent.claims.service import interpret_claim, verify_claim_consistency
-from food_label_agent.ingredients.explanations import IngredientExplanationRequest, explain_ingredient_with_evidence
+from food_label_agent.ingredients.explanations import (
+    IngredientExplanationRequest,
+    explain_ingredient_with_evidence,
+)
 from food_label_agent.ingredients.service import normalize_food_label_result
+from food_label_agent.observability.trace import RunTrace, aggregate_traces
 from food_label_agent.regulations.models import RegulationSearchRequest
 from food_label_agent.regulations.service import search_regulations
-from food_label_agent.observability.trace import RunTrace, aggregate_traces
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DATASET = ROOT / "docs/evaluation/internal_pilot_general_explanations_v1.json"

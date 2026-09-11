@@ -128,7 +128,7 @@ def run_evaluation(
         ocr_report = asyncio.run(evaluate_directory(ocr_images))
         components["ocr"] = _evaluate_ocr_release(ocr_report, profile=profile)
 
-    blockers = []
+    blockers: list[str] = []
     for component_name, result in components.items():
         blockers.extend(
             f"{component_name}:{value}" for value in result.get("release_blockers", [])
@@ -234,6 +234,8 @@ def _evaluate_production_alternatives() -> dict[str, Any]:
                 applicable_date=applicable_date,
                 minimum_eligible=3,
                 minimum_distinct_brands=2,
+                minimum_distinct_formulas=3,
+                minimum_verified_packaging_brands=2,
             )
         )
         cases.append(
@@ -251,6 +253,8 @@ def _evaluate_production_alternatives() -> dict[str, Any]:
                 ),
                 minimum_effective_display_rate=minimum_effective,
                 minimum_distinct_brands=2,
+                minimum_distinct_formulas=3,
+                minimum_verified_packaging_brands=2,
             )
         )
         for concern in (
@@ -270,6 +274,8 @@ def _evaluate_production_alternatives() -> dict[str, Any]:
                     minimum_target_comparable_rate=minimum_comparable,
                     minimum_effective_display_rate=minimum_effective,
                     minimum_distinct_brands=2,
+                    minimum_distinct_formulas=3,
+                    minimum_verified_packaging_brands=2,
                 )
             )
     catalog = OfficialChinaCatalog()
@@ -287,14 +293,44 @@ def _evaluate_production_alternatives() -> dict[str, Any]:
         "coverage_rate": packaging_rate,
         "minimum_rate": minimum_packaging_rate,
     }
+    result["catalog_evidence_freshness"] = {
+        "expired_count": int(coverage.get("expired_evidence_count") or 0),
+        "expired_rate": float(coverage.get("expired_evidence_rate") or 0.0),
+        "stale_count": int(coverage.get("stale_evidence_count") or 0),
+        "stale_rate": float(coverage.get("stale_evidence_rate") or 0.0),
+        "metrics_as_of": coverage.get("metrics_as_of"),
+    }
+    purchase_rate = float(coverage.get("purchase_availability_rate") or 0.0)
+    minimum_purchase_rate = float(
+        os.getenv("FOOD_LABEL_MIN_PURCHASE_AVAILABILITY_RATE", "1.0")
+    )
+    result["catalog_purchase_availability"] = {
+        "verified_count": int(coverage.get("current_purchase_evidence_count") or 0),
+        "total": total,
+        "availability_rate": purchase_rate,
+        "minimum_rate": minimum_purchase_rate,
+    }
+    additional_blockers: list[str] = []
+    if coverage.get("expired_evidence_count"):
+        additional_blockers.append("official_catalog_contains_expired_evidence")
+    if coverage.get("stale_evidence_count"):
+        additional_blockers.append("official_catalog_contains_stale_evidence")
+    if purchase_rate < minimum_purchase_rate:
+        additional_blockers.append("purchase_availability_below_minimum")
     if packaging_rate < minimum_packaging_rate:
         result["release_blockers"] = list(
             dict.fromkeys(
                 [
                     *result["release_blockers"],
                     "official_packaging_snapshot_coverage_below_minimum",
+                    *additional_blockers,
                 ]
             )
+        )
+        result["evaluation_passed"] = False
+    elif additional_blockers:
+        result["release_blockers"] = list(
+            dict.fromkeys([*result["release_blockers"], *additional_blockers])
         )
         result["evaluation_passed"] = False
     return result
@@ -321,6 +357,26 @@ def _evaluate_deployment_config(settings: RAG2Settings) -> dict[str, Any]:
         "https_public_url": os.getenv("FOOD_LABEL_PUBLIC_BASE_URL", "").startswith(
             "https://"
         ),
+        "trusted_hosts": bool(os.getenv("FOOD_LABEL_ALLOWED_HOSTS", "").strip())
+        and "*" not in os.getenv("FOOD_LABEL_ALLOWED_HOSTS", "").split(","),
+        "privacy_policy_url": os.getenv(
+            "FOOD_LABEL_PRIVACY_POLICY_URL", ""
+        ).startswith("https://"),
+        "terms_url": os.getenv("FOOD_LABEL_TERMS_URL", "").startswith("https://"),
+        "legal_review": bool(os.getenv("FOOD_LABEL_LEGAL_REVIEW_ID", "").strip()),
+        "processor_agreement": bool(
+            os.getenv("FOOD_LABEL_PROCESSOR_AGREEMENT_ID", "").strip()
+        ),
+        "breach_contact": bool(
+            os.getenv("FOOD_LABEL_PRIVACY_CONTACT", "").strip()
+        ),
+        "retention_policy": os.getenv(
+            "FOOD_LABEL_MEMORY_RETENTION_DAYS", ""
+        ).isdigit(),
+        "minor_access_policy": os.getenv(
+            "FOOD_LABEL_MINOR_ACCESS_POLICY", ""
+        )
+        in {"blocked", "guardian_verified"},
     }
     blockers = [f"deployment_{name}_invalid" for name, passed in checks.items() if not passed]
     return {

@@ -10,7 +10,7 @@ STATIC_DIR = (
 def test_result_page_labels_portion_as_neutral_label_math() -> None:
     html = (STATIC_DIR / "index.html").read_text(encoding="utf-8")
 
-    assert "食用量换算" in html
+    assert "食用量判断与关键营养信息" in html
     assert "不提供个体化食用量建议" in html
     assert 'data-portion-multiplier="0.5"' in html
     assert 'data-portion-multiplier="2"' in html
@@ -31,12 +31,18 @@ def test_portion_guidance_uses_only_packaging_basis_for_label_math() -> None:
     assert "function updatePortionAmount(amount)" in script
     assert "Number(fact.value) * (factor ?? 1)" in script
     assert 'elements.portionControls.hidden = true' in script
-    assert 'elements.portionKind.textContent = "包装明确标示的一份"' in script
-    assert 'elements.portionKind.textContent = "按标签标示口径换算"' in script
+    assert 'elements.portionValue.textContent = "包装份量不等于安全食用量"' in script
+    assert 'elements.portionValue.textContent = "无法从标签确定安全食用量"' in script
     assert 'elements.portionKind.textContent = "无法换算食用量"' in script
     assert 'function applyConfirmedPortionCategory(category)' in script
     assert 'heading: "未发现与当前设置冲突"' in script
-    assert 'elements.safetyTitle.textContent = "标签重点已整理"' in script
+    assert 'heading: "暂时无法判断是否适合你"' in script
+    assert "function healthFocusDecision(nutrition)" in script
+    assert "function healthPriorityNutrients(healthConcerns)" in script
+    assert "function healthPrimaryNutrients(healthConcerns)" in script
+    assert "标签未单列" in script
+    assert "不能把这款食品判为" in script
+    assert "只是营养表的计算基准" in script
     assert "context.healthFocusOnly" in script
     assert "function portionAmountAssessment(reference, amount)" in script
     assert 'elements.portionAssessment.dataset.state = assessment.state' in script

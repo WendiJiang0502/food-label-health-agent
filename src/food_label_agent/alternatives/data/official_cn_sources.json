@@ -230,5 +230,279 @@
     "product_seed_urls": ["https://www.meiji.com.cn/product/cookie-product.html"],
     "allowed_hosts": ["www.meiji.com.cn", "meiji.com.cn"],
     "product_path_markers": ["/product/"]
-  }
+  },
+  {
+    "source_id": "mengniu-china-dairy-official",
+    "brand": "蒙牛",
+    "category": "dairy",
+    "review_target_fields": ["糖", "饱和脂肪"],
+    "discovery_urls": ["https://www.mengniu.com.cn/product/brand/"],
+    "product_seed_urls": ["https://www.mengniu.com.cn/product/brand/"],
+    "allowed_hosts": ["www.mengniu.com.cn", "mengniu.com.cn"],
+    "product_path_markers": ["/product/"]
+  },
+  {
+    "source_id": "mengniu-china-frozen-official",
+    "brand": "蒙牛",
+    "category": "frozen_food",
+    "review_target_fields": ["糖", "饱和脂肪"],
+    "discovery_urls": ["https://www.mengniu.com.cn/product/brand/"],
+    "product_seed_urls": ["https://www.mengniu.com.cn/product/brand/"],
+    "allowed_hosts": ["www.mengniu.com.cn", "mengniu.com.cn"],
+    "product_path_markers": ["/product/"]
+  },
+  {
+    "source_id": "unipresident-china-noodles-official",
+    "brand": "统一",
+    "category": "instant_noodles",
+    "review_target_fields": ["饱和脂肪"],
+    "discovery_urls": ["https://www.uni-president.com.cn/products-tongyimian.asp"],
+    "product_seed_urls": ["https://www.uni-president.com.cn/products-tongyimian.asp"],
+    "allowed_hosts": ["www.uni-president.com.cn", "uni-president.com.cn"],
+    "product_path_markers": [".asp"]
+  },
+  {
+    "source_id": "synear-china-frozen-official",
+    "brand": "思念",
+    "category": "frozen_food",
+    "review_target_fields": ["糖", "饱和脂肪"],
+    "discovery_urls": ["https://www.synear.cn/"],
+    "product_seed_urls": ["https://www.synear.cn/"],
+    "allowed_hosts": ["www.synear.cn", "synear.cn"],
+    "product_path_markers": ["a=lists", "a=show", "/product"]
+  },
+ {
+   "source_id": "shuanghui-china-meat-official",
+    "brand": "双汇",
+    "category": "processed_meat",
+    "review_target_fields": ["饱和脂肪"],
+    "discovery_urls": ["https://www.shuanghui.net/page-32.html"],
+    "product_seed_urls": ["https://www.shuanghui.net/page-32.html"],
+    "seed_products": [
+      {
+       "display_name": "双汇王中王火腿肠",
+       "sku": "6902890228325",
+       "specification": "240克",
+        "source_url": "https://www.shuanghui.net/page-32.html",
+        "packaging_photo_url": "https://www.lingshi.us/cdn/shop/products/O1CN012LyaSofQwXMQ7pu__3332089761_800x.jpg?v=1600630136"
+      }
+    ],
+   "allowed_hosts": ["www.shuanghui.net", "shuanghui.net"],
+    "product_path_markers": ["/product", "/shop", "/page-"]
+  },
+  {
+    "source_id": "haday-china-condiment-official",
+    "brand": "海天",
+    "category": "sauce_condiment",
+    "review_target_fields": ["糖"],
+    "discovery_urls": ["https://www.haday.com/product-family/"],
+    "product_seed_urls": ["https://www.haday.com/product-family/"],
+    "allowed_hosts": ["www.haday.com", "haday.com"],
+    "product_path_markers": ["/product"]
+  },
+  {
+    "source_id": "nongfu-china-drink-official",
+    "brand": "农夫山泉",
+    "category": "drink",
+    "review_target_fields": ["糖"],
+    "discovery_urls": ["https://www.nongfuspring.com/mobile/goods/detail-all.html?id=1&pid=2"],
+    "product_seed_urls": [
+      "https://www.nongfuspring.com/mobile/goods/detail-all.html?id=1&pid=2"
+    ],
+    "allowed_hosts": ["www.nongfuspring.com", "nongfuspring.com"],
+    "product_path_markers": ["/product", "/index", "/goods/"]
+  },
+  {
+    "source_id": "three-squirrels-china-snack-official",
+    "brand": "三只松鼠",
+    "category": "snack",
+    "review_target_fields": ["糖", "饱和脂肪"],
+    "discovery_urls": ["https://oow.3songshu.com/product/display"],
+    "product_seed_urls": ["https://oow.3songshu.com/product/display"],
+    "seed_products": [
+      {
+        "display_name": "手剥巴旦木",
+        "sku": "6956511998326",
+        "specification": "120克",
+        "source_url": "https://oow.3songshu.com/product/display"
+      },
+      {
+        "display_name": "夏威夷果",
+        "sku": "6956511998289",
+        "specification": "100克",
+        "source_url": "https://oow.3songshu.com/product/display"
+      },
+      {
+        "display_name": "紫皮腰果",
+        "sku": "6956511998364",
+        "specification": "120克",
+        "source_url": "https://oow.3songshu.com/product/display"
+      },
+      {
+        "display_name": "碧根果",
+        "sku": "6956511998302",
+        "specification": "120克",
+        "source_url": "https://oow.3songshu.com/product/display"
+      },
+      {
+        "display_name": "开心果",
+        "sku": "6956511998340",
+        "specification": "100克",
+        "source_url": "https://oow.3songshu.com/product/display"
+      },
+      {
+        "display_name": "炭烧腰果",
+        "sku": "6942209633495",
+        "specification": "120克",
+        "source_url": "https://oow.3songshu.com/product/display"
+      },
+      {
+        "display_name": "奶香烤核桃（奶香味）",
+        "sku": "6942209633488",
+        "specification": "150克",
+        "source_url": "https://oow.3songshu.com/product/display"
+      },
+      {
+        "display_name": "通用款每日坚果",
+        "sku": "6937506805478",
+        "specification": "750克",
+        "source_url": "https://oow.3songshu.com/product/display"
+      }
+    ],
+    "allowed_hosts": ["oow.3songshu.com"],
+    "product_path_markers": ["/product/"]
+  },
+  {
+    "source_id": "three-squirrels-china-biscuit-official",
+    "brand": "三只松鼠",
+    "category": "biscuit",
+    "review_target_fields": ["糖", "饱和脂肪"],
+    "discovery_urls": ["https://oow.3songshu.com/product/display"],
+    "product_seed_urls": ["https://oow.3songshu.com/product/display"],
+    "allowed_hosts": ["oow.3songshu.com"],
+    "product_path_markers": ["/product/"]
+  },
+  {
+    "source_id": "panpan-china-bread-official",
+    "brand": "盼盼",
+    "category": "bread",
+    "review_target_fields": ["糖", "饱和脂肪"],
+    "discovery_urls": ["https://www.panpanfood.com/html/products.html"],
+    "product_seed_urls": ["https://www.panpanfood.com/html/products.html"],
+    "allowed_hosts": ["www.panpanfood.com", "panpanfood.com"],
+    "product_path_markers": ["/html/product"]
+  },
+  {
+    "source_id": "wgmf-china-cereal-official",
+    "brand": "五谷磨房",
+    "category": "breakfast_cereal",
+    "review_target_fields": ["糖", "饱和脂肪"],
+    "discovery_urls": ["https://wgmf.com/index.aspx"],
+    "product_seed_urls": ["https://wgmf.com/index.aspx"],
+    "allowed_hosts": ["wgmf.com", "www.wgmf.com"],
+    "product_path_markers": ["product", ".aspx"]
+  },
+  {
+    "source_id": "nanfang-stone-ground-sesame-official-label",
+    "brand": "南方黑芝麻",
+    "category": "breakfast_cereal",
+    "review_target_fields": ["糖", "饱和脂肪"],
+    "discovery_urls": [
+      "https://32034701.s21i.faiusr.com/4/ABUIABAEGAAg_eKMwwYokKm-2wQwsQs4zA4.png"
+    ],
+    "product_seed_urls": [
+      "https://32034701.s21i.faiusr.com/4/ABUIABAEGAAg_eKMwwYokKm-2wQwsQs4zA4.png"
+    ],
+    "seed_products": [
+      {
+        "display_name": "南方石磨黑芝麻糊",
+        "sku": "6901333388886",
+        "specification": "315克（35克×9袋）",
+        "source_url": "https://32034701.s21i.faiusr.com/4/ABUIABAEGAAg_eKMwwYokKm-2wQwsQs4zA4.png",
+        "official_label_artwork_url": "https://32034701.s21i.faiusr.com/4/ABUIABAEGAAg_eKMwwYokKm-2wQwsQs4zA4.png"
+      }
+    ],
+    "allowed_hosts": ["32034701.s21i.faiusr.com"],
+    "product_path_markers": ["/4/"]
+  },
+  {
+    "source_id": "gulong-china-seafood-official",
+    "brand": "古龙",
+    "category": "seafood",
+    "review_target_fields": ["饱和脂肪"],
+    "discovery_urls": ["https://www.gulongfoods.com/"],
+    "product_seed_urls": ["https://www.gulongfoods.com/"],
+    "allowed_hosts": ["www.gulongfoods.com", "gulongfoods.com"],
+    "product_path_markers": ["/product"]
+  },
+  {
+    "source_id": "gulong-china-canned-official-store",
+    "brand": "古龙",
+    "category": "canned_food",
+    "source_type": "official_flagship_store",
+    "review_target_fields": ["饱和脂肪"],
+    "discovery_urls": ["https://gulong.jd.com/view_search-190540-0-5-1-24-1.html"],
+    "product_seed_urls": ["https://gulong.jd.com/view_search-190540-0-5-1-24-1.html"],
+    "allowed_hosts": ["gulong.jd.com", "item.jd.com", "mall.jd.com"],
+    "product_path_markers": [".html"],
+    "official_store_url": "https://gulong.jd.com/",
+    "official_store_name": "古龙食品官方旗舰店"
+  },
+ {
+   "source_id": "zihaiguo-youzan-official-store",
+    "brand": "自嗨锅",
+    "category": "prepared_meal",
+    "source_type": "official_flagship_store",
+    "review_target_fields": ["糖", "饱和脂肪"],
+    "discovery_urls": ["https://detail.youzan.com/show/goods?alias=3ewqnzjrtiy3h"],
+    "product_seed_urls": ["https://detail.youzan.com/show/goods?alias=3ewqnzjrtiy3h"],
+    "allowed_hosts": ["detail.youzan.com"],
+    "product_path_markers": ["/show/goods"],
+   "official_store_url": "https://detail.youzan.com/show/goods?alias=3ewqnzjrtiy3h",
+   "official_store_name": "自嗨锅旗舰店（微信认证）"
+  },
+  {
+    "source_id": "chubang-yipinxian-official",
+    "brand": "厨邦",
+    "category": "sauce_condiment",
+    "review_target_fields": ["糖", "饱和脂肪"],
+    "discovery_urls": [
+      "https://m.chubang.cn/displayproduct.html?id=3299801674175808"
+    ],
+    "product_seed_urls": [
+      "https://m.chubang.cn/displayproduct.html?id=3299801674175808"
+    ],
+    "seed_products": [
+      {
+       "display_name": "厨邦一品鲜酱油",
+       "sku": "6902902009324",
+       "specification": "500毫升",
+        "source_url": "https://m.chubang.cn/displayproduct.html?id=3299801674175808",
+        "packaging_photo_url": "https://imgservice.suning.cn/uimg1/b2c/image/kWk3_aKDfAloxy23gu52kA.jpg_800w_800h_4e_80Q_is"
+      }
+    ],
+    "allowed_hosts": ["www.chubang.cn", "chubang.cn", "m.chubang.cn"],
+    "product_path_markers": ["/displayproduct.html"],
+    "official_store_url": "https://mall.jd.com/view_search-1953749-28819257-99-1-20-1.html",
+    "official_store_name": "厨邦旗舰店"
+  },
+  {
+    "source_id": "maling-delicious-luncheon-official",
+    "brand": "上海梅林",
+    "category": "canned_food",
+    "review_target_fields": ["糖", "饱和脂肪"],
+    "discovery_urls": ["https://www.brightmeat.com/center/1.html"],
+    "product_seed_urls": ["https://www.brightmeat.com/center/1.html"],
+    "seed_products": [
+      {
+        "display_name": "上海梅林美味午餐肉罐头",
+        "sku": "6902131112949",
+        "specification": "340克",
+        "source_url": "https://www.brightmeat.com/center/1.html",
+        "official_label_artwork_url": "https://img.alicdn.com/i4/2995853506/O1CN0197k9iz1blnD2EkHsj_!!2995853506.jpg"
+      }
+    ],
+    "allowed_hosts": ["www.brightmeat.com", "brightmeat.com"],
+    "product_path_markers": ["/center/"]
+ }
 ]

@@ -8,8 +8,9 @@ import os
 import secrets
 import sqlite3
 import threading
+from contextlib import suppress
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timedelta
 from hashlib import sha256
 from pathlib import Path
 from typing import Any
@@ -119,6 +120,14 @@ class SQLiteCheckpointStore:
             return True
         path = Path(self._path).expanduser()
         return path.exists() and os.access(path.parent, os.W_OK)
+
+    def close(self) -> None:
+        with self._lock:
+            self._connection.close()
+
+    def __del__(self) -> None:
+        with suppress(Exception):  # interpreter shutdown may tear down locks
+            self.close()
 
     def save(
         self, state: AgentState, *, resume_token: str | None = None
@@ -274,6 +283,14 @@ class SQLiteMemoryStore:
         path = Path(self._path).expanduser()
         return path.exists() and os.access(path.parent, os.W_OK)
 
+    def close(self) -> None:
+        with self._lock:
+            self._connection.close()
+
+    def __del__(self) -> None:
+        with suppress(Exception):  # interpreter shutdown may tear down locks
+            self.close()
+
     def grant_consent(
         self, profile_id: str, purpose: str, *, explicit_consent: bool
     ) -> ConsentReceipt:
@@ -392,6 +409,61 @@ class SQLiteMemoryStore:
             )
             self._connection.commit()
             return int(cursor.rowcount)
+
+    def export_profile(self, profile_id: str, access_token: str) -> dict[str, Any]:
+        """Return the complete user-visible profile payload without secret hashes."""
+
+        consent = self._authorize(profile_id, access_token)
+        with self._lock:
+            receipt = self._connection.execute(
+                "SELECT consent_id, profile_id, purpose, granted_at, revoked_at "
+                "FROM memory_consents WHERE consent_id = ?",
+                (consent["consent_id"],),
+            ).fetchone()
+        return {
+            "schema_version": 1,
+            "exported_at": _now(),
+            "consent": dict(receipt) if receipt else None,
+            "items": self.list_items(profile_id, access_token),
+        }
+
+    def delete_profile(self, profile_id: str, access_token: str) -> dict[str, int]:
+        """Hard-delete one capability-authorized profile and its consent records."""
+
+        self._authorize(profile_id, access_token)
+        with self._lock:
+            items = self._connection.execute(
+                "DELETE FROM memory_items WHERE profile_id = ?",
+                (profile_id,),
+            ).rowcount
+            consents = self._connection.execute(
+                "DELETE FROM memory_consents WHERE profile_id = ?",
+                (profile_id,),
+            ).rowcount
+            self._connection.commit()
+        return {"memory_items": int(items), "consents": int(consents)}
+
+    def purge_expired(self, *, retention_days: int) -> dict[str, int]:
+        """Delete memory beyond the configured retention window and old revocations."""
+
+        if not 1 <= retention_days <= 3650:
+            raise ValueError("retention_days must be between 1 and 3650")
+        now = datetime.now().astimezone()
+        item_cutoff = (now - timedelta(days=retention_days)).isoformat()
+        consent_cutoff = (now - timedelta(days=max(retention_days, 90))).isoformat()
+        with self._lock:
+            items = self._connection.execute(
+                "DELETE FROM memory_items WHERE updated_at < ?",
+                (item_cutoff,),
+            ).rowcount
+            consents = self._connection.execute(
+                "DELETE FROM memory_consents WHERE revoked_at IS NOT NULL "
+                "AND revoked_at < ? AND consent_id NOT IN "
+                "(SELECT DISTINCT consent_id FROM memory_items)",
+                (consent_cutoff,),
+            ).rowcount
+            self._connection.commit()
+        return {"memory_items": int(items), "revoked_consents": int(consents)}
 
     def _authorize(self, profile_id: str, access_token: str) -> sqlite3.Row:
         profile_id = _validated_identifier(profile_id, "profile_id")

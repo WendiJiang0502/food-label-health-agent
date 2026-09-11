@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import json
+from datetime import UTC, date, datetime, timedelta
 from hashlib import sha256
 from typing import Any
 
 from food_label_agent.ingredients.api_models import ConstraintInput
+from food_label_agent.nutrition.normalization import normalize_nutrition_facts
 
 from .models import ProductRecord
 
@@ -50,7 +52,7 @@ _FIELD_LABELS = {
     "sugars": "糖",
     "dietary_fiber": "膳食纤维",
     "sodium": "钠",
-    "packaging_snapshot": "可复核的包装配料/过敏原图片",
+    "packaging_snapshot": "可复核的实物包装或厂家完整背标图片",
 }
 
 _HEALTH_REQUIREMENTS = {
@@ -76,7 +78,7 @@ def label_content_hash(product: ProductRecord) -> str:
     """Return the canonical hash used to detect reviewed label mutations."""
 
     label = product.label
-    payload = {
+    payload: dict[str, Any] = {
         "ingredients_text": label.ingredients_text,
         "allergen_statement": label.allergen_statement or "",
         "nutrition_table_text": label.nutrition_table_text or "",
@@ -151,12 +153,13 @@ def audit_product_label(product: ProductRecord) -> dict[str, Any]:
         ingredient_snapshot_ready and nutrition_snapshot_ready
     )
     # Keep the legacy field as the text-table completeness signal. Consumers must
-    # use complete_packaging_snapshot_ready for physical-package verification.
+    # use complete_packaging_snapshot_ready for physical or manufacturer-issued
+    # complete-label verification.
     full_label_ready = transcribed_label_ready
     if not ingredient_snapshot_ready:
-        missing_fields.append("双人复核实物包装配料图")
+        missing_fields.append("双人复核实物或厂家完整包装配料图")
     if not nutrition_snapshot_ready:
-        missing_fields.append("双人复核实物包装营养图")
+        missing_fields.append("双人复核实物或厂家完整包装营养图")
     base_evidence_status = (
         "complete"
         if transcribed_label_ready and complete_packaging_snapshot_ready
@@ -188,6 +191,11 @@ def audit_product_label(product: ProductRecord) -> dict[str, Any]:
         "official_page_snapshot_count": sum(
             snapshot.review_status == "verified"
             and snapshot.artifact_type == "official_page_capture"
+            for snapshot in label.packaging_snapshots
+        ),
+        "official_label_artwork_snapshot_count": sum(
+            snapshot.review_status == "verified"
+            and snapshot.artifact_type == "official_label_artwork"
             for snapshot in label.packaging_snapshots
         ),
         "evidence_status": {
@@ -253,9 +261,15 @@ def assess_product_eligibility(
                 safety_required.add("packaging_snapshot")
 
     available = _available_fields(product)
+    comparison_bounds = _derived_comparison_bounds(product)
+    comparison_available = available | set(comparison_bounds)
     missing = sorted(safety_required - available, key=_field_sort_key)
-    missing_comparison = sorted(comparison_requested - available, key=_field_sort_key)
-    verified_comparison = sorted(comparison_requested & available, key=_field_sort_key)
+    missing_comparison = sorted(
+        comparison_requested - comparison_available, key=_field_sort_key
+    )
+    verified_comparison = sorted(
+        comparison_requested & comparison_available, key=_field_sort_key
+    )
     full_label_ready = bool(audit["full_label_ready"])
     physical_package_ready = bool(audit["complete_packaging_snapshot_ready"])
     eligible = not missing
@@ -284,6 +298,15 @@ def assess_product_eligibility(
         "verified_comparison_fields": [
             _FIELD_LABELS.get(item, item) for item in verified_comparison
         ],
+        "bounded_comparison_fields": [
+            {
+                **comparison_bounds[item],
+                "label": _FIELD_LABELS.get(item, item),
+            }
+            for item in sorted(
+                comparison_requested & set(comparison_bounds), key=_field_sort_key
+            )
+        ],
         "missing_comparison_fields": [
             _FIELD_LABELS.get(item, item) for item in missing_comparison
         ],
@@ -301,10 +324,27 @@ def assess_product_eligibility(
     }
 
 
-def summarize_label_coverage(products: list[ProductRecord]) -> dict[str, Any]:
+def summarize_label_coverage(
+    products: list[ProductRecord],
+    *,
+    applicable_date: date | None = None,
+    maximum_source_age_days: int = 550,
+) -> dict[str, Any]:
+    review_date = applicable_date or datetime.now(UTC).date()
     audits = [audit_product_label(product) for product in products]
     complete = sum(item["full_label_ready"] for item in audits)
     gate_passed = sum(item["current_evidence_gate_passed"] for item in audits)
+    expired = sum(
+        bool(product.label.valid_through and review_date > product.label.valid_through)
+        for product in products
+    )
+    stale = sum(
+        review_date
+        - (product.label.source_verified_at or product.label.confirmed_at)
+        > timedelta(days=maximum_source_age_days)
+        for product in products
+    )
+    purchasable = sum(_purchase_evidence_current(product, review_date) for product in products)
     return {
         "total": len(products),
         "sku_count": sum(bool(product.sku) for product in products),
@@ -338,7 +378,27 @@ def summarize_label_coverage(products: list[ProductRecord]) -> dict[str, Any]:
         ),
         "needs_review_count": len(products) - complete,
         "coverage_rate": complete / len(products) if products else 0.0,
+        "expired_evidence_count": expired,
+        "expired_evidence_rate": expired / len(products) if products else 0.0,
+        "stale_evidence_count": stale,
+        "stale_evidence_rate": stale / len(products) if products else 0.0,
+        "current_purchase_evidence_count": purchasable,
+        "purchase_availability_rate": purchasable / len(products) if products else 0.0,
+        "metrics_as_of": review_date.isoformat(),
     }
+
+
+def _purchase_evidence_current(product: ProductRecord, review_date: date) -> bool:
+    evidence = product.purchase_availability
+    if not evidence or not product.sku or not product.specification:
+        return False
+    return bool(
+        evidence.in_stock
+        and evidence.sku == product.sku
+        and evidence.normalized_specification == product.specification
+        and evidence.checked_at.date() <= review_date <= evidence.valid_through.date()
+        and "CN" in evidence.delivery_regions
+    )
 
 
 def summarize_context_eligibility(
@@ -394,6 +454,53 @@ def _nutrient_names(product: ProductRecord) -> set[str]:
     }
 
 
+def _derived_comparison_bounds(product: ProductRecord) -> dict[str, dict[str, Any]]:
+    """Return conservative bounds that follow directly from a declared zero value.
+
+    A per-100 g/mL total-fat value of zero is not treated as an exact zero. Under
+    GB 28050-2011 it means total fat is at or below the 0.5 g zero boundary;
+    saturated fat cannot exceed total fat. This supports a bounded comparison but
+    never satisfies an exact numeric safety limit or a physical-package gate.
+    """
+
+    label = product.label
+    normalized = normalize_nutrition_facts(
+        label.nutrition_table_text,
+        basis_text=label.nutrition_basis_text,
+        rows=label.nutrition_rows,
+    )
+    if normalized is None or normalized.basis is None:
+        return {}
+    if normalized.basis.type not in {"per_100g", "per_100ml"}:
+        return {}
+    total_fat = next(
+        (item for item in normalized.nutrients if item.canonical_name == "fat"),
+        None,
+    )
+    saturated_fat = next(
+        (
+            item
+            for item in normalized.nutrients
+            if item.canonical_name == "saturated_fat"
+        ),
+        None,
+    )
+    if total_fat is None or total_fat.value != 0 or saturated_fat is not None:
+        return {}
+    return {
+        "saturated_fat": {
+            "nutrient": "saturated_fat",
+            "qualifier": "upper_bound",
+            "value": 0.5,
+            "unit": "g",
+            "basis": normalized.basis.type,
+            "derivation": "saturated_fat_not_greater_than_declared_total_fat",
+            "regulation_reference": "GB 28050-2011:C.1",
+            "source_evidence_id": label.evidence_id,
+        }
+    }
+
+
 def _verified_packaging_kinds(product: ProductRecord) -> set[str]:
     """Return physical-package evidence kinds bound to this exact SKU/spec."""
 
@@ -403,7 +510,7 @@ def _verified_packaging_kinds(product: ProductRecord) -> set[str]:
         snapshot.evidence_kind
         for snapshot in product.label.packaging_snapshots
         if snapshot.review_status == "verified"
-        and snapshot.artifact_type == "packaging_photo"
+        and snapshot.artifact_type in {"packaging_photo", "official_label_artwork"}
         and snapshot.sku == product.sku
         and snapshot.specification == product.specification
         and snapshot.secondary_reviewer_id
