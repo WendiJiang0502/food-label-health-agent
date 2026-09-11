@@ -18,7 +18,7 @@
 | 法规检索 | 按中国法域、适用日期和标准版本过滤；BM25 + Dense Embedding 经 RRF 融合后独立重排 |
 | 替代品 | 先确认同类用途，再逐一重跑相同硬约束；证据不完整或风险未知的候选不会进入推荐 |
 | 可恢复工作流 | `AgentState`、SQLite 检查点、能力令牌、节点轨迹和 MCP 工具轨迹 |
-| 自由对话 | `gpt-5.6-terra` 多轮对话；只能调用受控标签工具，具体商品结论复用已确认工作流与最终安全边界 |
+| 自由对话 | `gpt-5.6-terra` 多轮对话；结构化记住最多两个已确认商品，支持证据化对比和对话式纠错，只能调用受控标签工具 |
 | 消费者网页 | 首次档案设置、回访健康主页、拍照识别、结果证据、滑动概览、历史摘要与历史详情 |
 | 发布门禁 | 统一评测过敏原、OCR、RAG、Agent、替代品与最终安全门，并固定版本信息 |
 
@@ -234,9 +234,9 @@ export FOOD_LABEL_CHAT_RETENTION_HOURS=24
 food-label-platform
 ```
 
-首版工具白名单仅包括当前标签的法规检索、配料解释和包装声称一致性检查。通用网页搜索、代码执行、文件系统、购买行为和未经复核的商品推荐不向对话模型开放。
+工具白名单包括当前标签的法规检索、配料解释、包装声称一致性检查、两个已确认商品的同口径对比，以及不自动写回的标签纠错指引。通用网页搜索、代码执行、任意文件访问、购买行为和未经复核的商品推荐不向对话模型开放。
 
-M7 对话发布门槛包含 30 个可回归案例。默认模式使用脚本化 Provider 验证紧急本地响应、可信上下文、风险保留、输出措辞和工具白名单；`--live` 只让标记过的少量案例调用当前配置模型。两种模式都不会把回答文本写入评测报告。
+M8 对话发布门槛包含 112 个可回归场景，覆盖多轮指代、长对话、用户矛盾、标签提示词注入、未确认事实、法规/模型工具故障、风险绕过、双商品对比和对话纠错。安全门由本地程序规则判定，不依赖另一个模型打分；`--live` 只让标记过的高价值案例调用当前配置模型。两种模式都不会把回答文本写入评测报告。
 
 ```bash
 food-label-conversation-eval \
@@ -246,11 +246,19 @@ food-label-conversation-eval \
 food-label-conversation-eval --live \
   --json artifacts/conversation-evaluation-live.json \
   --markdown artifacts/conversation-evaluation-live.md
+
+food-label-conversation-models \
+  --baseline gpt-5.6-terra \
+  --candidate gpt-5.6-luna \
+  --json artifacts/conversation-model-comparison.json
+
+# 补充的 OpenAI Evals 云端评分，不替代本地硬安全门
+food-label-openai-evals --model gpt-5.6-terra
 ```
 
-本地启动脚本默认把不含对话原文的运行指标写到 `~/.local/share/food-label-health-agent/conversation-metrics.jsonl`。指标只包含匿名会话标识、模型、边界、延迟、Token 数量和工具名称/状态；可用 `FOOD_LABEL_CHAT_METRICS_PATH` 更改位置或留空关闭。
+本地启动脚本默认把不含对话原文的运行指标写到 `~/.local/share/food-label-health-agent/conversation-metrics.jsonl`。指标只包含匿名会话标识、模型/推理强度、边界、首 Token 和完整延迟、Token/估算成本、工具名称/状态、已使用的确认字段、意图与错误分类；不记录对话原文、标签原文或真实会话 ID。可用 `FOOD_LABEL_CHAT_METRICS_PATH` 更改位置或留空关闭。
 
-2026-09-11 的首次真实模型验收结果见 [`docs/evaluation/CONVERSATION_AGENT_EVALUATION_2026-09-11.md`](docs/evaluation/CONVERSATION_AGENT_EVALUATION_2026-09-11.md)。
+2026-09-11 的 M8 完整发布评测见 [`docs/evaluation/CONVERSATION_AGENT_M8_EVALUATION_2026-09-11.md`](docs/evaluation/CONVERSATION_AGENT_M8_EVALUATION_2026-09-11.md)。
 
 ### RAG 2.0（默认法规检索链路）
 

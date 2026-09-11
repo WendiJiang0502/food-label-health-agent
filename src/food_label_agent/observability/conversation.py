@@ -22,11 +22,19 @@ class ConversationMetric:
     model: str | None
     boundary: str
     latency_ms: float
+    first_token_ms: float | None = None
+    cost_usd: float = 0.0
+    reasoning_effort: str | None = None
     input_tokens: int | None = None
     output_tokens: int | None = None
     request_count: int = 0
     tool_events: tuple[dict[str, Any], ...] = ()
     trusted_label_attached: bool = False
+    trusted_fields: tuple[str, ...] = ()
+    current_intent: str | None = None
+    refused: bool = False
+    degraded: bool = False
+    evidence_insufficient: bool = False
     error_code: str | None = None
     retryable: bool = False
     event_id: str = field(default_factory=lambda: str(uuid4()))

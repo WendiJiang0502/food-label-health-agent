@@ -77,6 +77,13 @@ class SQLiteConversationStore:
             );
             CREATE INDEX IF NOT EXISTS idx_conversation_messages
             ON conversation_messages(session_id, sequence);
+            CREATE TABLE IF NOT EXISTS conversation_states (
+                session_id TEXT PRIMARY KEY,
+                state_json TEXT NOT NULL,
+                updated_at TEXT NOT NULL,
+                FOREIGN KEY(session_id) REFERENCES conversation_sessions(session_id)
+                    ON DELETE CASCADE
+            );
             """
         )
         self._connection.commit()
@@ -219,7 +226,41 @@ class SQLiteConversationStore:
             "updated_at": row["updated_at"],
             "expires_at": row["expires_at"],
             "messages": self.messages(session_id, access_token),
+            "structured_state": self.structured_state(session_id, access_token),
         }
+
+    def structured_state(
+        self, session_id: str, access_token: str
+    ) -> dict[str, Any] | None:
+        self._authorize(session_id, access_token)
+        with self._lock:
+            row = self._connection.execute(
+                "SELECT state_json FROM conversation_states WHERE session_id = ?",
+                (session_id,),
+            ).fetchone()
+        return json.loads(row["state_json"]) if row else None
+
+    def save_structured_state(
+        self,
+        session_id: str,
+        access_token: str,
+        state: dict[str, Any],
+    ) -> None:
+        self._authorize(session_id, access_token)
+        encoded = json.dumps(
+            state, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+        )
+        if len(encoded) > 64_000:
+            raise ValueError("Conversation structured state is too large")
+        now = datetime.now().astimezone().isoformat()
+        with self._lock:
+            self._connection.execute(
+                "INSERT INTO conversation_states(session_id, state_json, updated_at) "
+                "VALUES (?, ?, ?) ON CONFLICT(session_id) DO UPDATE SET "
+                "state_json = excluded.state_json, updated_at = excluded.updated_at",
+                (session_id, encoded, now),
+            )
+            self._connection.commit()
 
     def delete(self, session_id: str, access_token: str) -> int:
         self._authorize(session_id, access_token)

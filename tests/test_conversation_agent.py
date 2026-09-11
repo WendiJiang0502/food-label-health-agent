@@ -228,6 +228,7 @@ def test_chat_api_creates_streams_and_deletes_a_session() -> None:
     assert "event: delta" in streamed.text
     assert "event: done" in streamed.text
     assert len(fetched.json()["session"]["messages"]) == 2
+    assert fetched.json()["session"]["structured_state"]["current_intent"] == "safety_question"
     assert deleted.json()["status"] == "deleted"
 
 

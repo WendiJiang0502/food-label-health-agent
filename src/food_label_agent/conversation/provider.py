@@ -26,6 +26,8 @@ class ConversationSettings:
     max_tool_calls: int = 6
     base_url: str = RESPONSES_URL
     api_key: str | None = None
+    input_usd_per_million: float = 2.0
+    output_usd_per_million: float = 12.0
 
     @classmethod
     def from_environment(
@@ -58,6 +60,12 @@ class ConversationSettings:
             max_tool_calls=max_tools,
             base_url=values.get("FOOD_LABEL_CHAT_BASE_URL", RESPONSES_URL).strip(),
             api_key=values.get("OPENAI_API_KEY") or None,
+            input_usd_per_million=float(
+                values.get("FOOD_LABEL_CHAT_INPUT_USD_PER_MILLION", "2")
+            ),
+            output_usd_per_million=float(
+                values.get("FOOD_LABEL_CHAT_OUTPUT_USD_PER_MILLION", "12")
+            ),
         )
 
 
@@ -71,6 +79,9 @@ class ProviderReply:
     tool_events: tuple[dict[str, Any], ...]
     latency_ms: float
     request_count: int
+    first_token_ms: float
+    cost_usd: float
+    reasoning_effort: str
 
 
 class ConversationProviderError(RuntimeError):
@@ -108,6 +119,7 @@ class OpenAIConversationProvider:
         tools: Sequence[dict[str, Any]],
         tool_handler: ToolHandler,
         safety_key: str,
+        reasoning_effort: str | None = None,
     ) -> ProviderReply:
         started_at = time.perf_counter()
         if self.settings.provider == "disabled":
@@ -118,16 +130,20 @@ class OpenAIConversationProvider:
         tool_events: list[dict[str, Any]] = []
         total_input_tokens = 0
         total_output_tokens = 0
+        selected_effort = reasoning_effort or self.settings.reasoning_effort
+        first_visible_token_ms: float | None = None
         for request_count in range(1, self.settings.max_tool_calls + 2):
+            request_started_at = time.perf_counter()
             payload = {
                 "model": self.settings.model,
                 "instructions": instructions,
                 "input": input_items,
-                "reasoning": {"effort": self.settings.reasoning_effort},
+                "reasoning": {"effort": selected_effort},
                 "text": {"verbosity": "medium"},
                 "max_output_tokens": self.settings.max_output_tokens,
                 "store": False,
                 "safety_identifier": _safety_identifier(safety_key),
+                "stream": True,
             }
             if tools:
                 payload.update(
@@ -153,6 +169,17 @@ class OpenAIConversationProvider:
             ]
             if not function_calls:
                 text = _response_output_text(response)
+                transport_first_token = response.get("_first_token_ms")
+                if isinstance(transport_first_token, int | float):
+                    first_visible_token_ms = (
+                        request_started_at - started_at
+                    ) * 1000 + float(transport_first_token)
+                else:
+                    first_visible_token_ms = (time.perf_counter() - started_at) * 1000
+                cost_usd = (
+                    total_input_tokens * self.settings.input_usd_per_million
+                    + total_output_tokens * self.settings.output_usd_per_million
+                ) / 1_000_000
                 return ProviderReply(
                     text=text,
                     model=str(response.get("model") or self.settings.model),
@@ -162,6 +189,9 @@ class OpenAIConversationProvider:
                     tool_events=tuple(tool_events),
                     latency_ms=round((time.perf_counter() - started_at) * 1000, 3),
                     request_count=request_count,
+                    first_token_ms=round(first_visible_token_ms, 3),
+                    cost_usd=round(cost_usd, 8),
+                    reasoning_effort=selected_effort,
                 )
             if len(tool_events) + len(function_calls) > self.settings.max_tool_calls:
                 raise ConversationProviderError("conversation_tool_budget_exhausted")
@@ -228,6 +258,7 @@ def conversation_public_status(
         "remote_processing": configured.provider == "openai",
         "store": False,
         "max_tool_calls": configured.max_tool_calls,
+        "reasoning_effort": configured.reasoning_effort,
     }
 
 
@@ -237,6 +268,7 @@ def _post_json(
     payload: dict[str, Any],
     timeout: float,
 ) -> dict:
+    headers = {**headers, "Accept": "text/event-stream"}
     request = urllib.request.Request(
         url,
         data=json.dumps(payload, ensure_ascii=False).encode("utf-8"),
@@ -245,7 +277,34 @@ def _post_json(
     )
     try:
         with urllib.request.urlopen(request, timeout=timeout) as response:
-            return json.loads(response.read().decode("utf-8"))
+            content_type = response.headers.get("Content-Type", "")
+            if "text/event-stream" not in content_type:
+                return json.loads(response.read().decode("utf-8"))
+            started_at = time.perf_counter()
+            first_token_ms: float | None = None
+            completed: dict[str, Any] | None = None
+            for raw_line in response:
+                line = raw_line.decode("utf-8").strip()
+                if not line.startswith("data:"):
+                    continue
+                data = line[5:].strip()
+                if not data or data == "[DONE]":
+                    continue
+                event = json.loads(data)
+                if event.get("type") == "response.output_text.delta" and first_token_ms is None:
+                    first_token_ms = (time.perf_counter() - started_at) * 1000
+                if event.get("type") == "response.completed":
+                    completed = dict(event.get("response") or {})
+                if event.get("type") in {"response.failed", "response.incomplete"}:
+                    raise ConversationProviderError(
+                        "conversation_response_incomplete", retryable=True
+                    )
+            if completed is None:
+                raise ConversationProviderError(
+                    "conversation_response_incomplete", retryable=True
+                )
+            completed["_first_token_ms"] = first_token_ms
+            return completed
     except urllib.error.HTTPError as exc:
         retryable = exc.code in {408, 409, 429, 500, 502, 503, 504}
         raise ConversationProviderError(

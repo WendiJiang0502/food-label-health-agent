@@ -35,6 +35,10 @@ from food_label_agent.conversation.provider import (
     conversation_public_status,
 )
 from food_label_agent.conversation.service import ConversationAgent
+from food_label_agent.conversation.state import (
+    StructuredConversationState,
+    update_structured_state,
+)
 from food_label_agent.conversation.store import SQLiteConversationStore
 from food_label_agent.domain.models import LabelField
 from food_label_agent.graph.planner import planner_public_status
@@ -745,6 +749,16 @@ def create_app(
                     status_code=503,
                     code="CONVERSATION_NOT_CONFIGURED",
                 )
+            structured_state = update_structured_state(
+                StructuredConversationState.from_dict(
+                    conversations.structured_state(session_id, access_token)
+                ),
+                message=content,
+                workflow_state=workflow_state,
+            )
+            conversations.save_structured_state(
+                session_id, access_token, structured_state.to_dict()
+            )
             conversations.append_message(
                 session_id,
                 access_token,
@@ -771,6 +785,7 @@ def create_app(
                         session_id=session_id,
                         messages=history,
                         state=workflow_state,
+                        conversation_state=structured_state,
                     )
                     for tool_event in reply.tool_events:
                         yield _sse_event(
@@ -796,6 +811,9 @@ def create_app(
                             "output_tokens": reply.output_tokens,
                             "latency_ms": reply.latency_ms,
                             "request_count": reply.request_count,
+                            "first_token_ms": reply.first_token_ms,
+                            "cost_usd": reply.cost_usd,
+                            "reasoning_effort": reply.reasoning_effort,
                             "boundary": reply.boundary,
                             "tool_events": list(reply.tool_events),
                             "trusted_label_attached": workflow_state is not None,
@@ -808,6 +826,9 @@ def create_app(
                             "boundary": reply.boundary,
                             "tool_calls": len(reply.tool_events),
                             "latency_ms": reply.latency_ms,
+                            "first_token_ms": reply.first_token_ms,
+                            "cost_usd": reply.cost_usd,
+                            "reasoning_effort": reply.reasoning_effort,
                             "trusted_label_attached": workflow_state is not None,
                         },
                     )
@@ -1157,6 +1178,8 @@ def _conversation_tool_label(name: str) -> str:
         "search_current_regulations": "已核对适用法规依据",
         "explain_current_ingredient": "已核对当前标签中的配料",
         "verify_current_claims": "已核对包装声称与标签事实",
+        "compare_confirmed_products": "已按确认标签对比两个商品",
+        "guide_label_correction": "已整理需要人工核对的标签问题",
     }.get(name, "已完成证据核对")
 
 
