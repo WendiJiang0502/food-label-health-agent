@@ -217,14 +217,17 @@ class OCRService:
             normalized_label=normalized,
             normalization_issues=[
                 {
-                    "code": issue["code"],
-                    "message": issue["message"],
-                    "source_span": issue["source_span"],
+                    **issue,
+                    "field": field,
                 }
-                for issue in [
-                    *normalized["issues"],
-                    *((normalized.get("nutrition") or {}).get("issues", [])),
+                for field, issues in [
+                    ("ingredients", normalized["issues"]),
+                    (
+                        "nutrition_table",
+                        (normalized.get("nutrition") or {}).get("issues", []),
+                    ),
                 ]
+                for issue in issues
             ],
         )
 

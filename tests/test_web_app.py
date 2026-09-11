@@ -33,8 +33,8 @@ def test_platform_index_and_health() -> None:
     assert "重新查找同用途替代品" in page.text
     assert "问问食鉴" in page.text
     assert "同意本次短期对话使用 OpenAI" in page.text
-    assert 'id="issue-location"' in page.text
-    assert "问题位置 · 点击后直接编辑" in page.text
+    assert 'id="issue-locations"' in page.text
+    assert "需要修改的文字位置" in page.text
     assert "系统会根据当前商品自动确定替代用途" in page.text
     assert "品牌官网和中国大陆官方旗舰店" in page.text
     assert "数据来源将在查找后显示" in page.text
@@ -66,7 +66,7 @@ def test_platform_index_and_health() -> None:
     assert "frame-ancestors 'none'" in health.headers["content-security-policy"]
 
 
-def test_normalization_error_ui_highlights_and_focuses_source_character() -> None:
+def test_text_error_ui_highlights_all_reported_fields_and_source_ranges() -> None:
     script = (
         Path(__file__).parents[1]
         / "src"
@@ -76,9 +76,10 @@ def test_normalization_error_ui_highlights_and_focuses_source_character() -> Non
         / "app.js"
     ).read_text(encoding="utf-8")
 
-    assert "renderIssueLocation(issue)" in script
+    assert "renderTextIssueLocations" in script
+    assert "issues.forEach((issue, index)" in script
     assert 'document.createElement("mark")' in script
-    assert "textarea.setSelectionRange(start, boundedEnd)" in script
+    assert "textarea.setSelectionRange(range.start, range.end)" in script
     assert 'textarea.setAttribute("aria-invalid", "true")' in script
 
 
@@ -471,6 +472,28 @@ def test_confirmation_api_enters_normalization_route() -> None:
     assert response.json()["next_route"] == "normalize_label"
     assert response.json()["normalized_label"]["ingredients"][0]["raw_name"] == "小麦粉"
     assert response.json()["alternative_category_suggestion"]["category"] is None
+
+
+def test_confirmation_api_preserves_text_issue_field_and_source_range() -> None:
+    response = asyncio.run(
+        request(
+            "POST",
+            "/api/v1/labels/confirm",
+            json={
+                "request_id": "request-text-issue",
+                "jurisdiction": "CN",
+                "applicable_date": "2026-09-11",
+                "fields": {"ingredients": "小麦粉、白砂糖）"},
+            },
+        )
+    )
+
+    assert response.status_code == 200
+    issue = response.json()["normalization_issues"][0]
+    assert issue["field"] == "ingredients"
+    assert issue["source_span"] == "）"
+    assert issue["start"] == 7
+    assert issue["end"] == 8
 
 
 def test_confirmation_api_returns_category_for_portion_reference() -> None:

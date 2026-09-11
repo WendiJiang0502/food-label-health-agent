@@ -159,6 +159,27 @@ food-label-platform
 
 然后访问 `http://127.0.0.1:8000`。项目 CLI 默认使用腾讯云 OCR；这个默认值只包含 Provider 选择，不包含任何密钥。凭证继续由腾讯云 SDK 的环境变量或 `~/.tencentcloud/credentials` 提供。上传图片会发送到腾讯云 OCR，本平台不持久化原图。如需本地识别，可显式设置 `FOOD_LABEL_OCR_PROVIDER=paddle`。
 
+如需让本地 8000 服务长期读取自由对话 API Key，可把配置一次性保存在仅限当前用户读取的项目外文件 `~/.config/food-label-agent/.env`：
+
+```bash
+mkdir -p "$HOME/.config/food-label-agent"
+chmod 700 "$HOME/.config/food-label-agent"
+touch "$HOME/.config/food-label-agent/.env"
+chmod 600 "$HOME/.config/food-label-agent/.env"
+```
+
+在该文件中填写以下内容，不要把真实 Key 放进仓库：
+
+```bash
+OPENAI_API_KEY='你的 API Key'
+FOOD_LABEL_CHAT_PROVIDER='openai'
+FOOD_LABEL_CHAT_MODEL='gpt-5.6-terra'
+FOOD_LABEL_CHAT_REASONING_EFFORT='low'
+FOOD_LABEL_CHAT_RETENTION_HOURS='24'
+```
+
+之后每次只需运行 `./scripts/run_local_platform.sh`，脚本会自动读取该文件并启动 `http://127.0.0.1:8000`，无需在新终端重复 `export`。若已安装项目自带的 macOS 自动启动项，重新登录或重新启动该服务时也会读取同一配置文件。
+
 正式 CLI 当前默认设置 `FOOD_LABEL_PRODUCT_CATALOG=official_cn_expanded`：优先使用经过人工审核、可从中国大陆访问的品牌官网或官方旗舰店标签证据；品类不足时，再补充 Open Food Facts 中带中国地区标记、已完成配料审核且具有版本日期的商品。补充商品仍会逐件经过同一套字段、时效、哈希和个人约束复核。建议配置可识别应用与联系方式的 User-Agent：
 
 ```bash

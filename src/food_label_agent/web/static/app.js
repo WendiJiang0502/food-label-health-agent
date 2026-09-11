@@ -46,8 +46,7 @@ const elements = {
   resultMessage: document.querySelector("#result-message"),
   railError: document.querySelector("#rail-error"),
   railErrorMessage: document.querySelector("#rail-error-message"),
-  issueLocation: document.querySelector("#issue-location"),
-  issueLocationSnippet: document.querySelector("#issue-location-snippet"),
+  issueLocations: document.querySelector("#issue-locations"),
   constraintStep: document.querySelector("#constraint-step"),
   editLabel: document.querySelector("#edit-label"),
   constraintForm: document.querySelector("#constraint-form"),
@@ -934,11 +933,21 @@ elements.form.addEventListener("submit", async (event) => {
       }),
     });
     const payload = await response.json();
-    if (!response.ok) throw new Error(payload.message || "标签确认失败。");
+    if (!response.ok) {
+      const textIssues = collectTextIssues(payload);
+      if (textIssues.length) {
+        showRailError(payload.message || "部分文字需要修改后再确认。", textIssues);
+        return;
+      }
+      throw new Error(payload.message || "标签确认失败。");
+    }
 
     if (payload.normalization_issues?.length) {
-      const issue = payload.normalization_issues[0];
-      showRailError(`配料结构还需确认：${issue.message}`, issue);
+      const textIssues = collectTextIssues(payload);
+      const summary = textIssues.length === 1
+        ? textIssues[0].message
+        : `发现 ${textIssues.length} 处文字需要确认，请逐项修改。`;
+      showRailError(summary, textIssues);
       return;
     }
 
@@ -1247,7 +1256,7 @@ function renderFields(fields) {
     textarea.setAttribute("aria-describedby", `${inputId}-help`);
     textarea.addEventListener("focus", () => activateField(field.name));
     textarea.addEventListener("input", () => {
-      if (field.name === "ingredients" && textarea.classList.contains("has-structure-error")) {
+      if (textarea.classList.contains("has-text-error")) {
         hideRailError();
       }
     });
@@ -3027,9 +3036,9 @@ function compactSectionLabel(section) {
   return title && title.length <= 16 ? `${clauseNumber} ${title}` : clauseNumber;
 }
 
-function showRailError(message, issue = null) {
+function showRailError(message, issues = []) {
   elements.railErrorMessage.textContent = message;
-  renderIssueLocation(issue);
+  renderTextIssueLocations(Array.isArray(issues) ? issues : [issues]);
   elements.railError.hidden = false;
   elements.railError.focus();
   announce(message);
@@ -3038,56 +3047,95 @@ function showRailError(message, issue = null) {
 function hideRailError() {
   elements.railError.hidden = true;
   elements.railErrorMessage.textContent = "";
-  elements.issueLocation.hidden = true;
-  elements.issueLocationSnippet.replaceChildren();
-  document.querySelectorAll("textarea.has-structure-error").forEach((textarea) => {
-    textarea.classList.remove("has-structure-error");
+  elements.issueLocations.hidden = true;
+  elements.issueLocations.replaceChildren();
+  document.querySelectorAll("textarea.has-text-error").forEach((textarea) => {
+    textarea.classList.remove("has-text-error");
     textarea.removeAttribute("aria-invalid");
     textarea.removeAttribute("aria-errormessage");
   });
 }
 
-function renderIssueLocation(issue) {
-  const textarea = document.querySelector('#field-list textarea[data-field-name="ingredients"]');
+function collectTextIssues(payload) {
+  const issues = [
+    ...(Array.isArray(payload?.normalization_issues) ? payload.normalization_issues : []),
+    ...(Array.isArray(payload?.text_issues) ? payload.text_issues : []),
+  ];
+  return issues.filter((issue) => issue && typeof issue === "object");
+}
+
+function renderTextIssueLocations(issues) {
+  elements.issueLocations.replaceChildren();
+  issues.forEach((issue, index) => {
+    const fieldName = issue.field || issue.source_field || "ingredients";
+    const textarea = document.querySelector(
+      `#field-list textarea[data-field-name="${CSS.escape(fieldName)}"]`,
+    );
+    if (!textarea) return;
+
+    const range = resolveTextIssueRange(textarea.value, issue);
+    const fieldLabel = textarea.closest(".ocr-field")?.querySelector("label")?.textContent
+      || "标签文字";
+    const button = document.createElement("button");
+    button.className = "issue-location";
+    button.type = "button";
+    button.setAttribute(
+      "aria-label",
+      `${fieldLabel}问题 ${index + 1}：${issue.message || "需要修改"}。点击定位。`,
+    );
+
+    const label = document.createElement("span");
+    label.className = "issue-location__label";
+    label.textContent = `${fieldLabel} · ${issue.message || "这段文字需要确认"}`;
+    const snippet = document.createElement("span");
+    snippet.className = "issue-location__snippet";
+    snippet.setAttribute("aria-hidden", "true");
+    appendIssueSnippet(snippet, textarea.value, range, issue.source_span);
+    button.append(label, snippet);
+
+    textarea.classList.add("has-text-error");
+    textarea.setAttribute("aria-invalid", "true");
+    textarea.setAttribute("aria-errormessage", "rail-error-message");
+    button.addEventListener("click", () => {
+      textarea.focus();
+      if (range) textarea.setSelectionRange(range.start, range.end);
+      activateField(fieldName);
+      announce(`已定位到${fieldLabel}的问题文字，请对照包装修改`);
+    });
+    elements.issueLocations.append(button);
+  });
+  elements.issueLocations.hidden = elements.issueLocations.childElementCount === 0;
+}
+
+function resolveTextIssueRange(text, issue) {
   const start = Number(issue?.start);
   const end = Number(issue?.end);
-  const hasValidRange = Number.isInteger(start)
-    && Number.isInteger(end)
-    && start >= 0
-    && end > start
-    && start < textarea?.value.length;
-  if (!textarea || !hasValidRange) {
-    elements.issueLocation.hidden = true;
+  if (Number.isInteger(start) && Number.isInteger(end) && start >= 0 && end > start && start < text.length) {
+    return { start, end: Math.min(end, text.length) };
+  }
+  const sourceSpan = String(issue?.source_span || "");
+  if (!sourceSpan || sourceSpan.length > 24) return null;
+  const matchedAt = text.indexOf(sourceSpan);
+  return matchedAt >= 0 ? { start: matchedAt, end: matchedAt + sourceSpan.length } : null;
+}
+
+function appendIssueSnippet(container, text, range, sourceSpan) {
+  if (!range) {
+    container.textContent = sourceSpan || "点击定位到对应输入框";
     return;
   }
-
-  const boundedEnd = Math.min(end, textarea.value.length);
-  const contextStart = Math.max(0, start - 20);
-  const contextEnd = Math.min(textarea.value.length, boundedEnd + 20);
-  const before = `${contextStart > 0 ? "…" : ""}${textarea.value.slice(contextStart, start)}`;
-  const problem = textarea.value.slice(start, boundedEnd);
-  const after = `${textarea.value.slice(boundedEnd, contextEnd)}${contextEnd < textarea.value.length ? "…" : ""}`;
+  const contextStart = Math.max(0, range.start - 20);
+  const contextEnd = Math.min(text.length, range.end + 20);
+  const before = `${contextStart > 0 ? "…" : ""}${text.slice(contextStart, range.start)}`;
+  const problem = text.slice(range.start, range.end);
+  const after = `${text.slice(range.end, contextEnd)}${contextEnd < text.length ? "…" : ""}`;
   const marker = document.createElement("mark");
   marker.textContent = problem;
-  elements.issueLocationSnippet.replaceChildren(
+  container.append(
     document.createTextNode(before),
     marker,
     document.createTextNode(after),
   );
-  elements.issueLocation.setAttribute(
-    "aria-label",
-    `问题位置：${problem}。点击定位到配料文字。`,
-  );
-  elements.issueLocation.hidden = false;
-  textarea.classList.add("has-structure-error");
-  textarea.setAttribute("aria-invalid", "true");
-  textarea.setAttribute("aria-errormessage", "rail-error-message");
-  elements.issueLocation.onclick = () => {
-    textarea.focus();
-    textarea.setSelectionRange(start, boundedEnd);
-    activateField("ingredients");
-    announce(`已选中问题字符${problem}，请对照包装修改`);
-  };
 }
 
 function showError(message) {

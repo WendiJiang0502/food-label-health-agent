@@ -533,18 +533,19 @@ def create_app(
                 response["normalized_label"] = state["normalized_label"]
                 response["normalization_issues"] = [
                     {
-                        "code": issue.get("code"),
-                        "message": issue.get("message"),
-                        "source_span": issue.get("source_span"),
+                        **issue,
+                        "field": field,
                     }
-                    for issue in [
-                        *state["normalized_label"].get("issues", []),
-                        *(
+                    for field, issues in [
+                        ("ingredients", state["normalized_label"].get("issues", [])),
+                        (
+                            "nutrition_table",
                             (state["normalized_label"].get("nutrition") or {}).get(
                                 "issues", []
-                            )
+                            ),
                         ),
                     ]
+                    for issue in issues
                 ]
                 response["status"] = state["status"].value
                 response["next_route"] = (
