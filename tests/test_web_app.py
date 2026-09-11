@@ -33,6 +33,8 @@ def test_platform_index_and_health() -> None:
     assert "重新查找同用途替代品" in page.text
     assert "问问食鉴" in page.text
     assert "同意本次短期对话使用 OpenAI" in page.text
+    assert 'id="issue-location"' in page.text
+    assert "问题位置 · 点击后直接编辑" in page.text
     assert "系统会根据当前商品自动确定替代用途" in page.text
     assert "品牌官网和中国大陆官方旗舰店" in page.text
     assert "数据来源将在查找后显示" in page.text
@@ -62,6 +64,22 @@ def test_platform_index_and_health() -> None:
     assert health.headers["x-content-type-options"] == "nosniff"
     assert health.headers["x-frame-options"] == "DENY"
     assert "frame-ancestors 'none'" in health.headers["content-security-policy"]
+
+
+def test_normalization_error_ui_highlights_and_focuses_source_character() -> None:
+    script = (
+        Path(__file__).parents[1]
+        / "src"
+        / "food_label_agent"
+        / "web"
+        / "static"
+        / "app.js"
+    ).read_text(encoding="utf-8")
+
+    assert "renderIssueLocation(issue)" in script
+    assert 'document.createElement("mark")' in script
+    assert "textarea.setSelectionRange(start, boundedEnd)" in script
+    assert 'textarea.setAttribute("aria-invalid", "true")' in script
 
 
 def test_readiness_reports_real_local_dependencies() -> None:

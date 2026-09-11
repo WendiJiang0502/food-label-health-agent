@@ -13,8 +13,8 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
     <meta name="description" content="上传食品标签，确认识别文字，再进行基于证据的健康信息解释。">
     <title>食鉴 · 食品标签健康解释</title>
     <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/static/styles.css?v=conversation-agent-1">
-    <script src="/static/app.js?v=conversation-agent-1" defer></script>
+    <link rel="stylesheet" href="/static/styles.css?v=issue-highlight-1">
+    <script src="/static/app.js?v=issue-highlight-1" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main-content">跳到主要内容</a>
@@ -272,6 +272,10 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
           <div class="rail-error" id="rail-error" hidden role="alert" tabindex="-1">
             <strong>这一步没有完成</strong>
             <p id="rail-error-message"></p>
+            <button class="issue-location" id="issue-location" type="button" hidden>
+              <span class="issue-location__label">问题位置 · 点击后直接编辑</span>
+              <span class="issue-location__snippet" id="issue-location-snippet" aria-hidden="true"></span>
+            </button>
           </div>
 
           <section class="constraint-step" id="constraint-step" hidden aria-labelledby="constraint-title">

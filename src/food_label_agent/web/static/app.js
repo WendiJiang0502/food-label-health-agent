@@ -46,6 +46,8 @@ const elements = {
   resultMessage: document.querySelector("#result-message"),
   railError: document.querySelector("#rail-error"),
   railErrorMessage: document.querySelector("#rail-error-message"),
+  issueLocation: document.querySelector("#issue-location"),
+  issueLocationSnippet: document.querySelector("#issue-location-snippet"),
   constraintStep: document.querySelector("#constraint-step"),
   editLabel: document.querySelector("#edit-label"),
   constraintForm: document.querySelector("#constraint-form"),
@@ -936,7 +938,8 @@ elements.form.addEventListener("submit", async (event) => {
 
     if (payload.normalization_issues?.length) {
       const issue = payload.normalization_issues[0];
-      throw new Error(`配料结构还需确认：${issue.message}`);
+      showRailError(`配料结构还需确认：${issue.message}`, issue);
+      return;
     }
 
     state.confirmedFields = fields;
@@ -1243,6 +1246,11 @@ function renderFields(fields) {
     textarea.required = field.name === "ingredients";
     textarea.setAttribute("aria-describedby", `${inputId}-help`);
     textarea.addEventListener("focus", () => activateField(field.name));
+    textarea.addEventListener("input", () => {
+      if (field.name === "ingredients" && textarea.classList.contains("has-structure-error")) {
+        hideRailError();
+      }
+    });
 
     const help = document.createElement("p");
     help.className = "field-help";
@@ -3019,8 +3027,9 @@ function compactSectionLabel(section) {
   return title && title.length <= 16 ? `${clauseNumber} ${title}` : clauseNumber;
 }
 
-function showRailError(message) {
+function showRailError(message, issue = null) {
   elements.railErrorMessage.textContent = message;
+  renderIssueLocation(issue);
   elements.railError.hidden = false;
   elements.railError.focus();
   announce(message);
@@ -3029,6 +3038,56 @@ function showRailError(message) {
 function hideRailError() {
   elements.railError.hidden = true;
   elements.railErrorMessage.textContent = "";
+  elements.issueLocation.hidden = true;
+  elements.issueLocationSnippet.replaceChildren();
+  document.querySelectorAll("textarea.has-structure-error").forEach((textarea) => {
+    textarea.classList.remove("has-structure-error");
+    textarea.removeAttribute("aria-invalid");
+    textarea.removeAttribute("aria-errormessage");
+  });
+}
+
+function renderIssueLocation(issue) {
+  const textarea = document.querySelector('#field-list textarea[data-field-name="ingredients"]');
+  const start = Number(issue?.start);
+  const end = Number(issue?.end);
+  const hasValidRange = Number.isInteger(start)
+    && Number.isInteger(end)
+    && start >= 0
+    && end > start
+    && start < textarea?.value.length;
+  if (!textarea || !hasValidRange) {
+    elements.issueLocation.hidden = true;
+    return;
+  }
+
+  const boundedEnd = Math.min(end, textarea.value.length);
+  const contextStart = Math.max(0, start - 20);
+  const contextEnd = Math.min(textarea.value.length, boundedEnd + 20);
+  const before = `${contextStart > 0 ? "…" : ""}${textarea.value.slice(contextStart, start)}`;
+  const problem = textarea.value.slice(start, boundedEnd);
+  const after = `${textarea.value.slice(boundedEnd, contextEnd)}${contextEnd < textarea.value.length ? "…" : ""}`;
+  const marker = document.createElement("mark");
+  marker.textContent = problem;
+  elements.issueLocationSnippet.replaceChildren(
+    document.createTextNode(before),
+    marker,
+    document.createTextNode(after),
+  );
+  elements.issueLocation.setAttribute(
+    "aria-label",
+    `问题位置：${problem}。点击定位到配料文字。`,
+  );
+  elements.issueLocation.hidden = false;
+  textarea.classList.add("has-structure-error");
+  textarea.setAttribute("aria-invalid", "true");
+  textarea.setAttribute("aria-errormessage", "rail-error-message");
+  elements.issueLocation.onclick = () => {
+    textarea.focus();
+    textarea.setSelectionRange(start, boundedEnd);
+    activateField("ingredients");
+    announce(`已选中问题字符${problem}，请对照包装修改`);
+  };
 }
 
 function showError(message) {

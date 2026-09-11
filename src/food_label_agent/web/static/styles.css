@@ -444,6 +444,8 @@ h3 { font-size: 1.2rem; }
 .confidence.requires-confirmation { color: var(--caution); }
 .ocr-field textarea { width: 100%; min-height: 90px; resize: vertical; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--paper); color: var(--ink); padding: 13px 14px; line-height: 1.55; }
 .ocr-field textarea:focus { border-color: var(--teal); outline: 4px solid var(--focus); outline-offset: 1px; }
+.ocr-field textarea.has-structure-error { border-color: var(--avoid); background: rgba(169, 54, 43, 0.035); }
+.ocr-field textarea.has-structure-error:focus { border-color: var(--avoid); outline-color: rgba(169, 54, 43, 0.16); }
 .field-help { margin: 0; color: var(--muted); font-size: 0.73rem; }
 .confirmation-actions { margin-top: 28px; }
 
@@ -564,6 +566,11 @@ h3 { font-size: 1.2rem; }
 .rail-error { margin: 0 0 24px; border-radius: 10px; background: rgba(169, 54, 43, 0.08); padding: 16px; }
 .rail-error strong { color: var(--avoid); }
 .rail-error p { margin: 5px 0 0; color: var(--muted-small); font-size: 0.78rem; }
+.issue-location { display: grid; width: 100%; min-height: 48px; gap: 5px; margin-top: 12px; border: 0; border-top: 1px solid rgba(169, 54, 43, 0.2); background: transparent; cursor: pointer; padding: 12px 0 0; text-align: start; }
+.issue-location__label { color: var(--avoid); font-size: 0.72rem; font-weight: 760; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.issue-location__snippet { color: var(--ink); font-size: 0.78rem; line-height: 1.7; overflow-wrap: anywhere; white-space: pre-wrap; }
+.issue-location__snippet mark { border-radius: 3px; background: var(--avoid); color: white; padding: 1px 3px; font-weight: 850; }
+.issue-location:focus-visible { border-radius: 6px; outline: 3px solid rgba(169, 54, 43, 0.24); outline-offset: 3px; }
 
 .safety-result { display: flex; flex-direction: column; justify-content: flex-start; }
 .risk-heading { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 16px; }
