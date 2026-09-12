@@ -16,6 +16,7 @@ evaluation/real_labels/annotations/
 .coverage
 htmlcov/
 .evidence-data/
+artifacts/alternative-evidence/*.lock
 dist/
 build/
 *.egg-info/

@@ -27,6 +27,23 @@ _CORE_NUTRIENTS = {
     "钠": "钠",
 }
 
+_CATALOG_NUTRITION_FIELDS = (
+    "energy",
+    "protein",
+    "fat",
+    "carbohydrate",
+    "sodium",
+    "sugars",
+    "saturated_fat",
+    "dietary_fiber",
+)
+_CORE_NUTRITION_FIELDS = frozenset(
+    {"energy", "protein", "fat", "carbohydrate", "sodium"}
+)
+_HEALTH_COMPARISON_FIELDS = frozenset(
+    {*_CORE_NUTRITION_FIELDS, "sugars", "saturated_fat"}
+)
+
 _NUTRIENT_ALIASES = {
     "energy": ("能量",),
     "protein": ("蛋白质",),
@@ -93,6 +110,14 @@ def label_content_hash(product: ProductRecord) -> str:
             ),
             key=lambda item: str(item["snapshot_id"]),
         )
+    if label.nutrition_field_reviews:
+        payload["nutrition_field_reviews"] = sorted(
+            (
+                review.model_dump(mode="json")
+                for review in label.nutrition_field_reviews
+            ),
+            key=lambda item: str(item["canonical_name"]),
+        )
     encoded = json.dumps(
         payload, ensure_ascii=False, sort_keys=True, separators=(",", ":")
     ).encode()
@@ -152,6 +177,12 @@ def audit_product_label(product: ProductRecord) -> dict[str, Any]:
     complete_packaging_snapshot_ready = (
         ingredient_snapshot_ready and nutrition_snapshot_ready
     )
+    transcribed_nutrition_fields = sorted(
+        _available_nutrition_fields(product), key=_field_sort_key
+    )
+    packaging_verified_nutrition_fields = sorted(
+        _packaging_verified_nutrition_fields(product), key=_field_sort_key
+    )
     # Keep the legacy field as the text-table completeness signal. Consumers must
     # use complete_packaging_snapshot_ready for physical or manufacturer-issued
     # complete-label verification.
@@ -188,6 +219,28 @@ def audit_product_label(product: ProductRecord) -> dict[str, Any]:
         "ingredient_snapshot_ready": ingredient_snapshot_ready,
         "nutrition_snapshot_ready": nutrition_snapshot_ready,
         "complete_packaging_snapshot_ready": complete_packaging_snapshot_ready,
+        "nutrition_fields": {
+            field: {
+                "label": _FIELD_LABELS[field],
+                "transcribed": field in transcribed_nutrition_fields,
+                "packaging_verified": field in packaging_verified_nutrition_fields,
+            }
+            for field in _CATALOG_NUTRITION_FIELDS
+        },
+        "transcribed_nutrition_fields": transcribed_nutrition_fields,
+        "packaging_verified_nutrition_fields": packaging_verified_nutrition_fields,
+        "missing_core_nutrition_fields": [
+            _FIELD_LABELS[field]
+            for field in _CATALOG_NUTRITION_FIELDS
+            if field in _CORE_NUTRITION_FIELDS
+            and field not in transcribed_nutrition_fields
+        ],
+        "missing_health_comparison_fields": [
+            _FIELD_LABELS[field]
+            for field in _CATALOG_NUTRITION_FIELDS
+            if field in _HEALTH_COMPARISON_FIELDS
+            and field not in transcribed_nutrition_fields
+        ],
         "official_page_snapshot_count": sum(
             snapshot.review_status == "verified"
             and snapshot.artifact_type == "official_page_capture"
@@ -345,11 +398,26 @@ def summarize_label_coverage(
         for product in products
     )
     purchasable = sum(_purchase_evidence_current(product, review_date) for product in products)
+    nutrient_counts = {
+        field: sum(
+            field in item["transcribed_nutrition_fields"] for item in audits
+        )
+        for field in _CATALOG_NUTRITION_FIELDS
+    }
+    verified_nutrient_counts = {
+        field: sum(
+            field in item["packaging_verified_nutrition_fields"] for item in audits
+        )
+        for field in _CATALOG_NUTRITION_FIELDS
+    }
     return {
         "total": len(products),
         "sku_count": sum(bool(product.sku) for product in products),
         "specification_count": sum(
             bool(product.specification) for product in products
+        ),
+        "sku_specification_identity_count": sum(
+            bool(product.sku and product.specification) for product in products
         ),
         "full_label_count": complete,
         "transcribed_label_count": sum(
@@ -378,6 +446,22 @@ def summarize_label_coverage(
         ),
         "needs_review_count": len(products) - complete,
         "coverage_rate": complete / len(products) if products else 0.0,
+        "nutrition_field_counts": nutrient_counts,
+        "nutrition_field_coverage_rates": {
+            field: count / len(products) if products else 0.0
+            for field, count in nutrient_counts.items()
+        },
+        "packaging_verified_nutrition_field_counts": verified_nutrient_counts,
+        "core_nutrition_complete_count": sum(
+            _CORE_NUTRITION_FIELDS
+            <= set(item["transcribed_nutrition_fields"])
+            for item in audits
+        ),
+        "health_comparison_nutrition_complete_count": sum(
+            _HEALTH_COMPARISON_FIELDS
+            <= set(item["transcribed_nutrition_fields"])
+            for item in audits
+        ),
         "expired_evidence_count": expired,
         "expired_evidence_rate": expired / len(products) if products else 0.0,
         "stale_evidence_count": stale,
@@ -385,6 +469,99 @@ def summarize_label_coverage(
         "current_purchase_evidence_count": purchasable,
         "purchase_availability_rate": purchasable / len(products) if products else 0.0,
         "metrics_as_of": review_date.isoformat(),
+    }
+
+
+def summarize_catalog_quality(
+    products: list[ProductRecord],
+    *,
+    minimum_distinct_brands: int = 2,
+) -> dict[str, Any]:
+    """Build a category-level, fail-closed acquisition report.
+
+    Counts reflect only stored evidence.  Missing SKU, package reviews or nutrient
+    values remain explicit gaps; this function never infers or fills them.
+    """
+
+    categories = sorted({product.category for product in products})
+    category_reports: dict[str, dict[str, Any]] = {}
+    blockers: list[str] = []
+    for category in categories:
+        records = [product for product in products if product.category == category]
+        audits = [audit_product_label(product) for product in records]
+        brand_owners = sorted({_brand_owner_key(product.brand) for product in records})
+        nutrient_counts = {
+            field: sum(
+                field in audit["transcribed_nutrition_fields"] for audit in audits
+            )
+            for field in _CATALOG_NUTRITION_FIELDS
+        }
+        missing_core = sorted(
+            field
+            for field in _CORE_NUTRITION_FIELDS
+            if nutrient_counts[field] < len(records)
+        )
+        missing_health = sorted(
+            field
+            for field in _HEALTH_COMPARISON_FIELDS
+            if nutrient_counts[field] < len(records)
+        )
+        identity_count = sum(bool(item.sku and item.specification) for item in records)
+        packaging_count = sum(
+            audit["complete_packaging_snapshot_ready"] for audit in audits
+        )
+        verified_packaging_brands = sorted(
+            {
+                _brand_owner_key(product.brand)
+                for product, audit in zip(records, audits, strict=True)
+                if audit["complete_packaging_snapshot_ready"]
+            }
+        )
+        category_blockers: list[str] = []
+        if len(brand_owners) < minimum_distinct_brands:
+            category_blockers.append("distinct_brand_count_below_minimum")
+        if identity_count < len(records):
+            category_blockers.append("sku_specification_identity_incomplete")
+        if packaging_count < len(records):
+            category_blockers.append("dual_reviewed_packaging_incomplete")
+        if missing_core:
+            category_blockers.append("core_nutrition_fields_incomplete")
+        if missing_health:
+            category_blockers.append("health_comparison_nutrition_fields_incomplete")
+        blockers.extend(f"{category}:{item}" for item in category_blockers)
+        category_reports[category] = {
+            "record_count": len(records),
+            "brand_owner_count": len(brand_owners),
+            "brand_owners": brand_owners,
+            "minimum_distinct_brands": minimum_distinct_brands,
+            "additional_brand_owners_needed": max(
+                minimum_distinct_brands - len(brand_owners), 0
+            ),
+            "sku_specification_identity_count": identity_count,
+            "dual_reviewed_packaging_count": packaging_count,
+            "dual_reviewed_packaging_brand_count": len(verified_packaging_brands),
+            "dual_reviewed_packaging_brands": verified_packaging_brands,
+            "nutrition_field_counts": nutrient_counts,
+            "missing_core_nutrition_fields": missing_core,
+            "missing_health_comparison_fields": missing_health,
+            "release_blockers": category_blockers,
+            "quality_gate_passed": not category_blockers,
+        }
+    return {
+        "policy": {
+            "minimum_distinct_brand_owners_per_category": minimum_distinct_brands,
+            "identity_required": ["sku", "specification"],
+            "required_core_nutrition_fields": sorted(_CORE_NUTRITION_FIELDS),
+            "required_health_comparison_fields": sorted(_HEALTH_COMPARISON_FIELDS),
+            "packaging_reviewers_required": 2,
+        },
+        "category_count": len(categories),
+        "passed_category_count": sum(
+            report["quality_gate_passed"] for report in category_reports.values()
+        ),
+        "categories": category_reports,
+        "release_blockers": blockers,
+        "quality_gate_passed": not blockers,
     }
 
 
@@ -446,6 +623,45 @@ def _available_fields(product: ProductRecord) -> set[str]:
     return available
 
 
+def _available_nutrition_fields(product: ProductRecord) -> set[str]:
+    nutrient_names = _nutrient_names(product)
+    return {
+        canonical
+        for canonical, aliases in _NUTRIENT_ALIASES.items()
+        if any(alias in nutrient_names for alias in aliases)
+    }
+
+
+def _packaging_verified_nutrition_fields(product: ProductRecord) -> set[str]:
+    snapshots = {
+        snapshot.snapshot_id: snapshot
+        for snapshot in _verified_packaging_snapshots(product)
+        if snapshot.evidence_kind in {"nutrition", "combined"}
+    }
+    transcribed = _available_nutrition_fields(product)
+    nutrient_names = _nutrient_names(product)
+    return {
+        review.canonical_name
+        for review in product.label.nutrition_field_reviews
+        if review.review_status == "verified"
+        and review.secondary_reviewer_id
+        and review.secondary_reviewer_id != review.primary_reviewer_id
+        and review.canonical_name in transcribed
+        and review.snapshot_id in snapshots
+        and review.source_row_label.strip() in nutrient_names
+        and review.source_row_label.strip()
+        in _NUTRIENT_ALIASES[review.canonical_name]
+    }
+
+
+def _brand_owner_key(value: str) -> str:
+    # Keep known sub-brand spelling from inflating manufacturer diversity.
+    normalized = "".join(str(value).split()).replace("・", "·")
+    return {"伊利·安慕希": "伊利", "伊利安慕希": "伊利"}.get(
+        normalized, normalized
+    )
+
+
 def _nutrient_names(product: ProductRecord) -> set[str]:
     return {
         str(row[0]).strip()
@@ -504,10 +720,16 @@ def _derived_comparison_bounds(product: ProductRecord) -> dict[str, dict[str, An
 def _verified_packaging_kinds(product: ProductRecord) -> set[str]:
     """Return physical-package evidence kinds bound to this exact SKU/spec."""
 
+    return {snapshot.evidence_kind for snapshot in _verified_packaging_snapshots(product)}
+
+
+def _verified_packaging_snapshots(product: ProductRecord) -> list[Any]:
+    """Return dual-reviewed physical/artwork snapshots for the exact identity."""
+
     if not product.sku or not product.specification:
-        return set()
-    return {
-        snapshot.evidence_kind
+        return []
+    return [
+        snapshot
         for snapshot in product.label.packaging_snapshots
         if snapshot.review_status == "verified"
         and snapshot.artifact_type in {"packaging_photo", "official_label_artwork"}
@@ -515,7 +737,7 @@ def _verified_packaging_kinds(product: ProductRecord) -> set[str]:
         and snapshot.specification == product.specification
         and snapshot.secondary_reviewer_id
         and snapshot.secondary_reviewer_id != snapshot.primary_reviewer_id
-    }
+    ]
 
 
 def _field_sort_key(value: str) -> tuple[int, str]:

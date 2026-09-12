@@ -64,6 +64,47 @@ class PackagingSnapshotEvidence(BaseModel):
         return self
 
 
+class NutritionFieldEvidence(BaseModel):
+    """Review evidence for one value transcribed from an exact package label.
+
+    Presence in ``nutrition_rows`` only means that a value was transcribed.  This
+    record is deliberately separate so an automated report cannot describe a
+    nutrition value as packaging-verified without an independent second reviewer.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    canonical_name: Literal[
+        "energy",
+        "protein",
+        "fat",
+        "saturated_fat",
+        "trans_fat",
+        "carbohydrate",
+        "sugars",
+        "dietary_fiber",
+        "sodium",
+    ]
+    snapshot_id: str = Field(min_length=8, max_length=200)
+    source_row_label: str = Field(min_length=1, max_length=120)
+    review_status: Literal["pending_second_review", "verified", "rejected"]
+    primary_reviewer_id: str = Field(min_length=3, max_length=120)
+    secondary_reviewer_id: str | None = Field(default=None, min_length=3, max_length=120)
+    reviewed_at: date | None = None
+
+    @model_validator(mode="after")
+    def enforce_independent_dual_review(self):
+        if self.secondary_reviewer_id == self.primary_reviewer_id:
+            raise ValueError("Nutrition field evidence requires two distinct reviewers")
+        if self.review_status == "verified" and (
+            not self.secondary_reviewer_id or self.reviewed_at is None
+        ):
+            raise ValueError("Verified nutrition field evidence requires a second review")
+        if self.review_status == "pending_second_review" and self.secondary_reviewer_id:
+            raise ValueError("Pending nutrition field evidence cannot have a second reviewer")
+        return self
+
+
 class ProductLabelEvidence(BaseModel):
     model_config = ConfigDict(frozen=True)
 
@@ -108,6 +149,16 @@ class ProductLabelEvidence(BaseModel):
     packaging_snapshots: list[PackagingSnapshotEvidence] = Field(
         default_factory=list, max_length=8
     )
+    nutrition_field_reviews: list[NutritionFieldEvidence] = Field(
+        default_factory=list, max_length=32
+    )
+
+    @model_validator(mode="after")
+    def prevent_duplicate_nutrition_reviews(self):
+        names = [item.canonical_name for item in self.nutrition_field_reviews]
+        if len(names) != len(set(names)):
+            raise ValueError("Nutrition field evidence must be unique by canonical name")
+        return self
 
 
 class PurchaseAvailabilityEvidence(BaseModel):

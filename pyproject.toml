@@ -56,6 +56,7 @@ food-label-openai-evals = "food_label_agent.evaluation.openai_evals:main"
 food-label-pilot-eval = "food_label_agent.evaluation.pilot:main"
 food-label-regulations-ingest = "food_label_agent.regulations.cli:main"
 food-label-packaging-evidence = "food_label_agent.alternatives.packaging_cli:main"
+food-label-catalog-audit = "food_label_agent.alternatives.audit_cli:main"
 food-label-data = "food_label_agent.persistence.backup:main"
 
 [tool.setuptools.packages.find]

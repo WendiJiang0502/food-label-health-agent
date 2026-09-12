@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import json
+import re
 from dataclasses import asdict, dataclass
+from importlib.resources import files
 from typing import Any
 
 from food_label_agent.alternatives.catalog import JsonProductCatalog, ProductCatalog
@@ -106,6 +109,141 @@ class CategoryInferenceEvaluation:
         result = asdict(self)
         result["release_blockers"] = list(self.release_blockers)
         return result
+
+
+@dataclass(frozen=True, slots=True)
+class AlternativeIntentHoldoutCase:
+    """One independently authored user scenario in the sealed intent holdout."""
+
+    case_id: str
+    expected_category: str
+    utterance: str
+    confirmed_fields: dict[str, str]
+
+
+@dataclass(frozen=True, slots=True)
+class AlternativeIntentHoldoutEvaluation:
+    dataset_scope: str
+    sample_count: int
+    category_count: int
+    top1_recall: float
+    macro_recall: float
+    automatic_precision: float
+    abstention_rate: float
+    per_category_recall: dict[str, float]
+    per_category_count: dict[str, int]
+    evaluation_passed: bool
+    release_blockers: tuple[str, ...]
+
+    def to_dict(self) -> dict[str, Any]:
+        result = asdict(self)
+        result["release_blockers"] = list(self.release_blockers)
+        return result
+
+
+def load_alternative_intent_holdout() -> tuple[AlternativeIntentHoldoutCase, ...]:
+    """Load the package-owned, catalog-independent alternative-intent holdout."""
+
+    path = files("food_label_agent.evaluation").joinpath(
+        "data/alternative_intent_holdout_v1.json"
+    )
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if payload.get("schema_version") != "alternative_intent_holdout_v1":
+        raise ValueError("Unsupported alternative intent holdout schema")
+    if payload.get("split") != "holdout":
+        raise ValueError("Alternative intent evaluation requires the holdout split")
+    return tuple(
+        AlternativeIntentHoldoutCase(
+            case_id=str(item["case_id"]),
+            expected_category=str(item["expected_category"]),
+            utterance=str(item["utterance"]),
+            confirmed_fields={
+                str(key): str(value)
+                for key, value in item["confirmed_fields"].items()
+            },
+        )
+        for item in payload["cases"]
+    )
+
+
+def _normalized_scenario(text: str) -> str:
+    return re.sub(r"[\W_]+", "", text, flags=re.UNICODE).casefold()
+
+
+def evaluate_alternative_intent_holdout(
+    cases: tuple[AlternativeIntentHoldoutCase, ...] | None = None,
+    *,
+    expected_categories: tuple[str, ...],
+    minimum_cases_per_category: int = 10,
+    minimum_rate: float = 0.85,
+) -> AlternativeIntentHoldoutEvaluation:
+    """Score a sealed user-intent set and enforce its independence invariants."""
+
+    dataset = cases if cases is not None else load_alternative_intent_holdout()
+    if not dataset:
+        raise ValueError("Alternative intent holdout requires cases")
+    ids = [case.case_id for case in dataset]
+    scenarios = [_normalized_scenario(case.utterance) for case in dataset]
+    if len(ids) != len(set(ids)):
+        raise ValueError("Alternative intent holdout case_id values must be unique")
+    if len(scenarios) != len(set(scenarios)):
+        raise ValueError("Alternative intent holdout utterances must be unique")
+
+    expected_set = set(expected_categories)
+    actual_set = {case.expected_category for case in dataset}
+    if actual_set != expected_set:
+        raise ValueError("Alternative intent holdout categories do not match production")
+
+    totals = {category: 0 for category in expected_categories}
+    correct = {category: 0 for category in expected_categories}
+    automatic_total = 0
+    automatic_correct = 0
+    abstentions = 0
+    for case in dataset:
+        totals[case.expected_category] += 1
+        result = suggest_product_category(case.confirmed_fields)
+        is_correct = result.get("category") == case.expected_category
+        correct[case.expected_category] += int(is_correct)
+        if result.get("category") is None:
+            abstentions += 1
+        if result.get("status") == "automatic":
+            automatic_total += 1
+            automatic_correct += int(is_correct)
+
+    if any(total < minimum_cases_per_category for total in totals.values()):
+        raise ValueError("Alternative intent holdout has too few cases for a category")
+    per_category = {
+        category: correct[category] / totals[category]
+        for category in expected_categories
+    }
+    sample_count = len(dataset)
+    top1 = sum(correct.values()) / sample_count
+    macro = sum(per_category.values()) / len(per_category)
+    automatic_precision = (
+        automatic_correct / automatic_total if automatic_total else 1.0
+    )
+    blockers: list[str] = []
+    if top1 < minimum_rate:
+        blockers.append("alternative_intent_holdout_top1_below_threshold")
+    if macro < minimum_rate:
+        blockers.append("alternative_intent_holdout_macro_below_threshold")
+    if any(rate < minimum_rate for rate in per_category.values()):
+        blockers.append("alternative_intent_holdout_category_below_threshold")
+    if automatic_precision < minimum_rate:
+        blockers.append("alternative_intent_holdout_precision_below_threshold")
+    return AlternativeIntentHoldoutEvaluation(
+        dataset_scope="independent_user_intent_holdout_not_catalog_regression",
+        sample_count=sample_count,
+        category_count=len(totals),
+        top1_recall=top1,
+        macro_recall=macro,
+        automatic_precision=automatic_precision,
+        abstention_rate=abstentions / sample_count,
+        per_category_recall=per_category,
+        per_category_count=totals,
+        evaluation_passed=not blockers,
+        release_blockers=tuple(blockers),
+    )
 
 
 def evaluate_category_inference(

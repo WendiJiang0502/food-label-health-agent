@@ -1,0 +1,2285 @@
+[
+  {
+    "candidate_id": "official-discovery:8f939da6dba7706a420f",
+    "source_id": "toly-china-bread-official",
+    "display_name": "新闻资讯",
+    "brand": "桃李",
+    "category": "bread",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.tolybread.com/article/tlnews.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:9c20a667a4e55c543315bf00482ae87344d589d0910571c780fdb45793365cd3",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:17:10+00:00",
+    "last_seen_at": "2026-09-12T07:17:10+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:d83e5b030437faf538d2",
+    "source_id": "toly-china-bread-official",
+    "display_name": "新闻资讯",
+    "brand": "桃李",
+    "category": "bread",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.tolybread.com/article/information.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:9c20a667a4e55c543315bf00482ae87344d589d0910571c780fdb45793365cd3",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:17:10+00:00",
+    "last_seen_at": "2026-09-12T07:17:10+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:a8d5b272fb0a537ef857",
+    "source_id": "toly-china-bread-official",
+    "display_name": "人才发展",
+    "brand": "桃李",
+    "category": "bread",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.tolybread.com/article/zwss.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:01f12215dba1d7dea183a0c0614ef3b551609997ad3982aca11da7b703fda5ad",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:17:10+00:00",
+    "last_seen_at": "2026-09-12T07:17:10+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:428e4c49e334117e788a",
+    "source_id": "toly-china-bread-official",
+    "display_name": "人才发展",
+    "brand": "桃李",
+    "category": "bread",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.tolybread.com/article/shzp.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:01f12215dba1d7dea183a0c0614ef3b551609997ad3982aca11da7b703fda5ad",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:17:10+00:00",
+    "last_seen_at": "2026-09-12T07:17:10+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:22ffead40e8eb31bd03a",
+    "source_id": "toly-china-bread-official",
+    "display_name": "人才发展",
+    "brand": "桃李",
+    "category": "bread",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.tolybread.com/article/yglb.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:01f12215dba1d7dea183a0c0614ef3b551609997ad3982aca11da7b703fda5ad",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:17:10+00:00",
+    "last_seen_at": "2026-09-12T07:17:10+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:26838494b5e5a99ccdaa",
+    "source_id": "hormel-china-canned-food-official",
+    "display_name": "经典美式培根",
+    "brand": "SPAM世棒",
+    "category": "canned_food",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://hormel.com.cn/zh-hans/category/product/detail!2-bacon",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:2e81a2be2eb3a95d9a7201e050c235468780368f11f69c5527f0ac09d6ebdd28",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:17:20+00:00",
+    "last_seen_at": "2026-09-12T07:17:57+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:cf878ec7029aa5058158",
+    "source_id": "hormel-china-canned-food-official",
+    "display_name": "车达芝士烤肠",
+    "brand": "SPAM世棒",
+    "category": "canned_food",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://hormel.com.cn/zh-hans/category/product/detail!cdzskc",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:6452b7719c0fd10d5cc154f539e24a48043977fb390f65f63e97e70547ca1f2a",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:17:20+00:00",
+    "last_seen_at": "2026-09-12T07:17:57+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:af559be41ec74b2d1f28",
+    "source_id": "hormel-china-canned-food-official",
+    "display_name": "川香小烤肉",
+    "brand": "SPAM世棒",
+    "category": "canned_food",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://hormel.com.cn/zh-hans/category/product/detail!cxxkr",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:28a36de9f047fa487f033913d57fd8680c88e8086b8648460438e23994a70356",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:17:20+00:00",
+    "last_seen_at": "2026-09-12T07:17:57+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:3ab3fb666c123575d06b",
+    "source_id": "hormel-china-canned-food-official",
+    "display_name": "椰香小烤肉",
+    "brand": "SPAM世棒",
+    "category": "canned_food",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://hormel.com.cn/zh-hans/category/product/detail!yxxkr",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:9d21420967baf312b16c4fc8ee509b0e83013f25797d9a4ee8df0274b0489085",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:17:20+00:00",
+    "last_seen_at": "2026-09-12T07:17:57+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:c4e9269d38e32e9b1786",
+    "source_id": "hormel-china-canned-food-official",
+    "display_name": "轻享薄切牛肉干（惹火串烤）",
+    "brand": "SPAM世棒",
+    "category": "canned_food",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://hormel.com.cn/zh-hans/category/product/detail!nrgrhck",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:d304dbcc3ef29b5d76be7cdf7eb061f6ad3d503b42441eed2ca486a236854e34",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:17:20+00:00",
+    "last_seen_at": "2026-09-12T07:17:57+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:92f650d8baab802277e4",
+    "source_id": "hormel-china-canned-food-official",
+    "display_name": "午餐肉罐头孜香烧烤味",
+    "brand": "SPAM世棒",
+    "category": "canned_food",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://hormel.com.cn/zh-hans/category/product/detail!spam-guangtouzixiang",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:6d78128a7290a9ce99754cced5f47a8ea0a50f546d1e3685d9208e3ac8213d7c",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:17:20+00:00",
+    "last_seen_at": "2026-09-12T07:17:57+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:a4f5341e97df5e9d9916",
+    "source_id": "hormel-china-canned-food-official",
+    "display_name": "午餐肉罐头巴蜀藤椒味",
+    "brand": "SPAM世棒",
+    "category": "canned_food",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://hormel.com.cn/zh-hans/category/product/detail!spam-guangtoutengjiao",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:fa01695aa8066bb518cb67778a6f217a39437c5fb32aada7e3ca5923dceadce4",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:17:20+00:00",
+    "last_seen_at": "2026-09-12T07:17:57+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:58efc12072042e918e71",
+    "source_id": "hormel-china-canned-food-official",
+    "display_name": "午餐肉经典原味单片装",
+    "brand": "SPAM世棒",
+    "category": "canned_food",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://hormel.com.cn/zh-hans/category/product/detail!spam-yuanweisingle",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:dc83b7d2225bd36227347c39ca218b3079ba82db6dcabb5d9a25d94e1a3383c9",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:17:20+00:00",
+    "last_seen_at": "2026-09-12T07:17:57+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:788b1071986a5acce433",
+    "source_id": "hormel-china-canned-food-official",
+    "display_name": "午餐肉清淡口味单片装",
+    "brand": "SPAM世棒",
+    "category": "canned_food",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://hormel.com.cn/zh-hans/category/product/detail!spam-singleqd",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:23e2879d4ab88f73f0da953f2de48c06ee8ca4d6e97a5fba2d2b7fd21f1b8b57",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:17:20+00:00",
+    "last_seen_at": "2026-09-12T07:17:57+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:c723f3bcb0b254fdcd59",
+    "source_id": "hormel-china-canned-food-official",
+    "display_name": "午餐肉简臻经典单片装",
+    "brand": "SPAM世棒",
+    "category": "canned_food",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://hormel.com.cn/zh-hans/category/product/detail!spam-singlejianzhen",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:3d11d31406b60a8c5a837cca277b1680d5ad4b732fe5ad4218127344594e53f8",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:17:20+00:00",
+    "last_seen_at": "2026-09-12T07:17:57+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:8d09758064c43ed80afd",
+    "source_id": "hormel-china-canned-food-official",
+    "display_name": "二八酱",
+    "brand": "SPAM世棒",
+    "category": "canned_food",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://hormel.com.cn/zh-hans/category/product/detail!skippyebj",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:f37934b620109668450147b3e09815bca40d280e0fabe1072c342be09fb3589e",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:17:20+00:00",
+    "last_seen_at": "2026-09-12T07:17:57+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:cd243bd387188308439b",
+    "source_id": "hormel-china-processed-meat-official",
+    "display_name": "鲜香沙茶花生汁",
+    "brand": "荷美尔",
+    "category": "processed_meat",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://hormel.com.cn/zh-hans/category/product/detail!skippy-xianxiangshacha",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:d8e72f505f57ebb97b56010fde8d1174536602e929c2cb63fa3d0088ac25a794",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:17:20+00:00",
+    "last_seen_at": "2026-09-12T07:17:20+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:db3fb2a9b84656615b09",
+    "source_id": "three-squirrels-china-snack-official",
+    "display_name": "手剥巴旦木",
+    "brand": "三只松鼠",
+    "category": "snack",
+    "region": "CN",
+    "sku": "6956511998326",
+    "specification": "120克",
+    "source_url": "https://oow.3songshu.com/product/display",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://oow.3songshu.com/product/display",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:aa83932685b4e1c9adeab92513949d3b03cd0aedac2777dcc84a62c46bc87bb1",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [
+      "糖",
+      "饱和脂肪"
+    ],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:cdcab2898d2682132e9889f2fd8afa65855d2aea6715e94dbd3d7eb9e14e8aef",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:17:50+00:00",
+    "last_seen_at": "2026-09-12T07:17:50+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:2ec069a652f6ba7d8d6e",
+    "source_id": "three-squirrels-china-snack-official",
+    "display_name": "夏威夷果",
+    "brand": "三只松鼠",
+    "category": "snack",
+    "region": "CN",
+    "sku": "6956511998289",
+    "specification": "100克",
+    "source_url": "https://oow.3songshu.com/product/display",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://oow.3songshu.com/product/display",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:aa83932685b4e1c9adeab92513949d3b03cd0aedac2777dcc84a62c46bc87bb1",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [
+      "糖",
+      "饱和脂肪"
+    ],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:4b368edfe7212e05e054e737e0d8d359a9567fdaac756e93bfa982443b02490e",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:17:50+00:00",
+    "last_seen_at": "2026-09-12T07:17:50+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:de8bc17052c75badd763",
+    "source_id": "three-squirrels-china-snack-official",
+    "display_name": "紫皮腰果",
+    "brand": "三只松鼠",
+    "category": "snack",
+    "region": "CN",
+    "sku": "6956511998364",
+    "specification": "120克",
+    "source_url": "https://oow.3songshu.com/product/display",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://oow.3songshu.com/product/display",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:aa83932685b4e1c9adeab92513949d3b03cd0aedac2777dcc84a62c46bc87bb1",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [
+      "糖",
+      "饱和脂肪"
+    ],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:cb5fea93750488968490a7f53e2247278df2b06c708f763756a76eb9ba757cec",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:17:50+00:00",
+    "last_seen_at": "2026-09-12T07:17:50+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:5ab5953728e636ebcf19",
+    "source_id": "three-squirrels-china-snack-official",
+    "display_name": "碧根果",
+    "brand": "三只松鼠",
+    "category": "snack",
+    "region": "CN",
+    "sku": "6956511998302",
+    "specification": "120克",
+    "source_url": "https://oow.3songshu.com/product/display",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://oow.3songshu.com/product/display",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:aa83932685b4e1c9adeab92513949d3b03cd0aedac2777dcc84a62c46bc87bb1",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [
+      "糖",
+      "饱和脂肪"
+    ],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:b66ae29d5dc7a4c87cfc4ede3fc45755c7d18a297aef4f16245e0327b9cf63aa",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:17:50+00:00",
+    "last_seen_at": "2026-09-12T07:17:50+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:4f50543e55910e47ad8d",
+    "source_id": "three-squirrels-china-snack-official",
+    "display_name": "开心果",
+    "brand": "三只松鼠",
+    "category": "snack",
+    "region": "CN",
+    "sku": "6956511998340",
+    "specification": "100克",
+    "source_url": "https://oow.3songshu.com/product/display",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://oow.3songshu.com/product/display",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:aa83932685b4e1c9adeab92513949d3b03cd0aedac2777dcc84a62c46bc87bb1",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [
+      "糖",
+      "饱和脂肪"
+    ],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:01b0f57424274565e3e99e9623a52127ead43fdbdd97eeb727c38afa49a263f0",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:17:50+00:00",
+    "last_seen_at": "2026-09-12T07:17:50+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:37af1faf6029d959b70a",
+    "source_id": "three-squirrels-china-snack-official",
+    "display_name": "炭烧腰果",
+    "brand": "三只松鼠",
+    "category": "snack",
+    "region": "CN",
+    "sku": "6942209633495",
+    "specification": "120克",
+    "source_url": "https://oow.3songshu.com/product/display",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://oow.3songshu.com/product/display",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:aa83932685b4e1c9adeab92513949d3b03cd0aedac2777dcc84a62c46bc87bb1",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [
+      "糖",
+      "饱和脂肪"
+    ],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:cb968f36fe65e34c90832d197d70617192c1ce93d078973fbb23ed962829957c",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:17:50+00:00",
+    "last_seen_at": "2026-09-12T07:17:50+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:395e3e9d46ca7e61ea1f",
+    "source_id": "three-squirrels-china-snack-official",
+    "display_name": "奶香烤核桃（奶香味）",
+    "brand": "三只松鼠",
+    "category": "snack",
+    "region": "CN",
+    "sku": "6942209633488",
+    "specification": "150克",
+    "source_url": "https://oow.3songshu.com/product/display",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://oow.3songshu.com/product/display",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:aa83932685b4e1c9adeab92513949d3b03cd0aedac2777dcc84a62c46bc87bb1",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [
+      "糖",
+      "饱和脂肪"
+    ],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:7389e8d26c50e40d5b0efbdbf40d0ab14bf2c629050e78817483f6103b734678",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:17:50+00:00",
+    "last_seen_at": "2026-09-12T07:17:50+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:8d1830278570c75dd8c9",
+    "source_id": "three-squirrels-china-snack-official",
+    "display_name": "通用款每日坚果",
+    "brand": "三只松鼠",
+    "category": "snack",
+    "region": "CN",
+    "sku": "6937506805478",
+    "specification": "750克",
+    "source_url": "https://oow.3songshu.com/product/display",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://oow.3songshu.com/product/display",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:aa83932685b4e1c9adeab92513949d3b03cd0aedac2777dcc84a62c46bc87bb1",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [
+      "糖",
+      "饱和脂肪"
+    ],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:e26d95c38d64079dfb292688600f4a79dfcc9bc9f3bedcee99cc78e3b7c329bc",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:17:50+00:00",
+    "last_seen_at": "2026-09-12T07:17:50+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:5a37b3a4c44b4104fb4b",
+    "source_id": "hormel-china-canned-food-official",
+    "display_name": "午餐肉罐头经典原味",
+    "brand": "SPAM世棒",
+    "category": "canned_food",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://hormel.com.cn/zh-hans/category/product/detail%21SPAM-Classic",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:acb1bf3950c6d085aaae0dfcb30477df0343127797e396dd9366ef23d5bacbd2",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:17:57+00:00",
+    "last_seen_at": "2026-09-12T07:17:57+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:6808ada1f9d989a5d1e3",
+    "source_id": "nanfang-stone-ground-sesame-official-label",
+    "display_name": "南方石磨黑芝麻糊",
+    "brand": "南方黑芝麻",
+    "category": "breakfast_cereal",
+    "region": "CN",
+    "sku": "6901333388886",
+    "specification": "315克（35克×9袋）",
+    "source_url": "https://32034701.s21i.faiusr.com/4/ABUIABAEGAAg_eKMwwYokKm-2wQwsQs4zA4.png",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://32034701.s21i.faiusr.com/4/ABUIABAEGAAg_eKMwwYokKm-2wQwsQs4zA4.png",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:1f13630c1c594cfe4fae790ef0cbad0f691d5c69b7202ead5bac1a7660ebfb7e",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [
+      "https://32034701.s21i.faiusr.com/4/ABUIABAEGAAg_eKMwwYokKm-2wQwsQs4zA4.png"
+    ],
+    "evidence_assets": [
+      {
+        "url": "https://32034701.s21i.faiusr.com/4/ABUIABAEGAAg_eKMwwYokKm-2wQwsQs4zA4.png",
+        "artifact_type": "official_label_artwork"
+      }
+    ],
+    "review_target_fields": [
+      "糖",
+      "饱和脂肪"
+    ],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:8d96e2ef972e95304f3ad53d8ff28748a59997d8bf8f323ae170a61916e1c770",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:18:00+00:00",
+    "last_seen_at": "2026-09-12T07:18:00+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:3e1727f8acd0b3f58c1e",
+    "source_id": "shuanghui-china-meat-official",
+    "display_name": "双汇王中王火腿肠",
+    "brand": "双汇",
+    "category": "processed_meat",
+    "region": "CN",
+    "sku": "6902890228325",
+    "specification": "240克",
+    "source_url": "https://www.shuanghui.net/page-32.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.shuanghui.net/page-32.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:a260c36e4dda9663f5785451e92611b9b8f4ce5722008526f629e67e8fa4373c",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [
+      "https://www.lingshi.us/cdn/shop/products/O1CN012LyaSofQwXMQ7pu__3332089761_800x.jpg?v=1600630136"
+    ],
+    "evidence_assets": [
+      {
+        "url": "https://www.lingshi.us/cdn/shop/products/O1CN012LyaSofQwXMQ7pu__3332089761_800x.jpg?v=1600630136",
+        "artifact_type": "packaging_photo"
+      }
+    ],
+    "review_target_fields": [
+      "饱和脂肪"
+    ],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:c0d7baeab93c501c5c389e865fa250801b0b0132d1558d6bcd34eee7acbd08aa",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:18:15+00:00",
+    "last_seen_at": "2026-09-12T07:18:15+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:7147ec1741214f859bba",
+    "source_id": "chubang-yipinxian-official",
+    "display_name": "厨邦一品鲜酱油",
+    "brand": "厨邦",
+    "category": "sauce_condiment",
+    "region": "CN",
+    "sku": "6902902009324",
+    "specification": "500毫升",
+    "source_url": "https://m.chubang.cn/displayproduct.html?id=3299801674175808",
+    "source_type": "official_product_page",
+    "official_store_url": "https://mall.jd.com/view_search-1953749-28819257-99-1-20-1.html",
+    "official_store_name": "厨邦旗舰店",
+    "identity_evidence": {
+      "source_url": "https://m.chubang.cn/displayproduct.html?id=3299801674175808",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:0bef4f5d59d8f0d21b2e0a7998270003945be83e8b0b506f341e49f28e14dbe6",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [
+      "https://imgservice.suning.cn/uimg1/b2c/image/kWk3_aKDfAloxy23gu52kA.jpg_800w_800h_4e_80Q_is"
+    ],
+    "evidence_assets": [
+      {
+        "url": "https://imgservice.suning.cn/uimg1/b2c/image/kWk3_aKDfAloxy23gu52kA.jpg_800w_800h_4e_80Q_is",
+        "artifact_type": "packaging_photo"
+      }
+    ],
+    "review_target_fields": [
+      "糖",
+      "饱和脂肪"
+    ],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:ebfa42703e13e832e1c035203952b383e25f886345852aec9b5132386bb97b7f",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:18:32+00:00",
+    "last_seen_at": "2026-09-12T07:18:32+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:d67656778b2af0262b9a",
+    "source_id": "zihaiguo-youzan-official-store",
+    "display_name": "自嗨锅 夜宵解馋小锅自热火锅 39.9元/4件包邮 口味任选",
+    "brand": "自嗨锅",
+    "category": "prepared_meal",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://detail.youzan.com/show/goods?from_source=gbox_seo&alias=3nhyslu5g1uwd",
+    "source_type": "official_flagship_store",
+    "official_store_url": "https://detail.youzan.com/show/goods?alias=3ewqnzjrtiy3h",
+    "official_store_name": "自嗨锅旗舰店（微信认证）",
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [
+      "糖",
+      "饱和脂肪"
+    ],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:903cadd4f45de3c6a244f1777c088fb5b8dcd8d8c6c7fd86a36a9cf1dc6352c3",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:18:35+00:00",
+    "last_seen_at": "2026-09-12T07:18:35+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:dfd430b0b2a9ed670612",
+    "source_id": "zihaiguo-youzan-official-store",
+    "display_name": "【组合】自嗨锅麻辣嫩牛方便速食毛血旺关东煮火锅自热地道火锅食材",
+    "brand": "自嗨锅",
+    "category": "prepared_meal",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://detail.youzan.com/show/goods?from_source=gbox_seo&alias=26vhj0f7a06fhia",
+    "source_type": "official_flagship_store",
+    "official_store_url": "https://detail.youzan.com/show/goods?alias=3ewqnzjrtiy3h",
+    "official_store_name": "自嗨锅旗舰店（微信认证）",
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [
+      "糖",
+      "饱和脂肪"
+    ],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:6c19bd04ee04359baba71240a1f3a10391212fb07d054edb61f3f34e142248e2",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:18:35+00:00",
+    "last_seen_at": "2026-09-12T07:18:35+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:8273a0a339ea578c30c8",
+    "source_id": "zihaiguo-youzan-official-store",
+    "display_name": "浓汤砂锅粉（赠品）",
+    "brand": "自嗨锅",
+    "category": "prepared_meal",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://detail.youzan.com/show/goods?from_source=gbox_seo&alias=3nhy3za7m1fd932",
+    "source_type": "official_flagship_store",
+    "official_store_url": "https://detail.youzan.com/show/goods?alias=3ewqnzjrtiy3h",
+    "official_store_name": "自嗨锅旗舰店（微信认证）",
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [
+      "糖",
+      "饱和脂肪"
+    ],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:02c66caa02acb7f2455d27a65b986ee2764ed6bfb1edf83dce084f7a35c4d173",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:18:35+00:00",
+    "last_seen_at": "2026-09-12T07:18:35+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:7f076c501c8042e29b8d",
+    "source_id": "zihaiguo-youzan-official-store",
+    "display_name": "补差价 专用链接 不发货",
+    "brand": "自嗨锅",
+    "category": "prepared_meal",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://detail.youzan.com/show/goods?from_source=gbox_seo&alias=2ocx3912wrgwt69",
+    "source_type": "official_flagship_store",
+    "official_store_url": "https://detail.youzan.com/show/goods?alias=3ewqnzjrtiy3h",
+    "official_store_name": "自嗨锅旗舰店（微信认证）",
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [
+      "糖",
+      "饱和脂肪"
+    ],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:2c6241e69d10ad99c9d5b9179ef3a52483f6482abf56986b9c36ed0c723945ad",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:18:35+00:00",
+    "last_seen_at": "2026-09-12T07:18:35+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:8e0a4723811e15e75324",
+    "source_id": "zihaiguo-youzan-official-store",
+    "display_name": "自嗨锅 多口味自热火锅大锅（任选 )",
+    "brand": "自嗨锅",
+    "category": "prepared_meal",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://detail.youzan.com/show/goods?from_source=gbox_seo&alias=3ewqnzjrtiy3h",
+    "source_type": "official_flagship_store",
+    "official_store_url": "https://detail.youzan.com/show/goods?alias=3ewqnzjrtiy3h",
+    "official_store_name": "自嗨锅旗舰店（微信认证）",
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [
+      "糖",
+      "饱和脂肪"
+    ],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:89654f31a82ed7a339476105fc11dcd844485346cd517924319600a99ffa2470",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:18:35+00:00",
+    "last_seen_at": "2026-09-12T07:18:35+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:6911a443816524d4a5e6",
+    "source_id": "zihaiguo-youzan-official-store",
+    "display_name": "【自嗨日】每周四 公众号回复周四自嗨日，领取60元优惠券，含赠到手券后59.9元/10件！",
+    "brand": "自嗨锅",
+    "category": "prepared_meal",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://detail.youzan.com/show/goods?from_source=gbox_seo&alias=3694y67kwdwktxw",
+    "source_type": "official_flagship_store",
+    "official_store_url": "https://detail.youzan.com/show/goods?alias=3ewqnzjrtiy3h",
+    "official_store_name": "自嗨锅旗舰店（微信认证）",
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [
+      "糖",
+      "饱和脂肪"
+    ],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:82b0899519d9fcb86dacfe9e40a4c128946f1f5136f14cb9e503f00855e4752c",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:18:35+00:00",
+    "last_seen_at": "2026-09-12T07:18:35+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:ea5136bca5af42eadb8d",
+    "source_id": "zihaiguo-youzan-official-store",
+    "display_name": "【食来运转】公众号专享，限时直降30元！31.9元到手6件",
+    "brand": "自嗨锅",
+    "category": "prepared_meal",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://detail.youzan.com/show/goods?from_source=gbox_seo&alias=35y0myn47nfq5pb",
+    "source_type": "official_flagship_store",
+    "official_store_url": "https://detail.youzan.com/show/goods?alias=3ewqnzjrtiy3h",
+    "official_store_name": "自嗨锅旗舰店（微信认证）",
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [
+      "糖",
+      "饱和脂肪"
+    ],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:f82603cff345f26fdc1234164eeedb73e40ec3cddb1c1b2d9480abef1ed6284a",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:18:35+00:00",
+    "last_seen_at": "2026-09-12T07:18:35+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:bdd6c72665c62ec54b72",
+    "source_id": "zihaiguo-youzan-official-store",
+    "display_name": "【99元任选10件】自嗨锅 自热米饭煲仔饭口味任选明星同款网红懒人速食 选择不同的口味加入购物车后结算",
+    "brand": "自嗨锅",
+    "category": "prepared_meal",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://detail.youzan.com/show/goods?from_source=gbox_seo&alias=3exz037a28eod",
+    "source_type": "official_flagship_store",
+    "official_store_url": "https://detail.youzan.com/show/goods?alias=3ewqnzjrtiy3h",
+    "official_store_name": "自嗨锅旗舰店（微信认证）",
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [
+      "糖",
+      "饱和脂肪"
+    ],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:e39aa20e9131ed463c3fd1e96d45b4da0b44bd02775f3678f8737a900745f8e4",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:18:35+00:00",
+    "last_seen_at": "2026-09-12T07:18:35+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:9c8c636f29e2ce21f5cd",
+    "source_id": "zihaiguo-youzan-official-store",
+    "display_name": "【新品尝鲜】自嗨锅 冲泡粉面整箱装 到手23.9/6桶",
+    "brand": "自嗨锅",
+    "category": "prepared_meal",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://detail.youzan.com/show/goods?from_source=gbox_seo&alias=1yho53xdh77i5vr",
+    "source_type": "official_flagship_store",
+    "official_store_url": "https://detail.youzan.com/show/goods?alias=3ewqnzjrtiy3h",
+    "official_store_name": "自嗨锅旗舰店（微信认证）",
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [
+      "糖",
+      "饱和脂肪"
+    ],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:100c14ee4264ebb464c1295b830dd8663be2c493988ed00b09c2ffe9bb02f8ce",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:18:35+00:00",
+    "last_seen_at": "2026-09-12T07:18:35+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:08b3bcf8f62d237f6d43",
+    "source_id": "zihaiguo-youzan-official-store",
+    "display_name": "自嗨锅 自热米饭煲仔饭口味（任选）",
+    "brand": "自嗨锅",
+    "category": "prepared_meal",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://detail.youzan.com/show/goods?from_source=gbox_seo&alias=2x49qa1qupmz1",
+    "source_type": "official_flagship_store",
+    "official_store_url": "https://detail.youzan.com/show/goods?alias=3ewqnzjrtiy3h",
+    "official_store_name": "自嗨锅旗舰店（微信认证）",
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [
+      "糖",
+      "饱和脂肪"
+    ],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:1fc83c75c3d9278692b9f5fc172d6e998c578522c763c601a243d95b73ef96ce",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:18:35+00:00",
+    "last_seen_at": "2026-09-12T07:18:35+00:00"
+  },
+  {
+    "candidate_id": "official-discovery:6155aed2626e6df68344",
+    "source_id": "zihaiguo-youzan-official-store",
+    "display_name": "【新品尝鲜】自嗨锅 一口土豆粉 软糯网红粉耗子 冲泡系列宿舍解馋",
+    "brand": "自嗨锅",
+    "category": "prepared_meal",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://detail.youzan.com/show/goods?from_source=gbox_seo&alias=3f5e3yhrp56p995",
+    "source_type": "official_flagship_store",
+    "official_store_url": "https://detail.youzan.com/show/goods?alias=3ewqnzjrtiy3h",
+    "official_store_name": "自嗨锅旗舰店（微信认证）",
+    "identity_evidence": null,
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [
+      "糖",
+      "饱和脂肪"
+    ],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:c098dcd51e32d3b099f89a34a2eef3a0f51566bb0f7b68b76b56a2d5e3e7a143",
+    "missing_fields": [
+      "完整配料表文字",
+      "包装过敏原提示",
+      "营养标示口径",
+      "营养项目：能量、蛋白质、脂肪、碳水化合物、钠",
+      "SKU",
+      "规格",
+      "双人复核实物或厂家完整包装配料图",
+      "双人复核实物或厂家完整包装营养图"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-09-12T07:18:35+00:00",
+    "last_seen_at": "2026-09-12T07:18:35+00:00"
+  }
+]

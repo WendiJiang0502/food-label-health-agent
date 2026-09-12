@@ -15,6 +15,7 @@ from food_label_agent.alternatives.evidence_audit import (
 from food_label_agent.alternatives.models import (
     AlternativeRevalidationRequest,
     AlternativeSearchRequest,
+    NutritionFieldEvidence,
     ProductRecord,
 )
 from food_label_agent.alternatives.service import (
@@ -94,6 +95,23 @@ def test_official_catalog_exposes_complete_review_queue() -> None:
     assert coverage["current_purchase_evidence_count"] == 0
     assert coverage["purchase_availability_rate"] == 0.0
     assert coverage["metrics_as_of"] == datetime.now(UTC).date().isoformat()
+    assert coverage["sku_specification_identity_count"] == 0
+    assert coverage["nutrition_field_counts"] == {
+        "energy": 88,
+        "protein": 90,
+        "fat": 88,
+        "carbohydrate": 88,
+        "sodium": 88,
+        "sugars": 52,
+        "saturated_fat": 0,
+        "dietary_fiber": 0,
+    }
+    quality = coverage["catalog_quality"]
+    assert quality["category_count"] == 14
+    assert quality["passed_category_count"] == 0
+    assert quality["categories"]["biscuit"]["brand_owner_count"] == 2
+    assert quality["categories"]["bread"]["additional_brand_owners_needed"] == 1
+    assert quality["categories"]["dairy"]["brand_owner_count"] == 1
     assert len(coverage["items"]) == 93
     assert coverage["items"][0]["label_coverage"]["review_priority"] == "high"
 
@@ -120,6 +138,26 @@ def test_official_catalog_turns_missing_labels_into_actionable_queue() -> None:
         for item in queue["items"]
     )
     assert all(item["source"]["record_version"] for item in queue["items"])
+    assert all(
+        item["structured_gaps"]["identity"] == ["sku", "specification"]
+        for item in queue["items"]
+    )
+    assert all(
+        item["capture_requirements"]["nutrition_field_review_required"] is True
+        for item in queue["items"]
+    )
+
+
+def test_verified_nutrition_field_requires_independent_second_review() -> None:
+    with pytest.raises(ValueError, match="requires a second review"):
+        NutritionFieldEvidence(
+            canonical_name="sodium",
+            snapshot_id="snapshot-001",
+            source_row_label="钠",
+            review_status="verified",
+            primary_reviewer_id="reviewer-a",
+            reviewed_at=date(2026, 9, 12),
+        )
 
 
 @pytest.mark.parametrize("category", ALL_PRODUCT_CATEGORIES)

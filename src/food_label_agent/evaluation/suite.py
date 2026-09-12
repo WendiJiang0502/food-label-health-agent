@@ -32,6 +32,7 @@ from .alternatives import (
     AlternativeAvailabilityCase,
     evaluate_alternative_availability,
     evaluate_alternative_benchmark,
+    evaluate_alternative_intent_holdout,
     evaluate_category_inference,
 )
 from .benchmarks import ALTERNATIVE_BENCHMARK, RAG_BENCHMARK
@@ -107,6 +108,9 @@ def run_evaluation(
             ).to_dict(),
             "alternative_category": evaluate_category_inference(
                 OfficialChinaCatalog().records()
+            ).to_dict(),
+            "alternative_intent_holdout": evaluate_alternative_intent_holdout(
+                expected_categories=tuple(PRODUCT_CATEGORIES)
             ).to_dict(),
             "safety_gate": evaluate_final_safety_gate().to_dict(),
             "failure_corpus": evaluate_failure_corpus().to_dict(),
@@ -322,6 +326,8 @@ def _evaluate_production_alternatives() -> dict[str, Any]:
         "coverage_rate": packaging_rate,
         "minimum_rate": minimum_packaging_rate,
     }
+    catalog_quality = dict(coverage.get("catalog_quality") or {})
+    result["catalog_quality"] = catalog_quality
     result["catalog_evidence_freshness"] = {
         "expired_count": int(coverage.get("expired_evidence_count") or 0),
         "expired_rate": float(coverage.get("expired_evidence_rate") or 0.0),
@@ -340,6 +346,31 @@ def _evaluate_production_alternatives() -> dict[str, Any]:
         "minimum_rate": minimum_purchase_rate,
     }
     additional_blockers: list[str] = []
+    category_reports = catalog_quality.get("categories") or {}
+    category_blocker_sets = [
+        set(report.get("release_blockers") or [])
+        for report in category_reports.values()
+    ]
+    quality_blocker_map = {
+        "distinct_brand_count_below_minimum": (
+            "official_catalog_category_brand_coverage_below_minimum"
+        ),
+        "sku_specification_identity_incomplete": (
+            "official_catalog_sku_specification_identity_incomplete"
+        ),
+        "dual_reviewed_packaging_incomplete": (
+            "official_catalog_dual_reviewed_packaging_incomplete"
+        ),
+        "core_nutrition_fields_incomplete": (
+            "official_catalog_core_nutrition_fields_incomplete"
+        ),
+        "health_comparison_nutrition_fields_incomplete": (
+            "official_catalog_health_comparison_nutrition_fields_incomplete"
+        ),
+    }
+    for gap, blocker in quality_blocker_map.items():
+        if any(gap in item for item in category_blocker_sets):
+            additional_blockers.append(blocker)
     if coverage.get("expired_evidence_count"):
         additional_blockers.append("official_catalog_contains_expired_evidence")
     if coverage.get("stale_evidence_count"):

@@ -18,7 +18,11 @@ from urllib.parse import urlencode, urlparse
 from urllib.request import Request, urlopen
 
 from .discovery import default_approved_catalog_path
-from .evidence_audit import audit_product_label, summarize_label_coverage
+from .evidence_audit import (
+    audit_product_label,
+    summarize_catalog_quality,
+    summarize_label_coverage,
+)
 from .models import ProductRecord
 
 DATA_PATH = Path(__file__).with_name("data") / "curated_products.json"
@@ -270,6 +274,7 @@ class OfficialChinaCatalog:
                 applicable_date=datetime.now(UTC).date(),
                 maximum_source_age_days=OFFICIAL_LABEL_REVERIFY_AFTER.days,
             ),
+            "catalog_quality": summarize_catalog_quality(selected),
             "items": items,
         }
 
@@ -311,6 +316,30 @@ class OfficialChinaCatalog:
                     "status": status,
                     "priority": "urgent" if reverify_due else audit["review_priority"],
                     "missing_fields": missing_fields,
+                    "structured_gaps": {
+                        "identity": [
+                            field
+                            for field, present in (
+                                ("sku", bool(product.sku)),
+                                ("specification", bool(product.specification)),
+                            )
+                            if not present
+                        ],
+                        "core_nutrition": list(
+                            audit["missing_core_nutrition_fields"]
+                        ),
+                        "health_comparison_nutrition": list(
+                            audit["missing_health_comparison_fields"]
+                        ),
+                        "packaging": [
+                            kind
+                            for kind, present in (
+                                ("ingredients", audit["ingredient_snapshot_ready"]),
+                                ("nutrition", audit["nutrition_snapshot_ready"]),
+                            )
+                            if not present
+                        ],
+                    },
                     "verified_fields": list(audit["verified_fields"]),
                     "next_action": (
                         "重新核对官方页面与当前包装版本"
@@ -327,6 +356,11 @@ class OfficialChinaCatalog:
                         "minimum_distinct_reviewers": 2,
                         "official_page_capture_is_sufficient": False,
                         "content_hash_required": True,
+                        "nutrition_field_review_required": True,
+                        "nutrition_field_review_snapshot_link_required": True,
+                        "nutrition_fields_to_review": list(
+                            audit["nutrition_fields"].keys()
+                        ),
                     },
                     "source": {
                         "url": label.source_url,
