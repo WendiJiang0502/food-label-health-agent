@@ -47,6 +47,12 @@ const elements = {
   railError: document.querySelector("#rail-error"),
   railErrorMessage: document.querySelector("#rail-error-message"),
   issueLocations: document.querySelector("#issue-locations"),
+  resumeDraft: document.querySelector("#resume-draft"),
+  resumeDraftTitle: document.querySelector("#resume-draft-title"),
+  resumeDraftMessage: document.querySelector("#resume-draft-message"),
+  resumeDraftUpload: document.querySelector("#resume-draft-upload"),
+  discardDraft: document.querySelector("#discard-draft"),
+  workflowProgress: document.querySelector("#workflow-progress"),
   constraintStep: document.querySelector("#constraint-step"),
   editLabel: document.querySelector("#edit-label"),
   constraintForm: document.querySelector("#constraint-form"),
@@ -209,6 +215,8 @@ const HEALTH_HISTORY_STORAGE_KEY = "food-label-agent.health-changes.v1";
 const HEALTH_HISTORY_CONSENT_KEY = "food-label-agent.health-changes-consent.v1";
 const CHAT_SESSION_STORAGE_KEY = "food-label-agent.chat-session.v1";
 const CHAT_CONSENT_SESSION_KEY = "food-label-agent.chat-remote-consent.v1";
+const SCAN_DRAFT_SESSION_KEY = "food-label-agent.scan-draft.v1";
+const SCAN_DRAFT_MAX_AGE_MS = 2 * 60 * 60 * 1000;
 let processingDisclosureVerified = false;
 let conversationConfigured = false;
 
@@ -246,6 +254,9 @@ const state = {
   historyDetailId: null,
   chatSession: readChatSession(),
   chatBusy: false,
+  restoredDraft: null,
+  restoredFieldValues: null,
+  currentFileMeta: null,
 };
 
 elements.chatRemoteConsent.checked = sessionStorage.getItem(CHAT_CONSENT_SESSION_KEY) === "granted";
@@ -512,6 +523,10 @@ const healthMetricConfig = {
 initializeProfileFlow();
 loadRememberedConstraints();
 initializeAccountFeatures();
+restoreScanDraft();
+
+elements.resumeDraftUpload.addEventListener("click", () => elements.fileInput.click());
+elements.discardDraft.addEventListener("click", discardScanDraft);
 
 elements.profileForm.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -663,6 +678,159 @@ function initializeProfileFlow() {
     return;
   }
   showProfileScreen("profile");
+}
+
+function readScanDraft() {
+  try {
+    const draft = JSON.parse(sessionStorage.getItem(SCAN_DRAFT_SESSION_KEY) || "null");
+    const savedAt = Date.parse(draft?.savedAt || "");
+    const validStage = draft?.stage === "review" || draft?.stage === "evaluate";
+    const validAnalysis = draft?.analysis?.request_id && Array.isArray(draft.analysis.fields);
+    if (!validStage || !validAnalysis || !Number.isFinite(savedAt)
+      || Date.now() - savedAt > SCAN_DRAFT_MAX_AGE_MS) {
+      sessionStorage.removeItem(SCAN_DRAFT_SESSION_KEY);
+      return null;
+    }
+    return draft;
+  } catch {
+    sessionStorage.removeItem(SCAN_DRAFT_SESSION_KEY);
+    return null;
+  }
+}
+
+function saveScanDraft(stage = "review") {
+  if (!state.analysis?.request_id) return;
+  const fieldValues = {};
+  elements.fieldList.querySelectorAll("textarea[data-field-name]").forEach((field) => {
+    fieldValues[field.dataset.fieldName] = field.value;
+  });
+  const draft = {
+    version: 1,
+    savedAt: new Date().toISOString(),
+    stage,
+    analysis: state.analysis,
+    fieldValues,
+    confirmedFields: state.confirmedFields,
+    checkpointToken: state.checkpointToken,
+    profile: state.profile,
+    alternativeSuggestion: state.alternativeSuggestion,
+    suggestedCategory: state.suggestedCategory,
+    substituteCategories: state.substituteCategories,
+    fileMeta: state.currentFileMeta,
+  };
+  try {
+    sessionStorage.setItem(SCAN_DRAFT_SESSION_KEY, JSON.stringify(draft));
+  } catch {
+    // A full or disabled session store must not interrupt label checking.
+  }
+}
+
+function restoreScanDraft() {
+  const draft = readScanDraft();
+  if (!draft) {
+    setWorkflowStep("upload");
+    return;
+  }
+  state.restoredDraft = draft;
+  state.analysis = draft.analysis;
+  state.confirmedFields = draft.confirmedFields || null;
+  state.checkpointToken = draft.checkpointToken || null;
+  state.alternativeSuggestion = draft.alternativeSuggestion || null;
+  state.suggestedCategory = draft.suggestedCategory || null;
+  state.substituteCategories = draft.substituteCategories || [];
+  state.currentFileMeta = draft.fileMeta || null;
+  if (!state.profile && draft.profile && isValidProfile(draft.profile)) {
+    state.profile = draft.profile;
+  }
+  if (state.profile) renderScanProfile(state.profile);
+  showProfileScreen("scan");
+  revealAppTabbar();
+  renderFields(draft.analysis.fields);
+  Object.entries(draft.fieldValues || {}).forEach(([name, value]) => {
+    const textarea = elements.fieldList.querySelector(
+      `textarea[data-field-name="${CSS.escape(name)}"]`,
+    );
+    if (textarea) textarea.value = String(value);
+  });
+  elements.workbench.classList.add("has-analysis");
+  elements.heroLayout.classList.add("has-analysis");
+  elements.reviewRail.hidden = false;
+  elements.dropZone.hidden = false;
+  elements.imageStage.hidden = true;
+  elements.proofTitle.textContent = "标签文字草稿";
+  elements.resumeDraft.hidden = false;
+  elements.reviewCount.textContent = `${elements.fieldList.querySelectorAll(".ocr-field").length} 项`;
+
+  if (draft.stage === "evaluate" && state.confirmedFields && state.checkpointToken) {
+    elements.form.hidden = true;
+    elements.constraintStep.hidden = false;
+    elements.safetyResult.hidden = true;
+    elements.reviewTitle.textContent = "确认本次设置";
+    elements.reviewCount.textContent = "已恢复到第 3 步";
+    elements.proofState.textContent = "标签已确认 · 草稿已恢复";
+    elements.resumeDraftTitle.textContent = "已恢复到检查步骤";
+    elements.resumeDraftMessage.textContent = "图片没有保存；已确认的文字与本次设置保留在当前标签页。";
+    elements.resumeDraftUpload.hidden = true;
+    applyRememberedConstraints();
+    applyProfileConstraints();
+    setWorkflowStep("evaluate");
+  } else {
+    elements.form.hidden = false;
+    elements.constraintStep.hidden = true;
+    elements.confirmButton.disabled = true;
+    elements.proofState.textContent = "草稿已恢复 · 原图需重传";
+    elements.resumeDraftTitle.textContent = "已恢复上次校对草稿";
+    elements.resumeDraftMessage.textContent = "修改过的文字仍在；原图没有保存。请重新上传同一张图片后继续核对。";
+    elements.resumeDraftUpload.hidden = false;
+    setWorkflowStep("review");
+  }
+  announce("已恢复上次标签检查进度");
+}
+
+function discardScanDraft() {
+  sessionStorage.removeItem(SCAN_DRAFT_SESSION_KEY);
+  state.restoredDraft = null;
+  state.restoredFieldValues = null;
+  state.currentFileMeta = null;
+  elements.resumeDraft.hidden = true;
+  resetResult();
+  elements.dropZone.hidden = false;
+  elements.imageStage.hidden = true;
+  elements.proofTitle.textContent = "把标签放进来";
+  elements.proofState.textContent = "等待图片";
+  setWorkflowStep("upload");
+  elements.heroUploadButton.focus();
+  announce("校对草稿已从当前标签页清除");
+}
+
+function setWorkflowStep(current) {
+  const order = ["upload", "review", "evaluate"];
+  const currentIndex = Math.max(0, order.indexOf(current));
+  elements.workflowProgress.querySelectorAll("li[data-workflow-step]").forEach((item) => {
+    const index = order.indexOf(item.dataset.workflowStep);
+    item.classList.toggle("is-current", index === currentIndex);
+    item.classList.toggle("is-complete", index < currentIndex);
+    if (index === currentIndex) item.setAttribute("aria-current", "step");
+    else item.removeAttribute("aria-current");
+  });
+}
+
+function fileMeta(file) {
+  return {
+    name: file.name,
+    size: file.size,
+    type: file.type,
+    lastModified: file.lastModified,
+  };
+}
+
+function sameDraftFile(file, expected) {
+  if (!expected) return false;
+  const current = fileMeta(file);
+  return current.name === expected.name
+    && current.size === expected.size
+    && current.type === expected.type
+    && current.lastModified === expected.lastModified;
 }
 
 function showProfileScreen(screen) {
@@ -972,8 +1140,10 @@ elements.form.addEventListener("submit", async (event) => {
     elements.reviewTitle.textContent = "确认本次设置";
     elements.reviewCount.textContent = "个人档案";
     elements.proofState.textContent = "标签已确认";
+    setWorkflowStep("evaluate");
     applyRememberedConstraints();
     applyProfileConstraints();
+    saveScanDraft("evaluate");
     elements.evaluateButton.focus();
     announce("识别文字已确认，请确认本次使用的个人设置");
   } catch (error) {
@@ -1153,6 +1323,15 @@ function returnToLabelEditing() {
   elements.reviewTitle.textContent = "确认识别文字";
   elements.reviewCount.textContent = `${elements.fieldList.querySelectorAll(".ocr-field").length} 项`;
   elements.proofState.textContent = "待重新确认";
+  setWorkflowStep("review");
+  if (!state.file) {
+    elements.confirmButton.disabled = true;
+    elements.resumeDraft.hidden = false;
+    elements.resumeDraftUpload.hidden = false;
+    elements.resumeDraftTitle.textContent = "请重新上传原图后继续";
+    elements.resumeDraftMessage.textContent = "文字草稿还在，但原图没有保存；重新上传同一张图片后才能再次确认。";
+  }
+  saveScanDraft("review");
   elements.fieldList.querySelector("textarea")?.focus();
   announce("已返回标签文字编辑，请修改后重新确认");
 }
@@ -1168,9 +1347,17 @@ function selectFile(file) {
     return;
   }
 
+  const canRestoreEdits = state.restoredDraft?.stage === "review"
+    && sameDraftFile(file, state.restoredDraft.fileMeta);
+  state.restoredFieldValues = canRestoreEdits ? state.restoredDraft.fieldValues : null;
+  if (state.restoredDraft && !canRestoreEdits) {
+    sessionStorage.removeItem(SCAN_DRAFT_SESSION_KEY);
+    state.restoredDraft = null;
+  }
   hideError();
   resetResult();
   state.file = file;
+  state.currentFileMeta = fileMeta(file);
   if (state.previewUrl) URL.revokeObjectURL(state.previewUrl);
   state.previewUrl = URL.createObjectURL(file);
   elements.preview.src = state.previewUrl;
@@ -1179,6 +1366,8 @@ function selectFile(file) {
   elements.imageStage.hidden = false;
   elements.proofTitle.textContent = "标签原图";
   elements.proofState.textContent = "准备识别";
+  elements.resumeDraft.hidden = true;
+  setWorkflowStep("upload");
   analyzeFile(file);
 }
 
@@ -1211,6 +1400,14 @@ async function analyzeFile(file) {
       state.checkpointToken = payload.checkpoint.resume_token;
     }
     const reviewFieldCount = renderFields(payload.fields);
+    if (state.restoredFieldValues) {
+      Object.entries(state.restoredFieldValues).forEach(([name, value]) => {
+        const textarea = elements.fieldList.querySelector(
+          `textarea[data-field-name="${CSS.escape(name)}"]`,
+        );
+        if (textarea) textarea.value = String(value);
+      });
+    }
     renderAnnotations(payload.fields);
     elements.workbench.classList.add("has-analysis");
     elements.heroLayout.classList.add("has-analysis");
@@ -1221,7 +1418,15 @@ async function analyzeFile(file) {
     const speedNote = processing.cache_hit
       ? "已读取缓存"
       : `${((processing.total_ms || 0) / 1000).toFixed(1)} 秒`;
-    elements.proofState.textContent = `待人工确认 · ${speedNote}`;
+    elements.proofState.textContent = state.restoredFieldValues
+      ? `草稿已恢复 · ${speedNote}`
+      : `待人工确认 · ${speedNote}`;
+    state.restoredDraft = null;
+    state.restoredFieldValues = null;
+    elements.confirmButton.disabled = false;
+    elements.resumeDraft.hidden = true;
+    setWorkflowStep("review");
+    saveScanDraft("review");
     announce(`识别完成，用时${speedNote}，共 ${reviewFieldCount} 个待核对字段，请先逐行确认过敏原声明`);
   } catch (error) {
     elements.workbench.classList.remove("has-analysis");
@@ -1229,6 +1434,7 @@ async function analyzeFile(file) {
     elements.reviewRail.hidden = true;
     elements.reviewCount.textContent = "0 项";
     elements.proofState.textContent = "识别未完成";
+    if (state.restoredDraft) elements.resumeDraft.hidden = false;
     showError(error.message);
   } finally {
     elements.processing.hidden = true;
@@ -1281,6 +1487,7 @@ function renderFields(fields) {
       if (textarea.classList.contains("has-text-error")) {
         hideRailError();
       }
+      saveScanDraft("review");
     });
 
     const help = document.createElement("p");
@@ -2677,6 +2884,45 @@ function renderAlternativeEvidenceStatus(item) {
     source_verified_at: item.label_source_verified_at || item.label_confirmed_at,
     record_version: item.label_source_record_version,
   };
+  const wrapper = document.createElement("section");
+  wrapper.className = `alternative-evidence-brief alternative-evidence-brief--${status.status}`;
+  wrapper.setAttribute("aria-label", "这件备选还需要核对什么");
+  const missingFields = item.catalog_eligibility?.missing_required_fields
+    || item.catalog_eligibility?.missing_comparison_fields
+    || [];
+  const fullyVerified = item.catalog_tier === "fully_verified";
+  const purchaseEvidence = item.purchase_availability;
+  const brief = document.createElement("dl");
+  brief.className = "alternative-evidence-checklist";
+  appendAlternativeLabelFact(
+    brief,
+    "现在能判断",
+    fullyVerified ? "同口径字段可以比较" : "仅限页面中明确列出的已核对字段",
+  );
+  appendAlternativeLabelFact(
+    brief,
+    "还缺什么",
+    fullyVerified
+      ? "没有关键证据缺口"
+      : (missingFields.length ? missingFields.join("、") : "同一 SKU 的完整配料与营养背标"),
+  );
+  appendAlternativeLabelFact(
+    brief,
+    "你需要做",
+    fullyVerified ? "购买时核对 SKU、规格和包装版本" : "购买前对照实物配料表、过敏提示和营养表",
+  );
+  appendAlternativeLabelFact(
+    brief,
+    "购买状态",
+    purchaseEvidence?.current
+      ? `已核对当前可购买，有效至 ${purchaseEvidence.valid_through || "所示日期"}`
+      : "未提供限时在售证明；官方商店链接只用于自行核对",
+  );
+
+  const details = document.createElement("details");
+  details.className = "alternative-evidence-details";
+  const summary = document.createElement("summary");
+  summary.textContent = "查看证据明细";
   const block = document.createElement("dl");
   block.className = `alternative-evidence-status alternative-evidence-status--${status.status}`;
   appendAlternativeLabelFact(block, "证据状态", status.label || evidenceStatusLabel(status.status));
@@ -2694,9 +2940,16 @@ function renderAlternativeEvidenceStatus(item) {
   appendAlternativeLabelFact(
     block,
     "实物背标",
-    item.catalog_tier === "fully_verified"
+    fullyVerified
       ? "配料与营养背标已完成双人独立复核"
       : "尚未完成双人独立复核；只能作为同用途备选，购买前需核对实物",
+  );
+  appendAlternativeLabelFact(
+    block,
+    "在售证据",
+    purchaseEvidence?.current
+      ? `${purchaseEvidence.seller_name || "官方渠道"} · 核对于 ${purchaseEvidence.checked_at || "日期未记录"}`
+      : "没有处于有效期内的在售证据",
   );
   if (status.valid_through) {
     appendAlternativeLabelFact(block, "有效核对至", status.valid_through);
@@ -2712,7 +2965,9 @@ function renderAlternativeEvidenceStatus(item) {
   if (sugarReview.sugars_reviewed_at) {
     appendAlternativeLabelFact(block, "糖字段复核", sugarReview.sugars_reviewed_at);
   }
-  return block;
+  details.append(summary, block);
+  wrapper.append(brief, details);
+  return wrapper;
 }
 
 function evidenceStatusSummary(status) {
@@ -2724,9 +2979,9 @@ function evidenceStatusSummary(status) {
 
 function evidenceStatusLabel(status) {
   return {
-    complete: "证据完整",
-    partially_verified: "部分证据，本次所需字段已核对",
-    review_required: "需要补齐或复核",
+    complete: "完整核验",
+    partially_verified: "证据有限",
+    review_required: "待核验",
     stale: "可能已过期，需要复核",
     expired: "已过有效期",
   }[status] || "证据状态待确认";
@@ -2874,7 +3129,7 @@ function alternativeRejectionLabel(reasonCode) {
 function alternativeTierLabel(tier) {
   return {
     fully_verified: "完整核验",
-    conditionally_verified: "本次条件可用",
+    conditionally_verified: "证据有限",
     needs_review: "待核验",
   }[tier] || "已复核";
 }
@@ -4396,7 +4651,7 @@ function setUploadAvailability(available) {
 }
 
 function plannerPrivacyCopy(health, imageCopy) {
-  const notices = [imageCopy];
+  const notices = [imageCopy, "校对文字草稿只保留在当前标签页，最长 2 小时"];
   if (health.planner?.remote_processing) {
     notices.push("确认后的标签事实会发送至 OpenAI，用于选择下一项证据工具");
   }
@@ -4411,6 +4666,21 @@ function plannerPrivacyCopy(health, imageCopy) {
 
 function setPrivacyStatus(message) {
   elements.privacyStatuses.forEach((element) => {
-    element.lastChild.textContent = message;
+    const copy = element.dataset.privacyStatus === "compact"
+      ? compactPrivacyStatus(message)
+      : message;
+    element.lastChild.textContent = copy;
+    if (element.dataset.privacyStatus === "compact") {
+      element.title = message;
+      element.setAttribute("aria-label", message);
+    }
   });
+}
+
+function compactPrivacyStatus(message) {
+  if (message.includes("上传已暂停") || message.includes("无法确认")) return "上传已暂停";
+  if (message.includes("腾讯云")) return "图片发送至腾讯云";
+  if (message.includes("本机处理")) return "图片仅本机处理";
+  if (message.includes("正在确认")) return "正在确认图片处理";
+  return "图片不留存";
 }

@@ -621,6 +621,7 @@ def test_official_candidate_is_independently_revalidated() -> None:
     ]
     assert eligible["label_source_type"] == "official_product_page"
     assert eligible["official_store_name"] == "伊利牛奶官方旗舰店"
+    assert eligible["purchase_availability"] is None
     assert eligible["packaging_label"] == {
         "ingredients_text": "生牛乳",
         "allergen_statement": "本产品含有乳及乳制品",

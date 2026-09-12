@@ -92,6 +92,20 @@ _SAME_USE_REASONS = {
     ("seafood", "canned_food"): "属于明确含鱼虾的罐装食品，可替换常温即食海鲜",
 }
 
+
+def _purchase_evidence_current(product: ProductRecord, review_date: date) -> bool:
+    """Return whether exact-SKU purchase evidence is in stock and still valid."""
+    evidence = product.purchase_availability
+    if not evidence or not product.sku or not product.specification:
+        return False
+    return bool(
+        evidence.in_stock
+        and evidence.sku == product.sku
+        and evidence.normalized_specification == product.specification
+        and evidence.checked_at.date() <= review_date <= evidence.valid_through.date()
+        and "CN" in evidence.delivery_regions
+    )
+
 _CATEGORY_ROLE_SIGNALS = {
     "drink": (
         ("alcoholic", ("啤酒", "beer", "tequila", "酒精")),
@@ -538,6 +552,18 @@ def revalidate_alternatives(request: AlternativeRevalidationRequest) -> dict[str
                 "official_store_verified_at": (
                     label.official_store_verified_at.isoformat()
                     if label.official_store_verified_at
+                    else None
+                ),
+                "purchase_availability": (
+                    {
+                        "current": _purchase_evidence_current(
+                            product, request.applicable_date
+                        ),
+                        "seller_name": product.purchase_availability.seller_name,
+                        "checked_at": product.purchase_availability.checked_at.isoformat(),
+                        "valid_through": product.purchase_availability.valid_through.isoformat(),
+                    }
+                    if product.purchase_availability
                     else None
                 ),
                 "packaging_label": {
