@@ -27,7 +27,7 @@ def test_official_alternative_renders_confirmed_packaging_label() -> None:
     assert "function comparisonBasisText(basis)" in script
     assert "function alternativeComparisonCopy(comparison)" in script
     assert "比当前商品" in script
-    assert "不声称更健康" in script
+    assert "不声称更安全或更健康" in script
 
 
 def test_incomplete_official_products_show_verified_and_missing_fields() -> None:

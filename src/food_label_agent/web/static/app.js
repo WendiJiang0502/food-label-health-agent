@@ -1715,7 +1715,7 @@ function renderSafetyResult(payload) {
   elements.constraintStep.hidden = true;
   elements.safetyResult.hidden = false;
   hideRailError();
-  elements.reviewTitle.textContent = "本次食用结论";
+  elements.reviewTitle.textContent = "标签约束检查结果";
   elements.safetyResult.dataset.risk = payload.overall_risk_level;
   elements.evidencePanel.hidden = false;
   elements.riskSymbol.textContent = symbols[payload.overall_risk_level];
@@ -1794,9 +1794,6 @@ function renderSafetyResult(payload) {
   revealAppTabbar();
   elements.safetyResult.focus();
   announce(`${titles.heading}，${primary.matched_text || primary.explanation}`);
-  if (suggestion?.status === "automatic" && suggestion.category) {
-    window.setTimeout(() => findAndRevalidateAlternatives({ automatic: true }), 0);
-  }
 }
 
 function resultTitles(riskLevel, primary, nutrition) {
@@ -2174,9 +2171,6 @@ function renderHealthFocusOnlyResult() {
   revealAppTabbar();
   elements.safetyResult.focus();
   announce(`${decision.heading}；${decision.summary}`);
-  if (state.alternativeSuggestion?.status === "automatic" && state.suggestedCategory) {
-    window.setTimeout(() => findAndRevalidateAlternatives({ automatic: true }), 0);
-  }
 }
 
 function healthFocusDecision(nutrition) {
@@ -2334,7 +2328,7 @@ function renderAlternativeResults(payload) {
   renderAlternativeDecisionSummary(payload.result_summary);
   elements.alternativeShowMore.hidden = true;
   elements.alternativeShowMore.setAttribute("aria-expanded", "false");
-  elements.alternativeCount.textContent = `${payload.eligible.length} 项通过复核`;
+  elements.alternativeCount.textContent = `${payload.eligible.length} 项进入备选`;
   elements.alternativeSource.textContent = alternativeSourceCopy(
     payload.catalog_scope,
     payload.catalog_status,
@@ -2378,7 +2372,7 @@ function renderAlternativeResults(payload) {
     renderAlternativeEmptyState(payload);
   } else {
     elements.alternativeStatus.textContent =
-      `找到 ${payload.eligible.length} 个可替换选择；已逐一复核 ${payload.revalidated_count}/${payload.candidate_count} 项不同配方。`;
+      `找到 ${payload.eligible.length} 个同用途备选；已逐一复核 ${payload.revalidated_count}/${payload.candidate_count} 项不同配方。这不是购买或食用推荐，请在购买前核对实物包装。`;
   }
   const pageSize = 8;
   let visibleCount = Math.min(pageSize, payload.eligible.length);
@@ -2388,7 +2382,8 @@ function renderAlternativeResults(payload) {
     article.hidden = index >= visibleCount;
     const header = document.createElement("header");
     const title = document.createElement("h4");
-    title.textContent = `${item.rank ? `${item.rank}. ` : ""}${item.display_name}`;
+    const canRank = item.catalog_tier === "fully_verified";
+    title.textContent = `${canRank && item.rank ? `${item.rank}. ` : ""}${item.display_name}`;
     const status = document.createElement("span");
     status.className = `alternative-tier alternative-tier--${item.catalog_tier || "fully_verified"}`;
     status.textContent = item.result_state?.state === "same_use_evidence_limited"
@@ -2655,7 +2650,7 @@ function alternativeFitCopy(item) {
   if (comparisons.length) {
     return `${substitution}已通过硬性约束，但已比较的营养指标没有明显优于当前商品。${item.ranking_summary || ""}`;
   }
-  return `${substitution}已通过硬性约束复核。缺少可同口径比较的营养数据时，只把它作为替代品，不声称更健康。${item.ranking_summary || ""}`;
+  return `${substitution}已通过当前标签字段的硬性约束检查。缺少可同口径比较的营养数据时，只作为同用途备选，不声称更安全或更健康。${item.ranking_summary || ""}`;
 }
 
 function alternativeComparisonCopy(comparison) {
@@ -3097,6 +3092,14 @@ function renderRegulatoryEvidence(evidence, primaryFinding) {
     excerpt.className = "citation-excerpt";
     excerpt.textContent = citation.evidence_excerpt;
 
+    const applicability = document.createElement("p");
+    applicability.className = "citation-applicability";
+    const jurisdiction = citation.jurisdiction === "CN" ? "中国大陆" : (citation.jurisdiction || "法域未确认");
+    const applicableDate = new Date().toISOString().slice(0, 10);
+    const effectiveFrom = citation.effective_from || "生效日未确认";
+    const effectiveTo = citation.effective_to || "未标记失效日";
+    applicability.textContent = `${jurisdiction} · 查询日 ${applicableDate} · 生效 ${effectiveFrom} 至 ${effectiveTo} · ${citation.effective_from ? "已按日期筛选" : "当前有效性未确认"}`;
+
     const source = document.createElement("a");
     source.className = "citation-source";
     source.href = citation.source_url;
@@ -3104,7 +3107,7 @@ function renderRegulatoryEvidence(evidence, primaryFinding) {
     source.rel = "noopener noreferrer";
     source.textContent = "打开国家卫健委官方来源 ↗";
 
-    item.append(heading, excerpt, source);
+    item.append(heading, applicability, excerpt, source);
     elements.citationList.append(item);
   });
 }

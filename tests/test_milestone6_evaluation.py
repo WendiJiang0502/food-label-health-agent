@@ -84,6 +84,7 @@ def test_development_report_is_green_but_never_claims_ocr_release_readiness(
         "agent",
         "planner_ablation",
         "alternatives",
+        "alternative_category",
         "safety_gate",
         "failure_corpus",
         "conversation_m8",

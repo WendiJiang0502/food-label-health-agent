@@ -6,6 +6,7 @@ from dataclasses import asdict, dataclass
 from typing import Any
 
 from food_label_agent.alternatives.catalog import JsonProductCatalog, ProductCatalog
+from food_label_agent.alternatives.category import suggest_product_category
 from food_label_agent.alternatives.models import (
     AlternativeRevalidationRequest,
     AlternativeSearchRequest,
@@ -87,6 +88,79 @@ class AlternativeEvaluation:
         result = asdict(self)
         result["release_blockers"] = list(self.release_blockers)
         return result
+
+
+@dataclass(frozen=True, slots=True)
+class CategoryInferenceEvaluation:
+    dataset_scope: str
+    sample_count: int
+    category_count: int
+    top1_recall: float
+    macro_recall: float
+    automatic_precision: float
+    per_category_recall: dict[str, float]
+    evaluation_passed: bool
+    release_blockers: tuple[str, ...]
+
+    def to_dict(self) -> dict[str, Any]:
+        result = asdict(self)
+        result["release_blockers"] = list(self.release_blockers)
+        return result
+
+
+def evaluate_category_inference(
+    records: tuple[Any, ...], *, minimum_rate: float = 0.85
+) -> CategoryInferenceEvaluation:
+    """Regression-check known catalog labels; this is not an external holdout."""
+
+    if not records:
+        raise ValueError("Category inference evaluation requires records")
+    totals: dict[str, int] = {}
+    correct: dict[str, int] = {}
+    automatic_total = 0
+    automatic_correct = 0
+    for record in records:
+        expected = str(record.category)
+        result = suggest_product_category(
+            {
+                "product_name": record.display_name,
+                "ingredients": record.label.ingredients_text,
+            }
+        )
+        is_correct = result.get("category") == expected
+        totals[expected] = totals.get(expected, 0) + 1
+        correct[expected] = correct.get(expected, 0) + int(is_correct)
+        if result.get("status") == "automatic":
+            automatic_total += 1
+            automatic_correct += int(is_correct)
+    sample_count = len(records)
+    per_category = {
+        category: correct.get(category, 0) / total
+        for category, total in sorted(totals.items())
+    }
+    top1 = sum(correct.values()) / sample_count
+    macro = sum(per_category.values()) / len(per_category)
+    automatic_precision = (
+        automatic_correct / automatic_total if automatic_total else 1.0
+    )
+    blockers = []
+    if top1 < minimum_rate:
+        blockers.append("alternative_category_recall_below_threshold")
+    if any(rate < minimum_rate for rate in per_category.values()):
+        blockers.append("alternative_category_recall_below_threshold_for_category")
+    if automatic_precision < minimum_rate:
+        blockers.append("alternative_category_automatic_precision_below_threshold")
+    return CategoryInferenceEvaluation(
+        dataset_scope="official_catalog_self_consistency_not_external_holdout",
+        sample_count=sample_count,
+        category_count=len(per_category),
+        top1_recall=top1,
+        macro_recall=macro,
+        automatic_precision=automatic_precision,
+        per_category_recall=per_category,
+        evaluation_passed=not blockers,
+        release_blockers=tuple(blockers),
+    )
 
 
 def evaluate_alternative_benchmark(

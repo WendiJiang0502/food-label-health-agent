@@ -104,3 +104,15 @@ def test_ice_cream_is_inferred_as_frozen_food() -> None:
 
     assert result["category"] == "frozen_food"
     assert result["requires_confirmation"] is False
+
+
+def test_frozen_product_form_outweighs_chocolate_or_dairy_flavour() -> None:
+    chocolate = suggest_product_category(
+        {"product_name": "巧克力味圣代杯", "ingredients": "牛奶、可可脂"}
+    )
+    dairy = suggest_product_category(
+        {"product_name": "白桃味沁优杯", "ingredients": "生牛乳"}
+    )
+
+    assert chocolate["category"] == "frozen_food"
+    assert dairy["category"] == "frozen_food"

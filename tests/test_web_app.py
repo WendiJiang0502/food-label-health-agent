@@ -30,12 +30,12 @@ def test_platform_index_and_health() -> None:
     assert "包装声称核对" in page.text
     assert "在此设备记住这些约束" in page.text
     assert "清除全部并撤销授权" in page.text
-    assert "重新查找同用途替代品" in page.text
+    assert "确认用途并查找备选" in page.text
     assert "问问食鉴" in page.text
     assert "同意本次短期对话使用 OpenAI" in page.text
     assert 'id="issue-locations"' in page.text
     assert "需要修改的文字位置" in page.text
-    assert "系统会根据当前商品自动确定替代用途" in page.text
+    assert "系统会先推断替代用途" in page.text
     assert "品牌官网和中国大陆官方旗舰店" in page.text
     assert "数据来源将在查找后显示" in page.text
     assert "SAFETY · BUILT IN" not in page.text
@@ -584,6 +584,8 @@ def test_safety_api_returns_traceable_avoid_result() -> None:
         citation["standard_number"] for citation in interpretation["citations"]
     } == {"GB 7718-2011"}
     assert any(citation["page_start"] == 7 for citation in interpretation["citations"])
+    assert all(citation["jurisdiction"] == "CN" for citation in interpretation["citations"])
+    assert all(citation["effective_from"] for citation in interpretation["citations"])
 
 
 def test_safety_api_keeps_deterministic_result_when_rag_is_unavailable(

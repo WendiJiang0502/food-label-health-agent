@@ -63,7 +63,7 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
           </label>
 
           <fieldset class="profile-fieldset">
-            <legend>需要避开的过敏原 <span>可多选</span></legend>
+            <legend>需要避开的过敏原 <span>必须回答 · 可多选 *</span></legend>
             <p class="field-question">请选择你已知的过敏原；如果没有，可以选择“没有已知过敏原”。</p>
             <div class="choice-grid choice-grid--allergens">
               <label class="choice-chip"><input type="checkbox" name="profile-allergen" value="milk"><span>乳</span></label>
@@ -495,15 +495,15 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
               <div class="alternative-heading">
                 <div>
                   <p>同一套约束 · 独立复核</p>
-                  <h3 id="alternative-title">通过约束复核的同用途备选</h3>
+                  <h3 id="alternative-title">同用途备选（购买前仍需核对包装）</h3>
                 </div>
                 <span id="alternative-count">尚未查找</span>
               </div>
-              <p class="alternative-intro">系统会根据当前商品自动确定替代用途，先找同类别商品，不足时再扩展到相近食用场景。优先使用已复核的品牌官网和中国大陆官方旗舰店资料，数据较少的类别会补充有标签图像和版本记录的实时目录。每件候选仍会重新检查你的硬性约束；营养数据只用于解释排序，不会因为少列一个非强制营养项目就直接淘汰。</p>
+              <p class="alternative-intro">系统会先推断替代用途，但只在你确认并点击查找后执行。数据优先来自品牌官网和中国大陆官方旗舰店。候选会逐一重新检查硬性约束；缺少实物背标或同口径营养数据时，只称“同用途备选”，不表示更安全、更健康或可直接购买。</p>
               <div class="alternative-target" id="alternative-target">
                 <span>本次替代目标</span>
                 <strong id="alternative-target-name">正在根据标签识别</strong>
-                <p id="alternative-target-reason">识别完成后将自动查找，不需要你先选类别。</p>
+                <p id="alternative-target-reason">识别完成后请先确认用途，再手动开始查找。</p>
                 <button class="text-button" id="edit-alternative-target" type="button" aria-expanded="false">识别不对？更改</button>
               </div>
               <div class="alternative-controls">
@@ -537,7 +537,7 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
                     </optgroup>
                   </select>
                 </label>
-                <button class="button button--secondary" id="find-alternatives" type="button">重新查找同用途替代品</button>
+                <button class="button button--secondary" id="find-alternatives" type="button">确认用途并查找备选</button>
               </div>
               <p class="alternative-source" id="alternative-source">数据来源将在查找后显示。</p>
               <p class="alternative-status" id="alternative-status" role="status"></p>

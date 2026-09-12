@@ -14,6 +14,7 @@ from food_label_agent.alternatives.service import (
 from food_label_agent.domain.models import LabelField
 from food_label_agent.graph.routing import final_safety_gate
 from food_label_agent.graph.state import create_initial_state
+from food_label_agent.graph.workflows import alternative_payload
 from food_label_agent.ingredients.api_models import ConstraintInput
 
 
@@ -94,6 +95,15 @@ def test_search_collapses_equivalent_pack_sizes_before_candidate_limit() -> None
     hashes = [item["label"]["content_hash"] for item in result["candidates"]]
     assert len(hashes) == len(set(hashes))
     assert result["catalog_coverage"]["equivalent_package_variants_collapsed"] > 0
+
+
+def test_official_catalog_coverage_does_not_duplicate_records() -> None:
+    from food_label_agent.alternatives.catalog import OfficialChinaCatalog
+
+    catalog = OfficialChinaCatalog()
+    records = [item for item in catalog.records() if item.region == "CN"]
+
+    assert catalog.coverage()["total"] == len(records)
 
 
 def test_expired_label_is_excluded_and_exposes_evidence_state() -> None:
@@ -467,3 +477,11 @@ def test_final_gate_requires_image_evidence_for_live_alternative() -> None:
 
     assert result.can_complete is False
     assert "eligible_live_alternative_missing_label_image:0" in result.violations
+
+    payload = alternative_payload(state, "biscuit")
+    assert payload["release_gate"]["passed"] is False
+    assert payload["eligible"] == []
+    assert payload["comparison"]["status"] == "not_compared"
+    assert payload["evidence_rejected"][0]["reason_code"] == (
+        "FINAL_SAFETY_GATE_BLOCKED"
+    )

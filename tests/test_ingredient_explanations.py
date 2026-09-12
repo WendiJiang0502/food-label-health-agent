@@ -63,6 +63,9 @@ def test_explanation_preserves_avoid_and_binds_both_evidence_types() -> None:
     assert result.regulatory_evidence_ids == ["reg.cn.gb7718-2011.4.4.3.1.allergens"]
     assert result.citations[0]["section"] == "4.4.3.1 致敏物质"
     assert result.citations[0]["page_start"] == 7
+    assert result.citations[0]["jurisdiction"] == "CN"
+    assert result.citations[0]["effective_from"] == "2012-04-20"
+    assert result.citations[0]["effective_to"] == "2027-03-15"
     assert "衍生配料" in result.explanation
     assert "保持避免结论" in result.explanation
 

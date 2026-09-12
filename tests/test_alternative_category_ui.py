@@ -27,7 +27,8 @@ def test_alternative_copy_never_claims_unproven_health_superiority() -> None:
         Path(__file__).parents[1] / "src/food_label_agent/web/static/index.html"
     ).read_text(encoding="utf-8")
 
-    assert "通过约束复核的同用途备选" in html
+    assert "同用途备选（购买前仍需核对包装）" in html
+    assert "只在你确认并点击查找后执行" in html
     assert "可同口径比较的营养信息" in html
     assert "更适合你的同类选择" not in html
     assert "为什么更符合你的关注" not in html

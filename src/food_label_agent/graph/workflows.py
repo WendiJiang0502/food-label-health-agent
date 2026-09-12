@@ -159,11 +159,16 @@ def evidence_payload(state: AgentState) -> dict:
 
 
 def alternative_payload(state: AgentState, category: str) -> dict:
-    raw_eligible = [
+    release_gate = evaluate_workflow_release(state)
+    all_raw_eligible = [
         item
         for item in state["alternatives"]
         if item.get("disposition") == "eligible"
     ]
+    # A failed final gate must fail closed at the API boundary. Keeping these
+    # candidates in `eligible` would let a client present an unsafe record even
+    # though the workflow itself is blocked.
+    raw_eligible = all_raw_eligible if release_gate["passed"] else []
     health_comparison_requested = bool(
         state["alternative_request"].get("health_concerns")
     )
@@ -186,6 +191,10 @@ def alternative_payload(state: AgentState, category: str) -> dict:
         _with_evidence_review_state(item)
         for item in state["alternative_request"].get("search_rejected", [])
     ]
+    if not release_gate["passed"]:
+        evidence_rejected.extend(
+            _with_release_gate_blocked_state(item) for item in all_raw_eligible
+        )
     coverage = state["alternative_request"].get("catalog_coverage", {})
     catalog_total = int(coverage.get("total") or 0)
     review_ready_total = int(coverage.get("evidence_gate_count") or 0)
@@ -255,7 +264,15 @@ def alternative_payload(state: AgentState, category: str) -> dict:
             excluded=excluded,
             evidence_rejected=evidence_rejected,
         ),
-        "comparison": state["alternative_comparison"],
+        "comparison": (
+            state["alternative_comparison"]
+            if release_gate["passed"]
+            else {
+                "status": "not_compared",
+                "unknowns": ["final_safety_gate_blocked"],
+                "comparisons": [],
+            }
+        ),
         "candidate_count": state["alternative_request"].get("candidate_count", 0),
         "revalidated_count": state["alternative_request"].get("revalidated_count", 0),
         "revalidation_rate": state["alternative_request"].get("revalidation_rate", 0.0),
@@ -263,7 +280,7 @@ def alternative_payload(state: AgentState, category: str) -> dict:
         "unknowns": state["unknowns"],
         "errors": state["errors"],
         "workflow_trace": [asdict(item) for item in state["workflow_trace"]],
-        "release_gate": evaluate_workflow_release(state),
+        "release_gate": release_gate,
     }
 
 
@@ -325,6 +342,17 @@ def _with_evidence_review_state(item: dict) -> dict:
             else "需要核对同一 SKU 的配料、过敏原提示和营养标签。"
         ),
         missing_fields=missing,
+    )
+    return enriched
+
+
+def _with_release_gate_blocked_state(item: dict) -> dict:
+    enriched = dict(item)
+    enriched["reason_code"] = "FINAL_SAFETY_GATE_BLOCKED"
+    enriched["result_state"] = _result_state_payload(
+        "packaging_review_required",
+        detail="最终安全门未通过，因此该商品不能作为推荐结果展示。",
+        next_action="请补齐对应证据并重新完成安全复核；不要仅凭当前候选食用或购买。",
     )
     return enriched
 

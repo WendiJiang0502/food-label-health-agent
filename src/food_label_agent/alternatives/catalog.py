@@ -196,6 +196,11 @@ class OfficialChinaCatalog:
             records[record.product_id] = record
         return tuple(records.values())
 
+    def records(self) -> tuple[ProductRecord, ...]:
+        """Return deduplicated, validated records for read-only evaluation."""
+
+        return self._records()
+
     def search(self, *, category: str, region: str) -> CatalogSearchResult:
         records = self._records()
         accepted: list[ProductRecord] = []

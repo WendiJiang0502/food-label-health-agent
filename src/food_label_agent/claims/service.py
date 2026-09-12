@@ -344,8 +344,11 @@ def _citation(evidence: dict) -> dict:
     return {
         "evidence_id": evidence["source_id"],
         "standard_number": evidence["standard_number"],
+        "jurisdiction": evidence.get("jurisdiction"),
         "section": evidence["section"],
         "source_url": evidence["source_url"],
+        "effective_from": evidence.get("effective_from"),
+        "effective_to": evidence.get("effective_to"),
         "page_start": evidence.get("page_start"),
         "page_end": evidence.get("page_end"),
         "content_hash": evidence["content_hash"],

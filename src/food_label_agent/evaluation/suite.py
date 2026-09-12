@@ -32,6 +32,7 @@ from .alternatives import (
     AlternativeAvailabilityCase,
     evaluate_alternative_availability,
     evaluate_alternative_benchmark,
+    evaluate_category_inference,
 )
 from .benchmarks import ALTERNATIVE_BENCHMARK, RAG_BENCHMARK
 from .conversation import evaluate_conversation_agent
@@ -103,6 +104,9 @@ def run_evaluation(
             "alternatives": evaluate_alternative_benchmark(
                 ALTERNATIVE_BENCHMARK,
                 catalog=JsonProductCatalog(),
+            ).to_dict(),
+            "alternative_category": evaluate_category_inference(
+                OfficialChinaCatalog().records()
             ).to_dict(),
             "safety_gate": evaluate_final_safety_gate().to_dict(),
             "failure_corpus": evaluate_failure_corpus().to_dict(),

@@ -31,11 +31,17 @@ from food_label_agent.observability.trace import RunTrace, aggregate_traces
 ROOT = Path(__file__).resolve().parents[1]
 DATASET = ROOT / "docs/evaluation/internal_pilot_dataset_v1.json"
 ALT_IDS = {"case_016", "case_017", "case_018", "case_019"}
-EXPECTED_SAFE_OUTCOMES = {
-    "case_016": "abstained",
+EXPECTED_TASK_OUTCOMES = {
+    "case_016": "eligible",
     "case_017": "eligible",
     "case_018": "all_excluded",
     "case_019": "abstained",
+}
+SAFE_OUTCOMES = {
+    "case_016": {"eligible", "abstained"},
+    "case_017": {"eligible", "abstained"},
+    "case_018": {"all_excluded", "abstained"},
+    "case_019": {"all_excluded", "abstained"},
 }
 
 
@@ -125,7 +131,7 @@ def run_case(case: dict) -> dict:
         and all(item["disposition"] == "excluded" for item in revalidated["results"])
         else "abstained"
     )
-    expected_outcome = EXPECTED_SAFE_OUTCOMES[case["case_id"]]
+    expected_outcome = EXPECTED_TASK_OUTCOMES[case["case_id"]]
     return {
         "case_id": case["case_id"],
         "search_status": search["status"],
@@ -141,8 +147,9 @@ def run_case(case: dict) -> dict:
         "comparison_status": comparison.get("status"),
         "catalog_warnings": search.get("catalog_warnings", []),
         "safe_outcome": outcome,
-        "expected_safe_outcome": expected_outcome,
-        "safe_outcome_passed": outcome == expected_outcome,
+        "expected_task_outcome": expected_outcome,
+        "task_outcome_passed": outcome == expected_outcome,
+        "safe_outcome_passed": outcome in SAFE_OUTCOMES[case["case_id"]],
     }
 
 
@@ -155,12 +162,12 @@ def availability_matrix(*, health_concerns: tuple[str, ...] = ()) -> dict:
             applicable_date=applicable_date,
             minimum_eligible=3,
             health_concerns=health_concerns,
-            minimum_target_comparable_rate=0.5 if health_concerns else 0.0,
-           minimum_effective_display_rate=0.5 if health_concerns else 0.0,
-           minimum_distinct_brands=2,
+            minimum_target_comparable_rate=0.85 if health_concerns else 0.0,
+            minimum_effective_display_rate=0.85 if health_concerns else 0.0,
+            minimum_distinct_brands=2,
             minimum_distinct_formulas=3,
             minimum_verified_packaging_brands=2,
-       )
+        )
         for category in PRODUCT_CATEGORIES
     )
     return evaluate_alternative_availability(
@@ -201,6 +208,7 @@ def main() -> None:
         health_concerns=("blood_sugar",)
     )
     safety_passed = sum(item["safe_outcome_passed"] for item in results)
+    task_passed = sum(item["task_outcome_passed"] for item in results)
     print(
         json.dumps(
             {
@@ -214,10 +222,18 @@ def main() -> None:
                     "case_count": len(results),
                     "evaluation_passed": safety_passed == len(results),
                 },
+                "task_success_gate": {
+                    "passed_case_count": task_passed,
+                    "case_count": len(results),
+                    "evaluation_passed": task_passed == len(results),
+                },
                 "catalog_availability": availability,
                 "blood_sugar_availability": blood_sugar_availability,
                 "evaluation_passed": (
-                    safety_passed == len(results) and availability["evaluation_passed"]
+                    safety_passed == len(results)
+                    and task_passed == len(results)
+                    and availability["evaluation_passed"]
+                    and blood_sugar_availability["evaluation_passed"]
                 ),
                 "traces": traces,
                 "metrics": aggregate_traces(traces),

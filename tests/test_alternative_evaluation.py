@@ -6,6 +6,7 @@ from food_label_agent.evaluation.alternatives import (
     AlternativeAvailabilityCase,
     evaluate_alternative_availability,
     evaluate_alternative_benchmark,
+    evaluate_category_inference,
 )
 from food_label_agent.evaluation.benchmarks import ALTERNATIVE_BENCHMARK
 
@@ -21,6 +22,20 @@ def test_alternative_release_benchmark_passes_all_blocking_metrics() -> None:
     assert result.recommendation_traceability_rate == 1
     assert result.expected_result_accuracy == 1
     assert result.nutrition_comparison_integrity == 1
+
+
+def test_official_catalog_category_regression_exceeds_each_rate_floor() -> None:
+    result = evaluate_category_inference(OfficialChinaCatalog().records())
+
+    assert result.dataset_scope == (
+        "official_catalog_self_consistency_not_external_holdout"
+    )
+    assert result.sample_count >= 90
+    assert result.top1_recall >= 0.85
+    assert result.macro_recall >= 0.85
+    assert result.automatic_precision >= 0.85
+    assert min(result.per_category_recall.values()) >= 0.85
+    assert result.evaluation_passed is True
 
 
 def test_official_catalog_availability_matrix_passes_repeated_health_scenarios() -> (
