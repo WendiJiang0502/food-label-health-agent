@@ -209,6 +209,8 @@ class ProductRecord(BaseModel):
 class AlternativeSearchRequest(BaseModel):
     model_config = ConfigDict(frozen=True)
 
+    retrieval_query: str | None = Field(default=None, min_length=1, max_length=500)
+
     category: str = Field(min_length=2, max_length=80)
     substitute_categories: list[str] = Field(default_factory=list, max_length=6)
     applicable_date: date
@@ -223,6 +225,8 @@ class AlternativeSearchRequest(BaseModel):
 
 class AlternativeRevalidationRequest(BaseModel):
     model_config = ConfigDict(frozen=True)
+
+    retrieval_query: str | None = Field(default=None, min_length=1, max_length=500)
 
     request_id: str = Field(min_length=1, max_length=128)
     applicable_date: date
@@ -259,6 +263,8 @@ class ProductComparisonRequest(BaseModel):
 
 class AlternativeWorkflowRequest(BaseModel):
     model_config = ConfigDict(frozen=True)
+
+    retrieval_query: str | None = Field(default=None, min_length=1, max_length=500)
 
     request_id: str = Field(min_length=1, max_length=128)
     applicable_date: date

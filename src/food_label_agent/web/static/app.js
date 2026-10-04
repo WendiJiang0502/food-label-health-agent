@@ -2457,7 +2457,7 @@ async function findAndRevalidateAlternatives({ automatic = false } = {}) {
   announce("正在查找并逐项复核同类候选");
   const discoveryRequestId = `${category}:${Date.now()}`;
   state.alternativeDiscoveryRequestId = discoveryRequestId;
-  const discoveryPromise = refreshOfficialDiscovery(category);
+  const discoveryPromise = refreshOfficialDiscovery(category, discoveryRequestId);
   try {
     const response = await fetch("/api/v1/alternatives/search", {
       method: "POST",
@@ -2473,6 +2473,7 @@ async function findAndRevalidateAlternatives({ automatic = false } = {}) {
         constraints: state.currentConstraints,
         health_concerns: state.profile?.healthConcerns || [],
         category,
+        retrieval_query: document.querySelector("#product-retrieval-query").value.trim() || null,
         substitute_categories: state.substituteCategories.length
           ? state.substituteCategories
           : [category],
@@ -2483,6 +2484,8 @@ async function findAndRevalidateAlternatives({ automatic = false } = {}) {
     if (!response.ok) throw new Error(payload.message || "替代品复核失败。");
     if (payload.checkpoint?.resume_token) state.checkpointToken = payload.checkpoint.resume_token;
     renderAlternativeResults(payload);
+    renderProductRetrieval(payload.product_retrieval);
+    renderProductIntent(payload.search_intent, payload.excluded);
     discoveryPromise.then((freshDiscovery) => {
       if (
         freshDiscovery
@@ -2500,20 +2503,72 @@ async function findAndRevalidateAlternatives({ automatic = false } = {}) {
   }
 }
 
-async function refreshOfficialDiscovery(category) {
+async function refreshOfficialDiscovery(category, requestId) {
+  const freshness = document.querySelector("#knowledge-freshness");
+  const candidates = document.querySelector("#knowledge-candidates");
+  candidates.hidden = true;
+  freshness.textContent = "正在读取资料时效…";
   try {
-    const response = await fetch("/api/v1/alternatives/discovery/refresh", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ category }),
-    });
-    return response.ok ? await response.json() : null;
+    const [discoveryResponse, knowledgeResponse] = await Promise.all([
+      fetch(`/api/v1/alternatives/discovery?category=${encodeURIComponent(category)}`),
+      fetch(`/api/v1/alternatives/knowledge?category=${encodeURIComponent(category)}`),
+    ]);
+    if (state.alternativeDiscoveryRequestId !== requestId) return null;
+    if (knowledgeResponse.ok) {
+      const knowledge = await knowledgeResponse.json();
+      if (state.alternativeDiscoveryRequestId === requestId) renderKnowledgeFreshness(knowledge, category);
+    } else {
+      freshness.textContent = "暂时无法读取更新记录，资料时效未知。";
+    }
+    return discoveryResponse.ok ? { summary: await discoveryResponse.json() } : null;
   } catch (_error) {
+    if (state.alternativeDiscoveryRequestId !== requestId) return null;
+    freshness.textContent = "暂时无法读取更新记录，资料时效未知。";
     return null;
   }
 }
 
+function knowledgeDate(value) {
+  if (!value) return "尚无记录";
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? "日期未知" : date.toLocaleString("zh-CN", { hour12: false });
+}
+
+function renderKnowledgeFreshness(knowledge, category) {
+  const relevant = (knowledge.runs || []).filter((run) => run.job === "official_sources" || run.job === `openfoodfacts:${category}`);
+  const freshness = document.querySelector("#knowledge-freshness");
+  freshness.textContent = relevant.length ? relevant.map((run) => {
+    const name = run.job === "official_sources" ? "官方商品来源" : "外部商品候选库";
+    const status = run.status !== "completed" ? "更新未完成，保留上次资料" : run.overdue ? "复查已延迟" : "已完成检查";
+    return `${name}：${status}。最近尝试：${knowledgeDate(run.last_attempt_at)}；最近成功：${knowledgeDate(run.last_success_at)}；计划复查：${knowledgeDate(run.next_check_at)}。`;
+  }).join(" ") + " 来源检查不代表配料已重新核实。" : "尚无定时检查记录，资料时效未知。";
+  const container = document.querySelector("#knowledge-candidates");
+  const list = document.querySelector("#knowledge-candidate-list");
+  list.replaceChildren();
+  container.hidden = !knowledge.items?.length;
+  for (const item of (knowledge.items || []).slice(0, 5)) {
+    const row = document.createElement("li");
+    const title = document.createElement("strong");
+    title.textContent = item.display_name;
+    const description = document.createElement("p");
+    description.className = "alternative-source";
+    const stateLabel = item.review_status === "change_detected" ? "来源内容变化，待复核" : item.has_ocr_draft ? "已有图片识别草稿，待核实" : item.review_status === "needs_label" ? "配料资料待补齐" : "资料待核实";
+    description.textContent = `${stateLabel} · 最近检查：${knowledgeDate(item.last_checked_at)} · 来源更新：${knowledgeDate(item.source_updated_at)} · 最近核实：${knowledgeDate(item.verified_at)}`;
+    row.append(title, description);
+    appendAlternativeReviewLink(row, item.source_url, "查看来源（Open Food Facts · ODbL）");
+    list.append(row);
+  }
+}
+
 function resetAlternativeResults() {
+  document.querySelector("#official-source-screening")?.remove();
+  document.querySelector("#product-retrieval-status").hidden = true;
+  document.querySelector("#product-search-intent").hidden = true;
+  document.querySelector("#product-retrieval-evidence").hidden = true;
+  document.querySelector("#product-retrieval-query").value = "";
+  state.alternativeDiscoveryRequestId = null;
+  document.querySelector("#knowledge-freshness").textContent = "资料时效将在查找后显示。";
+  document.querySelector("#knowledge-candidates").hidden = true;
   elements.alternativeCount.textContent = "尚未查找";
   elements.alternativeStatus.textContent = "";
   elements.alternativeSource.textContent = "数据来源将在查找后显示。";
@@ -2528,6 +2583,7 @@ function resetAlternativeResults() {
 }
 
 function renderAlternativeResults(payload) {
+  renderOfficialSourceScreening(payload.source_screening);
   elements.alternativeList.replaceChildren();
   elements.alternativeComparisonList.replaceChildren();
   elements.alternativeExclusionList.replaceChildren();
@@ -2634,6 +2690,8 @@ function renderAlternativeResults(payload) {
       });
       article.append(comparisonList);
     }
+    const fieldEvidence = renderProductFieldEvidence(item.field_evidence);
+    if (fieldEvidence) article.append(fieldEvidence);
     const packagingLabel = renderAlternativePackagingLabel(item);
     if (packagingLabel) article.append(packagingLabel);
     if (item.ingredients_image_url?.startsWith("https://")) {
@@ -4658,6 +4716,9 @@ function plannerPrivacyCopy(health, imageCopy) {
   if (health.rag?.remote_processing) {
     notices.push("法规查询和候选条款会发送至 OpenAI，用于语义检索与重排");
   }
+  if (health.product_rag?.remote_processing) {
+    notices.push("替代品查询和商品证据会发送至 OpenAI，用于语义检索与重排");
+  }
   if (health.conversation?.remote_processing) {
     notices.push("问问功能经同意后由 OpenAI 处理文字，不发送原图");
   }
@@ -4683,4 +4744,111 @@ function compactPrivacyStatus(message) {
   if (message.includes("本机处理")) return "图片仅本机处理";
   if (message.includes("正在确认")) return "正在确认图片处理";
   return "图片不留存";
+}
+
+function renderProductRetrieval(retrieval) {
+  const status = document.querySelector("#product-retrieval-status");
+  const details = document.querySelector("#product-retrieval-evidence");
+  const list = document.querySelector("#product-retrieval-list");
+  list.replaceChildren();
+  status.hidden = !retrieval?.status || retrieval.status === "not_requested";
+  details.hidden = !retrieval?.items?.length;
+  if (status.hidden) return;
+  status.textContent = retrieval.status === "no_evidence"
+    ? "目前没有匹配的商品资料。可以调整用途描述，或等待资料补齐。"
+    : `找到 ${retrieval.items?.length || 0} 条相关资料，${retrieval.queued_count || 0} 件待核实商品已加入补齐优先队列。${retrieval.status === "degraded" ? "部分检索服务暂时不可用，已使用可用的检索方式。" : ""}`;
+  const tiers = {catalog_evidence: "目录标签资料 · 仍需本次复核", external_unverified: "外部来源 · 尚未核实", ocr_draft: "图片识别草稿 · 尚未核实"};
+  const fields = {ingredients: "配料表", sugars_100g: "糖含量", sodium_100g: "钠含量", proteins_100g: "蛋白质", fat_100g: "脂肪", label_review: "包装与商品身份复核", preparation_evidence: "食用方式依据"};
+  for (const item of (retrieval.items || []).slice(0, 8)) {
+    const row = document.createElement("li");
+    const title = document.createElement("strong");
+    title.textContent = item.display_name;
+    const note = document.createElement("p");
+    note.className = "alternative-source";
+    note.textContent = tiers[item.tier] || "资料状态待确认";
+    const excerpt = document.createElement("p");
+    excerpt.className = "alternative-source";
+    excerpt.textContent = item.excerpt || "没有可展示的原文";
+    row.append(title, note, excerpt);
+    const evidence = renderProductFieldEvidence(item.field_evidence);
+    if (evidence) row.append(evidence);
+    if (item.missing_fields?.length) {
+      const gaps = document.createElement("p");
+      gaps.className = "alternative-source";
+      gaps.textContent = `待补齐：${item.missing_fields.map((field) => fields[field] || (field.startsWith("conflict:") ? `${nutrientNames[field.slice(9)] || "配料"}证据冲突` : field)).join("、")}`;
+      row.append(gaps);
+    }
+    appendAlternativeReviewLink(row, item.source_url, item.tier === "catalog_evidence" ? "核对商品来源" : "核对来源（Open Food Facts · ODbL）");
+    list.append(row);
+  }
+}
+
+
+function renderProductIntent(intent, excluded = []) {
+  const node = document.querySelector("#product-search-intent");
+  node.hidden = !intent;
+  if (!intent) return;
+  const parts = (intent.nutrition_goals || []).map((goal) => `${nutrientNames[goal.nutrient] || goal.nutrient}${goal.direction === "lower" ? "更低" : "更高"}（${goal.reference === "current_product" ? "与当前商品比较" : "在同口径候选中排序"}）`);
+  if (intent.preparation === "ready_to_eat") parts.push("食用方式有即食依据");
+  if (intent.warnings?.length) parts.push(...intent.warnings);
+  const reasons = new Set(excluded.flatMap((item) => (item.intent_match?.checks || []).map((check) => check.outcome)));
+  const messages = {missing_current_value: "当前商品缺少比较数值，请补充营养表。", missing_candidate_value: "部分候选缺少所需营养数值，已暂不展示。", incompatible_basis: "部分营养数据口径不同，暂时无法比较。", conflicting_evidence: "存在字段证据冲突，需要复核。", not_improved: "部分候选未优于当前商品，已排除。", preparation_unverified: "部分候选缺少即食依据，已暂不展示。"};
+  for (const reason of reasons) if (messages[reason]) parts.push(messages[reason]);
+  node.hidden = !parts.length;
+  node.textContent = parts.length ? `本次需求核对：${parts.join("；")}` : "";
+}
+
+function renderProductFieldEvidence(fields) {
+  if (!fields?.observations?.length) return null;
+  const details = document.createElement("details");
+  details.className = "alternative-source-disclosure";
+  const summary = document.createElement("summary");
+  summary.textContent = fields.conflicts?.length ? "逐项证据（存在冲突，待复核）" : "查看逐项数值与配料来源";
+  details.append(summary);
+  const list = document.createElement("ul");
+  for (const field of fields.observations) {
+    const row = document.createElement("li");
+    const name = nutrientNames[field.field] || {ingredients: "配料表", allergen_statement: "过敏提示"}[field.field] || field.field;
+    const status = {verified: "已复核", catalog_transcription: "目录转录", unverified: "来源提供，未复核", ocr_draft: "OCR 草稿"}[field.review_status] || "待核实";
+    const basis = {per_100g: "每100克", per_100ml: "每100毫升", source_100g_or_100ml: "来源计量口径待核对"}[field.basis] || "";
+    const text = document.createElement("p");
+    text.textContent = `${name}：${field.value}${field.unit || ""} ${basis} · ${status}${fields.conflicts?.includes(field.field) ? " · 来源不一致" : ""}`;
+    const date = document.createElement("p");
+    date.className = "alternative-source";
+    date.textContent = `资料记录时间：${knowledgeDate(field.observed_at)}；版本：${String(field.source_version || "未记录").slice(0, 16)}`;
+    row.append(text, date);
+    appendAlternativeReviewLink(row, field.source_url, "查看该字段来源");
+    list.append(row);
+  }
+  details.append(list);
+  return details;
+}
+
+function renderOfficialSourceScreening(screening) {
+  document.querySelector("#official-source-screening")?.remove();
+  if (!screening?.total) return;
+  const section = document.createElement("details");
+  section.id = "official-source-screening";
+  section.className = "alternative-label";
+  const summary = document.createElement("summary");
+  summary.textContent = `官网资料初步筛选：${screening.counts.matched || 0} 件符合已列条件，${screening.counts.unknown || 0} 件待核实，${screening.counts.not_matched || 0} 件不符合`;
+  const note = document.createElement("p");
+  note.textContent = screening.notice;
+  section.append(summary, note);
+  const list = document.createElement("ul");
+  for (const item of screening.items) {
+    const row = document.createElement("li");
+    const title = document.createElement("strong");
+    title.textContent = item.display_name;
+    const description = document.createElement("p");
+    const labels = { matched: "官网数值符合", not_matched: "不符合", unknown: "待核实", not_evaluated: "尚未指定比较条件" };
+    description.textContent = `${labels[item.status]} · ${item.specification || "规格待补齐"}。` +
+      (item.checks.length ? item.checks.map(c => `${c.label}：${c.reason}`).join("；") :
+        `已有数值：${item.available_nutrients.join("、") || "暂无"}。`);
+    row.append(title, description);
+    appendAlternativeReviewLink(row, item.source_url, "查看商品官网来源");
+    list.append(row);
+  }
+  section.append(list);
+  elements.alternativeResults.append(section);
 }

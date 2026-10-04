@@ -1,0 +1,21 @@
+{
+  "status": "completed_with_evidence_gaps",
+  "targets": 10,
+  "candidate_details": 8,
+  "unresolved_targets": 2,
+  "new_boohee_requests": 20,
+  "reused_boohee_responses": 2,
+  "sugar_zero_unverified_count": 7,
+  "packaging_ingredients_from_boohee": 0,
+  "api_display_images_rejected": 8,
+  "ocr_calls": 0,
+  "ocr_skip_reason": "No trustworthy readable back-label image found; direct official text used where available.",
+  "official_source_records_discovered": 30,
+  "official_records_with_ingredients": 30,
+  "official_records_with_core_nutrition": 30,
+  "verified_pilot_sku_label_fills": 0,
+  "new_production_recommendable_products": 0,
+  "production_catalog_modified": false,
+  "next_step": "Review official-source variants and package identifiers; do not merge generic name matches.",
+  "captured_at": "2026-10-04T01:53:04.732900+00:00"
+}

@@ -1,0 +1,1515 @@
+{
+  "counts": {
+    "total": 122,
+    "ingredients_text_present": 66,
+    "ingredients_image_present": 7,
+    "nutrition_image_present": 7,
+    "core_nutrition_present": 70,
+    "sugars_present": 58,
+    "ocr_draft_present": 0,
+    "reviewed": 0
+  },
+  "gaps": [
+    {
+      "id": "0012692518220",
+      "display_name": "0012692518220",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/0012692518220"
+    },
+    {
+      "id": "0059161701776",
+      "display_name": "Plain Yogurt",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/0059161701776"
+    },
+    {
+      "id": "0071923722898",
+      "display_name": "Frosted Flakes",
+      "missing": [
+        "ingredients_text_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/0071923722898"
+    },
+    {
+      "id": "0806102050987",
+      "display_name": "Fresh Whole Milk",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/0806102050987"
+    },
+    {
+      "id": "0815096005088",
+      "display_name": "Tapal",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/0815096005088"
+    },
+    {
+      "id": "3161712917028",
+      "display_name": "Camenbert",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/3161712917028"
+    },
+    {
+      "id": "3254550040529",
+      "display_name": "Fromage blanc",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/3254550040529"
+    },
+    {
+      "id": "3272770014724",
+      "display_name": "Cream Cheese",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/3272770014724"
+    },
+    {
+      "id": "3455180049573",
+      "display_name": "Cotes ",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/3455180049573"
+    },
+    {
+      "id": "3870885002997",
+      "display_name": "Muesli with 4 types of seeds",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/3870885002997"
+    },
+    {
+      "id": "4000521663407",
+      "display_name": "vitalis Müsli Joghurt",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/4000521663407"
+    },
+    {
+      "id": "4099100086065",
+      "display_name": "Neufchâtel Cheese",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/4099100086065"
+    },
+    {
+      "id": "4260493760225",
+      "display_name": "Muesli with Fruits",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/4260493760225"
+    },
+    {
+      "id": "460010010000214040",
+      "display_name": "460010010000214040",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/460010010000214040"
+    },
+    {
+      "id": "4710063338953",
+      "display_name": "簡單點鮮奶優格",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/4710063338953"
+    },
+    {
+      "id": "4710784962475",
+      "display_name": "Yoghurt nature",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/4710784962475"
+    },
+    {
+      "id": "4770301235338",
+      "display_name": "4770301235338",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/4770301235338"
+    },
+    {
+      "id": "4891175100345",
+      "display_name": "十字奶",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/4891175100345"
+    },
+    {
+      "id": "5003848033457",
+      "display_name": "5003848033457",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/5003848033457"
+    },
+    {
+      "id": "5010477348272",
+      "display_name": "The original crunchy",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/5010477348272"
+    },
+    {
+      "id": "5016614057090",
+      "display_name": "Halloumi Grillkäse",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/5016614057090"
+    },
+    {
+      "id": "5060536110197",
+      "display_name": "Granola Crunchy Cereal Flakes with Honey & Almonds",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/5060536110197"
+    },
+    {
+      "id": "5400141107203",
+      "display_name": "Crunchy Muesli",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/5400141107203"
+    },
+    {
+      "id": "5400141261547",
+      "display_name": "Regular pads dosettes",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/5400141261547"
+    },
+    {
+      "id": "5740900400894",
+      "display_name": "Light Butter slightly salted",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/5740900400894"
+    },
+    {
+      "id": "5900512501673",
+      "display_name": "Twarog Klinek pótlusty",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/5900512501673"
+    },
+    {
+      "id": "5900617002105",
+      "display_name": "5900617002105",
+      "missing": [
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/5900617002105"
+    },
+    {
+      "id": "5900617011299",
+      "display_name": "Musli Lo z owocami",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/5900617011299"
+    },
+    {
+      "id": "5900749610339",
+      "display_name": "Crunchy muesli",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/5900749610339"
+    },
+    {
+      "id": "5941850871097",
+      "display_name": "Branza burduf",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/5941850871097"
+    },
+    {
+      "id": "5949065004613",
+      "display_name": "Telemea capra gr",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/5949065004613"
+    },
+    {
+      "id": "6000739074253",
+      "display_name": "Waitrose Essential Fruit & Nut Muesli",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6000739074253"
+    },
+    {
+      "id": "6410405225443",
+      "display_name": "Fruit Müsli",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6410405225443"
+    },
+    {
+      "id": "6901035609265",
+      "display_name": "tsingtao",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6901035609265"
+    },
+    {
+      "id": "6901209200182",
+      "display_name": "6901209200182",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6901209200182"
+    },
+    {
+      "id": "6901285991219",
+      "display_name": "Yibao Drinking Pure Water",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6901285991219"
+    },
+    {
+      "id": "6901285991271",
+      "display_name": "饮用纯净水",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6901285991271"
+    },
+    {
+      "id": "6901939621608",
+      "display_name": "可口可乐",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6901939621608"
+    },
+    {
+      "id": "6901939671603",
+      "display_name": "可口可乐",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6901939671603"
+    },
+    {
+      "id": "6902083881085",
+      "display_name": "娃哈哈 AD 钙奶原味",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6902083881085"
+    },
+    {
+      "id": "6902083891329",
+      "display_name": "娃哈哈 营养快线 香草冰淇淋味",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6902083891329"
+    },
+    {
+      "id": "6902083897765",
+      "display_name": "营养快线 草莓味",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6902083897765"
+    },
+    {
+      "id": "6902083922658",
+      "display_name": "娃哈哈 AD钙 AD钙奶饮料",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6902083922658"
+    },
+    {
+      "id": "6902088932249",
+      "display_name": "茉莉花茶",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6902088932249"
+    },
+    {
+      "id": "6902208991767",
+      "display_name": "dry red wine - silk road classic ",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6902208991767"
+    },
+    {
+      "id": "6903133118151",
+      "display_name": "6903133118151",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6903133118151"
+    },
+    {
+      "id": "6907992100272",
+      "display_name": "伊利",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6907992100272"
+    },
+    {
+      "id": "6907992500942",
+      "display_name": "伊利纯牛奶",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6907992500942"
+    },
+    {
+      "id": "6907992507095",
+      "display_name": "金典",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6907992507095"
+    },
+    {
+      "id": "6907992513560",
+      "display_name": "Ambpoeial Greek Flavored  Yoghurt",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6907992513560"
+    },
+    {
+      "id": "6907992514079",
+      "display_name": "舒化牛奶",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6907992514079"
+    },
+    {
+      "id": "6908946290087",
+      "display_name": "百事可乐",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6908946290087"
+    },
+    {
+      "id": "6909612663211",
+      "display_name": "冰露",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6909612663211"
+    },
+    {
+      "id": "6914522030091",
+      "display_name": "DL酸奶水果燕麦脆",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6914522030091"
+    },
+    {
+      "id": "6916196410414",
+      "display_name": "李子园甜牛奶饮品",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6916196410414"
+    },
+    {
+      "id": "6917878003573",
+      "display_name": "Nestle Eagle - Condensed Milk Tube (original) 185G",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6917878003573"
+    },
+    {
+      "id": "6917878006918",
+      "display_name": "Créales koko crunch",
+      "missing": [
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6917878006918"
+    },
+    {
+      "id": "6920180210614",
+      "display_name": "Watsons water",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6920180210614"
+    },
+    {
+      "id": "6920181525014",
+      "display_name": "盐汽水",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6920181525014"
+    },
+    {
+      "id": "6920584471017",
+      "display_name": "6920584471017",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6920584471017"
+    },
+    {
+      "id": "6921168511280",
+      "display_name": "饮用天然水",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6921168511280"
+    },
+    {
+      "id": "6921168594696",
+      "display_name": "东方树叶茉莉花茶原味茶饮料",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6921168594696"
+    },
+    {
+      "id": "6921168595150",
+      "display_name": "茶π果味茶饮料 柠檬红茶",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6921168595150"
+    },
+    {
+      "id": "6921168597734",
+      "display_name": "茶π果味茶饮料 柑普柠檬茶",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6921168597734"
+    },
+    {
+      "id": "6921235170006",
+      "display_name": "Sunbara",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6921235170006"
+    },
+    {
+      "id": "6921317905038",
+      "display_name": "包装饮用水",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6921317905038"
+    },
+    {
+      "id": "6921355220476",
+      "display_name": "全脂鲜牛奶",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6921355220476"
+    },
+    {
+      "id": "6922577730224",
+      "display_name": "纯牛奶",
+      "missing": [
+        "ingredients_text_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6922577730224"
+    },
+    {
+      "id": "6922577752189",
+      "display_name": "优致牧场",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6922577752189"
+    },
+    {
+      "id": "6922577790068",
+      "display_name": "简醇",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6922577790068"
+    },
+    {
+      "id": "6923644223458",
+      "display_name": "蒙牛纯牛奶",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6923644223458"
+    },
+    {
+      "id": "6923644232665",
+      "display_name": "低脂纯牛奶",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6923644232665"
+    },
+    {
+      "id": "6923644232719",
+      "display_name": "蒙牛 特仑苏 低脂纯牛奶",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6923644232719"
+    },
+    {
+      "id": "6923644266066",
+      "display_name": "纯牛奶",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6923644266066"
+    },
+    {
+      "id": "6923644287641",
+      "display_name": "6923644287641",
+      "missing": [
+        "ingredients_text_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6923644287641"
+    },
+    {
+      "id": "6923644299774",
+      "display_name": "特仑苏有机纯牛奶",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6923644299774"
+    },
+    {
+      "id": "6924810801807",
+      "display_name": "6924810801807",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6924810801807"
+    },
+    {
+      "id": "6925303721695",
+      "display_name": "Water",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6925303721695"
+    },
+    {
+      "id": "6926027717094",
+      "display_name": "光明啤酒",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6926027717094"
+    },
+    {
+      "id": "6927321719173",
+      "display_name": "Yogurt",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6927321719173"
+    },
+    {
+      "id": "6928758789609",
+      "display_name": "乳酸菌乳飲品",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6928758789609"
+    },
+    {
+      "id": "6928804010145",
+      "display_name": "6928804010145",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6928804010145"
+    },
+    {
+      "id": "6931319206507",
+      "display_name": "6931319206507",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6931319206507"
+    },
+    {
+      "id": "6933266607185",
+      "display_name": "百事可乐",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6933266607185"
+    },
+    {
+      "id": "6934665095528",
+      "display_name": "双拼果粒 桃气菠菠",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6934665095528"
+    },
+    {
+      "id": "6937003704014",
+      "display_name": "元气森林气泡水橙子味",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6937003704014"
+    },
+    {
+      "id": "6939209518020",
+      "display_name": "6939209518020",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6939209518020"
+    },
+    {
+      "id": "6939580610412",
+      "display_name": "百事可乐",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6939580610412"
+    },
+    {
+      "id": "6939729902255",
+      "display_name": "凉白开",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6939729902255"
+    },
+    {
+      "id": "6948960102010",
+      "display_name": "Beer",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6948960102010"
+    },
+    {
+      "id": "6948960123480",
+      "display_name": "6948960123480",
+      "missing": [
+        "ingredients_text_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6948960123480"
+    },
+    {
+      "id": "6954767410494",
+      "display_name": "可口可乐",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6954767410494"
+    },
+    {
+      "id": "6954767412573",
+      "display_name": "可口可乐",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6954767412573"
+    },
+    {
+      "id": "6955150411456",
+      "display_name": "有机纯牛奶",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6955150411456"
+    },
+    {
+      "id": "6955150411463",
+      "display_name": "有机纯牛奶",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6955150411463"
+    },
+    {
+      "id": "6970399927247",
+      "display_name": "6970399927247",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6970399927247"
+    },
+    {
+      "id": "6971496201001",
+      "display_name": "混合坚果燕麦片",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6971496201001"
+    },
+    {
+      "id": "6971714701566",
+      "display_name": "谷焙奇酸奶沙琪玛",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6971714701566"
+    },
+    {
+      "id": "6971858720102",
+      "display_name": "纯牛乳",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6971858720102"
+    },
+    {
+      "id": "6973662540013",
+      "display_name": "Australian Rolled Oats",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6973662540013"
+    },
+    {
+      "id": "6975865680374",
+      "display_name": "6975865680374",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6975865680374"
+    },
+    {
+      "id": "6976046843311",
+      "display_name": "苹果醋果味饮料",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6976046843311"
+    },
+    {
+      "id": "6976153190216",
+      "display_name": "DL大月饼（芋泥麻薯酥饼）",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6976153190216"
+    },
+    {
+      "id": "6977254330358",
+      "display_name": "6977254330358",
+      "missing": [
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/6977254330358"
+    },
+    {
+      "id": "7613034826947",
+      "display_name": "Perrier lime flavor",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/7613034826947"
+    },
+    {
+      "id": "7613034965035",
+      "display_name": "Eau pétillante",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/7613034965035"
+    },
+    {
+      "id": "8009361063169",
+      "display_name": "Fruit Müsli with Bits of Wild Berries and Honey",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/8009361063169"
+    },
+    {
+      "id": "8402001010873",
+      "display_name": "Muesli Crunchy",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/8402001010873"
+    },
+    {
+      "id": "8410159044329",
+      "display_name": "Figaro Grønne Oliven med Paprika 240g",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/8410159044329"
+    },
+    {
+      "id": "8690520510190",
+      "display_name": "Efes Draft Beer 500Ml",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/8690520510190"
+    },
+    {
+      "id": "8718104917408",
+      "display_name": "Tequila beer",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/8718104917408"
+    },
+    {
+      "id": "8719132831179",
+      "display_name": "yoghurt Griekse stijl",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/8719132831179"
+    },
+    {
+      "id": "8802521202367",
+      "display_name": "Makgeolli White Grape 350ml",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/8802521202367"
+    },
+    {
+      "id": "9300605122604",
+      "display_name": "BiscVita",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/9300605122604"
+    },
+    {
+      "id": "9300633364304",
+      "display_name": "Apricot, Almond & Date Muesli",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/9300633364304"
+    },
+    {
+      "id": "9312231001215",
+      "display_name": "Organic Almond Unsweetened",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/9312231001215"
+    },
+    {
+      "id": "9348219000895",
+      "display_name": "Coconut instant Oats",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/9348219000895"
+    },
+    {
+      "id": "9348219001663",
+      "display_name": "instant oats",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/9348219001663"
+    },
+    {
+      "id": "9555589213880",
+      "display_name": "9555589213880",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/9555589213880"
+    },
+    {
+      "id": "9556041610032",
+      "display_name": "Coconut milk",
+      "missing": [
+        "ingredients_text_present",
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "core_nutrition_present",
+        "sugars_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/9556041610032"
+    },
+    {
+      "id": "9556174902202",
+      "display_name": "Quaker Quick Cooking Oatmeal",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/9556174902202"
+    },
+    {
+      "id": "9787569908565",
+      "display_name": "DL橙汁",
+      "missing": [
+        "ingredients_image_present",
+        "nutrition_image_present",
+        "ocr_draft_present",
+        "reviewed"
+      ],
+      "source_url": "https://world.openfoodfacts.org/product/9787569908565"
+    }
+  ],
+  "note": "字段存在仅表示来源提供数据，不代表完整、准确或已核实。"
+}

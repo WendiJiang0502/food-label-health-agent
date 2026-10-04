@@ -1,0 +1,34 @@
+{
+  "name": "父爱牧场鲜牛奶",
+  "group": 1,
+  "source_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-7.png?v=1",
+  "fields": [
+    {
+      "name": "ingredients",
+      "label": "配料表（未识别，请手动补充）",
+      "raw_text": "",
+      "confidence": 0.0,
+      "requires_confirmation": true,
+      "bounding_box": null,
+      "evidence_lines": [],
+      "nutrition_table": null
+    },
+    {
+      "name": "net_quantity",
+      "label": "净含量",
+      "raw_text": "净含量:250mL",
+      "confidence": 0.98,
+      "requires_confirmation": false,
+      "bounding_box": null,
+      "evidence_lines": [
+        {
+          "text": "净含量:250mL",
+          "confidence": 0.98,
+          "bounding_box": null
+        }
+      ],
+      "nutrition_table": null
+    }
+  ],
+  "status": "ocr_draft"
+}

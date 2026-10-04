@@ -1,0 +1,409 @@
+{
+  "created_at": "2026-10-03T14:49:48.580505+00:00",
+  "design": "up to 6 identity-gap + 2 identity-control per category; deterministic barcode order",
+  "scope": "Existing China-tagged OFF candidates; not representative of mainland retail coverage. Barcode prefix is not country of manufacture.",
+  "excluded_invalid_barcodes": 1,
+  "population_count": 122,
+  "sample_count": 24,
+  "items": [
+    {
+      "barcode": "5900617002105",
+      "category": "breakfast_cereal",
+      "source_version": "e6abd577dbe9e604b8a92f668a99b5a8d515bdd7fb160652fbbe5d5f8564f022",
+      "baseline": {
+        "name": "",
+        "brand": "Santé",
+        "specification": "350 g",
+        "ingredients": "and other nuts ა ბურღულის ფანტელები ხილით მოცულობა: 350 გრ, შემადგენლობა: მარცვლეულის ფანტელები 75% შვრიის ფანტელები 30%, ქერის ფანტელები, ხორბლის ფანტელები (ხორბალი, ლერწმის არა რაფინირებული შაქარი, ზღვის მარილი, ქერის ალაოს ექსტრაქტი), სიმინდის ფანტელები (სიმინდის ხახვი, ლერწმის არა რაფინირებული შაქარი, ზღვის მარილი, ქერის ალაოს ექსტრაქტი)], გამომშრალი ხილი 25% ცვალებადი პროპორციით [ფინიკი (ფინიკი, ბრინჯის ფქვილი), ტკბილი მოცვი (მოცვი, ლერწმის შაქარი, მზესუმზირის ზეთი), ვაშლი], ალერგენები : შესაძლოა შეიცავდეს რძეს, სოიოს, თხილეულს, კვებითი ღირებულება 100 გრ პროდუქტში: ენერგეტიკული ღირებულება: 1642 კჯ / 389 კკალ, ცხიმები - 4,2 გრ, მათშორის ნაჯერი - 0,6 გრ, ნახშირწყლები - 73 გრ, მათ შორის შაქრები - 19 გრ, ბოჭკო - 9,9 გრ, ცილები - 9,8 გრ, მარილი - 0,38 გრ, ვიტამინები: თიამინი - 0,23 მგ (21%), ნიაცინი - 2,9 მგ(18%), მინერალები: ფოსფორი - 297 მგ (42%), მაგნიუმი - 95,2 მგ (25%), რკინა - 3,3 მგ (24%), თუთია - 2,4 მგ (24%), პაკეტში ულუფების რაოდეობა : 11, შენახვის ვადა: გამოშვებიდან 12 თვე, უმჯობესია გამოყენებულ იქნეს შეფუთვაზე მითითებულ თარიღამდე შენახვის პირობები: სუფთა, მშრალი, ჰაეროვახი, ჰაერის ფარდობითი ტენიანობა არ უნდა აღემატებოდეს 70% - ს, შეინახეთ ოთახის ტემპერატურაზე მაქსიმუმ 20C მწარმოებელი: Sante sp, z 0,0 , პოლონეთი, იმპორტიორი: შპს „ინტრეიდი,quot,, საქართველო, თბილისი 0180,მ,ქავთარაძისქ #11 ტელ: 2 621342 ID 9548",
+        "sugars": 12
+      },
+      "identity_gaps": [
+        "name"
+      ],
+      "group": "identity_gap",
+      "source_url": "https://world.openfoodfacts.org/product/5900617002105"
+    },
+    {
+      "barcode": "6973662540013",
+      "category": "breakfast_cereal",
+      "source_version": "865aa3fa6594d1fe9b40b8dd1b98dac10e0c12b801162f437fca67e3a8e265f2",
+      "baseline": {
+        "name": "Australian Rolled Oats",
+        "brand": "So Acai",
+        "specification": "",
+        "ingredients": "",
+        "sugars": null
+      },
+      "identity_gaps": [
+        "specification"
+      ],
+      "group": "identity_gap",
+      "source_url": "https://world.openfoodfacts.org/product/6973662540013"
+    },
+    {
+      "barcode": "6977254330358",
+      "category": "breakfast_cereal",
+      "source_version": "4adce079085114c867af06afbeb579aa7cfbbfe391f37bc0d9b4c4b9a9b45ce9",
+      "baseline": {
+        "name": "",
+        "brand": "",
+        "specification": "",
+        "ingredients": "oats",
+        "sugars": null
+      },
+      "identity_gaps": [
+        "name",
+        "brand",
+        "specification"
+      ],
+      "group": "identity_gap",
+      "source_url": "https://world.openfoodfacts.org/product/6977254330358"
+    },
+    {
+      "barcode": "0071923722898",
+      "category": "breakfast_cereal",
+      "source_version": "a34f53ef0dfccc7d14ec1b88d646a98d11c585d72d8296e01b1f51eba6d62ab7",
+      "baseline": {
+        "name": "Frosted Flakes",
+        "brand": "Hospitality",
+        "specification": "198gr",
+        "ingredients": "",
+        "sugars": 35
+      },
+      "identity_gaps": [],
+      "group": "identity_control",
+      "source_url": "https://world.openfoodfacts.org/product/0071923722898"
+    },
+    {
+      "barcode": "3870885002997",
+      "category": "breakfast_cereal",
+      "source_version": "7141a7fc30895f649a695eff8f040742a5207d207d9ad067762dbaecf4b57b52",
+      "baseline": {
+        "name": "Muesli with 4 types of seeds",
+        "brand": "Berny",
+        "specification": "420g",
+        "ingredients": "barley, rye, wheat, oat and corn flakes, seeds 22% (sunflower seeds, peeled pumpkin seeds, chia seeds 6%, flax seeds)",
+        "sugars": 4.45
+      },
+      "identity_gaps": [],
+      "group": "identity_control",
+      "source_url": "https://world.openfoodfacts.org/product/3870885002997"
+    },
+    {
+      "barcode": "4000521663407",
+      "category": "breakfast_cereal",
+      "source_version": "82be50d6ffd4c79a44917fe3296476d677b1c68f03ffb74d8a15a189460caeee",
+      "baseline": {
+        "name": "vitalis Müsli Joghurt",
+        "brand": "Dr. Oetker, Vitalis",
+        "specification": "600g",
+        "ingredients": "69% Vollkorn-HAFERFLOCKEN, 10% MAGERMILCHJOGHURT-Konfekt (Palmkernfett, MAGERMILCHJOGHURTPULVER, Zucker, MILCHZUCKER, SÜSSMOLKENPULVER, Emulgator (Lecithine)), Zucker, 4,9 % Cornflakes (Mais, Zucker, Salz, GERSTENMALZEXTRAKT), Sonnenblumenöl, WEIZENMEHL, Reismehl, Glukosesirup, 0,6 % gefriergetrocknete Erdbeerstücke, WEIZENVOLLKORNMEHL, MAGERMILCHJOGHURTPULVER, Aroma (enthält MILCH), getrocknete WEIZENKEIME, getrockneter GERSTENMALZEXTRAKT, MAGERMILCHPULVER, Salz. Kann enthalten: SOJA, MANDELN, HASELNÜSSE, CASHEWKERNE, PEKANNÜSSE.",
+        "sugars": 14
+      },
+      "identity_gaps": [],
+      "group": "identity_control",
+      "source_url": "https://world.openfoodfacts.org/product/4000521663407"
+    },
+    {
+      "barcode": "4260493760225",
+      "category": "breakfast_cereal",
+      "source_version": "abc9ff19b295817944dd23f364141897b59f99d3972bd5ffed3426c6d20dd96a",
+      "baseline": {
+        "name": "Muesli with Fruits",
+        "brand": "Hogaän Bites",
+        "specification": "500 g",
+        "ingredients": "Cereal flakes 77% (oat flakes, wheat flakes, rye flakes), mixture of dried and candied fruit 20% (raisins, banana (banana, sugar, coconut oil), papaya (papaya, sugar, sulphur dioxide) , pineapple (pineapple, sugar, acid: citric acid, sulphur dioxide), date(date, rice flour)), corn flakes 3% (corn grits, sugar, salt, barley malt extract)",
+        "sugars": 19
+      },
+      "identity_gaps": [],
+      "group": "identity_control",
+      "source_url": "https://world.openfoodfacts.org/product/4260493760225"
+    },
+    {
+      "barcode": "5010477348272",
+      "category": "breakfast_cereal",
+      "source_version": "f1e6d7988d914f55695dd0276ef3a0a55892708fb90427680ebadfe0501cc130",
+      "baseline": {
+        "name": "The original crunchy",
+        "brand": "Jordans",
+        "specification": "750 g",
+        "ingredients": "flocons d'AVOINE complets (66%), fruits secs (17%) (raisins secs, raisins de sultane, dés d'ananas séché (ananas, sucre de canne, régulateur d'acidité: acide citrique), éclats de noix de coco, dattes hachées dés de papaye séchée (papaye, sucre de canne), copeaux de banane séchée (banane, huile de noix de coco, sucre, arôme naturel), sucre, huiles végétales (huile de colza, huile de palme), AMANDES entières (1%), miel (1%), graines de tournesol, arôme naturel.",
+        "sugars": 23.8
+      },
+      "identity_gaps": [],
+      "group": "identity_control",
+      "source_url": "https://world.openfoodfacts.org/product/5010477348272"
+    },
+    {
+      "barcode": "0012692518220",
+      "category": "dairy",
+      "source_version": "5624fd2937f12625c7de3dd8c7c7855589b115de595233ffc06fac33d810ec99",
+      "baseline": {
+        "name": "",
+        "brand": "",
+        "specification": "",
+        "ingredients": "",
+        "sugars": null
+      },
+      "identity_gaps": [
+        "name",
+        "brand",
+        "specification"
+      ],
+      "group": "identity_gap",
+      "source_url": "https://world.openfoodfacts.org/product/0012692518220"
+    },
+    {
+      "barcode": "4891175100345",
+      "category": "dairy",
+      "source_version": "22b57d2180d8f1dd5d83bc18841111c3bf1731e81618a615f8a5b67b4ba36dd5",
+      "baseline": {
+        "name": "十字奶",
+        "brand": "Cross",
+        "specification": "",
+        "ingredients": "",
+        "sugars": 6.48305084745763
+      },
+      "identity_gaps": [
+        "specification"
+      ],
+      "group": "identity_gap",
+      "source_url": "https://world.openfoodfacts.org/product/4891175100345"
+    },
+    {
+      "barcode": "5003848033457",
+      "category": "dairy",
+      "source_version": "7516380be022f9efe545baa9bd586548801a0a9c1914ab077cdfa7165166c3e6",
+      "baseline": {
+        "name": "",
+        "brand": "",
+        "specification": "",
+        "ingredients": "",
+        "sugars": null
+      },
+      "identity_gaps": [
+        "name",
+        "brand",
+        "specification"
+      ],
+      "group": "identity_gap",
+      "source_url": "https://world.openfoodfacts.org/product/5003848033457"
+    },
+    {
+      "barcode": "5016614057090",
+      "category": "dairy",
+      "source_version": "fabe04f7facad9330d8ba5c98529d07c2cc5150a1dda2b06daba684744244656",
+      "baseline": {
+        "name": "Halloumi Grillkäse",
+        "brand": "",
+        "specification": "250 g",
+        "ingredients": "Lait pasteurisé de brebis, de chèvre et de vache, sel, présure et menthe hachée. Allergènes: 43% de matière grasse.",
+        "sugars": 1
+      },
+      "identity_gaps": [
+        "brand"
+      ],
+      "group": "identity_gap",
+      "source_url": "https://world.openfoodfacts.org/product/5016614057090"
+    },
+    {
+      "barcode": "5900512501673",
+      "category": "dairy",
+      "source_version": "b45af1e679a5c3fd171ec989c82becd207d6c65775a6db9cf3961e89f9f15553",
+      "baseline": {
+        "name": "Twarog Klinek pótlusty",
+        "brand": "Mlekovita",
+        "specification": "",
+        "ingredients": "lait, Cultures de LABORATOIRE",
+        "sugars": 4
+      },
+      "identity_gaps": [
+        "specification"
+      ],
+      "group": "identity_gap",
+      "source_url": "https://world.openfoodfacts.org/product/5900512501673"
+    },
+    {
+      "barcode": "5941850871097",
+      "category": "dairy",
+      "source_version": "46a246e759b08d95d7d1628e23ccbfd7c0c93ca6c0d221a528859112e6c9ae0c",
+      "baseline": {
+        "name": "Branza burduf",
+        "brand": "",
+        "specification": "",
+        "ingredients": "",
+        "sugars": 0
+      },
+      "identity_gaps": [
+        "brand",
+        "specification"
+      ],
+      "group": "identity_gap",
+      "source_url": "https://world.openfoodfacts.org/product/5941850871097"
+    },
+    {
+      "barcode": "0059161701776",
+      "category": "dairy",
+      "source_version": "59ec5163fc04e43c9b0e07d67898c29beaadcbd6dec52f2ab517a5850c2b2dfd",
+      "baseline": {
+        "name": "Plain Yogurt",
+        "brand": "Olympic",
+        "specification": "1.75kg",
+        "ingredients": "Organic partly skimmed milk from grassfed cows, Skim milk powder, Active bacterial culture (including probiotic cultures Lactobacillus acidophilus, B. lactis and Lactobacillus paracasei).",
+        "sugars": 4
+      },
+      "identity_gaps": [],
+      "group": "identity_control",
+      "source_url": "https://world.openfoodfacts.org/product/0059161701776"
+    },
+    {
+      "barcode": "0806102050987",
+      "category": "dairy",
+      "source_version": "2160deba63641cb18ce7f402dd3c14bf3f6f5614a24b3eae5f0b695b5359cb45",
+      "baseline": {
+        "name": "Fresh Whole Milk",
+        "brand": "Essen Bene",
+        "specification": "1 quart",
+        "ingredients": "milk",
+        "sugars": 4.6
+      },
+      "identity_gaps": [],
+      "group": "identity_control",
+      "source_url": "https://world.openfoodfacts.org/product/0806102050987"
+    },
+    {
+      "barcode": "0815096005088",
+      "category": "drink",
+      "source_version": "7d819ec0d645704ff51b11f5949a021058246b18f8ecf6e661e91e90dbe34046",
+      "baseline": {
+        "name": "Tapal",
+        "brand": "",
+        "specification": "2.0g",
+        "ingredients": "black tea",
+        "sugars": null
+      },
+      "identity_gaps": [
+        "brand"
+      ],
+      "group": "identity_gap",
+      "source_url": "https://world.openfoodfacts.org/product/0815096005088"
+    },
+    {
+      "barcode": "3455180049573",
+      "category": "drink",
+      "source_version": "58eeaa19103311db02b43127fe80a03bebe97391d0535f9cf2219512f9e20334",
+      "baseline": {
+        "name": "Cotes ",
+        "brand": "",
+        "specification": "",
+        "ingredients": "",
+        "sugars": null
+      },
+      "identity_gaps": [
+        "brand",
+        "specification"
+      ],
+      "group": "identity_gap",
+      "source_url": "https://world.openfoodfacts.org/product/3455180049573"
+    },
+    {
+      "barcode": "4770301235338",
+      "category": "drink",
+      "source_version": "104950ee4965325d48d6ae6983267c5020cf2e786e30393b256646f5cebcdd10",
+      "baseline": {
+        "name": "",
+        "brand": "Volfas Engelman",
+        "specification": "500ml",
+        "ingredients": "water, barley, wheat malt, oat malt, naked oats, hops, beer yeast",
+        "sugars": null
+      },
+      "identity_gaps": [
+        "name"
+      ],
+      "group": "identity_gap",
+      "source_url": "https://world.openfoodfacts.org/product/4770301235338"
+    },
+    {
+      "barcode": "6901035609265",
+      "category": "drink",
+      "source_version": "74d37cad907173df11b0c5d5d6a73425ea787c4f2a58f896f0584ee162c2c323",
+      "baseline": {
+        "name": "tsingtao",
+        "brand": "tsingtao",
+        "specification": "",
+        "ingredients": "",
+        "sugars": null
+      },
+      "identity_gaps": [
+        "specification"
+      ],
+      "group": "identity_gap",
+      "source_url": "https://world.openfoodfacts.org/product/6901035609265"
+    },
+    {
+      "barcode": "6901285991219",
+      "category": "drink",
+      "source_version": "c8416e8c8971fdb529368c1718c3248af5fc3035a14a25ea022a1e8360cc76e9",
+      "baseline": {
+        "name": "Yibao Drinking Pure Water",
+        "brand": "",
+        "specification": "",
+        "ingredients": "",
+        "sugars": null
+      },
+      "identity_gaps": [
+        "brand",
+        "specification"
+      ],
+      "group": "identity_gap",
+      "source_url": "https://world.openfoodfacts.org/product/6901285991219"
+    },
+    {
+      "barcode": "6901939621608",
+      "category": "drink",
+      "source_version": "1988f448d9c7966b8171adb96705226d67caef05a022068d22bec44af5b834f4",
+      "baseline": {
+        "name": "可口可乐",
+        "brand": "Coca Cola, 可口可乐",
+        "specification": "",
+        "ingredients": "",
+        "sugars": 10.6
+      },
+      "identity_gaps": [
+        "specification"
+      ],
+      "group": "identity_gap",
+      "source_url": "https://world.openfoodfacts.org/product/6901939621608"
+    },
+    {
+      "barcode": "5400141261547",
+      "category": "drink",
+      "source_version": "b535e8d967dedf9bd8ae42eca3176e8d44ec9e1a8c0f71d2298f0601b435f587",
+      "baseline": {
+        "name": "Regular pads dosettes",
+        "brand": "Everyday",
+        "specification": "36",
+        "ingredients": "",
+        "sugars": null
+      },
+      "identity_gaps": [],
+      "group": "identity_control",
+      "source_url": "https://world.openfoodfacts.org/product/5400141261547"
+    },
+    {
+      "barcode": "6901285991271",
+      "category": "drink",
+      "source_version": "4f9f92772ce0bdeb1fb50212bce59bf062666593309866c9d13cd139eedb282e",
+      "baseline": {
+        "name": "饮用纯净水",
+        "brand": "C'estbon, 怡宝",
+        "specification": "1.555l",
+        "ingredients": "水",
+        "sugars": null
+      },
+      "identity_gaps": [],
+      "group": "identity_control",
+      "source_url": "https://world.openfoodfacts.org/product/6901285991271"
+    }
+  ]
+}

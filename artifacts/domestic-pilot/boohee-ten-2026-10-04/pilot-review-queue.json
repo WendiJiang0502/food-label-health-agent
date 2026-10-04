@@ -1,0 +1,3244 @@
+[
+  {
+    "target_id": 0,
+    "target_name": "伊利纯牛奶",
+    "category": "dairy",
+    "review_status": "needs_review",
+    "status": "needs_review",
+    "code": "fd12b9ad",
+    "name": "伊利 纯牛奶",
+    "food_type": "包装食品",
+    "observations": [
+      {
+        "field": "calories",
+        "value": 64,
+        "unit": "kcal",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "protein",
+        "value": 3,
+        "unit": "g",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fat",
+        "value": 3.5,
+        "unit": "g",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "carbohydrate",
+        "value": 5,
+        "unit": "g",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "sugar",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "purine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fiber_dietary",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "saturated_fat",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "ufa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fatty_acid",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "mufa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "pufa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "dha",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "n6_fatty_acids",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "n9_fatty_acids",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "n3fa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "cholesterol",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_a",
+        "value": 24,
+        "unit": "μg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_d",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_e",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_k",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "thiamine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "lactoflavin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_b6",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_b12",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "niacin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "pantothenic",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "choline",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "biotin",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_c",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "natrium",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "kalium",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "calcium",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "phosphor",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "magnesium",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "chlorine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "iron",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "zinc",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "copper",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "manganese",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "chrome",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "iodine",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "selenium",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fluorine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "hg",
+        "value": 0,
+        "unit": "ppm",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "proanthocyanidin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "quercetin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "anthocyanin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "soy_isoflavone",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "carotene",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "lutein_zeaxanthin",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "myricetin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "luteolin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "alcohol",
+        "value": 0,
+        "unit": "%vol",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      }
+    ],
+    "ingredients_text": null,
+    "materials_are_packaging_ingredients": false,
+    "basis_note": "Search documentation uses per 100g; do not silently convert liquid values to per 100ml.",
+    "recommendation_eligible": false,
+    "detail_artifact": "artifacts/domestic-pilot/boohee-ten-2026-10-04/detail-0.json",
+    "identity_status": "name_candidate_not_sku_verified",
+    "image_review": "AI生成标记；正面展示图；不作为包装或OCR证据",
+    "gaps": [
+      "完整包装配料证据",
+      "包装版本和规格核对",
+      "糖零值含义核实"
+    ]
+  },
+  {
+    "target_id": 1,
+    "target_name": "蒙牛特仑苏纯牛奶",
+    "category": "dairy",
+    "review_status": "needs_review",
+    "status": "needs_review",
+    "code": "fdd7d3fd",
+    "name": "蒙牛特仑苏 纯牛奶",
+    "food_type": "包装食品",
+    "observations": [
+      {
+        "field": "calories",
+        "value": 74,
+        "unit": "kcal",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "protein",
+        "value": 3.6,
+        "unit": "g",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fat",
+        "value": 4.4,
+        "unit": "g",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "carbohydrate",
+        "value": 5,
+        "unit": "g",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "sugar",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "purine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fiber_dietary",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "saturated_fat",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "ufa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fatty_acid",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "mufa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "pufa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "dha",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "n6_fatty_acids",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "n9_fatty_acids",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "n3fa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "cholesterol",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_a",
+        "value": 24,
+        "unit": "μg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_d",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_e",
+        "value": 0.21,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_k",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "thiamine",
+        "value": 0.03,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "lactoflavin",
+        "value": 0.14,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_b6",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_b12",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "niacin",
+        "value": 0.1,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "pantothenic",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "choline",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "biotin",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_c",
+        "value": 1,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "natrium",
+        "value": 58,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "kalium",
+        "value": 109,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "calcium",
+        "value": 120,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "phosphor",
+        "value": 73,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "magnesium",
+        "value": 11,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "chlorine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "iron",
+        "value": 0.3,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "zinc",
+        "value": 0.3,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "copper",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "manganese",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "chrome",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "iodine",
+        "value": 1.9,
+        "unit": "μg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "selenium",
+        "value": 1.9,
+        "unit": "μg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fluorine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "hg",
+        "value": 0,
+        "unit": "ppm",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "proanthocyanidin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "quercetin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "anthocyanin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "soy_isoflavone",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "carotene",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "lutein_zeaxanthin",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "myricetin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "luteolin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "alcohol",
+        "value": 0,
+        "unit": "%vol",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      }
+    ],
+    "ingredients_text": null,
+    "materials_are_packaging_ingredients": false,
+    "basis_note": "Search documentation uses per 100g; do not silently convert liquid values to per 100ml.",
+    "recommendation_eligible": false,
+    "detail_artifact": "artifacts/domestic-pilot/boohee-ten-2026-10-04/detail-1.json",
+    "identity_status": "name_candidate_not_sku_verified",
+    "image_review": "AI生成标记；正面展示图；不作为包装或OCR证据",
+    "gaps": [
+      "完整包装配料证据",
+      "包装版本和规格核对",
+      "糖零值含义核实"
+    ]
+  },
+  {
+    "target_id": 2,
+    "target_name": "伊利舒化无乳糖牛奶（低脂候选）",
+    "category": "dairy",
+    "review_status": "needs_review",
+    "status": "needs_review",
+    "code": "fdd28520",
+    "name": "伊利 舒化低脂型无乳糖牛奶",
+    "food_type": "包装食品",
+    "observations": [
+      {
+        "field": "calories",
+        "value": 44,
+        "unit": "kcal",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "protein",
+        "value": 3,
+        "unit": "g",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fat",
+        "value": 1.3,
+        "unit": "g",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "carbohydrate",
+        "value": 5,
+        "unit": "g",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "sugar",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "purine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fiber_dietary",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "saturated_fat",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "ufa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fatty_acid",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "mufa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "pufa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "dha",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "n6_fatty_acids",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "n9_fatty_acids",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "n3fa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "cholesterol",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_a",
+        "value": 24,
+        "unit": "μg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_d",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_e",
+        "value": 0.21,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_k",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "thiamine",
+        "value": 0.03,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "lactoflavin",
+        "value": 0.14,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_b6",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_b12",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "niacin",
+        "value": 0.1,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "pantothenic",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "choline",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "biotin",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_c",
+        "value": 1,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "natrium",
+        "value": 65,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "kalium",
+        "value": 109,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "calcium",
+        "value": 100,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "phosphor",
+        "value": 73,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "magnesium",
+        "value": 11,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "chlorine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "iron",
+        "value": 0.3,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "zinc",
+        "value": 0.3,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "copper",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "manganese",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "chrome",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "iodine",
+        "value": 1.9,
+        "unit": "μg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "selenium",
+        "value": 1.9,
+        "unit": "μg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fluorine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "hg",
+        "value": 0,
+        "unit": "ppm",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "proanthocyanidin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "quercetin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "anthocyanin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "soy_isoflavone",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "carotene",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "lutein_zeaxanthin",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "myricetin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "luteolin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "alcohol",
+        "value": 0,
+        "unit": "%vol",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      }
+    ],
+    "ingredients_text": null,
+    "materials_are_packaging_ingredients": false,
+    "basis_note": "Search documentation uses per 100g; do not silently convert liquid values to per 100ml.",
+    "recommendation_eligible": false,
+    "detail_artifact": "artifacts/domestic-pilot/boohee-ten-2026-10-04/detail-2.json",
+    "identity_status": "name_candidate_not_sku_verified",
+    "image_review": "AI生成标记；正面展示图；不作为包装或OCR证据",
+    "gaps": [
+      "完整包装配料证据",
+      "包装版本和规格核对",
+      "糖零值含义核实"
+    ]
+  },
+  {
+    "target_id": 3,
+    "target_name": "安慕希小黑钻",
+    "category": "dairy",
+    "review_status": "needs_review",
+    "status": "unresolved_search",
+    "recommendation_eligible": false,
+    "identity_status": "no_sufficiently_matching_candidate_in_bounded_search",
+    "gaps": [
+      "条码或明确SKU",
+      "完整配料与营养证据"
+    ]
+  },
+  {
+    "target_id": 4,
+    "target_name": "蒙牛纯甄原味（乳酪酸奶候选）",
+    "category": "dairy",
+    "review_status": "needs_review",
+    "status": "needs_review",
+    "code": "fd10bd19",
+    "name": "蒙牛 纯甄原味乳酪酸奶",
+    "food_type": "包装食品",
+    "observations": [
+      {
+        "field": "calories",
+        "value": 90,
+        "unit": "kcal",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "protein",
+        "value": 2.8,
+        "unit": "g",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fat",
+        "value": 3.2,
+        "unit": "g",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "carbohydrate",
+        "value": 12.5,
+        "unit": "g",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "sugar",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "purine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fiber_dietary",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "saturated_fat",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "ufa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fatty_acid",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "mufa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "pufa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "dha",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "n6_fatty_acids",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "n9_fatty_acids",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "n3fa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "cholesterol",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_a",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_d",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_e",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_k",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "thiamine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "lactoflavin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_b6",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_b12",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "niacin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "pantothenic",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "choline",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "biotin",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_c",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "natrium",
+        "value": 60,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "kalium",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "calcium",
+        "value": 90,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "phosphor",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "magnesium",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "chlorine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "iron",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "zinc",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "copper",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "manganese",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "chrome",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "iodine",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "selenium",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fluorine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "hg",
+        "value": 0,
+        "unit": "ppm",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "proanthocyanidin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "quercetin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "anthocyanin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "soy_isoflavone",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "carotene",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "lutein_zeaxanthin",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "myricetin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "luteolin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "alcohol",
+        "value": 0,
+        "unit": "%vol",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      }
+    ],
+    "ingredients_text": null,
+    "materials_are_packaging_ingredients": false,
+    "basis_note": "Search documentation uses per 100g; do not silently convert liquid values to per 100ml.",
+    "recommendation_eligible": false,
+    "detail_artifact": "artifacts/domestic-pilot/boohee-ten-2026-10-04/detail-4.json",
+    "identity_status": "name_candidate_not_sku_verified",
+    "image_review": "AI生成标记；正面展示图；不作为包装或OCR证据",
+    "gaps": [
+      "完整包装配料证据",
+      "包装版本和规格核对",
+      "糖零值含义核实"
+    ]
+  },
+  {
+    "target_id": 5,
+    "target_name": "简爱原味酸奶（饮用型候选）",
+    "category": "dairy",
+    "review_status": "needs_review",
+    "status": "needs_review",
+    "code": "fd701bf2",
+    "name": "简爱 原味饮用型酸奶",
+    "food_type": "包装食品",
+    "observations": [
+      {
+        "field": "calories",
+        "value": 89,
+        "unit": "kcal",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "protein",
+        "value": 3,
+        "unit": "g",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fat",
+        "value": 3.4,
+        "unit": "g",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "carbohydrate",
+        "value": 11.6,
+        "unit": "g",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "sugar",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "purine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fiber_dietary",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "saturated_fat",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "ufa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fatty_acid",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "mufa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "pufa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "dha",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "n6_fatty_acids",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "n9_fatty_acids",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "n3fa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "cholesterol",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_a",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_d",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_e",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_k",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "thiamine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "lactoflavin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_b6",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_b12",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "niacin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "pantothenic",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "choline",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "biotin",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_c",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "natrium",
+        "value": 46,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "kalium",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "calcium",
+        "value": 90,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "phosphor",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "magnesium",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "chlorine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "iron",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "zinc",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "copper",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "manganese",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "chrome",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "iodine",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "selenium",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fluorine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "hg",
+        "value": 0,
+        "unit": "ppm",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "proanthocyanidin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "quercetin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "anthocyanin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "soy_isoflavone",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "carotene",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "lutein_zeaxanthin",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "myricetin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "luteolin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "alcohol",
+        "value": 0,
+        "unit": "%vol",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      }
+    ],
+    "ingredients_text": null,
+    "materials_are_packaging_ingredients": false,
+    "basis_note": "Search documentation uses per 100g; do not silently convert liquid values to per 100ml.",
+    "recommendation_eligible": false,
+    "detail_artifact": "artifacts/domestic-pilot/boohee-ten-2026-10-04/detail-5.json",
+    "identity_status": "name_candidate_not_sku_verified",
+    "image_review": "AI生成标记；正面展示图；不作为包装或OCR证据",
+    "gaps": [
+      "完整包装配料证据",
+      "包装版本和规格核对",
+      "糖零值含义核实"
+    ]
+  },
+  {
+    "target_id": 6,
+    "target_name": "西麦纯燕麦片",
+    "category": "breakfast_cereal",
+    "review_status": "needs_review",
+    "status": "unresolved_search",
+    "recommendation_eligible": false,
+    "identity_status": "no_sufficiently_matching_candidate_in_bounded_search",
+    "gaps": [
+      "条码或明确SKU",
+      "完整配料与营养证据"
+    ]
+  },
+  {
+    "target_id": 7,
+    "target_name": "西麦有机燕麦片",
+    "category": "breakfast_cereal",
+    "review_status": "needs_review",
+    "status": "needs_review",
+    "code": "fd950120",
+    "name": "西麦 有机燕麦片",
+    "food_type": "包装食品",
+    "observations": [
+      {
+        "field": "calories",
+        "value": 360,
+        "unit": "kcal",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "protein",
+        "value": 12,
+        "unit": "g",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fat",
+        "value": 8,
+        "unit": "g",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "carbohydrate",
+        "value": 60,
+        "unit": "g",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "sugar",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "purine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fiber_dietary",
+        "value": 9,
+        "unit": "g",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "saturated_fat",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "ufa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fatty_acid",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "mufa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "pufa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "dha",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "n6_fatty_acids",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "n9_fatty_acids",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "n3fa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "cholesterol",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_a",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_d",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_e",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_k",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "thiamine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "lactoflavin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_b6",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_b12",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "niacin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "pantothenic",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "choline",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "biotin",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_c",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "natrium",
+        "value": 7,
+        "unit": "mg",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "kalium",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "calcium",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "phosphor",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "magnesium",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "chlorine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "iron",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "zinc",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "copper",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "manganese",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "chrome",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "iodine",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "selenium",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fluorine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "hg",
+        "value": 0,
+        "unit": "ppm",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "proanthocyanidin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "quercetin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "anthocyanin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "soy_isoflavone",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "carotene",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "lutein_zeaxanthin",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "myricetin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "luteolin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "alcohol",
+        "value": 0,
+        "unit": "%vol",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      }
+    ],
+    "ingredients_text": null,
+    "materials_are_packaging_ingredients": false,
+    "basis_note": "Search documentation uses per 100g; do not silently convert liquid values to per 100ml.",
+    "recommendation_eligible": false,
+    "detail_artifact": "artifacts/domestic-pilot/boohee-ten-2026-10-04/detail-7.json",
+    "identity_status": "name_candidate_not_sku_verified",
+    "image_review": "AI生成标记；正面展示图；不作为包装或OCR证据",
+    "gaps": [
+      "完整包装配料证据",
+      "包装版本和规格核对",
+      "糖零值含义核实"
+    ]
+  },
+  {
+    "target_id": 8,
+    "target_name": "桂格即食燕麦片",
+    "category": "breakfast_cereal",
+    "review_status": "needs_review",
+    "status": "needs_review",
+    "code": "fd0f1428",
+    "name": "桂格 即食燕麦片",
+    "food_type": "包装食品",
+    "observations": [
+      {
+        "field": "calories",
+        "value": 393,
+        "unit": "kcal",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "protein",
+        "value": 11,
+        "unit": "g",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fat",
+        "value": 9,
+        "unit": "g",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "carbohydrate",
+        "value": 60.5,
+        "unit": "g",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "sugar",
+        "value": 1.9,
+        "unit": "g",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "purine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fiber_dietary",
+        "value": 12,
+        "unit": "g",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "saturated_fat",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "ufa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fatty_acid",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "mufa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "pufa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "dha",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "n6_fatty_acids",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "n9_fatty_acids",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "n3fa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "cholesterol",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_a",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_d",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_e",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_k",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "thiamine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "lactoflavin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_b6",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_b12",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "niacin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "pantothenic",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "choline",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "biotin",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_c",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "natrium",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "kalium",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "calcium",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "phosphor",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "magnesium",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "chlorine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "iron",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "zinc",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "copper",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "manganese",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "chrome",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "iodine",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "selenium",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fluorine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "hg",
+        "value": 0,
+        "unit": "ppm",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "proanthocyanidin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "quercetin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "anthocyanin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "soy_isoflavone",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "carotene",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "lutein_zeaxanthin",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "myricetin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "luteolin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "alcohol",
+        "value": 0,
+        "unit": "%vol",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      }
+    ],
+    "ingredients_text": null,
+    "materials_are_packaging_ingredients": false,
+    "basis_note": "Search documentation uses per 100g; do not silently convert liquid values to per 100ml.",
+    "recommendation_eligible": false,
+    "detail_artifact": "artifacts/domestic-pilot/boohee-ten-2026-10-04/detail-8.json",
+    "identity_status": "name_candidate_not_sku_verified",
+    "image_review": "AI生成标记；正面展示图；不作为包装或OCR证据",
+    "gaps": [
+      "完整包装配料证据",
+      "包装版本和规格核对",
+      "糖数值包装核实"
+    ]
+  },
+  {
+    "target_id": 9,
+    "target_name": "SO ACAI燕麦300g",
+    "category": "breakfast_cereal",
+    "review_status": "needs_review",
+    "status": "needs_review",
+    "code": "fd304993",
+    "name": "SO ACAI 燕麦300g",
+    "food_type": "包装食品",
+    "observations": [
+      {
+        "field": "calories",
+        "value": 375,
+        "unit": "kcal",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "protein",
+        "value": 12,
+        "unit": "g",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fat",
+        "value": 8.6,
+        "unit": "g",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "carbohydrate",
+        "value": 56.2,
+        "unit": "g",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "sugar",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "purine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fiber_dietary",
+        "value": 11.6,
+        "unit": "g",
+        "status": "source_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "saturated_fat",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "ufa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fatty_acid",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "mufa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "pufa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "dha",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "n6_fatty_acids",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "n9_fatty_acids",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "n3fa",
+        "value": 0,
+        "unit": "g",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "cholesterol",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_a",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_d",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_e",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_k",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "thiamine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "lactoflavin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_b6",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_b12",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "niacin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "pantothenic",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "choline",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "biotin",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "vitamin_c",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "natrium",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "kalium",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "calcium",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "phosphor",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "magnesium",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "chlorine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "iron",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "zinc",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "copper",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "manganese",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "chrome",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "iodine",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "selenium",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "fluorine",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "hg",
+        "value": 0,
+        "unit": "ppm",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "proanthocyanidin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "quercetin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "anthocyanin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "soy_isoflavone",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "carotene",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "lutein_zeaxanthin",
+        "value": 0,
+        "unit": "μg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "myricetin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "luteolin",
+        "value": 0,
+        "unit": "mg",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      },
+      {
+        "field": "alcohol",
+        "value": 0,
+        "unit": "%vol",
+        "status": "zero_unverified",
+        "usable_for_recommendation": false
+      }
+    ],
+    "ingredients_text": null,
+    "materials_are_packaging_ingredients": false,
+    "basis_note": "Search documentation uses per 100g; do not silently convert liquid values to per 100ml.",
+    "recommendation_eligible": false,
+    "detail_artifact": "artifacts/domestic-pilot/boohee-2026-10-04/detail.json",
+    "identity_status": "barcode_query_hit_pending_packaging_review",
+    "image_review": "AI生成标记；正面展示图；不作为包装或OCR证据",
+    "gaps": [
+      "完整包装配料证据",
+      "包装版本和规格核对",
+      "糖零值含义核实"
+    ]
+  }
+]

@@ -1,0 +1,59 @@
+[
+  {
+    "class": "logo",
+    "src": "./images/logo.png",
+    "alt": ""
+  },
+  {
+    "class": "search-icon",
+    "src": "./images/search-icon.png",
+    "alt": "",
+    "@click": "inputOnKeyUp()"
+  },
+  {
+    "class": "menu-icon",
+    ":src": "mobileMenuShow?'./images/mobile-menu-close.png':'./images/mobile-menu.png'",
+    "alt": "",
+    "@click": "mobileMenuShow = !mobileMenuShow"
+  },
+  {
+    "class": "logo",
+    "src": "./images/logo.png",
+    "alt": ""
+  },
+  {
+    "class": "",
+    "src": "./images/search-icon.png",
+    "alt": "",
+    "@click": "showSearchInput = !showSearchInput",
+    "v-if": "!showSearchInput"
+  },
+  {
+    "class": "Arrow",
+    "src": "./images/series-jiantou.png",
+    "alt": ""
+  },
+  {
+    "class": "product-img-img",
+    ":src": "product.img",
+    "alt": ""
+  },
+  {
+    "class": "account-code-small",
+    "src": "./images/account-code.png?v=1",
+    "alt": ""
+  },
+  {
+    "src": "./images/police-icon.png",
+    "style": "float:left;"
+  },
+  {
+    "class": "account-code-small",
+    "src": "./images/account-code-mob.png",
+    "alt": ""
+  },
+  {
+    "src": "./images/police-icon.png",
+    "style": "float:left;"
+  }
+]

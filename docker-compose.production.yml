@@ -26,5 +26,19 @@ services:
       retries: 3
       start_period: 20s
 
+  knowledge-refresh:
+    build: .
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    environment:
+      FOOD_LABEL_DATA_DIR: /app/data
+      FOOD_LABEL_KNOWLEDGE_CATEGORIES: "${FOOD_LABEL_KNOWLEDGE_CATEGORIES:-breakfast_cereal,dairy,drink}"
+      FOOD_LABEL_KNOWLEDGE_OCR: "${FOOD_LABEL_KNOWLEDGE_OCR:-1}"
+    command: ["python", "-m", "food_label_agent.alternatives.refresh"]
+    volumes:
+      - food-label-data:/app/data
+      - ${TENCENT_CREDENTIALS_FILE:-~/.tencentcloud/credentials}:/home/foodlabel/.tencentcloud/credentials:ro
+
 volumes:
   food-label-data:

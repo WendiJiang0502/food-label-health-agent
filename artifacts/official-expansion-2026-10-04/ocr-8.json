@@ -1,0 +1,55 @@
+{
+  "name": "0%蔗糖酸奶",
+  "group": 2,
+  "source_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-7.png?v=1",
+  "fields": [
+    {
+      "name": "ingredients",
+      "label": "配料表（请核对范围）",
+      "raw_text": "仅有生牛乳、乳酸菌\n蔗糖\n蛋白6g/杯|Gl=25\n发酵乳",
+      "confidence": 0.84,
+      "requires_confirmation": true,
+      "bounding_box": null,
+      "evidence_lines": [
+        {
+          "text": "仅有生牛乳、乳酸菌",
+          "confidence": 0.99,
+          "bounding_box": null
+        },
+        {
+          "text": "蔗糖",
+          "confidence": 1.0,
+          "bounding_box": null
+        },
+        {
+          "text": "蛋白6g/杯|Gl=25",
+          "confidence": 0.9,
+          "bounding_box": null
+        },
+        {
+          "text": "发酵乳",
+          "confidence": 0.99,
+          "bounding_box": null
+        }
+      ],
+      "nutrition_table": null
+    },
+    {
+      "name": "net_quantity",
+      "label": "净含量",
+      "raw_text": "发酵乳净含量:135克",
+      "confidence": 0.99,
+      "requires_confirmation": false,
+      "bounding_box": null,
+      "evidence_lines": [
+        {
+          "text": "发酵乳净含量:135克",
+          "confidence": 0.99,
+          "bounding_box": null
+        }
+      ],
+      "nutrition_table": null
+    }
+  ],
+  "status": "ocr_draft"
+}

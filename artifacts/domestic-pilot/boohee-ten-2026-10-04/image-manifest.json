@@ -1,0 +1,66 @@
+[
+  {
+    "code": "fd950120",
+    "url": "https://f.boohee.cn/house/upload_food/2026/6/12/ai_watermark_big_photo_url_c2c4c921e1be.png",
+    "path": "artifacts/domestic-pilot/boohee-ten-2026-10-04/images/fd950120.png",
+    "sha256": "e7aa015b673049d6d3333990205a0ea0706f4420856f8970570caf3d17539e3c",
+    "status": "downloaded",
+    "source_type": "provider_image_unverified"
+  },
+  {
+    "code": "fd12b9ad",
+    "url": "https://f.boohee.cn/house/upload_food/2026/6/21/ai_watermark_big_photo_url_91b68fb499173a9f266b33c885134b56.png",
+    "path": "artifacts/domestic-pilot/boohee-ten-2026-10-04/images/fd12b9ad.png",
+    "sha256": "838733d025c2c81d7be77aec831053f2bdab9a26f072f958c9b6306f35938d2b",
+    "status": "downloaded",
+    "source_type": "provider_image_unverified"
+  },
+  {
+    "code": "fdd7d3fd",
+    "url": "https://f.boohee.cn/house/upload_food/2026/6/12/ai_watermark_big_photo_url_d791ce20189c.png",
+    "path": "artifacts/domestic-pilot/boohee-ten-2026-10-04/images/fdd7d3fd.png",
+    "sha256": "2ecf645228b8ab1d486cc294c8c43f1a259dfa5cb96e3f44d705f86420f25d22",
+    "status": "downloaded",
+    "source_type": "provider_image_unverified"
+  },
+  {
+    "code": "fdd28520",
+    "url": "https://f.boohee.cn/house/upload_food/2026/6/12/ai_watermark_big_photo_url_4601f11166b4.png",
+    "path": "artifacts/domestic-pilot/boohee-ten-2026-10-04/images/fdd28520.png",
+    "sha256": "c79baaed59418850cca0131acfa356916f89e3791765f6f34ef4aeb410817bfc",
+    "status": "downloaded",
+    "source_type": "provider_image_unverified"
+  },
+  {
+    "code": "fd10bd19",
+    "url": "https://f.boohee.cn/house/upload_food/2026/7/1/ai_watermark_b16f9894fc32db4b69ba3e2e14e90dfc.png",
+    "path": "artifacts/domestic-pilot/boohee-ten-2026-10-04/images/fd10bd19.png",
+    "sha256": "d4ddf21f747e36e4e39951d73354f3daeeee1c0fe0dc3d0b69aff7ef7b8442ee",
+    "status": "downloaded",
+    "source_type": "provider_image_unverified"
+  },
+  {
+    "code": "fd0f1428",
+    "url": "https://f.boohee.cn/house/upload_food/2026/6/20/ai_watermark_big_photo_url_e06be7310f0c5363704e5003ec8eae43.png",
+    "path": "artifacts/domestic-pilot/boohee-ten-2026-10-04/images/fd0f1428.png",
+    "sha256": "60e7a1566d32e10e117299d89c760a2fe9b8c9917afea06948c0812eeaaf6e95",
+    "status": "downloaded",
+    "source_type": "provider_image_unverified"
+  },
+  {
+    "code": "fd701bf2",
+    "url": "https://f.boohee.cn/house/upload_food/2026/6/22/ai_watermark_3b5e50e2ea51376b3d86b2313829d483.png",
+    "path": "artifacts/domestic-pilot/boohee-ten-2026-10-04/images/fd701bf2.png",
+    "sha256": "93eabc8e3cba4e0b9b8b8ca5188abaf440dd977def452b3299ca4be786428b2c",
+    "status": "downloaded",
+    "source_type": "provider_image_unverified"
+  },
+  {
+    "code": "fd304993",
+    "url": "https://f.boohee.cn/house/upload_food/2026/6/22/ai_watermark_big_photo_url_5286de1653d8c4862cb8dec5c80fc250.png",
+    "path": "artifacts/domestic-pilot/boohee-ten-2026-10-04/images/fd304993.png",
+    "sha256": "6a4034008cef2112b1d9401d0fdb09fa2cb94bfd5ba59378cdf0d2cd73606a24",
+    "status": "downloaded",
+    "source_type": "provider_image_unverified"
+  }
+]

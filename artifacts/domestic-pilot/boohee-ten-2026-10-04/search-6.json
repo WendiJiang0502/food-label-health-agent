@@ -1,0 +1,82 @@
+{
+  "code": 0,
+  "message": "0",
+  "now": 1791078291,
+  "data": {
+    "page": 1,
+    "per_page": 5,
+    "has_more": true,
+    "foods": [
+      {
+        "code": "fd3501ee",
+        "name": "西麦 有机纯燕麦片(燕麦片)",
+        "calories": 370,
+        "protein": 14.2,
+        "fat": 8,
+        "carbohydrate": 53.7,
+        "health_light": 1,
+        "is_liquid": false,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/14/ai_watermark_big_photo_url_a3d7d6c1773a.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      },
+      {
+        "code": "fd223c7f",
+        "name": "西麦 有机纯燕麦片",
+        "calories": 370,
+        "protein": 14.2,
+        "fat": 8,
+        "carbohydrate": 53.7,
+        "health_light": 1,
+        "is_liquid": false,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/15/ai_watermark_big_photo_url_2b6efc822bd4.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      },
+      {
+        "code": "fd636ec5",
+        "name": "福禧田园纯燕麦片 纯燕麦片(无糖)",
+        "calories": 389,
+        "protein": 10.8,
+        "fat": 9.8,
+        "carbohydrate": 59.2,
+        "health_light": 2,
+        "is_liquid": false,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/14/ai_watermark_big_photo_url_b63b5bd44cd7.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      },
+      {
+        "code": "fdfcd947",
+        "name": "糯米爱团 纯燕麦片(纯燕麦片)",
+        "calories": 340,
+        "protein": 8.1,
+        "fat": 1.5,
+        "carbohydrate": 73.2,
+        "health_light": 1,
+        "is_liquid": false,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/15/ai_watermark_big_photo_url_5a101b4ab926.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      },
+      {
+        "code": "fd6dad50",
+        "name": "澳菲顿 纯燕麦片",
+        "calories": 416,
+        "protein": 12.3,
+        "fat": 9.1,
+        "carbohydrate": 64,
+        "health_light": 1,
+        "is_liquid": false,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/18/ai_watermark_big_photo_url_1d3f1f4a2fe5.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      }
+    ]
+  }
+}

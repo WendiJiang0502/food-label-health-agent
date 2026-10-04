@@ -1,0 +1,82 @@
+{
+  "code": 0,
+  "message": "0",
+  "now": 1791078281,
+  "data": {
+    "page": 1,
+    "per_page": 5,
+    "has_more": true,
+    "foods": [
+      {
+        "code": "fd6f45db",
+        "name": "伊利 舒化无乳糖猴头菇牛奶",
+        "calories": 67,
+        "protein": 3.2,
+        "fat": 3.8,
+        "carbohydrate": 5,
+        "health_light": 1,
+        "is_liquid": true,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/12/ai_watermark_big_photo_url_45427bb0c80d.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      },
+      {
+        "code": "fdf6fad1",
+        "name": "无乳糖酸奶(参考值)",
+        "calories": 88,
+        "protein": 3.53,
+        "fat": 1.18,
+        "carbohydrate": 14.7,
+        "health_light": 1,
+        "is_liquid": true,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/27/ai_watermark_7f6de6dfc0f9c6e7f57f5d3d20883f0f.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      },
+      {
+        "code": "fd155c47",
+        "name": "伊利 舒化安糖健无乳糖牛奶",
+        "calories": 70,
+        "protein": 3.2,
+        "fat": 3.8,
+        "carbohydrate": 5,
+        "health_light": 1,
+        "is_liquid": true,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/14/ai_watermark_big_photo_url_1059bad684ad.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      },
+      {
+        "code": "fd5a932e",
+        "name": "Kirkland Signature 舒化奶(无乳糖)",
+        "calories": 54,
+        "protein": 3.33,
+        "fat": 2.08,
+        "carbohydrate": 5.42,
+        "health_light": 1,
+        "is_liquid": true,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/18/ai_watermark_big_photo_url_27fc97441fc9.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      },
+      {
+        "code": "yiliyingyangshuhuanai_dizhixin",
+        "name": "伊利 营养舒化奶（低脂型无乳糖）",
+        "calories": 44,
+        "protein": 3,
+        "fat": 1.3,
+        "carbohydrate": 5,
+        "health_light": 1,
+        "is_liquid": true,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/20/ai_watermark_big_photo_url_4e64465fd075cf76c0a04594ecfa31af.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      }
+    ]
+  }
+}

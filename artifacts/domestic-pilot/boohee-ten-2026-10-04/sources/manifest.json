@@ -1,0 +1,54 @@
+[
+  {
+    "name": "yili",
+    "url": "https://www.yili.com/product/1828",
+    "status": "unavailable"
+  },
+  {
+    "name": "shuhua",
+    "url": "https://www.yili.com/product/1833",
+    "status": "unavailable"
+  },
+  {
+    "name": "amx",
+    "url": "https://www.yili.com/product/1122",
+    "status": "unavailable"
+  },
+  {
+    "name": "mengniu",
+    "url": "https://www.mengniu.com.cn/product/brand/tls/",
+    "status": "unavailable"
+  },
+  {
+    "name": "seamild",
+    "url": "https://www.seamild.com.cn/product/6/",
+    "status": "unavailable"
+  },
+  {
+    "name": "quaker",
+    "url": "https://www.quaker.com.cn/series.html?index=0",
+    "status": "fetched",
+    "title": [
+      "桂格燕麦__国际燕麦营养专家__桂格官方网站"
+    ],
+    "sha256": "b0d4d4f3b0db5733ae0461bb52fd2bffea3f1d61df17cef9397919edff4d41ba"
+  },
+  {
+    "name": "simplelove",
+    "url": "https://simplelove.com.cn/",
+    "status": "fetched",
+    "title": [
+      "简爱酸奶 - 朴诚乳业（集团）有限公司"
+    ],
+    "sha256": "4cc15ad485946bb4231b9a1beb0d6f33f889c414247ed3334cf0e45ab77cc087"
+  },
+  {
+    "name": "soacai",
+    "url": "https://mall.jd.com/view_search-4389623-36385350-99-1-20-1.html",
+    "status": "fetched",
+    "title": [
+      "\n        \t\t\t钢切燕麦_燕麦系列_So Acai旗舰店钢切燕麦【价格_图片_怎么样】- So Acai旗舰店\n\t    "
+    ],
+    "sha256": "58dd53a73b3d552726480e23b4f30e8643d211b6f7b32d9ae1ce02cc658bb3b6"
+  }
+]

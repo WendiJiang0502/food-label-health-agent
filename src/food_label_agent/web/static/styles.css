@@ -2023,3 +2023,24 @@ footer { border-top-color: var(--line); color: #52615d; }
   .alternative-tier-key { grid-template-columns: 1fr; }
   .alternative-evidence-checklist > div { grid-template-columns: 76px minmax(0, 1fr); }
 }
+
+.product-query { display: grid; gap: 8px; margin: 18px 0; min-width: 0; }
+.product-query span { font-weight: 650; }
+.product-query input { width: 100%; min-width: 0; box-sizing: border-box; }
+.product-query small { color: var(--muted-small); line-height: 1.5; }
+#product-retrieval-list { padding-left: 20px; }
+#product-retrieval-list li { margin-bottom: 18px; overflow-wrap: anywhere; }
+
+#product-search-intent,
+.alternative-source-disclosure li { overflow-wrap: anywhere; }
+
+#official-source-screening {
+  overflow-wrap: anywhere;
+}
+
+#official-source-screening p,
+#official-source-screening summary {
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}

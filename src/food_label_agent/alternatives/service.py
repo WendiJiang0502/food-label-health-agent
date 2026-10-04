@@ -5,6 +5,7 @@ from __future__ import annotations
 import re
 from collections.abc import Iterable
 from concurrent.futures import ThreadPoolExecutor
+from dataclasses import replace
 from datetime import date, timedelta
 from difflib import SequenceMatcher
 from typing import Any
@@ -21,6 +22,8 @@ from .evidence_audit import (
     summarize_context_eligibility,
     summarize_label_coverage,
 )
+from .field_evidence import catalog_field_evidence
+from .intent import evaluate_intent, intent_focuses, parse_product_intent
 from .models import (
     AlternativeRevalidationRequest,
     AlternativeSearchRequest,
@@ -42,6 +45,7 @@ _HEALTH_RANKING_FOCUS = {
 
 _NUTRIENT_DISPLAY_NAMES = {
     "energy": "能量",
+    "protein": "蛋白质",
     "fat": "脂肪",
     "saturated_fat": "饱和脂肪",
     "carbohydrate": "碳水化合物",
@@ -105,6 +109,7 @@ def _purchase_evidence_current(product: ProductRecord, review_date: date) -> boo
         and evidence.checked_at.date() <= review_date <= evidence.valid_through.date()
         and "CN" in evidence.delivery_regions
     )
+
 
 _CATEGORY_ROLE_SIGNALS = {
     "drink": (
@@ -205,10 +210,39 @@ def find_alternative_products(
                 for category in requested_categories
             ]
     category_records = [
-        product
-        for _category, result in catalog_results
-        for product in result.records
+        product for _category, result in catalog_results for product in result.records
     ]
+    retrieval = {
+        "status": "not_requested",
+        "items": [],
+        "warnings": [],
+        "queued_count": 0,
+    }
+    if catalog is None or request.retrieval_query:
+        from .rag import ProductRAG
+
+        retrieval = ProductRAG().search(request, category_records)
+        order = {
+            pid: rank
+            for rank, pid in enumerate(retrieval.get("ranked_product_ids", []))
+        }
+        catalog_results = [
+            (
+                category,
+                replace(
+                    result,
+                    records=tuple(
+                        sorted(
+                            result.records,
+                            key=lambda product: order.get(
+                                product.product_id, len(order)
+                            ),
+                        )
+                    ),
+                ),
+            )
+            for category, result in catalog_results
+        ]
     excluded_ids = set(request.exclude_product_ids)
     current_family = _product_family_key(request.current_product_name)
     current_role = _substitution_role(
@@ -241,7 +275,10 @@ def find_alternative_products(
             seen_ids.add(product.product_id)
             if product.product_id in excluded_ids:
                 continue
-            if current_family and _product_family_key(product.display_name) == current_family:
+            if (
+                current_family
+                and _product_family_key(product.display_name) == current_family
+            ):
                 continue
             if (
                 searched_category == request.category
@@ -326,9 +363,7 @@ def find_alternative_products(
                     "catalog_eligibility": eligibility,
                     "evidence_status": evidence_status,
                     "substitution_match": (
-                        "exact"
-                        if searched_category == request.category
-                        else "same_use"
+                        "exact" if searched_category == request.category else "same_use"
                     ),
                     "substitution_reason": (
                         "与当前商品属于同一类别"
@@ -375,6 +410,7 @@ def find_alternative_products(
         )
     return {
         "status": "candidates_found" if candidates else "unknown",
+        "product_retrieval": retrieval,
         "category": request.category,
         "region": request.region,
         "candidates": candidates,
@@ -388,9 +424,7 @@ def find_alternative_products(
         ),
         "catalog_warnings": list(
             dict.fromkeys(
-                warning
-                for _, result in catalog_results
-                for warning in result.warnings
+                warning for _, result in catalog_results for warning in result.warnings
             )
         ),
         "catalog_coverage": catalog_coverage,
@@ -429,8 +463,7 @@ def _same_use_candidate(
     if not signals:
         return True
     text = (
-        f"{product.display_name} {product.use_case} "
-        f"{product.label.ingredients_text}"
+        f"{product.display_name} {product.use_case} {product.label.ingredients_text}"
     ).lower()
     return any(signal.lower() in text for signal in signals)
 
@@ -453,6 +486,7 @@ def _same_use_reason(source_category: str, candidate_category: str) -> str:
 def revalidate_alternatives(request: AlternativeRevalidationRequest) -> dict[str, Any]:
     """Run the complete deterministic safety rules independently for every candidate."""
 
+    intent = parse_product_intent(request.retrieval_query)
     results: list[dict[str, Any]] = []
     for index, product in enumerate(request.candidates, start=1):
         label = product.label
@@ -499,13 +533,15 @@ def revalidate_alternatives(request: AlternativeRevalidationRequest) -> dict[str
                 "use_case": product.use_case,
                 "catalog_scope": product.catalog_scope,
                 "catalog_tier": eligibility["status"],
-                "substitution_match": product.substitution_match or (
+                "substitution_match": product.substitution_match
+                or (
                     "exact"
                     if not request.source_category
                     or product.category == request.source_category
                     else "same_use"
                 ),
-                "substitution_reason": product.substitution_reason or (
+                "substitution_reason": product.substitution_reason
+                or (
                     "与当前商品属于同一类别"
                     if not request.source_category
                     or product.category == request.source_category
@@ -581,9 +617,7 @@ def revalidate_alternatives(request: AlternativeRevalidationRequest) -> dict[str
                         else None
                     ),
                     "valid_through": (
-                        label.valid_through.isoformat()
-                        if label.valid_through
-                        else None
+                        label.valid_through.isoformat() if label.valid_through else None
                     ),
                 },
                 "evidence_ids": [label.evidence_id],
@@ -591,11 +625,56 @@ def revalidate_alternatives(request: AlternativeRevalidationRequest) -> dict[str
                 "findings": evaluation.findings,
             }
         )
+    current_values = _normalized_nutrient_values_from_rows(
+        request.current_nutrition_rows
+    )
+    for item, product in zip(results, request.candidates, strict=True):
+        fields = catalog_field_evidence(product)
+        item["field_evidence"] = fields
+        match = evaluate_intent(
+            intent,
+            current_values,
+            _normalized_nutrient_values(
+                item.get("normalized_label", {}).get("nutrition")
+            ),
+            description=product.display_name,
+            conflicts=fields["conflicts"],
+        )
+        item["intent_match"] = match
+        if intent["nutrition_goals"]:
+            item["catalog_eligibility"]["health_comparison_available"] = (
+                match["status"] == "matched"
+            )
+            item["catalog_eligibility"]["comparison_requested_fields"] = list(
+                dict.fromkeys(
+                    [
+                        *item["catalog_eligibility"].get(
+                            "comparison_requested_fields", []
+                        ),
+                        *(
+                            _NUTRIENT_DISPLAY_NAMES.get(g["nutrient"], g["nutrient"])
+                            for g in intent["nutrition_goals"]
+                        ),
+                    ]
+                )
+            )
+        if item["disposition"] == "eligible" and match["status"] != "matched":
+            item["disposition"] = "excluded"
+            item["reason_code"] = "SEARCH_REQUIREMENT_UNRESOLVED"
+            item["explanation"] = (
+                "尚不能证实满足本次比较或食用方式要求，请查看需求核对结果。"
+            )
+            item["unknowns"] = list(
+                dict.fromkeys(
+                    [*item.get("unknowns", []), "search_requirement_unresolved"]
+                )
+            )
     eligible_results = [item for item in results if item["disposition"] == "eligible"]
     ranked = _rank_eligible_results(
         eligible_results,
         health_concerns=request.health_concerns,
         current_nutrition_rows=request.current_nutrition_rows,
+        additional_focuses=intent_focuses(intent),
     )
     for rank, item in enumerate(ranked, start=1):
         item["rank"] = rank
@@ -615,6 +694,7 @@ def revalidate_alternatives(request: AlternativeRevalidationRequest) -> dict[str
         "revalidated_count": len(results),
         "revalidation_rate": 1.0,
         "unknowns": [] if eligible_results else ["no_candidate_passed_revalidation"],
+        "search_intent": intent,
         "ranking_method": {
             "layers": [
                 "same_category_use",
@@ -633,8 +713,15 @@ def _rank_eligible_results(
     *,
     health_concerns: list[str],
     current_nutrition_rows: list[list[str]] | None,
+    additional_focuses: list[tuple[str, str]] | None = None,
 ) -> list[dict[str, Any]]:
-    focuses = _ranking_focuses(health_concerns)
+    input_order = {item["product_id"]: index for index, item in enumerate(products)}
+    focuses = list(additional_focuses or [])
+    focuses.extend(
+        f
+        for f in _ranking_focuses(health_concerns)
+        if f[0] not in {v[0] for v in focuses}
+    )
     current_values = _normalized_nutrient_values_from_rows(current_nutrition_rows)
     product_values: dict[str, dict[str, tuple[float, str, str]]] = {}
     product_qualifiers: dict[str, dict[str, str]] = {}
@@ -666,15 +753,19 @@ def _rank_eligible_results(
             for item in products
         ]
         available = [(product_id, value) for product_id, value in available if value]
-        available.sort(key=lambda pair: pair[1][0], reverse=direction == "higher")
-        distinct_values = list(dict.fromkeys(value[0] for _, value in available))
-        value_points = {
-            value: len(distinct_values) - position
-            for position, value in enumerate(distinct_values)
-        }
+        groups = {}
         for product_id, value in available:
-            points[product_id] += value_points[value[0]]
-            comparable_counts[product_id] += 1
+            groups.setdefault(value[1:], []).append((product_id, value))
+        for group in groups.values():
+            group.sort(key=lambda pair: pair[1][0], reverse=direction == "higher")
+            distinct_values = list(dict.fromkeys(value[0] for _, value in group))
+            value_points = {
+                value: len(distinct_values) - position
+                for position, value in enumerate(distinct_values)
+            }
+            for product_id, value in group:
+                points[product_id] += value_points[value[0]]
+                comparable_counts[product_id] += 1
 
     for item in products:
         product_id = item["product_id"]
@@ -691,8 +782,10 @@ def _rank_eligible_results(
             if current and candidate[1:] == current[1:]:
                 difference = candidate[0] - current[0]
                 improved = difference < 0 if direction == "lower" else difference > 0
-                outcome = "improved" if improved else (
-                    "same" if difference == 0 else "not_improved"
+                outcome = (
+                    "improved"
+                    if improved
+                    else ("same" if difference == 0 else "not_improved")
                 )
                 comparison = {
                     "nutrient": nutrient,
@@ -721,10 +814,7 @@ def _rank_eligible_results(
                     measure = _format_measure(candidate[0], candidate[1])
                     if qualifier == "upper_bound":
                         measure = f"不高于{measure}"
-                    health_reasons.append(
-                        f"{label}{measure}，"
-                        "与当前商品同口径相当"
-                    )
+                    health_reasons.append(f"{label}{measure}，与当前商品同口径相当")
             elif len(products) > 1:
                 preference = "越低越优先" if direction == "lower" else "越高越优先"
                 qualifier_note = "（按保守上限）" if qualifier == "upper_bound" else ""
@@ -772,6 +862,7 @@ def _rank_eligible_results(
             -experience_score,
             -_authority_score(item["label_source_authority"]),
             -date.fromisoformat(item["label_confirmed_at"]).toordinal(),
+            input_order[product_id],
             product_id,
         )
     ranked = sorted(products, key=lambda item: item["_ranking_key"])
@@ -979,7 +1070,9 @@ def _evidence_status(
         }[status],
         "confirmed_at": label.confirmed_at.isoformat(),
         "source_verified_at": source_date.isoformat(),
-        "valid_through": label.valid_through.isoformat() if label.valid_through else None,
+        "valid_through": label.valid_through.isoformat()
+        if label.valid_through
+        else None,
         "record_version": label.source_record_version,
         "source_type": label.source_type,
         "source_authority": label.source_authority,

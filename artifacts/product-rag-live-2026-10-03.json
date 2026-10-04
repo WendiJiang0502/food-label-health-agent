@@ -1,0 +1,62 @@
+{
+  "snapshot_date": "2026-10-03",
+  "counts": {
+    "total": 122,
+    "ingredients_text": 66,
+    "sugars": 58,
+    "ocr_drafts": 30,
+    "reviewed": 0
+  },
+  "jobs": [
+    {
+      "job": "openfoodfacts:breakfast_cereal",
+      "status": "completed",
+      "last_attempt_at": "2026-10-03T02:12:45+00:00",
+      "last_success_at": "2026-10-03T02:12:45+00:00",
+      "next_check_at": "2026-11-03T02:12:45+00:00",
+      "summary": "{\"received_count\": 24, \"invalid_record_count\": 0, \"detail_request_failed\": false, \"page_limit\": 50, \"retained_rechecked_count\": 0}"
+    },
+    {
+      "job": "openfoodfacts:dairy",
+      "status": "completed",
+      "last_attempt_at": "2026-10-03T02:13:39+00:00",
+      "last_success_at": "2026-10-03T02:13:39+00:00",
+      "next_check_at": "2026-11-03T02:13:39+00:00",
+      "summary": "{\"received_count\": 50, \"invalid_record_count\": 0, \"detail_request_failed\": false, \"page_limit\": 50, \"retained_rechecked_count\": 0}"
+    },
+    {
+      "job": "openfoodfacts:drink",
+      "status": "completed",
+      "last_attempt_at": "2026-10-03T02:14:34+00:00",
+      "last_success_at": "2026-10-03T02:14:34+00:00",
+      "next_check_at": "2026-11-03T02:14:34+00:00",
+      "summary": "{\"received_count\": 50, \"invalid_record_count\": 0, \"detail_request_failed\": false, \"page_limit\": 50, \"retained_rechecked_count\": 0}"
+    },
+    {
+      "job": "official_sources",
+      "status": "unavailable",
+      "last_attempt_at": "2026-10-03T02:18:37+00:00",
+      "last_success_at": null,
+      "next_check_at": "2026-11-03T02:18:37+00:00",
+      "summary": "{\"message\": \"\\u5b98\\u65b9\\u6765\\u6e90\\u6682\\u65f6\\u4e0d\\u53ef\\u7528\\uff0c\\u4fdd\\u7559\\u4e0a\\u6b21\\u8d44\\u6599\"}"
+    },
+    {
+      "job": "product_details",
+      "status": "completed",
+      "last_attempt_at": "2026-10-03T07:01:10+00:00",
+      "last_success_at": "2026-10-03T07:01:10+00:00",
+      "next_check_at": "2026-11-03T07:01:10+00:00",
+      "summary": "{\"attempted_count\": 122, \"failed_count\": 0, \"scope\": \"retained_candidate_details\"}"
+    },
+    {
+      "job": "packaging_ocr",
+      "status": "partial",
+      "last_attempt_at": "2026-10-03T08:40:47+00:00",
+      "last_success_at": null,
+      "next_check_at": "2026-11-03T08:40:47+00:00",
+      "summary": "{\"attempted_count\": 138, \"failed_count\": 101, \"missing_image_count\": 106, \"scope\": \"unverified_drafts\"}"
+    }
+  ],
+  "completion_queue_count": 14,
+  "vector_cache_count": 31
+}

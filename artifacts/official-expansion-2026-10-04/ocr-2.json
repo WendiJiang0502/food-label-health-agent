@@ -1,0 +1,34 @@
+{
+  "name": "吸吸袋酸奶葡萄蓝莓",
+  "group": 1,
+  "source_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-3.png?v=1",
+  "fields": [
+    {
+      "name": "ingredients",
+      "label": "配料表（未识别，请手动补充）",
+      "raw_text": "",
+      "confidence": 0.0,
+      "requires_confirmation": true,
+      "bounding_box": null,
+      "evidence_lines": [],
+      "nutrition_table": null
+    },
+    {
+      "name": "net_quantity",
+      "label": "净含量",
+      "raw_text": "葡萄蓝莓净含量:100克",
+      "confidence": 0.98,
+      "requires_confirmation": false,
+      "bounding_box": null,
+      "evidence_lines": [
+        {
+          "text": "葡萄蓝莓净含量:100克",
+          "confidence": 0.98,
+          "bounding_box": null
+        }
+      ],
+      "nutrition_table": null
+    }
+  ],
+  "status": "ocr_draft"
+}

@@ -20,3 +20,8 @@ artifacts/alternative-evidence/*.lock
 dist/
 build/
 *.egg-info/
+
+# Local evaluation databases and raw third-party HTML captures.
+artifacts/**/*.sqlite3
+artifacts/**/*.sqlite3-*
+artifacts/domestic-pilot/**/sources/*.html

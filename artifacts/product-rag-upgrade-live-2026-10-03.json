@@ -1,0 +1,28 @@
+{
+  "status": "retrieved",
+  "profile": "hybrid_dense_rerank",
+  "warnings": [],
+  "search_intent": {
+    "parser": "explicit_rules_v1",
+    "status": "parsed",
+    "occasion": "breakfast",
+    "preparation": "ready_to_eat",
+    "nutrition_goals": [
+      {
+        "nutrient": "sugars",
+        "direction": "lower",
+        "reference": "current_product",
+        "source_span": "糖比当前更少"
+      }
+    ],
+    "warnings": [],
+    "scope": "explicit_comparison_preferences_only"
+  },
+  "queued_count": 16,
+  "retrieved_evidence_count": 20,
+  "field_observation_count": 149,
+  "conflicting_product_ids": [
+    "off:6917878006918",
+    "off:9300605122604"
+  ]
+}

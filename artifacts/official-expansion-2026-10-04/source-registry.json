@@ -1,0 +1,52 @@
+[
+  {
+    "source_id": "simplelove-public-products",
+    "brand": "简爱",
+    "category": "dairy",
+    "adapter": "simplelove_public_json",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "discovery_urls": [
+      "https://simplelove.com.cn/product.html"
+    ],
+    "allowed_hosts": [
+      "simplelove.com.cn"
+    ],
+    "product_path_markers": [
+      "/product.html"
+    ]
+  },
+  {
+    "source_id": "quaker-instant-oats",
+    "brand": "桂格",
+    "category": "breakfast_cereal",
+    "adapter": "quaker_public_html",
+    "series": "即食燕麦系列",
+    "data_url": "https://www.quaker.com.cn/series.html?index=0",
+    "discovery_urls": [
+      "https://www.quaker.com.cn/series.html?index=0"
+    ],
+    "allowed_hosts": [
+      "www.quaker.com.cn"
+    ],
+    "product_path_markers": [
+      "/series.html"
+    ]
+  },
+  {
+    "source_id": "quaker-snack-cereal",
+    "brand": "桂格",
+    "category": "snack",
+    "adapter": "quaker_public_html",
+    "series": "零食麦果脆系列",
+    "data_url": "https://www.quaker.com.cn/series.html?index=0",
+    "discovery_urls": [
+      "https://www.quaker.com.cn/series.html?index=9"
+    ],
+    "allowed_hosts": [
+      "www.quaker.com.cn"
+    ],
+    "product_path_markers": [
+      "/series.html"
+    ]
+  }
+]

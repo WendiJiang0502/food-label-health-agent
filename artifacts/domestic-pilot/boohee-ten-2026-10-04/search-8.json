@@ -1,0 +1,82 @@
+{
+  "code": 0,
+  "message": "0",
+  "now": 1791078297,
+  "data": {
+    "page": 1,
+    "per_page": 5,
+    "has_more": true,
+    "foods": [
+      {
+        "code": "fd3cf038",
+        "name": "桂格 蒸糯即食燕麦片",
+        "calories": 369,
+        "protein": 11,
+        "fat": 9.3,
+        "carbohydrate": 53.8,
+        "health_light": 1,
+        "is_liquid": false,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/18/ai_watermark_big_photo_url_98f130e45bd9.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      },
+      {
+        "code": "fd954e03",
+        "name": "桂格 高钙即食燕麦片",
+        "calories": 387,
+        "protein": 11,
+        "fat": 9.9,
+        "carbohydrate": 68.4,
+        "health_light": 2,
+        "is_liquid": false,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/18/ai_watermark_big_photo_url_a37787d71de1.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      },
+      {
+        "code": "fdbf3b25",
+        "name": "QUAKER桂格 蒸糯即食燕麦片",
+        "calories": 369,
+        "protein": 11,
+        "fat": 9.3,
+        "carbohydrate": 53.8,
+        "health_light": 1,
+        "is_liquid": false,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/18/ai_watermark_big_photo_url_ad7ed96eb31d.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      },
+      {
+        "code": "fd8894af",
+        "name": "QUAKER桂格 桂格蒸糯即食燕麦片",
+        "calories": 369,
+        "protein": 11,
+        "fat": 9.3,
+        "carbohydrate": 53.8,
+        "health_light": 1,
+        "is_liquid": false,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/18/ai_watermark_big_photo_url_5fa9920de03c.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      },
+      {
+        "code": "fdfd8582",
+        "name": "桂格 组合包即食燕麦片",
+        "calories": 370,
+        "protein": 11,
+        "fat": 9.3,
+        "carbohydrate": 60.5,
+        "health_light": 1,
+        "is_liquid": false,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/18/ai_watermark_big_photo_url_964e4727490c.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      }
+    ]
+  }
+}

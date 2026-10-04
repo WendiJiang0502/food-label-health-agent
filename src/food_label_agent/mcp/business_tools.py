@@ -200,12 +200,14 @@ def find_alternative_products(
     region: str = "CN",
     exclude_product_ids: Annotated[list[str] | None, Field(max_length=50)] = None,
     current_product_name: str | None = None,
+    retrieval_query: Annotated[str | None, Field(max_length=500)] = None,
     limit: Annotated[int, Field(ge=1, le=20)] = 8,
 ) -> dict:
-    """Find products only from current, complete, source-traceable label evidence."""
+    """Hybrid-retrieve product evidence, queue relevant gaps, and return independently checkable catalog candidates. retrieval_query is the user's desired use or substitution preference; retrieval never certifies safety."""
 
     request = AlternativeSearchRequest(
         category=category,
+        retrieval_query=retrieval_query,
         substitute_categories=substitute_categories or [],
         applicable_date=applicable_date,
         constraints=constraints,
@@ -226,6 +228,7 @@ def revalidate_alternatives(
     candidates: Annotated[list[dict], Field(max_length=50)],
     health_concerns: Annotated[list[str] | None, Field(max_length=16)] = None,
     source_category: str | None = None,
+    retrieval_query: str | None = None,
     current_nutrition_rows: list[list[str]] | None = None,
     jurisdiction: str = "CN",
 ) -> dict:
@@ -237,6 +240,7 @@ def revalidate_alternatives(
         constraints=constraints,
         health_concerns=health_concerns or [],
         source_category=source_category,
+        retrieval_query=retrieval_query,
         current_nutrition_rows=current_nutrition_rows,
         candidates=candidates,
         jurisdiction=jurisdiction,

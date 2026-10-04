@@ -1,0 +1,19 @@
+{
+  "created_at": "2026-10-04T06:49:39.834271+00:00",
+  "queue_path": "/Users/jiangwendi/.local/share/food-label-health-agent/official-product-discovery.json",
+  "backup": "/Users/jiangwendi/.local/share/food-label-health-agent/official-product-discovery.before-expansion-2026-10-04.json",
+  "before": 11,
+  "after": 56,
+  "new_records": 45,
+  "batch_count": 45,
+  "categories": {
+    "dairy": 30,
+    "breakfast_cereal": 11,
+    "snack": 4
+  },
+  "specifications": 18,
+  "image_read_specifications": 10,
+  "ingredients_and_core_nutrition": 30,
+  "barcodes": 0,
+  "new_recommendable": 0
+}

@@ -1,0 +1,1966 @@
+[
+  {
+    "id": "simplelove:a330dfb6dde8865d",
+    "name": "简爱 吸吸袋酸奶原味",
+    "series": "父爱系列",
+    "category": "dairy",
+    "specification": null,
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-1",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳(添加量≥98%)、乳清蛋白粉(添加量≥1.0%)、唾液链球菌嗜热亚种、德氏乳杆菌保加利亚亚种、乳酸乳球菌乳亚种、乳脂乳球菌、动物双歧杆菌乳亚种Bb-12、长双歧杆菌长亚种BB536",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "346千焦",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "4.6克",
+        "percentage": "8%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "4.8克",
+        "percentage": "8%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "5.3克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钠",
+        "value": "45毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "140毫克",
+        "percentage": "18%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-1.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported",
+      "package_size_not_provided_in_text"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:a524069b82311493",
+    "name": "简爱 吸吸袋酸奶西梅苹果",
+    "series": "父爱系列",
+    "category": "dairy",
+    "specification": null,
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-1",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳(添加量≥80%)、西梅苹果复合果浆(添加量≥14%)、乳清蛋白粉(添加量≥0.8%)、唾液链球菌嗜热亚种、德氏乳杆菌保加利亚亚种、乳酸乳球菌乳亚种、乳脂乳球菌、动物双歧杆菌乳亚种Bb-12、长双歧杆菌长亚种BB536",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "337千焦",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "4.0克",
+        "percentage": "7%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "4.1克",
+        "percentage": "7%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "6.9克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钠",
+        "value": "40毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "120毫克",
+        "percentage": "15%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-2.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported",
+      "package_size_not_provided_in_text"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:8f40dab85eab048b",
+    "name": "简爱 吸吸袋酸奶葡萄蓝莓",
+    "series": "父爱系列",
+    "category": "dairy",
+    "specification": null,
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-1",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳(添加量≥80%)、葡萄蓝莓复合果蔬果酱(添加量≥14%)、乳清蛋白粉(添加量≥0.8%)、唾液链球菌嗜热亚种、德氏乳杆菌保加利亚亚种、乳酸乳球菌乳亚种、乳脂乳球菌、动物双歧杆菌乳亚种Bb-12、长双歧杆菌长亚种BB536",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "354千焦",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "4.0克",
+        "percentage": "7%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "4.1克",
+        "percentage": "7%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "7.9克",
+        "percentage": "3%",
+        "option": "1"
+      },
+      {
+        "name": "钠",
+        "value": "40毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "120毫克",
+        "percentage": "15%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-3.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported",
+      "package_size_not_provided_in_text"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:c6b1d6ed19330ffe",
+    "name": "简爱 吸吸袋酸奶草莓",
+    "series": "父爱系列",
+    "category": "dairy",
+    "specification": null,
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-1",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳(添加量≥80%)、葡萄蓝莓复合果蔬果酱(添加量≥14%)、乳清蛋白粉(添加量≥0.8%)、唾液链球菌嗜热亚种、德氏乳杆菌保加利亚亚种、乳酸乳球菌乳亚种、乳脂乳球菌、动物双歧杆菌乳亚种Bb-12、长双歧杆菌长亚种BB536",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "374千焦",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "4.0克",
+        "percentage": "7%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "4.1克",
+        "percentage": "7%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "9.1克",
+        "percentage": "3%",
+        "option": "1"
+      },
+      {
+        "name": "钠",
+        "value": "40毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "120毫克",
+        "percentage": "15%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-4.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported",
+      "flavour_ingredient_conflict",
+      "package_size_not_provided_in_text"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:0044d8484619e8c9",
+    "name": "简爱 父爱牧场鲜牛奶",
+    "series": "父爱系列",
+    "category": "dairy",
+    "specification": null,
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-1",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "337千焦",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "4.0克",
+        "percentage": "7%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "4.6克",
+        "percentage": "8%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "5.8克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钠",
+        "value": "50毫克",
+        "percentage": "3%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "130毫克",
+        "percentage": "16%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-7.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported",
+      "liquid_basis_requires_review",
+      "package_size_not_provided_in_text"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:2ccdba370263a950",
+    "name": "简爱 light-高钙滑滑",
+    "series": "控糖系列",
+    "category": "dairy",
+    "specification": null,
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-2",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳(添加量≥94%)、菊粉、脱盐乳清粉、浓缩牛奶蛋白、乳清蛋白粉、乳脂乳球菌、乳酸乳球菌乳亚种、唾液链球菌嗜热亚种",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "307千焦",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "3.5克",
+        "percentage": "6%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "3.8克",
+        "percentage": "6%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "5.6克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "膳食纤维",
+        "value": "1.2克",
+        "percentage": "5%",
+        "option": "0.5"
+      },
+      {
+        "name": "钠",
+        "value": "45毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "110毫克",
+        "percentage": "14%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-1.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported",
+      "package_size_not_provided_in_text"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:e79f9c9f18b97735",
+    "name": "简爱 light-轻拌酸奶",
+    "series": "控糖系列",
+    "category": "dairy",
+    "specification": null,
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-2",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳(添加量≥97%)、菊粉、乳脂乳球菌、乳酸乳球菌乳亚种、唾液链球菌嗜热亚种",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "382千焦",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "4.5克",
+        "percentage": "8%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "5.1克",
+        "percentage": "9%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "6.2克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "膳食纤维",
+        "value": "1.4克",
+        "percentage": "6%",
+        "option": "0.5"
+      },
+      {
+        "name": "钠",
+        "value": "46毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "120毫克",
+        "percentage": "15%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-2.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported",
+      "package_size_not_provided_in_text"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:7b2cfde8c2f6d81e",
+    "name": "简爱 light-轻食酸奶",
+    "series": "控糖系列",
+    "category": "dairy",
+    "specification": null,
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-2",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳(添加量≥97%)、菊粉、乳脂乳球菌、乳酸乳球菌乳亚种、唾液链球菌嗜执亚种",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "301千焦",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "3.5克",
+        "percentage": "6%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "4.0克",
+        "percentage": "7%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "5.0克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "膳食纤维",
+        "value": "1.1克",
+        "percentage": "4%",
+        "option": "0.5"
+      },
+      {
+        "name": "钠",
+        "value": "39毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "105毫克",
+        "percentage": "13%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-3.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported",
+      "source_text_typo_requires_review",
+      "package_size_not_provided_in_text"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:585162dbee9fbcd7",
+    "name": "简爱 light-轻食酸奶(4%蔗糖)",
+    "series": "控糖系列",
+    "category": "dairy",
+    "specification": null,
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-2",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳(添加量≥93%)、白砂糖、菊粉、乳脂乳球菌、乳酸乳球菌乳亚种、唾液链球菌嗜热亚种",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "362千焦",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "3.5克",
+        "percentage": "6%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "4.0克",
+        "percentage": "7%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "8.5克",
+        "percentage": "3%",
+        "option": "1"
+      },
+      {
+        "name": "膳食纤维",
+        "value": "1.3克",
+        "percentage": "5%",
+        "option": "0.5"
+      },
+      {
+        "name": "钠",
+        "value": "39毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "105毫克",
+        "percentage": "13%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-4.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported",
+      "package_size_not_provided_in_text"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:06887db3b132e779",
+    "name": "简爱 light-轻饮酸奶(230克)",
+    "series": "控糖系列",
+    "category": "dairy",
+    "specification": "230克",
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-2",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳(添加量≥94%)、菊粉、脱盐乳清粉、浓缩牛奶蛋白、乳清蛋白粉、乳脂乳球菌、乳酸乳球菌乳亚种、唾液链球菌嗜热亚种",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "307千焦",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "3.6克",
+        "percentage": "6%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "3.8克",
+        "percentage": "6%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "5.6克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "膳食纤维",
+        "value": "1.2克",
+        "percentage": "5%",
+        "option": "0.5"
+      },
+      {
+        "name": "钠",
+        "value": "45毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "110毫克",
+        "percentage": "14%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-5.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:f7ab6a0a0c11d4f9",
+    "name": "简爱 light-轻饮酸奶(760克)",
+    "series": "控糖系列",
+    "category": "dairy",
+    "specification": "760克",
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-2",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳(添加量≥94%)、菊粉、脱盐乳清粉、浓缩牛奶蛋白、乳清蛋白粉、乳脂乳球菌、乳酸乳球菌乳亚种、唾液链球菌嗜热亚种",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "307千焦",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "3.6克",
+        "percentage": "6%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "3.8克",
+        "percentage": "6%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "5.6克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "膳食纤维",
+        "value": "1.2克",
+        "percentage": "5%",
+        "option": "0.5"
+      },
+      {
+        "name": "钠",
+        "value": "45毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "110毫克",
+        "percentage": "14%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-6.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:ccc41e62e3a4fc5d",
+    "name": "简爱 0%蔗糖酸奶",
+    "series": "控糖系列",
+    "category": "dairy",
+    "specification": null,
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-2",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳(≥99%)、乳脂乳球菌、乳酸乳球菌乳亚种、唾液链球菌嗜热亚种",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "371千焦",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "4.5克",
+        "percentage": "8%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "5.2克",
+        "percentage": "9%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "6.0克",
+        "percentage": "3%",
+        "option": "1"
+      },
+      {
+        "name": "钠",
+        "value": "68毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "120毫克",
+        "percentage": "15%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-7.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported",
+      "package_size_not_provided_in_text"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:96292295d8e8c49e",
+    "name": "简爱 超级桶原味",
+    "series": "超级桶系列",
+    "category": "dairy",
+    "specification": null,
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-3",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳(添加量≥90%)、白砂糖(添加量≥7.5%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "391千焦",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "3.0克",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "3.4克",
+        "percentage": "6%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "12.6克",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "钠",
+        "value": "46毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "98毫克",
+        "percentage": "12%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-12.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported",
+      "package_size_not_provided_in_text"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:cb560a85da9dcf03",
+    "name": "简爱 超级桶百香果",
+    "series": "超级桶系列",
+    "category": "dairy",
+    "specification": null,
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-3",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳(添加量≥85%)、白砂糖(添加量≥7%)、百香果原浆(添加量≥4%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "384千焦",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "2.9克",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "3.2克",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "12.7克",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "钠",
+        "value": "44毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "93毫克",
+        "percentage": "12%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-13.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported",
+      "package_size_not_provided_in_text"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:eeeeaece53ed6855",
+    "name": "简爱 超级桶草莓樱花",
+    "series": "超级桶系列",
+    "category": "dairy",
+    "specification": null,
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-3",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳(添加量≥83%)、草莓芭乐樱花复合果蔬浆(添加量≥7%)、白砂糖(添加量≥6%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "378千焦",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "2.8克",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "3.1克",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "12.7克",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "钠",
+        "value": "42毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "90毫克",
+        "percentage": "11%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-14.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported",
+      "package_size_not_provided_in_text"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:4d4249f0537dd30b",
+    "name": "简爱 超级桶荔枝杨梅",
+    "series": "超级桶系列",
+    "category": "dairy",
+    "specification": null,
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-3",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳(添加量≥82%)、荔枝杨梅复合果浆(添加量≥8.5%)、白砂糖(添加量≥6%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "387千焦",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "2.8克",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "3.1克",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "13.2克",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "钠",
+        "value": "42毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "90毫克",
+        "percentage": "11%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-15.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported",
+      "package_size_not_provided_in_text"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:44c3efcaee082f3f",
+    "name": "简爱 原味裸酸奶(230克)",
+    "series": "裸酸奶系列",
+    "category": "dairy",
+    "specification": "230克",
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-4",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳(添加量≥90%)、白砂糖(添加量≥7.5%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "391千焦",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "3.0克",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "3.4克",
+        "percentage": "6%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "12.6克",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "钠",
+        "value": "46毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "98毫克",
+        "percentage": "12%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-18.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:2ee924f998c29df6",
+    "name": "简爱 百香果果裸酸奶(230克)",
+    "series": "裸酸奶系列",
+    "category": "dairy",
+    "specification": "230克",
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-4",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳(添加量≥85%)、白砂糖(添加量≥7%)、百香果原浆(添加量≥4%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "384千焦",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "2.9克",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "3.2克",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "12.7克",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "钠",
+        "value": "44毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "93毫克",
+        "percentage": "12%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-19.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:e866477b54124787",
+    "name": "简爱 葡里萄气裸酸奶(230克)",
+    "series": "裸酸奶系列",
+    "category": "dairy",
+    "specification": "230克",
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-4",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳(添加量≥83%)、葡萄原汁(添加量≥7%)、白砂糖(添加量≥7%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、 乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "387千焦",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "2.8克",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "3.1克",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "13.2克",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "钠",
+        "value": "46毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "90毫克",
+        "percentage": "11%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-20.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:0817045779cd5811",
+    "name": "简爱 原味裸酸奶(1.08千克)",
+    "series": "裸酸奶系列",
+    "category": "dairy",
+    "specification": "1.08千克",
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-4",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳(添加量≥90%)、白砂糖(添加量≥7.5%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "391千焦",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "3.0克",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "3.4克",
+        "percentage": "6%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "12.6克",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "钠",
+        "value": "46毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "98毫克",
+        "percentage": "12%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-21.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:60cfb673f75921a1",
+    "name": "简爱 百香果果裸酸奶(1.08千克)",
+    "series": "裸酸奶系列",
+    "category": "dairy",
+    "specification": "1.08千克",
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-4",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳(添加量≥85%)、白砂糖(添加量≥7%)、百香果原浆(添加量≥4%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "384千焦",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "2.9克",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "3.2克",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "12.7克",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "钠",
+        "value": "44毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "93毫克",
+        "percentage": "12%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-22.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:1bd2a427601b6959",
+    "name": "简爱 葡里萄气裸酸奶(1.08千克)",
+    "series": "裸酸奶系列",
+    "category": "dairy",
+    "specification": "1.08千克",
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-4",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳(添加量≥83%)、葡萄原汁(添加量≥7%)、白砂糖(添加量≥7%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、 乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "387千焦",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "2.8克",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "3.1克",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "13.2克",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "钠",
+        "value": "46毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "90毫克",
+        "percentage": "11%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-23.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:28c646bd749881e8",
+    "name": "简爱 开菲尔原味",
+    "series": "开菲尔系列",
+    "category": "dairy",
+    "specification": null,
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-5",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳、白砂糖、浓缩柠檬清汁、发酵菌种(唾液链球菌嗜热亚种、德氏乳杆菌保加利亚亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、乳酸乳球菌乳亚种、肠膜明串珠菌肠膜亚种、肠膜明串珠菌乳脂亚种、短双歧杆菌、动物双歧杆菌乳亚种、长双歧杆菌长亚种、嗜酸乳杆菌、植物乳植杆菌、副干酪乳酪杆菌)",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "373千焦",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "3.0克",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "3.6克",
+        "percentage": "6%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "11.1克",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "钠",
+        "value": "36毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "95毫克",
+        "percentage": "12%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-24.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported",
+      "package_size_not_provided_in_text"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:b9bf499aa0d8e51f",
+    "name": "简爱 开菲尔凤梨椰子",
+    "series": "开菲尔系列",
+    "category": "dairy",
+    "specification": null,
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-5",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳、白砂糖、凤梨椰子复合果浆(添加量≥5%)、浓缩柠檬清汁、发酵菌种(唾液链球菌嗜热亚种、德氏乳杆菌保加利亚亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、乳酸乳球菌乳亚种、肠膜明串珠菌肠膜亚种、肠膜明串珠菌乳脂亚种、短双歧杆菌、动物双歧杆菌乳亚种、长双歧杆菌长亚种、嗜酸乳杆菌、植物乳植杆菌、副干酪乳酪杆菌)",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "371千焦",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "2.8克",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "3.5克",
+        "percentage": "6%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "11.4克",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "钠",
+        "value": "34毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "90毫克",
+        "percentage": "11%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-25.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported",
+      "package_size_not_provided_in_text"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:ddfc3062b2ce7085",
+    "name": "简爱 酸奶滑滑",
+    "series": "酸奶滑滑系列",
+    "category": "dairy",
+    "specification": null,
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-6",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "牛乳(添加量≥90%)、白砂糖、鼠李糖乳酪杆菌LGG、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "393千焦",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "3.0克",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "3.5克",
+        "percentage": "6%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "12.5克",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "钠",
+        "value": "36毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "90毫克",
+        "percentage": "11%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-27.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported",
+      "package_size_not_provided_in_text"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:a34328b6a465a5e4",
+    "name": "简爱 树莓滑滑",
+    "series": "酸奶滑滑系列",
+    "category": "dairy",
+    "specification": null,
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-6",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳(添加量≥80%)、树莓果酱(添加量≥8%)、白砂糖(添加量≥7%)、鼠李糖乳酪杆菌LGG、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "399千焦",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "2.8克",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "3.2克",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "13.7克",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "钠",
+        "value": "33毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "82毫克",
+        "percentage": "10%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-28.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported",
+      "package_size_not_provided_in_text"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:85cb2ffa41d0c368",
+    "name": "简爱 生牛乳米布丁",
+    "series": "甜品系列",
+    "category": "dairy",
+    "specification": null,
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-7",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳(添加量≥80%)、大米(添加量≥9%)、白砂糖(添加量≥5%)",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "500千焦",
+        "percentage": "6%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "4.0克",
+        "percentage": "7%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "4.0克",
+        "percentage": "7%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "16.7克",
+        "percentage": "6%",
+        "option": "1"
+      },
+      {
+        "name": "钠",
+        "value": "46毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "98毫克",
+        "percentage": "12%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-30.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported",
+      "package_size_not_provided_in_text"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:f72db4a4e0ad6aa4",
+    "name": "简爱 焦糖牛奶布丁",
+    "series": "甜品系列",
+    "category": "dairy",
+    "specification": null,
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-7",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳(添加量≥80%)，稀奶油，冰蛋制品(添加量≥5.5%)(蛋黄液(添加量≥75%)、白砂糖)，白砂糖，乳清蛋白粉，菊粉，干酪，甘草糖浆(水、果葡糖浆、甘草粉)，焦糖糖浆(白砂糖、赤砂糖、水)",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "741千焦",
+        "percentage": "9%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "5.2克",
+        "percentage": "9%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "11.9克",
+        "percentage": "20%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "12.0克",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "膳食纤维(以菊粉计)",
+        "value": "1.0克",
+        "percentage": "4%",
+        "option": "0.5"
+      },
+      {
+        "name": "钠",
+        "value": "46毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "118毫克",
+        "percentage": "15%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-31.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported",
+      "liquid_basis_requires_review",
+      "package_size_not_provided_in_text"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:ee0064f10fe111a8",
+    "name": "简爱 PROTÑ‌高蛋白希腊酸奶原味",
+    "series": "高蛋白希腊酸奶系列",
+    "category": "dairy",
+    "specification": null,
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-7.1",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳(添加量≥90%)、菊粉、乳脂乳球菌、乳脂乳球菌乳亚种、唾液链球菌嗜热亚种",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "538千焦",
+        "percentage": "6%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "7.5克",
+        "percentage": "13%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "8.6克",
+        "percentage": "14%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "3.8克",
+        "percentage": "1%",
+        "option": "1"
+      },
+      {
+        "name": "膳食纤维(以菊粉计)",
+        "value": "3.5克",
+        "percentage": "14%",
+        "option": "0.5"
+      },
+      {
+        "name": "钠",
+        "value": "45毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "200毫克",
+        "percentage": "25%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-31-2.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported",
+      "package_size_not_provided_in_text"
+    ],
+    "recommendation_eligible": false
+  },
+  {
+    "id": "simplelove:9baf1258f9dd27e7",
+    "name": "简爱 身体知道顺畅配方",
+    "series": "身体知道系列",
+    "category": "dairy",
+    "specification": null,
+    "barcode": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-8",
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "source_hash": "f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+    "captured_at": "2026-10-04T01:53:04.732900+00:00",
+    "ingredients_text": "生牛乳(添加量≥90%)、白砂糖、低聚半乳糖(GOS,添加量:2.0%)、浓缩牛奶蛋白、食用葡萄糖、鼠李糖乳酪杆菌LGG、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种",
+    "nutrition_rows": [
+      {
+        "name": "能量",
+        "value": "373千焦",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "蛋白质",
+        "value": "2.9克",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "脂肪",
+        "value": "3.2克",
+        "percentage": "5%",
+        "option": "1"
+      },
+      {
+        "name": "碳水化合物",
+        "value": "12.1克",
+        "percentage": "4%",
+        "option": "1"
+      },
+      {
+        "name": "钠",
+        "value": "40毫克",
+        "percentage": "2%",
+        "option": "1"
+      },
+      {
+        "name": "钙",
+        "value": "110毫克",
+        "percentage": "14%",
+        "option": "0.5"
+      }
+    ],
+    "nutrition_basis_text": "每100克",
+    "basis_source": "Official product page table header",
+    "sugars": null,
+    "image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-32.png?v=1",
+    "review_status": "needs_review",
+    "missing_or_conflicting": [
+      "barcode_not_provided",
+      "packaging_revision_unverified",
+      "allergen_statement_not_provided",
+      "sugar_not_reported",
+      "package_size_not_provided_in_text"
+    ],
+    "recommendation_eligible": false
+  }
+]

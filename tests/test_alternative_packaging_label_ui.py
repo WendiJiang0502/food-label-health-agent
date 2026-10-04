@@ -39,7 +39,8 @@ def test_incomplete_official_products_show_verified_and_missing_fields() -> None
     assert "件仍需补齐安全判断字段" in script
     assert "自动发现队列另有" in script
     assert "同配方包装规格" in script
-    assert "/api/v1/alternatives/discovery/refresh" in script
+    assert "/api/v1/alternatives/discovery?category=" in script
+    assert "/api/v1/alternatives/discovery/refresh" not in script
     assert 'verified.className = "alternative-review-verified"' in script
     assert 'missing.className = "alternative-review-missing"' in script
     assert "contextCoverage.missing_required_fields" in script

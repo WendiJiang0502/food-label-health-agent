@@ -15,6 +15,7 @@ from dataclasses import dataclass
 from datetime import UTC, datetime
 from hashlib import sha256
 from html.parser import HTMLParser
+from http.client import HTTPException
 from pathlib import Path
 from typing import Any
 from urllib.parse import quote, urljoin, urlparse, urlsplit, urlunsplit
@@ -125,7 +126,7 @@ class OfficialProductDiscovery:
                 try:
                     candidates.extend(future.result())
                     refreshed_sources.append(source)
-                except (OSError, TimeoutError, ValueError):
+                except (OSError, TimeoutError, ValueError, HTTPException):
                     warnings.append(f"source_unavailable:{source['source_id']}")
         self._merge_queue(
             candidates,
@@ -295,6 +296,13 @@ class OfficialProductDiscovery:
         return [source for source in sources if not category or source.get("category") == category]
 
     def _discover_source(self, source: dict[str, Any]) -> list[dict[str, Any]]:
+        if source.get("adapter"):
+            from .structured_sources import structured_candidates
+
+            try:
+                return structured_candidates(source, self.fetch_text, self.timeout_seconds)
+            except (KeyError, TypeError) as exc:
+                raise ValueError("Unexpected structured source schema") from exc
         allowed_hosts = {str(host).lower() for host in source["allowed_hosts"]}
         markers = tuple(str(value).lower() for value in source["product_path_markers"])
         pages: dict[str, _OfficialPage] = {}
@@ -321,7 +329,7 @@ class OfficialProductDiscovery:
             seen.add(current_url)
             try:
                 page = _parse_page(self.fetch_text(current_url, self.timeout_seconds))
-            except (OSError, TimeoutError, ValueError):
+            except (OSError, TimeoutError, ValueError, HTTPException):
                 if depth == 0:
                     raise
                 continue

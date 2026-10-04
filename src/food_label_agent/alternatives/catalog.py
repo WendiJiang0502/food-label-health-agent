@@ -93,7 +93,8 @@ OFFICIAL_STORE_HOST_SUFFIXES = (".jd.com", ".tmall.com")
 OFF_FIELDS = (
     "code,product_name,product_name_zh,brands,ingredients_text,ingredients_text_zh,"
     "allergens,traces,nutriments,nutrition_data_per,serving_size,selected_images,"
-    "last_modified_t,states_tags,completeness,checked"
+    "last_modified_t,states_tags,completeness,checked,quantity,lang,"
+    "image_ingredients_url,image_nutrition_url"
 )
 PRODUCT_CATEGORIES = {
     "biscuit": ("biscuits", "饼干与曲奇", "饼干与便携谷物零食"),
@@ -485,16 +486,17 @@ class OpenFoodFactsCatalog:
             if mapped is not None:
                 records.append(mapped)
             # A sparse search hit can sometimes be completed by the product
-            # endpoint. Do not fan out one request per ordinary incomplete hit:
-            # it makes thin categories slower and less reliable without adding
-            # useful evidence.
-            elif raw.get("code") and not (
-                raw.get("ingredients_text_zh") or raw.get("ingredients_text")
-            ):
+            # endpoint, including a missing completion flag. Bound the work
+            # to five requests and retain all remaining rejection records.
+            elif raw.get("code") and rejection is not None:
                 details_needed.append(raw)
             elif rejection is not None:
                 rejected.append(rejection)
         if details_needed:
+            for raw in details_needed[5:]:
+                _, rejection = _map_open_food_facts_product(raw, category)
+                if rejection:
+                    rejected.append(rejection)
             detailed_records, detail_rejections = self._fetch_details(
                 details_needed[:5], category
             )

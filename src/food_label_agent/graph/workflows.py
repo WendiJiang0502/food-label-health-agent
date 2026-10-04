@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import asdict
 
+from food_label_agent.alternatives.intent import parse_product_intent
 from food_label_agent.alternatives.models import AlternativeWorkflowRequest
 from food_label_agent.domain.models import LabelField, UserConstraint
 from food_label_agent.domain.types import AnalysisStatus, ConstraintKind, RiskLevel
@@ -102,6 +103,7 @@ def run_alternative_workflow(
             [request.current_product_id] if request.current_product_id else []
         ),
         "current_product_name": request.confirmed_fields.get("product_name"),
+        "retrieval_query": request.retrieval_query,
         "health_concerns": request.health_concerns,
         "current_nutrition_rows": request.nutrition_rows,
         "limit": 50,
@@ -161,16 +163,18 @@ def evidence_payload(state: AgentState) -> dict:
 def alternative_payload(state: AgentState, category: str) -> dict:
     release_gate = evaluate_workflow_release(state)
     all_raw_eligible = [
-        item
-        for item in state["alternatives"]
-        if item.get("disposition") == "eligible"
+        item for item in state["alternatives"] if item.get("disposition") == "eligible"
     ]
     # A failed final gate must fail closed at the API boundary. Keeping these
     # candidates in `eligible` would let a client present an unsafe record even
     # though the workflow itself is blocked.
     raw_eligible = all_raw_eligible if release_gate["passed"] else []
+    search_intent = parse_product_intent(
+        state["alternative_request"].get("retrieval_query")
+    )
     health_comparison_requested = bool(
         state["alternative_request"].get("health_concerns")
+        or search_intent["nutrition_goals"]
     )
     eligible = [
         _with_alternative_result_state(
@@ -201,22 +205,17 @@ def alternative_payload(state: AgentState, category: str) -> dict:
     target_comparable = [
         item
         for item in eligible
-        if not item.get("catalog_eligibility", {}).get(
-            "missing_comparison_fields", []
-        )
+        if not item.get("catalog_eligibility", {}).get("missing_comparison_fields", [])
     ]
     sugar_missing = [
         item
         for item in eligible
         if "糖"
-        in item.get("catalog_eligibility", {}).get(
-            "missing_comparison_fields", []
-        )
+        in item.get("catalog_eligibility", {}).get("missing_comparison_fields", [])
     ]
     sugar_evidence_status_counts = {
         status: sum(
-            item.get("catalog_eligibility", {}).get("sugars_review_status")
-            == status
+            item.get("catalog_eligibility", {}).get("sugars_review_status") == status
             for item in sugar_missing
         )
         for status in (
@@ -237,6 +236,8 @@ def alternative_payload(state: AgentState, category: str) -> dict:
         "category": category,
         "catalog_scope": state["alternative_request"].get("catalog_scope"),
         "catalog_status": state["alternative_request"].get("catalog_status"),
+        "product_retrieval": state["alternative_request"].get("product_retrieval", {}),
+        "search_intent": search_intent,
         "catalog_warnings": state["alternative_request"].get("catalog_warnings", []),
         "catalog_coverage": coverage,
         "selection_basis": state["alternative_request"].get("selection_basis"),
@@ -248,7 +249,9 @@ def alternative_payload(state: AgentState, category: str) -> dict:
             "review_ready_catalog_count": review_ready_total,
             "review_ready_display_rate": ratio(len(eligible), review_ready_total),
             "initially_visible_count": min(len(eligible), display_limit),
-            "initially_visible_rate": ratio(min(len(eligible), display_limit), catalog_total),
+            "initially_visible_rate": ratio(
+                min(len(eligible), display_limit), catalog_total
+            ),
             "target_comparison_requested": health_comparison_requested,
             "target_comparable_count": len(target_comparable),
             "target_comparable_rate": ratio(len(target_comparable), len(eligible)),
@@ -329,9 +332,7 @@ def _with_evidence_review_state(item: dict) -> dict:
     coverage = item.get("label_coverage") or {}
     context = coverage.get("context_eligibility") or {}
     missing = list(
-        context.get("missing_required_fields")
-        or coverage.get("missing_fields")
-        or []
+        context.get("missing_required_fields") or coverage.get("missing_fields") or []
     )
     enriched["result_state"] = _result_state_payload(
         "packaging_review_required",

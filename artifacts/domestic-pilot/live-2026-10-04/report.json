@@ -1,0 +1,230 @@
+{
+  "status": "completed",
+  "provider": "showapi_66_22",
+  "sample_count": 18,
+  "attempted": 18,
+  "matched_barcode_count": 5,
+  "usable_identity_count": 4,
+  "match_rate": 0.2777777777777778,
+  "products_with_proposed_identity_fills": 3,
+  "products_with_identity_differences": 4,
+  "verified_label_fill_count": 0,
+  "new_recommendable_products": 0,
+  "results": [
+    {
+      "barcode": "5900617002105",
+      "category": "breakfast_cereal",
+      "group": "identity_gap",
+      "latency_ms": 0,
+      "status": "matched_barcode",
+      "fields": {
+        "name": "sante三特musli早餐系列混合什锦早餐麦片350g",
+        "brand": "sante",
+        "specification": "350（g）"
+      },
+      "proposed_identity_fills": [
+        "name"
+      ],
+      "identity_differences": [
+        "brand"
+      ],
+      "image_urls": [],
+      "image_reference_count": 0,
+      "usable_identity_data": true,
+      "ingredients_available": null,
+      "nutrition_available": null,
+      "label_note": "Public barcode contract does not guarantee ingredient/nutrition fields; generic images are not confirmed back labels.",
+      "recommendation_eligible": false
+    },
+    {
+      "barcode": "6973662540013",
+      "category": "breakfast_cereal",
+      "group": "identity_gap",
+      "latency_ms": 0,
+      "status": "matched_barcode",
+      "fields": {
+        "name": "燕麦300g",
+        "brand": "SO ACAI",
+        "specification": "300克"
+      },
+      "proposed_identity_fills": [
+        "specification"
+      ],
+      "identity_differences": [
+        "name"
+      ],
+      "image_urls": [],
+      "image_reference_count": 1,
+      "usable_identity_data": true,
+      "ingredients_available": null,
+      "nutrition_available": null,
+      "label_note": "Public barcode contract does not guarantee ingredient/nutrition fields; generic images are not confirmed back labels.",
+      "recommendation_eligible": false
+    },
+    {
+      "barcode": "6977254330358",
+      "category": "breakfast_cereal",
+      "group": "identity_gap",
+      "latency_ms": 0,
+      "status": "matched_barcode",
+      "fields": {
+        "name": "",
+        "brand": "",
+        "specification": ""
+      },
+      "proposed_identity_fills": [],
+      "identity_differences": [],
+      "image_urls": [],
+      "image_reference_count": 0,
+      "usable_identity_data": false,
+      "ingredients_available": null,
+      "nutrition_available": null,
+      "label_note": "Public barcode contract does not guarantee ingredient/nutrition fields; generic images are not confirmed back labels.",
+      "recommendation_eligible": false
+    },
+    {
+      "barcode": "0071923722898",
+      "category": "breakfast_cereal",
+      "group": "identity_control",
+      "latency_ms": 0,
+      "status": "not_found_or_rejected"
+    },
+    {
+      "barcode": "3870885002997",
+      "category": "breakfast_cereal",
+      "group": "identity_control",
+      "latency_ms": 0,
+      "status": "not_found_or_rejected"
+    },
+    {
+      "barcode": "4000521663407",
+      "category": "breakfast_cereal",
+      "group": "identity_control",
+      "latency_ms": 0,
+      "status": "not_found_or_rejected"
+    },
+    {
+      "barcode": "0012692518220",
+      "category": "dairy",
+      "group": "identity_gap",
+      "latency_ms": 0,
+      "status": "not_found_or_rejected"
+    },
+    {
+      "barcode": "4891175100345",
+      "category": "dairy",
+      "group": "identity_gap",
+      "latency_ms": 0,
+      "status": "not_found_or_rejected"
+    },
+    {
+      "barcode": "5003848033457",
+      "category": "dairy",
+      "group": "identity_gap",
+      "latency_ms": 0,
+      "status": "not_found_or_rejected"
+    },
+    {
+      "barcode": "5016614057090",
+      "category": "dairy",
+      "group": "identity_gap",
+      "latency_ms": 0,
+      "status": "not_found_or_rejected"
+    },
+    {
+      "barcode": "0059161701776",
+      "category": "dairy",
+      "group": "identity_control",
+      "latency_ms": 0,
+      "status": "not_found_or_rejected"
+    },
+    {
+      "barcode": "0806102050987",
+      "category": "dairy",
+      "group": "identity_control",
+      "latency_ms": 0,
+      "status": "not_found_or_rejected"
+    },
+    {
+      "barcode": "0815096005088",
+      "category": "drink",
+      "group": "identity_gap",
+      "latency_ms": 0,
+      "status": "not_found_or_rejected"
+    },
+    {
+      "barcode": "3455180049573",
+      "category": "drink",
+      "group": "identity_gap",
+      "latency_ms": 0,
+      "status": "not_found_or_rejected"
+    },
+    {
+      "barcode": "4770301235338",
+      "category": "drink",
+      "group": "identity_gap",
+      "latency_ms": 0,
+      "status": "not_found_or_rejected"
+    },
+    {
+      "barcode": "6901035609265",
+      "category": "drink",
+      "group": "identity_gap",
+      "latency_ms": 0,
+      "status": "matched_barcode",
+      "fields": {
+        "name": "青岛啤酒经典11°P330ml易拉罐",
+        "brand": "青岛啤酒",
+        "specification": "330毫升"
+      },
+      "proposed_identity_fills": [
+        "specification"
+      ],
+      "identity_differences": [
+        "name",
+        "brand"
+      ],
+      "image_urls": [],
+      "image_reference_count": 1,
+      "usable_identity_data": true,
+      "ingredients_available": null,
+      "nutrition_available": null,
+      "label_note": "Public barcode contract does not guarantee ingredient/nutrition fields; generic images are not confirmed back labels.",
+      "recommendation_eligible": false
+    },
+    {
+      "barcode": "5400141261547",
+      "category": "drink",
+      "group": "identity_control",
+      "latency_ms": 0,
+      "status": "not_found_or_rejected"
+    },
+    {
+      "barcode": "6901285991271",
+      "category": "drink",
+      "group": "identity_control",
+      "latency_ms": 0,
+      "status": "matched_barcode",
+      "fields": {
+        "name": "怡宝饮用纯净水1.555升",
+        "brand": "怡宝",
+        "specification": "1.555升"
+      },
+      "proposed_identity_fills": [],
+      "identity_differences": [
+        "name",
+        "brand"
+      ],
+      "image_urls": [],
+      "image_reference_count": 1,
+      "usable_identity_data": true,
+      "ingredients_available": null,
+      "nutrition_available": null,
+      "label_note": "Public barcode contract does not guarantee ingredient/nutrition fields; generic images are not confirmed back labels.",
+      "recommendation_eligible": false
+    }
+  ],
+  "note": "Identity fills are proposals requiring SKU/variant review. No production database writes; images not fetched; no complete-label claim.",
+  "reported_fee_units": 5,
+  "analysis_mode": "Reprocessed saved real responses; no additional network calls"
+}

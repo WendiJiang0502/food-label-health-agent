@@ -1,0 +1,501 @@
+{
+  "version": 1,
+  "scope": "Curated synthetic regression scenarios, not real-user relevance labels or medical validation",
+  "cases": [
+    {
+      "id": "less-sugar",
+      "kind": "intent",
+      "query": "糖比当前更少",
+      "expected": {
+        "goals": [
+          [
+            "sugars",
+            "lower",
+            "current_product"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "less-salt",
+      "kind": "intent",
+      "query": "钠更低",
+      "expected": {
+        "goals": [
+          [
+            "sodium",
+            "lower",
+            "current_product"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "more-protein",
+      "kind": "intent",
+      "query": "蛋白质更高",
+      "expected": {
+        "goals": [
+          [
+            "protein",
+            "higher",
+            "current_product"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "lower-fat",
+      "kind": "intent",
+      "query": "低脂肪",
+      "expected": {
+        "goals": [
+          [
+            "fat",
+            "lower",
+            "candidate_set"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "more-fiber",
+      "kind": "intent",
+      "query": "膳食纤维更多",
+      "expected": {
+        "goals": [
+          [
+            "dietary_fiber",
+            "higher",
+            "current_product"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "less-energy",
+      "kind": "intent",
+      "query": "热量更低",
+      "expected": {
+        "goals": [
+          [
+            "energy",
+            "lower",
+            "current_product"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "saturated-fat",
+      "kind": "intent",
+      "query": "饱和脂肪更少",
+      "expected": {
+        "goals": [
+          [
+            "saturated_fat",
+            "lower",
+            "current_product"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "breakfast-ready",
+      "kind": "intent",
+      "query": "糖更少、能直接吃的早餐麦片",
+      "expected": {
+        "occasion": "breakfast",
+        "preparation": "ready_to_eat",
+        "goals": [
+          [
+            "sugars",
+            "lower",
+            "current_product"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "negative-goal",
+      "kind": "intent",
+      "query": "不要求低糖",
+      "expected": {
+        "goals": []
+      }
+    },
+    {
+      "id": "allergy-unconfirmed",
+      "kind": "intent",
+      "query": "乳过敏，帮我找麦片",
+      "expected": {
+        "status": "needs_clarification"
+      }
+    },
+    {
+      "id": "numeric-threshold",
+      "kind": "intent",
+      "query": "糖低于5克",
+      "expected": {
+        "status": "needs_clarification"
+      }
+    },
+    {
+      "id": "zero-sugar-claim",
+      "kind": "intent",
+      "query": "无糖麦片",
+      "expected": {
+        "status": "needs_clarification"
+      }
+    },
+    {
+      "id": "contradiction",
+      "kind": "intent",
+      "query": "糖更低，糖更高",
+      "expected": {
+        "status": "needs_clarification"
+      }
+    },
+    {
+      "id": "taste-only",
+      "kind": "intent",
+      "query": "原味燕麦早餐",
+      "expected": {
+        "goals": [],
+        "occasion": "breakfast"
+      }
+    },
+    {
+      "id": "sugar-improves",
+      "kind": "comparison",
+      "query": "糖更少",
+      "current": [
+        10,
+        "g",
+        "per_100g"
+      ],
+      "candidate": [
+        5,
+        "g",
+        "per_100g"
+      ],
+      "expected": "matched"
+    },
+    {
+      "id": "sugar-equal",
+      "kind": "comparison",
+      "query": "糖更少",
+      "current": [
+        5,
+        "g",
+        "per_100g"
+      ],
+      "candidate": [
+        5,
+        "g",
+        "per_100g"
+      ],
+      "expected": "not_improved"
+    },
+    {
+      "id": "sugar-worse",
+      "kind": "comparison",
+      "query": "糖更少",
+      "current": [
+        5,
+        "g",
+        "per_100g"
+      ],
+      "candidate": [
+        10,
+        "g",
+        "per_100g"
+      ],
+      "expected": "not_improved"
+    },
+    {
+      "id": "baseline-missing",
+      "kind": "comparison",
+      "query": "糖更少",
+      "current": null,
+      "candidate": [
+        5,
+        "g",
+        "per_100g"
+      ],
+      "expected": "missing_current_value"
+    },
+    {
+      "id": "candidate-missing",
+      "kind": "comparison",
+      "query": "糖更少",
+      "current": [
+        5,
+        "g",
+        "per_100g"
+      ],
+      "candidate": null,
+      "expected": "missing_candidate_value"
+    },
+    {
+      "id": "mass-volume",
+      "kind": "comparison",
+      "query": "糖更少",
+      "current": [
+        10,
+        "g",
+        "per_100g"
+      ],
+      "candidate": [
+        5,
+        "g",
+        "per_100ml"
+      ],
+      "expected": "incompatible_basis"
+    },
+    {
+      "id": "unit-mismatch",
+      "kind": "comparison",
+      "query": "糖更少",
+      "current": [
+        10,
+        "g",
+        "per_100g"
+      ],
+      "candidate": [
+        5,
+        "mg",
+        "per_100g"
+      ],
+      "expected": "incompatible_basis"
+    },
+    {
+      "id": "zero-present",
+      "kind": "comparison",
+      "query": "糖更少",
+      "current": [
+        5,
+        "g",
+        "per_100g"
+      ],
+      "candidate": [
+        0,
+        "g",
+        "per_100g"
+      ],
+      "expected": "matched"
+    },
+    {
+      "id": "conflict-blocks",
+      "kind": "comparison",
+      "query": "糖更少",
+      "current": [
+        10,
+        "g",
+        "per_100g"
+      ],
+      "candidate": [
+        5,
+        "g",
+        "per_100g"
+      ],
+      "expected": "conflicting_evidence",
+      "conflicts": [
+        "sugars"
+      ]
+    },
+    {
+      "id": "rank-no-baseline",
+      "kind": "comparison",
+      "query": "低糖",
+      "current": null,
+      "candidate": [
+        5,
+        "g",
+        "per_100g"
+      ],
+      "expected": "matched"
+    },
+    {
+      "id": "ready-supported",
+      "kind": "comparison",
+      "query": "能直接吃",
+      "current": null,
+      "candidate": null,
+      "expected": "matched",
+      "description": "燕麦片 开袋即食"
+    },
+    {
+      "id": "ready-unknown",
+      "kind": "comparison",
+      "query": "能直接吃",
+      "current": null,
+      "candidate": null,
+      "expected": "preparation_unverified",
+      "description": "燕麦片"
+    },
+    {
+      "id": "ready-negative",
+      "kind": "comparison",
+      "query": "能直接吃",
+      "current": null,
+      "candidate": null,
+      "expected": "preparation_unverified",
+      "description": "非即食燕麦，需要煮熟"
+    },
+    {
+      "id": "api-ocr-sugar-conflict",
+      "kind": "fields",
+      "raw_value": 5,
+      "ocr_value": 8,
+      "raw_basis": "100g",
+      "expected": [
+        "sugars"
+      ]
+    },
+    {
+      "id": "api-ocr-agree",
+      "kind": "fields",
+      "raw_value": 5,
+      "ocr_value": 5,
+      "raw_basis": "100g",
+      "expected": []
+    },
+    {
+      "id": "unknown-basis-not-equivalent",
+      "kind": "fields",
+      "raw_value": 5,
+      "ocr_value": 8,
+      "raw_basis": null,
+      "expected": []
+    },
+    {
+      "id": "api-zero-not-missing",
+      "kind": "fields",
+      "raw_value": 0,
+      "ocr_value": 0,
+      "raw_basis": "100g",
+      "expected": []
+    },
+    {
+      "id": "find-oat-biscuit",
+      "kind": "retrieval",
+      "query": "原味燕麦薄饼",
+      "category": "biscuit",
+      "expected": "fixture-biscuit-oat-plain"
+    },
+    {
+      "id": "find-milk-cracker",
+      "kind": "retrieval",
+      "query": "乳香苏打饼干",
+      "category": "biscuit",
+      "expected": "fixture-biscuit-milk-cracker"
+    },
+    {
+      "id": "find-oat-drink",
+      "kind": "retrieval",
+      "query": "原味燕麦饮",
+      "category": "drink",
+      "expected": "fixture-drink-oat"
+    },
+    {
+      "id": "find-soy-drink",
+      "kind": "retrieval",
+      "query": "豆乳",
+      "category": "drink",
+      "expected": "fixture-drink-soy"
+    },
+    {
+      "id": "find-milk",
+      "kind": "retrieval",
+      "query": "全脂纯牛奶",
+      "category": "drink",
+      "expected": "fixture-drink-milk"
+    },
+    {
+      "id": "empty-cereal",
+      "kind": "retrieval",
+      "query": "燕麦早餐麦片",
+      "category": "breakfast_cereal",
+      "expected": null
+    },
+    {
+      "id": "pipeline-relative-sugar",
+      "kind": "revalidation",
+      "query": "糖更少",
+      "baseline": 6,
+      "constraints": [],
+      "expected": [
+        "fixture-biscuit-milk-cracker"
+      ]
+    },
+    {
+      "id": "pipeline-missing-baseline",
+      "kind": "revalidation",
+      "query": "糖更少",
+      "baseline": null,
+      "constraints": [],
+      "expected": []
+    },
+    {
+      "id": "pipeline-none-improve",
+      "kind": "revalidation",
+      "query": "糖更少",
+      "baseline": 0,
+      "constraints": [],
+      "expected": []
+    },
+    {
+      "id": "pipeline-allergy-wins",
+      "kind": "revalidation",
+      "query": "糖更少",
+      "baseline": 6,
+      "constraints": [
+        {
+          "kind": "allergy",
+          "canonical_value": "milk",
+          "severity": "severe"
+        }
+      ],
+      "expected": []
+    },
+    {
+      "id": "pipeline-clarify-numeric",
+      "kind": "revalidation",
+      "query": "糖低于5克",
+      "baseline": 10,
+      "constraints": [],
+      "expected": []
+    },
+    {
+      "id": "negated-higher-sugar",
+      "kind": "intent",
+      "query": "糖不要更高",
+      "expected": {
+        "status": "needs_clarification"
+      }
+    },
+    {
+      "id": "lower-bound-wording",
+      "kind": "intent",
+      "query": "蛋白质不低于10克",
+      "expected": {
+        "status": "needs_clarification"
+      }
+    },
+    {
+      "id": "short-low-fat",
+      "kind": "intent",
+      "query": "低脂零食",
+      "expected": {
+        "goals": [
+          [
+            "fat",
+            "lower",
+            "candidate_set"
+          ]
+        ]
+      }
+    }
+  ]
+}

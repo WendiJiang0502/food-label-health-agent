@@ -1,0 +1,528 @@
+{
+  "code": 0,
+  "message": "0",
+  "now": 1791078370,
+  "data": {
+    "code": "fdd7d3fd",
+    "name": "蒙牛特仑苏 纯牛奶",
+    "health_light": 1,
+    "image_url": "https://f.boohee.cn/house/upload_food/2026/6/12/ai_watermark_big_photo_url_d791ce20189c.png",
+    "food_weight_url": "",
+    "is_liquid": true,
+    "food_type": "包装食品",
+    "calories": {
+      "name": "热量",
+      "value": 74,
+      "unit": "kcal",
+      "unit_name": "千卡",
+      "nrv": 0.04
+    },
+    "protein": {
+      "name": "蛋白质",
+      "value": 3.6,
+      "unit": "g",
+      "unit_name": "克",
+      "nrv": 0.06
+    },
+    "fat": {
+      "name": "脂肪",
+      "value": 4.4,
+      "unit": "g",
+      "unit_name": "克",
+      "nrv": 0.07
+    },
+    "carbohydrate": {
+      "name": "碳水化合物",
+      "value": 5,
+      "unit": "g",
+      "unit_name": "克",
+      "nrv": 0.02
+    },
+    "gi": {
+      "name": "GI",
+      "value": 28,
+      "level": 0
+    },
+    "gl": {
+      "name": "GL",
+      "value": 1,
+      "level": 0
+    },
+    "ingredients": [
+      {
+        "key": "sugar",
+        "type": "main",
+        "name": "糖",
+        "value": 0,
+        "unit": "g",
+        "unit_name": "克",
+        "nrv": 0
+      },
+      {
+        "key": "purine",
+        "type": "main",
+        "name": "嘌呤",
+        "value": 0,
+        "unit": "mg",
+        "unit_name": "毫克",
+        "nrv": 0
+      },
+      {
+        "key": "fiber_dietary",
+        "type": "main",
+        "name": "膳食纤维",
+        "value": 0,
+        "unit": "g",
+        "unit_name": "克",
+        "nrv": 0
+      },
+      {
+        "key": "saturated_fat",
+        "type": "main",
+        "name": "饱和脂肪(酸)",
+        "value": 0,
+        "unit": "g",
+        "unit_name": "克",
+        "nrv": 0
+      },
+      {
+        "key": "ufa",
+        "type": "main",
+        "name": "不饱和脂肪酸",
+        "value": 0,
+        "unit": "g",
+        "unit_name": "克",
+        "nrv": 0
+      },
+      {
+        "key": "fatty_acid",
+        "type": "main",
+        "name": "反式脂肪(酸)",
+        "value": 0,
+        "unit": "g",
+        "unit_name": "克",
+        "nrv": 0
+      },
+      {
+        "key": "mufa",
+        "type": "main",
+        "name": "单不饱和脂肪酸",
+        "value": 0,
+        "unit": "g",
+        "unit_name": "克",
+        "nrv": 0
+      },
+      {
+        "key": "pufa",
+        "type": "main",
+        "name": "多不饱和脂肪酸",
+        "value": 0,
+        "unit": "g",
+        "unit_name": "克",
+        "nrv": 0
+      },
+      {
+        "key": "dha",
+        "type": "main",
+        "name": "DHA",
+        "value": 0,
+        "unit": "g",
+        "unit_name": "克",
+        "nrv": 0
+      },
+      {
+        "key": "n6_fatty_acids",
+        "type": "main",
+        "name": "n6脂肪酸",
+        "value": 0,
+        "unit": "g",
+        "unit_name": "克",
+        "nrv": 0
+      },
+      {
+        "key": "n9_fatty_acids",
+        "type": "main",
+        "name": "n9脂肪酸",
+        "value": 0,
+        "unit": "g",
+        "unit_name": "克",
+        "nrv": 0
+      },
+      {
+        "key": "n3fa",
+        "type": "main",
+        "name": "n-3脂肪酸",
+        "value": 0,
+        "unit": "g",
+        "unit_name": "克",
+        "nrv": 0
+      },
+      {
+        "key": "cholesterol",
+        "type": "main",
+        "name": "胆固醇",
+        "value": 0,
+        "unit": "mg",
+        "unit_name": "毫克",
+        "nrv": 0
+      },
+      {
+        "key": "vitamin_a",
+        "type": "vitamin",
+        "name": "维生素A",
+        "value": 24,
+        "unit": "μg",
+        "unit_name": "微克",
+        "nrv": 0.03
+      },
+      {
+        "key": "vitamin_d",
+        "type": "vitamin",
+        "name": "维生素D",
+        "value": 0,
+        "unit": "μg",
+        "unit_name": "微克",
+        "nrv": 0
+      },
+      {
+        "key": "vitamin_e",
+        "type": "vitamin",
+        "name": "维生素E",
+        "value": 0.21,
+        "unit": "mg",
+        "unit_name": "毫克",
+        "nrv": 0.02
+      },
+      {
+        "key": "vitamin_k",
+        "type": "vitamin",
+        "name": "维生素K",
+        "value": 0,
+        "unit": "μg",
+        "unit_name": "微克",
+        "nrv": 0
+      },
+      {
+        "key": "thiamine",
+        "type": "vitamin",
+        "name": "维生素B1(硫胺素)",
+        "value": 0.03,
+        "unit": "mg",
+        "unit_name": "毫克",
+        "nrv": 0.02
+      },
+      {
+        "key": "lactoflavin",
+        "type": "vitamin",
+        "name": "维生素B2(核黄素)",
+        "value": 0.14,
+        "unit": "mg",
+        "unit_name": "毫克",
+        "nrv": 0.1
+      },
+      {
+        "key": "vitamin_b6",
+        "type": "vitamin",
+        "name": "维生素B6(吡哆醇)",
+        "value": 0,
+        "unit": "mg",
+        "unit_name": "毫克",
+        "nrv": 0
+      },
+      {
+        "key": "vitamin_b12",
+        "type": "vitamin",
+        "name": "维生素B12(钴胺素)",
+        "value": 0,
+        "unit": "μg",
+        "unit_name": "微克",
+        "nrv": 0
+      },
+      {
+        "key": "niacin",
+        "type": "vitamin",
+        "name": "烟酸(烟酰胺/尼克酸)",
+        "value": 0.1,
+        "unit": "mg",
+        "unit_name": "毫克",
+        "nrv": 0.01
+      },
+      {
+        "key": "pantothenic",
+        "type": "vitamin",
+        "name": "泛酸",
+        "value": 0,
+        "unit": "mg",
+        "unit_name": "毫克",
+        "nrv": 0
+      },
+      {
+        "key": "choline",
+        "type": "vitamin",
+        "name": "胆碱",
+        "value": 0,
+        "unit": "mg",
+        "unit_name": "毫克",
+        "nrv": 0
+      },
+      {
+        "key": "biotin",
+        "type": "vitamin",
+        "name": "生物素",
+        "value": 0,
+        "unit": "μg",
+        "unit_name": "微克",
+        "nrv": 0
+      },
+      {
+        "key": "vitamin_c",
+        "type": "vitamin",
+        "name": "维生素C(抗坏血酸)",
+        "value": 1,
+        "unit": "mg",
+        "unit_name": "毫克",
+        "nrv": 0.01
+      },
+      {
+        "key": "natrium",
+        "type": "minerals",
+        "name": "钠",
+        "value": 58,
+        "unit": "mg",
+        "unit_name": "毫克",
+        "nrv": 0.03
+      },
+      {
+        "key": "kalium",
+        "type": "minerals",
+        "name": "钾",
+        "value": 109,
+        "unit": "mg",
+        "unit_name": "毫克",
+        "nrv": 0.05
+      },
+      {
+        "key": "calcium",
+        "type": "minerals",
+        "name": "钙",
+        "value": 120,
+        "unit": "mg",
+        "unit_name": "毫克",
+        "nrv": 0.15
+      },
+      {
+        "key": "phosphor",
+        "type": "minerals",
+        "name": "磷",
+        "value": 73,
+        "unit": "mg",
+        "unit_name": "毫克",
+        "nrv": 0.1
+      },
+      {
+        "key": "magnesium",
+        "type": "minerals",
+        "name": "镁",
+        "value": 11,
+        "unit": "mg",
+        "unit_name": "毫克",
+        "nrv": 0.04
+      },
+      {
+        "key": "chlorine",
+        "type": "minerals",
+        "name": "氯",
+        "value": 0,
+        "unit": "mg",
+        "unit_name": "毫克",
+        "nrv": 0
+      },
+      {
+        "key": "iron",
+        "type": "minerals",
+        "name": "铁",
+        "value": 0.3,
+        "unit": "mg",
+        "unit_name": "毫克",
+        "nrv": 0.02
+      },
+      {
+        "key": "zinc",
+        "type": "minerals",
+        "name": "锌",
+        "value": 0.3,
+        "unit": "mg",
+        "unit_name": "毫克",
+        "nrv": 0.02
+      },
+      {
+        "key": "copper",
+        "type": "minerals",
+        "name": "铜",
+        "value": 0,
+        "unit": "mg",
+        "unit_name": "毫克",
+        "nrv": 0
+      },
+      {
+        "key": "manganese",
+        "type": "minerals",
+        "name": "锰",
+        "value": 0,
+        "unit": "mg",
+        "unit_name": "毫克",
+        "nrv": 0
+      },
+      {
+        "key": "chrome",
+        "type": "minerals",
+        "name": "铬",
+        "value": 0,
+        "unit": "μg",
+        "unit_name": "微克",
+        "nrv": 0
+      },
+      {
+        "key": "iodine",
+        "type": "minerals",
+        "name": "碘",
+        "value": 1.9,
+        "unit": "μg",
+        "unit_name": "微克",
+        "nrv": 0.01
+      },
+      {
+        "key": "selenium",
+        "type": "minerals",
+        "name": "硒",
+        "value": 1.9,
+        "unit": "μg",
+        "unit_name": "微克",
+        "nrv": 0.04
+      },
+      {
+        "key": "fluorine",
+        "type": "minerals",
+        "name": "氟",
+        "value": 0,
+        "unit": "mg",
+        "unit_name": "毫克",
+        "nrv": 0
+      },
+      {
+        "key": "hg",
+        "type": "minerals",
+        "name": "汞",
+        "value": 0,
+        "unit": "ppm",
+        "unit_name": "ppm",
+        "nrv": 0
+      },
+      {
+        "key": "proanthocyanidin",
+        "type": "other",
+        "name": "原花青素",
+        "value": 0,
+        "unit": "mg",
+        "unit_name": "毫克",
+        "nrv": 0
+      },
+      {
+        "key": "quercetin",
+        "type": "other",
+        "name": "槲皮素",
+        "value": 0,
+        "unit": "mg",
+        "unit_name": "毫克",
+        "nrv": 0
+      },
+      {
+        "key": "anthocyanin",
+        "type": "other",
+        "name": "花色苷",
+        "value": 0,
+        "unit": "mg",
+        "unit_name": "毫克",
+        "nrv": 0
+      },
+      {
+        "key": "soy_isoflavone",
+        "type": "other",
+        "name": "大豆异黄酮",
+        "value": 0,
+        "unit": "mg",
+        "unit_name": "毫克",
+        "nrv": 0
+      },
+      {
+        "key": "carotene",
+        "type": "other",
+        "name": "胡萝卜素",
+        "value": 0,
+        "unit": "μg",
+        "unit_name": "微克",
+        "nrv": 0
+      },
+      {
+        "key": "lutein_zeaxanthin",
+        "type": "other",
+        "name": "叶黄素+玉米黄素",
+        "value": 0,
+        "unit": "μg",
+        "unit_name": "微克",
+        "nrv": 0
+      },
+      {
+        "key": "myricetin",
+        "type": "other",
+        "name": "杨梅黄酮",
+        "value": 0,
+        "unit": "mg",
+        "unit_name": "毫克",
+        "nrv": 0
+      },
+      {
+        "key": "luteolin",
+        "type": "other",
+        "name": "玉米黄酮",
+        "value": 0,
+        "unit": "mg",
+        "unit_name": "毫克",
+        "nrv": 0
+      },
+      {
+        "key": "alcohol",
+        "type": "other",
+        "name": "酒精度",
+        "value": 0,
+        "unit": "%vol",
+        "unit_name": "",
+        "nrv": 0
+      }
+    ],
+    "units": [
+      {
+        "unit_id": 0,
+        "unit_name": "克",
+        "weight": "1.00",
+        "eat_weight": "1.00"
+      },
+      {
+        "unit_id": 206411,
+        "unit_name": "瓶",
+        "weight": "250.00",
+        "eat_weight": "250.00"
+      },
+      {
+        "unit_id": 149073,
+        "unit_name": "盒",
+        "weight": "250.00",
+        "eat_weight": "250.00"
+      }
+    ],
+    "materials": {
+      "foods": [],
+      "description": ""
+    }
+  }
+}

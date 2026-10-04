@@ -1,0 +1,50 @@
+{
+  "name": "吸吸袋酸奶草莓",
+  "group": 1,
+  "source_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-4.png?v=1",
+  "fields": [
+    {
+      "name": "ingredients",
+      "label": "配料表（请核对范围）",
+      "raw_text": "放在牛牛乳、\n草莓\n草莓",
+      "confidence": 0.73,
+      "requires_confirmation": true,
+      "bounding_box": null,
+      "evidence_lines": [
+        {
+          "text": "放在牛牛乳、",
+          "confidence": 0.61,
+          "bounding_box": null
+        },
+        {
+          "text": "草莓",
+          "confidence": 0.6,
+          "bounding_box": null
+        },
+        {
+          "text": "草莓",
+          "confidence": 0.98,
+          "bounding_box": null
+        }
+      ],
+      "nutrition_table": null
+    },
+    {
+      "name": "net_quantity",
+      "label": "净含量",
+      "raw_text": "草莓净含量:100克",
+      "confidence": 0.98,
+      "requires_confirmation": false,
+      "bounding_box": null,
+      "evidence_lines": [
+        {
+          "text": "草莓净含量:100克",
+          "confidence": 0.98,
+          "bounding_box": null
+        }
+      ],
+      "nutrition_table": null
+    }
+  ],
+  "status": "ocr_draft"
+}

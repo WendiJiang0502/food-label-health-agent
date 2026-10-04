@@ -1,0 +1,82 @@
+{
+  "code": 0,
+  "message": "0",
+  "now": 1791078278,
+  "data": {
+    "page": 1,
+    "per_page": 5,
+    "has_more": true,
+    "foods": [
+      {
+        "code": "fdf1e8ef",
+        "name": "纯牛奶(全脂) ",
+        "calories": 65,
+        "protein": 3.3,
+        "fat": 3.6,
+        "carbohydrate": 4.9,
+        "health_light": 1,
+        "is_liquid": true,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/14/m_051c4a46a3af55b192c81c42f39f4b4f.jpg",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      },
+      {
+        "code": "fd2d7c4e",
+        "name": "特仑苏 纯牛奶",
+        "calories": 78,
+        "protein": 3.8,
+        "fat": 4.6,
+        "carbohydrate": 5.5,
+        "health_light": 1,
+        "is_liquid": true,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/25/ai_watermark_e5283d8d280d86390e397aca7a5d7ae4.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      },
+      {
+        "code": "fdf5b9f3",
+        "name": "特仑苏 纯牛奶",
+        "calories": 39,
+        "protein": 3.6,
+        "fat": 0,
+        "carbohydrate": 5.2,
+        "health_light": 1,
+        "is_liquid": true,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/18/ai_watermark_big_photo_url_0173f48cc1ee.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      },
+      {
+        "code": "fd5a7d23",
+        "name": "特仑苏 纯牛奶",
+        "calories": 74,
+        "protein": 3.6,
+        "fat": 4.4,
+        "carbohydrate": 5,
+        "health_light": 1,
+        "is_liquid": true,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/9/30/ai_watermark_d1ebf6e2a25b9a033012b1ad944511ea.webp",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      },
+      {
+        "code": "fdd7d3fd",
+        "name": "蒙牛特仑苏 纯牛奶",
+        "calories": 74,
+        "protein": 3.6,
+        "fat": 4.4,
+        "carbohydrate": 5,
+        "health_light": 1,
+        "is_liquid": true,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/12/ai_watermark_big_photo_url_d791ce20189c.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      }
+    ]
+  }
+}

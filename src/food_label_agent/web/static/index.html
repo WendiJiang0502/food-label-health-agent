@@ -14,7 +14,7 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
     <title>食鉴 · 食品标签健康解释</title>
     <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="/static/styles.css?v=p1-continuity-1">
-    <script src="/static/app.js?v=p1-continuity-1" defer></script>
+    <script src="/static/app.js?v=product-rag-2" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main-content">跳到主要内容</a>
@@ -530,6 +530,11 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
                 <p id="alternative-target-reason">识别完成后请先确认用途，再手动开始查找。</p>
                 <button class="text-button" id="edit-alternative-target" type="button" aria-expanded="false">识别不对？更改</button>
               </div>
+              <label class="product-query" for="product-retrieval-query">
+                <span>想找什么样的替代品？（选填）</span>
+                <input id="product-retrieval-query" type="text" maxlength="500" placeholder="例如：适合早餐、能直接吃的燕麦片" aria-describedby="product-query-help">
+                <small id="product-query-help">可写“糖比当前更少”或“能直接吃”；比较需有同口径营养数据。过敏禁忌请在个人设置中确认。</small>
+              </label>
               <div class="alternative-controls">
                 <label for="alternative-category" id="alternative-category-correction" hidden>
                   <span>更正替代目标</span>
@@ -563,6 +568,19 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
                 </label>
                 <button class="button button--secondary" id="find-alternatives" type="button">确认用途并查找备选</button>
               </div>
+              <p id="product-search-intent" class="alternative-source" role="status" hidden></p>
+              <p id="product-retrieval-status" class="alternative-source" role="status" hidden></p>
+              <details id="product-retrieval-evidence" class="alternative-source-disclosure" hidden>
+                <summary>本次匹配的商品资料</summary>
+                <p class="alternative-source">资料匹配不代表通过复核。可推荐结果以本次复核列表为准。</p>
+                <ul id="product-retrieval-list"></ul>
+              </details>
+              <p id="knowledge-freshness" class="alternative-source" role="status">资料时效将在查找后显示。</p>
+              <details class="alternative-source-disclosure" id="knowledge-candidates" hidden>
+                <summary>已发现、待核实的商品</summary>
+                <p class="alternative-source">这些商品尚未通过配料与适用条件核实，不作为推荐。</p>
+                <ul id="knowledge-candidate-list"></ul>
+              </details>
               <details class="alternative-source-disclosure">
                 <summary>查看目录范围与数据来源</summary>
                 <p class="alternative-source" id="alternative-source">数据来源将在查找后显示。</p>
@@ -878,6 +896,7 @@ FORM: Rounded mobile-health cards, gentle separators, compact pills, and a float
     </main>
 
     <footer>
+      <a href="/knowledge-review">商品资料批次复核</a>
       <p>食鉴提供标签信息整理与解释，不构成医疗诊断或治疗建议。</p>
     </footer>
 

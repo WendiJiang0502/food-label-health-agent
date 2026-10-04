@@ -1,0 +1,82 @@
+{
+  "code": 0,
+  "message": "0",
+  "now": 1791078283,
+  "data": {
+    "page": 1,
+    "per_page": 5,
+    "has_more": true,
+    "foods": [
+      {
+        "code": "fd5d8da1",
+        "name": "丹比 小黑钻吐司",
+        "calories": 298,
+        "protein": 9.1,
+        "fat": 13.8,
+        "carbohydrate": 34.3,
+        "health_light": 2,
+        "is_liquid": false,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/23/ai_watermark_157d193f87b1fb41c72258d2c72bd185.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      },
+      {
+        "code": "fdd1dc91",
+        "name": "安慕希 酸奶",
+        "calories": 91,
+        "protein": 3.1,
+        "fat": 3.3,
+        "carbohydrate": 12,
+        "health_light": 2,
+        "is_liquid": true,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/15/ai_watermark_big_photo_url_17235f6d2c11.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      },
+      {
+        "code": "fd66dbbf",
+        "name": "伊利 安慕希(原味)",
+        "calories": 94,
+        "protein": 3.1,
+        "fat": 3.5,
+        "carbohydrate": 12.5,
+        "health_light": 2,
+        "is_liquid": false,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/16/ai_watermark_big_photo_url_7b271f6303a6.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      },
+      {
+        "code": "fd649c49",
+        "name": "安慕希 甜郁芒果",
+        "calories": 88,
+        "protein": 3.1,
+        "fat": 3.5,
+        "carbohydrate": 11,
+        "health_light": 2,
+        "is_liquid": true,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/25/ai_watermark_adabd16278289e42c112f58e0f04300b.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      },
+      {
+        "code": "fd834ad6",
+        "name": "安慕希 风味酸奶",
+        "calories": 91,
+        "protein": 3.1,
+        "fat": 3.3,
+        "carbohydrate": 12,
+        "health_light": 2,
+        "is_liquid": true,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/12/ai_watermark_big_photo_url_5ff8264cb056.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      }
+    ]
+  }
+}

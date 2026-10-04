@@ -12,6 +12,7 @@ if [[ -f "$config_file" ]]; then
 fi
 
 export PYTHONPATH="$project_dir/src"
+export FOOD_LABEL_DATA_DIR="${FOOD_LABEL_DATA_DIR:-$HOME/.local/share/food-label-health-agent}"
 export FOOD_LABEL_OCR_PROVIDER="${FOOD_LABEL_OCR_PROVIDER:-tencent}"
 export FOOD_LABEL_PRODUCT_CATALOG="${FOOD_LABEL_PRODUCT_CATALOG:-official_cn_expanded}"
 export FOOD_LABEL_HOST="127.0.0.1"

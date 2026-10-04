@@ -1,0 +1,30 @@
+{
+  "http_status": 200,
+  "barcode": "6973662540013",
+  "response": {
+    "code": 0,
+    "message": "0",
+    "now": 1791077794,
+    "data": {
+      "page": 1,
+      "per_page": 1,
+      "has_more": false,
+      "foods": [
+        {
+          "code": "fd304993",
+          "name": "SO ACAI 燕麦300g",
+          "calories": 375,
+          "protein": 12,
+          "fat": 8.6,
+          "carbohydrate": 56.2,
+          "health_light": 2,
+          "is_liquid": false,
+          "image_url": "https://f.boohee.cn/house/upload_food/2026/6/22/ai_watermark_big_photo_url_5286de1653d8c4862cb8dec5c80fc250.png",
+          "units": null,
+          "saturated_fat": 0,
+          "fiber": 0
+        }
+      ]
+    }
+  }
+}

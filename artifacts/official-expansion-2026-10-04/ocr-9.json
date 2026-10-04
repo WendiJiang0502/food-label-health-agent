@@ -1,0 +1,45 @@
+{
+  "name": "超级桶原味",
+  "group": 3,
+  "source_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-12.png?v=1",
+  "fields": [
+    {
+      "name": "ingredients",
+      "label": "配料表（请核对范围）",
+      "raw_text": "仅有生牛乳、糖、乳酸菌\n风味发酵乳",
+      "confidence": 0.84,
+      "requires_confirmation": true,
+      "bounding_box": null,
+      "evidence_lines": [
+        {
+          "text": "仅有生牛乳、糖、乳酸菌",
+          "confidence": 0.99,
+          "bounding_box": null
+        },
+        {
+          "text": "风味发酵乳",
+          "confidence": 1.0,
+          "bounding_box": null
+        }
+      ],
+      "nutrition_table": null
+    },
+    {
+      "name": "net_quantity",
+      "label": "净含量",
+      "raw_text": "净含量:360g",
+      "confidence": 0.99,
+      "requires_confirmation": false,
+      "bounding_box": null,
+      "evidence_lines": [
+        {
+          "text": "净含量:360g",
+          "confidence": 0.99,
+          "bounding_box": null
+        }
+      ],
+      "nutrition_table": null
+    }
+  ],
+  "status": "ocr_draft"
+}

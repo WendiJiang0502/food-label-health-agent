@@ -1,0 +1,1394 @@
+[
+  {
+    "id": 1,
+    "name": "父爱系列",
+    "list": [
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-1.png?v=1",
+        "name": "吸吸袋酸奶原味",
+        "ingredients": "生牛乳(添加量≥98%)、乳清蛋白粉(添加量≥1.0%)、唾液链球菌嗜热亚种、德氏乳杆菌保加利亚亚种、乳酸乳球菌乳亚种、乳脂乳球菌、动物双歧杆菌乳亚种Bb-12、长双歧杆菌长亚种BB536",
+        "component": [
+          {
+            "name": "能量",
+            "value": "346千焦",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "4.6克",
+            "percentage": "8%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "4.8克",
+            "percentage": "8%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "5.3克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钠",
+            "value": "45毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "140毫克",
+            "percentage": "18%",
+            "option": "0.5"
+          }
+        ]
+      },
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-2.png?v=1",
+        "name": "吸吸袋酸奶西梅苹果",
+        "ingredients": "生牛乳(添加量≥80%)、西梅苹果复合果浆(添加量≥14%)、乳清蛋白粉(添加量≥0.8%)、唾液链球菌嗜热亚种、德氏乳杆菌保加利亚亚种、乳酸乳球菌乳亚种、乳脂乳球菌、动物双歧杆菌乳亚种Bb-12、长双歧杆菌长亚种BB536",
+        "component": [
+          {
+            "name": "能量",
+            "value": "337千焦",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "4.0克",
+            "percentage": "7%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "4.1克",
+            "percentage": "7%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "6.9克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钠",
+            "value": "40毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "120毫克",
+            "percentage": "15%",
+            "option": "0.5"
+          }
+        ]
+      },
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-3.png?v=1",
+        "name": "吸吸袋酸奶葡萄蓝莓",
+        "ingredients": "生牛乳(添加量≥80%)、葡萄蓝莓复合果蔬果酱(添加量≥14%)、乳清蛋白粉(添加量≥0.8%)、唾液链球菌嗜热亚种、德氏乳杆菌保加利亚亚种、乳酸乳球菌乳亚种、乳脂乳球菌、动物双歧杆菌乳亚种Bb-12、长双歧杆菌长亚种BB536",
+        "component": [
+          {
+            "name": "能量",
+            "value": "354千焦",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "4.0克",
+            "percentage": "7%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "4.1克",
+            "percentage": "7%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "7.9克",
+            "percentage": "3%",
+            "option": "1"
+          },
+          {
+            "name": "钠",
+            "value": "40毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "120毫克",
+            "percentage": "15%",
+            "option": "0.5"
+          }
+        ]
+      },
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-4.png?v=1",
+        "name": "吸吸袋酸奶草莓",
+        "ingredients": "生牛乳(添加量≥80%)、葡萄蓝莓复合果蔬果酱(添加量≥14%)、乳清蛋白粉(添加量≥0.8%)、唾液链球菌嗜热亚种、德氏乳杆菌保加利亚亚种、乳酸乳球菌乳亚种、乳脂乳球菌、动物双歧杆菌乳亚种Bb-12、长双歧杆菌长亚种BB536",
+        "component": [
+          {
+            "name": "能量",
+            "value": "374千焦",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "4.0克",
+            "percentage": "7%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "4.1克",
+            "percentage": "7%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "9.1克",
+            "percentage": "3%",
+            "option": "1"
+          },
+          {
+            "name": "钠",
+            "value": "40毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "120毫克",
+            "percentage": "15%",
+            "option": "0.5"
+          }
+        ]
+      },
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-7.png?v=1",
+        "name": "父爱牧场鲜牛奶",
+        "ingredients": "生牛乳",
+        "component": [
+          {
+            "name": "能量",
+            "value": "337千焦",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "4.0克",
+            "percentage": "7%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "4.6克",
+            "percentage": "8%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "5.8克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钠",
+            "value": "50毫克",
+            "percentage": "3%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "130毫克",
+            "percentage": "16%",
+            "option": "0.5"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "控糖系列",
+    "list": [
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-1.png?v=1",
+        "name": "light-高钙滑滑",
+        "ingredients": "生牛乳(添加量≥94%)、菊粉、脱盐乳清粉、浓缩牛奶蛋白、乳清蛋白粉、乳脂乳球菌、乳酸乳球菌乳亚种、唾液链球菌嗜热亚种",
+        "component": [
+          {
+            "name": "能量",
+            "value": "307千焦",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "3.5克",
+            "percentage": "6%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "3.8克",
+            "percentage": "6%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "5.6克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "膳食纤维",
+            "value": "1.2克",
+            "percentage": "5%",
+            "option": "0.5"
+          },
+          {
+            "name": "钠",
+            "value": "45毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "110毫克",
+            "percentage": "14%",
+            "option": "0.5"
+          }
+        ]
+      },
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-2.png?v=1",
+        "name": "light-轻拌酸奶",
+        "ingredients": "生牛乳(添加量≥97%)、菊粉、乳脂乳球菌、乳酸乳球菌乳亚种、唾液链球菌嗜热亚种",
+        "component": [
+          {
+            "name": "能量",
+            "value": "382千焦",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "4.5克",
+            "percentage": "8%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "5.1克",
+            "percentage": "9%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "6.2克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "膳食纤维",
+            "value": "1.4克",
+            "percentage": "6%",
+            "option": "0.5"
+          },
+          {
+            "name": "钠",
+            "value": "46毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "120毫克",
+            "percentage": "15%",
+            "option": "0.5"
+          }
+        ]
+      },
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-3.png?v=1",
+        "name": "light-轻食酸奶",
+        "ingredients": "生牛乳(添加量≥97%)、菊粉、乳脂乳球菌、乳酸乳球菌乳亚种、唾液链球菌嗜执亚种",
+        "component": [
+          {
+            "name": "能量",
+            "value": "301千焦",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "3.5克",
+            "percentage": "6%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "4.0克",
+            "percentage": "7%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "5.0克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "膳食纤维",
+            "value": "1.1克",
+            "percentage": "4%",
+            "option": "0.5"
+          },
+          {
+            "name": "钠",
+            "value": "39毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "105毫克",
+            "percentage": "13%",
+            "option": "0.5"
+          }
+        ]
+      },
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-4.png?v=1",
+        "name": "light-轻食酸奶(4%蔗糖)",
+        "ingredients": "生牛乳(添加量≥93%)、白砂糖、菊粉、乳脂乳球菌、乳酸乳球菌乳亚种、唾液链球菌嗜热亚种",
+        "component": [
+          {
+            "name": "能量",
+            "value": "362千焦",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "3.5克",
+            "percentage": "6%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "4.0克",
+            "percentage": "7%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "8.5克",
+            "percentage": "3%",
+            "option": "1"
+          },
+          {
+            "name": "膳食纤维",
+            "value": "1.3克",
+            "percentage": "5%",
+            "option": "0.5"
+          },
+          {
+            "name": "钠",
+            "value": "39毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "105毫克",
+            "percentage": "13%",
+            "option": "0.5"
+          }
+        ]
+      },
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-5.png?v=1",
+        "name": "light-轻饮酸奶(230克)",
+        "ingredients": "生牛乳(添加量≥94%)、菊粉、脱盐乳清粉、浓缩牛奶蛋白、乳清蛋白粉、乳脂乳球菌、乳酸乳球菌乳亚种、唾液链球菌嗜热亚种",
+        "component": [
+          {
+            "name": "能量",
+            "value": "307千焦",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "3.6克",
+            "percentage": "6%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "3.8克",
+            "percentage": "6%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "5.6克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "膳食纤维",
+            "value": "1.2克",
+            "percentage": "5%",
+            "option": "0.5"
+          },
+          {
+            "name": "钠",
+            "value": "45毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "110毫克",
+            "percentage": "14%",
+            "option": "0.5"
+          }
+        ]
+      },
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-6.png?v=1",
+        "name": "light-轻饮酸奶(760克)",
+        "ingredients": "生牛乳(添加量≥94%)、菊粉、脱盐乳清粉、浓缩牛奶蛋白、乳清蛋白粉、乳脂乳球菌、乳酸乳球菌乳亚种、唾液链球菌嗜热亚种",
+        "component": [
+          {
+            "name": "能量",
+            "value": "307千焦",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "3.6克",
+            "percentage": "6%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "3.8克",
+            "percentage": "6%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "5.6克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "膳食纤维",
+            "value": "1.2克",
+            "percentage": "5%",
+            "option": "0.5"
+          },
+          {
+            "name": "钠",
+            "value": "45毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "110毫克",
+            "percentage": "14%",
+            "option": "0.5"
+          }
+        ]
+      },
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-7.png?v=1",
+        "name": "0%蔗糖酸奶",
+        "ingredients": "生牛乳(≥99%)、乳脂乳球菌、乳酸乳球菌乳亚种、唾液链球菌嗜热亚种",
+        "component": [
+          {
+            "name": "能量",
+            "value": "371千焦",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "4.5克",
+            "percentage": "8%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "5.2克",
+            "percentage": "9%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "6.0克",
+            "percentage": "3%",
+            "option": "1"
+          },
+          {
+            "name": "钠",
+            "value": "68毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "120毫克",
+            "percentage": "15%",
+            "option": "0.5"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "超级桶系列",
+    "list": [
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-12.png?v=1",
+        "name": "超级桶原味",
+        "ingredients": "生牛乳(添加量≥90%)、白砂糖(添加量≥7.5%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+        "component": [
+          {
+            "name": "能量",
+            "value": "391千焦",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "3.0克",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "3.4克",
+            "percentage": "6%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "12.6克",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "钠",
+            "value": "46毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "98毫克",
+            "percentage": "12%",
+            "option": "0.5"
+          }
+        ]
+      },
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-13.png?v=1",
+        "name": "超级桶百香果",
+        "ingredients": "生牛乳(添加量≥85%)、白砂糖(添加量≥7%)、百香果原浆(添加量≥4%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+        "component": [
+          {
+            "name": "能量",
+            "value": "384千焦",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "2.9克",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "3.2克",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "12.7克",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "钠",
+            "value": "44毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "93毫克",
+            "percentage": "12%",
+            "option": "0.5"
+          }
+        ]
+      },
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-14.png?v=1",
+        "name": "超级桶草莓樱花",
+        "ingredients": "生牛乳(添加量≥83%)、草莓芭乐樱花复合果蔬浆(添加量≥7%)、白砂糖(添加量≥6%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+        "component": [
+          {
+            "name": "能量",
+            "value": "378千焦",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "2.8克",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "3.1克",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "12.7克",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "钠",
+            "value": "42毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "90毫克",
+            "percentage": "11%",
+            "option": "0.5"
+          }
+        ]
+      },
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-15.png?v=1",
+        "name": "超级桶荔枝杨梅",
+        "ingredients": "生牛乳(添加量≥82%)、荔枝杨梅复合果浆(添加量≥8.5%)、白砂糖(添加量≥6%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+        "component": [
+          {
+            "name": "能量",
+            "value": "387千焦",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "2.8克",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "3.1克",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "13.2克",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "钠",
+            "value": "42毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "90毫克",
+            "percentage": "11%",
+            "option": "0.5"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "裸酸奶系列",
+    "list": [
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-18.png?v=1",
+        "name": "原味裸酸奶(230克)",
+        "ingredients": "生牛乳(添加量≥90%)、白砂糖(添加量≥7.5%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+        "component": [
+          {
+            "name": "能量",
+            "value": "391千焦",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "3.0克",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "3.4克",
+            "percentage": "6%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "12.6克",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "钠",
+            "value": "46毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "98毫克",
+            "percentage": "12%",
+            "option": "0.5"
+          }
+        ]
+      },
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-19.png?v=1",
+        "name": "百香果果裸酸奶(230克)",
+        "ingredients": "生牛乳(添加量≥85%)、白砂糖(添加量≥7%)、百香果原浆(添加量≥4%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+        "component": [
+          {
+            "name": "能量",
+            "value": "384千焦",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "2.9克",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "3.2克",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "12.7克",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "钠",
+            "value": "44毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "93毫克",
+            "percentage": "12%",
+            "option": "0.5"
+          }
+        ]
+      },
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-20.png?v=1",
+        "name": "葡里萄气裸酸奶(230克)",
+        "ingredients": "生牛乳(添加量≥83%)、葡萄原汁(添加量≥7%)、白砂糖(添加量≥7%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、 乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+        "component": [
+          {
+            "name": "能量",
+            "value": "387千焦",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "2.8克",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "3.1克",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "13.2克",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "钠",
+            "value": "46毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "90毫克",
+            "percentage": "11%",
+            "option": "0.5"
+          }
+        ]
+      },
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-21.png?v=1",
+        "name": "原味裸酸奶(1.08千克)",
+        "ingredients": "生牛乳(添加量≥90%)、白砂糖(添加量≥7.5%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+        "component": [
+          {
+            "name": "能量",
+            "value": "391千焦",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "3.0克",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "3.4克",
+            "percentage": "6%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "12.6克",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "钠",
+            "value": "46毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "98毫克",
+            "percentage": "12%",
+            "option": "0.5"
+          }
+        ]
+      },
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-22.png?v=1",
+        "name": "百香果果裸酸奶(1.08千克)",
+        "ingredients": "生牛乳(添加量≥85%)、白砂糖(添加量≥7%)、百香果原浆(添加量≥4%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+        "component": [
+          {
+            "name": "能量",
+            "value": "384千焦",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "2.9克",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "3.2克",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "12.7克",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "钠",
+            "value": "44毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "93毫克",
+            "percentage": "12%",
+            "option": "0.5"
+          }
+        ]
+      },
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-23.png?v=1",
+        "name": "葡里萄气裸酸奶(1.08千克)",
+        "ingredients": "生牛乳(添加量≥83%)、葡萄原汁(添加量≥7%)、白砂糖(添加量≥7%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、 乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+        "component": [
+          {
+            "name": "能量",
+            "value": "387千焦",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "2.8克",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "3.1克",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "13.2克",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "钠",
+            "value": "46毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "90毫克",
+            "percentage": "11%",
+            "option": "0.5"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "开菲尔系列",
+    "list": [
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-24.png?v=1",
+        "name": "开菲尔原味",
+        "ingredients": "生牛乳、白砂糖、浓缩柠檬清汁、发酵菌种(唾液链球菌嗜热亚种、德氏乳杆菌保加利亚亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、乳酸乳球菌乳亚种、肠膜明串珠菌肠膜亚种、肠膜明串珠菌乳脂亚种、短双歧杆菌、动物双歧杆菌乳亚种、长双歧杆菌长亚种、嗜酸乳杆菌、植物乳植杆菌、副干酪乳酪杆菌)",
+        "component": [
+          {
+            "name": "能量",
+            "value": "373千焦",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "3.0克",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "3.6克",
+            "percentage": "6%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "11.1克",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "钠",
+            "value": "36毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "95毫克",
+            "percentage": "12%",
+            "option": "0.5"
+          }
+        ]
+      },
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-25.png?v=1",
+        "name": "开菲尔凤梨椰子",
+        "ingredients": "生牛乳、白砂糖、凤梨椰子复合果浆(添加量≥5%)、浓缩柠檬清汁、发酵菌种(唾液链球菌嗜热亚种、德氏乳杆菌保加利亚亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、乳酸乳球菌乳亚种、肠膜明串珠菌肠膜亚种、肠膜明串珠菌乳脂亚种、短双歧杆菌、动物双歧杆菌乳亚种、长双歧杆菌长亚种、嗜酸乳杆菌、植物乳植杆菌、副干酪乳酪杆菌)",
+        "component": [
+          {
+            "name": "能量",
+            "value": "371千焦",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "2.8克",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "3.5克",
+            "percentage": "6%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "11.4克",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "钠",
+            "value": "34毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "90毫克",
+            "percentage": "11%",
+            "option": "0.5"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "酸奶滑滑系列",
+    "list": [
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-27.png?v=1",
+        "name": "酸奶滑滑",
+        "ingredients": "牛乳(添加量≥90%)、白砂糖、鼠李糖乳酪杆菌LGG、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种",
+        "component": [
+          {
+            "name": "能量",
+            "value": "393千焦",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "3.0克",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "3.5克",
+            "percentage": "6%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "12.5克",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "钠",
+            "value": "36毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "90毫克",
+            "percentage": "11%",
+            "option": "0.5"
+          }
+        ]
+      },
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-28.png?v=1",
+        "name": "树莓滑滑",
+        "ingredients": "生牛乳(添加量≥80%)、树莓果酱(添加量≥8%)、白砂糖(添加量≥7%)、鼠李糖乳酪杆菌LGG、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种",
+        "component": [
+          {
+            "name": "能量",
+            "value": "399千焦",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "2.8克",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "3.2克",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "13.7克",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "钠",
+            "value": "33毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "82毫克",
+            "percentage": "10%",
+            "option": "0.5"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "甜品系列",
+    "list": [
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-30.png?v=1",
+        "name": "生牛乳米布丁",
+        "ingredients": "生牛乳(添加量≥80%)、大米(添加量≥9%)、白砂糖(添加量≥5%)",
+        "component": [
+          {
+            "name": "能量",
+            "value": "500千焦",
+            "percentage": "6%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "4.0克",
+            "percentage": "7%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "4.0克",
+            "percentage": "7%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "16.7克",
+            "percentage": "6%",
+            "option": "1"
+          },
+          {
+            "name": "钠",
+            "value": "46毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "98毫克",
+            "percentage": "12%",
+            "option": "0.5"
+          }
+        ]
+      },
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-31.png?v=1",
+        "name": "焦糖牛奶布丁",
+        "ingredients": "生牛乳(添加量≥80%)，稀奶油，冰蛋制品(添加量≥5.5%)(蛋黄液(添加量≥75%)、白砂糖)，白砂糖，乳清蛋白粉，菊粉，干酪，甘草糖浆(水、果葡糖浆、甘草粉)，焦糖糖浆(白砂糖、赤砂糖、水)",
+        "component": [
+          {
+            "name": "能量",
+            "value": "741千焦",
+            "percentage": "9%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "5.2克",
+            "percentage": "9%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "11.9克",
+            "percentage": "20%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "12.0克",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "膳食纤维(以菊粉计)",
+            "value": "1.0克",
+            "percentage": "4%",
+            "option": "0.5"
+          },
+          {
+            "name": "钠",
+            "value": "46毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "118毫克",
+            "percentage": "15%",
+            "option": "0.5"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 7.1,
+    "name": "高蛋白希腊酸奶系列",
+    "list": [
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-31-2.png?v=1",
+        "name": "PROTÑ‌高蛋白希腊酸奶原味",
+        "ingredients": "生牛乳(添加量≥90%)、菊粉、乳脂乳球菌、乳脂乳球菌乳亚种、唾液链球菌嗜热亚种",
+        "component": [
+          {
+            "name": "能量",
+            "value": "538千焦",
+            "percentage": "6%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "7.5克",
+            "percentage": "13%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "8.6克",
+            "percentage": "14%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "3.8克",
+            "percentage": "1%",
+            "option": "1"
+          },
+          {
+            "name": "膳食纤维(以菊粉计)",
+            "value": "3.5克",
+            "percentage": "14%",
+            "option": "0.5"
+          },
+          {
+            "name": "钠",
+            "value": "45毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "200毫克",
+            "percentage": "25%",
+            "option": "0.5"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "name": "身体知道系列",
+    "list": [
+      {
+        "img": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-32.png?v=1",
+        "name": "身体知道顺畅配方",
+        "ingredients": "生牛乳(添加量≥90%)、白砂糖、低聚半乳糖(GOS,添加量:2.0%)、浓缩牛奶蛋白、食用葡萄糖、鼠李糖乳酪杆菌LGG、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种",
+        "component": [
+          {
+            "name": "能量",
+            "value": "373千焦",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "蛋白质",
+            "value": "2.9克",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "脂肪",
+            "value": "3.2克",
+            "percentage": "5%",
+            "option": "1"
+          },
+          {
+            "name": "碳水化合物",
+            "value": "12.1克",
+            "percentage": "4%",
+            "option": "1"
+          },
+          {
+            "name": "钠",
+            "value": "40毫克",
+            "percentage": "2%",
+            "option": "1"
+          },
+          {
+            "name": "钙",
+            "value": "110毫克",
+            "percentage": "14%",
+            "option": "0.5"
+          }
+        ]
+      }
+    ]
+  }
+]

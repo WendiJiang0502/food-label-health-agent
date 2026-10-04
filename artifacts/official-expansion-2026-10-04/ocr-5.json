@@ -1,0 +1,50 @@
+{
+  "name": "light-高钙滑滑",
+  "group": 2,
+  "source_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-1.png?v=1",
+  "fields": [
+    {
+      "name": "ingredients",
+      "label": "配料表（未识别，请手动补充）",
+      "raw_text": "",
+      "confidence": 0.0,
+      "requires_confirmation": true,
+      "bounding_box": null,
+      "evidence_lines": [],
+      "nutrition_table": null
+    },
+    {
+      "name": "label_claims",
+      "label": "包装声称",
+      "raw_text": "高钙滑滑",
+      "confidence": 0.84,
+      "requires_confirmation": true,
+      "bounding_box": null,
+      "evidence_lines": [
+        {
+          "text": "高钙滑滑",
+          "confidence": 0.99,
+          "bounding_box": null
+        }
+      ],
+      "nutrition_table": null
+    },
+    {
+      "name": "net_quantity",
+      "label": "净含量",
+      "raw_text": "风味发酵乳净含量:100克",
+      "confidence": 0.99,
+      "requires_confirmation": false,
+      "bounding_box": null,
+      "evidence_lines": [
+        {
+          "text": "风味发酵乳净含量:100克",
+          "confidence": 0.99,
+          "bounding_box": null
+        }
+      ],
+      "nutrition_table": null
+    }
+  ],
+  "status": "ocr_draft"
+}

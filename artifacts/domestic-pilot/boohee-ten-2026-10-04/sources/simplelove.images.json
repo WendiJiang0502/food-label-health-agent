@@ -1,0 +1,65 @@
+[
+  {
+    "src": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/logo.png",
+    "alt": "简爱项目Logo"
+  },
+  {
+    "id": "regarding-img",
+    "src": "",
+    "alt": "关于简爱"
+  },
+  {
+    "id": "events-img",
+    "src": "",
+    "alt": "大事记图片"
+  },
+  {
+    "src": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/code-icon-1.png",
+    "alt": "社交媒体1"
+  },
+  {
+    "src": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/code-01.png",
+    "alt": "二维码1"
+  },
+  {
+    "src": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/code-icon-2.png",
+    "alt": "社交媒体2"
+  },
+  {
+    "src": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/code-02.png",
+    "alt": "二维码2"
+  },
+  {
+    "src": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/code-icon-3.png",
+    "alt": "社交媒体3"
+  },
+  {
+    "src": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/code-03.png",
+    "alt": "二维码3"
+  },
+  {
+    "src": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/code-icon-4.png",
+    "alt": "社交媒体4"
+  },
+  {
+    "src": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/code-04.png",
+    "alt": "二维码4"
+  },
+  {
+    "src": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/code-icon-5.png",
+    "alt": "社交媒体5"
+  },
+  {
+    "src": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/code-05.png",
+    "alt": "二维码5"
+  },
+  {
+    "src": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/logo-02.png",
+    "alt": "简爱Logo",
+    "class": "footer-logo"
+  },
+  {
+    "src": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/go-top.png",
+    "alt": "回到顶部"
+  }
+]

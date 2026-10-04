@@ -1,0 +1,168 @@
+"""Rebuild the saved ten-target pilot report offline; performs no API calls."""
+
+import json
+from datetime import UTC, datetime
+from hashlib import sha256
+from pathlib import Path
+
+from food_label_agent.evaluation.boohee_pilot import (
+    assess_detail,
+    stage_official_products,
+    write_json,
+)
+
+ROOT = Path(__file__).resolve().parents[1]
+OUT = ROOT / "artifacts/domestic-pilot/boohee-ten-2026-10-04"
+targets = [
+    "伊利纯牛奶",
+    "蒙牛特仑苏纯牛奶",
+    "伊利舒化无乳糖牛奶（低脂候选）",
+    "安慕希小黑钻",
+    "蒙牛纯甄原味（乳酪酸奶候选）",
+    "简爱原味酸奶（饮用型候选）",
+    "西麦纯燕麦片",
+    "西麦有机燕麦片",
+    "桂格即食燕麦片",
+    "SO ACAI燕麦300g",
+]
+now = datetime.now(UTC).isoformat()
+items = []
+for i, name in enumerate(targets):
+    f = OUT / f"detail-{i}.json"
+    if i == 9:
+        f = ROOT / "artifacts/domestic-pilot/boohee-2026-10-04/detail.json"
+    item = {
+        "target_id": i,
+        "target_name": name,
+        "category": "dairy" if i < 6 else "breakfast_cereal",
+        "review_status": "needs_review",
+    }
+    if f.exists():
+        response = json.loads(f.read_text())
+        response = response.get("response", response)
+        item.update(assess_detail(response))
+        item["detail_artifact"] = str(f.relative_to(ROOT))
+        item["identity_status"] = (
+            "barcode_query_hit_pending_packaging_review"
+            if i == 9
+            else "name_candidate_not_sku_verified"
+        )
+        item["image_review"] = "AI生成标记；正面展示图；不作为包装或OCR证据"
+        item["gaps"] = [
+            "完整包装配料证据",
+            "包装版本和规格核对",
+            "糖零值含义核实" if i != 8 else "糖数值包装核实",
+        ]
+    else:
+        item.update(
+            {
+                "status": "unresolved_search",
+                "recommendation_eligible": False,
+                "identity_status": "no_sufficiently_matching_candidate_in_bounded_search",
+                "gaps": ["条码或明确SKU", "完整配料与营养证据"],
+            }
+        )
+    items.append(item)
+raw = OUT / "sources/simplelove-products.json"
+source_hash = sha256(raw.read_bytes()).hexdigest()
+source_items = stage_official_products(
+    json.loads(raw.read_text()), captured_at=now, source_hash=source_hash
+)
+write_json(OUT / "official-source-review-queue.json", source_items)
+write_json(OUT / "pilot-review-queue.json", items)
+valid = [x for x in items if x["status"] == "needs_review"]
+zeros = sum(
+    any(
+        r["field"] == "sugar" and r["status"] == "zero_unverified"
+        for r in x["observations"]
+    )
+    for x in valid
+)
+report = {
+    "status": "completed_with_evidence_gaps",
+    "targets": 10,
+    "candidate_details": len(valid),
+    "unresolved_targets": 10 - len(valid),
+    "new_boohee_requests": 20,
+    "reused_boohee_responses": 2,
+    "sugar_zero_unverified_count": zeros,
+    "packaging_ingredients_from_boohee": 0,
+    "api_display_images_rejected": 8,
+    "ocr_calls": 0,
+    "ocr_skip_reason": "No trustworthy readable back-label image found; direct official text used where available.",
+    "official_source_records_discovered": len(source_items),
+    "official_records_with_ingredients": sum(
+        bool(x["ingredients_text"]) for x in source_items
+    ),
+    "official_records_with_core_nutrition": sum(
+        {"能量", "蛋白质", "脂肪", "碳水化合物", "钠"}
+        <= {r["name"] for r in x["nutrition_rows"]}
+        for x in source_items
+    ),
+    "verified_pilot_sku_label_fills": 0,
+    "new_production_recommendable_products": 0,
+    "production_catalog_modified": False,
+    "next_step": "Review official-source variants and package identifiers; do not merge generic name matches.",
+    "captured_at": now,
+}
+write_json(OUT / "report.json", report)
+lines = [
+    "# 大陆商品：薄荷＋官方标签小样本测试",
+    "",
+    "10个目标：牛奶3个、酸奶3个、燕麦4个。便利抽样，不代表市场覆盖率。",
+    "",
+    "## 结果",
+    "",
+    "| 指标 | 数量 |",
+    "|---|---:|",
+    f"| 获得候选营养详情 | {len(valid)} |",
+    "| 有限搜索未找到足够匹配候选 | 2 |",
+    f"| 糖返回0、含义尚未验证 | {zeros} |",
+    "| 薄荷直接提供包装配料表 | 0 |",
+    "| 本轮新增薄荷请求 | 20（13搜索＋7详情） |",
+    "| 复用前次响应 | 2 |",
+    "| 实际OCR调用 | 0 |",
+    "| 新发现官网配料及营养记录 | 30 |",
+    "| 已核实补齐本轮精确SKU标签 | 0 |",
+    "| 新增正式可推荐商品 | 0 |",
+    "",
+    "请求次数不是计费次数，扣费以平台为准。8份详情包括复用的SO ACAI；其余7份仅为名称候选，没有条码或规格的一一匹配证明。",
+    "",
+    "## 逐项结果",
+    "",
+    "| 目标 | 候选详情 | 状态 |",
+    "|---|---|---|",
+]
+for x in items:
+    lines.append(
+        f"| {x['target_name']} | {x.get('name', '未选定')} | {'待SKU及包装核对' if x['status'] == 'needs_review' else '未匹配，不强行采用相近口味/品牌'} |"
+    )
+lines += [
+    "",
+    "## 包装与官方来源核对",
+    "",
+    "8张薄荷图片均为正面展示图，可见“AI生成”标记，已排除为标签证据。没有将它们发送腾讯OCR；OCR开关未更改。",
+    "",
+    "分别检索了伊利、蒙牛、西麦、桂格、简爱官网及SO ACAI官方店铺。网页读取状态见sources/manifest.json；部分站点直接访问超时，搜索工具只获得品牌介绍或局部营养信息，不能当作精确SKU完整背标。桂格官网可定位官方电商链接，但未取得与候选SKU一致的完整背标。",
+    "",
+    "**有效的新来源是简爱官网公开商品数据**：产品页product.html通过js/product.js加载data/product.json，已保存三者作为来源链。30条记录含配料文字及核心营养项，页面表头标示每100克。这是官网公开数据，不是薄荷返回，也不等于已完成30个商品的审核。",
+    "",
+    "官网来源：https://simplelove.com.cn/product.html",
+    "数据来源：https://simplelove.com.cn/data/product.json",
+    "",
+    "简爱原味饮用型薄荷候选：碳水11.6g、热量89kcal；官网原味裸酸奶230g：碳水12.6g、能量391kJ。名称和版本尚未绑定，因此保留差异，不覆盖合并；官网此款配料明确含白砂糖，而薄荷候选糖为0，不能据此推导无糖。",
+    "",
+    "官网也存在需核实的内容：草莓吸吸袋条目列出葡萄蓝莓果浆；轻食条目出现“嗜执”字样。保留原文并标记，未擅自纠正。所有记录未给条码，部分无文字规格；糖未列出的保持未知，不能把碳水代替糖。",
+    "",
+    "## 待复核交付",
+    "",
+    "- pilot-review-queue.json：10个固定测试目标及缺口。",
+    "- official-source-review-queue.json：30个官网候选，保留来源、内容哈希、原文、营养口径及异常。",
+    "- report.json：可机器读取的计数。",
+    "",
+    "这些是本次测试的独立待复核文件，尚未导入网页的正式审核队列或生产推荐库。未改变月度任务或后台服务。",
+    "",
+    "结论：薄荷适合作为营养候选来源；品牌官网结构化数据更适合配料补齐。当前不能证明替代品搜索成功率提高。下一批应优先从有完整官网资料的具体规格出发，再做条码和包装版本核对。",
+]
+(OUT / "report.md").write_text("\n".join(lines) + "\n")
+print(json.dumps(report, ensure_ascii=False, indent=2))

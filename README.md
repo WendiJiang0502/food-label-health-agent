@@ -314,3 +314,33 @@ src/food_label_agent/
 ## License
 
 Proprietary。除非项目所有者另行授权，不授予复制、分发或商业使用许可。
+
+### 商品候选库与资料时效
+
+新增独立后台更新服务：外部 API 候选（包括缺少配料的商品）写入持久化候选库；网页显示来源检查时间、来源更新时间和待核实状态。抓取与图片识别不会自动认证配料。
+
+本机可运行 `./scripts/install_local_knowledge_autostart.sh` 安装登录自启的后台服务。它与网页共用本地配置，默认数据目录为 `~/.local/share/food-label-health-agent`。
+
+手动运行时需让网页与后台使用相同的 `FOOD_LABEL_DATA_DIR`：
+
+```sh
+python -m food_label_agent.alternatives.refresh --once  # 执行到期任务
+python -m food_label_agent.alternatives.refresh         # 持续调度
+```
+
+生产 Compose 中的 `knowledge-refresh` 服务默认每个自然月检查一次麦片、乳制品、饮料候选、配料图片和官方来源；失败也保留月度周期，可手动重试。需部署并保持服务运行；未启动时界面不会声称正在更新。包装图片草稿补齐默认启用，并沿用配置好的 OCR Provider（生产默认腾讯 OCR）。需要暂停后台识别时可使用 `--no-ocr` 或 `FOOD_LABEL_KNOWLEDGE_OCR=0`；这不影响用户上传识别。
+
+运行限制、失败重试和证据语义见 [商品候选知识库与定时复查](docs/architecture/ADR-008-product-knowledge-refresh.md)。
+
+### 商品检索 RAG
+
+替代品页可填写用途、口味偏好，检索目录标签、外部 API 资料和 OCR 草稿。系统结合关键词、向量召回与独立重排，将相关缺口写入补齐优先队列，由月度后台服务处理。明确的“糖更少”等查询会进入同口径比较；个人过敏与硬性限制始终保留，外部来源与 OCR 草稿不会直接作为安全结论。
+
+`FOOD_LABEL_PRODUCT_RAG_PROFILE` 默认继承 `FOOD_LABEL_RAG_PROFILE`，正式配置使用 `hybrid_dense_rerank`。索引缓存和补齐队列共用正式商品知识库；`FOOD_LABEL_PRODUCT_RAG_DB` 可为测试指定独立路径。`/api/health` 的 `product_rag` 显示配置及远程处理状态。设计、验证和当前数据缺口见 [商品证据 RAG](docs/architecture/ADR-009-product-evidence-rag.md)。
+
+
+商品 RAG 已增加结构化需求、逐字段来源与冲突记录。字段证据沿用既有审核状态，保留 API/OCR 不同值和历史版本。详细支持范围和运行评测方式见 [需求、字段证据与评测](docs/architecture/ADR-010-product-intent-field-evidence-evaluation.md)。
+
+### 批次复核与分用途准入
+
+打开 `/knowledge-review`，按问题和字段集中处理候选。支持同页唯一无冲突依据预选、字段原文与包装图核对、版本绑定的采用/稍后/重试；不会自动签署过敏安全或最终推荐。月度后台会生成批量评估并复用同版本图片文字缓存。访问权限沿用 `FOOD_LABEL_DISCOVERY_ADMIN_TOKEN`。详见 [批量准入与异常复核](docs/architecture/ADR-011-batch-product-admission.md)。

@@ -1,0 +1,14 @@
+{
+  "status": "awaiting_credentials",
+  "provider": "showapi_66_22",
+  "sample_count": 24,
+  "attempted": 0,
+  "matched_barcode_count": 0,
+  "match_rate": null,
+  "products_with_proposed_identity_fills": null,
+  "products_with_identity_differences": null,
+  "verified_label_fill_count": null,
+  "new_recommendable_products": null,
+  "results": [],
+  "note": "Identity fills are proposals requiring SKU/variant review. No production database writes; images not fetched; no complete-label claim."
+}

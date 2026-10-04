@@ -1,0 +1,82 @@
+{
+  "code": 0,
+  "message": "0",
+  "now": 1791078275,
+  "data": {
+    "page": 1,
+    "per_page": 5,
+    "has_more": true,
+    "foods": [
+      {
+        "code": "fd37381a",
+        "name": "伊利 牛奶",
+        "calories": 66,
+        "protein": 3.2,
+        "fat": 3.8,
+        "carbohydrate": 4.8,
+        "health_light": 1,
+        "is_liquid": true,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/15/ai_watermark_big_photo_url_93718635a32c.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      },
+      {
+        "code": "fd2e37ff",
+        "name": "伊利 牛奶",
+        "calories": 43,
+        "protein": 3,
+        "fat": 1.3,
+        "carbohydrate": 4.8,
+        "health_light": 1,
+        "is_liquid": true,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/24/ai_watermark_80542e103bab4f0505dc8fd78e28a1f8.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      },
+      {
+        "code": "fdf68b98",
+        "name": "伊利 perfectlandsDHA纯牛奶",
+        "calories": 71,
+        "protein": 3.6,
+        "fat": 4.2,
+        "carbohydrate": 4.8,
+        "health_light": 1,
+        "is_liquid": true,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/15/ai_watermark_big_photo_url_86e2cc20cdef.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      },
+      {
+        "code": "fdfb41de",
+        "name": "伊利 DHA纯牛奶",
+        "calories": 66,
+        "protein": 3.2,
+        "fat": 3.8,
+        "carbohydrate": 4.8,
+        "health_light": 1,
+        "is_liquid": true,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/15/ai_watermark_big_photo_url_7807c7fda82d.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      },
+      {
+        "code": "fd12b9ad",
+        "name": "伊利 纯牛奶",
+        "calories": 64,
+        "protein": 3,
+        "fat": 3.5,
+        "carbohydrate": 5,
+        "health_light": 1,
+        "is_liquid": true,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/21/ai_watermark_big_photo_url_91b68fb499173a9f266b33c885134b56.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      }
+    ]
+  }
+}

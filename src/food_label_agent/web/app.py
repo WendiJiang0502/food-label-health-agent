@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import sqlite3
+
 import base64
 import hmac
 import json
@@ -26,10 +28,13 @@ from starlette.responses import FileResponse, JSONResponse, Response, StreamingR
 from starlette.routing import Mount, Route
 from starlette.staticfiles import StaticFiles
 
+from food_label_agent.alternatives.batch import BatchKnowledge, StaleBatchError
 from food_label_agent.alternatives.catalog import OfficialChinaCatalog
 from food_label_agent.alternatives.category import suggest_product_category
 from food_label_agent.alternatives.discovery import OfficialProductDiscovery
+from food_label_agent.alternatives.knowledge import ProductKnowledgeStore
 from food_label_agent.alternatives.models import AlternativeWorkflowRequest
+from food_label_agent.alternatives.rag import product_rag_public_status
 from food_label_agent.conversation.provider import (
     ConversationProviderError,
     conversation_public_status,
@@ -315,6 +320,7 @@ def create_app(
                     chat_agent.provider.settings
                 ),
                 "rag": rag2_public_status(),
+                "product_rag": product_rag_public_status(),
                 "product_catalog": os.getenv(
                     "FOOD_LABEL_PRODUCT_CATALOG", "official_cn_expanded"
                 ),
@@ -420,9 +426,58 @@ def create_app(
         category = request.query_params.get("category") or None
         return JSONResponse(OfficialChinaCatalog().review_queue(category=category))
 
+    async def batch_page(request: Request):
+        return FileResponse(STATIC_DIR / "batch.html")
+
+    async def batch_knowledge(request: Request):
+        try:
+            _require_discovery_admin(request, production_mode=production_mode)
+            batch = BatchKnowledge(ProductKnowledgeStore())
+            if request.method == "GET":
+                result = await run_in_threadpool(batch.snapshot,
+                    category=request.query_params.get("category") or None,
+                    reason=request.query_params.get("reason") or None,
+                    query=request.query_params.get("q", "")[:200],
+                    offset=max(0, int(request.query_params.get("offset", 0))))
+            else:
+                from urllib.parse import urlparse
+                origin = request.headers.get("origin")
+                if origin and urlparse(origin).netloc != request.url.netloc:
+                    return _error("仅允许从本工作台提交复核。", status_code=403)
+                if request.headers.get("content-type", "").split(";")[0] != "application/json":
+                    return _error("需要 JSON 请求。", status_code=415)
+                payload = await request.json()
+                if not isinstance(payload, dict) or not isinstance(payload.get("selections"), list) or any(not isinstance(v,dict) for v in payload["selections"]):
+                    raise ValueError("复核批次格式不正确")
+                result = await run_in_threadpool(batch.review, payload["selections"],
+                    action=payload.get("action"),field=payload.get("field"),
+                    reviewer=payload.get("reviewer"),note=payload.get("note", ""))
+            return JSONResponse(result)
+        except PermissionError:
+            return _error("请使用有效的管理员令牌。", status_code=403)
+        except StaleBatchError as exc:
+            return _error(str(exc), status_code=409)
+        except (TypeError, ValueError) as exc:
+            return _error(str(exc), status_code=422)
+
+    async def knowledge_status(request: Request) -> JSONResponse:
+        category = request.query_params.get("category") or None
+        query = request.query_params.get("q", "")[:200]
+        snapshot = await run_in_threadpool(ProductKnowledgeStore().snapshot, category=category, query=query)
+        return JSONResponse(snapshot)
+
     async def official_discovery_status(request: Request) -> JSONResponse:
         category = request.query_params.get("category") or None
-        return JSONResponse(discovery.status(category=category))
+        from food_label_agent.alternatives.completion import completion_snapshot
+        summary = discovery.status(category=category)
+        if hasattr(discovery, "queue_path"):
+            try:
+                summary["completion_queue"] = completion_snapshot(
+                    ProductKnowledgeStore(discovery.queue_path.with_name("product-knowledge.sqlite3"))
+                )
+            except (OSError, sqlite3.Error):
+                summary["completion_queue"] = {"status": "unavailable"}
+        return JSONResponse(summary)
 
     async def refresh_official_discovery(request: Request) -> JSONResponse:
         try:
@@ -646,6 +701,18 @@ def create_app(
                 "summary": discovery.status(category=parsed.category),
                 "warnings": [],
             }
+            from food_label_agent.alternatives.source_screening import screen_official_sources
+            result["source_screening"] = screen_official_sources(
+                result["discovery"]["summary"]["items"], parsed
+            )
+            from food_label_agent.alternatives.completion import record_screening_gaps
+            try:
+                result["source_screening"]["completion_queue"] = record_screening_gaps(
+                    ProductKnowledgeStore(discovery.queue_path.with_name("product-knowledge.sqlite3")),
+                    result["source_screening"], parsed.request_id,
+                )
+            except (OSError, sqlite3.Error):
+                result["source_screening"]["completion_queue"] = {"status": "unavailable"}
             checkpoint = checkpoints.save(final_state, resume_token=parsed.resume_token)
             result["checkpoint"] = checkpoint.to_dict()
             return JSONResponse(result)
@@ -1106,6 +1173,8 @@ def create_app(
     routes = [
         Route("/", endpoint=index),
         Route("/developer", endpoint=developer),
+        Route("/knowledge-review", endpoint=batch_page),
+        Route("/api/v1/alternatives/batch", endpoint=batch_knowledge, methods=["GET", "POST"]),
         Route("/api/developer-traces", endpoint=developer_traces),
         Route("/api/health", endpoint=health),
         Route("/api/ready", endpoint=ready),
@@ -1117,6 +1186,7 @@ def create_app(
             "/api/v1/alternatives/catalog-review-queue",
             endpoint=official_catalog_review_queue,
         ),
+        Route("/api/v1/alternatives/knowledge", endpoint=knowledge_status, methods=["GET"]),
         Route(
             "/api/v1/alternatives/discovery",
             endpoint=official_discovery_status,

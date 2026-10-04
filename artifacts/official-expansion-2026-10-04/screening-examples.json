@@ -1,0 +1,2812 @@
+{
+  "fat": {
+    "scope": "official_source_preliminary_screening",
+    "total": 30,
+    "counts": {
+      "matched": 23,
+      "unknown": 4,
+      "not_matched": 3
+    },
+    "items": [
+      {
+        "candidate_id": "official-structured:d8db48076efa12c40fa7",
+        "display_name": "简爱 吸吸袋酸奶原味",
+        "source_url": "https://simplelove.com.cn/product.html#series-1",
+        "specification": "100克",
+        "status": "matched",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "matched",
+            "reason": "官网数值 4.8g，上限 5g（per_100g）",
+            "value": {
+              "amount": 4.8,
+              "unit": "g",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:1f304a7817b8424f7d58",
+        "display_name": "简爱 吸吸袋酸奶西梅苹果",
+        "source_url": "https://simplelove.com.cn/product.html#series-1",
+        "specification": "100克",
+        "status": "matched",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "matched",
+            "reason": "官网数值 4.1g，上限 5g（per_100g）",
+            "value": {
+              "amount": 4.1,
+              "unit": "g",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:1303dd2be999feb8c8e3",
+        "display_name": "简爱 吸吸袋酸奶葡萄蓝莓",
+        "source_url": "https://simplelove.com.cn/product.html#series-1",
+        "specification": "100克",
+        "status": "matched",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "matched",
+            "reason": "官网数值 4.1g，上限 5g（per_100g）",
+            "value": {
+              "amount": 4.1,
+              "unit": "g",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:5b0d405ba8595ee2978b",
+        "display_name": "简爱 light-高钙滑滑",
+        "source_url": "https://simplelove.com.cn/product.html#series-2",
+        "specification": "100克",
+        "status": "matched",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "matched",
+            "reason": "官网数值 3.8g，上限 5g（per_100g）",
+            "value": {
+              "amount": 3.8,
+              "unit": "g",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "膳食纤维",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:3102a2d4a5b1baf3d9ed",
+        "display_name": "简爱 light-轻食酸奶(4%蔗糖)",
+        "source_url": "https://simplelove.com.cn/product.html#series-2",
+        "specification": null,
+        "status": "matched",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "matched",
+            "reason": "官网数值 4g，上限 5g（per_100g）",
+            "value": {
+              "amount": 4.0,
+              "unit": "g",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "膳食纤维",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:12474869ed72722197ec",
+        "display_name": "简爱 light-轻饮酸奶(230克)",
+        "source_url": "https://simplelove.com.cn/product.html#series-2",
+        "specification": "230克",
+        "status": "matched",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "matched",
+            "reason": "官网数值 3.8g，上限 5g（per_100g）",
+            "value": {
+              "amount": 3.8,
+              "unit": "g",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "膳食纤维",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:8f5216d000941bc5a113",
+        "display_name": "简爱 light-轻饮酸奶(760克)",
+        "source_url": "https://simplelove.com.cn/product.html#series-2",
+        "specification": "760克",
+        "status": "matched",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "matched",
+            "reason": "官网数值 3.8g，上限 5g（per_100g）",
+            "value": {
+              "amount": 3.8,
+              "unit": "g",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "膳食纤维",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:445a9854cc00953f790f",
+        "display_name": "简爱 超级桶原味",
+        "source_url": "https://simplelove.com.cn/product.html#series-3",
+        "specification": "360g",
+        "status": "matched",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "matched",
+            "reason": "官网数值 3.4g，上限 5g（per_100g）",
+            "value": {
+              "amount": 3.4,
+              "unit": "g",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:4344d989e9f7a7dc82c6",
+        "display_name": "简爱 超级桶百香果",
+        "source_url": "https://simplelove.com.cn/product.html#series-3",
+        "specification": null,
+        "status": "matched",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "matched",
+            "reason": "官网数值 3.2g，上限 5g（per_100g）",
+            "value": {
+              "amount": 3.2,
+              "unit": "g",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:e50e5a4358b5f93336e1",
+        "display_name": "简爱 超级桶草莓樱花",
+        "source_url": "https://simplelove.com.cn/product.html#series-3",
+        "specification": null,
+        "status": "matched",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "matched",
+            "reason": "官网数值 3.1g，上限 5g（per_100g）",
+            "value": {
+              "amount": 3.1,
+              "unit": "g",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:b205ccc4722d83b1887f",
+        "display_name": "简爱 超级桶荔枝杨梅",
+        "source_url": "https://simplelove.com.cn/product.html#series-3",
+        "specification": null,
+        "status": "matched",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "matched",
+            "reason": "官网数值 3.1g，上限 5g（per_100g）",
+            "value": {
+              "amount": 3.1,
+              "unit": "g",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:bdcd3f25267da837d361",
+        "display_name": "简爱 原味裸酸奶(230克)",
+        "source_url": "https://simplelove.com.cn/product.html#series-4",
+        "specification": "230克",
+        "status": "matched",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "matched",
+            "reason": "官网数值 3.4g，上限 5g（per_100g）",
+            "value": {
+              "amount": 3.4,
+              "unit": "g",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:2392c5ec4d278ec6f9d7",
+        "display_name": "简爱 百香果果裸酸奶(230克)",
+        "source_url": "https://simplelove.com.cn/product.html#series-4",
+        "specification": "230克",
+        "status": "matched",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "matched",
+            "reason": "官网数值 3.2g，上限 5g（per_100g）",
+            "value": {
+              "amount": 3.2,
+              "unit": "g",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:c976d95629598baabf97",
+        "display_name": "简爱 葡里萄气裸酸奶(230克)",
+        "source_url": "https://simplelove.com.cn/product.html#series-4",
+        "specification": "230克",
+        "status": "matched",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "matched",
+            "reason": "官网数值 3.1g，上限 5g（per_100g）",
+            "value": {
+              "amount": 3.1,
+              "unit": "g",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:525edaf07becbb2e05c3",
+        "display_name": "简爱 原味裸酸奶(1.08千克)",
+        "source_url": "https://simplelove.com.cn/product.html#series-4",
+        "specification": "1.08千克",
+        "status": "matched",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "matched",
+            "reason": "官网数值 3.4g，上限 5g（per_100g）",
+            "value": {
+              "amount": 3.4,
+              "unit": "g",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:e5df9797117725f481e0",
+        "display_name": "简爱 百香果果裸酸奶(1.08千克)",
+        "source_url": "https://simplelove.com.cn/product.html#series-4",
+        "specification": "1.08千克",
+        "status": "matched",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "matched",
+            "reason": "官网数值 3.2g，上限 5g（per_100g）",
+            "value": {
+              "amount": 3.2,
+              "unit": "g",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:9580cac92a638306f033",
+        "display_name": "简爱 葡里萄气裸酸奶(1.08千克)",
+        "source_url": "https://simplelove.com.cn/product.html#series-4",
+        "specification": "1.08千克",
+        "status": "matched",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "matched",
+            "reason": "官网数值 3.1g，上限 5g（per_100g）",
+            "value": {
+              "amount": 3.1,
+              "unit": "g",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:9f2744a7ef372702f026",
+        "display_name": "简爱 开菲尔原味",
+        "source_url": "https://simplelove.com.cn/product.html#series-5",
+        "specification": null,
+        "status": "matched",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "matched",
+            "reason": "官网数值 3.6g，上限 5g（per_100g）",
+            "value": {
+              "amount": 3.6,
+              "unit": "g",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:3dc12c336a9b07d7ecd9",
+        "display_name": "简爱 开菲尔凤梨椰子",
+        "source_url": "https://simplelove.com.cn/product.html#series-5",
+        "specification": null,
+        "status": "matched",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "matched",
+            "reason": "官网数值 3.5g，上限 5g（per_100g）",
+            "value": {
+              "amount": 3.5,
+              "unit": "g",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:518d34db66bfed16fcf6",
+        "display_name": "简爱 酸奶滑滑",
+        "source_url": "https://simplelove.com.cn/product.html#series-6",
+        "specification": null,
+        "status": "matched",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "matched",
+            "reason": "官网数值 3.5g，上限 5g（per_100g）",
+            "value": {
+              "amount": 3.5,
+              "unit": "g",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:ed30b39807435915d760",
+        "display_name": "简爱 树莓滑滑",
+        "source_url": "https://simplelove.com.cn/product.html#series-6",
+        "specification": null,
+        "status": "matched",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "matched",
+            "reason": "官网数值 3.2g，上限 5g（per_100g）",
+            "value": {
+              "amount": 3.2,
+              "unit": "g",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:cc180222721d1402602e",
+        "display_name": "简爱 生牛乳米布丁",
+        "source_url": "https://simplelove.com.cn/product.html#series-7",
+        "specification": null,
+        "status": "matched",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "matched",
+            "reason": "官网数值 4g，上限 5g（per_100g）",
+            "value": {
+              "amount": 4.0,
+              "unit": "g",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:83b8baf95bde404c9f37",
+        "display_name": "简爱 身体知道顺畅配方",
+        "source_url": "https://simplelove.com.cn/product.html#series-8",
+        "specification": null,
+        "status": "matched",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "matched",
+            "reason": "官网数值 3.2g，上限 5g（per_100g）",
+            "value": {
+              "amount": 3.2,
+              "unit": "g",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:be6c404d63367e441229",
+        "display_name": "简爱 吸吸袋酸奶草莓",
+        "source_url": "https://simplelove.com.cn/product.html#series-1",
+        "specification": "100克",
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "unknown",
+            "reason": "官网口味与配料不一致",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [
+          "官网口味与配料不一致"
+        ],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:fca6cb4392e55214f97d",
+        "display_name": "简爱 父爱牧场鲜牛奶",
+        "source_url": "https://simplelove.com.cn/product.html#series-1",
+        "specification": "250mL",
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "unknown",
+            "reason": "液体每100克口径需核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [
+          "液体每100克口径需核实"
+        ],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:0913688267762d641c80",
+        "display_name": "简爱 light-轻食酸奶",
+        "source_url": "https://simplelove.com.cn/product.html#series-2",
+        "specification": "400克",
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "unknown",
+            "reason": "官网菌种文字疑似错字",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [
+          "官网菌种文字疑似错字"
+        ],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "膳食纤维",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:27b33e5f2fd4c22f5f4c",
+        "display_name": "简爱 焦糖牛奶布丁",
+        "source_url": "https://simplelove.com.cn/product.html#series-7",
+        "specification": null,
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "unknown",
+            "reason": "液体每100克口径需核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [
+          "液体每100克口径需核实"
+        ],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "膳食纤维",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:4d5f4eb38e950184cd7e",
+        "display_name": "简爱 light-轻拌酸奶",
+        "source_url": "https://simplelove.com.cn/product.html#series-2",
+        "specification": "120克",
+        "status": "not_matched",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "not_matched",
+            "reason": "官网数值 5.1g，上限 5g（per_100g）",
+            "value": {
+              "amount": 5.1,
+              "unit": "g",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "膳食纤维",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:accfa77080f298607771",
+        "display_name": "简爱 0%蔗糖酸奶",
+        "source_url": "https://simplelove.com.cn/product.html#series-2",
+        "specification": "135克",
+        "status": "not_matched",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "not_matched",
+            "reason": "官网数值 5.2g，上限 5g（per_100g）",
+            "value": {
+              "amount": 5.2,
+              "unit": "g",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:d7cb67024177d859b7bc",
+        "display_name": "简爱 PROTÑ‌高蛋白希腊酸奶原味",
+        "source_url": "https://simplelove.com.cn/product.html#series-7.1",
+        "specification": null,
+        "status": "not_matched",
+        "checks": [
+          {
+            "field": "fat",
+            "label": "脂肪",
+            "status": "not_matched",
+            "reason": "官网数值 8.6g，上限 5g（per_100g）",
+            "value": {
+              "amount": 8.6,
+              "unit": "g",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "膳食纤维",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      }
+    ],
+    "notice": "按官网资料初步筛选；符合仅指本次列出的条件，包装版本与商品身份仍需核实，不等于已审核推荐。"
+  },
+  "sugars": {
+    "scope": "official_source_preliminary_screening",
+    "total": 30,
+    "counts": {
+      "unknown": 30
+    },
+    "items": [
+      {
+        "candidate_id": "official-structured:d8db48076efa12c40fa7",
+        "display_name": "简爱 吸吸袋酸奶原味",
+        "source_url": "https://simplelove.com.cn/product.html#series-1",
+        "specification": "100克",
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "缺少可比数值或计量口径待核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:1f304a7817b8424f7d58",
+        "display_name": "简爱 吸吸袋酸奶西梅苹果",
+        "source_url": "https://simplelove.com.cn/product.html#series-1",
+        "specification": "100克",
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "缺少可比数值或计量口径待核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:1303dd2be999feb8c8e3",
+        "display_name": "简爱 吸吸袋酸奶葡萄蓝莓",
+        "source_url": "https://simplelove.com.cn/product.html#series-1",
+        "specification": "100克",
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "缺少可比数值或计量口径待核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:be6c404d63367e441229",
+        "display_name": "简爱 吸吸袋酸奶草莓",
+        "source_url": "https://simplelove.com.cn/product.html#series-1",
+        "specification": "100克",
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "官网口味与配料不一致",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [
+          "官网口味与配料不一致"
+        ],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:fca6cb4392e55214f97d",
+        "display_name": "简爱 父爱牧场鲜牛奶",
+        "source_url": "https://simplelove.com.cn/product.html#series-1",
+        "specification": "250mL",
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "液体每100克口径需核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [
+          "液体每100克口径需核实"
+        ],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:5b0d405ba8595ee2978b",
+        "display_name": "简爱 light-高钙滑滑",
+        "source_url": "https://simplelove.com.cn/product.html#series-2",
+        "specification": "100克",
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "缺少可比数值或计量口径待核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "膳食纤维",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:4d5f4eb38e950184cd7e",
+        "display_name": "简爱 light-轻拌酸奶",
+        "source_url": "https://simplelove.com.cn/product.html#series-2",
+        "specification": "120克",
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "缺少可比数值或计量口径待核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "膳食纤维",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:0913688267762d641c80",
+        "display_name": "简爱 light-轻食酸奶",
+        "source_url": "https://simplelove.com.cn/product.html#series-2",
+        "specification": "400克",
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "官网菌种文字疑似错字",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [
+          "官网菌种文字疑似错字"
+        ],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "膳食纤维",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:3102a2d4a5b1baf3d9ed",
+        "display_name": "简爱 light-轻食酸奶(4%蔗糖)",
+        "source_url": "https://simplelove.com.cn/product.html#series-2",
+        "specification": null,
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "缺少可比数值或计量口径待核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "膳食纤维",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:12474869ed72722197ec",
+        "display_name": "简爱 light-轻饮酸奶(230克)",
+        "source_url": "https://simplelove.com.cn/product.html#series-2",
+        "specification": "230克",
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "缺少可比数值或计量口径待核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "膳食纤维",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:8f5216d000941bc5a113",
+        "display_name": "简爱 light-轻饮酸奶(760克)",
+        "source_url": "https://simplelove.com.cn/product.html#series-2",
+        "specification": "760克",
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "缺少可比数值或计量口径待核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "膳食纤维",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:accfa77080f298607771",
+        "display_name": "简爱 0%蔗糖酸奶",
+        "source_url": "https://simplelove.com.cn/product.html#series-2",
+        "specification": "135克",
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "缺少可比数值或计量口径待核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:445a9854cc00953f790f",
+        "display_name": "简爱 超级桶原味",
+        "source_url": "https://simplelove.com.cn/product.html#series-3",
+        "specification": "360g",
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "缺少可比数值或计量口径待核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:4344d989e9f7a7dc82c6",
+        "display_name": "简爱 超级桶百香果",
+        "source_url": "https://simplelove.com.cn/product.html#series-3",
+        "specification": null,
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "缺少可比数值或计量口径待核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:e50e5a4358b5f93336e1",
+        "display_name": "简爱 超级桶草莓樱花",
+        "source_url": "https://simplelove.com.cn/product.html#series-3",
+        "specification": null,
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "缺少可比数值或计量口径待核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:b205ccc4722d83b1887f",
+        "display_name": "简爱 超级桶荔枝杨梅",
+        "source_url": "https://simplelove.com.cn/product.html#series-3",
+        "specification": null,
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "缺少可比数值或计量口径待核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:bdcd3f25267da837d361",
+        "display_name": "简爱 原味裸酸奶(230克)",
+        "source_url": "https://simplelove.com.cn/product.html#series-4",
+        "specification": "230克",
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "缺少可比数值或计量口径待核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:2392c5ec4d278ec6f9d7",
+        "display_name": "简爱 百香果果裸酸奶(230克)",
+        "source_url": "https://simplelove.com.cn/product.html#series-4",
+        "specification": "230克",
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "缺少可比数值或计量口径待核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:c976d95629598baabf97",
+        "display_name": "简爱 葡里萄气裸酸奶(230克)",
+        "source_url": "https://simplelove.com.cn/product.html#series-4",
+        "specification": "230克",
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "缺少可比数值或计量口径待核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:525edaf07becbb2e05c3",
+        "display_name": "简爱 原味裸酸奶(1.08千克)",
+        "source_url": "https://simplelove.com.cn/product.html#series-4",
+        "specification": "1.08千克",
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "缺少可比数值或计量口径待核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:e5df9797117725f481e0",
+        "display_name": "简爱 百香果果裸酸奶(1.08千克)",
+        "source_url": "https://simplelove.com.cn/product.html#series-4",
+        "specification": "1.08千克",
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "缺少可比数值或计量口径待核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:9580cac92a638306f033",
+        "display_name": "简爱 葡里萄气裸酸奶(1.08千克)",
+        "source_url": "https://simplelove.com.cn/product.html#series-4",
+        "specification": "1.08千克",
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "缺少可比数值或计量口径待核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:9f2744a7ef372702f026",
+        "display_name": "简爱 开菲尔原味",
+        "source_url": "https://simplelove.com.cn/product.html#series-5",
+        "specification": null,
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "缺少可比数值或计量口径待核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:3dc12c336a9b07d7ecd9",
+        "display_name": "简爱 开菲尔凤梨椰子",
+        "source_url": "https://simplelove.com.cn/product.html#series-5",
+        "specification": null,
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "缺少可比数值或计量口径待核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:518d34db66bfed16fcf6",
+        "display_name": "简爱 酸奶滑滑",
+        "source_url": "https://simplelove.com.cn/product.html#series-6",
+        "specification": null,
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "缺少可比数值或计量口径待核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:ed30b39807435915d760",
+        "display_name": "简爱 树莓滑滑",
+        "source_url": "https://simplelove.com.cn/product.html#series-6",
+        "specification": null,
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "缺少可比数值或计量口径待核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:cc180222721d1402602e",
+        "display_name": "简爱 生牛乳米布丁",
+        "source_url": "https://simplelove.com.cn/product.html#series-7",
+        "specification": null,
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "缺少可比数值或计量口径待核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:27b33e5f2fd4c22f5f4c",
+        "display_name": "简爱 焦糖牛奶布丁",
+        "source_url": "https://simplelove.com.cn/product.html#series-7",
+        "specification": null,
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "液体每100克口径需核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [
+          "液体每100克口径需核实"
+        ],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "膳食纤维",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:d7cb67024177d859b7bc",
+        "display_name": "简爱 PROTÑ‌高蛋白希腊酸奶原味",
+        "source_url": "https://simplelove.com.cn/product.html#series-7.1",
+        "specification": null,
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "缺少可比数值或计量口径待核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "膳食纤维",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:83b8baf95bde404c9f37",
+        "display_name": "简爱 身体知道顺畅配方",
+        "source_url": "https://simplelove.com.cn/product.html#series-8",
+        "specification": null,
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sugars",
+            "label": "糖",
+            "status": "unknown",
+            "reason": "缺少可比数值或计量口径待核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      }
+    ],
+    "notice": "按官网资料初步筛选；符合仅指本次列出的条件，包装版本与商品身份仍需核实，不等于已审核推荐。"
+  },
+  "sodium": {
+    "scope": "official_source_preliminary_screening",
+    "total": 30,
+    "counts": {
+      "matched": 25,
+      "unknown": 4,
+      "not_matched": 1
+    },
+    "items": [
+      {
+        "candidate_id": "official-structured:d8db48076efa12c40fa7",
+        "display_name": "简爱 吸吸袋酸奶原味",
+        "source_url": "https://simplelove.com.cn/product.html#series-1",
+        "specification": "100克",
+        "status": "matched",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "matched",
+            "reason": "官网数值 45mg，上限 50mg（per_100g）",
+            "value": {
+              "amount": 45.0,
+              "unit": "mg",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:1f304a7817b8424f7d58",
+        "display_name": "简爱 吸吸袋酸奶西梅苹果",
+        "source_url": "https://simplelove.com.cn/product.html#series-1",
+        "specification": "100克",
+        "status": "matched",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "matched",
+            "reason": "官网数值 40mg，上限 50mg（per_100g）",
+            "value": {
+              "amount": 40.0,
+              "unit": "mg",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:1303dd2be999feb8c8e3",
+        "display_name": "简爱 吸吸袋酸奶葡萄蓝莓",
+        "source_url": "https://simplelove.com.cn/product.html#series-1",
+        "specification": "100克",
+        "status": "matched",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "matched",
+            "reason": "官网数值 40mg，上限 50mg（per_100g）",
+            "value": {
+              "amount": 40.0,
+              "unit": "mg",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:5b0d405ba8595ee2978b",
+        "display_name": "简爱 light-高钙滑滑",
+        "source_url": "https://simplelove.com.cn/product.html#series-2",
+        "specification": "100克",
+        "status": "matched",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "matched",
+            "reason": "官网数值 45mg，上限 50mg（per_100g）",
+            "value": {
+              "amount": 45.0,
+              "unit": "mg",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "膳食纤维",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:4d5f4eb38e950184cd7e",
+        "display_name": "简爱 light-轻拌酸奶",
+        "source_url": "https://simplelove.com.cn/product.html#series-2",
+        "specification": "120克",
+        "status": "matched",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "matched",
+            "reason": "官网数值 46mg，上限 50mg（per_100g）",
+            "value": {
+              "amount": 46.0,
+              "unit": "mg",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "膳食纤维",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:3102a2d4a5b1baf3d9ed",
+        "display_name": "简爱 light-轻食酸奶(4%蔗糖)",
+        "source_url": "https://simplelove.com.cn/product.html#series-2",
+        "specification": null,
+        "status": "matched",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "matched",
+            "reason": "官网数值 39mg，上限 50mg（per_100g）",
+            "value": {
+              "amount": 39.0,
+              "unit": "mg",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "膳食纤维",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:12474869ed72722197ec",
+        "display_name": "简爱 light-轻饮酸奶(230克)",
+        "source_url": "https://simplelove.com.cn/product.html#series-2",
+        "specification": "230克",
+        "status": "matched",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "matched",
+            "reason": "官网数值 45mg，上限 50mg（per_100g）",
+            "value": {
+              "amount": 45.0,
+              "unit": "mg",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "膳食纤维",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:8f5216d000941bc5a113",
+        "display_name": "简爱 light-轻饮酸奶(760克)",
+        "source_url": "https://simplelove.com.cn/product.html#series-2",
+        "specification": "760克",
+        "status": "matched",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "matched",
+            "reason": "官网数值 45mg，上限 50mg（per_100g）",
+            "value": {
+              "amount": 45.0,
+              "unit": "mg",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "膳食纤维",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:445a9854cc00953f790f",
+        "display_name": "简爱 超级桶原味",
+        "source_url": "https://simplelove.com.cn/product.html#series-3",
+        "specification": "360g",
+        "status": "matched",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "matched",
+            "reason": "官网数值 46mg，上限 50mg（per_100g）",
+            "value": {
+              "amount": 46.0,
+              "unit": "mg",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:4344d989e9f7a7dc82c6",
+        "display_name": "简爱 超级桶百香果",
+        "source_url": "https://simplelove.com.cn/product.html#series-3",
+        "specification": null,
+        "status": "matched",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "matched",
+            "reason": "官网数值 44mg，上限 50mg（per_100g）",
+            "value": {
+              "amount": 44.0,
+              "unit": "mg",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:e50e5a4358b5f93336e1",
+        "display_name": "简爱 超级桶草莓樱花",
+        "source_url": "https://simplelove.com.cn/product.html#series-3",
+        "specification": null,
+        "status": "matched",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "matched",
+            "reason": "官网数值 42mg，上限 50mg（per_100g）",
+            "value": {
+              "amount": 42.0,
+              "unit": "mg",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:b205ccc4722d83b1887f",
+        "display_name": "简爱 超级桶荔枝杨梅",
+        "source_url": "https://simplelove.com.cn/product.html#series-3",
+        "specification": null,
+        "status": "matched",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "matched",
+            "reason": "官网数值 42mg，上限 50mg（per_100g）",
+            "value": {
+              "amount": 42.0,
+              "unit": "mg",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:bdcd3f25267da837d361",
+        "display_name": "简爱 原味裸酸奶(230克)",
+        "source_url": "https://simplelove.com.cn/product.html#series-4",
+        "specification": "230克",
+        "status": "matched",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "matched",
+            "reason": "官网数值 46mg，上限 50mg（per_100g）",
+            "value": {
+              "amount": 46.0,
+              "unit": "mg",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:2392c5ec4d278ec6f9d7",
+        "display_name": "简爱 百香果果裸酸奶(230克)",
+        "source_url": "https://simplelove.com.cn/product.html#series-4",
+        "specification": "230克",
+        "status": "matched",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "matched",
+            "reason": "官网数值 44mg，上限 50mg（per_100g）",
+            "value": {
+              "amount": 44.0,
+              "unit": "mg",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:c976d95629598baabf97",
+        "display_name": "简爱 葡里萄气裸酸奶(230克)",
+        "source_url": "https://simplelove.com.cn/product.html#series-4",
+        "specification": "230克",
+        "status": "matched",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "matched",
+            "reason": "官网数值 46mg，上限 50mg（per_100g）",
+            "value": {
+              "amount": 46.0,
+              "unit": "mg",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:525edaf07becbb2e05c3",
+        "display_name": "简爱 原味裸酸奶(1.08千克)",
+        "source_url": "https://simplelove.com.cn/product.html#series-4",
+        "specification": "1.08千克",
+        "status": "matched",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "matched",
+            "reason": "官网数值 46mg，上限 50mg（per_100g）",
+            "value": {
+              "amount": 46.0,
+              "unit": "mg",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:e5df9797117725f481e0",
+        "display_name": "简爱 百香果果裸酸奶(1.08千克)",
+        "source_url": "https://simplelove.com.cn/product.html#series-4",
+        "specification": "1.08千克",
+        "status": "matched",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "matched",
+            "reason": "官网数值 44mg，上限 50mg（per_100g）",
+            "value": {
+              "amount": 44.0,
+              "unit": "mg",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:9580cac92a638306f033",
+        "display_name": "简爱 葡里萄气裸酸奶(1.08千克)",
+        "source_url": "https://simplelove.com.cn/product.html#series-4",
+        "specification": "1.08千克",
+        "status": "matched",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "matched",
+            "reason": "官网数值 46mg，上限 50mg（per_100g）",
+            "value": {
+              "amount": 46.0,
+              "unit": "mg",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:9f2744a7ef372702f026",
+        "display_name": "简爱 开菲尔原味",
+        "source_url": "https://simplelove.com.cn/product.html#series-5",
+        "specification": null,
+        "status": "matched",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "matched",
+            "reason": "官网数值 36mg，上限 50mg（per_100g）",
+            "value": {
+              "amount": 36.0,
+              "unit": "mg",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:3dc12c336a9b07d7ecd9",
+        "display_name": "简爱 开菲尔凤梨椰子",
+        "source_url": "https://simplelove.com.cn/product.html#series-5",
+        "specification": null,
+        "status": "matched",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "matched",
+            "reason": "官网数值 34mg，上限 50mg（per_100g）",
+            "value": {
+              "amount": 34.0,
+              "unit": "mg",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:518d34db66bfed16fcf6",
+        "display_name": "简爱 酸奶滑滑",
+        "source_url": "https://simplelove.com.cn/product.html#series-6",
+        "specification": null,
+        "status": "matched",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "matched",
+            "reason": "官网数值 36mg，上限 50mg（per_100g）",
+            "value": {
+              "amount": 36.0,
+              "unit": "mg",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:ed30b39807435915d760",
+        "display_name": "简爱 树莓滑滑",
+        "source_url": "https://simplelove.com.cn/product.html#series-6",
+        "specification": null,
+        "status": "matched",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "matched",
+            "reason": "官网数值 33mg，上限 50mg（per_100g）",
+            "value": {
+              "amount": 33.0,
+              "unit": "mg",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:cc180222721d1402602e",
+        "display_name": "简爱 生牛乳米布丁",
+        "source_url": "https://simplelove.com.cn/product.html#series-7",
+        "specification": null,
+        "status": "matched",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "matched",
+            "reason": "官网数值 46mg，上限 50mg（per_100g）",
+            "value": {
+              "amount": 46.0,
+              "unit": "mg",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:d7cb67024177d859b7bc",
+        "display_name": "简爱 PROTÑ‌高蛋白希腊酸奶原味",
+        "source_url": "https://simplelove.com.cn/product.html#series-7.1",
+        "specification": null,
+        "status": "matched",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "matched",
+            "reason": "官网数值 45mg，上限 50mg（per_100g）",
+            "value": {
+              "amount": 45.0,
+              "unit": "mg",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "膳食纤维",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:83b8baf95bde404c9f37",
+        "display_name": "简爱 身体知道顺畅配方",
+        "source_url": "https://simplelove.com.cn/product.html#series-8",
+        "specification": null,
+        "status": "matched",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "matched",
+            "reason": "官网数值 40mg，上限 50mg（per_100g）",
+            "value": {
+              "amount": 40.0,
+              "unit": "mg",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:be6c404d63367e441229",
+        "display_name": "简爱 吸吸袋酸奶草莓",
+        "source_url": "https://simplelove.com.cn/product.html#series-1",
+        "specification": "100克",
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "unknown",
+            "reason": "官网口味与配料不一致",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [
+          "官网口味与配料不一致"
+        ],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:fca6cb4392e55214f97d",
+        "display_name": "简爱 父爱牧场鲜牛奶",
+        "source_url": "https://simplelove.com.cn/product.html#series-1",
+        "specification": "250mL",
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "unknown",
+            "reason": "液体每100克口径需核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [
+          "液体每100克口径需核实"
+        ],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:0913688267762d641c80",
+        "display_name": "简爱 light-轻食酸奶",
+        "source_url": "https://simplelove.com.cn/product.html#series-2",
+        "specification": "400克",
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "unknown",
+            "reason": "官网菌种文字疑似错字",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [
+          "官网菌种文字疑似错字"
+        ],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "膳食纤维",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:27b33e5f2fd4c22f5f4c",
+        "display_name": "简爱 焦糖牛奶布丁",
+        "source_url": "https://simplelove.com.cn/product.html#series-7",
+        "specification": null,
+        "status": "unknown",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "unknown",
+            "reason": "液体每100克口径需核实",
+            "value": null
+          }
+        ],
+        "source_quality_flags": [
+          "液体每100克口径需核实"
+        ],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "膳食纤维",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_missing",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      },
+      {
+        "candidate_id": "official-structured:accfa77080f298607771",
+        "display_name": "简爱 0%蔗糖酸奶",
+        "source_url": "https://simplelove.com.cn/product.html#series-2",
+        "specification": "135克",
+        "status": "not_matched",
+        "checks": [
+          {
+            "field": "sodium",
+            "label": "钠",
+            "status": "not_matched",
+            "reason": "官网数值 68mg，上限 50mg（per_100g）",
+            "value": {
+              "amount": 68.0,
+              "unit": "mg",
+              "basis": "per_100g"
+            }
+          }
+        ],
+        "source_quality_flags": [],
+        "available_nutrients": [
+          "能量",
+          "蛋白质",
+          "脂肪",
+          "碳水化合物",
+          "钠",
+          "钙"
+        ],
+        "identity_status": "specification_available",
+        "recommendation_eligible": false,
+        "evidence_level": "manufacturer_page_unverified_package"
+      }
+    ],
+    "notice": "按官网资料初步筛选；符合仅指本次列出的条件，包装版本与商品身份仍需核实，不等于已审核推荐。"
+  }
+}

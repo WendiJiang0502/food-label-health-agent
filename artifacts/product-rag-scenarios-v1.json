@@ -1,0 +1,518 @@
+{
+  "suite": "product_rag_scenarios_v1",
+  "scope": "Curated synthetic regression scenarios, not real-user relevance labels or medical validation",
+  "profile": "hybrid_tfidf",
+  "case_count": 45,
+  "passed": 45,
+  "evaluation_passed": true,
+  "retrieval_recall_at_3": 1.0,
+  "retrieval_mrr": 1.0,
+  "unexpected_recommendation_count": 0,
+  "results": [
+    {
+      "id": "less-sugar",
+      "kind": "intent",
+      "passed": true,
+      "expected": {
+        "goals": [
+          [
+            "sugars",
+            "lower",
+            "current_product"
+          ]
+        ]
+      },
+      "actual": {
+        "goals": [
+          [
+            "sugars",
+            "lower",
+            "current_product"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "less-salt",
+      "kind": "intent",
+      "passed": true,
+      "expected": {
+        "goals": [
+          [
+            "sodium",
+            "lower",
+            "current_product"
+          ]
+        ]
+      },
+      "actual": {
+        "goals": [
+          [
+            "sodium",
+            "lower",
+            "current_product"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "more-protein",
+      "kind": "intent",
+      "passed": true,
+      "expected": {
+        "goals": [
+          [
+            "protein",
+            "higher",
+            "current_product"
+          ]
+        ]
+      },
+      "actual": {
+        "goals": [
+          [
+            "protein",
+            "higher",
+            "current_product"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "lower-fat",
+      "kind": "intent",
+      "passed": true,
+      "expected": {
+        "goals": [
+          [
+            "fat",
+            "lower",
+            "candidate_set"
+          ]
+        ]
+      },
+      "actual": {
+        "goals": [
+          [
+            "fat",
+            "lower",
+            "candidate_set"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "more-fiber",
+      "kind": "intent",
+      "passed": true,
+      "expected": {
+        "goals": [
+          [
+            "dietary_fiber",
+            "higher",
+            "current_product"
+          ]
+        ]
+      },
+      "actual": {
+        "goals": [
+          [
+            "dietary_fiber",
+            "higher",
+            "current_product"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "less-energy",
+      "kind": "intent",
+      "passed": true,
+      "expected": {
+        "goals": [
+          [
+            "energy",
+            "lower",
+            "current_product"
+          ]
+        ]
+      },
+      "actual": {
+        "goals": [
+          [
+            "energy",
+            "lower",
+            "current_product"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "saturated-fat",
+      "kind": "intent",
+      "passed": true,
+      "expected": {
+        "goals": [
+          [
+            "saturated_fat",
+            "lower",
+            "current_product"
+          ]
+        ]
+      },
+      "actual": {
+        "goals": [
+          [
+            "saturated_fat",
+            "lower",
+            "current_product"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "breakfast-ready",
+      "kind": "intent",
+      "passed": true,
+      "expected": {
+        "occasion": "breakfast",
+        "preparation": "ready_to_eat",
+        "goals": [
+          [
+            "sugars",
+            "lower",
+            "current_product"
+          ]
+        ]
+      },
+      "actual": {
+        "occasion": "breakfast",
+        "preparation": "ready_to_eat",
+        "goals": [
+          [
+            "sugars",
+            "lower",
+            "current_product"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "negative-goal",
+      "kind": "intent",
+      "passed": true,
+      "expected": {
+        "goals": []
+      },
+      "actual": {
+        "goals": []
+      }
+    },
+    {
+      "id": "allergy-unconfirmed",
+      "kind": "intent",
+      "passed": true,
+      "expected": {
+        "status": "needs_clarification"
+      },
+      "actual": {
+        "status": "needs_clarification"
+      }
+    },
+    {
+      "id": "numeric-threshold",
+      "kind": "intent",
+      "passed": true,
+      "expected": {
+        "status": "needs_clarification"
+      },
+      "actual": {
+        "status": "needs_clarification"
+      }
+    },
+    {
+      "id": "zero-sugar-claim",
+      "kind": "intent",
+      "passed": true,
+      "expected": {
+        "status": "needs_clarification"
+      },
+      "actual": {
+        "status": "needs_clarification"
+      }
+    },
+    {
+      "id": "contradiction",
+      "kind": "intent",
+      "passed": true,
+      "expected": {
+        "status": "needs_clarification"
+      },
+      "actual": {
+        "status": "needs_clarification"
+      }
+    },
+    {
+      "id": "taste-only",
+      "kind": "intent",
+      "passed": true,
+      "expected": {
+        "goals": [],
+        "occasion": "breakfast"
+      },
+      "actual": {
+        "goals": [],
+        "occasion": "breakfast"
+      }
+    },
+    {
+      "id": "sugar-improves",
+      "kind": "comparison",
+      "passed": true,
+      "expected": "matched",
+      "actual": "matched"
+    },
+    {
+      "id": "sugar-equal",
+      "kind": "comparison",
+      "passed": true,
+      "expected": "not_improved",
+      "actual": "not_improved"
+    },
+    {
+      "id": "sugar-worse",
+      "kind": "comparison",
+      "passed": true,
+      "expected": "not_improved",
+      "actual": "not_improved"
+    },
+    {
+      "id": "baseline-missing",
+      "kind": "comparison",
+      "passed": true,
+      "expected": "missing_current_value",
+      "actual": "missing_current_value"
+    },
+    {
+      "id": "candidate-missing",
+      "kind": "comparison",
+      "passed": true,
+      "expected": "missing_candidate_value",
+      "actual": "missing_candidate_value"
+    },
+    {
+      "id": "mass-volume",
+      "kind": "comparison",
+      "passed": true,
+      "expected": "incompatible_basis",
+      "actual": "incompatible_basis"
+    },
+    {
+      "id": "unit-mismatch",
+      "kind": "comparison",
+      "passed": true,
+      "expected": "incompatible_basis",
+      "actual": "incompatible_basis"
+    },
+    {
+      "id": "zero-present",
+      "kind": "comparison",
+      "passed": true,
+      "expected": "matched",
+      "actual": "matched"
+    },
+    {
+      "id": "conflict-blocks",
+      "kind": "comparison",
+      "passed": true,
+      "expected": "conflicting_evidence",
+      "actual": "conflicting_evidence"
+    },
+    {
+      "id": "rank-no-baseline",
+      "kind": "comparison",
+      "passed": true,
+      "expected": "matched",
+      "actual": "matched"
+    },
+    {
+      "id": "ready-supported",
+      "kind": "comparison",
+      "passed": true,
+      "expected": "matched",
+      "actual": "matched"
+    },
+    {
+      "id": "ready-unknown",
+      "kind": "comparison",
+      "passed": true,
+      "expected": "preparation_unverified",
+      "actual": "preparation_unverified"
+    },
+    {
+      "id": "ready-negative",
+      "kind": "comparison",
+      "passed": true,
+      "expected": "preparation_unverified",
+      "actual": "preparation_unverified"
+    },
+    {
+      "id": "api-ocr-sugar-conflict",
+      "kind": "fields",
+      "passed": true,
+      "expected": [
+        "sugars"
+      ],
+      "actual": [
+        "sugars"
+      ]
+    },
+    {
+      "id": "api-ocr-agree",
+      "kind": "fields",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "unknown-basis-not-equivalent",
+      "kind": "fields",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "api-zero-not-missing",
+      "kind": "fields",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "find-oat-biscuit",
+      "kind": "retrieval",
+      "passed": true,
+      "expected": "fixture-biscuit-oat-plain",
+      "actual": "fixture-biscuit-oat-plain"
+    },
+    {
+      "id": "find-milk-cracker",
+      "kind": "retrieval",
+      "passed": true,
+      "expected": "fixture-biscuit-milk-cracker",
+      "actual": "fixture-biscuit-milk-cracker"
+    },
+    {
+      "id": "find-oat-drink",
+      "kind": "retrieval",
+      "passed": true,
+      "expected": "fixture-drink-oat",
+      "actual": "fixture-drink-oat"
+    },
+    {
+      "id": "find-soy-drink",
+      "kind": "retrieval",
+      "passed": true,
+      "expected": "fixture-drink-soy",
+      "actual": "fixture-drink-soy"
+    },
+    {
+      "id": "find-milk",
+      "kind": "retrieval",
+      "passed": true,
+      "expected": "fixture-drink-milk",
+      "actual": "fixture-drink-milk"
+    },
+    {
+      "id": "empty-cereal",
+      "kind": "retrieval",
+      "passed": true,
+      "expected": null,
+      "actual": null
+    },
+    {
+      "id": "pipeline-relative-sugar",
+      "kind": "revalidation",
+      "passed": true,
+      "expected": [
+        "fixture-biscuit-milk-cracker"
+      ],
+      "actual": [
+        "fixture-biscuit-milk-cracker"
+      ]
+    },
+    {
+      "id": "pipeline-missing-baseline",
+      "kind": "revalidation",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "pipeline-none-improve",
+      "kind": "revalidation",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "pipeline-allergy-wins",
+      "kind": "revalidation",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "pipeline-clarify-numeric",
+      "kind": "revalidation",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "id": "negated-higher-sugar",
+      "kind": "intent",
+      "passed": true,
+      "expected": {
+        "status": "needs_clarification"
+      },
+      "actual": {
+        "status": "needs_clarification"
+      }
+    },
+    {
+      "id": "lower-bound-wording",
+      "kind": "intent",
+      "passed": true,
+      "expected": {
+        "status": "needs_clarification"
+      },
+      "actual": {
+        "status": "needs_clarification"
+      }
+    },
+    {
+      "id": "short-low-fat",
+      "kind": "intent",
+      "passed": true,
+      "expected": {
+        "goals": [
+          [
+            "fat",
+            "lower",
+            "candidate_set"
+          ]
+        ]
+      },
+      "actual": {
+        "goals": [
+          [
+            "fat",
+            "lower",
+            "candidate_set"
+          ]
+        ]
+      }
+    }
+  ]
+}

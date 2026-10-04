@@ -1,0 +1,26 @@
+{
+  "summary": {
+    "total": 122,
+    "searchable": 104,
+    "source_numeric_ready": 54,
+    "nutrition_comparison_ready": 0,
+    "ingredient_judgment_ready": 0,
+    "needs_review": 122,
+    "exception_counts": {
+      "identity_incomplete": 48,
+      "missing_source_field": 309,
+      "needs_review": 410,
+      "conflicting_sources": 14
+    }
+  },
+  "items": [],
+  "offset": 0,
+  "policy_version": "batch_admission_v1",
+  "note": "来源数值齐备仅供来源资料比对；人工字段采用不会自动授予严格限制判断或最终推荐资格。",
+  "change_since_previous_batch": {
+    "nutrition_comparison_ready": 0,
+    "ingredient_judgment_ready": 0,
+    "source_numeric_ready": 54
+  },
+  "created_at": "2026-10-03T14:33:26+00:00"
+}

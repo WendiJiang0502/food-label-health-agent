@@ -13,3 +13,9 @@ def use_offline_rag_profile_for_tests(monkeypatch):
     clear_regulation_caches()
     yield
     clear_regulation_caches()
+
+
+@pytest.fixture(autouse=True)
+def isolate_product_rag_store(monkeypatch, tmp_path):
+    monkeypatch.setenv("FOOD_LABEL_PRODUCT_RAG_DB", str(tmp_path / "product-rag.sqlite3"))
+    monkeypatch.setenv("FOOD_LABEL_PRODUCT_RAG_PROFILE", "hybrid_tfidf")

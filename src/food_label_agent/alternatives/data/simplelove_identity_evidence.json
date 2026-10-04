@@ -1,0 +1,102 @@
+{
+  "official-structured:d8db48076efa12c40fa7": {
+    "specification": "100克",
+    "review_status": "source_image_read_by_assistant",
+    "source_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-1.png?v=1",
+    "artifact": "artifacts/official-expansion-2026-10-04/ocr-0.json",
+    "image_sha256": "caa619a54bdd798a1d39a2af80d1c9fe21e5c0a0187cf9940d24cf8956f5b918",
+    "source_fingerprint": "sha256:8cc3db7a52e23268b2226484fee2a10605f51ee384568374d32eede4438fdb46",
+    "checked_at": "2026-10-04",
+    "valid_through": "2026-11-03"
+  },
+  "official-structured:1f304a7817b8424f7d58": {
+    "specification": "100克",
+    "review_status": "source_image_read_by_assistant",
+    "source_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-2.png?v=1",
+    "artifact": "artifacts/official-expansion-2026-10-04/ocr-1.json",
+    "image_sha256": "6e61b9bd92de2dcd6900a597f6f1fff70999e25ceaff8ddefc13bdb19b78b979",
+    "source_fingerprint": "sha256:99ce98222ee145029548e5fb392dfffbb05f4c307ff33b1f4350317d9c0acca4",
+    "checked_at": "2026-10-04",
+    "valid_through": "2026-11-03"
+  },
+  "official-structured:1303dd2be999feb8c8e3": {
+    "specification": "100克",
+    "review_status": "source_image_read_by_assistant",
+    "source_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-3.png?v=1",
+    "artifact": "artifacts/official-expansion-2026-10-04/ocr-2.json",
+    "image_sha256": "e7542f03f5e8d9f7691e912bae1294a2dfd1e5dd2bac3fa1b1e0aeecd3f05ff2",
+    "source_fingerprint": "sha256:f6f91457443193a4a9b19e0e101c4f6582b4c75ada8abe42dda032186e834782",
+    "checked_at": "2026-10-04",
+    "valid_through": "2026-11-03"
+  },
+  "official-structured:be6c404d63367e441229": {
+    "specification": "100克",
+    "review_status": "source_image_read_by_assistant",
+    "source_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-4.png?v=1",
+    "artifact": "artifacts/official-expansion-2026-10-04/ocr-3.json",
+    "image_sha256": "6da7f0a3fe5ad50fe618ab6192859314b9af9d80f4a45a6d62f18761f993ea7e",
+    "source_fingerprint": "sha256:dbad20832bb2ae3423772b2fc929a32bfa3dfb7553366c5195db469e6ebb4298",
+    "checked_at": "2026-10-04",
+    "valid_through": "2026-11-03"
+  },
+  "official-structured:fca6cb4392e55214f97d": {
+    "specification": "250mL",
+    "review_status": "source_image_read_by_assistant",
+    "source_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-7.png?v=1",
+    "artifact": "artifacts/official-expansion-2026-10-04/ocr-4.json",
+    "image_sha256": "a99ddf4a63d10eb4d0cf3dd92952e248ab7bec0536b09e83e0419d9ad5120301",
+    "source_fingerprint": "sha256:f1ac5182b82b944bac5a56d5dfd10ef97cbb4590e483ca4b48512ed4728d3073",
+    "checked_at": "2026-10-04",
+    "valid_through": "2026-11-03"
+  },
+  "official-structured:5b0d405ba8595ee2978b": {
+    "specification": "100克",
+    "review_status": "source_image_read_by_assistant",
+    "source_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-1.png?v=1",
+    "artifact": "artifacts/official-expansion-2026-10-04/ocr-5.json",
+    "image_sha256": "981ef6ebe9a48056e27374190082db72dfad8bec6b60d4b8466e94cc67283adf",
+    "source_fingerprint": "sha256:fd81cda3d306ca8508d2a0b10be7b1bab8e0217c16fc014502b4619c43143a59",
+    "checked_at": "2026-10-04",
+    "valid_through": "2026-11-03"
+  },
+  "official-structured:4d5f4eb38e950184cd7e": {
+    "specification": "120克",
+    "review_status": "source_image_read_by_assistant",
+    "source_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-2.png?v=1",
+    "artifact": "artifacts/official-expansion-2026-10-04/ocr-6.json",
+    "image_sha256": "fde85b2fb41680088c118acee3d21ac66503a8e6eb532fb134bd1848b8e79c6f",
+    "source_fingerprint": "sha256:3175139de88c1cef8b2c6770d990a0065198ed36f4f136f641b9d62ebb94e78e",
+    "checked_at": "2026-10-04",
+    "valid_through": "2026-11-03"
+  },
+  "official-structured:0913688267762d641c80": {
+    "specification": "400克",
+    "review_status": "source_image_read_by_assistant",
+    "source_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-3.png?v=1",
+    "artifact": "artifacts/official-expansion-2026-10-04/ocr-7.json",
+    "image_sha256": "7374e1b8cd184e7ad63f87b496741b4e11ad26d4b223a0ba4332ecd9f4a34158",
+    "source_fingerprint": "sha256:eec8cbc5f6c88175ffb0f91fb96fb965d870baad566f2772e27a3c448f6f0fa2",
+    "checked_at": "2026-10-04",
+    "valid_through": "2026-11-03"
+  },
+  "official-structured:accfa77080f298607771": {
+    "specification": "135克",
+    "review_status": "source_image_read_by_assistant",
+    "source_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-7.png?v=1",
+    "artifact": "artifacts/official-expansion-2026-10-04/ocr-8.json",
+    "image_sha256": "7cca08f097243b2cf499a3c23228a2df3360d3d0527606089fba59d1a7d944e1",
+    "source_fingerprint": "sha256:23f2282f1407099a55703c8f6f55665e2530bd789dabcd0cc2fd0400301e663c",
+    "checked_at": "2026-10-04",
+    "valid_through": "2026-11-03"
+  },
+  "official-structured:445a9854cc00953f790f": {
+    "specification": "360g",
+    "review_status": "source_image_read_by_assistant",
+    "source_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-12.png?v=1",
+    "artifact": "artifacts/official-expansion-2026-10-04/ocr-9.json",
+    "image_sha256": "11ed627d50a59673cbe59cfea7560919fd167847578cf8f283419adb08c52ca9",
+    "source_fingerprint": "sha256:6e3ebd0e361be20db47fcee7b2fbd6be85b7f67f96d5f5c2513778923e683a27",
+    "checked_at": "2026-10-04",
+    "valid_through": "2026-11-03"
+  }
+}

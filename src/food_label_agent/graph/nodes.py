@@ -622,6 +622,7 @@ def search_alternatives(state: AgentState) -> dict:
                 "region": request.get("region", "CN"),
                 "exclude_product_ids": request.get("exclude_product_ids", []),
                 "current_product_name": request.get("current_product_name"),
+                "retrieval_query": request.get("retrieval_query"),
                 "limit": request.get("limit", 8),
             },
         )
@@ -642,6 +643,7 @@ def search_alternatives(state: AgentState) -> dict:
             "catalog_status": result.get("catalog_status", "ok"),
             "catalog_warnings": result.get("catalog_warnings", []),
             "catalog_coverage": result.get("catalog_coverage", {}),
+            "product_retrieval": result.get("product_retrieval", {}),
             "selection_basis": result["selection_basis"],
         },
         "alternatives": candidates,
@@ -689,6 +691,7 @@ def revalidate_alternatives(state: AgentState) -> dict:
                     "health_concerns", []
                 ),
                 "source_category": state["alternative_request"].get("category"),
+                "retrieval_query": state["alternative_request"].get("retrieval_query"),
                 "current_nutrition_rows": state["alternative_request"].get(
                     "current_nutrition_rows"
                 ),

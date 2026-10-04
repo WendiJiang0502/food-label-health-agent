@@ -41,10 +41,20 @@ SYSTEM_INSTRUCTIONS = """
 10. “结构化会话状态”只包含从已确认工作流提取的事实；对话摘要和用户随口描述不能升级为标签事实。
 11. 比较两个商品时只能比较同口径的已确认营养数据，并分别保留每个商品的确定性风险；不得替用户作医疗决定。
 12. 纠错工具只能指出待核对位置和修改步骤，不能自动修改或确认标签文字。
+13. 寻找替代品时调用 search_product_alternatives，以工具返回的 eligible 作为推荐范围，并引用对应 source_url 或标签证据。product_retrieval 的外部数据和 OCR 草稿只能作为待核实线索，不能据此认定安全、低糖或适合某人。retrieval_query 只表达检索偏好，新提出的过敏或禁忌须先在个人限制中确认；明确的营养比较需求由工具解析与计算，必须遵守 search_intent 与 intent_match；缺基准、口径不同、冲突或需澄清时不得声称满足要求；没有通过复核的商品时明确说明没有可推荐结果。
 """.strip()
 
 
 TOOL_SCHEMAS: tuple[dict[str, Any], ...] = (
+    {
+        "type": "function", "name": "search_product_alternatives",
+        "description": "根据食用场景与替代偏好检索商品证据，独立复核候选并排队补齐资料。只可推荐返回的 eligible，不能推荐待核实线索。",
+        "parameters": {"type": "object", "properties": {
+            "query": {"type": "string", "minLength": 1, "maxLength": 500},
+            "category": {"type": "string", "enum": ["biscuit", "bread", "breakfast_cereal", "instant_noodles", "drink", "dairy", "snack", "confectionery", "prepared_meal", "frozen_food", "processed_meat", "seafood", "sauce_condiment", "canned_food"]}
+        }, "required": ["query", "category"], "additionalProperties": False},
+        "strict": True,
+    },
     {
         "type": "function",
         "name": "search_current_regulations",
@@ -310,6 +320,35 @@ class ConversationAgent:
             return correction_guidance(conversation_state)
         if state is None:
             return {"status": "unavailable", "reason": "no_confirmed_label_context"}
+        if name == "search_product_alternatives":
+            from food_label_agent.alternatives.models import AlternativeWorkflowRequest
+            from food_label_agent.graph.workflows import run_alternative_workflow
+            try:
+                confirmed = {key: field.raw_text for key, field in state["label_fields"].items() if field.confirmed_by_user}
+                # Preserve the confirmed table and its basis, without reusing stale rows.
+                nutrition_rows = None
+                if confirmed.get("nutrition_table"):
+                    nutrition_rows = [[line] for line in confirmed["nutrition_table"].splitlines() if line.strip()]
+                    if confirmed.get("nutrition_basis"):
+                        nutrition_rows.insert(0, [confirmed["nutrition_basis"]])
+                previous = state.get("alternative_request", {})
+                excluded = previous.get("exclude_product_ids", [])
+                request = AlternativeWorkflowRequest(
+                    request_id=state["request_id"], applicable_date=state["applicable_date"],
+                    jurisdiction=state["jurisdiction"], category=str(arguments.get("category") or ""),
+                    retrieval_query=str(arguments.get("query") or "")[:500],
+                    confirmed_fields=confirmed,
+                    nutrition_rows=nutrition_rows,
+                    region=previous.get("region", "CN"),
+                    current_product_id=excluded[0] if excluded else None,
+                    constraints=[asdict(item) for item in state["user_constraints"]],
+                    health_concerns=state.get("alternative_request", {}).get("health_concerns", []),
+                    resume_token="internal-confirmed-context-request",
+                )
+                payload, _ = run_alternative_workflow(request, state=state)
+                return {key: payload.get(key) for key in ("status", "eligible", "product_retrieval", "search_intent", "excluded", "release_gate", "unknowns")}
+            except Exception as exc:  # noqa: BLE001 - sanitized chat boundary
+                return {"status": "unavailable", "reason": "product_search_failed", "error_type": type(exc).__name__}
         if name == "search_current_regulations":
             return _safe_invoke_mcp_tool(
                 "search_food_regulations",

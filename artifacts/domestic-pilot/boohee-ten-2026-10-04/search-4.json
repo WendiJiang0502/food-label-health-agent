@@ -1,0 +1,82 @@
+{
+  "code": 0,
+  "message": "0",
+  "now": 1791078286,
+  "data": {
+    "page": 1,
+    "per_page": 5,
+    "has_more": true,
+    "foods": [
+      {
+        "code": "fd10bd19",
+        "name": "蒙牛 纯甄原味乳酪酸奶",
+        "calories": 90,
+        "protein": 2.8,
+        "fat": 3.2,
+        "carbohydrate": 12.5,
+        "health_light": 2,
+        "is_liquid": false,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/7/1/ai_watermark_b16f9894fc32db4b69ba3e2e14e90dfc.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      },
+      {
+        "code": "fd173a93",
+        "name": "蒙牛 纯甄乳酪饮品",
+        "calories": 96,
+        "protein": 3,
+        "fat": 3.5,
+        "carbohydrate": 13.1,
+        "health_light": 2,
+        "is_liquid": true,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/18/ai_watermark_big_photo_url_2f860f34deb8.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      },
+      {
+        "code": "fd53f8dc",
+        "name": "蒙牛 0蔗糖纯甄(原味)",
+        "calories": 76,
+        "protein": 3.1,
+        "fat": 3.6,
+        "carbohydrate": 10,
+        "health_light": 1,
+        "is_liquid": false,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/14/ai_watermark_big_photo_url_0b17b13fe07e.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      },
+      {
+        "code": "fd3db700",
+        "name": "蒙牛纯甄 纯甄酸奶(蓝莓味)",
+        "calories": 93,
+        "protein": 3.1,
+        "fat": 3.3,
+        "carbohydrate": 12.5,
+        "health_light": 2,
+        "is_liquid": true,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/16/ai_watermark_big_photo_url_cc77fc5e0253.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      },
+      {
+        "code": "fd12d68c",
+        "name": "蒙牛纯甄 馋酸奶",
+        "calories": 94,
+        "protein": 3.1,
+        "fat": 3.7,
+        "carbohydrate": 12,
+        "health_light": 2,
+        "is_liquid": true,
+        "image_url": "https://f.boohee.cn/house/upload_food/2026/6/18/ai_watermark_big_photo_url_1f940d3c9e22.png",
+        "units": null,
+        "saturated_fat": 0,
+        "fiber": 0
+      }
+    ]
+  }
+}

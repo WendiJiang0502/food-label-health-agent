@@ -43,6 +43,7 @@ dev = [
 ]
 
 [project.scripts]
+food-label-knowledge-refresh = "food_label_agent.alternatives.refresh:main"
 food-label-agent = "food_label_agent.__main__:main"
 food-label-mcp = "food_label_agent.mcp.server:run"
 food-label-platform = "food_label_agent.web.app:run"
