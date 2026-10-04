@@ -4842,10 +4842,55 @@ function renderOfficialSourceScreening(screening) {
     title.textContent = item.display_name;
     const description = document.createElement("p");
     const labels = { matched: "官网数值符合", not_matched: "不符合", unknown: "待核实", not_evaluated: "尚未指定比较条件" };
-    description.textContent = `${labels[item.status]} · ${item.specification || "规格待补齐"}。` +
-      (item.checks.length ? item.checks.map(c => `${c.label}：${c.reason}`).join("；") :
-        `已有数值：${item.available_nutrients.join("、") || "暂无"}。`);
+    description.textContent = `${labels[item.status]} · ${item.specification || "规格待补齐"}。`;
+    if (!item.checks?.length) {
+      description.textContent += `已有营养数值：${(item.available_nutrients || []).join("、") || "暂无"}。`;
+    }
     row.append(title, description);
+    const checks = document.createElement("ul");
+    checks.className = "source-evidence-checks";
+    const fields = { milk: "乳成分", egg: "蛋成分", peanut: "花生", soy: "大豆", gluten: "含麸质谷物", tree_nut: "坚果", fish: "鱼", crustacean: "甲壳类" };
+    const states = { matched: "官网数值符合", not_matched: "不符合", unknown: "证据不足" };
+    const gaps = { needs_label: "下一步：补充完整包装标签", needs_review: "下一步：核对已有证据", not_declared: "已核对标签未声明此项，等待厂家资料或新版标签" };
+    for (const check of item.checks || []) {
+      const entry = document.createElement("li");
+      entry.textContent = `${fields[check.field] || check.label}：${states[check.status] || "待核实"}。${check.reason}`;
+      if (gaps[check.gap_state]) {
+        const next = document.createElement("p");
+        next.className = "alternative-source";
+        next.textContent = gaps[check.gap_state];
+        entry.append(next);
+      }
+      checks.append(entry);
+    }
+    row.append(checks);
+    const evidence = document.createElement("details");
+    evidence.className = "source-ingredient-evidence";
+    const evidenceTitle = document.createElement("summary");
+    evidenceTitle.textContent = `查看 ${item.display_name} 的配料证据`;
+    evidence.append(evidenceTitle);
+    const profile = item.ingredient_profile;
+    const explanation = document.createElement("p");
+    explanation.textContent = !profile || profile.status === "missing"
+      ? "暂无可核对的配料文字，需要完整包装标签。"
+      : profile.status === "needs_review"
+        ? "来源存在异常或文字解析不确定，以下内容仅作待核对线索。"
+        : "以下为官网配料中明确出现的成分，尚未完成包装复核；未列出不等于不含，也不能据此推算总糖。";
+    evidence.append(explanation);
+    const groupNames = { sugar_ingredients: "糖类配料", polyols: "糖醇", sweeteners: "其他甜味剂", fiber_ingredients: "纤维相关配料", milk_sources: "乳来源", egg_sources: "蛋来源" };
+    const facts = document.createElement("ul");
+    for (const observation of profile?.observations || []) {
+      const entry = document.createElement("li");
+      entry.textContent = `${groupNames[observation.group] || "配料"}：${observation.ingredient}。原文：${observation.source_span || observation.ingredient}${observation.status === "needs_review" ? "（待核对）" : ""}`;
+      facts.append(entry);
+    }
+    if (profile && profile.status !== "missing" && !profile.observations?.length) {
+      const empty = document.createElement("p");
+      empty.textContent = "当前规则没有提取出上述重点配料，这不代表它们不存在。";
+      evidence.append(empty);
+    }
+    evidence.append(facts);
+    row.append(evidence);
     appendAlternativeReviewLink(row, item.source_url, "查看商品官网来源");
     list.append(row);
   }

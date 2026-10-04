@@ -91,6 +91,8 @@ def test_failed_run_retains_last_success_and_retries_in_hour(tmp_path):
 
 def official():
     return SimpleNamespace(
+        status=lambda: {"items": []},
+        approved_products=list,
         refresh=lambda: SimpleNamespace(
             status="completed", summary={"discovered_count": 0}
         )
@@ -121,7 +123,7 @@ def test_worker_completes_partial_text_and_obeys_schedule(tmp_path):
     assert worker.run_once()["status"] == "completed"
     assert len(calls) == 3
     assert db.snapshot()["items"][0]["review_status"] == "needs_review"
-    assert worker.run_once()["jobs"] == {}
+    assert worker.run_once()["jobs"] == {"official_completion": "completed"}
     worker.run_once(force=True)
     assert (
         db.snapshot()["items"][0]["review_status"] == "needs_review"

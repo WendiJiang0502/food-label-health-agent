@@ -81,6 +81,7 @@ def run_alternative_workflow(
     request: AlternativeWorkflowRequest,
     *,
     state: AgentState | None = None,
+    evidence_service=None,
 ) -> tuple[dict, AgentState]:
     """Resume the same state and independently revalidate product candidates."""
 
@@ -109,8 +110,16 @@ def run_alternative_workflow(
         "limit": 50,
         "display_limit": 8,
     }
-    final_state = run_agent_graph(working)
-    return alternative_payload(final_state, request.category), final_state
+    from food_label_agent.alternatives.application import AlternativeEvidenceService
+
+    evidence_service = evidence_service or AlternativeEvidenceService()
+    discovery = evidence_service.prepare()
+    with evidence_service.scope(discovery["summary"]["items"]):
+        final_state = run_agent_graph(working)
+    payload = evidence_service.enrich(
+        alternative_payload(final_state, request.category), request, discovery
+    )
+    return payload, final_state
 
 
 def evidence_payload(state: AgentState) -> dict:

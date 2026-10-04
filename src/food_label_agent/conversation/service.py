@@ -41,7 +41,7 @@ SYSTEM_INSTRUCTIONS = """
 10. “结构化会话状态”只包含从已确认工作流提取的事实；对话摘要和用户随口描述不能升级为标签事实。
 11. 比较两个商品时只能比较同口径的已确认营养数据，并分别保留每个商品的确定性风险；不得替用户作医疗决定。
 12. 纠错工具只能指出待核对位置和修改步骤，不能自动修改或确认标签文字。
-13. 寻找替代品时调用 search_product_alternatives，以工具返回的 eligible 作为推荐范围，并引用对应 source_url 或标签证据。product_retrieval 的外部数据和 OCR 草稿只能作为待核实线索，不能据此认定安全、低糖或适合某人。retrieval_query 只表达检索偏好，新提出的过敏或禁忌须先在个人限制中确认；明确的营养比较需求由工具解析与计算，必须遵守 search_intent 与 intent_match；缺基准、口径不同、冲突或需澄清时不得声称满足要求；没有通过复核的商品时明确说明没有可推荐结果。
+13. 寻找替代品时调用 search_product_alternatives，以工具返回的 eligible 作为推荐范围，并引用对应 source_url 或标签证据。source_screening 仅为官网初筛，matched 不等于已审核推荐；product_retrieval 的官网资料、外部数据和 OCR 草稿只能作为待核实线索，不能据此认定安全、低糖或适合某人。retrieval_query 只表达检索偏好，新提出的过敏或禁忌须先在个人限制中确认；明确的营养比较需求由工具解析与计算，必须遵守 search_intent 与 intent_match；缺基准、口径不同、冲突或需澄清时不得声称满足要求；没有通过复核的商品时明确说明没有可推荐结果。
 """.strip()
 
 
@@ -153,7 +153,9 @@ class ConversationAgent:
         provider: OpenAIConversationProvider | None = None,
         *,
         observer: ConversationObserver | None = None,
+        evidence_service=None,
     ) -> None:
+        self.evidence_service = evidence_service
         self.provider = provider or OpenAIConversationProvider()
         self.observer = observer or create_conversation_observer()
 
@@ -345,8 +347,8 @@ class ConversationAgent:
                     health_concerns=state.get("alternative_request", {}).get("health_concerns", []),
                     resume_token="internal-confirmed-context-request",
                 )
-                payload, _ = run_alternative_workflow(request, state=state)
-                return {key: payload.get(key) for key in ("status", "eligible", "product_retrieval", "search_intent", "excluded", "release_gate", "unknowns")}
+                payload, _ = run_alternative_workflow(request, state=state, evidence_service=self.evidence_service)
+                return {key: payload.get(key) for key in ("status", "eligible", "product_retrieval", "search_intent", "excluded", "release_gate", "unknowns", "source_screening", "discovery", "result_summary")}
             except Exception as exc:  # noqa: BLE001 - sanitized chat boundary
                 return {"status": "unavailable", "reason": "product_search_failed", "error_type": type(exc).__name__}
         if name == "search_current_regulations":

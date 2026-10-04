@@ -10,6 +10,7 @@ import logging
 import os
 import re
 import signal
+import sqlite3
 import threading
 import time
 from hashlib import sha256
@@ -362,7 +363,24 @@ class KnowledgeRefreshWorker:
                     )
                 self.store.record_run("official_sources", status, summary)
                 jobs["official_sources"] = status
-            if jobs or self.store.due("batch_assessment"):
+            # Local reconciliation runs even between monthly network refreshes:
+            # new reviewed photos can close/reopen gaps without another API call.
+            from .application import AlternativeEvidenceService
+
+            try:
+                _, summary = AlternativeEvidenceService(
+                    self.discovery, self.store
+                ).synchronize()
+                completion_status = "completed"
+            except (OSError, ValueError, sqlite3.Error):
+                logger.exception("Official evidence reconciliation failed")
+                summary = {"message": "补齐对账失败，保留现有任务"}
+                completion_status = "unavailable"
+            self.store.record_run("official_completion", completion_status, summary)
+            jobs["official_completion"] = completion_status
+            if any(job != "official_completion" for job in jobs) or self.store.due(
+                "batch_assessment"
+            ):
                 report = self.batch.assess_all()
                 self.store.record_run(
                     "batch_assessment", "completed", report["summary"]

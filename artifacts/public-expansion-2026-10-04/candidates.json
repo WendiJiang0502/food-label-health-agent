@@ -1,0 +1,1704 @@
+[
+  {
+    "candidate_id": "official-public:19c0911eacdf92b74bb4",
+    "source_id": "classykiss-public-extract",
+    "display_name": "卡士 断糖日记 原味",
+    "brand": "卡士",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.classykiss.cn/wap/SugarDiary/index.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.classykiss.cn/wap/SugarDiary/index.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:c5288a4f0450dc9623da96f7515f5095583d07e995538d2d212076b63fc82bc4",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(≥99%)、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳脂乳球菌、乳酸乳球菌乳亚种",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "352千焦"
+        ],
+        [
+          "蛋白质",
+          "4.2克"
+        ],
+        [
+          "脂肪",
+          "5.0克"
+        ],
+        [
+          "碳水化合物",
+          "5.6克"
+        ],
+        [
+          "钠",
+          "50毫克"
+        ],
+        [
+          "钙",
+          "130毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:c5288a4f0450dc9623da96f7515f5095583d07e995538d2d212076b63fc82bc4",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "净含量规格"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "配料表原味 / 营养成分表原味",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:8dca4f7d26a7dc0da431",
+    "source_id": "classykiss-public-extract",
+    "display_name": "卡士 断糖日记 椰子味",
+    "brand": "卡士",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.classykiss.cn/wap/SugarDiary/index.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.classykiss.cn/wap/SugarDiary/index.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:c2912374e4e614903a881d389a7fdcc9ce1b1782054304fd4fa8f801de62e3e1",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(≥88%)、椰子果酱(≥10%)、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳脂乳球菌、乳酸乳球菌乳亚种",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "407千焦"
+        ],
+        [
+          "蛋白质",
+          "3.8克"
+        ],
+        [
+          "脂肪",
+          "5.8克"
+        ],
+        [
+          "碳水化合物",
+          "7.5克"
+        ],
+        [
+          "钠",
+          "48毫克"
+        ],
+        [
+          "钙",
+          "125毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:c2912374e4e614903a881d389a7fdcc9ce1b1782054304fd4fa8f801de62e3e1",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "净含量规格"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "配料表椰子味 / 营养成分表椰子味",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:4afaaa81a1332406d96a",
+    "source_id": "classykiss-public-extract",
+    "display_name": "卡士 宝贝第二餐 原味",
+    "brand": "卡士",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.classykiss.cn/wap/BabySecondMeal/index.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.classykiss.cn/wap/BabySecondMeal/index.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:5c788c4d815c9870aa27b3c4e96bbc711dfc38073c6cd71e6f38ebfba5bdecc6",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳（≥99%）、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳脂乳球菌、嗜酸乳杆菌NCFM、动物双歧杆菌乳亚种HN019",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "389千焦"
+        ],
+        [
+          "蛋白质",
+          "4.5克"
+        ],
+        [
+          "脂肪",
+          "6.0克"
+        ],
+        [
+          "碳水化合物",
+          "6.0克"
+        ],
+        [
+          "钠",
+          "50毫克"
+        ],
+        [
+          "钙",
+          "140毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:5c788c4d815c9870aa27b3c4e96bbc711dfc38073c6cd71e6f38ebfba5bdecc6",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "净含量规格"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "配料表原味 / 营养成分表原味",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:3027b96599c05bc3647d",
+    "source_id": "classykiss-public-extract",
+    "display_name": "卡士 宝贝第二餐 西梅苹果味",
+    "brand": "卡士",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.classykiss.cn/wap/BabySecondMeal/index.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.classykiss.cn/wap/BabySecondMeal/index.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:e20bb6cdd35d2d8340d92626699704c0e2dc059ba3e7bb40edf0ed50b35c787b",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳（≥80%）、西梅苹果黑莓果浆（≥18%）、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳脂乳球菌、嗜酸乳杆菌NCFM、动物双歧杆菌乳亚种HN019",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "373千焦"
+        ],
+        [
+          "蛋白质",
+          "3.7克"
+        ],
+        [
+          "脂肪",
+          "4.7克"
+        ],
+        [
+          "碳水化合物",
+          "8.0克"
+        ],
+        [
+          "钠",
+          "45毫克"
+        ],
+        [
+          "钙",
+          "120毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:e20bb6cdd35d2d8340d92626699704c0e2dc059ba3e7bb40edf0ed50b35c787b",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "净含量规格"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "配料表西梅苹果味 / 营养成分表西梅苹果味",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:bfd410253e376218a29a",
+    "source_id": "classykiss-public-extract",
+    "display_name": "卡士 宝贝第二餐 草莓蓝莓树莓味",
+    "brand": "卡士",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.classykiss.cn/wap/BabySecondMeal/index.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.classykiss.cn/wap/BabySecondMeal/index.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:73b16530811f451827f15cb0960163b90be2a690d77679782d5e5302643d59a3",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳（≥80%）、草莓蓝莓树莓果浆（≥18%）、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳脂乳球菌、嗜酸乳杆菌NCFM、动物双歧杆菌乳亚种HN019",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "407千焦"
+        ],
+        [
+          "蛋白质",
+          "3.7克"
+        ],
+        [
+          "脂肪",
+          "4.7克"
+        ],
+        [
+          "碳水化合物",
+          "10.0克"
+        ],
+        [
+          "钠",
+          "45毫克"
+        ],
+        [
+          "钙",
+          "120毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:73b16530811f451827f15cb0960163b90be2a690d77679782d5e5302643d59a3",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "净含量规格"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "配料表草莓蓝莓树莓味 / 营养成分表草莓蓝莓树莓味",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:5ca300d187d3cb63e0b4",
+    "source_id": "classykiss-public-extract",
+    "display_name": "卡士 宝贝第二餐 山楂鸡内金六物味",
+    "brand": "卡士",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.classykiss.cn/wap/BabySecondMeal/index.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.classykiss.cn/wap/BabySecondMeal/index.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:537c0f21f60a85e20b6f8399ee500e420f486f70aed14101a3444dbd7666aac5",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳（≥80%）、山楂鸡内金六物果酱（≥18%）、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳脂乳球菌、嗜酸乳杆菌NCFM、动物双歧杆菌乳亚种HN019",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "407千焦"
+        ],
+        [
+          "蛋白质",
+          "3.7克"
+        ],
+        [
+          "脂肪",
+          "4.7克"
+        ],
+        [
+          "碳水化合物",
+          "10.0克"
+        ],
+        [
+          "钠",
+          "45毫克"
+        ],
+        [
+          "钙",
+          "120毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:537c0f21f60a85e20b6f8399ee500e420f486f70aed14101a3444dbd7666aac5",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "净含量规格"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "配料表山楂鸡内金六物味 / 营养成分表山楂鸡内金六物味",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:5a286f0526a86dad603c",
+    "source_id": "classykiss-public-extract",
+    "display_name": "卡士 餐后一小时 原味",
+    "brand": "卡士",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.classykiss.cn/OneHourAfterTheMeal/index.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.classykiss.cn/OneHourAfterTheMeal/index.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:c5f82bf6a24ea94127ace76c9ec712b52853ebbb8b87178f801e7a21bc27ab16",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳 (＞80% )、水、白砂糖、加糖炼乳、浓缩牛奶蛋白、抗性糊精(可溶性膳食纤维Fibersol-2®)、果胶、动物双歧杆菌乳亚种Bifidobacterium animalis subsp.lactis、德氏乳杆菌保加利亚亚种Lactobacilus delbrueckil subsp.bulgaricus、唾液链球菌嗜热亚种Streptococcus salvarus subsp. thermophilus",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "422千焦"
+        ],
+        [
+          "蛋白质",
+          "3.0克"
+        ],
+        [
+          "脂肪",
+          "3.7克"
+        ],
+        [
+          "碳水化合物",
+          "13.0克"
+        ],
+        [
+          "钠",
+          "60毫克"
+        ],
+        [
+          "钙",
+          "100毫克"
+        ],
+        [
+          "膳食纤维",
+          "1.6克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:c5f82bf6a24ea94127ace76c9ec712b52853ebbb8b87178f801e7a21bc27ab16",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "净含量规格"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "配料表原味 / 营养成分表原味",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:9955b0d02b8a4ead60e8",
+    "source_id": "classykiss-public-extract",
+    "display_name": "卡士 餐后一小时 无蔗糖",
+    "brand": "卡士",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.classykiss.cn/OneHourAfterTheMeal/index.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.classykiss.cn/OneHourAfterTheMeal/index.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:7d68c32ab49ffff678fc174e1ceaf08462388a1eecefe71d54e2529666715908",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳 (＞80% )、水、麦芽糖醇、赤藓糖醇、抗性糊精(可溶性膳食纤维Fibersol-2®)、菊粉、浓缩牛奶蛋白、果胶、蛋黄粉、甜菊糖苷、动物双歧杆菌乳亚种Bifidobacterium animalis subsp.lactis、德氏乳杆菌保加利亚亚种Lactobacilus delbrueckil subsp.bulgaricus、唾液链球菌嗜热亚种Streptococcus salvarus subsp. thermophilus",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "314千焦"
+        ],
+        [
+          "蛋白质",
+          "3.0克"
+        ],
+        [
+          "脂肪",
+          "3.7克"
+        ],
+        [
+          "碳水化合物",
+          "6.5克"
+        ],
+        [
+          "钠",
+          "45毫克"
+        ],
+        [
+          "钙",
+          "100毫克"
+        ],
+        [
+          "膳食纤维",
+          "2克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:7d68c32ab49ffff678fc174e1ceaf08462388a1eecefe71d54e2529666715908",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "净含量规格"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "配料表无蔗糖 / 营养成分表无蔗糖",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:8c898361a7b529e8508d",
+    "source_id": "meiji-public-extract",
+    "display_name": "meiji北海道风味0乳糖发酵乳",
+    "brand": "明治",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "400g",
+    "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:8e304f20b3940bd573f988dcef2da5caf55ee843a5e2752e78c86daa2587b670",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:8e304f20b3940bd573f988dcef2da5caf55ee843a5e2752e78c86daa2587b670",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "完整配料表文字",
+      "营养表"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "酸奶 / meiji北海道风味0乳糖发酵乳 / 400g",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:c3bd8c30aa55e024e971",
+    "source_id": "meiji-public-extract",
+    "display_name": "meiji北海道风味0乳糖发酵乳",
+    "brand": "明治",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "135g",
+    "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:f66dc78412fd4c18c7246f53a9ea9e4ffbf45a18e361d7ae5df5d1d2a34b3a4a",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:f66dc78412fd4c18c7246f53a9ea9e4ffbf45a18e361d7ae5df5d1d2a34b3a4a",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "完整配料表文字",
+      "营养表"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "酸奶 / meiji北海道风味0乳糖发酵乳 / 135g",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:6eb0d25e797b4941baba",
+    "source_id": "meiji-public-extract",
+    "display_name": "meiji北海道风味0乳糖发酵乳",
+    "brand": "明治",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "100g",
+    "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:35b8f6a461d6e78082460cb32b92ebdc9f27613fa2ca8ab7193ca8e4d50ac39c",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:35b8f6a461d6e78082460cb32b92ebdc9f27613fa2ca8ab7193ca8e4d50ac39c",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "完整配料表文字",
+      "营养表"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "酸奶 / meiji北海道风味0乳糖发酵乳 / 100g",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:8bcea51a952c0625b5d6",
+    "source_id": "meiji-public-extract",
+    "display_name": "meiji北海道风味0乳糖发酵乳",
+    "brand": "明治",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "100g×2杯",
+    "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:daa46e39cb542c0787ec440f79925ffddf241a3dd9eece7b63949408fc0c18ac",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:daa46e39cb542c0787ec440f79925ffddf241a3dd9eece7b63949408fc0c18ac",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "完整配料表文字",
+      "营养表"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "酸奶 / meiji北海道风味0乳糖发酵乳 / 100g×2杯",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:630703fff7278866cdac",
+    "source_id": "meiji-public-extract",
+    "display_name": "meiji北海道风味奢享原味风味发酵乳",
+    "brand": "明治",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "135g",
+    "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:5ed18a03765085dc539996b3dfcb2c12fb6883c679e243aeaba1243f1d7dc3ed",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:5ed18a03765085dc539996b3dfcb2c12fb6883c679e243aeaba1243f1d7dc3ed",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "完整配料表文字",
+      "营养表"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "酸奶 / meiji北海道风味奢享原味风味发酵乳 / 135g",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:6e6d9eaee1cc673c0706",
+    "source_id": "meiji-public-extract",
+    "display_name": "meiji北海道风味奢享原味风味发酵乳",
+    "brand": "明治",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "100g",
+    "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:c69e575d928ed914aa30936d02ee6927aca5a14e447423406ef965d02f9d5cea",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:c69e575d928ed914aa30936d02ee6927aca5a14e447423406ef965d02f9d5cea",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "完整配料表文字",
+      "营养表"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "酸奶 / meiji北海道风味奢享原味风味发酵乳 / 100g",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:87c3daa4cfd9eb2f4ff0",
+    "source_id": "meiji-public-extract",
+    "display_name": "meiji北海道风味奢享原味风味发酵乳",
+    "brand": "明治",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "100g×2杯",
+    "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:fa29405c14dabc98c635b72acecf9c4e003942d63aeb7acd5d57e53fb3cd1440",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:fa29405c14dabc98c635b72acecf9c4e003942d63aeb7acd5d57e53fb3cd1440",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "完整配料表文字",
+      "营养表"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "酸奶 / meiji北海道风味奢享原味风味发酵乳 / 100g×2杯",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:1c07121b14147d1437e9",
+    "source_id": "meiji-public-extract",
+    "display_name": "明治保加利亚式酸奶纯味不甜",
+    "brand": "明治",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "400g",
+    "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:d22938ff823747626d34373c0409eb2ac708f490948bf739b66386398d41484f",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:d22938ff823747626d34373c0409eb2ac708f490948bf739b66386398d41484f",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "完整配料表文字",
+      "营养表"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "酸奶 / 明治保加利亚式酸奶纯味不甜 / 400g",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:a39d31a4bafebc498284",
+    "source_id": "meiji-public-extract",
+    "display_name": "明治保加利亚式酸奶纯味不甜",
+    "brand": "明治",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "150g",
+    "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:c9cf46a46a072aa5894054adca6e66032d4a6cc8dd2a2f1071d543d0bb78a9e7",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:c9cf46a46a072aa5894054adca6e66032d4a6cc8dd2a2f1071d543d0bb78a9e7",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "完整配料表文字",
+      "营养表"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "酸奶 / 明治保加利亚式酸奶纯味不甜 / 150g",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:d8a82ceeac09ea499ab1",
+    "source_id": "meiji-public-extract",
+    "display_name": "明治保加利亚式酸奶纯味不甜",
+    "brand": "明治",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "100g×4杯",
+    "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:673804228799ece6598fb9f222c941080e4538940271d66d9d327a7cb867ac27",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:673804228799ece6598fb9f222c941080e4538940271d66d9d327a7cb867ac27",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "完整配料表文字",
+      "营养表"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "酸奶 / 明治保加利亚式酸奶纯味不甜 / 100g×4杯",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:f78f0715e51af6b0b83e",
+    "source_id": "meiji-public-extract",
+    "display_name": "明治保加利亚式酸奶清甜原味",
+    "brand": "明治",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "150g",
+    "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:1cd3fec743590a69a8c65ca54af128bd1bbac9a6b5e218b16abca676fdf894ca",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:1cd3fec743590a69a8c65ca54af128bd1bbac9a6b5e218b16abca676fdf894ca",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "完整配料表文字",
+      "营养表"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "酸奶 / 明治保加利亚式酸奶清甜原味 / 150g",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:5d9fb8fdc872f32d72cb",
+    "source_id": "meiji-public-extract",
+    "display_name": "明治保加利亚式酸奶清甜原味",
+    "brand": "明治",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "100g×4杯",
+    "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:c867eac7d9c929a89dcde3ca012b99a027df611daf81bb0c58ed5a07f26157e9",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:c867eac7d9c929a89dcde3ca012b99a027df611daf81bb0c58ed5a07f26157e9",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "完整配料表文字",
+      "营养表"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "酸奶 / 明治保加利亚式酸奶清甜原味 / 100g×4杯",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:14ffce0f05ca8db1ea13",
+    "source_id": "meiji-public-extract",
+    "display_name": "明治佰乐益优R-1风味酸乳",
+    "brand": "明治",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "180g",
+    "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:c1e320994abb8c9e300c43649d18bb4ab734e3225fab4236d8d07e30110249f7",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:c1e320994abb8c9e300c43649d18bb4ab734e3225fab4236d8d07e30110249f7",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "完整配料表文字",
+      "营养表"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "酸奶 / 明治佰乐益优R-1风味酸乳 / 180g",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  }
+]

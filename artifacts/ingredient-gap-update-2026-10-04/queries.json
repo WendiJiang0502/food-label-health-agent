@@ -1,0 +1,143 @@
+[
+  {
+    "id": "fat_max",
+    "title": "脂肪每100克不超过5克",
+    "constraints": [
+      {
+        "kind": "nutrition_limit",
+        "canonical_value": "fat",
+        "operator": "max",
+        "threshold": 5,
+        "unit": "g",
+        "basis": "per_100g"
+      }
+    ]
+  },
+  {
+    "id": "sugar_max",
+    "title": "糖每100克不超过5克",
+    "constraints": [
+      {
+        "kind": "nutrition_limit",
+        "canonical_value": "sugars",
+        "operator": "max",
+        "threshold": 5,
+        "unit": "g",
+        "basis": "per_100g"
+      }
+    ]
+  },
+  {
+    "id": "protein_more",
+    "title": "蛋白质比每100克3克更多",
+    "query": "蛋白质更多",
+    "baseline": [
+      [
+        "项目",
+        "每100克"
+      ],
+      [
+        "蛋白质",
+        "3克"
+      ]
+    ]
+  },
+  {
+    "id": "fat_less",
+    "title": "脂肪比每100克4克更少",
+    "query": "脂肪更少",
+    "baseline": [
+      [
+        "项目",
+        "每100克"
+      ],
+      [
+        "脂肪",
+        "4克"
+      ]
+    ]
+  },
+  {
+    "id": "fat_and_sugar",
+    "title": "脂肪与糖双上限",
+    "constraints": [
+      {
+        "kind": "nutrition_limit",
+        "canonical_value": "fat",
+        "operator": "max",
+        "threshold": 5,
+        "unit": "g",
+        "basis": "per_100g"
+      },
+      {
+        "kind": "nutrition_limit",
+        "canonical_value": "sugars",
+        "operator": "max",
+        "threshold": 5,
+        "unit": "g",
+        "basis": "per_100g"
+      }
+    ]
+  },
+  {
+    "id": "fat_and_allergy",
+    "title": "脂肪上限并限制花生",
+    "constraints": [
+      {
+        "kind": "nutrition_limit",
+        "canonical_value": "fat",
+        "operator": "max",
+        "threshold": 5,
+        "unit": "g",
+        "basis": "per_100g"
+      },
+      {
+        "kind": "allergy",
+        "canonical_value": "peanut"
+      }
+    ]
+  },
+  {
+    "id": "avoid_ingredient",
+    "title": "回避指定配料",
+    "constraints": [
+      {
+        "kind": "avoid",
+        "canonical_value": "白砂糖"
+      }
+    ]
+  },
+  {
+    "id": "missing_baseline",
+    "title": "蛋白质更多但没有原商品数值",
+    "query": "蛋白质更多"
+  },
+  {
+    "id": "different_basis",
+    "title": "按每100毫升限制脂肪",
+    "constraints": [
+      {
+        "kind": "nutrition_limit",
+        "canonical_value": "fat",
+        "operator": "max",
+        "threshold": 5,
+        "unit": "g",
+        "basis": "per_100ml"
+      }
+    ]
+  },
+  {
+    "id": "sodium_max",
+    "title": "钠每100克不超过50毫克",
+    "constraints": [
+      {
+        "kind": "nutrition_limit",
+        "canonical_value": "sodium",
+        "operator": "max",
+        "threshold": 50,
+        "unit": "mg",
+        "basis": "per_100g"
+      }
+    ]
+  }
+]

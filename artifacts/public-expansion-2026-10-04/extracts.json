@@ -1,0 +1,490 @@
+{
+  "captured_at": "2026-10-04T12:40:47.070361+00:00",
+  "capture_method": "official_page_text_via_web_retrieval",
+  "refresh_mode": "manual_recheck_required",
+  "notes": [
+    "来源工具可能使用索引缓存，不声称实时官网抓取成功。",
+    "卡士直接请求被拦截；本轮保存公开页面文字摘录。",
+    "不将无蔗糖或0乳糖名称转成糖为零。",
+    "明治同配方不同规格分别记录，不当作不同配方计数。"
+  ],
+  "excluded": [
+    {
+      "url": "https://www.classykiss.cn/YOKEEP/index.html",
+      "reason": "页面标题注明废弃；不纳入当前候选"
+    }
+  ],
+  "products": [
+    {
+      "brand": "卡士",
+      "name": "卡士 断糖日记 原味",
+      "source_id": "classykiss-public-extract",
+      "product_type": "yogurt",
+      "specification": null,
+      "ingredients": "生牛乳(≥99%)、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳脂乳球菌、乳酸乳球菌乳亚种",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "352千焦"
+        ],
+        [
+          "蛋白质",
+          "4.2克"
+        ],
+        [
+          "脂肪",
+          "5.0克"
+        ],
+        [
+          "碳水化合物",
+          "5.6克"
+        ],
+        [
+          "钠",
+          "50毫克"
+        ],
+        [
+          "钙",
+          "130毫克"
+        ]
+      ],
+      "source_url": "https://www.classykiss.cn/wap/SugarDiary/index.html",
+      "source_section": "配料表原味 / 营养成分表原味"
+    },
+    {
+      "brand": "卡士",
+      "name": "卡士 断糖日记 椰子味",
+      "source_id": "classykiss-public-extract",
+      "product_type": "yogurt",
+      "specification": null,
+      "ingredients": "生牛乳(≥88%)、椰子果酱(≥10%)、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳脂乳球菌、乳酸乳球菌乳亚种",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "407千焦"
+        ],
+        [
+          "蛋白质",
+          "3.8克"
+        ],
+        [
+          "脂肪",
+          "5.8克"
+        ],
+        [
+          "碳水化合物",
+          "7.5克"
+        ],
+        [
+          "钠",
+          "48毫克"
+        ],
+        [
+          "钙",
+          "125毫克"
+        ]
+      ],
+      "source_url": "https://www.classykiss.cn/wap/SugarDiary/index.html",
+      "source_section": "配料表椰子味 / 营养成分表椰子味"
+    },
+    {
+      "brand": "卡士",
+      "name": "卡士 宝贝第二餐 原味",
+      "source_id": "classykiss-public-extract",
+      "product_type": "yogurt",
+      "specification": null,
+      "ingredients": "生牛乳（≥99%）、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳脂乳球菌、嗜酸乳杆菌NCFM、动物双歧杆菌乳亚种HN019",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "389千焦"
+        ],
+        [
+          "蛋白质",
+          "4.5克"
+        ],
+        [
+          "脂肪",
+          "6.0克"
+        ],
+        [
+          "碳水化合物",
+          "6.0克"
+        ],
+        [
+          "钠",
+          "50毫克"
+        ],
+        [
+          "钙",
+          "140毫克"
+        ]
+      ],
+      "source_url": "https://www.classykiss.cn/wap/BabySecondMeal/index.html",
+      "source_section": "配料表原味 / 营养成分表原味"
+    },
+    {
+      "brand": "卡士",
+      "name": "卡士 宝贝第二餐 西梅苹果味",
+      "source_id": "classykiss-public-extract",
+      "product_type": "yogurt",
+      "specification": null,
+      "ingredients": "生牛乳（≥80%）、西梅苹果黑莓果浆（≥18%）、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳脂乳球菌、嗜酸乳杆菌NCFM、动物双歧杆菌乳亚种HN019",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "373千焦"
+        ],
+        [
+          "蛋白质",
+          "3.7克"
+        ],
+        [
+          "脂肪",
+          "4.7克"
+        ],
+        [
+          "碳水化合物",
+          "8.0克"
+        ],
+        [
+          "钠",
+          "45毫克"
+        ],
+        [
+          "钙",
+          "120毫克"
+        ]
+      ],
+      "source_url": "https://www.classykiss.cn/wap/BabySecondMeal/index.html",
+      "source_section": "配料表西梅苹果味 / 营养成分表西梅苹果味"
+    },
+    {
+      "brand": "卡士",
+      "name": "卡士 宝贝第二餐 草莓蓝莓树莓味",
+      "source_id": "classykiss-public-extract",
+      "product_type": "yogurt",
+      "specification": null,
+      "ingredients": "生牛乳（≥80%）、草莓蓝莓树莓果浆（≥18%）、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳脂乳球菌、嗜酸乳杆菌NCFM、动物双歧杆菌乳亚种HN019",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "407千焦"
+        ],
+        [
+          "蛋白质",
+          "3.7克"
+        ],
+        [
+          "脂肪",
+          "4.7克"
+        ],
+        [
+          "碳水化合物",
+          "10.0克"
+        ],
+        [
+          "钠",
+          "45毫克"
+        ],
+        [
+          "钙",
+          "120毫克"
+        ]
+      ],
+      "source_url": "https://www.classykiss.cn/wap/BabySecondMeal/index.html",
+      "source_section": "配料表草莓蓝莓树莓味 / 营养成分表草莓蓝莓树莓味"
+    },
+    {
+      "brand": "卡士",
+      "name": "卡士 宝贝第二餐 山楂鸡内金六物味",
+      "source_id": "classykiss-public-extract",
+      "product_type": "yogurt",
+      "specification": null,
+      "ingredients": "生牛乳（≥80%）、山楂鸡内金六物果酱（≥18%）、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳脂乳球菌、嗜酸乳杆菌NCFM、动物双歧杆菌乳亚种HN019",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "407千焦"
+        ],
+        [
+          "蛋白质",
+          "3.7克"
+        ],
+        [
+          "脂肪",
+          "4.7克"
+        ],
+        [
+          "碳水化合物",
+          "10.0克"
+        ],
+        [
+          "钠",
+          "45毫克"
+        ],
+        [
+          "钙",
+          "120毫克"
+        ]
+      ],
+      "source_url": "https://www.classykiss.cn/wap/BabySecondMeal/index.html",
+      "source_section": "配料表山楂鸡内金六物味 / 营养成分表山楂鸡内金六物味"
+    },
+    {
+      "brand": "卡士",
+      "name": "卡士 餐后一小时 原味",
+      "source_id": "classykiss-public-extract",
+      "product_type": "yogurt",
+      "specification": null,
+      "ingredients": "生牛乳 (＞80% )、水、白砂糖、加糖炼乳、浓缩牛奶蛋白、抗性糊精(可溶性膳食纤维Fibersol-2®)、果胶、动物双歧杆菌乳亚种Bifidobacterium animalis subsp.lactis、德氏乳杆菌保加利亚亚种Lactobacilus delbrueckil subsp.bulgaricus、唾液链球菌嗜热亚种Streptococcus salvarus subsp. thermophilus",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "422千焦"
+        ],
+        [
+          "蛋白质",
+          "3.0克"
+        ],
+        [
+          "脂肪",
+          "3.7克"
+        ],
+        [
+          "碳水化合物",
+          "13.0克"
+        ],
+        [
+          "钠",
+          "60毫克"
+        ],
+        [
+          "钙",
+          "100毫克"
+        ],
+        [
+          "膳食纤维",
+          "1.6克"
+        ]
+      ],
+      "source_url": "https://www.classykiss.cn/OneHourAfterTheMeal/index.html",
+      "source_section": "配料表原味 / 营养成分表原味"
+    },
+    {
+      "brand": "卡士",
+      "name": "卡士 餐后一小时 无蔗糖",
+      "source_id": "classykiss-public-extract",
+      "product_type": "yogurt",
+      "specification": null,
+      "ingredients": "生牛乳 (＞80% )、水、麦芽糖醇、赤藓糖醇、抗性糊精(可溶性膳食纤维Fibersol-2®)、菊粉、浓缩牛奶蛋白、果胶、蛋黄粉、甜菊糖苷、动物双歧杆菌乳亚种Bifidobacterium animalis subsp.lactis、德氏乳杆菌保加利亚亚种Lactobacilus delbrueckil subsp.bulgaricus、唾液链球菌嗜热亚种Streptococcus salvarus subsp. thermophilus",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "314千焦"
+        ],
+        [
+          "蛋白质",
+          "3.0克"
+        ],
+        [
+          "脂肪",
+          "3.7克"
+        ],
+        [
+          "碳水化合物",
+          "6.5克"
+        ],
+        [
+          "钠",
+          "45毫克"
+        ],
+        [
+          "钙",
+          "100毫克"
+        ],
+        [
+          "膳食纤维",
+          "2克"
+        ]
+      ],
+      "source_url": "https://www.classykiss.cn/OneHourAfterTheMeal/index.html",
+      "source_section": "配料表无蔗糖 / 营养成分表无蔗糖"
+    },
+    {
+      "brand": "明治",
+      "name": "meiji北海道风味0乳糖发酵乳",
+      "source_id": "meiji-public-extract",
+      "product_type": "yogurt",
+      "specification": "400g",
+      "ingredients": null,
+      "nutrition_rows": [],
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "source_section": "酸奶 / meiji北海道风味0乳糖发酵乳 / 400g"
+    },
+    {
+      "brand": "明治",
+      "name": "meiji北海道风味0乳糖发酵乳",
+      "source_id": "meiji-public-extract",
+      "product_type": "yogurt",
+      "specification": "135g",
+      "ingredients": null,
+      "nutrition_rows": [],
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "source_section": "酸奶 / meiji北海道风味0乳糖发酵乳 / 135g"
+    },
+    {
+      "brand": "明治",
+      "name": "meiji北海道风味0乳糖发酵乳",
+      "source_id": "meiji-public-extract",
+      "product_type": "yogurt",
+      "specification": "100g",
+      "ingredients": null,
+      "nutrition_rows": [],
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "source_section": "酸奶 / meiji北海道风味0乳糖发酵乳 / 100g"
+    },
+    {
+      "brand": "明治",
+      "name": "meiji北海道风味0乳糖发酵乳",
+      "source_id": "meiji-public-extract",
+      "product_type": "yogurt",
+      "specification": "100g×2杯",
+      "ingredients": null,
+      "nutrition_rows": [],
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "source_section": "酸奶 / meiji北海道风味0乳糖发酵乳 / 100g×2杯"
+    },
+    {
+      "brand": "明治",
+      "name": "meiji北海道风味奢享原味风味发酵乳",
+      "source_id": "meiji-public-extract",
+      "product_type": "yogurt",
+      "specification": "135g",
+      "ingredients": null,
+      "nutrition_rows": [],
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "source_section": "酸奶 / meiji北海道风味奢享原味风味发酵乳 / 135g"
+    },
+    {
+      "brand": "明治",
+      "name": "meiji北海道风味奢享原味风味发酵乳",
+      "source_id": "meiji-public-extract",
+      "product_type": "yogurt",
+      "specification": "100g",
+      "ingredients": null,
+      "nutrition_rows": [],
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "source_section": "酸奶 / meiji北海道风味奢享原味风味发酵乳 / 100g"
+    },
+    {
+      "brand": "明治",
+      "name": "meiji北海道风味奢享原味风味发酵乳",
+      "source_id": "meiji-public-extract",
+      "product_type": "yogurt",
+      "specification": "100g×2杯",
+      "ingredients": null,
+      "nutrition_rows": [],
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "source_section": "酸奶 / meiji北海道风味奢享原味风味发酵乳 / 100g×2杯"
+    },
+    {
+      "brand": "明治",
+      "name": "明治保加利亚式酸奶纯味不甜",
+      "source_id": "meiji-public-extract",
+      "product_type": "yogurt",
+      "specification": "400g",
+      "ingredients": null,
+      "nutrition_rows": [],
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "source_section": "酸奶 / 明治保加利亚式酸奶纯味不甜 / 400g"
+    },
+    {
+      "brand": "明治",
+      "name": "明治保加利亚式酸奶纯味不甜",
+      "source_id": "meiji-public-extract",
+      "product_type": "yogurt",
+      "specification": "150g",
+      "ingredients": null,
+      "nutrition_rows": [],
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "source_section": "酸奶 / 明治保加利亚式酸奶纯味不甜 / 150g"
+    },
+    {
+      "brand": "明治",
+      "name": "明治保加利亚式酸奶纯味不甜",
+      "source_id": "meiji-public-extract",
+      "product_type": "yogurt",
+      "specification": "100g×4杯",
+      "ingredients": null,
+      "nutrition_rows": [],
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "source_section": "酸奶 / 明治保加利亚式酸奶纯味不甜 / 100g×4杯"
+    },
+    {
+      "brand": "明治",
+      "name": "明治保加利亚式酸奶清甜原味",
+      "source_id": "meiji-public-extract",
+      "product_type": "yogurt",
+      "specification": "150g",
+      "ingredients": null,
+      "nutrition_rows": [],
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "source_section": "酸奶 / 明治保加利亚式酸奶清甜原味 / 150g"
+    },
+    {
+      "brand": "明治",
+      "name": "明治保加利亚式酸奶清甜原味",
+      "source_id": "meiji-public-extract",
+      "product_type": "yogurt",
+      "specification": "100g×4杯",
+      "ingredients": null,
+      "nutrition_rows": [],
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "source_section": "酸奶 / 明治保加利亚式酸奶清甜原味 / 100g×4杯"
+    },
+    {
+      "brand": "明治",
+      "name": "明治佰乐益优R-1风味酸乳",
+      "source_id": "meiji-public-extract",
+      "product_type": "yogurt",
+      "specification": "180g",
+      "ingredients": null,
+      "nutrition_rows": [],
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "source_section": "酸奶 / 明治佰乐益优R-1风味酸乳 / 180g"
+    }
+  ]
+}

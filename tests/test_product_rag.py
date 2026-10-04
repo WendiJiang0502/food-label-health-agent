@@ -263,7 +263,7 @@ def test_chat_search_preserves_only_confirmed_nutrition_and_current_product(
 
     captured = []
 
-    def workflow(request, *, state):
+    def workflow(request, *, state, evidence_service=None):
         captured.append(request)
         return {"status": "completed", "eligible": []}, state
 
@@ -288,6 +288,7 @@ def test_chat_search_preserves_only_confirmed_nutrition_and_current_product(
         },
     }
     agent = ConversationAgent.__new__(ConversationAgent)
+    agent.evidence_service = None
     result = agent._invoke_tool(
         "search_product_alternatives",
         {"query": "燕麦早餐", "category": "breakfast_cereal"},

@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import sqlite3
-
 import base64
 import hmac
 import json
 import os
+import sqlite3
 import threading
 import time
 from collections import defaultdict, deque
@@ -270,8 +269,10 @@ def create_app(
         retention_hours=chat_retention_hours
     )
     conversations.purge_expired()
-    chat_agent = conversation_agent or ConversationAgent()
     discovery = discovery_service or OfficialProductDiscovery()
+    from food_label_agent.alternatives.application import AlternativeEvidenceService
+    alternative_evidence = AlternativeEvidenceService(discovery)
+    chat_agent = conversation_agent or ConversationAgent(evidence_service=alternative_evidence)
     memory_retention_days = int(os.getenv("FOOD_LABEL_MEMORY_RETENTION_DAYS", "30"))
     memories.purge_expired(retention_days=memory_retention_days)
 
@@ -473,7 +474,7 @@ def create_app(
         if hasattr(discovery, "queue_path"):
             try:
                 summary["completion_queue"] = completion_snapshot(
-                    ProductKnowledgeStore(discovery.queue_path.with_name("product-knowledge.sqlite3"))
+                    alternative_evidence.store
                 )
             except (OSError, sqlite3.Error):
                 summary["completion_queue"] = {"status": "unavailable"}
@@ -485,7 +486,10 @@ def create_app(
             payload = await request.json()
             category = str(payload.get("category") or "").strip() or None
             result = await run_in_threadpool(discovery.refresh, category=category)
-            return JSONResponse(result.to_dict())
+            response = result.to_dict()
+            refreshed = alternative_evidence.prepare()
+            response["evidence_sync"] = {"status": refreshed["status"], "warnings": refreshed["warnings"]}
+            return JSONResponse(response)
         except PermissionError:
             return _error("自动发现刷新需要有效的管理员令牌。", status_code=403)
         except (TypeError, ValueError) as exc:
@@ -500,7 +504,9 @@ def create_app(
                 review_token=_bearer_token(request),
                 product=payload.get("product"),
             )
-            return JSONResponse({"status": "reviewed", "item": item})
+            refreshed = alternative_evidence.prepare()
+            return JSONResponse({"status": "reviewed", "item": item,
+                                 "evidence_sync": {"status": refreshed["status"], "warnings": refreshed["warnings"]}})
         except PermissionError:
             return _error("目录审核凭证无效。", status_code=403)
         except KeyError:
@@ -695,24 +701,9 @@ def create_app(
             resumed_state = checkpoints.load_latest(
                 parsed.request_id, parsed.resume_token
             )
-            result, final_state = run_alternative_workflow(parsed, state=resumed_state)
-            result["discovery"] = {
-                "status": "cached",
-                "summary": discovery.status(category=parsed.category),
-                "warnings": [],
-            }
-            from food_label_agent.alternatives.source_screening import screen_official_sources
-            result["source_screening"] = screen_official_sources(
-                result["discovery"]["summary"]["items"], parsed
+            result, final_state = run_alternative_workflow(
+                parsed, state=resumed_state, evidence_service=alternative_evidence
             )
-            from food_label_agent.alternatives.completion import record_screening_gaps
-            try:
-                result["source_screening"]["completion_queue"] = record_screening_gaps(
-                    ProductKnowledgeStore(discovery.queue_path.with_name("product-knowledge.sqlite3")),
-                    result["source_screening"], parsed.request_id,
-                )
-            except (OSError, sqlite3.Error):
-                result["source_screening"]["completion_queue"] = {"status": "unavailable"}
             checkpoint = checkpoints.save(final_state, resume_token=parsed.resume_token)
             result["checkpoint"] = checkpoint.to_dict()
             return JSONResponse(result)

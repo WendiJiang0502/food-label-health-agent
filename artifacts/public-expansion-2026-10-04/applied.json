@@ -1,0 +1,9 @@
+{
+  "before": 56,
+  "after": 77,
+  "new_ids": 21,
+  "new_nutrition_products": 8,
+  "new_identity_variants": 13,
+  "new_identity_product_names": 5,
+  "automatic_refresh_for_new_sources": false
+}

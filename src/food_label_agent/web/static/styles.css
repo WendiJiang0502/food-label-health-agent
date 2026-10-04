@@ -2044,3 +2044,11 @@ footer { border-top-color: var(--line); color: #52615d; }
   word-break: break-word;
   overflow-wrap: anywhere;
 }
+
+#official-source-screening > ul > li { margin-block: 20px; }
+.source-evidence-checks, .source-ingredient-evidence ul { padding-inline-start: 20px; }
+.source-evidence-checks li { margin-block: 8px; }
+.source-evidence-checks p { margin-block: 4px; }
+.source-ingredient-evidence { margin-block: 12px; }
+.source-ingredient-evidence summary { cursor: pointer; color: var(--teal); }
+.source-ingredient-evidence summary:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }

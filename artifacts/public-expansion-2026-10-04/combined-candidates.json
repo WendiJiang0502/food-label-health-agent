@@ -1,0 +1,5670 @@
+[
+  {
+    "candidate_id": "official-structured:d8db48076efa12c40fa7",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 吸吸袋酸奶原味",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "100克",
+    "source_url": "https://simplelove.com.cn/product.html#series-1",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-1",
+      "identity_fields": [
+        "display_name",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(添加量≥98%)、乳清蛋白粉(添加量≥1.0%)、唾液链球菌嗜热亚种、德氏乳杆菌保加利亚亚种、乳酸乳球菌乳亚种、乳脂乳球菌、动物双歧杆菌乳亚种Bb-12、长双歧杆菌长亚种BB536",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "346千焦"
+        ],
+        [
+          "蛋白质",
+          "4.6克"
+        ],
+        [
+          "脂肪",
+          "4.8克"
+        ],
+        [
+          "碳水化合物",
+          "5.3克"
+        ],
+        [
+          "钠",
+          "45毫克"
+        ],
+        [
+          "钙",
+          "140毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:8cc3db7a52e23268b2226484fee2a10605f51ee384568374d32eede4438fdb46",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "父爱系列",
+    "manufacturer_record_reference": "1|吸吸袋酸奶原味",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-1.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": [],
+    "specification_evidence": {
+      "specification": "100克",
+      "review_status": "source_image_read_by_assistant",
+      "source_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-1.png?v=1",
+      "artifact": "artifacts/official-expansion-2026-10-04/ocr-0.json",
+      "image_sha256": "caa619a54bdd798a1d39a2af80d1c9fe21e5c0a0187cf9940d24cf8956f5b918",
+      "source_fingerprint": "sha256:8cc3db7a52e23268b2226484fee2a10605f51ee384568374d32eede4438fdb46",
+      "checked_at": "2026-10-04",
+      "valid_through": "2026-11-03"
+    }
+  },
+  {
+    "candidate_id": "official-structured:1f304a7817b8424f7d58",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 吸吸袋酸奶西梅苹果",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "100克",
+    "source_url": "https://simplelove.com.cn/product.html#series-1",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-1",
+      "identity_fields": [
+        "display_name",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(添加量≥80%)、西梅苹果复合果浆(添加量≥14%)、乳清蛋白粉(添加量≥0.8%)、唾液链球菌嗜热亚种、德氏乳杆菌保加利亚亚种、乳酸乳球菌乳亚种、乳脂乳球菌、动物双歧杆菌乳亚种Bb-12、长双歧杆菌长亚种BB536",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "337千焦"
+        ],
+        [
+          "蛋白质",
+          "4.0克"
+        ],
+        [
+          "脂肪",
+          "4.1克"
+        ],
+        [
+          "碳水化合物",
+          "6.9克"
+        ],
+        [
+          "钠",
+          "40毫克"
+        ],
+        [
+          "钙",
+          "120毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:99ce98222ee145029548e5fb392dfffbb05f4c307ff33b1f4350317d9c0acca4",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "父爱系列",
+    "manufacturer_record_reference": "1|吸吸袋酸奶西梅苹果",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-2.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": [],
+    "specification_evidence": {
+      "specification": "100克",
+      "review_status": "source_image_read_by_assistant",
+      "source_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-2.png?v=1",
+      "artifact": "artifacts/official-expansion-2026-10-04/ocr-1.json",
+      "image_sha256": "6e61b9bd92de2dcd6900a597f6f1fff70999e25ceaff8ddefc13bdb19b78b979",
+      "source_fingerprint": "sha256:99ce98222ee145029548e5fb392dfffbb05f4c307ff33b1f4350317d9c0acca4",
+      "checked_at": "2026-10-04",
+      "valid_through": "2026-11-03"
+    }
+  },
+  {
+    "candidate_id": "official-structured:1303dd2be999feb8c8e3",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 吸吸袋酸奶葡萄蓝莓",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "100克",
+    "source_url": "https://simplelove.com.cn/product.html#series-1",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-1",
+      "identity_fields": [
+        "display_name",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(添加量≥80%)、葡萄蓝莓复合果蔬果酱(添加量≥14%)、乳清蛋白粉(添加量≥0.8%)、唾液链球菌嗜热亚种、德氏乳杆菌保加利亚亚种、乳酸乳球菌乳亚种、乳脂乳球菌、动物双歧杆菌乳亚种Bb-12、长双歧杆菌长亚种BB536",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "354千焦"
+        ],
+        [
+          "蛋白质",
+          "4.0克"
+        ],
+        [
+          "脂肪",
+          "4.1克"
+        ],
+        [
+          "碳水化合物",
+          "7.9克"
+        ],
+        [
+          "钠",
+          "40毫克"
+        ],
+        [
+          "钙",
+          "120毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:f6f91457443193a4a9b19e0e101c4f6582b4c75ada8abe42dda032186e834782",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "父爱系列",
+    "manufacturer_record_reference": "1|吸吸袋酸奶葡萄蓝莓",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-3.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": [],
+    "specification_evidence": {
+      "specification": "100克",
+      "review_status": "source_image_read_by_assistant",
+      "source_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-3.png?v=1",
+      "artifact": "artifacts/official-expansion-2026-10-04/ocr-2.json",
+      "image_sha256": "e7542f03f5e8d9f7691e912bae1294a2dfd1e5dd2bac3fa1b1e0aeecd3f05ff2",
+      "source_fingerprint": "sha256:f6f91457443193a4a9b19e0e101c4f6582b4c75ada8abe42dda032186e834782",
+      "checked_at": "2026-10-04",
+      "valid_through": "2026-11-03"
+    }
+  },
+  {
+    "candidate_id": "official-structured:be6c404d63367e441229",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 吸吸袋酸奶草莓",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "100克",
+    "source_url": "https://simplelove.com.cn/product.html#series-1",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-1",
+      "identity_fields": [
+        "display_name",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(添加量≥80%)、葡萄蓝莓复合果蔬果酱(添加量≥14%)、乳清蛋白粉(添加量≥0.8%)、唾液链球菌嗜热亚种、德氏乳杆菌保加利亚亚种、乳酸乳球菌乳亚种、乳脂乳球菌、动物双歧杆菌乳亚种Bb-12、长双歧杆菌长亚种BB536",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "374千焦"
+        ],
+        [
+          "蛋白质",
+          "4.0克"
+        ],
+        [
+          "脂肪",
+          "4.1克"
+        ],
+        [
+          "碳水化合物",
+          "9.1克"
+        ],
+        [
+          "钠",
+          "40毫克"
+        ],
+        [
+          "钙",
+          "120毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:dbad20832bb2ae3423772b2fc929a32bfa3dfb7553366c5195db469e6ebb4298",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "官网口味与配料不一致"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "父爱系列",
+    "manufacturer_record_reference": "1|吸吸袋酸奶草莓",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-4.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": [
+      "官网口味与配料不一致"
+    ],
+    "specification_evidence": {
+      "specification": "100克",
+      "review_status": "source_image_read_by_assistant",
+      "source_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-4.png?v=1",
+      "artifact": "artifacts/official-expansion-2026-10-04/ocr-3.json",
+      "image_sha256": "6da7f0a3fe5ad50fe618ab6192859314b9af9d80f4a45a6d62f18761f993ea7e",
+      "source_fingerprint": "sha256:dbad20832bb2ae3423772b2fc929a32bfa3dfb7553366c5195db469e6ebb4298",
+      "checked_at": "2026-10-04",
+      "valid_through": "2026-11-03"
+    }
+  },
+  {
+    "candidate_id": "official-structured:fca6cb4392e55214f97d",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 父爱牧场鲜牛奶",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "250mL",
+    "source_url": "https://simplelove.com.cn/product.html#series-1",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-1",
+      "identity_fields": [
+        "display_name",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "337千焦"
+        ],
+        [
+          "蛋白质",
+          "4.0克"
+        ],
+        [
+          "脂肪",
+          "4.6克"
+        ],
+        [
+          "碳水化合物",
+          "5.8克"
+        ],
+        [
+          "钠",
+          "50毫克"
+        ],
+        [
+          "钙",
+          "130毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:f1ac5182b82b944bac5a56d5dfd10ef97cbb4590e483ca4b48512ed4728d3073",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "液体每100克口径需核实"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "父爱系列",
+    "manufacturer_record_reference": "1|父爱牧场鲜牛奶",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-7.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": [
+      "液体每100克口径需核实"
+    ],
+    "specification_evidence": {
+      "specification": "250mL",
+      "review_status": "source_image_read_by_assistant",
+      "source_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-7.png?v=1",
+      "artifact": "artifacts/official-expansion-2026-10-04/ocr-4.json",
+      "image_sha256": "a99ddf4a63d10eb4d0cf3dd92952e248ab7bec0536b09e83e0419d9ad5120301",
+      "source_fingerprint": "sha256:f1ac5182b82b944bac5a56d5dfd10ef97cbb4590e483ca4b48512ed4728d3073",
+      "checked_at": "2026-10-04",
+      "valid_through": "2026-11-03"
+    }
+  },
+  {
+    "candidate_id": "official-structured:5b0d405ba8595ee2978b",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 light-高钙滑滑",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "100克",
+    "source_url": "https://simplelove.com.cn/product.html#series-2",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-2",
+      "identity_fields": [
+        "display_name",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(添加量≥94%)、菊粉、脱盐乳清粉、浓缩牛奶蛋白、乳清蛋白粉、乳脂乳球菌、乳酸乳球菌乳亚种、唾液链球菌嗜热亚种",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "307千焦"
+        ],
+        [
+          "蛋白质",
+          "3.5克"
+        ],
+        [
+          "脂肪",
+          "3.8克"
+        ],
+        [
+          "碳水化合物",
+          "5.6克"
+        ],
+        [
+          "膳食纤维",
+          "1.2克"
+        ],
+        [
+          "钠",
+          "45毫克"
+        ],
+        [
+          "钙",
+          "110毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:fd81cda3d306ca8508d2a0b10be7b1bab8e0217c16fc014502b4619c43143a59",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "控糖系列",
+    "manufacturer_record_reference": "2|light-高钙滑滑",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-1.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": [],
+    "specification_evidence": {
+      "specification": "100克",
+      "review_status": "source_image_read_by_assistant",
+      "source_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-1.png?v=1",
+      "artifact": "artifacts/official-expansion-2026-10-04/ocr-5.json",
+      "image_sha256": "981ef6ebe9a48056e27374190082db72dfad8bec6b60d4b8466e94cc67283adf",
+      "source_fingerprint": "sha256:fd81cda3d306ca8508d2a0b10be7b1bab8e0217c16fc014502b4619c43143a59",
+      "checked_at": "2026-10-04",
+      "valid_through": "2026-11-03"
+    }
+  },
+  {
+    "candidate_id": "official-structured:4d5f4eb38e950184cd7e",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 light-轻拌酸奶",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "120克",
+    "source_url": "https://simplelove.com.cn/product.html#series-2",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-2",
+      "identity_fields": [
+        "display_name",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(添加量≥97%)、菊粉、乳脂乳球菌、乳酸乳球菌乳亚种、唾液链球菌嗜热亚种",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "382千焦"
+        ],
+        [
+          "蛋白质",
+          "4.5克"
+        ],
+        [
+          "脂肪",
+          "5.1克"
+        ],
+        [
+          "碳水化合物",
+          "6.2克"
+        ],
+        [
+          "膳食纤维",
+          "1.4克"
+        ],
+        [
+          "钠",
+          "46毫克"
+        ],
+        [
+          "钙",
+          "120毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:3175139de88c1cef8b2c6770d990a0065198ed36f4f136f641b9d62ebb94e78e",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "控糖系列",
+    "manufacturer_record_reference": "2|light-轻拌酸奶",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-2.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": [],
+    "specification_evidence": {
+      "specification": "120克",
+      "review_status": "source_image_read_by_assistant",
+      "source_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-2.png?v=1",
+      "artifact": "artifacts/official-expansion-2026-10-04/ocr-6.json",
+      "image_sha256": "fde85b2fb41680088c118acee3d21ac66503a8e6eb532fb134bd1848b8e79c6f",
+      "source_fingerprint": "sha256:3175139de88c1cef8b2c6770d990a0065198ed36f4f136f641b9d62ebb94e78e",
+      "checked_at": "2026-10-04",
+      "valid_through": "2026-11-03"
+    }
+  },
+  {
+    "candidate_id": "official-structured:0913688267762d641c80",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 light-轻食酸奶",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "400克",
+    "source_url": "https://simplelove.com.cn/product.html#series-2",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-2",
+      "identity_fields": [
+        "display_name",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(添加量≥97%)、菊粉、乳脂乳球菌、乳酸乳球菌乳亚种、唾液链球菌嗜执亚种",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "301千焦"
+        ],
+        [
+          "蛋白质",
+          "3.5克"
+        ],
+        [
+          "脂肪",
+          "4.0克"
+        ],
+        [
+          "碳水化合物",
+          "5.0克"
+        ],
+        [
+          "膳食纤维",
+          "1.1克"
+        ],
+        [
+          "钠",
+          "39毫克"
+        ],
+        [
+          "钙",
+          "105毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:eec8cbc5f6c88175ffb0f91fb96fb965d870baad566f2772e27a3c448f6f0fa2",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "官网菌种文字疑似错字"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "控糖系列",
+    "manufacturer_record_reference": "2|light-轻食酸奶",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-3.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": [
+      "官网菌种文字疑似错字"
+    ],
+    "specification_evidence": {
+      "specification": "400克",
+      "review_status": "source_image_read_by_assistant",
+      "source_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-3.png?v=1",
+      "artifact": "artifacts/official-expansion-2026-10-04/ocr-7.json",
+      "image_sha256": "7374e1b8cd184e7ad63f87b496741b4e11ad26d4b223a0ba4332ecd9f4a34158",
+      "source_fingerprint": "sha256:eec8cbc5f6c88175ffb0f91fb96fb965d870baad566f2772e27a3c448f6f0fa2",
+      "checked_at": "2026-10-04",
+      "valid_through": "2026-11-03"
+    }
+  },
+  {
+    "candidate_id": "official-structured:3102a2d4a5b1baf3d9ed",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 light-轻食酸奶(4%蔗糖)",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-2",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-2",
+      "identity_fields": [
+        "display_name"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(添加量≥93%)、白砂糖、菊粉、乳脂乳球菌、乳酸乳球菌乳亚种、唾液链球菌嗜热亚种",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "362千焦"
+        ],
+        [
+          "蛋白质",
+          "3.5克"
+        ],
+        [
+          "脂肪",
+          "4.0克"
+        ],
+        [
+          "碳水化合物",
+          "8.5克"
+        ],
+        [
+          "膳食纤维",
+          "1.3克"
+        ],
+        [
+          "钠",
+          "39毫克"
+        ],
+        [
+          "钙",
+          "105毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:ab8a85f8203b2442a0e14b4abf6b6d22329824b68d83b177dcd2539aa4f90073",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "净含量规格",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "控糖系列",
+    "manufacturer_record_reference": "2|light-轻食酸奶(4%蔗糖)",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-4.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:12474869ed72722197ec",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 light-轻饮酸奶(230克)",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "230克",
+    "source_url": "https://simplelove.com.cn/product.html#series-2",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-2",
+      "identity_fields": [
+        "display_name",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(添加量≥94%)、菊粉、脱盐乳清粉、浓缩牛奶蛋白、乳清蛋白粉、乳脂乳球菌、乳酸乳球菌乳亚种、唾液链球菌嗜热亚种",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "307千焦"
+        ],
+        [
+          "蛋白质",
+          "3.6克"
+        ],
+        [
+          "脂肪",
+          "3.8克"
+        ],
+        [
+          "碳水化合物",
+          "5.6克"
+        ],
+        [
+          "膳食纤维",
+          "1.2克"
+        ],
+        [
+          "钠",
+          "45毫克"
+        ],
+        [
+          "钙",
+          "110毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:c00c656f9e0d0be33dcf602f2d037c08298d4b83af9dfef86f83e436709f8c71",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "控糖系列",
+    "manufacturer_record_reference": "2|light-轻饮酸奶(230克)",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-5.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:8f5216d000941bc5a113",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 light-轻饮酸奶(760克)",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "760克",
+    "source_url": "https://simplelove.com.cn/product.html#series-2",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-2",
+      "identity_fields": [
+        "display_name",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(添加量≥94%)、菊粉、脱盐乳清粉、浓缩牛奶蛋白、乳清蛋白粉、乳脂乳球菌、乳酸乳球菌乳亚种、唾液链球菌嗜热亚种",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "307千焦"
+        ],
+        [
+          "蛋白质",
+          "3.6克"
+        ],
+        [
+          "脂肪",
+          "3.8克"
+        ],
+        [
+          "碳水化合物",
+          "5.6克"
+        ],
+        [
+          "膳食纤维",
+          "1.2克"
+        ],
+        [
+          "钠",
+          "45毫克"
+        ],
+        [
+          "钙",
+          "110毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:a4895a8bc178db85ac8af53e82a3990dec98770e4d694eb7572c78415bd1ead3",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "控糖系列",
+    "manufacturer_record_reference": "2|light-轻饮酸奶(760克)",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-6.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:accfa77080f298607771",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 0%蔗糖酸奶",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "135克",
+    "source_url": "https://simplelove.com.cn/product.html#series-2",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-2",
+      "identity_fields": [
+        "display_name",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(≥99%)、乳脂乳球菌、乳酸乳球菌乳亚种、唾液链球菌嗜热亚种",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "371千焦"
+        ],
+        [
+          "蛋白质",
+          "4.5克"
+        ],
+        [
+          "脂肪",
+          "5.2克"
+        ],
+        [
+          "碳水化合物",
+          "6.0克"
+        ],
+        [
+          "钠",
+          "68毫克"
+        ],
+        [
+          "钙",
+          "120毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:23f2282f1407099a55703c8f6f55665e2530bd789dabcd0cc2fd0400301e663c",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "控糖系列",
+    "manufacturer_record_reference": "2|0%蔗糖酸奶",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-7.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": [],
+    "specification_evidence": {
+      "specification": "135克",
+      "review_status": "source_image_read_by_assistant",
+      "source_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-light-7.png?v=1",
+      "artifact": "artifacts/official-expansion-2026-10-04/ocr-8.json",
+      "image_sha256": "7cca08f097243b2cf499a3c23228a2df3360d3d0527606089fba59d1a7d944e1",
+      "source_fingerprint": "sha256:23f2282f1407099a55703c8f6f55665e2530bd789dabcd0cc2fd0400301e663c",
+      "checked_at": "2026-10-04",
+      "valid_through": "2026-11-03"
+    }
+  },
+  {
+    "candidate_id": "official-structured:445a9854cc00953f790f",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 超级桶原味",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "360g",
+    "source_url": "https://simplelove.com.cn/product.html#series-3",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-3",
+      "identity_fields": [
+        "display_name",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(添加量≥90%)、白砂糖(添加量≥7.5%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "391千焦"
+        ],
+        [
+          "蛋白质",
+          "3.0克"
+        ],
+        [
+          "脂肪",
+          "3.4克"
+        ],
+        [
+          "碳水化合物",
+          "12.6克"
+        ],
+        [
+          "钠",
+          "46毫克"
+        ],
+        [
+          "钙",
+          "98毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:6e3ebd0e361be20db47fcee7b2fbd6be85b7f67f96d5f5c2513778923e683a27",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "超级桶系列",
+    "manufacturer_record_reference": "3|超级桶原味",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-12.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": [],
+    "specification_evidence": {
+      "specification": "360g",
+      "review_status": "source_image_read_by_assistant",
+      "source_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-12.png?v=1",
+      "artifact": "artifacts/official-expansion-2026-10-04/ocr-9.json",
+      "image_sha256": "11ed627d50a59673cbe59cfea7560919fd167847578cf8f283419adb08c52ca9",
+      "source_fingerprint": "sha256:6e3ebd0e361be20db47fcee7b2fbd6be85b7f67f96d5f5c2513778923e683a27",
+      "checked_at": "2026-10-04",
+      "valid_through": "2026-11-03"
+    }
+  },
+  {
+    "candidate_id": "official-structured:4344d989e9f7a7dc82c6",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 超级桶百香果",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-3",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-3",
+      "identity_fields": [
+        "display_name"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(添加量≥85%)、白砂糖(添加量≥7%)、百香果原浆(添加量≥4%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "384千焦"
+        ],
+        [
+          "蛋白质",
+          "2.9克"
+        ],
+        [
+          "脂肪",
+          "3.2克"
+        ],
+        [
+          "碳水化合物",
+          "12.7克"
+        ],
+        [
+          "钠",
+          "44毫克"
+        ],
+        [
+          "钙",
+          "93毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:8c881d17e3e6359dd3970da64488037facef8fbe4b9592741eb2a515471690df",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "净含量规格",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "超级桶系列",
+    "manufacturer_record_reference": "3|超级桶百香果",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-13.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:e50e5a4358b5f93336e1",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 超级桶草莓樱花",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-3",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-3",
+      "identity_fields": [
+        "display_name"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(添加量≥83%)、草莓芭乐樱花复合果蔬浆(添加量≥7%)、白砂糖(添加量≥6%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "378千焦"
+        ],
+        [
+          "蛋白质",
+          "2.8克"
+        ],
+        [
+          "脂肪",
+          "3.1克"
+        ],
+        [
+          "碳水化合物",
+          "12.7克"
+        ],
+        [
+          "钠",
+          "42毫克"
+        ],
+        [
+          "钙",
+          "90毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:6eeca88029e9e82cb23a0b434bbcdb533a37ea72572a13c3b086105739363efe",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "净含量规格",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "超级桶系列",
+    "manufacturer_record_reference": "3|超级桶草莓樱花",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-14.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:b205ccc4722d83b1887f",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 超级桶荔枝杨梅",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-3",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-3",
+      "identity_fields": [
+        "display_name"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(添加量≥82%)、荔枝杨梅复合果浆(添加量≥8.5%)、白砂糖(添加量≥6%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "387千焦"
+        ],
+        [
+          "蛋白质",
+          "2.8克"
+        ],
+        [
+          "脂肪",
+          "3.1克"
+        ],
+        [
+          "碳水化合物",
+          "13.2克"
+        ],
+        [
+          "钠",
+          "42毫克"
+        ],
+        [
+          "钙",
+          "90毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:2bb96449a050ecc678a312c450741e84b4ded06ca8883ec437d5018c0a2b9ace",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "净含量规格",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "超级桶系列",
+    "manufacturer_record_reference": "3|超级桶荔枝杨梅",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-15.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:bdcd3f25267da837d361",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 原味裸酸奶(230克)",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "230克",
+    "source_url": "https://simplelove.com.cn/product.html#series-4",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-4",
+      "identity_fields": [
+        "display_name",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(添加量≥90%)、白砂糖(添加量≥7.5%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "391千焦"
+        ],
+        [
+          "蛋白质",
+          "3.0克"
+        ],
+        [
+          "脂肪",
+          "3.4克"
+        ],
+        [
+          "碳水化合物",
+          "12.6克"
+        ],
+        [
+          "钠",
+          "46毫克"
+        ],
+        [
+          "钙",
+          "98毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:ca02c8c5415e9f961e591d99a75833b54dd0fe7e0f85860b4a7fad8311f1d82d",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "裸酸奶系列",
+    "manufacturer_record_reference": "4|原味裸酸奶(230克)",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-18.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:2392c5ec4d278ec6f9d7",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 百香果果裸酸奶(230克)",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "230克",
+    "source_url": "https://simplelove.com.cn/product.html#series-4",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-4",
+      "identity_fields": [
+        "display_name",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(添加量≥85%)、白砂糖(添加量≥7%)、百香果原浆(添加量≥4%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "384千焦"
+        ],
+        [
+          "蛋白质",
+          "2.9克"
+        ],
+        [
+          "脂肪",
+          "3.2克"
+        ],
+        [
+          "碳水化合物",
+          "12.7克"
+        ],
+        [
+          "钠",
+          "44毫克"
+        ],
+        [
+          "钙",
+          "93毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:b78b0588f300667216bac4e9453e68e966cee006192e5b94021c2854706a6e91",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "裸酸奶系列",
+    "manufacturer_record_reference": "4|百香果果裸酸奶(230克)",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-19.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:c976d95629598baabf97",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 葡里萄气裸酸奶(230克)",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "230克",
+    "source_url": "https://simplelove.com.cn/product.html#series-4",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-4",
+      "identity_fields": [
+        "display_name",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(添加量≥83%)、葡萄原汁(添加量≥7%)、白砂糖(添加量≥7%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、 乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "387千焦"
+        ],
+        [
+          "蛋白质",
+          "2.8克"
+        ],
+        [
+          "脂肪",
+          "3.1克"
+        ],
+        [
+          "碳水化合物",
+          "13.2克"
+        ],
+        [
+          "钠",
+          "46毫克"
+        ],
+        [
+          "钙",
+          "90毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:fb4b10e47bd014d065795ae44dfcd48f173598417d12b2fc16aff5a107b3a6bf",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "裸酸奶系列",
+    "manufacturer_record_reference": "4|葡里萄气裸酸奶(230克)",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-20.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:525edaf07becbb2e05c3",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 原味裸酸奶(1.08千克)",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "1.08千克",
+    "source_url": "https://simplelove.com.cn/product.html#series-4",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-4",
+      "identity_fields": [
+        "display_name",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(添加量≥90%)、白砂糖(添加量≥7.5%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "391千焦"
+        ],
+        [
+          "蛋白质",
+          "3.0克"
+        ],
+        [
+          "脂肪",
+          "3.4克"
+        ],
+        [
+          "碳水化合物",
+          "12.6克"
+        ],
+        [
+          "钠",
+          "46毫克"
+        ],
+        [
+          "钙",
+          "98毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:a0ac79576a274b7d7cb7778d89db7c65de8664e3c74233318b185124c4db0222",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "裸酸奶系列",
+    "manufacturer_record_reference": "4|原味裸酸奶(1.08千克)",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-21.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:e5df9797117725f481e0",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 百香果果裸酸奶(1.08千克)",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "1.08千克",
+    "source_url": "https://simplelove.com.cn/product.html#series-4",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-4",
+      "identity_fields": [
+        "display_name",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(添加量≥85%)、白砂糖(添加量≥7%)、百香果原浆(添加量≥4%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "384千焦"
+        ],
+        [
+          "蛋白质",
+          "2.9克"
+        ],
+        [
+          "脂肪",
+          "3.2克"
+        ],
+        [
+          "碳水化合物",
+          "12.7克"
+        ],
+        [
+          "钠",
+          "44毫克"
+        ],
+        [
+          "钙",
+          "93毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:1fa6c064e12861ac2e678926d7336290fc54ed4fa7a3167384971dfd32e4b416",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "裸酸奶系列",
+    "manufacturer_record_reference": "4|百香果果裸酸奶(1.08千克)",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-22.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:9580cac92a638306f033",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 葡里萄气裸酸奶(1.08千克)",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "1.08千克",
+    "source_url": "https://simplelove.com.cn/product.html#series-4",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-4",
+      "identity_fields": [
+        "display_name",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(添加量≥83%)、葡萄原汁(添加量≥7%)、白砂糖(添加量≥7%)、动物双歧杆菌乳亚种、嗜酸乳杆菌、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、 乳酸乳球菌乳亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、鼠李糖乳酪杆菌、植物乳植杆菌、干酪乳酪杆菌、长双歧杆菌长亚种、短双歧杆菌、罗伊氏粘液乳杆菌",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "387千焦"
+        ],
+        [
+          "蛋白质",
+          "2.8克"
+        ],
+        [
+          "脂肪",
+          "3.1克"
+        ],
+        [
+          "碳水化合物",
+          "13.2克"
+        ],
+        [
+          "钠",
+          "46毫克"
+        ],
+        [
+          "钙",
+          "90毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:e1abe7d3abb1c891efc327f1dfb08627c7388a81e52bd1f67ae57063076ce64b",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "裸酸奶系列",
+    "manufacturer_record_reference": "4|葡里萄气裸酸奶(1.08千克)",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-23.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:9f2744a7ef372702f026",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 开菲尔原味",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-5",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-5",
+      "identity_fields": [
+        "display_name"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳、白砂糖、浓缩柠檬清汁、发酵菌种(唾液链球菌嗜热亚种、德氏乳杆菌保加利亚亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、乳酸乳球菌乳亚种、肠膜明串珠菌肠膜亚种、肠膜明串珠菌乳脂亚种、短双歧杆菌、动物双歧杆菌乳亚种、长双歧杆菌长亚种、嗜酸乳杆菌、植物乳植杆菌、副干酪乳酪杆菌)",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "373千焦"
+        ],
+        [
+          "蛋白质",
+          "3.0克"
+        ],
+        [
+          "脂肪",
+          "3.6克"
+        ],
+        [
+          "碳水化合物",
+          "11.1克"
+        ],
+        [
+          "钠",
+          "36毫克"
+        ],
+        [
+          "钙",
+          "95毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:1c9010af1ffeddcf79d29ba1399a888443c3b94b42cd320d165083d89b3c4e98",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "净含量规格",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "开菲尔系列",
+    "manufacturer_record_reference": "5|开菲尔原味",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-24.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:3dc12c336a9b07d7ecd9",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 开菲尔凤梨椰子",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-5",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-5",
+      "identity_fields": [
+        "display_name"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳、白砂糖、凤梨椰子复合果浆(添加量≥5%)、浓缩柠檬清汁、发酵菌种(唾液链球菌嗜热亚种、德氏乳杆菌保加利亚亚种、乳脂乳球菌、乳酸乳球菌乳亚种(双乙酰型)、乳酸乳球菌乳亚种、肠膜明串珠菌肠膜亚种、肠膜明串珠菌乳脂亚种、短双歧杆菌、动物双歧杆菌乳亚种、长双歧杆菌长亚种、嗜酸乳杆菌、植物乳植杆菌、副干酪乳酪杆菌)",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "371千焦"
+        ],
+        [
+          "蛋白质",
+          "2.8克"
+        ],
+        [
+          "脂肪",
+          "3.5克"
+        ],
+        [
+          "碳水化合物",
+          "11.4克"
+        ],
+        [
+          "钠",
+          "34毫克"
+        ],
+        [
+          "钙",
+          "90毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:753749cf119a081510d610f4d23b8e20fe5dd138c292e1b1b6ea643162ab5a85",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "净含量规格",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "开菲尔系列",
+    "manufacturer_record_reference": "5|开菲尔凤梨椰子",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-25.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:518d34db66bfed16fcf6",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 酸奶滑滑",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-6",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-6",
+      "identity_fields": [
+        "display_name"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "牛乳(添加量≥90%)、白砂糖、鼠李糖乳酪杆菌LGG、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "393千焦"
+        ],
+        [
+          "蛋白质",
+          "3.0克"
+        ],
+        [
+          "脂肪",
+          "3.5克"
+        ],
+        [
+          "碳水化合物",
+          "12.5克"
+        ],
+        [
+          "钠",
+          "36毫克"
+        ],
+        [
+          "钙",
+          "90毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:d82ae11887d9a6eb855d95ef111fa927ab9c060b599c3aabc9e923af5aff137e",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "净含量规格",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "酸奶滑滑系列",
+    "manufacturer_record_reference": "6|酸奶滑滑",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-27.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:ed30b39807435915d760",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 树莓滑滑",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-6",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-6",
+      "identity_fields": [
+        "display_name"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(添加量≥80%)、树莓果酱(添加量≥8%)、白砂糖(添加量≥7%)、鼠李糖乳酪杆菌LGG、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "399千焦"
+        ],
+        [
+          "蛋白质",
+          "2.8克"
+        ],
+        [
+          "脂肪",
+          "3.2克"
+        ],
+        [
+          "碳水化合物",
+          "13.7克"
+        ],
+        [
+          "钠",
+          "33毫克"
+        ],
+        [
+          "钙",
+          "82毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:a3c8a81bc54ecd8d17acbdd2375e311cfd53dfcafdf778731f9295ee375a7ebe",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "净含量规格",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "酸奶滑滑系列",
+    "manufacturer_record_reference": "6|树莓滑滑",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-28.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:cc180222721d1402602e",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 生牛乳米布丁",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-7",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-7",
+      "identity_fields": [
+        "display_name"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(添加量≥80%)、大米(添加量≥9%)、白砂糖(添加量≥5%)",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "500千焦"
+        ],
+        [
+          "蛋白质",
+          "4.0克"
+        ],
+        [
+          "脂肪",
+          "4.0克"
+        ],
+        [
+          "碳水化合物",
+          "16.7克"
+        ],
+        [
+          "钠",
+          "46毫克"
+        ],
+        [
+          "钙",
+          "98毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:575934da5879e81d8249768a8dab0922672611cd81ffa184a8469b6fc74822aa",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "净含量规格",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "甜品系列",
+    "manufacturer_record_reference": "7|生牛乳米布丁",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-30.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:27b33e5f2fd4c22f5f4c",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 焦糖牛奶布丁",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-7",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-7",
+      "identity_fields": [
+        "display_name"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(添加量≥80%)，稀奶油，冰蛋制品(添加量≥5.5%)(蛋黄液(添加量≥75%)、白砂糖)，白砂糖，乳清蛋白粉，菊粉，干酪，甘草糖浆(水、果葡糖浆、甘草粉)，焦糖糖浆(白砂糖、赤砂糖、水)",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "741千焦"
+        ],
+        [
+          "蛋白质",
+          "5.2克"
+        ],
+        [
+          "脂肪",
+          "11.9克"
+        ],
+        [
+          "碳水化合物",
+          "12.0克"
+        ],
+        [
+          "膳食纤维(以菊粉计)",
+          "1.0克"
+        ],
+        [
+          "钠",
+          "46毫克"
+        ],
+        [
+          "钙",
+          "118毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:6f73949b1a2a9748702811291f15c1dc150079f51ad905b6c736817c3e6486cd",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "净含量规格",
+      "糖含量未公开",
+      "液体每100克口径需核实"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "甜品系列",
+    "manufacturer_record_reference": "7|焦糖牛奶布丁",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-31.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": [
+      "液体每100克口径需核实"
+    ]
+  },
+  {
+    "candidate_id": "official-structured:d7cb67024177d859b7bc",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 PROTÑ‌高蛋白希腊酸奶原味",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-7.1",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-7.1",
+      "identity_fields": [
+        "display_name"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(添加量≥90%)、菊粉、乳脂乳球菌、乳脂乳球菌乳亚种、唾液链球菌嗜热亚种",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "538千焦"
+        ],
+        [
+          "蛋白质",
+          "7.5克"
+        ],
+        [
+          "脂肪",
+          "8.6克"
+        ],
+        [
+          "碳水化合物",
+          "3.8克"
+        ],
+        [
+          "膳食纤维(以菊粉计)",
+          "3.5克"
+        ],
+        [
+          "钠",
+          "45毫克"
+        ],
+        [
+          "钙",
+          "200毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:bec30e052d79ded6d9224ff7c34c64ae1b7a698ad1946a16d81b760241fd2c84",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "净含量规格",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "高蛋白希腊酸奶系列",
+    "manufacturer_record_reference": "7.1|PROTÑ‌高蛋白希腊酸奶原味",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-31-2.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:83b8baf95bde404c9f37",
+    "source_id": "simplelove-public-products",
+    "display_name": "简爱 身体知道顺畅配方",
+    "brand": "简爱",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://simplelove.com.cn/product.html#series-8",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://simplelove.com.cn/product.html#series-8",
+      "identity_fields": [
+        "display_name"
+      ],
+      "source_page_fingerprint": "sha256:f00d9e6779be6e1547b2525493aea965b22271e8d6927665169ceb8278ca8e11",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(添加量≥90%)、白砂糖、低聚半乳糖(GOS,添加量:2.0%)、浓缩牛奶蛋白、食用葡萄糖、鼠李糖乳酪杆菌LGG、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "373千焦"
+        ],
+        [
+          "蛋白质",
+          "2.9克"
+        ],
+        [
+          "脂肪",
+          "3.2克"
+        ],
+        [
+          "碳水化合物",
+          "12.1克"
+        ],
+        [
+          "钠",
+          "40毫克"
+        ],
+        [
+          "钙",
+          "110毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:358db6973cc5f3013fac2dcb1653887ab1c6e3026364b1ce3e4691e5f09d8f67",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "净含量规格",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "身体知道系列",
+    "manufacturer_record_reference": "8|身体知道顺畅配方",
+    "barcode": null,
+    "data_url": "https://simplelove.com.cn/data/product.json",
+    "display_image_url": "https://simlove-sdk.oss-cn-shenzhen.aliyuncs.com/img/jianai-website/product-img-32.png?v=1",
+    "store_listing_urls": [],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:04a376d4d128e4628e37",
+    "source_id": "quaker-instant-oats",
+    "display_name": "桂格5黑混合即食麦片",
+    "brand": "桂格",
+    "category": "breakfast_cereal",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.quaker.com.cn/series.html?index=0",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.quaker.com.cn/series.html?index=0",
+      "identity_fields": [
+        "display_name"
+      ],
+      "source_page_fingerprint": "sha256:2149100fd35916f5ec6cc7a58d24c8cbc50186117c5b24c116c825a3527f8c78",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:ecef35f186a03cfd22b0901de3a82615ff51c22659453e284bb0d907ef1d6d6b",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "净含量规格",
+      "完整配料表文字",
+      "营养项目：碳水化合物、能量、脂肪、蛋白质、钠",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "即食燕麦系列",
+    "manufacturer_record_reference": "即食燕麦系列|桂格5黑混合即食麦片",
+    "barcode": null,
+    "data_url": "https://www.quaker.com.cn/series.html?index=0",
+    "display_image_url": "https://www.quaker.com.cn/images/series-01-01.png",
+    "store_listing_urls": [
+      "https://detail.tmall.com/item.htm?spm=a1z10.3-b-s.w4011-15132310454.41.1a125e2dVPTx5E&id=623728125394&rn=94c26cdc08ea05472f4160763d4ece33&abbucket=12",
+      "https://item.m.jd.com/product/100008242159.html?gx=RnFkxjFaPDzey9Rg8t0rBB0SkwHFI2n0Bw&ad_od=share&utm_source=androidapp&utm_medium=appshare&utm_campaign=t_335139774&utm_term=CopyURL"
+    ],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:b32e051edd39318ac7d0",
+    "source_id": "quaker-instant-oats",
+    "display_name": "桂格5白混合即食燕麦片",
+    "brand": "桂格",
+    "category": "breakfast_cereal",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.quaker.com.cn/series.html?index=0",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.quaker.com.cn/series.html?index=0",
+      "identity_fields": [
+        "display_name"
+      ],
+      "source_page_fingerprint": "sha256:2149100fd35916f5ec6cc7a58d24c8cbc50186117c5b24c116c825a3527f8c78",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:f63b3a64f9f719ae8e5b182db152e494dde05911be5c6e888a4bf1876e3ec836",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "净含量规格",
+      "完整配料表文字",
+      "营养项目：碳水化合物、能量、脂肪、蛋白质、钠",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "即食燕麦系列",
+    "manufacturer_record_reference": "即食燕麦系列|桂格5白混合即食燕麦片",
+    "barcode": null,
+    "data_url": "https://www.quaker.com.cn/series.html?index=0",
+    "display_image_url": "https://www.quaker.com.cn/images/series-01-13.png",
+    "store_listing_urls": [
+      "https://m.tb.cn/h.fBGvrO7",
+      "https://m.tb.cn/h.fBGvrO7"
+    ],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:7cbdc6cc3d900c195096",
+    "source_id": "quaker-instant-oats",
+    "display_name": "桂格5红混合即食麦片",
+    "brand": "桂格",
+    "category": "breakfast_cereal",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.quaker.com.cn/series.html?index=0",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.quaker.com.cn/series.html?index=0",
+      "identity_fields": [
+        "display_name"
+      ],
+      "source_page_fingerprint": "sha256:2149100fd35916f5ec6cc7a58d24c8cbc50186117c5b24c116c825a3527f8c78",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:02974cdfd9099494c07d8657107b1198890a5d6bcbcf1d4470c47fc052b65d76",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "净含量规格",
+      "完整配料表文字",
+      "营养项目：碳水化合物、能量、脂肪、蛋白质、钠",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "即食燕麦系列",
+    "manufacturer_record_reference": "即食燕麦系列|桂格5红混合即食麦片",
+    "barcode": null,
+    "data_url": "https://www.quaker.com.cn/series.html?index=0",
+    "display_image_url": "https://www.quaker.com.cn/images/series-01-11.png",
+    "store_listing_urls": [
+      "https://detail.tmall.com/item.htm?spm=a1z10.3-b-s.w4011-15132310454.131.37ab5e2dOz86Ut&id=651553292514&rn=3134e6c65ae5d4729eb4cbb5b59295b7&abbucket=1&skuId=4892774191646",
+      "https://item.jd.com/100024731600.html"
+    ],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:9f855c57f063f4884ed1",
+    "source_id": "quaker-instant-oats",
+    "display_name": "桂格 多种维生素即食燕麦片",
+    "brand": "桂格",
+    "category": "breakfast_cereal",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.quaker.com.cn/series.html?index=0",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.quaker.com.cn/series.html?index=0",
+      "identity_fields": [
+        "display_name"
+      ],
+      "source_page_fingerprint": "sha256:2149100fd35916f5ec6cc7a58d24c8cbc50186117c5b24c116c825a3527f8c78",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:26b1be8f5f4bad12b1ead80ed533d537837ac8a6ebd77f09959f397551c19c36",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "净含量规格",
+      "完整配料表文字",
+      "营养项目：碳水化合物、能量、脂肪、蛋白质、钠",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "即食燕麦系列",
+    "manufacturer_record_reference": "即食燕麦系列|多种维生素即食燕麦片",
+    "barcode": null,
+    "data_url": "https://www.quaker.com.cn/series.html?index=0",
+    "display_image_url": "https://www.quaker.com.cn/images/series-01-12.png?v=asdfasf",
+    "store_listing_urls": [
+      "https://m.tb.cn/h.fHnPrz9?tk=I7iq2PNOeex",
+      "https://m.tb.cn/h.fHnPrz9?tk=I7iq2PNOeex"
+    ],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:98c966f0622142440cc9",
+    "source_id": "quaker-instant-oats",
+    "display_name": "桂格 高钙VD即食燕麦片",
+    "brand": "桂格",
+    "category": "breakfast_cereal",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.quaker.com.cn/series.html?index=0",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.quaker.com.cn/series.html?index=0",
+      "identity_fields": [
+        "display_name"
+      ],
+      "source_page_fingerprint": "sha256:2149100fd35916f5ec6cc7a58d24c8cbc50186117c5b24c116c825a3527f8c78",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:744a05f331f38ab37c1f0ba96f12e2012a33bb3419aa1e3edbcb449573fd9858",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "净含量规格",
+      "完整配料表文字",
+      "营养项目：碳水化合物、能量、脂肪、蛋白质、钠",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "即食燕麦系列",
+    "manufacturer_record_reference": "即食燕麦系列|高钙VD即食燕麦片",
+    "barcode": null,
+    "data_url": "https://www.quaker.com.cn/series.html?index=0",
+    "display_image_url": "https://www.quaker.com.cn/images/series-01-03.png",
+    "store_listing_urls": [],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:cb043de55f6d71af4922",
+    "source_id": "quaker-instant-oats",
+    "display_name": "桂格 奇亚籽混合即食麦片",
+    "brand": "桂格",
+    "category": "breakfast_cereal",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.quaker.com.cn/series.html?index=0",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.quaker.com.cn/series.html?index=0",
+      "identity_fields": [
+        "display_name"
+      ],
+      "source_page_fingerprint": "sha256:2149100fd35916f5ec6cc7a58d24c8cbc50186117c5b24c116c825a3527f8c78",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:402ed413459cd38cd72d6fc39a76013f37a06178124109361d99a10188219b2b",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "净含量规格",
+      "完整配料表文字",
+      "营养项目：碳水化合物、能量、脂肪、蛋白质、钠",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "即食燕麦系列",
+    "manufacturer_record_reference": "即食燕麦系列|奇亚籽混合即食麦片",
+    "barcode": null,
+    "data_url": "https://www.quaker.com.cn/series.html?index=0",
+    "display_image_url": "https://www.quaker.com.cn/images/series-01-10.png",
+    "store_listing_urls": [
+      "https://detail.tmall.com/item.htm?spm=a1z10.3-b-s.w4011-15132310454.95.3d145e2dkpAnmh&id=575293270664&rn=dfbfb1d65be5c291ebe6f74c6b0f092d&abbucket=3",
+      "https://item.jd.com/8330324.html"
+    ],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:00ba96ce2c649b0293b8",
+    "source_id": "quaker-instant-oats",
+    "display_name": "桂格 藜麦·小麦胚芽混合麦片",
+    "brand": "桂格",
+    "category": "breakfast_cereal",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.quaker.com.cn/series.html?index=0",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.quaker.com.cn/series.html?index=0",
+      "identity_fields": [
+        "display_name"
+      ],
+      "source_page_fingerprint": "sha256:2149100fd35916f5ec6cc7a58d24c8cbc50186117c5b24c116c825a3527f8c78",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:b5d8d0f012e3358e104fc0f301267d6a212043b89cd9a9092b53be1ed0f645a7",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "净含量规格",
+      "完整配料表文字",
+      "营养项目：碳水化合物、能量、脂肪、蛋白质、钠",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "即食燕麦系列",
+    "manufacturer_record_reference": "即食燕麦系列|藜麦·小麦胚芽混合麦片",
+    "barcode": null,
+    "data_url": "https://www.quaker.com.cn/series.html?index=0",
+    "display_image_url": "https://www.quaker.com.cn/images/series-01-04.png",
+    "store_listing_urls": [
+      "https://detail.tmall.com/item.htm?spm=a1z10.3-b-s.w4011-15132310454.49.65265e2dNLkmvH&id=602189324045&rn=7acc5a09e60f3cb50dd7fd8b747375f6&abbucket=20",
+      "https://item.m.jd.com/product/100009069302.html?gx=RnFkxjFaPDzey9Rg8t0rBB0SkwHFI2n0Bw&ad_od=share&utm_source=androidapp&utm_medium=appshare&utm_campaign=t_335139774&utm_term=CopyURL"
+    ],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:8bde00e486d2143e19b9",
+    "source_id": "quaker-instant-oats",
+    "display_name": "桂格 黑白高纤混合即食麦片",
+    "brand": "桂格",
+    "category": "breakfast_cereal",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.quaker.com.cn/series.html?index=0",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.quaker.com.cn/series.html?index=0",
+      "identity_fields": [
+        "display_name"
+      ],
+      "source_page_fingerprint": "sha256:2149100fd35916f5ec6cc7a58d24c8cbc50186117c5b24c116c825a3527f8c78",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:ee954314c547d9dcd21c8e6cef285880329b04ae6f7110c60e28b786ef2e02b4",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "净含量规格",
+      "完整配料表文字",
+      "营养项目：碳水化合物、能量、脂肪、蛋白质、钠",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "即食燕麦系列",
+    "manufacturer_record_reference": "即食燕麦系列|黑白高纤混合即食麦片",
+    "barcode": null,
+    "data_url": "https://www.quaker.com.cn/series.html?index=0",
+    "display_image_url": "https://www.quaker.com.cn/images/series-01-05.png",
+    "store_listing_urls": [
+      "https://detail.tmall.com/item.htm?spm=a1z10.3-b-s.w4011-15132310454.50.2e055e2dfKhD0m&id=611709861393&rn=2ccc040207884d689306f8d12bcdfe57&abbucket=12&skuId=4477099694586",
+      "https://item.m.jd.com/product/100011591934.html?gx=RnFkxjFaPDzey9Rg8t0rBB0SkwHFI2n0Bw&ad_od=share&utm_source=androidapp&utm_medium=appshare&utm_campaign=t_335139774&utm_term=CopyURL"
+    ],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:0f7c4e6c5b64c7f9c1b1",
+    "source_id": "quaker-instant-oats",
+    "display_name": "桂格 即食燕麦系列 便携装",
+    "brand": "桂格",
+    "category": "breakfast_cereal",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.quaker.com.cn/series.html?index=0",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.quaker.com.cn/series.html?index=0",
+      "identity_fields": [
+        "display_name"
+      ],
+      "source_page_fingerprint": "sha256:2149100fd35916f5ec6cc7a58d24c8cbc50186117c5b24c116c825a3527f8c78",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:715f7cdab23dd0f98e2be6c45951f93afdfa1deabd0a1f3307f8e8ecba7ded17",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "净含量规格",
+      "完整配料表文字",
+      "营养项目：碳水化合物、能量、脂肪、蛋白质、钠",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "即食燕麦系列",
+    "manufacturer_record_reference": "即食燕麦系列|便携装",
+    "barcode": null,
+    "data_url": "https://www.quaker.com.cn/series.html?index=0",
+    "display_image_url": "https://www.quaker.com.cn/images/series-01-07.png",
+    "store_listing_urls": [
+      "https://detail.tmall.com/item.htm?spm=a1z10.3-b-s.w4011-15132310454.75.30885e2dXT8AXw&id=583173512759&rn=aec3c8f554c5b25a44773b28f8b1c55b&abbucket=12&skuId=3925578068052",
+      "https://item.m.jd.com/product/100000973446.html?gx=RnFkxjFaPDzey9Rg8t0rBB0SkwHFI2n0Bw&ad_od=share&utm_source=androidapp&utm_medium=appshare&utm_campaign=t_335139774&utm_term=CopyURL"
+    ],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:a9c3f7ebcc264596c417",
+    "source_id": "quaker-instant-oats",
+    "display_name": "桂格 即食燕麦系列 袋装",
+    "brand": "桂格",
+    "category": "breakfast_cereal",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.quaker.com.cn/series.html?index=0",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.quaker.com.cn/series.html?index=0",
+      "identity_fields": [
+        "display_name"
+      ],
+      "source_page_fingerprint": "sha256:2149100fd35916f5ec6cc7a58d24c8cbc50186117c5b24c116c825a3527f8c78",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:49a7a90c6a87d50e90d9acb063a1fcfd7fee280f1790973bd6c3d8e86fd97177",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "净含量规格",
+      "完整配料表文字",
+      "营养项目：碳水化合物、能量、脂肪、蛋白质、钠",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "即食燕麦系列",
+    "manufacturer_record_reference": "即食燕麦系列|袋装",
+    "barcode": null,
+    "data_url": "https://www.quaker.com.cn/series.html?index=0",
+    "display_image_url": "https://www.quaker.com.cn/images/series-01-08.png",
+    "store_listing_urls": [
+      "https://detail.tmall.com/item.htm?spm=a1z10.3-b-s.w4011-15132310454.72.3c775e2dusDJvg&id=521908903717&rn=7365679413cdecdcdbde70dc662bdb3f&abbucket=12",
+      "https://item.m.jd.com/product/851674.html?gx=RnFkxjFaPDzey9Rg8t0rBB0SkwHFI2n0Bw&ad_od=share&utm_source=androidapp&utm_medium=appshare&utm_campaign=t_335139774&utm_term=CopyURL"
+    ],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:b4b5d683f9548572d91f",
+    "source_id": "quaker-instant-oats",
+    "display_name": "桂格 即食燕麦系列 罐装",
+    "brand": "桂格",
+    "category": "breakfast_cereal",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.quaker.com.cn/series.html?index=0",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.quaker.com.cn/series.html?index=0",
+      "identity_fields": [
+        "display_name"
+      ],
+      "source_page_fingerprint": "sha256:2149100fd35916f5ec6cc7a58d24c8cbc50186117c5b24c116c825a3527f8c78",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:e4ebfd05db722ecfdb668502fd0518b9388819e138b9dbe7b791f8c1cbd65ba9",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "净含量规格",
+      "完整配料表文字",
+      "营养项目：碳水化合物、能量、脂肪、蛋白质、钠",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "即食燕麦系列",
+    "manufacturer_record_reference": "即食燕麦系列|罐装",
+    "barcode": null,
+    "data_url": "https://www.quaker.com.cn/series.html?index=0",
+    "display_image_url": "https://www.quaker.com.cn/images/series-01-09.png",
+    "store_listing_urls": [
+      "https://detail.tmall.com/item.htm?spm=a1z10.3-b-s.w4011-15132310454.51.271c5e2duUgjtf&id=543205059408&rn=ff23309afdf4093b76b8fe17c9a572a4&abbucket=20",
+      "https://item.m.jd.com/product/1205781.html?gx=RnFkxjFaPDzey9Rg8t0rBB0SkwHFI2n0Bw&ad_od=share&utm_source=androidapp&utm_medium=appshare&utm_campaign=t_335139774&utm_term=CopyURL"
+    ],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:3181005720a4970b7962",
+    "source_id": "quaker-snack-cereal",
+    "display_name": "桂格 肉脯脆脆",
+    "brand": "桂格",
+    "category": "snack",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.quaker.com.cn/series.html?index=9",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.quaker.com.cn/series.html?index=9",
+      "identity_fields": [
+        "display_name"
+      ],
+      "source_page_fingerprint": "sha256:2149100fd35916f5ec6cc7a58d24c8cbc50186117c5b24c116c825a3527f8c78",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:feb0416af16e077b64ccb4fefa0075cb6ddd491023e9738ea9b647d53c19070f",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "净含量规格",
+      "完整配料表文字",
+      "营养项目：碳水化合物、能量、脂肪、蛋白质、钠",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "零食麦果脆系列",
+    "manufacturer_record_reference": "零食麦果脆系列|肉脯脆脆",
+    "barcode": null,
+    "data_url": "https://www.quaker.com.cn/series.html?index=0",
+    "display_image_url": "https://www.quaker.com.cn/images/series-12-01.jpg",
+    "store_listing_urls": [
+      "https://detail.tmall.com/item.htm?spm=a1z10.3-b-s.w4011-15132310454.243.1bcb5e2diWZwvn&id=654002787966&rn=0ece801e1a62ff196dff20c3bd9078e9&abbucket=10&sku_properties=147956252:65243",
+      "https://item.m.jd.com/product/100031615422.html?gx=RnFjkmUPYDXeydRP--tzVCVUeU4dLyFqqB6t&ad_od=share&utm_source=androidapp&utm_medium=appshare&utm_campaign=t_335139774&utm_term=CopyURL"
+    ],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:5b017ec080f7ae13bcea",
+    "source_id": "quaker-snack-cereal",
+    "display_name": "桂格 加勒比海鲜",
+    "brand": "桂格",
+    "category": "snack",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.quaker.com.cn/series.html?index=9",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.quaker.com.cn/series.html?index=9",
+      "identity_fields": [
+        "display_name"
+      ],
+      "source_page_fingerprint": "sha256:2149100fd35916f5ec6cc7a58d24c8cbc50186117c5b24c116c825a3527f8c78",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:833c4c97be4fba066a22853486118d8b63d27f08867ce27c3d6ee9dcce3d9fa1",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "净含量规格",
+      "完整配料表文字",
+      "营养项目：碳水化合物、能量、脂肪、蛋白质、钠",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "零食麦果脆系列",
+    "manufacturer_record_reference": "零食麦果脆系列|加勒比海鲜",
+    "barcode": null,
+    "data_url": "https://www.quaker.com.cn/series.html?index=0",
+    "display_image_url": "https://www.quaker.com.cn/images/series-02-07.png",
+    "store_listing_urls": [
+      "https://detail.tmall.com/item.htm?spm=a1z10.3-b-s.w4011-15132310454.243.1bcb5e2diWZwvn&id=654002787966&rn=0ece801e1a62ff196dff20c3bd9078e9&abbucket=10&sku_properties=147956252:65243",
+      "https://item.jd.com/100025380290.html#none"
+    ],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:1cf2defdb78244788093",
+    "source_id": "quaker-snack-cereal",
+    "display_name": "桂格 黑森林巧克力",
+    "brand": "桂格",
+    "category": "snack",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.quaker.com.cn/series.html?index=9",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.quaker.com.cn/series.html?index=9",
+      "identity_fields": [
+        "display_name"
+      ],
+      "source_page_fingerprint": "sha256:2149100fd35916f5ec6cc7a58d24c8cbc50186117c5b24c116c825a3527f8c78",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:89f8bb787ccde71cf700897d38bc49db704b17611b33e2e75b2ef053c1af277f",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "净含量规格",
+      "完整配料表文字",
+      "营养项目：碳水化合物、能量、脂肪、蛋白质、钠",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "零食麦果脆系列",
+    "manufacturer_record_reference": "零食麦果脆系列|黑森林巧克力",
+    "barcode": null,
+    "data_url": "https://www.quaker.com.cn/series.html?index=0",
+    "display_image_url": "https://www.quaker.com.cn/images/series-12-02.jpg",
+    "store_listing_urls": [
+      "https://detail.tmall.com/item.htm?spm=a1z10.3-b-s.w4011-15132310454.289.3b535e2dKafepL&id=658863344433&rn=efd9db42d0d8f63666c8de6908fa10d0&abbucket=11",
+      "https://item.m.jd.com/product/100016302829.html?gx=RnFjkmUPYDXeydRP--tzVCVUeU4dLyFqqB6t&ad_od=share&utm_source=androidapp&utm_medium=appshare&utm_campaign=t_335139774&utm_term=CopyURL"
+    ],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-structured:795a4218ee7f4c5d3364",
+    "source_id": "quaker-snack-cereal",
+    "display_name": "桂格 太妃焦糖",
+    "brand": "桂格",
+    "category": "snack",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.quaker.com.cn/series.html?index=9",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.quaker.com.cn/series.html?index=9",
+      "identity_fields": [
+        "display_name"
+      ],
+      "source_page_fingerprint": "sha256:2149100fd35916f5ec6cc7a58d24c8cbc50186117c5b24c116c825a3527f8c78",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:9893ad0fec5bfc0853f87f3a840ca56f0fd49c613628950371d0ca3f74d15649",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "净含量规格",
+      "完整配料表文字",
+      "营养项目：碳水化合物、能量、脂肪、蛋白质、钠",
+      "糖含量未公开"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T06:49:39+00:00",
+    "last_seen_at": "2026-10-04T06:49:39+00:00",
+    "series": "零食麦果脆系列",
+    "manufacturer_record_reference": "零食麦果脆系列|太妃焦糖",
+    "barcode": null,
+    "data_url": "https://www.quaker.com.cn/series.html?index=0",
+    "display_image_url": "https://www.quaker.com.cn/images/series-12-03.jpg",
+    "store_listing_urls": [
+      "https://detail.tmall.com/item.htm?spm=a1z10.3-b-s.w4011-15132310454.289.3b535e2dKafepL&id=658863344433&rn=efd9db42d0d8f63666c8de6908fa10d0&abbucket=11",
+      "https://item.m.jd.com/product/100018143095.html?gx=RnFjkmUPYDXeydRP--tzVCVUeU4dLyFqqB6t&ad_od=share&utm_source=androidapp&utm_medium=appshare&utm_campaign=t_335139774&utm_term=CopyURL"
+    ],
+    "source_quality_flags": []
+  },
+  {
+    "candidate_id": "official-public:19c0911eacdf92b74bb4",
+    "source_id": "classykiss-public-extract",
+    "display_name": "卡士 断糖日记 原味",
+    "brand": "卡士",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.classykiss.cn/wap/SugarDiary/index.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.classykiss.cn/wap/SugarDiary/index.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:c5288a4f0450dc9623da96f7515f5095583d07e995538d2d212076b63fc82bc4",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(≥99%)、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳脂乳球菌、乳酸乳球菌乳亚种",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "352千焦"
+        ],
+        [
+          "蛋白质",
+          "4.2克"
+        ],
+        [
+          "脂肪",
+          "5.0克"
+        ],
+        [
+          "碳水化合物",
+          "5.6克"
+        ],
+        [
+          "钠",
+          "50毫克"
+        ],
+        [
+          "钙",
+          "130毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:c5288a4f0450dc9623da96f7515f5095583d07e995538d2d212076b63fc82bc4",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "净含量规格"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "配料表原味 / 营养成分表原味",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:8dca4f7d26a7dc0da431",
+    "source_id": "classykiss-public-extract",
+    "display_name": "卡士 断糖日记 椰子味",
+    "brand": "卡士",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.classykiss.cn/wap/SugarDiary/index.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.classykiss.cn/wap/SugarDiary/index.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:c2912374e4e614903a881d389a7fdcc9ce1b1782054304fd4fa8f801de62e3e1",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳(≥88%)、椰子果酱(≥10%)、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳脂乳球菌、乳酸乳球菌乳亚种",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "407千焦"
+        ],
+        [
+          "蛋白质",
+          "3.8克"
+        ],
+        [
+          "脂肪",
+          "5.8克"
+        ],
+        [
+          "碳水化合物",
+          "7.5克"
+        ],
+        [
+          "钠",
+          "48毫克"
+        ],
+        [
+          "钙",
+          "125毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:c2912374e4e614903a881d389a7fdcc9ce1b1782054304fd4fa8f801de62e3e1",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "净含量规格"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "配料表椰子味 / 营养成分表椰子味",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:4afaaa81a1332406d96a",
+    "source_id": "classykiss-public-extract",
+    "display_name": "卡士 宝贝第二餐 原味",
+    "brand": "卡士",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.classykiss.cn/wap/BabySecondMeal/index.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.classykiss.cn/wap/BabySecondMeal/index.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:5c788c4d815c9870aa27b3c4e96bbc711dfc38073c6cd71e6f38ebfba5bdecc6",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳（≥99%）、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳脂乳球菌、嗜酸乳杆菌NCFM、动物双歧杆菌乳亚种HN019",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "389千焦"
+        ],
+        [
+          "蛋白质",
+          "4.5克"
+        ],
+        [
+          "脂肪",
+          "6.0克"
+        ],
+        [
+          "碳水化合物",
+          "6.0克"
+        ],
+        [
+          "钠",
+          "50毫克"
+        ],
+        [
+          "钙",
+          "140毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:5c788c4d815c9870aa27b3c4e96bbc711dfc38073c6cd71e6f38ebfba5bdecc6",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "净含量规格"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "配料表原味 / 营养成分表原味",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:3027b96599c05bc3647d",
+    "source_id": "classykiss-public-extract",
+    "display_name": "卡士 宝贝第二餐 西梅苹果味",
+    "brand": "卡士",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.classykiss.cn/wap/BabySecondMeal/index.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.classykiss.cn/wap/BabySecondMeal/index.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:e20bb6cdd35d2d8340d92626699704c0e2dc059ba3e7bb40edf0ed50b35c787b",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳（≥80%）、西梅苹果黑莓果浆（≥18%）、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳脂乳球菌、嗜酸乳杆菌NCFM、动物双歧杆菌乳亚种HN019",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "373千焦"
+        ],
+        [
+          "蛋白质",
+          "3.7克"
+        ],
+        [
+          "脂肪",
+          "4.7克"
+        ],
+        [
+          "碳水化合物",
+          "8.0克"
+        ],
+        [
+          "钠",
+          "45毫克"
+        ],
+        [
+          "钙",
+          "120毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:e20bb6cdd35d2d8340d92626699704c0e2dc059ba3e7bb40edf0ed50b35c787b",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "净含量规格"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "配料表西梅苹果味 / 营养成分表西梅苹果味",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:bfd410253e376218a29a",
+    "source_id": "classykiss-public-extract",
+    "display_name": "卡士 宝贝第二餐 草莓蓝莓树莓味",
+    "brand": "卡士",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.classykiss.cn/wap/BabySecondMeal/index.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.classykiss.cn/wap/BabySecondMeal/index.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:73b16530811f451827f15cb0960163b90be2a690d77679782d5e5302643d59a3",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳（≥80%）、草莓蓝莓树莓果浆（≥18%）、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳脂乳球菌、嗜酸乳杆菌NCFM、动物双歧杆菌乳亚种HN019",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "407千焦"
+        ],
+        [
+          "蛋白质",
+          "3.7克"
+        ],
+        [
+          "脂肪",
+          "4.7克"
+        ],
+        [
+          "碳水化合物",
+          "10.0克"
+        ],
+        [
+          "钠",
+          "45毫克"
+        ],
+        [
+          "钙",
+          "120毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:73b16530811f451827f15cb0960163b90be2a690d77679782d5e5302643d59a3",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "净含量规格"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "配料表草莓蓝莓树莓味 / 营养成分表草莓蓝莓树莓味",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:5ca300d187d3cb63e0b4",
+    "source_id": "classykiss-public-extract",
+    "display_name": "卡士 宝贝第二餐 山楂鸡内金六物味",
+    "brand": "卡士",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.classykiss.cn/wap/BabySecondMeal/index.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.classykiss.cn/wap/BabySecondMeal/index.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:537c0f21f60a85e20b6f8399ee500e420f486f70aed14101a3444dbd7666aac5",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳（≥80%）、山楂鸡内金六物果酱（≥18%）、德氏乳杆菌保加利亚亚种、唾液链球菌嗜热亚种、乳脂乳球菌、嗜酸乳杆菌NCFM、动物双歧杆菌乳亚种HN019",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "407千焦"
+        ],
+        [
+          "蛋白质",
+          "3.7克"
+        ],
+        [
+          "脂肪",
+          "4.7克"
+        ],
+        [
+          "碳水化合物",
+          "10.0克"
+        ],
+        [
+          "钠",
+          "45毫克"
+        ],
+        [
+          "钙",
+          "120毫克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:537c0f21f60a85e20b6f8399ee500e420f486f70aed14101a3444dbd7666aac5",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "净含量规格"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "配料表山楂鸡内金六物味 / 营养成分表山楂鸡内金六物味",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:5a286f0526a86dad603c",
+    "source_id": "classykiss-public-extract",
+    "display_name": "卡士 餐后一小时 原味",
+    "brand": "卡士",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.classykiss.cn/OneHourAfterTheMeal/index.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.classykiss.cn/OneHourAfterTheMeal/index.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:c5f82bf6a24ea94127ace76c9ec712b52853ebbb8b87178f801e7a21bc27ab16",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳 (＞80% )、水、白砂糖、加糖炼乳、浓缩牛奶蛋白、抗性糊精(可溶性膳食纤维Fibersol-2®)、果胶、动物双歧杆菌乳亚种Bifidobacterium animalis subsp.lactis、德氏乳杆菌保加利亚亚种Lactobacilus delbrueckil subsp.bulgaricus、唾液链球菌嗜热亚种Streptococcus salvarus subsp. thermophilus",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "422千焦"
+        ],
+        [
+          "蛋白质",
+          "3.0克"
+        ],
+        [
+          "脂肪",
+          "3.7克"
+        ],
+        [
+          "碳水化合物",
+          "13.0克"
+        ],
+        [
+          "钠",
+          "60毫克"
+        ],
+        [
+          "钙",
+          "100毫克"
+        ],
+        [
+          "膳食纤维",
+          "1.6克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:c5f82bf6a24ea94127ace76c9ec712b52853ebbb8b87178f801e7a21bc27ab16",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "净含量规格"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "配料表原味 / 营养成分表原味",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:9955b0d02b8a4ead60e8",
+    "source_id": "classykiss-public-extract",
+    "display_name": "卡士 餐后一小时 无蔗糖",
+    "brand": "卡士",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": null,
+    "source_url": "https://www.classykiss.cn/OneHourAfterTheMeal/index.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.classykiss.cn/OneHourAfterTheMeal/index.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:7d68c32ab49ffff678fc174e1ceaf08462388a1eecefe71d54e2529666715908",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": "生牛乳 (＞80% )、水、麦芽糖醇、赤藓糖醇、抗性糊精(可溶性膳食纤维Fibersol-2®)、菊粉、浓缩牛奶蛋白、果胶、蛋黄粉、甜菊糖苷、动物双歧杆菌乳亚种Bifidobacterium animalis subsp.lactis、德氏乳杆菌保加利亚亚种Lactobacilus delbrueckil subsp.bulgaricus、唾液链球菌嗜热亚种Streptococcus salvarus subsp. thermophilus",
+      "allergen_statement": null,
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "314千焦"
+        ],
+        [
+          "蛋白质",
+          "3.0克"
+        ],
+        [
+          "脂肪",
+          "3.7克"
+        ],
+        [
+          "碳水化合物",
+          "6.5克"
+        ],
+        [
+          "钠",
+          "45毫克"
+        ],
+        [
+          "钙",
+          "100毫克"
+        ],
+        [
+          "膳食纤维",
+          "2克"
+        ]
+      ]
+    },
+    "source_fingerprint": "sha256:7d68c32ab49ffff678fc174e1ceaf08462388a1eecefe71d54e2529666715908",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "净含量规格"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "配料表无蔗糖 / 营养成分表无蔗糖",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:8c898361a7b529e8508d",
+    "source_id": "meiji-public-extract",
+    "display_name": "meiji北海道风味0乳糖发酵乳",
+    "brand": "明治",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "400g",
+    "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:8e304f20b3940bd573f988dcef2da5caf55ee843a5e2752e78c86daa2587b670",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:8e304f20b3940bd573f988dcef2da5caf55ee843a5e2752e78c86daa2587b670",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "完整配料表文字",
+      "营养表"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "酸奶 / meiji北海道风味0乳糖发酵乳 / 400g",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:c3bd8c30aa55e024e971",
+    "source_id": "meiji-public-extract",
+    "display_name": "meiji北海道风味0乳糖发酵乳",
+    "brand": "明治",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "135g",
+    "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:f66dc78412fd4c18c7246f53a9ea9e4ffbf45a18e361d7ae5df5d1d2a34b3a4a",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:f66dc78412fd4c18c7246f53a9ea9e4ffbf45a18e361d7ae5df5d1d2a34b3a4a",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "完整配料表文字",
+      "营养表"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "酸奶 / meiji北海道风味0乳糖发酵乳 / 135g",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:6eb0d25e797b4941baba",
+    "source_id": "meiji-public-extract",
+    "display_name": "meiji北海道风味0乳糖发酵乳",
+    "brand": "明治",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "100g",
+    "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:35b8f6a461d6e78082460cb32b92ebdc9f27613fa2ca8ab7193ca8e4d50ac39c",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:35b8f6a461d6e78082460cb32b92ebdc9f27613fa2ca8ab7193ca8e4d50ac39c",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "完整配料表文字",
+      "营养表"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "酸奶 / meiji北海道风味0乳糖发酵乳 / 100g",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:8bcea51a952c0625b5d6",
+    "source_id": "meiji-public-extract",
+    "display_name": "meiji北海道风味0乳糖发酵乳",
+    "brand": "明治",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "100g×2杯",
+    "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:daa46e39cb542c0787ec440f79925ffddf241a3dd9eece7b63949408fc0c18ac",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:daa46e39cb542c0787ec440f79925ffddf241a3dd9eece7b63949408fc0c18ac",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "完整配料表文字",
+      "营养表"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "酸奶 / meiji北海道风味0乳糖发酵乳 / 100g×2杯",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:630703fff7278866cdac",
+    "source_id": "meiji-public-extract",
+    "display_name": "meiji北海道风味奢享原味风味发酵乳",
+    "brand": "明治",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "135g",
+    "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:5ed18a03765085dc539996b3dfcb2c12fb6883c679e243aeaba1243f1d7dc3ed",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:5ed18a03765085dc539996b3dfcb2c12fb6883c679e243aeaba1243f1d7dc3ed",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "完整配料表文字",
+      "营养表"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "酸奶 / meiji北海道风味奢享原味风味发酵乳 / 135g",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:6e6d9eaee1cc673c0706",
+    "source_id": "meiji-public-extract",
+    "display_name": "meiji北海道风味奢享原味风味发酵乳",
+    "brand": "明治",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "100g",
+    "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:c69e575d928ed914aa30936d02ee6927aca5a14e447423406ef965d02f9d5cea",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:c69e575d928ed914aa30936d02ee6927aca5a14e447423406ef965d02f9d5cea",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "完整配料表文字",
+      "营养表"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "酸奶 / meiji北海道风味奢享原味风味发酵乳 / 100g",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:87c3daa4cfd9eb2f4ff0",
+    "source_id": "meiji-public-extract",
+    "display_name": "meiji北海道风味奢享原味风味发酵乳",
+    "brand": "明治",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "100g×2杯",
+    "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:fa29405c14dabc98c635b72acecf9c4e003942d63aeb7acd5d57e53fb3cd1440",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:fa29405c14dabc98c635b72acecf9c4e003942d63aeb7acd5d57e53fb3cd1440",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "完整配料表文字",
+      "营养表"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "酸奶 / meiji北海道风味奢享原味风味发酵乳 / 100g×2杯",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:1c07121b14147d1437e9",
+    "source_id": "meiji-public-extract",
+    "display_name": "明治保加利亚式酸奶纯味不甜",
+    "brand": "明治",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "400g",
+    "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:d22938ff823747626d34373c0409eb2ac708f490948bf739b66386398d41484f",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:d22938ff823747626d34373c0409eb2ac708f490948bf739b66386398d41484f",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "完整配料表文字",
+      "营养表"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "酸奶 / 明治保加利亚式酸奶纯味不甜 / 400g",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:a39d31a4bafebc498284",
+    "source_id": "meiji-public-extract",
+    "display_name": "明治保加利亚式酸奶纯味不甜",
+    "brand": "明治",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "150g",
+    "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:c9cf46a46a072aa5894054adca6e66032d4a6cc8dd2a2f1071d543d0bb78a9e7",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:c9cf46a46a072aa5894054adca6e66032d4a6cc8dd2a2f1071d543d0bb78a9e7",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "完整配料表文字",
+      "营养表"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "酸奶 / 明治保加利亚式酸奶纯味不甜 / 150g",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:d8a82ceeac09ea499ab1",
+    "source_id": "meiji-public-extract",
+    "display_name": "明治保加利亚式酸奶纯味不甜",
+    "brand": "明治",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "100g×4杯",
+    "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:673804228799ece6598fb9f222c941080e4538940271d66d9d327a7cb867ac27",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:673804228799ece6598fb9f222c941080e4538940271d66d9d327a7cb867ac27",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "完整配料表文字",
+      "营养表"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "酸奶 / 明治保加利亚式酸奶纯味不甜 / 100g×4杯",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:f78f0715e51af6b0b83e",
+    "source_id": "meiji-public-extract",
+    "display_name": "明治保加利亚式酸奶清甜原味",
+    "brand": "明治",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "150g",
+    "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:1cd3fec743590a69a8c65ca54af128bd1bbac9a6b5e218b16abca676fdf894ca",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:1cd3fec743590a69a8c65ca54af128bd1bbac9a6b5e218b16abca676fdf894ca",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "完整配料表文字",
+      "营养表"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "酸奶 / 明治保加利亚式酸奶清甜原味 / 150g",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:5d9fb8fdc872f32d72cb",
+    "source_id": "meiji-public-extract",
+    "display_name": "明治保加利亚式酸奶清甜原味",
+    "brand": "明治",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "100g×4杯",
+    "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:c867eac7d9c929a89dcde3ca012b99a027df611daf81bb0c58ed5a07f26157e9",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:c867eac7d9c929a89dcde3ca012b99a027df611daf81bb0c58ed5a07f26157e9",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "完整配料表文字",
+      "营养表"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "酸奶 / 明治保加利亚式酸奶清甜原味 / 100g×4杯",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  },
+  {
+    "candidate_id": "official-public:14ffce0f05ca8db1ea13",
+    "source_id": "meiji-public-extract",
+    "display_name": "明治佰乐益优R-1风味酸乳",
+    "brand": "明治",
+    "category": "dairy",
+    "region": "CN",
+    "sku": null,
+    "specification": "180g",
+    "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+    "source_type": "official_product_page",
+    "official_store_url": null,
+    "official_store_name": null,
+    "identity_evidence": {
+      "source_url": "https://www.meiji.com.cn/product/dairy-product.html",
+      "identity_fields": [
+        "display_name",
+        "sku",
+        "specification"
+      ],
+      "source_page_fingerprint": "sha256:c1e320994abb8c9e300c43649d18bb4ab734e3225fab4236d8d07e30110249f7",
+      "label_fields_extracted_from_listing": false
+    },
+    "evidence_asset_urls": [],
+    "evidence_assets": [],
+    "review_target_fields": [],
+    "extracted_fields": {
+      "ingredients_text": null,
+      "allergen_statement": null,
+      "nutrition_basis_text": null,
+      "nutrition_rows": []
+    },
+    "source_fingerprint": "sha256:c1e320994abb8c9e300c43649d18bb4ab734e3225fab4236d8d07e30110249f7",
+    "missing_fields": [
+      "SKU/商品条码",
+      "包装过敏原提示",
+      "包装版本与完整标签复核",
+      "糖含量未公开",
+      "完整配料表文字",
+      "营养表"
+    ],
+    "review_status": "evidence_incomplete",
+    "recommendation_eligible": false,
+    "capture_requirements": {
+      "required_identity_fields": [
+        "sku",
+        "specification"
+      ],
+      "required_physical_artifacts": [
+        "ingredients_or_combined_packaging_photo",
+        "nutrition_or_combined_packaging_photo"
+      ],
+      "minimum_distinct_reviewers": 2,
+      "official_page_capture_is_sufficient": false,
+      "official_label_artwork_is_sufficient_after_dual_review": true,
+      "content_hash_required": true
+    },
+    "first_discovered_at": "2026-10-04T12:40:47.070361+00:00",
+    "last_seen_at": "2026-10-04T12:40:47.070361+00:00",
+    "barcode": null,
+    "product_type": "yogurt",
+    "source_quality_flags": [],
+    "acquisition": {
+      "method": "official_page_text_via_web_retrieval",
+      "source_section": "酸奶 / 明治佰乐益优R-1风味酸乳 / 180g",
+      "captured_at": "2026-10-04T12:40:47.070361+00:00",
+      "refresh_mode": "manual_recheck_required",
+      "package_verified": false
+    }
+  }
+]

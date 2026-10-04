@@ -1,0 +1,22 @@
+{
+  "production_data_modified": false,
+  "remote_api_calls": 0,
+  "official_candidate_count": 77,
+  "synchronization": {
+    "index": {
+      "status": "synchronized",
+      "count": 66
+    },
+    "completion": {
+      "status": "completed",
+      "checked_count": 0,
+      "changed_count": 0
+    }
+  },
+  "retrieved_count": 20,
+  "retrieved_tiers": {
+    "official_unverified": 20
+  },
+  "promoted_count": 0,
+  "field_observation_count": 111
+}

@@ -139,6 +139,9 @@ class OfficialProductDiscovery:
             status = "unavailable"
         return DiscoveryRefreshResult(status=status, summary=summary, warnings=tuple(warnings))
 
+    def approved_products(self) -> list[dict[str, Any]]:
+        return self._read_json_list(self.approved_path)
+
     def status(self, *, category: str | None = None) -> dict[str, Any]:
         items = self._read_json_list(self.queue_path)
         if category:
@@ -162,9 +165,11 @@ class OfficialProductDiscovery:
         if review_target_fields:
             priority_reasons.append("complete_target_comparison_fields")
         priority_reasons.append("capture_packaging_label_snapshot")
+        from .ingredient_profile import ingredient_profile
         items = [
             {
                 **item,
+                "ingredient_profile": ingredient_profile(item),
                 "priority_reasons": list(dict.fromkeys([
                     *priority_reasons,
                     *(item.get("priority_reasons") or []),

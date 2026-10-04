@@ -1,0 +1,762 @@
+{
+  "version": "yogurt-v2-50",
+  "scope": "synthetic_rule_oracles_not_human_labeled_real_products",
+  "reference_candidate": {
+    "candidate_id": "synthetic-yogurt",
+    "display_name": "测试用酸奶（非真实商品）",
+    "category": "dairy",
+    "region": "CN",
+    "source_id": "simplelove-public-products",
+    "source_fingerprint": "synthetic-v1",
+    "source_url": "https://example.invalid/synthetic",
+    "extracted_fields": {
+      "ingredients_text": "生牛乳、白砂糖、赤藓糖醇",
+      "nutrition_basis_text": "每100克",
+      "nutrition_rows": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "能量",
+          "300千焦"
+        ],
+        [
+          "蛋白质",
+          "4克"
+        ],
+        [
+          "脂肪",
+          "3克"
+        ],
+        [
+          "碳水化合物",
+          "7克"
+        ],
+        [
+          "钠",
+          "40毫克"
+        ]
+      ]
+    }
+  },
+  "cases": [
+    {
+      "id": "yogurt-01",
+      "title": "fat 上限 2g/100g",
+      "expected": "not_matched",
+      "constraints": [
+        {
+          "kind": "nutrition_limit",
+          "canonical_value": "fat",
+          "operator": "max",
+          "threshold": 2,
+          "unit": "g",
+          "basis": "per_100g"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-02",
+      "title": "fat 上限 2.99g/100g",
+      "expected": "not_matched",
+      "constraints": [
+        {
+          "kind": "nutrition_limit",
+          "canonical_value": "fat",
+          "operator": "max",
+          "threshold": 2.99,
+          "unit": "g",
+          "basis": "per_100g"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-03",
+      "title": "fat 上限 3g/100g",
+      "expected": "matched",
+      "constraints": [
+        {
+          "kind": "nutrition_limit",
+          "canonical_value": "fat",
+          "operator": "max",
+          "threshold": 3,
+          "unit": "g",
+          "basis": "per_100g"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-04",
+      "title": "fat 上限 3.01g/100g",
+      "expected": "matched",
+      "constraints": [
+        {
+          "kind": "nutrition_limit",
+          "canonical_value": "fat",
+          "operator": "max",
+          "threshold": 3.01,
+          "unit": "g",
+          "basis": "per_100g"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-05",
+      "title": "fat 上限 5g/100g",
+      "expected": "matched",
+      "constraints": [
+        {
+          "kind": "nutrition_limit",
+          "canonical_value": "fat",
+          "operator": "max",
+          "threshold": 5,
+          "unit": "g",
+          "basis": "per_100g"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-06",
+      "title": "protein 上限 0g/100g",
+      "expected": "not_matched",
+      "constraints": [
+        {
+          "kind": "nutrition_limit",
+          "canonical_value": "protein",
+          "operator": "max",
+          "threshold": 0,
+          "unit": "g",
+          "basis": "per_100g"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-07",
+      "title": "protein 上限 3.99g/100g",
+      "expected": "not_matched",
+      "constraints": [
+        {
+          "kind": "nutrition_limit",
+          "canonical_value": "protein",
+          "operator": "max",
+          "threshold": 3.99,
+          "unit": "g",
+          "basis": "per_100g"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-08",
+      "title": "protein 上限 4g/100g",
+      "expected": "matched",
+      "constraints": [
+        {
+          "kind": "nutrition_limit",
+          "canonical_value": "protein",
+          "operator": "max",
+          "threshold": 4,
+          "unit": "g",
+          "basis": "per_100g"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-09",
+      "title": "protein 上限 4.01g/100g",
+      "expected": "matched",
+      "constraints": [
+        {
+          "kind": "nutrition_limit",
+          "canonical_value": "protein",
+          "operator": "max",
+          "threshold": 4.01,
+          "unit": "g",
+          "basis": "per_100g"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-10",
+      "title": "protein 上限 10g/100g",
+      "expected": "matched",
+      "constraints": [
+        {
+          "kind": "nutrition_limit",
+          "canonical_value": "protein",
+          "operator": "max",
+          "threshold": 10,
+          "unit": "g",
+          "basis": "per_100g"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-11",
+      "title": "sodium 上限 39mg/100g",
+      "expected": "not_matched",
+      "constraints": [
+        {
+          "kind": "nutrition_limit",
+          "canonical_value": "sodium",
+          "operator": "max",
+          "threshold": 39,
+          "unit": "mg",
+          "basis": "per_100g"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-12",
+      "title": "sodium 上限 40mg/100g",
+      "expected": "matched",
+      "constraints": [
+        {
+          "kind": "nutrition_limit",
+          "canonical_value": "sodium",
+          "operator": "max",
+          "threshold": 40,
+          "unit": "mg",
+          "basis": "per_100g"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-13",
+      "title": "sodium 上限 41mg/100g",
+      "expected": "matched",
+      "constraints": [
+        {
+          "kind": "nutrition_limit",
+          "canonical_value": "sodium",
+          "operator": "max",
+          "threshold": 41,
+          "unit": "mg",
+          "basis": "per_100g"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-14",
+      "title": "sodium 上限 50mg/100g",
+      "expected": "matched",
+      "constraints": [
+        {
+          "kind": "nutrition_limit",
+          "canonical_value": "sodium",
+          "operator": "max",
+          "threshold": 50,
+          "unit": "mg",
+          "basis": "per_100g"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-15",
+      "title": "sugars 上限 0g/100g",
+      "expected": "unknown",
+      "constraints": [
+        {
+          "kind": "nutrition_limit",
+          "canonical_value": "sugars",
+          "operator": "max",
+          "threshold": 0,
+          "unit": "g",
+          "basis": "per_100g"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-16",
+      "title": "sugars 上限 1g/100g",
+      "expected": "unknown",
+      "constraints": [
+        {
+          "kind": "nutrition_limit",
+          "canonical_value": "sugars",
+          "operator": "max",
+          "threshold": 1,
+          "unit": "g",
+          "basis": "per_100g"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-17",
+      "title": "sugars 上限 5g/100g",
+      "expected": "unknown",
+      "constraints": [
+        {
+          "kind": "nutrition_limit",
+          "canonical_value": "sugars",
+          "operator": "max",
+          "threshold": 5,
+          "unit": "g",
+          "basis": "per_100g"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-18",
+      "title": "sugars 上限 10g/100g",
+      "expected": "unknown",
+      "constraints": [
+        {
+          "kind": "nutrition_limit",
+          "canonical_value": "sugars",
+          "operator": "max",
+          "threshold": 10,
+          "unit": "g",
+          "basis": "per_100g"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-19",
+      "title": "过敏限制 milk",
+      "expected": "not_matched",
+      "constraints": [
+        {
+          "kind": "allergy",
+          "canonical_value": "milk"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-20",
+      "title": "过敏限制 egg",
+      "expected": "unknown",
+      "constraints": [
+        {
+          "kind": "allergy",
+          "canonical_value": "egg"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-21",
+      "title": "过敏限制 peanut",
+      "expected": "unknown",
+      "constraints": [
+        {
+          "kind": "allergy",
+          "canonical_value": "peanut"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-22",
+      "title": "过敏限制 soy",
+      "expected": "unknown",
+      "constraints": [
+        {
+          "kind": "allergy",
+          "canonical_value": "soy"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-23",
+      "title": "过敏限制 gluten",
+      "expected": "unknown",
+      "constraints": [
+        {
+          "kind": "allergy",
+          "canonical_value": "gluten"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-24",
+      "title": "过敏限制 tree_nut",
+      "expected": "unknown",
+      "constraints": [
+        {
+          "kind": "allergy",
+          "canonical_value": "tree_nut"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-25",
+      "title": "过敏限制 fish",
+      "expected": "unknown",
+      "constraints": [
+        {
+          "kind": "allergy",
+          "canonical_value": "fish"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-26",
+      "title": "过敏限制 crustacean",
+      "expected": "unknown",
+      "constraints": [
+        {
+          "kind": "allergy",
+          "canonical_value": "crustacean"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-27",
+      "title": "回避 白砂糖",
+      "expected": "not_matched",
+      "constraints": [
+        {
+          "kind": "user_avoidance",
+          "canonical_value": "白砂糖"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-28",
+      "title": "回避 赤藓糖醇",
+      "expected": "not_matched",
+      "constraints": [
+        {
+          "kind": "user_avoidance",
+          "canonical_value": "赤藓糖醇"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-29",
+      "title": "回避 生牛乳",
+      "expected": "not_matched",
+      "constraints": [
+        {
+          "kind": "user_avoidance",
+          "canonical_value": "生牛乳"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-30",
+      "title": "回避 阿斯巴甜",
+      "expected": "unknown",
+      "constraints": [
+        {
+          "kind": "user_avoidance",
+          "canonical_value": "阿斯巴甜"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-31",
+      "title": "回避 花生",
+      "expected": "unknown",
+      "constraints": [
+        {
+          "kind": "user_avoidance",
+          "canonical_value": "花生"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-32",
+      "title": "蛋白质更多",
+      "expected": "matched",
+      "query": "蛋白质更多",
+      "baseline": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "蛋白质",
+          "3克"
+        ]
+      ]
+    },
+    {
+      "id": "yogurt-33",
+      "title": "蛋白质更高",
+      "expected": "matched",
+      "query": "蛋白质更高",
+      "baseline": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "蛋白质",
+          "3克"
+        ]
+      ]
+    },
+    {
+      "id": "yogurt-34",
+      "title": "蛋白质高一点",
+      "expected": "matched",
+      "query": "蛋白质高一点",
+      "baseline": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "蛋白质",
+          "3克"
+        ]
+      ]
+    },
+    {
+      "id": "yogurt-35",
+      "title": "蛋白质多一点",
+      "expected": "matched",
+      "query": "蛋白质多一点",
+      "baseline": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "蛋白质",
+          "3克"
+        ]
+      ]
+    },
+    {
+      "id": "yogurt-36",
+      "title": "蛋白更多",
+      "expected": "matched",
+      "query": "蛋白更多",
+      "baseline": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "蛋白质",
+          "3克"
+        ]
+      ]
+    },
+    {
+      "id": "yogurt-37",
+      "title": "脂肪更少",
+      "expected": "matched",
+      "query": "脂肪更少",
+      "baseline": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "脂肪",
+          "4克"
+        ]
+      ]
+    },
+    {
+      "id": "yogurt-38",
+      "title": "脂肪更低",
+      "expected": "matched",
+      "query": "脂肪更低",
+      "baseline": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "脂肪",
+          "4克"
+        ]
+      ]
+    },
+    {
+      "id": "yogurt-39",
+      "title": "脂肪低一点",
+      "expected": "matched",
+      "query": "脂肪低一点",
+      "baseline": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "脂肪",
+          "4克"
+        ]
+      ]
+    },
+    {
+      "id": "yogurt-40",
+      "title": "脂肪少一点",
+      "expected": "matched",
+      "query": "脂肪少一点",
+      "baseline": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "脂肪",
+          "4克"
+        ]
+      ]
+    },
+    {
+      "id": "yogurt-41",
+      "title": "少脂肪",
+      "expected": "unknown",
+      "query": "少脂肪",
+      "baseline": [
+        [
+          "项目",
+          "每100克"
+        ],
+        [
+          "脂肪",
+          "4克"
+        ]
+      ]
+    },
+    {
+      "id": "yogurt-42",
+      "title": "脂肪符合+糖缺失",
+      "expected": "unknown",
+      "constraints": [
+        {
+          "kind": "nutrition_limit",
+          "canonical_value": "fat",
+          "operator": "max",
+          "threshold": 5,
+          "unit": "g",
+          "basis": "per_100g"
+        },
+        {
+          "kind": "nutrition_limit",
+          "canonical_value": "sugars",
+          "operator": "max",
+          "threshold": 5,
+          "unit": "g",
+          "basis": "per_100g"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-43",
+      "title": "脂肪超限+糖缺失",
+      "expected": "not_matched",
+      "constraints": [
+        {
+          "kind": "nutrition_limit",
+          "canonical_value": "fat",
+          "operator": "max",
+          "threshold": 2,
+          "unit": "g",
+          "basis": "per_100g"
+        },
+        {
+          "kind": "nutrition_limit",
+          "canonical_value": "sugars",
+          "operator": "max",
+          "threshold": 5,
+          "unit": "g",
+          "basis": "per_100g"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-44",
+      "title": "脂肪符合+乳冲突",
+      "expected": "not_matched",
+      "constraints": [
+        {
+          "kind": "nutrition_limit",
+          "canonical_value": "fat",
+          "operator": "max",
+          "threshold": 5,
+          "unit": "g",
+          "basis": "per_100g"
+        },
+        {
+          "kind": "allergy",
+          "canonical_value": "milk"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-45",
+      "title": "脂肪符合+花生证据不足",
+      "expected": "unknown",
+      "constraints": [
+        {
+          "kind": "nutrition_limit",
+          "canonical_value": "fat",
+          "operator": "max",
+          "threshold": 5,
+          "unit": "g",
+          "basis": "per_100g"
+        },
+        {
+          "kind": "allergy",
+          "canonical_value": "peanut"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-46",
+      "title": "无条件不得算符合",
+      "expected": "not_evaluated"
+    },
+    {
+      "id": "yogurt-47",
+      "title": "更多蛋白但缺原商品数值",
+      "expected": "unknown",
+      "query": "蛋白质更多"
+    },
+    {
+      "id": "yogurt-48",
+      "title": "每100毫升与每100克不兼容",
+      "expected": "unknown",
+      "constraints": [
+        {
+          "kind": "nutrition_limit",
+          "canonical_value": "fat",
+          "operator": "max",
+          "threshold": 5,
+          "unit": "g",
+          "basis": "per_100ml"
+        }
+      ]
+    },
+    {
+      "id": "yogurt-49",
+      "title": "冲突来源不得确判",
+      "expected": "unknown",
+      "constraints": [
+        {
+          "kind": "allergy",
+          "canonical_value": "milk"
+        }
+      ],
+      "candidate_override": {
+        "source_quality_flags": [
+          "商品口味与配料不一致"
+        ]
+      }
+    },
+    {
+      "id": "yogurt-50",
+      "title": "旧资料不得算通过",
+      "expected": "unknown",
+      "constraints": [
+        {
+          "kind": "nutrition_limit",
+          "canonical_value": "fat",
+          "operator": "max",
+          "threshold": 5,
+          "unit": "g",
+          "basis": "per_100g"
+        }
+      ],
+      "candidate_override": {
+        "last_seen_at": "2020-01-01"
+      }
+    }
+  ]
+}

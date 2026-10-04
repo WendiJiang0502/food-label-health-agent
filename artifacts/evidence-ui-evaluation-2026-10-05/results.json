@@ -1,0 +1,722 @@
+{
+  "version": "yogurt-v2-50",
+  "simulated": true,
+  "case_count": 50,
+  "product_records": 39,
+  "correct": 50,
+  "false_passes": 0,
+  "missed_conflicts": 0,
+  "expected_distribution": {
+    "not_matched": 11,
+    "matched": 18,
+    "unknown": 20,
+    "not_evaluated": 1
+  },
+  "real_query_count": 48,
+  "real_queries_with_matches": 18,
+  "cases": [
+    {
+      "id": "yogurt-01",
+      "title": "fat 上限 2g/100g",
+      "expected": "not_matched",
+      "observed": "not_matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 15,
+        "not_matched": 24
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-02",
+      "title": "fat 上限 2.99g/100g",
+      "expected": "not_matched",
+      "observed": "not_matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 15,
+        "not_matched": 24
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-03",
+      "title": "fat 上限 3g/100g",
+      "expected": "matched",
+      "observed": "matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 15,
+        "not_matched": 24
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-04",
+      "title": "fat 上限 3.01g/100g",
+      "expected": "matched",
+      "observed": "matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 15,
+        "not_matched": 24
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-05",
+      "title": "fat 上限 5g/100g",
+      "expected": "matched",
+      "observed": "matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "matched": 19,
+        "unknown": 15,
+        "not_matched": 5
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-06",
+      "title": "protein 上限 0g/100g",
+      "expected": "not_matched",
+      "observed": "not_matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 15,
+        "not_matched": 24
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-07",
+      "title": "protein 上限 3.99g/100g",
+      "expected": "not_matched",
+      "observed": "not_matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "matched": 16,
+        "unknown": 15,
+        "not_matched": 8
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-08",
+      "title": "protein 上限 4g/100g",
+      "expected": "matched",
+      "observed": "matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "matched": 18,
+        "unknown": 15,
+        "not_matched": 6
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-09",
+      "title": "protein 上限 4.01g/100g",
+      "expected": "matched",
+      "observed": "matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "matched": 18,
+        "unknown": 15,
+        "not_matched": 6
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-10",
+      "title": "protein 上限 10g/100g",
+      "expected": "matched",
+      "observed": "matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "matched": 24,
+        "unknown": 15
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-11",
+      "title": "sodium 上限 39mg/100g",
+      "expected": "not_matched",
+      "observed": "not_matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "matched": 2,
+        "unknown": 15,
+        "not_matched": 22
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-12",
+      "title": "sodium 上限 40mg/100g",
+      "expected": "matched",
+      "observed": "matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "matched": 4,
+        "unknown": 15,
+        "not_matched": 20
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-13",
+      "title": "sodium 上限 41mg/100g",
+      "expected": "matched",
+      "observed": "matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "matched": 4,
+        "unknown": 15,
+        "not_matched": 20
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-14",
+      "title": "sodium 上限 50mg/100g",
+      "expected": "matched",
+      "observed": "matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "matched": 22,
+        "unknown": 15,
+        "not_matched": 2
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-15",
+      "title": "sugars 上限 0g/100g",
+      "expected": "unknown",
+      "observed": "unknown",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 39
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-16",
+      "title": "sugars 上限 1g/100g",
+      "expected": "unknown",
+      "observed": "unknown",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 39
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-17",
+      "title": "sugars 上限 5g/100g",
+      "expected": "unknown",
+      "observed": "unknown",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 39
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-18",
+      "title": "sugars 上限 10g/100g",
+      "expected": "unknown",
+      "observed": "unknown",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 39
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-19",
+      "title": "过敏限制 milk",
+      "expected": "not_matched",
+      "observed": "not_matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 15,
+        "not_matched": 24
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-20",
+      "title": "过敏限制 egg",
+      "expected": "unknown",
+      "observed": "unknown",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 38,
+        "not_matched": 1
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-21",
+      "title": "过敏限制 peanut",
+      "expected": "unknown",
+      "observed": "unknown",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 39
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-22",
+      "title": "过敏限制 soy",
+      "expected": "unknown",
+      "observed": "unknown",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 39
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-23",
+      "title": "过敏限制 gluten",
+      "expected": "unknown",
+      "observed": "unknown",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 39
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-24",
+      "title": "过敏限制 tree_nut",
+      "expected": "unknown",
+      "observed": "unknown",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 39
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-25",
+      "title": "过敏限制 fish",
+      "expected": "unknown",
+      "observed": "unknown",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 39
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-26",
+      "title": "过敏限制 crustacean",
+      "expected": "unknown",
+      "observed": "unknown",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 39
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-27",
+      "title": "回避 白砂糖",
+      "expected": "not_matched",
+      "observed": "not_matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 30,
+        "not_matched": 9
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-28",
+      "title": "回避 赤藓糖醇",
+      "expected": "not_matched",
+      "observed": "not_matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 38,
+        "not_matched": 1
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-29",
+      "title": "回避 生牛乳",
+      "expected": "not_matched",
+      "observed": "not_matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 16,
+        "not_matched": 23
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-30",
+      "title": "回避 阿斯巴甜",
+      "expected": "unknown",
+      "observed": "unknown",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 39
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-31",
+      "title": "回避 花生",
+      "expected": "unknown",
+      "observed": "unknown",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 39
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-32",
+      "title": "蛋白质更多",
+      "expected": "matched",
+      "observed": "matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "matched": 15,
+        "unknown": 15,
+        "not_matched": 9
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-33",
+      "title": "蛋白质更高",
+      "expected": "matched",
+      "observed": "matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "matched": 15,
+        "unknown": 15,
+        "not_matched": 9
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-34",
+      "title": "蛋白质高一点",
+      "expected": "matched",
+      "observed": "matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "matched": 15,
+        "unknown": 15,
+        "not_matched": 9
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-35",
+      "title": "蛋白质多一点",
+      "expected": "matched",
+      "observed": "matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "matched": 15,
+        "unknown": 15,
+        "not_matched": 9
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-36",
+      "title": "蛋白更多",
+      "expected": "matched",
+      "observed": "matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "matched": 15,
+        "unknown": 15,
+        "not_matched": 9
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-37",
+      "title": "脂肪更少",
+      "expected": "matched",
+      "observed": "matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "matched": 11,
+        "unknown": 15,
+        "not_matched": 13
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-38",
+      "title": "脂肪更低",
+      "expected": "matched",
+      "observed": "matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "matched": 11,
+        "unknown": 15,
+        "not_matched": 13
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-39",
+      "title": "脂肪低一点",
+      "expected": "matched",
+      "observed": "matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "matched": 11,
+        "unknown": 15,
+        "not_matched": 13
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-40",
+      "title": "脂肪少一点",
+      "expected": "matched",
+      "observed": "matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "matched": 11,
+        "unknown": 15,
+        "not_matched": 13
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-41",
+      "title": "少脂肪",
+      "expected": "unknown",
+      "observed": "unknown",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 39
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-42",
+      "title": "脂肪符合+糖缺失",
+      "expected": "unknown",
+      "observed": "unknown",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 34,
+        "not_matched": 5
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-43",
+      "title": "脂肪超限+糖缺失",
+      "expected": "not_matched",
+      "observed": "not_matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 15,
+        "not_matched": 24
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-44",
+      "title": "脂肪符合+乳冲突",
+      "expected": "not_matched",
+      "observed": "not_matched",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 15,
+        "not_matched": 24
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-45",
+      "title": "脂肪符合+花生证据不足",
+      "expected": "unknown",
+      "observed": "unknown",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 34,
+        "not_matched": 5
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-46",
+      "title": "无条件不得算符合",
+      "expected": "not_evaluated",
+      "observed": "not_evaluated",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "not_evaluated": 39
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-47",
+      "title": "更多蛋白但缺原商品数值",
+      "expected": "unknown",
+      "observed": "unknown",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 39
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-48",
+      "title": "每100毫升与每100克不兼容",
+      "expected": "unknown",
+      "observed": "unknown",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 39
+      },
+      "synthetic_only": false
+    },
+    {
+      "id": "yogurt-49",
+      "title": "冲突来源不得确判",
+      "expected": "unknown",
+      "observed": "unknown",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "unknown": 15,
+        "not_matched": 24
+      },
+      "synthetic_only": true
+    },
+    {
+      "id": "yogurt-50",
+      "title": "旧资料不得算通过",
+      "expected": "unknown",
+      "observed": "unknown",
+      "correct": true,
+      "false_pass": false,
+      "missed_conflict": false,
+      "real_counts": {
+        "matched": 19,
+        "unknown": 15,
+        "not_matched": 5
+      },
+      "synthetic_only": true
+    }
+  ],
+  "limitations": "固定合成样本的规则回归，不是人工标注真实商品的准确率；不写入真实需求队列。"
+}

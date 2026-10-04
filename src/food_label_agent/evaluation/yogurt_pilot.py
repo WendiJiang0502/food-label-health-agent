@@ -94,7 +94,8 @@ def run(input_path, output):
     yogurts = [
         x
         for x in items
-        if x.get("category") == "dairy" and "酸奶" in x.get("display_name", "")
+        if x.get("category") == "dairy"
+        and ("酸奶" in x.get("display_name", "") or x.get("product_type") == "yogurt")
     ]
     store = ProductKnowledgeStore(output / "simulated-demand.sqlite3")
     results = []
@@ -130,7 +131,7 @@ def run(input_path, output):
     lines = [
         "# 酸奶模拟查询基线",
         "",
-        f"仅纳入名称明确包含“酸奶”的 {len(yogurts)} 个官网记录；不将鲜奶、布丁混入酸奶样本。",
+        f"纳入名称或官网明确归为酸奶的 {len(yogurts)} 个官网记录；不将鲜奶、布丁混入酸奶样本。",
         "模拟数值仅测试程序，不是健康建议。结果反映官网资料的初步条件匹配，不等于包装已核验或真实推荐成功率。",
         "",
         "| 场景 | 官网数值符合 | 不符合 | 待核实 |",

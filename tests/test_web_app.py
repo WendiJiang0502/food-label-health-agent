@@ -238,6 +238,9 @@ def test_official_catalog_review_queue_api_includes_missing_package_photos() -> 
 
 
 class _FakeDiscovery:
+    def approved_products(self):
+        return []
+
     def status(self, *, category=None):
         return {
             "discovered_count": 7,

@@ -25,6 +25,7 @@ from food_label_agent.regulations.vector import TfidfVectorIndex
 
 from .batch import BatchKnowledge
 from .catalog import CATEGORY_LABELS, USE_CASES
+from .evidence import active_knowledge_store, active_official_items, official_evidence
 from .field_evidence import catalog_field_evidence
 from .intent import parse_product_intent
 from .knowledge import ProductKnowledgeStore
@@ -90,6 +91,7 @@ def ingredient_gaps(raw, query=""):
 
 
 def _document(product_id, name, text, tier, source_url, version, categories, **extra):
+    identity = extra.pop("identity", {})
     text = text[:12000]
     digest = sha256(f"{product_id}\0{tier}\0{version}\0{text}".encode()).hexdigest()
     return {
@@ -102,6 +104,31 @@ def _document(product_id, name, text, tier, source_url, version, categories, **e
         "source_url": source_url,
         "source_version": version,
         "categories": categories,
+        "evidence": {
+            "schema_version": 1,
+            "identity": {
+                "product_id": product_id,
+                "source_id": tier,
+                "sku": None,
+                "barcode": None,
+                "specification": None,
+                "region": None,
+                "category": categories[0] if categories else None,
+                "identity_verified": False,
+                **identity,
+            },
+            "provenance": {
+                "source_url": source_url,
+                "source_version": version,
+                "observed_at": extra.get("checked_at"),
+                "verified_at": extra.get("verified_at"),
+            },
+            "tier": tier,
+            "fields": extra.get("field_evidence", {}),
+            "review_status": "requires_context_review",
+            "quality_flags": [],
+            "recommendation_eligible": False,
+        },
         **extra,
     }
 
@@ -118,8 +145,10 @@ def product_rag_public_status():
 
 class ProductRAG:
     def __init__(self, store=None, *, profile=None, embedding=None, reranker=None):
-        self.store = store or ProductKnowledgeStore(
-            os.getenv("FOOD_LABEL_PRODUCT_RAG_DB") or None
+        self.store = (
+            store
+            or active_knowledge_store.get()
+            or ProductKnowledgeStore(os.getenv("FOOD_LABEL_PRODUCT_RAG_DB") or None)
         )
         settings = RAG2Settings.from_environment()
         self.profile = profile or os.getenv(
@@ -193,6 +222,12 @@ class ProductRAG:
                     label.source_url,
                     label.content_hash,
                     [record.category],
+                    identity={
+                        "source_id": record.label.source_type,
+                        "sku": record.sku,
+                        "specification": record.specification,
+                        "region": record.region,
+                    },
                     field_evidence=catalog_field_evidence(record),
                     missing_fields=[],
                     verified_at=str(label.source_verified_at or label.confirmed_at),
@@ -210,6 +245,60 @@ class ProductRAG:
                 f"SELECT * FROM candidates WHERE id IN (SELECT id FROM memberships WHERE category IN ({marks})) ORDER BY id",
                 categories,
             ).fetchall()
+        official_items = active_official_items.get()
+        if official_items is None:
+            with self.store.connect() as db:
+                official_items = [
+                    json.loads(row["payload"])
+                    for row in db.execute(
+                        "SELECT payload FROM official_evidence ORDER BY product_id"
+                    ).fetchall()
+                ]
+        for item in official_items:
+            from .evidence import OFFICIAL_SOURCE_IDS
+
+            if item.get("source_id") not in OFFICIAL_SOURCE_IDS or item.get(
+                "review_status"
+            ) in {"approved", "rejected"}:
+                continue
+            evidence = official_evidence(item)
+            pid = item["candidate_id"]
+            if (
+                item.get("category") not in categories
+                or item.get("region") != request.region
+                or pid in known_ids
+                or pid in request.exclude_product_ids
+                or str(item.get("last_seen_at") or "")[:10]
+                > request.applicable_date.isoformat()
+            ):
+                continue
+            fields = item.get("extracted_fields") or {}
+            text = "\n".join(
+                [
+                    item.get("display_name", ""),
+                    item.get("brand", ""),
+                    CATEGORY_LABELS.get(item.get("category"), ""),
+                    item.get("specification") or "",
+                    json.dumps(fields, ensure_ascii=False),
+                ]
+            )
+            documents.append(
+                _document(
+                    pid,
+                    item["display_name"],
+                    text,
+                    evidence["tier"],
+                    item.get("source_url"),
+                    evidence["provenance"]["source_version"],
+                    [item["category"]],
+                    evidence=evidence,
+                    field_evidence=evidence["fields"],
+                    missing_fields=["label_review"],
+                    verified_at=None,
+                    checked_at=item.get("last_seen_at"),
+                    catalog_candidate=False,
+                )
+            )
         batch = BatchKnowledge(self.store)
         for row in rows:
             if row["last_checked_at"][:10] > request.applicable_date.isoformat():
@@ -245,6 +334,11 @@ class ProductRAG:
                     url,
                     row["content_hash"],
                     categories,
+                    identity={
+                        "source_id": "openfoodfacts",
+                        "barcode": row["id"],
+                        "region": request.region,
+                    },
                     field_evidence=fields,
                     admission={
                         "capabilities": admission["capabilities"],
@@ -405,7 +499,10 @@ class ProductRAG:
         queued = set()
         for index in ordered[:20]:
             doc = documents[index]
-            if not doc["catalog_candidate"] and doc["product_id"] not in queued:
+            if (
+                doc["tier"] in {"external_unverified", "ocr_draft"}
+                and doc["product_id"] not in queued
+            ):
                 related = [
                     item
                     for item in documents

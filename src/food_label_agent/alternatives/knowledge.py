@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import calendar
 import json
+import os
 import sqlite3
 from contextlib import contextmanager
 from datetime import UTC, datetime, timedelta
@@ -28,10 +29,10 @@ def next_calendar_month(value: str) -> str:
 
 class ProductKnowledgeStore:
     def __init__(self, path: str | Path | None = None):
-        self.path = (
-            Path(path)
-            if path
-            else default_discovery_queue_path().with_name("product-knowledge.sqlite3")
+        self.path = Path(
+            path
+            or os.getenv("FOOD_LABEL_PRODUCT_RAG_DB")
+            or default_discovery_queue_path().with_name("product-knowledge.sqlite3")
         )
 
     @contextmanager
@@ -41,6 +42,9 @@ class ProductKnowledgeStore:
         db.row_factory = sqlite3.Row
         try:
             db.executescript("""
+                CREATE TABLE IF NOT EXISTS official_evidence (
+                    product_id TEXT PRIMARY KEY, payload TEXT NOT NULL
+                );
                 CREATE TABLE IF NOT EXISTS candidates (
                     id TEXT PRIMARY KEY, category TEXT NOT NULL, payload TEXT NOT NULL,
                     content_hash TEXT NOT NULL, first_seen_at TEXT NOT NULL,

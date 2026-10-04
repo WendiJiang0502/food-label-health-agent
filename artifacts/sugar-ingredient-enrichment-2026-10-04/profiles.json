@@ -1,0 +1,1371 @@
+{
+  "products_with_text": 38,
+  "counts": {
+    "milk_sources": 34,
+    "fiber_ingredients": 9,
+    "sugar_ingredients": 18,
+    "egg_sources": 1,
+    "sweeteners": 1,
+    "polyols": 1
+  },
+  "items": [
+    {
+      "candidate_id": "official-structured:d8db48076efa12c40fa7",
+      "display_name": "简爱 吸吸袋酸奶原味",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳(添加量≥98%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-1",
+            "source_fingerprint": "sha256:8cc3db7a52e23268b2226484fee2a10605f51ee384568374d32eede4438fdb46",
+            "status": "source_declared"
+          },
+          {
+            "group": "milk_sources",
+            "ingredient": "乳清蛋白粉",
+            "evidence_id": "label.ingredients.item.2",
+            "source_span": "乳清蛋白粉(添加量≥1.0%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-1",
+            "source_fingerprint": "sha256:8cc3db7a52e23268b2226484fee2a10605f51ee384568374d32eede4438fdb46",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:1f304a7817b8424f7d58",
+      "display_name": "简爱 吸吸袋酸奶西梅苹果",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳(添加量≥80%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-1",
+            "source_fingerprint": "sha256:99ce98222ee145029548e5fb392dfffbb05f4c307ff33b1f4350317d9c0acca4",
+            "status": "source_declared"
+          },
+          {
+            "group": "milk_sources",
+            "ingredient": "乳清蛋白粉",
+            "evidence_id": "label.ingredients.item.3",
+            "source_span": "乳清蛋白粉(添加量≥0.8%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-1",
+            "source_fingerprint": "sha256:99ce98222ee145029548e5fb392dfffbb05f4c307ff33b1f4350317d9c0acca4",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:1303dd2be999feb8c8e3",
+      "display_name": "简爱 吸吸袋酸奶葡萄蓝莓",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳(添加量≥80%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-1",
+            "source_fingerprint": "sha256:f6f91457443193a4a9b19e0e101c4f6582b4c75ada8abe42dda032186e834782",
+            "status": "source_declared"
+          },
+          {
+            "group": "milk_sources",
+            "ingredient": "乳清蛋白粉",
+            "evidence_id": "label.ingredients.item.3",
+            "source_span": "乳清蛋白粉(添加量≥0.8%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-1",
+            "source_fingerprint": "sha256:f6f91457443193a4a9b19e0e101c4f6582b4c75ada8abe42dda032186e834782",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:be6c404d63367e441229",
+      "display_name": "简爱 吸吸袋酸奶草莓",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "needs_review",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳(添加量≥80%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-1",
+            "source_fingerprint": "sha256:dbad20832bb2ae3423772b2fc929a32bfa3dfb7553366c5195db469e6ebb4298",
+            "status": "needs_review"
+          },
+          {
+            "group": "milk_sources",
+            "ingredient": "乳清蛋白粉",
+            "evidence_id": "label.ingredients.item.3",
+            "source_span": "乳清蛋白粉(添加量≥0.8%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-1",
+            "source_fingerprint": "sha256:dbad20832bb2ae3423772b2fc929a32bfa3dfb7553366c5195db469e6ebb4298",
+            "status": "needs_review"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:fca6cb4392e55214f97d",
+      "display_name": "简爱 父爱牧场鲜牛奶",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "needs_review",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳",
+            "source_url": "https://simplelove.com.cn/product.html#series-1",
+            "source_fingerprint": "sha256:f1ac5182b82b944bac5a56d5dfd10ef97cbb4590e483ca4b48512ed4728d3073",
+            "status": "needs_review"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:5b0d405ba8595ee2978b",
+      "display_name": "简爱 light-高钙滑滑",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳(添加量≥94%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-2",
+            "source_fingerprint": "sha256:fd81cda3d306ca8508d2a0b10be7b1bab8e0217c16fc014502b4619c43143a59",
+            "status": "source_declared"
+          },
+          {
+            "group": "fiber_ingredients",
+            "ingredient": "菊粉",
+            "evidence_id": "label.ingredients.item.2",
+            "source_span": "菊粉",
+            "source_url": "https://simplelove.com.cn/product.html#series-2",
+            "source_fingerprint": "sha256:fd81cda3d306ca8508d2a0b10be7b1bab8e0217c16fc014502b4619c43143a59",
+            "status": "source_declared"
+          },
+          {
+            "group": "milk_sources",
+            "ingredient": "浓缩牛奶蛋白",
+            "evidence_id": "label.ingredients.item.4",
+            "source_span": "浓缩牛奶蛋白",
+            "source_url": "https://simplelove.com.cn/product.html#series-2",
+            "source_fingerprint": "sha256:fd81cda3d306ca8508d2a0b10be7b1bab8e0217c16fc014502b4619c43143a59",
+            "status": "source_declared"
+          },
+          {
+            "group": "milk_sources",
+            "ingredient": "乳清蛋白粉",
+            "evidence_id": "label.ingredients.item.5",
+            "source_span": "乳清蛋白粉",
+            "source_url": "https://simplelove.com.cn/product.html#series-2",
+            "source_fingerprint": "sha256:fd81cda3d306ca8508d2a0b10be7b1bab8e0217c16fc014502b4619c43143a59",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:4d5f4eb38e950184cd7e",
+      "display_name": "简爱 light-轻拌酸奶",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳(添加量≥97%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-2",
+            "source_fingerprint": "sha256:3175139de88c1cef8b2c6770d990a0065198ed36f4f136f641b9d62ebb94e78e",
+            "status": "source_declared"
+          },
+          {
+            "group": "fiber_ingredients",
+            "ingredient": "菊粉",
+            "evidence_id": "label.ingredients.item.2",
+            "source_span": "菊粉",
+            "source_url": "https://simplelove.com.cn/product.html#series-2",
+            "source_fingerprint": "sha256:3175139de88c1cef8b2c6770d990a0065198ed36f4f136f641b9d62ebb94e78e",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:0913688267762d641c80",
+      "display_name": "简爱 light-轻食酸奶",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "needs_review",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳(添加量≥97%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-2",
+            "source_fingerprint": "sha256:eec8cbc5f6c88175ffb0f91fb96fb965d870baad566f2772e27a3c448f6f0fa2",
+            "status": "needs_review"
+          },
+          {
+            "group": "fiber_ingredients",
+            "ingredient": "菊粉",
+            "evidence_id": "label.ingredients.item.2",
+            "source_span": "菊粉",
+            "source_url": "https://simplelove.com.cn/product.html#series-2",
+            "source_fingerprint": "sha256:eec8cbc5f6c88175ffb0f91fb96fb965d870baad566f2772e27a3c448f6f0fa2",
+            "status": "needs_review"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:3102a2d4a5b1baf3d9ed",
+      "display_name": "简爱 light-轻食酸奶(4%蔗糖)",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳(添加量≥93%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-2",
+            "source_fingerprint": "sha256:ab8a85f8203b2442a0e14b4abf6b6d22329824b68d83b177dcd2539aa4f90073",
+            "status": "source_declared"
+          },
+          {
+            "group": "sugar_ingredients",
+            "ingredient": "白砂糖",
+            "evidence_id": "label.ingredients.item.2",
+            "source_span": "白砂糖",
+            "source_url": "https://simplelove.com.cn/product.html#series-2",
+            "source_fingerprint": "sha256:ab8a85f8203b2442a0e14b4abf6b6d22329824b68d83b177dcd2539aa4f90073",
+            "status": "source_declared"
+          },
+          {
+            "group": "fiber_ingredients",
+            "ingredient": "菊粉",
+            "evidence_id": "label.ingredients.item.3",
+            "source_span": "菊粉",
+            "source_url": "https://simplelove.com.cn/product.html#series-2",
+            "source_fingerprint": "sha256:ab8a85f8203b2442a0e14b4abf6b6d22329824b68d83b177dcd2539aa4f90073",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:12474869ed72722197ec",
+      "display_name": "简爱 light-轻饮酸奶(230克)",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳(添加量≥94%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-2",
+            "source_fingerprint": "sha256:c00c656f9e0d0be33dcf602f2d037c08298d4b83af9dfef86f83e436709f8c71",
+            "status": "source_declared"
+          },
+          {
+            "group": "fiber_ingredients",
+            "ingredient": "菊粉",
+            "evidence_id": "label.ingredients.item.2",
+            "source_span": "菊粉",
+            "source_url": "https://simplelove.com.cn/product.html#series-2",
+            "source_fingerprint": "sha256:c00c656f9e0d0be33dcf602f2d037c08298d4b83af9dfef86f83e436709f8c71",
+            "status": "source_declared"
+          },
+          {
+            "group": "milk_sources",
+            "ingredient": "浓缩牛奶蛋白",
+            "evidence_id": "label.ingredients.item.4",
+            "source_span": "浓缩牛奶蛋白",
+            "source_url": "https://simplelove.com.cn/product.html#series-2",
+            "source_fingerprint": "sha256:c00c656f9e0d0be33dcf602f2d037c08298d4b83af9dfef86f83e436709f8c71",
+            "status": "source_declared"
+          },
+          {
+            "group": "milk_sources",
+            "ingredient": "乳清蛋白粉",
+            "evidence_id": "label.ingredients.item.5",
+            "source_span": "乳清蛋白粉",
+            "source_url": "https://simplelove.com.cn/product.html#series-2",
+            "source_fingerprint": "sha256:c00c656f9e0d0be33dcf602f2d037c08298d4b83af9dfef86f83e436709f8c71",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:8f5216d000941bc5a113",
+      "display_name": "简爱 light-轻饮酸奶(760克)",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳(添加量≥94%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-2",
+            "source_fingerprint": "sha256:a4895a8bc178db85ac8af53e82a3990dec98770e4d694eb7572c78415bd1ead3",
+            "status": "source_declared"
+          },
+          {
+            "group": "fiber_ingredients",
+            "ingredient": "菊粉",
+            "evidence_id": "label.ingredients.item.2",
+            "source_span": "菊粉",
+            "source_url": "https://simplelove.com.cn/product.html#series-2",
+            "source_fingerprint": "sha256:a4895a8bc178db85ac8af53e82a3990dec98770e4d694eb7572c78415bd1ead3",
+            "status": "source_declared"
+          },
+          {
+            "group": "milk_sources",
+            "ingredient": "浓缩牛奶蛋白",
+            "evidence_id": "label.ingredients.item.4",
+            "source_span": "浓缩牛奶蛋白",
+            "source_url": "https://simplelove.com.cn/product.html#series-2",
+            "source_fingerprint": "sha256:a4895a8bc178db85ac8af53e82a3990dec98770e4d694eb7572c78415bd1ead3",
+            "status": "source_declared"
+          },
+          {
+            "group": "milk_sources",
+            "ingredient": "乳清蛋白粉",
+            "evidence_id": "label.ingredients.item.5",
+            "source_span": "乳清蛋白粉",
+            "source_url": "https://simplelove.com.cn/product.html#series-2",
+            "source_fingerprint": "sha256:a4895a8bc178db85ac8af53e82a3990dec98770e4d694eb7572c78415bd1ead3",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:accfa77080f298607771",
+      "display_name": "简爱 0%蔗糖酸奶",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳(≥99%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-2",
+            "source_fingerprint": "sha256:23f2282f1407099a55703c8f6f55665e2530bd789dabcd0cc2fd0400301e663c",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:445a9854cc00953f790f",
+      "display_name": "简爱 超级桶原味",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳(添加量≥90%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-3",
+            "source_fingerprint": "sha256:6e3ebd0e361be20db47fcee7b2fbd6be85b7f67f96d5f5c2513778923e683a27",
+            "status": "source_declared"
+          },
+          {
+            "group": "sugar_ingredients",
+            "ingredient": "白砂糖",
+            "evidence_id": "label.ingredients.item.2",
+            "source_span": "白砂糖(添加量≥7.5%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-3",
+            "source_fingerprint": "sha256:6e3ebd0e361be20db47fcee7b2fbd6be85b7f67f96d5f5c2513778923e683a27",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:4344d989e9f7a7dc82c6",
+      "display_name": "简爱 超级桶百香果",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳(添加量≥85%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-3",
+            "source_fingerprint": "sha256:8c881d17e3e6359dd3970da64488037facef8fbe4b9592741eb2a515471690df",
+            "status": "source_declared"
+          },
+          {
+            "group": "sugar_ingredients",
+            "ingredient": "白砂糖",
+            "evidence_id": "label.ingredients.item.2",
+            "source_span": "白砂糖(添加量≥7%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-3",
+            "source_fingerprint": "sha256:8c881d17e3e6359dd3970da64488037facef8fbe4b9592741eb2a515471690df",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:e50e5a4358b5f93336e1",
+      "display_name": "简爱 超级桶草莓樱花",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳(添加量≥83%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-3",
+            "source_fingerprint": "sha256:6eeca88029e9e82cb23a0b434bbcdb533a37ea72572a13c3b086105739363efe",
+            "status": "source_declared"
+          },
+          {
+            "group": "sugar_ingredients",
+            "ingredient": "白砂糖",
+            "evidence_id": "label.ingredients.item.3",
+            "source_span": "白砂糖(添加量≥6%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-3",
+            "source_fingerprint": "sha256:6eeca88029e9e82cb23a0b434bbcdb533a37ea72572a13c3b086105739363efe",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:b205ccc4722d83b1887f",
+      "display_name": "简爱 超级桶荔枝杨梅",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳(添加量≥82%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-3",
+            "source_fingerprint": "sha256:2bb96449a050ecc678a312c450741e84b4ded06ca8883ec437d5018c0a2b9ace",
+            "status": "source_declared"
+          },
+          {
+            "group": "sugar_ingredients",
+            "ingredient": "白砂糖",
+            "evidence_id": "label.ingredients.item.3",
+            "source_span": "白砂糖(添加量≥6%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-3",
+            "source_fingerprint": "sha256:2bb96449a050ecc678a312c450741e84b4ded06ca8883ec437d5018c0a2b9ace",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:bdcd3f25267da837d361",
+      "display_name": "简爱 原味裸酸奶(230克)",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳(添加量≥90%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-4",
+            "source_fingerprint": "sha256:ca02c8c5415e9f961e591d99a75833b54dd0fe7e0f85860b4a7fad8311f1d82d",
+            "status": "source_declared"
+          },
+          {
+            "group": "sugar_ingredients",
+            "ingredient": "白砂糖",
+            "evidence_id": "label.ingredients.item.2",
+            "source_span": "白砂糖(添加量≥7.5%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-4",
+            "source_fingerprint": "sha256:ca02c8c5415e9f961e591d99a75833b54dd0fe7e0f85860b4a7fad8311f1d82d",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:2392c5ec4d278ec6f9d7",
+      "display_name": "简爱 百香果果裸酸奶(230克)",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳(添加量≥85%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-4",
+            "source_fingerprint": "sha256:b78b0588f300667216bac4e9453e68e966cee006192e5b94021c2854706a6e91",
+            "status": "source_declared"
+          },
+          {
+            "group": "sugar_ingredients",
+            "ingredient": "白砂糖",
+            "evidence_id": "label.ingredients.item.2",
+            "source_span": "白砂糖(添加量≥7%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-4",
+            "source_fingerprint": "sha256:b78b0588f300667216bac4e9453e68e966cee006192e5b94021c2854706a6e91",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:c976d95629598baabf97",
+      "display_name": "简爱 葡里萄气裸酸奶(230克)",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳(添加量≥83%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-4",
+            "source_fingerprint": "sha256:fb4b10e47bd014d065795ae44dfcd48f173598417d12b2fc16aff5a107b3a6bf",
+            "status": "source_declared"
+          },
+          {
+            "group": "sugar_ingredients",
+            "ingredient": "白砂糖",
+            "evidence_id": "label.ingredients.item.3",
+            "source_span": "白砂糖(添加量≥7%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-4",
+            "source_fingerprint": "sha256:fb4b10e47bd014d065795ae44dfcd48f173598417d12b2fc16aff5a107b3a6bf",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:525edaf07becbb2e05c3",
+      "display_name": "简爱 原味裸酸奶(1.08千克)",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳(添加量≥90%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-4",
+            "source_fingerprint": "sha256:a0ac79576a274b7d7cb7778d89db7c65de8664e3c74233318b185124c4db0222",
+            "status": "source_declared"
+          },
+          {
+            "group": "sugar_ingredients",
+            "ingredient": "白砂糖",
+            "evidence_id": "label.ingredients.item.2",
+            "source_span": "白砂糖(添加量≥7.5%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-4",
+            "source_fingerprint": "sha256:a0ac79576a274b7d7cb7778d89db7c65de8664e3c74233318b185124c4db0222",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:e5df9797117725f481e0",
+      "display_name": "简爱 百香果果裸酸奶(1.08千克)",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳(添加量≥85%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-4",
+            "source_fingerprint": "sha256:1fa6c064e12861ac2e678926d7336290fc54ed4fa7a3167384971dfd32e4b416",
+            "status": "source_declared"
+          },
+          {
+            "group": "sugar_ingredients",
+            "ingredient": "白砂糖",
+            "evidence_id": "label.ingredients.item.2",
+            "source_span": "白砂糖(添加量≥7%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-4",
+            "source_fingerprint": "sha256:1fa6c064e12861ac2e678926d7336290fc54ed4fa7a3167384971dfd32e4b416",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:9580cac92a638306f033",
+      "display_name": "简爱 葡里萄气裸酸奶(1.08千克)",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳(添加量≥83%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-4",
+            "source_fingerprint": "sha256:e1abe7d3abb1c891efc327f1dfb08627c7388a81e52bd1f67ae57063076ce64b",
+            "status": "source_declared"
+          },
+          {
+            "group": "sugar_ingredients",
+            "ingredient": "白砂糖",
+            "evidence_id": "label.ingredients.item.3",
+            "source_span": "白砂糖(添加量≥7%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-4",
+            "source_fingerprint": "sha256:e1abe7d3abb1c891efc327f1dfb08627c7388a81e52bd1f67ae57063076ce64b",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:9f2744a7ef372702f026",
+      "display_name": "简爱 开菲尔原味",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳",
+            "source_url": "https://simplelove.com.cn/product.html#series-5",
+            "source_fingerprint": "sha256:1c9010af1ffeddcf79d29ba1399a888443c3b94b42cd320d165083d89b3c4e98",
+            "status": "source_declared"
+          },
+          {
+            "group": "sugar_ingredients",
+            "ingredient": "白砂糖",
+            "evidence_id": "label.ingredients.item.2",
+            "source_span": "白砂糖",
+            "source_url": "https://simplelove.com.cn/product.html#series-5",
+            "source_fingerprint": "sha256:1c9010af1ffeddcf79d29ba1399a888443c3b94b42cd320d165083d89b3c4e98",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:3dc12c336a9b07d7ecd9",
+      "display_name": "简爱 开菲尔凤梨椰子",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳",
+            "source_url": "https://simplelove.com.cn/product.html#series-5",
+            "source_fingerprint": "sha256:753749cf119a081510d610f4d23b8e20fe5dd138c292e1b1b6ea643162ab5a85",
+            "status": "source_declared"
+          },
+          {
+            "group": "sugar_ingredients",
+            "ingredient": "白砂糖",
+            "evidence_id": "label.ingredients.item.2",
+            "source_span": "白砂糖",
+            "source_url": "https://simplelove.com.cn/product.html#series-5",
+            "source_fingerprint": "sha256:753749cf119a081510d610f4d23b8e20fe5dd138c292e1b1b6ea643162ab5a85",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:518d34db66bfed16fcf6",
+      "display_name": "简爱 酸奶滑滑",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "牛乳(添加量≥90%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-6",
+            "source_fingerprint": "sha256:d82ae11887d9a6eb855d95ef111fa927ab9c060b599c3aabc9e923af5aff137e",
+            "status": "source_declared"
+          },
+          {
+            "group": "sugar_ingredients",
+            "ingredient": "白砂糖",
+            "evidence_id": "label.ingredients.item.2",
+            "source_span": "白砂糖",
+            "source_url": "https://simplelove.com.cn/product.html#series-6",
+            "source_fingerprint": "sha256:d82ae11887d9a6eb855d95ef111fa927ab9c060b599c3aabc9e923af5aff137e",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:ed30b39807435915d760",
+      "display_name": "简爱 树莓滑滑",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳(添加量≥80%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-6",
+            "source_fingerprint": "sha256:a3c8a81bc54ecd8d17acbdd2375e311cfd53dfcafdf778731f9295ee375a7ebe",
+            "status": "source_declared"
+          },
+          {
+            "group": "sugar_ingredients",
+            "ingredient": "白砂糖",
+            "evidence_id": "label.ingredients.item.3",
+            "source_span": "白砂糖(添加量≥7%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-6",
+            "source_fingerprint": "sha256:a3c8a81bc54ecd8d17acbdd2375e311cfd53dfcafdf778731f9295ee375a7ebe",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:cc180222721d1402602e",
+      "display_name": "简爱 生牛乳米布丁",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳(添加量≥80%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-7",
+            "source_fingerprint": "sha256:575934da5879e81d8249768a8dab0922672611cd81ffa184a8469b6fc74822aa",
+            "status": "source_declared"
+          },
+          {
+            "group": "sugar_ingredients",
+            "ingredient": "白砂糖",
+            "evidence_id": "label.ingredients.item.3",
+            "source_span": "白砂糖(添加量≥5%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-7",
+            "source_fingerprint": "sha256:575934da5879e81d8249768a8dab0922672611cd81ffa184a8469b6fc74822aa",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:27b33e5f2fd4c22f5f4c",
+      "display_name": "简爱 焦糖牛奶布丁",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "needs_review",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳(添加量≥80%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-7",
+            "source_fingerprint": "sha256:6f73949b1a2a9748702811291f15c1dc150079f51ad905b6c736817c3e6486cd",
+            "status": "needs_review"
+          },
+          {
+            "group": "milk_sources",
+            "ingredient": "稀奶油",
+            "evidence_id": "label.ingredients.item.2",
+            "source_span": "稀奶油",
+            "source_url": "https://simplelove.com.cn/product.html#series-7",
+            "source_fingerprint": "sha256:6f73949b1a2a9748702811291f15c1dc150079f51ad905b6c736817c3e6486cd",
+            "status": "needs_review"
+          },
+          {
+            "group": "egg_sources",
+            "ingredient": "冰蛋制品",
+            "evidence_id": "label.ingredients.item.3",
+            "source_span": "冰蛋制品(添加量≥5.5%)(蛋黄液(添加量≥75%)、白砂糖)",
+            "source_url": "https://simplelove.com.cn/product.html#series-7",
+            "source_fingerprint": "sha256:6f73949b1a2a9748702811291f15c1dc150079f51ad905b6c736817c3e6486cd",
+            "status": "needs_review"
+          },
+          {
+            "group": "sugar_ingredients",
+            "ingredient": "白砂糖",
+            "evidence_id": "label.ingredients.item.4",
+            "source_span": "白砂糖",
+            "source_url": "https://simplelove.com.cn/product.html#series-7",
+            "source_fingerprint": "sha256:6f73949b1a2a9748702811291f15c1dc150079f51ad905b6c736817c3e6486cd",
+            "status": "needs_review"
+          },
+          {
+            "group": "milk_sources",
+            "ingredient": "乳清蛋白粉",
+            "evidence_id": "label.ingredients.item.5",
+            "source_span": "乳清蛋白粉",
+            "source_url": "https://simplelove.com.cn/product.html#series-7",
+            "source_fingerprint": "sha256:6f73949b1a2a9748702811291f15c1dc150079f51ad905b6c736817c3e6486cd",
+            "status": "needs_review"
+          },
+          {
+            "group": "fiber_ingredients",
+            "ingredient": "菊粉",
+            "evidence_id": "label.ingredients.item.6",
+            "source_span": "菊粉",
+            "source_url": "https://simplelove.com.cn/product.html#series-7",
+            "source_fingerprint": "sha256:6f73949b1a2a9748702811291f15c1dc150079f51ad905b6c736817c3e6486cd",
+            "status": "needs_review"
+          },
+          {
+            "group": "milk_sources",
+            "ingredient": "干酪",
+            "evidence_id": "label.ingredients.item.7",
+            "source_span": "干酪",
+            "source_url": "https://simplelove.com.cn/product.html#series-7",
+            "source_fingerprint": "sha256:6f73949b1a2a9748702811291f15c1dc150079f51ad905b6c736817c3e6486cd",
+            "status": "needs_review"
+          },
+          {
+            "group": "sugar_ingredients",
+            "ingredient": "果葡糖浆",
+            "evidence_id": "label.ingredients.item.8.2",
+            "source_span": "果葡糖浆",
+            "source_url": "https://simplelove.com.cn/product.html#series-7",
+            "source_fingerprint": "sha256:6f73949b1a2a9748702811291f15c1dc150079f51ad905b6c736817c3e6486cd",
+            "status": "needs_review"
+          },
+          {
+            "group": "sugar_ingredients",
+            "ingredient": "焦糖糖浆",
+            "evidence_id": "label.ingredients.item.9",
+            "source_span": "焦糖糖浆(白砂糖、赤砂糖、水)",
+            "source_url": "https://simplelove.com.cn/product.html#series-7",
+            "source_fingerprint": "sha256:6f73949b1a2a9748702811291f15c1dc150079f51ad905b6c736817c3e6486cd",
+            "status": "needs_review"
+          },
+          {
+            "group": "sugar_ingredients",
+            "ingredient": "白砂糖",
+            "evidence_id": "label.ingredients.item.9.1",
+            "source_span": "白砂糖",
+            "source_url": "https://simplelove.com.cn/product.html#series-7",
+            "source_fingerprint": "sha256:6f73949b1a2a9748702811291f15c1dc150079f51ad905b6c736817c3e6486cd",
+            "status": "needs_review"
+          },
+          {
+            "group": "sugar_ingredients",
+            "ingredient": "赤砂糖",
+            "evidence_id": "label.ingredients.item.9.2",
+            "source_span": "赤砂糖",
+            "source_url": "https://simplelove.com.cn/product.html#series-7",
+            "source_fingerprint": "sha256:6f73949b1a2a9748702811291f15c1dc150079f51ad905b6c736817c3e6486cd",
+            "status": "needs_review"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:d7cb67024177d859b7bc",
+      "display_name": "简爱 PROTÑ‌高蛋白希腊酸奶原味",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳(添加量≥90%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-7.1",
+            "source_fingerprint": "sha256:bec30e052d79ded6d9224ff7c34c64ae1b7a698ad1946a16d81b760241fd2c84",
+            "status": "source_declared"
+          },
+          {
+            "group": "fiber_ingredients",
+            "ingredient": "菊粉",
+            "evidence_id": "label.ingredients.item.2",
+            "source_span": "菊粉",
+            "source_url": "https://simplelove.com.cn/product.html#series-7.1",
+            "source_fingerprint": "sha256:bec30e052d79ded6d9224ff7c34c64ae1b7a698ad1946a16d81b760241fd2c84",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-structured:83b8baf95bde404c9f37",
+      "display_name": "简爱 身体知道顺畅配方",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳(添加量≥90%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-8",
+            "source_fingerprint": "sha256:358db6973cc5f3013fac2dcb1653887ab1c6e3026364b1ce3e4691e5f09d8f67",
+            "status": "source_declared"
+          },
+          {
+            "group": "sugar_ingredients",
+            "ingredient": "白砂糖",
+            "evidence_id": "label.ingredients.item.2",
+            "source_span": "白砂糖",
+            "source_url": "https://simplelove.com.cn/product.html#series-8",
+            "source_fingerprint": "sha256:358db6973cc5f3013fac2dcb1653887ab1c6e3026364b1ce3e4691e5f09d8f67",
+            "status": "source_declared"
+          },
+          {
+            "group": "fiber_ingredients",
+            "ingredient": "低聚半乳糖",
+            "evidence_id": "label.ingredients.item.3",
+            "source_span": "低聚半乳糖(GOS,添加量:2.0%)",
+            "source_url": "https://simplelove.com.cn/product.html#series-8",
+            "source_fingerprint": "sha256:358db6973cc5f3013fac2dcb1653887ab1c6e3026364b1ce3e4691e5f09d8f67",
+            "status": "source_declared"
+          },
+          {
+            "group": "milk_sources",
+            "ingredient": "浓缩牛奶蛋白",
+            "evidence_id": "label.ingredients.item.4",
+            "source_span": "浓缩牛奶蛋白",
+            "source_url": "https://simplelove.com.cn/product.html#series-8",
+            "source_fingerprint": "sha256:358db6973cc5f3013fac2dcb1653887ab1c6e3026364b1ce3e4691e5f09d8f67",
+            "status": "source_declared"
+          },
+          {
+            "group": "sugar_ingredients",
+            "ingredient": "食用葡萄糖",
+            "evidence_id": "label.ingredients.item.5",
+            "source_span": "食用葡萄糖",
+            "source_url": "https://simplelove.com.cn/product.html#series-8",
+            "source_fingerprint": "sha256:358db6973cc5f3013fac2dcb1653887ab1c6e3026364b1ce3e4691e5f09d8f67",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-public:19c0911eacdf92b74bb4",
+      "display_name": "卡士 断糖日记 原味",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳(≥99%)",
+            "source_url": "https://www.classykiss.cn/wap/SugarDiary/index.html",
+            "source_fingerprint": "sha256:c5288a4f0450dc9623da96f7515f5095583d07e995538d2d212076b63fc82bc4",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-public:8dca4f7d26a7dc0da431",
+      "display_name": "卡士 断糖日记 椰子味",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳(≥88%)",
+            "source_url": "https://www.classykiss.cn/wap/SugarDiary/index.html",
+            "source_fingerprint": "sha256:c2912374e4e614903a881d389a7fdcc9ce1b1782054304fd4fa8f801de62e3e1",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-public:4afaaa81a1332406d96a",
+      "display_name": "卡士 宝贝第二餐 原味",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳（≥99%）",
+            "source_url": "https://www.classykiss.cn/wap/BabySecondMeal/index.html",
+            "source_fingerprint": "sha256:5c788c4d815c9870aa27b3c4e96bbc711dfc38073c6cd71e6f38ebfba5bdecc6",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-public:3027b96599c05bc3647d",
+      "display_name": "卡士 宝贝第二餐 西梅苹果味",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳（≥80%）",
+            "source_url": "https://www.classykiss.cn/wap/BabySecondMeal/index.html",
+            "source_fingerprint": "sha256:e20bb6cdd35d2d8340d92626699704c0e2dc059ba3e7bb40edf0ed50b35c787b",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-public:bfd410253e376218a29a",
+      "display_name": "卡士 宝贝第二餐 草莓蓝莓树莓味",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳（≥80%）",
+            "source_url": "https://www.classykiss.cn/wap/BabySecondMeal/index.html",
+            "source_fingerprint": "sha256:73b16530811f451827f15cb0960163b90be2a690d77679782d5e5302643d59a3",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-public:5ca300d187d3cb63e0b4",
+      "display_name": "卡士 宝贝第二餐 山楂鸡内金六物味",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳（≥80%）",
+            "source_url": "https://www.classykiss.cn/wap/BabySecondMeal/index.html",
+            "source_fingerprint": "sha256:537c0f21f60a85e20b6f8399ee500e420f486f70aed14101a3444dbd7666aac5",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-public:5a286f0526a86dad603c",
+      "display_name": "卡士 餐后一小时 原味",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳 (＞80% )",
+            "source_url": "https://www.classykiss.cn/OneHourAfterTheMeal/index.html",
+            "source_fingerprint": "sha256:c5f82bf6a24ea94127ace76c9ec712b52853ebbb8b87178f801e7a21bc27ab16",
+            "status": "source_declared"
+          },
+          {
+            "group": "sugar_ingredients",
+            "ingredient": "白砂糖",
+            "evidence_id": "label.ingredients.item.3",
+            "source_span": "白砂糖",
+            "source_url": "https://www.classykiss.cn/OneHourAfterTheMeal/index.html",
+            "source_fingerprint": "sha256:c5f82bf6a24ea94127ace76c9ec712b52853ebbb8b87178f801e7a21bc27ab16",
+            "status": "source_declared"
+          },
+          {
+            "group": "milk_sources",
+            "ingredient": "加糖炼乳",
+            "evidence_id": "label.ingredients.item.4",
+            "source_span": "加糖炼乳",
+            "source_url": "https://www.classykiss.cn/OneHourAfterTheMeal/index.html",
+            "source_fingerprint": "sha256:c5f82bf6a24ea94127ace76c9ec712b52853ebbb8b87178f801e7a21bc27ab16",
+            "status": "source_declared"
+          },
+          {
+            "group": "milk_sources",
+            "ingredient": "浓缩牛奶蛋白",
+            "evidence_id": "label.ingredients.item.5",
+            "source_span": "浓缩牛奶蛋白",
+            "source_url": "https://www.classykiss.cn/OneHourAfterTheMeal/index.html",
+            "source_fingerprint": "sha256:c5f82bf6a24ea94127ace76c9ec712b52853ebbb8b87178f801e7a21bc27ab16",
+            "status": "source_declared"
+          },
+          {
+            "group": "fiber_ingredients",
+            "ingredient": "抗性糊精",
+            "evidence_id": "label.ingredients.item.6",
+            "source_span": "抗性糊精(可溶性膳食纤维Fibersol-2®)",
+            "source_url": "https://www.classykiss.cn/OneHourAfterTheMeal/index.html",
+            "source_fingerprint": "sha256:c5f82bf6a24ea94127ace76c9ec712b52853ebbb8b87178f801e7a21bc27ab16",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    },
+    {
+      "candidate_id": "official-public:9955b0d02b8a4ead60e8",
+      "display_name": "卡士 餐后一小时 无蔗糖",
+      "profile": {
+        "schema": "positive_ingredient_evidence_v1",
+        "status": "source_text_available",
+        "observations": [
+          {
+            "group": "milk_sources",
+            "ingredient": "生牛乳",
+            "evidence_id": "label.ingredients.item.1",
+            "source_span": "生牛乳 (＞80% )",
+            "source_url": "https://www.classykiss.cn/OneHourAfterTheMeal/index.html",
+            "source_fingerprint": "sha256:7d68c32ab49ffff678fc174e1ceaf08462388a1eecefe71d54e2529666715908",
+            "status": "source_declared"
+          },
+          {
+            "group": "polyols",
+            "ingredient": "麦芽糖醇",
+            "evidence_id": "label.ingredients.item.3",
+            "source_span": "麦芽糖醇",
+            "source_url": "https://www.classykiss.cn/OneHourAfterTheMeal/index.html",
+            "source_fingerprint": "sha256:7d68c32ab49ffff678fc174e1ceaf08462388a1eecefe71d54e2529666715908",
+            "status": "source_declared"
+          },
+          {
+            "group": "polyols",
+            "ingredient": "赤藓糖醇",
+            "evidence_id": "label.ingredients.item.4",
+            "source_span": "赤藓糖醇",
+            "source_url": "https://www.classykiss.cn/OneHourAfterTheMeal/index.html",
+            "source_fingerprint": "sha256:7d68c32ab49ffff678fc174e1ceaf08462388a1eecefe71d54e2529666715908",
+            "status": "source_declared"
+          },
+          {
+            "group": "fiber_ingredients",
+            "ingredient": "抗性糊精",
+            "evidence_id": "label.ingredients.item.5",
+            "source_span": "抗性糊精(可溶性膳食纤维Fibersol-2®)",
+            "source_url": "https://www.classykiss.cn/OneHourAfterTheMeal/index.html",
+            "source_fingerprint": "sha256:7d68c32ab49ffff678fc174e1ceaf08462388a1eecefe71d54e2529666715908",
+            "status": "source_declared"
+          },
+          {
+            "group": "fiber_ingredients",
+            "ingredient": "菊粉",
+            "evidence_id": "label.ingredients.item.6",
+            "source_span": "菊粉",
+            "source_url": "https://www.classykiss.cn/OneHourAfterTheMeal/index.html",
+            "source_fingerprint": "sha256:7d68c32ab49ffff678fc174e1ceaf08462388a1eecefe71d54e2529666715908",
+            "status": "source_declared"
+          },
+          {
+            "group": "milk_sources",
+            "ingredient": "浓缩牛奶蛋白",
+            "evidence_id": "label.ingredients.item.7",
+            "source_span": "浓缩牛奶蛋白",
+            "source_url": "https://www.classykiss.cn/OneHourAfterTheMeal/index.html",
+            "source_fingerprint": "sha256:7d68c32ab49ffff678fc174e1ceaf08462388a1eecefe71d54e2529666715908",
+            "status": "source_declared"
+          },
+          {
+            "group": "egg_sources",
+            "ingredient": "蛋黄粉",
+            "evidence_id": "label.ingredients.item.9",
+            "source_span": "蛋黄粉",
+            "source_url": "https://www.classykiss.cn/OneHourAfterTheMeal/index.html",
+            "source_fingerprint": "sha256:7d68c32ab49ffff678fc174e1ceaf08462388a1eecefe71d54e2529666715908",
+            "status": "source_declared"
+          },
+          {
+            "group": "sweeteners",
+            "ingredient": "甜菊糖苷",
+            "evidence_id": "label.ingredients.item.10",
+            "source_span": "甜菊糖苷",
+            "source_url": "https://www.classykiss.cn/OneHourAfterTheMeal/index.html",
+            "source_fingerprint": "sha256:7d68c32ab49ffff678fc174e1ceaf08462388a1eecefe71d54e2529666715908",
+            "status": "source_declared"
+          }
+        ],
+        "negative_claims_supported": false,
+        "total_sugars_inferred": false,
+        "note": "仅表示来源配料中出现的成分；不代表总糖含量、添加量或未出现成分绝对不存在。"
+      }
+    }
+  ]
+}

@@ -3,10 +3,15 @@
 from __future__ import annotations
 
 from collections import Counter
-from datetime import UTC, date, datetime
 
-from food_label_agent.nutrition.normalization import normalize_nutrition_facts
-
+from .evidence import (
+    OFFICIAL_SOURCE_IDS,
+    nutrition_facts,
+    official_evidence,
+    source_flags,
+)
+from .ingredient_profile import ingredient_profile
+from .ingredient_screening import GAP_LABELS, field_gap_state, ingredient_conflict
 from .intent import parse_product_intent
 
 NAMES = {
@@ -31,25 +36,11 @@ FOCUS = {
 }
 
 
-def _facts(fields):
-    parsed = normalize_nutrition_facts(
-        None,
-        basis_text=fields.get("nutrition_basis_text"),
-        rows=fields.get("nutrition_rows"),
-    )
-    if not parsed or parsed.requires_confirmation:
-        return {}
-    counts = Counter(f.canonical_name for f in parsed.nutrients)
-    return {
-        f.canonical_name: f
-        for f in parsed.nutrients
-        if counts[f.canonical_name] == 1 and "菊粉" not in f.raw_name
-    }
+_facts = nutrition_facts
 
 
 def screen_official_sources(items, request):
     """Never promotes candidates or treats missing facts as passing constraints."""
-    today = datetime.now(UTC).date()
     intent = parse_product_intent(request.retrieval_query)
     baseline = _facts({"nutrition_rows": getattr(request, "nutrition_rows", None)})
     output = []
@@ -59,11 +50,7 @@ def screen_official_sources(items, request):
             or item.get("region") != request.region
         ):
             continue
-        if item.get("source_id") not in {
-            "simplelove-public-products",
-            "quaker-instant-oats",
-            "quaker-snack-cereal",
-        }:
+        if item.get("source_id") not in OFFICIAL_SOURCE_IDS:
             continue
         if item.get("review_status") in {"rejected", "approved"}:
             continue
@@ -78,15 +65,7 @@ def screen_official_sources(items, request):
             continue
         fields = item.get("extracted_fields", {})
         facts = _facts(fields)
-        flags = list(item.get("source_quality_flags", []))
-        try:
-            seen = date.fromisoformat(item.get("last_seen_at", "")[:10])
-            if not 0 <= (today - seen).days <= 35:
-                flags.append("官网资料超过复查周期或日期异常")
-        except ValueError:
-            flags.append("官网资料日期缺失")
-        if item.get("review_status") == "change_detected":
-            flags.append("来源变化待核实")
+        flags = source_flags(item)
         checks = []
 
         def check(key, state, reason, value=None, gap=None, checks=checks):
@@ -101,7 +80,7 @@ def screen_official_sources(items, request):
                 }
             )
 
-        def usable(key, facts=facts, flags=flags, check=check):
+        def usable(key, facts=facts, flags=flags, check=check, item=item):
             fact = facts.get(key)
             if flags:
                 check(key, "unknown", "；".join(flags), gap="source_review")
@@ -109,7 +88,7 @@ def screen_official_sources(items, request):
                 check(
                     key,
                     "unknown",
-                    "缺少可比数值或计量口径待核实",
+                    GAP_LABELS[field_gap_state(item, key)],
                     gap="nutrition_field",
                 )
             else:
@@ -119,10 +98,22 @@ def screen_official_sources(items, request):
         for c in request.constraints:
             key = c.canonical_value
             if c.kind != "nutrition_limit":
+                conflict = ingredient_conflict(fields, c) if not flags else None
+                if conflict:
+                    check(key, "not_matched", conflict["reason"])
+                    checks[-1].update(
+                        reason_code=conflict["reason_code"],
+                        matched_text=conflict["matched_text"],
+                    )
+                    continue
                 check(
                     key,
                     "unknown",
-                    "配料及过敏原等限制仍需对应包装证据复核",
+                    "；".join(flags)
+                    if flags
+                    else "未确认明确冲突；"
+                    + GAP_LABELS[field_gap_state(item, key)]
+                    + "，不能认定符合",
                     gap="packaging_review",
                 )
                 continue
@@ -172,6 +163,10 @@ def screen_official_sources(items, request):
         if intent["preparation"] or intent["occasion"]:
             check("用途", "unknown", "即食或早餐用途仍需核实")
         for result in checks:
+            if result.get("gap"):
+                result["gap_state"] = field_gap_state(
+                    item, result["field"], flagged=bool(flags)
+                )
             result["reason"] = (
                 result["reason"]
                 .replace("per_100g", "每100克")
@@ -191,12 +186,14 @@ def screen_official_sources(items, request):
         output.append(
             {
                 "candidate_id": item["candidate_id"],
+                "evidence": official_evidence(item),
                 "source_fingerprint": item.get("source_fingerprint", "unknown"),
                 "display_name": item["display_name"],
                 "source_url": item.get("source_url"),
                 "specification": item.get("specification"),
                 "status": status,
                 "checks": checks,
+                "ingredient_profile": ingredient_profile(item),
                 "source_quality_flags": flags,
                 "available_nutrients": [NAMES.get(k, k) for k in facts],
                 "identity_status": "specification_available"
